@@ -7,3 +7,7 @@ playwright-report
 test-results
 docs/prototypes
 docs/*.pdf
+
+# third-party agent skills: keep them byte-identical to the reviewed source
+.claude/skills
+skills-lock.json
