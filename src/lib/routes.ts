@@ -62,7 +62,7 @@ export const ROUTES: RouteEntry[] = [
     title: "Contact",
     template: "T9 Contact",
     priority: "P1",
-    status: "planned",
+    status: "built",
     replaces: ["/enquiry", "/contact.html"],
   },
   {

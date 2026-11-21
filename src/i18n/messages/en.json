@@ -373,5 +373,63 @@
     "copied": "Copied",
     "openAnyway": "Open anyway",
     "close": "Close"
+  },
+  "contactPage": {
+    "metaTitle": "Contact AIMS",
+    "metaDescription": "WhatsApp, call or visit AIMS Security Systems in Dubai and Abu Dhabi. Choose what you need and reach the right channel.",
+    "title": "Contact AIMS",
+    "lead": "Choose what you need and we'll show you the quickest way to reach the right person.",
+    "needLegend": "What do you need?",
+    "needs": {
+      "sales": {
+        "label": "Sales and quotes",
+        "hint": "Product advice and quotations"
+      },
+      "software": {
+        "label": "Software and setup",
+        "hint": "BioTime, ZKAccess and other software"
+      },
+      "visit": {
+        "label": "Showroom visit",
+        "hint": "See products in Deira, Dubai"
+      },
+      "export": {
+        "label": "Delivery abroad",
+        "hint": "GCC, Africa and other countries"
+      }
+    },
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "salesNext": "Know the models already? Add them to a quote list and send it in one go.",
+    "salesCta": "Browse products",
+    "softwareNext": "AIMS's software requests go to this WhatsApp line.",
+    "visitNext": "Opening hours aren't published yet, so please call before you visit.",
+    "directions": "Get directions",
+    "exportNext": "Add the products, then choose “Delivery abroad” on your quote request.",
+    "exportCta": "Start an export quote",
+    "whatsappText": {
+      "sales": "Hi AIMS, I need advice and a quotation.",
+      "software": "Hi AIMS, I need help with software.",
+      "visit": "Hi AIMS, I would like to visit the Dubai showroom.",
+      "export": "Hi AIMS, I need a quotation for delivery abroad."
+    },
+    "formTitle": "Or leave a short message",
+    "formLead": "It's added to your quote request, so you can send everything together.",
+    "message": "Your message",
+    "messageHint": "For example, the models, quantities or the problem you need solved.",
+    "visitDay": "Preferred day and time (optional)",
+    "submit": "Add to my request",
+    "errorMessage": "Write a short message first.",
+    "added": "Added to your request.",
+    "review": "Review quote request",
+    "advicePrefix": "{need}: {message}",
+    "visitSuffix": " (preferred: {day})",
+    "locationsTitle": "Visit or call",
+    "emailLabel": "Email",
+    "locations": {
+      "headOffice": "Head office, Dubai",
+      "showroom": "Dubai showroom",
+      "abuDhabi": "Abu Dhabi office"
+    }
   }
 }
