@@ -33,7 +33,10 @@ export async function Footer() {
     },
     {
       title: t.footer.solutions,
-      links: SOLUTIONS.map((s) => ({ href: href(solutionPath(s)), label: t.solutions[s].name })),
+      links: [
+        ...SOLUTIONS.map((s) => ({ href: href(solutionPath(s)), label: t.solutions[s].name })),
+        { href: href("/solutions"), label: t.nav.solutionsAll },
+      ],
     },
     {
       title: t.footer.software,

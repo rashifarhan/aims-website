@@ -7,7 +7,8 @@ describe("preview navigation", () => {
   });
   it("routes solution categories to available catalogue families in the same locale", () => {
     expect(navigationHref("/ar/solutions/entrance-parking")).toBe("/ar/products/entrance-control");
-    expect(navigationHref("/solutions")).toBe("/products");
+    expect(navigationHref("/solutions")).toBe("/solutions");
+    expect(navigationHref("/ar/solutions")).toBe("/ar/solutions");
   });
   it("uses the built showroom section and live software/contact destinations", () => {
     expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");

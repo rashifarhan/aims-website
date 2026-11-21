@@ -394,5 +394,89 @@
     "cancel": "Stay in preview",
     "open": "Open WhatsApp",
     "newTab": "Opens in a new tab or the WhatsApp app."
+  },
+  "solutionsHub": {
+    "metaTitle": "Solutions for your business",
+    "metaDescription": "Explore AIMS systems for time attendance, access control, entrances, door locks and POS. Start with your needs and browse the relevant products.",
+    "title": "Start with what you need.",
+    "lead": "From recording working hours to managing who comes through the door. Find the right starting point for your site.",
+    "components": "Explore the components",
+    "cards": {
+      "time-attendance": {
+        "outcome": "Record working hours",
+        "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
+        "includes": ["Face, fingerprint and card terminals", "Attendance software"],
+        "action": "Explore attendance products"
+      },
+      "access-control": {
+        "outcome": "Manage who can enter",
+        "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
+        "includes": ["Readers and controllers", "Locks and exit devices"],
+        "action": "Explore access control products"
+      },
+      "entrance-parking": {
+        "outcome": "Organise entry and exit",
+        "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
+        "includes": ["Turnstiles and speed gates", "Parking barriers"],
+        "action": "Explore entrance products"
+      },
+      "door-locks": {
+        "outcome": "Choose access for each room",
+        "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
+        "includes": ["Smart door locks", "Hotel lock systems"],
+        "action": "Explore door locks"
+      },
+      "pos": {
+        "outcome": "Equip your point of sale",
+        "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
+        "includes": ["Windows and Android terminals", "POS peripherals"],
+        "action": "Explore POS products"
+      }
+    },
+    "industries": {
+      "title": "Plan around your space.",
+      "lead": "Start with the activity you need to manage, then consider the people, doors and systems involved.",
+      "items": [
+        {
+          "name": "Offices & teams",
+          "needs": "Attendance and workplace access"
+        },
+        {
+          "name": "Buildings & car parks",
+          "needs": "Doors, lobbies and vehicle entrances"
+        },
+        {
+          "name": "Hotels & property",
+          "needs": "Room access and door locks"
+        },
+        {
+          "name": "Shops & restaurants",
+          "needs": "Point-of-sale hardware"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Before you choose.",
+      "lead": "A few things to consider when planning your system.",
+      "action": "Discuss your requirements",
+      "items": [
+        {
+          "q": "How is time attendance different from access control?",
+          "a": "Time attendance records when people check in and out. Access control manages entry to a door or area. Some terminals support both; check the individual model specifications."
+        },
+        {
+          "q": "Can I keep my existing software or door hardware?",
+          "a": "Compatibility depends on the model, connections and software version. Share the details of your current system with AIMS before choosing new equipment."
+        },
+        {
+          "q": "Can AIMS help with installation?",
+          "a": "AIMS supplies and installs systems in the UAE. Contact the team with your site location, the number of doors or users, and any existing equipment to discuss the scope."
+        },
+        {
+          "q": "What if I already know the model I need?",
+          "a": "Use the search in the header to find the model, view its published specifications and add it to your quote list."
+        }
+      ]
+    }
   }
 }

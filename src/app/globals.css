@@ -46,6 +46,11 @@
   --text-brand: 0.71875rem; /* 11.5px · brand line on cards, the only all-caps label (Design Doc 5) */
   --tracking-wordmark: 0.04em;
   --tracking-brand: 0.08em;
+  /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
+  --text-page-title: 3rem;
+  --text-page-title-mobile: 2.25rem;
+  --font-weight-display: 680;
+  --font-weight-card: 650;
 
   /* Radius */
   --radius-xs: 5px;
