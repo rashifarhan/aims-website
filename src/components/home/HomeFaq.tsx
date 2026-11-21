@@ -1,34 +1,20 @@
-import Link from "next/link";
-import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { localePath } from "@/i18n/config";
-import { ArrowIcon, ChevronDownIcon } from "@/components/icons";
+import { getDictionary } from "@/i18n/dictionaries";
+import { ChevronDownIcon } from "@/components/icons";
+import { reveal } from "./reveal";
 
-/** T1 row 9: six answers, then the page's closing "Request a quote" (Design Doc 10). */
+/** T1 row 9: six answers. The closing band after it carries the page's last action. */
 export async function HomeFaq() {
   const t = await getDictionary();
   const f = t.home.faq;
-  const locale = await getLocale();
   return (
     <section id="faq" className="home-section home-faq page-container" aria-labelledby="faq-title">
-      <div className="home-faq-intro">
+      <div className="home-faq-intro" {...reveal()}>
         <h2 id="faq-title" className="home-section-title">
           {f.heading}
         </h2>
         <p className="home-section-lead">{f.lead}</p>
-        <div className="home-faq-cta">
-          <h3>{f.ctaHeading}</h3>
-          <p>{f.ctaBody}</p>
-          <Link href={localePath(locale, "/quote")} className="home-button">
-            {t.home.hero.quote}
-            <ArrowIcon width="18" height="18" className="home-action-arrow" />
-          </Link>
-          <Link href="#showrooms" className="home-text-link home-text-link-row">
-            {f.visit}
-            <ArrowIcon width="16" height="16" className="home-action-arrow" />
-          </Link>
-        </div>
       </div>
-      <div>
+      <div {...reveal(1)}>
         {f.items.map((item) => (
           <details key={item.q}>
             <summary>

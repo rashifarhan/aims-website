@@ -2,6 +2,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { softwareBySlug } from "@/content/catalogue";
 import { LIVE_AIMS } from "@/lib/site";
 import { ExternalLink } from "./ExternalLink";
+import { reveal } from "./reveal";
 
 /** Purpose lines restate each platform's published AIMS summary in one sentence (Design Doc 12). */
 const ENTRIES = [
@@ -16,7 +17,7 @@ export async function HomeSoftware() {
   const s = t.home.software;
   return (
     <section className="home-section page-container" aria-labelledby="software-title">
-      <div className="home-section-heading">
+      <div className="home-section-heading" {...reveal()}>
         <div>
           <h2 id="software-title" className="home-section-title">
             {s.heading}
@@ -28,11 +29,11 @@ export async function HomeSoftware() {
         </ExternalLink>
       </div>
       <ul className="home-software-grid">
-        {ENTRIES.map(({ slug, kind, purpose }) => {
+        {ENTRIES.map(({ slug, kind, purpose }, i) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
           return (
-            <li key={slug}>
+            <li key={slug} {...reveal(i + 1)}>
               <ExternalLink href={software.sourceUrl} label={t.common.externalSite} className="home-software-card">
                 <p className="home-software-kind">{s[kind]}</p>
                 <h3 dir="ltr">{software.name}</h3>

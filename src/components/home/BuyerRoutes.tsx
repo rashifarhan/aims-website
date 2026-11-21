@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
+import { reveal } from "./reveal";
 
 /** Line icons on the 32px explainer grid (Design Doc 7). */
 const ICONS = [
@@ -42,7 +43,7 @@ export async function BuyerRoutes() {
   );
   return (
     <section className="home-section home-routes page-container" aria-labelledby="routes-title">
-      <div className="home-section-heading">
+      <div className="home-section-heading" {...reveal()}>
         <div>
           <h2 id="routes-title" className="home-section-title">
             {r.heading}
@@ -52,7 +53,7 @@ export async function BuyerRoutes() {
       </div>
       <ul className="home-route-grid">
         {routes.map((route, i) => (
-          <li key={route.title}>
+          <li key={route.title} {...reveal(i + 1)}>
             <Link href={localePath(locale, HREFS[i])} className="home-route-card">
               {body(route, i)}
             </Link>

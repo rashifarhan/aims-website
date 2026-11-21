@@ -69,12 +69,14 @@ The cuts generated screens need most:
 The order matters: rhythm changes how everything else reads, and copy length decides type size and layout. Visuals and motion come last so they fit a screen that already works without them. Exact starting values are in [references/tokens.md](references/tokens.md).
 
 ### 1. Spacing
+
 - Everything sits on a 4px grid. Replace one-offs like `mt-[13px]`.
 - Same thing, same size: one row height, one gap, one card padding per set.
 - Gaps inside a group are smaller than gaps between groups, so grouping needs no lines.
 - Icons sit in one column, labels start on one line, numbers right-align. Nothing is nudged off its line.
 
 ### 2. Color
+
 - One neutral ramp tinted toward the world, with three text roles. Five lavenders means nobody chose.
 - Cream paper with muted earth tones is the post-AI default, the way indigo was. Use it only if the world demands it, and never because it feels tasteful. High-chroma color, pure white and near-black are all fair if the character calls for them.
 - One accent in the chrome, covering a few percent of the screen. Unchosen purple is the loudest tell, so derive the hue from the world.
@@ -83,12 +85,14 @@ The order matters: rhythm changes how everything else reads, and copy length dec
 - Text keeps 4.5:1, including over backgrounds.
 
 ### 3. Icons
+
 - Emoji become line icons from one set, at one size and stroke, in a text role's color. Emoji can't take your palette and read as placeholders.
 - **Exception: third-party logos keep their real colors.** Google multicolor and Facebook blue are recognized before they're read (recognition over recall). Grey logos make people read.
 - ✨ doesn't mean AI. If AI matters, the copy says what it does.
 - An icon's end state must read on its own at 20–24 px. If it needs its animation to make sense, redraw it.
 
 ### 4. Copy
+
 - Could a competitor paste this headline unchanged? Then rewrite it with this product's nouns.
 - No exclamation marks, greeting headlines, hype words, or trailing periods on labels and buttons.
 - A change says what it compares to: `+12% vs last month`.
@@ -97,12 +101,14 @@ The order matters: rhythm changes how everything else reads, and copy length dec
 - Fake proof gets deleted. If a claim can't be checked, ask, then make it specific or cut it. A real number is the strongest copy there is.
 
 ### 5. Type
+
 - Choose type for the character. One interface family plus at most one partner, used for one distinctive decision. A display face appears once.
 - Weights 400–500, 600 for rare emphasis. Hierarchy comes from size and color, never 800–900.
 - Sentence case. Uppercase with wide tracking becomes sentence case, unless the real object you borrowed is uppercase, like a stamped tag or a boarding pass.
 - `tabular-nums` and one number format across the screen. Negative tracking only on display sizes.
 
 ### 6. Layout
+
 - Everything stacked and centered, three equal cards, bento grids, and a picture panel beside a form column are all defaults. To get out of the last one, let the form sit in the material rather than beside it. Size by content: give the important thing more room and let content break symmetry.
 - Check the largest viewport too. A dead band is empty space with no material and no job. Fill it with the world (a surface, real content) or compose the form into it; don't just scale the type up.
 - One primary action and at most one secondary.
@@ -110,6 +116,7 @@ The order matters: rhythm changes how everything else reads, and copy length dec
 - The smallest viewing size is a layout. For a video or thumbnail, and only then, keep 24–32 px of air, let nothing hit the frame edge unless it's meant to bleed, and keep every word people need at 16 px or larger at that size.
 
 ### 7. Details
+
 - Inner radius = outer radius − padding, never below 4. Not everything is a pill, and `rounded-2xl` isn't an answer.
 - Control shape comes from the character, not the token table. Exact and technical: 2–6 px, thin fields. Soft and human: larger radii or full pills. Editorial: underlined fields, text buttons. Justify the shape from the character in one sentence; a 12 px radius "because it's standard" fails.
 - One depth cue per surface. Border + shadow + ring + gradient is a model hedging.
@@ -118,6 +125,7 @@ The order matters: rhythm changes how everything else reads, and copy length dec
 - Hover and focus exist and stay inside the palette.
 
 ### 8. The moment
+
 Agents jump to one of two templates: a flat illustration of something from the product's world, or a giant word above an ordinary form. Both look designed in a still and neither means anything. Don't take the first option that renders. Sketch one idea from each of these, in a sentence each:
 
 1. **Behaviour:** something the interface does that only this product would do. It may look plain at rest.
@@ -152,14 +160,14 @@ A gradient is slop as decoration and craft as material. What decides it is wheth
 
 **Texture is optional.** Add at most one layer, and only to fix a named problem, like a gradient that bands:
 
-| Texture | Use when | Fails when |
-| --- | --- | --- |
-| Grain or stipple | A gradient bands or feels digital; warm, physical worlds | Applied as a uniform trend layer to a flat color |
-| Halftone dot grid | Over soft photographic color, to add structure | Dots compete with text |
-| Topographic lines | Worlds with terrain, routes, data | Bright or dense enough to read as a pattern |
-| Concentric rings | One focal object to radiate from | No focal object |
-| Fluted glass | Something high-contrast sits behind it | Nothing to refract: it becomes a striped print |
-| Pixel or reaction-diffusion | Editorial, heritage, high-contrast brands | On a plain modern interface, where it reads as a filter |
+| Texture                     | Use when                                                 | Fails when                                              |
+| --------------------------- | -------------------------------------------------------- | ------------------------------------------------------- |
+| Grain or stipple            | A gradient bands or feels digital; warm, physical worlds | Applied as a uniform trend layer to a flat color        |
+| Halftone dot grid           | Over soft photographic color, to add structure           | Dots compete with text                                  |
+| Topographic lines           | Worlds with terrain, routes, data                        | Bright or dense enough to read as a pattern             |
+| Concentric rings            | One focal object to radiate from                         | No focal object                                         |
+| Fluted glass                | Something high-contrast sits behind it                   | Nothing to refract: it becomes a striped print          |
+| Pixel or reaction-diffusion | Editorial, heritage, high-contrast brands                | On a plain modern interface, where it reads as a filter |
 
 **Materials must earn themselves.** Frosted glass needs something meaningful behind it. Refraction needs a subject to bend, and text should bend through it without shattering. Liquid metal, chrome and glossy 3D are AI defaults when abstract; they're allowed only when the object means something in this product. A logo that does a job beats a logo that shines: a lighthouse mark whose beam sweeps while a backup runs is better than a chrome orb.
 
@@ -170,6 +178,7 @@ A gradient is slop as decoration and craft as material. What decides it is wheth
 How to choose and generate scenes and objects is in [references/visuals.md](references/visuals.md); code treatments are in [references/effects.md](references/effects.md).
 
 ### 9. Motion
+
 - Delete motion by default: looping pulses on things that aren't live, shimmer on headings, breathing glows, parallax, `transition-all`, `hover:scale` on cards, every section fading in on scroll.
 - Keep motion that explains something. Tuning what's left is the polish skill's job.
 

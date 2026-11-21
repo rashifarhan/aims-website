@@ -30,7 +30,18 @@
   /* Status */
   --color-error: #b42318;
   --color-warn: #8a5300;
-  --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
+  --color-whatsapp: #128043;
+  /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
+     Contrast on night-900: text 15.9:1, night-muted 8.9:1, lime 7.8:1, so lime may carry text there. */
+  --color-night-950: #06100a;
+  --color-night-900: #0a1a10;
+  --color-night-800: #102619;
+  --color-night-700: #18352a;
+  --color-night-line: #24432f;
+  --color-night-text: #e9f2ec;
+  --color-night-muted: #a9bdb0;
+  --color-green-on: #dcefe1; /* labels on the green proof band: 6.4:1 on green-800, 5.0:1 on green-700 */
+  --color-green-line: #3f8a52; /* WhatsApp button fill · 5.01:1 with white text */
 
   /* Type */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -94,6 +105,9 @@
   --text-page-title: 3.25rem;
   --text-page-title-mobile: 2.125rem;
   /* Explainer SVG text in viewBox units (760 wide), as for the door kit. */
+  --text-map-label: 15px; /* reach map, viewBox units (640 wide) */
+  --text-map-label-mobile: 24px;
+  --text-home-closing: 3.25rem;
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
@@ -186,6 +200,29 @@
     color-mix(in srgb, var(--color-lime) 10%, transparent),
     transparent
   );
+  /* Premium homepage surfaces (README → Decisions): night green, the proof band and its light. */
+  --gradient-night:
+    radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
+    linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
+  --gradient-proof: linear-gradient(120deg, var(--color-green-800), var(--color-green-700) 55%, var(--color-night-800));
+  --gradient-sweep: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--color-lime) 9%, transparent),
+    transparent
+  );
+  --gradient-glow-lime: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 22%, transparent),
+    transparent
+  );
+  --gradient-glow-green: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-green-700) 55%, transparent),
+    transparent
+  );
+  --shadow-night: 0 24px 48px rgb(0 0 0 / 0.35);
+  --shadow-lime-ring: 0 0 0 1px rgb(120 190 32 / 0.55), 0 0 32px rgb(120 190 32 / 0.16);
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,

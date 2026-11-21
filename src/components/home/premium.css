@@ -1,0 +1,549 @@
+/*
+ * Premium homepage layer (user direction, 21 Nov 2026; README → Decisions). Light, night-green and
+ * gradient sections in turn, scroll reveals, a door that assembles itself, counting figures, an
+ * animated reach map and moving light behind the closing band.
+ *
+ * Rules kept from the docs: transform, opacity and stroke-dashoffset only; loops pause off-screen
+ * (data-inview); nothing is hidden or moving unless ScrollEffects set data-effects="on", which it
+ * never does for reduced motion; text keeps AA contrast on every surface.
+ */
+
+/* ---------- Scroll reveal ---------- */
+[data-reveal] {
+  transition:
+    opacity 700ms var(--ease-aims),
+    transform 700ms var(--ease-aims);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+:root[data-effects="on"] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* ---------- Night sections ---------- */
+.home-night {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.home-night .home-section-title {
+  color: var(--color-night-text);
+}
+.home-night-lead {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-night-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.home-night-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  color: var(--color-lime);
+  font-weight: 600;
+  font-size: var(--text-small);
+}
+.home-night-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.home-night :focus-visible {
+  outline-color: var(--color-lime);
+}
+.home-night .home-section-heading > .home-night-link {
+  flex: none;
+}
+
+/* ---------- 3 · Families on night green; a scanner light sweeps the band ---------- */
+.home-families .home-section {
+  padding-block: calc(var(--home-section-space) * 2);
+}
+.home-sweep {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  z-index: -1;
+  height: 45%;
+  background: var(--gradient-sweep);
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+:root[data-effects="on"] .home-families .home-sweep {
+  animation: home-sweep 9s linear infinite;
+}
+.home-families .home-family-card {
+  border-color: var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+  box-shadow: var(--shadow-night);
+}
+.home-families .home-family-image {
+  background: var(--color-paper);
+}
+.home-families .home-family-info {
+  border-color: var(--color-night-line);
+}
+.home-families .home-family-info p:not(.home-family-count) {
+  color: var(--color-night-muted);
+}
+.home-families .home-family-count {
+  color: var(--color-lime);
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-families .home-family-card:hover {
+    border-color: var(--color-lime);
+    box-shadow: var(--shadow-lime-ring);
+    transform: none;
+  }
+}
+
+/* ---------- 4 · The door assembles itself once, in the prototype's order (Design Doc 8.2) ---------- */
+.door-wire {
+  stroke-dasharray: 1;
+}
+.door-leaf {
+  transform-box: view-box;
+  transform-origin: 306px 348px;
+  transform: scaleX(0.74);
+}
+.door-granted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+:root[data-effects="on"]
+  .home-door:not([data-played])
+  :is(.door-part, .door-card, .door-led, .door-granted, .door-log) {
+  opacity: 0;
+}
+:root[data-effects="on"] .home-door:not([data-played]) .door-leaf {
+  transform: scaleX(1);
+}
+:root[data-effects="on"] .home-door:not([data-played]) .door-wire {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .home-door[data-played] .door-controller {
+  animation: door-in 500ms 200ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-reader {
+  animation: door-in 500ms 450ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-wires {
+  animation: door-fade 1ms 450ms both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-wires .door-wire {
+  animation: door-draw 900ms 500ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-lock {
+  animation: door-in 500ms 800ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-exit {
+  animation: door-in 500ms 1100ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-software {
+  animation: door-in 500ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-software .door-wire {
+  animation: door-draw 1000ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-card {
+  animation: door-card 800ms 2000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-led {
+  animation: door-fade 200ms 2800ms both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-leaf {
+  animation: door-open 700ms 3000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-granted {
+  animation: door-pop 450ms 3400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-log {
+  animation: door-in 400ms 3700ms var(--ease-aims) both;
+}
+
+/* ---------- 5 · Proof band: green gradient, figures count up once ---------- */
+.home-proof-band {
+  position: relative;
+  overflow: clip;
+  background: var(--gradient-proof);
+  color: var(--color-paper);
+}
+.home-proof-band::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -20%;
+  width: 40%;
+  background: var(--gradient-glow-lime);
+  pointer-events: none;
+}
+:root[data-effects="on"] .home-proof-band::before {
+  animation: home-drift 14s ease-in-out infinite alternate;
+}
+.home-proof-band .home-section-title {
+  color: var(--color-paper);
+}
+.home-proof-band .home-section-lead,
+.home-proof-band dt {
+  color: var(--color-green-on);
+}
+.home-proof-band dd {
+  color: var(--color-paper);
+  min-inline-size: calc(var(--digits, 1) * 1ch);
+}
+.home-proof-band dl > div {
+  border-color: var(--color-green-line);
+}
+
+/* ---------- 7 · Reach: map and places on night green ---------- */
+.home-reach .home-section {
+  padding-block: calc(var(--home-section-space) * 2);
+}
+.home-reach-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+.reach-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.reach-land {
+  opacity: 0.55;
+}
+.reach-stop-near {
+  stop-color: var(--color-paper);
+}
+.reach-stop-far {
+  stop-color: var(--color-paper);
+  stop-opacity: 0.08;
+}
+.reach-route {
+  stroke-dasharray: 1;
+}
+.reach-pulse {
+  stroke-dasharray: 0.06 0.94;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.reach-ring {
+  opacity: 0.25;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.reach-labels text {
+  font-size: var(--text-map-label);
+  fill: var(--color-night-muted);
+}
+.reach-labels .reach-label-strong {
+  font-weight: 600;
+  fill: var(--color-night-text);
+}
+.reach-labels .reach-label-region {
+  font-weight: 600;
+  fill: var(--color-lime);
+}
+:root[data-effects="on"] .home-reach:not([data-played]) .reach-route {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .home-reach[data-played] .reach-route {
+  animation: door-draw 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(2) .reach-route {
+  animation-delay: 120ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(3) .reach-route {
+  animation-delay: 240ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(4) .reach-route {
+  animation-delay: 360ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(5) .reach-route {
+  animation-delay: 480ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(6) .reach-route {
+  animation-delay: 600ms;
+}
+:root[data-effects="on"] .home-reach[data-played] .reach-pulse {
+  animation: reach-travel 3.2s 1.6s linear infinite;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(even) .reach-pulse {
+  animation-delay: 2.4s;
+}
+:root[data-effects="on"] .home-reach .reach-ring {
+  animation: reach-ring 2.4s ease-out infinite;
+}
+.home-reach-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-block-start: 1rem;
+  font-size: var(--text-caption);
+  color: var(--color-night-muted);
+}
+.home-reach-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.home-legend-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--color-lime);
+}
+.home-legend-line {
+  width: 1.5rem;
+  height: 2px;
+  background: var(--color-night-muted);
+}
+.home-place-cards {
+  display: grid;
+  gap: 1rem;
+}
+.home-place-card {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-night-800);
+}
+.home-place-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-night-muted);
+}
+.home-place-card h3 {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.home-place-address {
+  margin-block-start: 0.25rem;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.home-place-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.25rem;
+  margin-block-start: 0.5rem;
+}
+
+/* ---------- Closing band: night green with drifting light ---------- */
+.home-closing {
+  padding-block: calc(var(--home-section-space) * 2.5);
+  text-align: center;
+}
+.home-closing-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-closing-title {
+  max-width: 44rem;
+  font-size: var(--text-home-closing);
+  font-weight: 680;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.home-closing .home-night-lead {
+  margin-inline: auto;
+}
+.home-closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+.home-button-lime {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+.home-button-lime:hover {
+  background: var(--color-lime);
+}
+.home-button-lime::before {
+  background: var(--color-paper);
+}
+.home-button-lime:hover::before,
+.home-button-lime:focus-visible::before {
+  opacity: 0.2;
+}
+.home-glow {
+  position: absolute;
+  z-index: -1;
+  width: 60vmax;
+  height: 60vmax;
+  pointer-events: none;
+}
+.home-glow-a {
+  inset-block-start: -30vmax;
+  inset-inline-start: -15vmax;
+  background: var(--gradient-glow-green);
+}
+.home-glow-b {
+  inset-block-end: -35vmax;
+  inset-inline-end: -20vmax;
+  background: var(--gradient-glow-lime);
+}
+:root[data-effects="on"] .home-closing .home-glow-a {
+  animation: home-drift 16s ease-in-out infinite alternate;
+}
+:root[data-effects="on"] .home-closing .home-glow-b {
+  animation: home-drift 20s ease-in-out infinite alternate-reverse;
+}
+:dir(rtl) .home-closing-title,
+:lang(ar) .home-closing-title {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+/* ---------- Loops pause off-screen (Design Doc 8 rules) ---------- */
+[data-scene][data-inview="false"] *,
+[data-scene][data-inview="false"]::before {
+  animation-play-state: paused !important;
+}
+.home-proof-band[data-inview="false"]::before {
+  animation-play-state: paused;
+}
+
+@keyframes home-sweep {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(250%);
+  }
+}
+@keyframes home-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(12%, 8%, 0);
+  }
+}
+@keyframes door-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes door-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes door-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes door-card {
+  from {
+    opacity: 0;
+    transform: translate(-150px, 70px) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes door-open {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.74);
+  }
+}
+@keyframes door-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reach-travel {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes reach-ring {
+  from {
+    opacity: 0.45;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1023px) {
+  .home-reach-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 639px) {
+  :root {
+    --text-home-closing: 2.125rem;
+  }
+  /* The map draws at about half size on a phone; labels scale up to stay near 13px. */
+  .reach-labels text {
+    font-size: var(--text-map-label-mobile);
+  }
+  .home-reach-map {
+    margin-inline: calc(var(--page-gutter) * -0.5);
+  }
+  .home-families .home-section,
+  .home-reach .home-section {
+    padding-block: calc(var(--home-section-space) * 1.5);
+  }
+  .home-closing {
+    padding-block: calc(var(--home-section-space) * 2);
+  }
+  .home-closing-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .home-closing-actions .home-night-link {
+    justify-content: center;
+  }
+}

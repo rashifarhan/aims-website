@@ -3,6 +3,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
 import { DOOR_MODELS, DoorIllustration } from "./DoorIllustration";
+import { reveal } from "./reveal";
 
 const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
 
@@ -13,8 +14,8 @@ export async function DoorTeaser() {
   } = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="home-section home-door page-container" aria-labelledby="door-title">
-      <div>
+    <section className="home-section home-door page-container" data-scene aria-labelledby="door-title">
+      <div {...reveal()}>
         <h2 id="door-title" className="home-section-title">
           {door.heading}
         </h2>

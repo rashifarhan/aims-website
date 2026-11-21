@@ -269,3 +269,26 @@ process with owners → software that fits → questions → closing band.
 - **Shared styles.** Buttons and text links moved from the homepage CSS to `src/components/ui/actions.css`, loaded by
   the layout. T3 classes use a `t3-` prefix because the hub's `solution-*` styles stay loaded after client
   navigation.
+
+### Premium homepage direction (`claude/homepage-premium`)
+
+On 21 November 2026 the client asked for a homepage that feels premium on every scroll, benchmarked against
+NUZON's light, dark and gradient sections and background motion, but in AIMS's own brand. Their answers set four
+choices: start from the Design Doc homepage; "rich but disciplined" motion; real products plus drawn visuals (no stock
+photos); deep green plus lime. Under CLAUDE.md's rule 1 this overrides these Design Doc rules, on this branch only:
+decorative motion (ch. 8), one animated moment per page (ch. 8), lime as decoration only (ch. 4: lime now carries
+text and the closing button on night surfaces, where it is 5.8–8.5:1), and gradients as surfaces (ch. 13).
+
+- **Rhythm:** light hero → light routes → **night** product families (white product cards, a scanner-light sweep) →
+  light door kit → **green gradient** proof band → light software → **night** reach map and places → light reviews
+  and questions → **night** closing band with drifting light → footer.
+- **Motion:** one client controller (`ScrollEffects`, about 1 KB) reveals sections as they arrive, starts each
+  scene once, counts the proof figures up from zero, and marks scenes off-screen so their loops pause. The door
+  kit now assembles itself in the approved prototype's order when it comes into view (Design Doc 8.2). The reach map
+  is Design Doc 8.3's "route line draws Dubai → Muscat / Nairobi", with lights travelling each route. CSS animates
+  only transform, opacity and stroke-dashoffset.
+- **Kept non-negotiable:** reduced motion shows every final state at once with no loops (tested); without
+  JavaScript nothing is hidden; all text passes AA on every surface (night contrast pairs are listed beside the
+  tokens); axe reports zero violations; the mobile LCP, CLS and transfer budgets still pass; proof figures are counted
+  from data, and the map labels only places AIMS names (its offices, the GCC, and its Oman and Kenya pages).
+- **Copy:** the FAQ's quote panel moved into the closing band, so the page ends on one action.

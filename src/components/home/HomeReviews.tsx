@@ -1,6 +1,7 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { CUSTOMER_REVIEWS, LIVE_AIMS } from "@/lib/site";
 import { ExternalLink } from "./ExternalLink";
+import { reveal } from "./reveal";
 
 /** T1 row 8: the three real reviews, verbatim, with names as published (Design Doc 10). */
 export async function HomeReviews() {
@@ -8,7 +9,7 @@ export async function HomeReviews() {
   const { reviews } = t.home;
   return (
     <section className="home-section page-container" aria-labelledby="reviews-title">
-      <div className="home-section-heading">
+      <div className="home-section-heading" {...reveal()}>
         <div>
           <h2 id="reviews-title" className="home-section-title">
             {reviews.heading}
@@ -20,8 +21,8 @@ export async function HomeReviews() {
         </ExternalLink>
       </div>
       <ul className="home-review-grid">
-        {CUSTOMER_REVIEWS.map((review) => (
-          <li key={review.name}>
+        {CUSTOMER_REVIEWS.map((review, i) => (
+          <li key={review.name} {...reveal(i + 1)}>
             <figure className="home-review" lang="en" dir="ltr">
               <span className="home-review-mark" aria-hidden="true">
                 “

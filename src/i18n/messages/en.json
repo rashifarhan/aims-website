@@ -369,14 +369,29 @@
           "q": "Can I visit the showroom?",
           "a": "The Deira showroom address and directions are listed above. Call before you travel to confirm opening hours and whether the devices you want to see are available."
         }
-      ],
-      "ctaHeading": "Have a project in mind?",
-      "ctaBody": "Send AIMS your models, quantities and site. The team replies with a quotation.",
-      "visit": "Visit the showroom"
+      ]
     },
     "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
-    "external": "on aimsuae.me"
+    "external": "on aimsuae.me",
+    "reach": {
+      "heading": "From Dubai to the GCC and East Africa.",
+      "lead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
+      "mapLabel": "Map: AIMS offices in Dubai and Abu Dhabi, with delivery routes to the GCC, Muscat and Nairobi",
+      "dubai": "Dubai",
+      "abuDhabi": "Abu Dhabi",
+      "muscat": "Muscat",
+      "nairobi": "Nairobi",
+      "gcc": "GCC",
+      "offices": "AIMS offices",
+      "routes": "Delivery routes"
+    },
+    "closing": {
+      "heading": "Plan your doors and time clocks with AIMS.",
+      "body": "Send the models you need, or describe the site. AIMS replies with a quotation.",
+      "action": "Request a quote",
+      "secondary": "Browse products"
+    }
   },
   "search": {
     "suggestions": "Search suggestions",

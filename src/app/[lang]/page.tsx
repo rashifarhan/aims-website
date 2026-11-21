@@ -13,8 +13,11 @@ import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeReviews } from "@/components/home/HomeReviews";
 import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomeClosing } from "@/components/home/HomeClosing";
+import { ScrollEffects } from "@/components/home/ScrollEffects";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
+import "@/components/home/premium.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -49,6 +52,8 @@ export default async function Home() {
       <HomeLocations />
       <HomeReviews />
       <HomeFaq />
+      <HomeClosing />
+      <ScrollEffects />
       <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
     </main>
   );

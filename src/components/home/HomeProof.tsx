@@ -1,7 +1,9 @@
+import type { CSSProperties } from "react";
 import { getDictionary } from "@/i18n/dictionaries";
 import { productCount, softwareList } from "@/content/catalogue";
 import { FAMILIES } from "@/content/taxonomy";
 import { LOCATION_LINES } from "@/lib/site";
+import { reveal } from "./reveal";
 
 /**
  * T1 row 5: one quiet proof bar. Every figure is counted from imported data, never a
@@ -18,9 +20,9 @@ export async function HomeProof() {
     [LOCATION_LINES.length, proof.locations],
   ] as const;
   return (
-    <section className="home-proof-band" aria-labelledby="proof-title">
+    <section className="home-proof-band" data-scene aria-labelledby="proof-title">
       <div className="home-section home-proof page-container">
-        <div>
+        <div {...reveal()}>
           <h2 id="proof-title" className="home-section-title">
             {proof.heading}
           </h2>
@@ -30,7 +32,14 @@ export async function HomeProof() {
           {facts.map(([value, label]) => (
             <div key={label}>
               <dt>{label}</dt>
-              <dd className="tabular-nums">{value}</dd>
+              {/* Counts up once in view; width is reserved so the band never shifts (CLS ≤ 0.05). */}
+              <dd
+                className="tabular-nums"
+                data-count={value}
+                style={{ "--digits": String(value).length } as CSSProperties}
+              >
+                {value}
+              </dd>
             </div>
           ))}
         </dl>
