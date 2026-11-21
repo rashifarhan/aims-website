@@ -15,6 +15,19 @@ test.describe("pages", () => {
         "content",
         /user-scalable=no|maximum-scale=1/,
       );
+      // Audit the rendered text after approved entrance fades, not a translucent animation frame.
+      // Infinite domain loops stay active and have separate motion/reduced-motion coverage.
+      await page.evaluate(() =>
+        Promise.all(
+          document
+            .getAnimations()
+            .filter(
+              (animation) =>
+                animation instanceof CSSAnimation && Number.isFinite(animation.effect?.getTiming().iterations),
+            )
+            .map((animation) => animation.finished.catch(() => undefined)),
+        ),
+      );
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();

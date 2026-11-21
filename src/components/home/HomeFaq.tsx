@@ -6,7 +6,7 @@ export async function HomeFaq() {
   const t = await getDictionary();
   const f = t.home.faq;
   return (
-    <section id="faq" className="home-section home-faq" aria-labelledby="faq-title">
+    <section id="faq" className="home-section home-faq page-container" aria-labelledby="faq-title">
       <div>
         <h2 id="faq-title" className="home-section-title">
           {f.heading}

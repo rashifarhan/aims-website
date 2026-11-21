@@ -8,6 +8,22 @@ for (const locale of ["en", "ar"]) {
       await page.goto(locale === "en" ? "/" : "/ar");
       await page.evaluate(() => document.fonts.ready);
       await expect(page.locator(".home-device-photo")).toBeVisible();
+      const edges = await page
+        .locator("header > div, .home-hero-copy, .home-section, footer > div")
+        .evaluateAll((containers) =>
+          containers.map((container) => {
+            const rect = container.getBoundingClientRect();
+            const style = getComputedStyle(container);
+            return {
+              start: rect.left + parseFloat(style.paddingLeft),
+              end: rect.right - parseFloat(style.paddingRight),
+            };
+          }),
+        );
+      for (const edge of edges.slice(1)) {
+        expect(Math.abs(edge.start - edges[0].start)).toBeLessThanOrEqual(1);
+        expect(Math.abs(edge.end - edges[0].end)).toBeLessThanOrEqual(1);
+      }
       const smallTargets = await page.locator("a, button, summary, input").evaluateAll((elements) =>
         elements.flatMap((element) => {
           const rect = element.getBoundingClientRect();

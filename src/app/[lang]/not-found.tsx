@@ -6,7 +6,7 @@ export default async function NotFound() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main" className="mx-auto w-full max-w-(--container-page) flex-1 px-4 py-24 sm:px-6">
+    <main id="main" className="page-container flex-1 py-24">
       <h1 className="text-3xl font-bold tracking-tight">{t.notFound.title}</h1>
       <p className="mt-3 max-w-lg text-ink-600">{t.notFound.body}</p>
       <Link

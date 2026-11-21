@@ -8,7 +8,7 @@ export async function BuyerRoutes() {
   const r = t.home.routes;
   const locale = await getLocale();
   return (
-    <section className="home-section home-routes" aria-labelledby="routes-title">
+    <section className="home-section home-routes page-container" aria-labelledby="routes-title">
       <h2 id="routes-title" className="home-section-title">
         {r.heading}
       </h2>

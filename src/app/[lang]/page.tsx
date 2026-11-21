@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
-import { COMPANY_NAME, CONTACT, SITE_URL } from "@/lib/site";
+import { COMPANY_NAME, CONTACT, SITE_URL, whatsappUrl } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
+import { FloatingContact } from "@/components/home/FloatingContact";
 import { Hero } from "@/components/home/Hero";
 import { BuyerRoutes } from "@/components/home/BuyerRoutes";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
@@ -24,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /** T1 sequence: Design Doc ch. 10; factual Organization data: Plan AT-12. */
-export default function Home() {
+export default async function Home() {
+  const t = await getDictionary();
   return (
     <main id="main">
       <JsonLd
@@ -46,6 +48,7 @@ export default function Home() {
       <HomeLocations />
       <HomeReviews />
       <HomeFaq />
+      <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
     </main>
   );
 }

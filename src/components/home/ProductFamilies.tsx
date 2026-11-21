@@ -18,7 +18,7 @@ export async function ProductFamilies() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <section id="families" className="home-section" aria-labelledby="families-title">
+    <section id="families" className="home-section page-container" aria-labelledby="families-title">
       <div className="home-section-heading">
         <div>
           <h2 id="families-title" className="home-section-title">

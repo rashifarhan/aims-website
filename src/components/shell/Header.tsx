@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
+import { headerSearchEntries } from "@/content/headerSearchEntries";
 import { FAMILIES } from "@/content/taxonomy";
 import { productCount, productsInFamily } from "@/content/catalogue";
 import { SOLUTIONS, familyPath, solutionPath } from "@/lib/nav";
@@ -21,6 +22,7 @@ export async function Header() {
   const t = await getDictionary();
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
+  const entries = headerSearchEntries(t, locale);
   const otherLocale = locale === "ar" ? "en" : "ar";
 
   const items: NavItem[] = [
@@ -54,10 +56,12 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
-      <div className="mx-auto flex h-15 max-w-(--container-page) items-center gap-3 px-4 sm:px-6 lg:h-18 lg:gap-6">
+      <div className="page-container flex h-15 items-center gap-3 lg:h-18 lg:gap-6">
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch
+          entries={entries}
+          labels={t.search}
           id="header-search"
           action={href("/products")}
           placeholder={t.nav.searchPlaceholder}
@@ -82,6 +86,8 @@ export async function Header() {
         <Suspense fallback={null}>
           <MobileMenu
             items={items}
+            searchEntries={entries}
+            searchLabels={t.search}
             otherLocale={otherLocale}
             labels={{
               external: t.home.external,

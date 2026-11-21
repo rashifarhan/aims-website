@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   };
 
   return (
-    <main id="main" className="mx-auto w-full max-w-(--container-page) flex-1 px-4 pt-6 pb-28 sm:px-6 lg:pb-16">
+    <main id="main" className="page-container flex-1 pt-6 pb-28 lg:pb-16">
       <Breadcrumbs
         label={t.common.breadcrumb}
         items={[

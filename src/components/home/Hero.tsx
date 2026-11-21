@@ -6,6 +6,7 @@ import { LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { HeroAnimation } from "./HeroAnimation";
 import { SignalLines } from "./SignalLines";
 
+import { ArrowIcon } from "@/components/icons";
 import { HeroTick } from "./HeroTick";
 
 export async function Hero() {
@@ -14,19 +15,24 @@ export async function Hero() {
   const locale = await getLocale();
   return (
     <section className="home-hero" aria-labelledby="home-title">
-      <div className="home-hero-copy">
+      <div className="home-hero-copy page-container">
         <p className="home-eyebrow">
           <span aria-hidden="true" />
           {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
         </p>
         <h1 id="home-title" className="home-display">
-          <span>{h.line1}</span>
-          <span className="text-green-700">{h.line2}</span>
+          <span>
+            <span className="home-headline-rise">{h.line1}</span>
+          </span>
+          <span className="text-green-700">
+            <span className="home-headline-rise">{h.line2}</span>
+          </span>
         </h1>
         <p className="home-lead">{h.lead}</p>
         <div className="home-hero-actions">
           <Link href={localePath(locale, "/products")} className="home-button">
             {h.explore}
+            <ArrowIcon className="home-action-arrow rtl:-scale-x-100" />
           </Link>
           <a href={LIVE_AIMS.contact} className="home-secondary">
             {h.quote}
@@ -71,7 +77,12 @@ export async function Hero() {
                   <circle cx="50" cy="47" r="1.3" />
                 </g>
               </svg>
-              <span className="home-scan-brackets" />
+              <span className="home-scan-brackets">
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
               <span data-beam className="home-scan-beam" />
               <span className="home-screen-hint">{h.scanning}</span>
             </div>

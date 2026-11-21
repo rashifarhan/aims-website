@@ -62,7 +62,7 @@ export async function Footer() {
 
   return (
     <footer className="mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
-      <div className="mx-auto max-w-(--container-page) px-4 pt-12 pb-8 sm:px-6 lg:pt-16">
+      <div className="page-container pt-12 pb-8 lg:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           <div>
             <Wordmark href={href("/")} />

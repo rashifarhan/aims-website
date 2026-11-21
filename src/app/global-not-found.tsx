@@ -16,7 +16,7 @@ export default function GlobalNotFound() {
   return (
     <html lang="en" className={`${inter.variable} ${plexArabic.variable}`}>
       <body>
-        <main id="main" className="mx-auto w-full max-w-(--container-page) px-4 py-24 sm:px-6">
+        <main id="main" className="page-container py-24">
           <p className="text-xl font-bold tracking-wide">
             AIMS<span className="text-lime">.</span>
           </p>

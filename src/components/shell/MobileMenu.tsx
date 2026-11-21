@@ -2,14 +2,19 @@
 
 import { NavigationLink as Link } from "./NavigationLink";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDownIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
 import { HeaderSearch } from "./HeaderSearch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import type { NavItem } from "./DesktopNav";
 import type { Locale } from "@/i18n/config";
 
+import type { SearchEntry } from "@/lib/searchSuggestions";
+import type { Dictionary } from "@/i18n/dictionaries";
+
 type Props = {
+  searchEntries: SearchEntry[];
+  searchLabels: Dictionary["search"];
   items: NavItem[];
   labels: {
     external: string;
@@ -33,10 +38,12 @@ type Props = {
  * Search first, sections as <details> accordions, then Quote, WhatsApp
  * and Call, language last.
  */
-export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
+export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, searchLabels }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+  const dialogId = useId();
+  const [expanded, setExpanded] = useState(false);
 
   // Close when navigation happens inside the sheet.
   useEffect(() => {
@@ -51,8 +58,13 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
         ref={toggle}
         type="button"
         aria-haspopup="dialog"
+        aria-expanded={expanded}
+        aria-controls={dialogId}
         aria-label={labels.open}
-        onClick={() => dialog.current?.showModal()}
+        onClick={() => {
+          dialog.current?.showModal();
+          setExpanded(true);
+        }}
         className="grid size-11 place-items-center rounded-md border border-line text-ink lg:hidden"
       >
         <MenuIcon />
@@ -60,14 +72,18 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
 
       <dialog
         ref={dialog}
+        id={dialogId}
         aria-label={labels.menu}
         onClick={(e) => e.target === dialog.current && close()}
-        onClose={() => toggle.current?.focus()}
+        onClose={() => {
+          setExpanded(false);
+          toggle.current?.focus();
+        }}
         className="ms-auto me-0 h-dvh max-h-none w-[min(100vw,420px)] max-w-none bg-paper p-0 text-ink opacity-0 transition-[opacity,translate,display,overlay] transition-discrete duration-(--duration-slow) ease-(--ease-aims) not-open:translate-x-8 backdrop:bg-ink/40 backdrop:opacity-0 backdrop:transition-opacity open:opacity-100 open:backdrop:opacity-100 rtl:not-open:-translate-x-8 starting:open:translate-x-8 starting:open:opacity-0 starting:open:backdrop:opacity-0 rtl:starting:open:-translate-x-8"
       >
         <div className="flex h-full flex-col">
           <div className="flex h-15 items-center justify-between border-b border-line px-4">
-            <span className="text-lg font-extrabold tracking-wordmark">
+            <span dir="ltr" className="text-lg font-extrabold tracking-wordmark">
               AIMS<span className="text-lime">.</span>
             </span>
             <button
@@ -82,6 +98,8 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
 
           <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
             <HeaderSearch
+              entries={searchEntries}
+              labels={searchLabels}
               id="mobile-search"
               action={hrefs.search}
               placeholder={labels.search}

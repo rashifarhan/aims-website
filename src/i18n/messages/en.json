@@ -362,5 +362,22 @@
     "external": "on aimsuae.me",
     "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent."
+  },
+  "search": {
+    "suggestions": "Search suggestions",
+    "count": "{count} suggestions",
+    "empty": "No matching suggestions. Press Enter to search all products.",
+    "product": "Product",
+    "software": "Software",
+    "solution": "Solution",
+    "external": "on aimsuae.me"
+  },
+  "contactPreview": {
+    "trigger": "Chat on WhatsApp",
+    "title": "Preview contact",
+    "body": "Nothing has been sent to AIMS. Continue to open the real AIMS WhatsApp chat; your preview quote list will not be sent.",
+    "cancel": "Stay in preview",
+    "open": "Open WhatsApp",
+    "newTab": "Opens in a new tab or the WhatsApp app."
   }
 }

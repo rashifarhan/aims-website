@@ -8,7 +8,7 @@ export async function HomeProof() {
   } = await getDictionary();
   return (
     <section className="home-proof-band" aria-labelledby="proof-title">
-      <div className="home-section home-proof">
+      <div className="home-section home-proof page-container">
         <div>
           <h2 id="proof-title" className="home-section-title">
             {proof.heading}

@@ -11,7 +11,7 @@ export async function HomeSoftware() {
     ["zkaccess-3-5", s.access],
   ];
   return (
-    <section className="home-section" aria-labelledby="software-title">
+    <section className="home-section page-container" aria-labelledby="software-title">
       <div className="home-section-heading">
         <div>
           <h2 id="software-title" className="home-section-title">

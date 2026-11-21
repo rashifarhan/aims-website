@@ -11,7 +11,7 @@ export async function HomeLocations() {
     { name: l.abuDhabi, address: l.abuDhabiArea, line: CONTACT.lines.abuDhabi },
   ];
   return (
-    <section id="showrooms" className="home-section" aria-labelledby="locations-title">
+    <section id="showrooms" className="home-section page-container" aria-labelledby="locations-title">
       <div className="home-section-heading">
         <div>
           <h2 id="locations-title" className="home-section-title">

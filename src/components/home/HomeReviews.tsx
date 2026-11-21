@@ -6,7 +6,7 @@ export async function HomeReviews() {
     home: { reviews, external },
   } = await getDictionary();
   return (
-    <section className="home-section" aria-labelledby="reviews-title">
+    <section className="home-section page-container" aria-labelledby="reviews-title">
       <h2 id="reviews-title" className="home-section-title">
         {reviews.heading}
       </h2>

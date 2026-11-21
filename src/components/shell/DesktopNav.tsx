@@ -30,6 +30,7 @@ export function DesktopNav({
 
   useEffect(() => {
     if (open === null) return;
+    navRef.current?.querySelector<HTMLElement>(`[id="${baseId}-${open}"] a`)?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       buttons.current[open]?.focus();
@@ -44,7 +45,7 @@ export function DesktopNav({
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
     };
-  }, [open]);
+  }, [open, baseId]);
 
   return (
     <nav ref={navRef} aria-label={label} className="hidden lg:block">
@@ -55,7 +56,7 @@ export function DesktopNav({
               <Link
                 externalLabel={externalLabel}
                 href={item.href}
-                className="inline-flex h-11 items-center rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink"
+                className="nav-motion inline-flex h-11 items-center rounded-pill px-3 text-small font-medium text-ink-700 hover:bg-paper-2 hover:text-ink"
               >
                 {item.label}
               </Link>
@@ -69,7 +70,7 @@ export function DesktopNav({
                   aria-expanded={open === i}
                   aria-controls={`${baseId}-${i}`}
                   onClick={() => setOpen(open === i ? null : i)}
-                  className="inline-flex h-11 items-center gap-1 rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
+                  className="nav-motion inline-flex h-11 items-center gap-1 rounded-pill px-3 text-small font-medium text-ink-700 hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
                 >
                   {item.label}
                   <ChevronDownIcon
@@ -83,7 +84,7 @@ export function DesktopNav({
                   hidden={open !== i}
                   className="absolute inset-x-0 top-full border-b border-line bg-paper shadow-2"
                 >
-                  <div className="mx-auto grid max-w-(--container-page) grid-cols-[220px_1fr] gap-10 px-6 py-8">
+                  <div className="page-container grid grid-cols-[220px_1fr] gap-10 py-8">
                     <div>
                       <p className="text-lg font-semibold tracking-tight text-ink">{item.label}</p>
                       <p className="mt-2 text-sm text-ink-600">{item.lead}</p>
@@ -105,7 +106,7 @@ export function DesktopNav({
                             externalLabel={externalLabel}
                             href={l.href}
                             onClick={() => setOpen(null)}
-                            className="block h-full rounded-md border border-transparent p-3.5 transition-colors hover:border-line hover:bg-paper-2"
+                            className="block h-full rounded-md border border-transparent p-3.5 hover:border-line hover:bg-paper-2"
                           >
                             <span className="flex items-baseline justify-between gap-3">
                               <span className="font-semibold text-ink">{l.label}</span>

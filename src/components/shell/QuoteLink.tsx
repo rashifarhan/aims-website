@@ -13,7 +13,7 @@ export function QuoteLink({ href, label, itemsLabel, externalLabel, className = 
     <Link
       externalLabel={externalLabel}
       href={href}
-      className={`inline-flex h-11 items-center gap-2 rounded-pill border border-ink px-4 text-sm font-semibold text-ink transition-colors duration-(--duration-fast) hover:bg-ink hover:text-white ${className}`}
+      className={`inline-flex h-11 items-center gap-2 rounded-pill border border-ink px-4 text-sm font-semibold text-ink transition-transform duration-(--duration-fast) hover:border-green-700 hover:text-green-700 active:scale-[.98] ${className}`}
     >
       <ListIcon width={18} height={18} className="hidden sm:block" />
       <span>{label}</span>

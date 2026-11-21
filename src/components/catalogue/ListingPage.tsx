@@ -34,7 +34,7 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
   };
 
   return (
-    <main id="main" className="mx-auto w-full max-w-(--container-page) flex-1 px-4 pt-6 pb-16 sm:px-6">
+    <main id="main" className="page-container flex-1 pt-6 pb-16">
       <Breadcrumbs
         label={t.common.breadcrumb}
         items={[

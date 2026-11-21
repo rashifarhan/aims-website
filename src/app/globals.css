@@ -64,6 +64,14 @@
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
+  /* Approved hero prototype and Design Doc 8.4. */
+  --duration-nav: 250ms;
+  --duration-hero-rise: 900ms;
+  --duration-hero-device: 1100ms;
+  --duration-hero-wash: 1600ms;
+  --color-device-start: #f1f5f3;
+  --color-device-end: #e4ebe8;
+  --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
 
   /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
   --text-home-display: 4.5rem;
@@ -79,13 +87,27 @@
   --text-device-small: 6.5cqw;
   --text-device-hint: 6cqw;
   --text-device-welcome: 12cqw;
-  --container-home: 1344px;
   --container-home-stage: 1600px;
   --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
   --shadow-home-dot: 0 0 0 4px rgb(120 190 32 / 0.18);
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
-  /* Layout */
-  --container-page: 1240px;
+  /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
+  --container-page: 1344px;
+  --page-gutter: 1.5rem;
+}
+
+/* One grid for the shell and every page; mobile gutters are 24px. */
+@utility page-container {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-gutter: 2rem;
+  }
 }
 
 @layer base {
@@ -130,7 +152,6 @@
 
 /* Prototype effects use palette tokens; only the approved hero uses these. */
 :root {
-  --home-gutter: 2rem;
   --home-section-space: 3.5rem;
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
@@ -140,7 +161,7 @@
     color-mix(in srgb, var(--color-lime) 10%, transparent),
     transparent
   );
-  --gradient-home-screen: linear-gradient(180deg, var(--color-paper-2), var(--color-line));
+  --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,
     transparent,
@@ -150,8 +171,53 @@
 }
 @media (max-width: 639px) {
   :root {
-    --home-gutter: 1.5rem;
     --home-section-space: 2rem;
     --text-home-heading: 1.75rem;
+  }
+}
+
+/* Design Doc 8.4: directional navigation underline, transform only. */
+.nav-motion {
+  position: relative;
+}
+.nav-motion::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.75rem;
+  inset-block-end: 0.25rem;
+  height: 1.5px;
+  background: var(--color-green-700);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-nav) var(--ease-aims);
+}
+:dir(rtl) .nav-motion::after {
+  transform-origin: right;
+}
+.nav-motion:hover::after,
+.nav-motion:focus-visible::after,
+.nav-motion[aria-expanded="true"]::after {
+  transform: scaleX(1);
+}
+.nav-motion:active {
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-motion::after {
+    transition: none;
+  }
+}
+/* Press feedback confirms activation without animating layout or colour. */
+header button {
+  transition-property: transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-aims);
+}
+header button:active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  header button {
+    transition: none;
   }
 }
