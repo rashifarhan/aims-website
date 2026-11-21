@@ -15,12 +15,14 @@ Two documents in `docs/` define this project. Read the relevant pages **before**
 flow, and cite the chapter in your plan or PR description. Claude Code can read a PDF by page range, so read only
 the pages you need.
 
-| Question                                             | Document                                                       |
-| ---------------------------------------------------- | -------------------------------------------------------------- |
-| **What** to build, for whom, why, scope, acceptance  | `docs/master-plan-v2.0.pdf` (Master Plan, 33 pp)               |
-| **How** it looks, moves, reads and behaves           | `docs/design-doc-v0.1.pdf` (Design Doc, 26 pp)                 |
-| Reference implementations of the approved animations | `docs/prototypes/` (open the HTML in a browser)                |
-| **Design principles: layout, motion, imagery, copy** | **`.agents/skills/design-taste-frontend/`** (tasteskill 2.5.1) |
+| Question                                                | Document                                                        |
+| ------------------------------------------------------- | --------------------------------------------------------------- |
+| **What** to build, for whom, why, scope, acceptance     | `docs/master-plan-v2.0.pdf` (Master Plan, 33 pp)                |
+| **How** it looks, moves, reads and behaves              | `docs/design-doc-v0.1.pdf` (Design Doc, 26 pp)                  |
+| Reference implementations of the approved animations    | `docs/prototypes/` (open the HTML in a browser)                 |
+| Product truth: users, positioning, evidence, open facts | `PRODUCT.md` (Impeccable `init`, 21 Nov 2026)                   |
+| The current visual system: tokens and components        | `DESIGN.md` + `.impeccable/design.json` (Impeccable `document`) |
+| **Design principles: layout, motion, imagery, copy**    | **`.agents/skills/design-taste-frontend/`** (tasteskill 2.5.1)  |
 
 **The design skill.** Every page is designed and checked with the `design-taste-frontend` skill (invoke it as
 `/design-taste-frontend`; read its `SKILL.md` and the references it names before building). For AIMS:

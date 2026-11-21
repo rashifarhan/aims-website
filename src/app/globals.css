@@ -30,7 +30,7 @@
   /* Status */
   --color-error: #b42318;
   --color-warn: #8a5300;
-  --color-whatsapp: #128043;
+  --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
   /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
      Contrast on night-900: text 15.9:1, night-muted 8.9:1, lime 7.8:1, so lime may carry text there. */
   --color-night-950: #06100a;
@@ -41,7 +41,7 @@
   --color-night-text: #e9f2ec;
   --color-night-muted: #a9bdb0;
   --color-green-on: #dcefe1; /* labels on the green proof band: 6.4:1 on green-800, 5.0:1 on green-700 */
-  --color-green-line: #3f8a52; /* WhatsApp button fill · 5.01:1 with white text */
+  --color-green-line: #3f8a52; /* dividers on the green proof band */
 
   /* Type */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
