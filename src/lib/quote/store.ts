@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { QuoteContextSchema, type QuoteContext } from "./context";
 
 /**
  * The quote list (Plan ch. 13/16): one store, persisted to localStorage
@@ -25,6 +26,7 @@ const QuoteSchema = z.object({
   v: z.literal(1),
   updatedAt: z.number(),
   lines: z.array(z.discriminatedUnion("kind", [ProductLine, CustomLine])),
+  context: QuoteContextSchema.optional(),
 });
 
 export type QuoteLine = z.infer<typeof ProductLine> | z.infer<typeof CustomLine>;
@@ -35,6 +37,9 @@ export type QuoteAction =
   | { type: "addCustom"; id: string; text: string; qty: number }
   | { type: "setQty"; key: string; qty: number }
   | { type: "remove"; key: string }
+  /** Undo a removal (Design Doc 9: removed line, undo 5 s). */
+  | { type: "restore"; line: QuoteLine; index: number }
+  | { type: "setContext"; patch: Partial<QuoteContext> }
   | { type: "clear" };
 
 export const EMPTY_QUOTE: QuoteState = { v: 1, updatedAt: 0, lines: [] };
@@ -43,7 +48,7 @@ export const lineKey = (l: QuoteLine) => (l.kind === "product" ? l.slug : l.id);
 const clampQty = (n: number) => Math.min(MAX_QTY, Math.max(1, Math.round(Number.isFinite(n) ? n : 1)));
 
 export function quoteReducer(state: QuoteState, action: QuoteAction, now = Date.now()): QuoteState {
-  const next = (lines: QuoteLine[]): QuoteState => ({ v: 1, updatedAt: now, lines });
+  const next = (lines: QuoteLine[]): QuoteState => ({ ...state, v: 1, updatedAt: now, lines });
   switch (action.type) {
     case "add": {
       const existing = state.lines.find((l) => l.kind === "product" && l.slug === action.slug);
@@ -62,8 +67,16 @@ export function quoteReducer(state: QuoteState, action: QuoteAction, now = Date.
       return next(state.lines.map((l) => (lineKey(l) === action.key ? { ...l, qty: clampQty(action.qty) } : l)));
     case "remove":
       return next(state.lines.filter((l) => lineKey(l) !== action.key));
+    case "restore": {
+      if (state.lines.some((l) => lineKey(l) === lineKey(action.line))) return state;
+      const lines = [...state.lines];
+      lines.splice(Math.min(Math.max(0, action.index), lines.length), 0, action.line);
+      return next(lines);
+    }
+    case "setContext":
+      return { ...state, updatedAt: now, context: { ...state.context, ...action.patch } };
     case "clear":
-      return next([]);
+      return { v: 1, updatedAt: now, lines: [] };
   }
 }
 

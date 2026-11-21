@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { ChevronDownIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
+import { ContactLink } from "@/components/contact/ContactLink";
 import { HeaderSearch } from "./HeaderSearch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import type { NavItem } from "./DesktopNav";
@@ -22,7 +23,7 @@ type Props = {
     call: string;
     language: string;
   };
-  hrefs: { search: string; quote: string; whatsapp: string; tel: string };
+  hrefs: { search: string; quote: string; whatsapp: string; whatsappDisplay: string; tel: string; telDisplay: string };
   otherLocale: Locale;
 };
 
@@ -141,22 +142,24 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
               {labels.quote}
             </Link>
             <div className="grid grid-cols-2 gap-2">
-              <a
+              <ContactLink
+                kind="whatsapp"
                 href={hrefs.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={hrefs.whatsappDisplay}
                 className="flex h-12 items-center justify-center gap-2 rounded-pill bg-whatsapp font-semibold text-white"
               >
                 <WhatsAppIcon width={18} height={18} />
                 {labels.whatsapp}
-              </a>
-              <a
+              </ContactLink>
+              <ContactLink
+                kind="phone"
                 href={`tel:${hrefs.tel}`}
+                target={hrefs.telDisplay}
                 className="flex h-12 items-center justify-center gap-2 rounded-pill border border-ink font-semibold"
               >
                 <PhoneIcon width={18} height={18} />
                 {labels.call}
-              </a>
+              </ContactLink>
             </div>
             <LanguageSwitch
               target={otherLocale}

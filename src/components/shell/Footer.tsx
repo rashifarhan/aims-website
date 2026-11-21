@@ -5,6 +5,7 @@ import { FAMILIES } from "@/content/taxonomy";
 import { POPULAR_SEARCHES, SOFTWARE_LINKS, SOLUTIONS, familyPath, searchPath, solutionPath } from "@/lib/nav";
 import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED, whatsappUrl } from "@/lib/site";
 import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
+import { ContactLink } from "@/components/contact/ContactLink";
 import { Wordmark } from "./Wordmark";
 
 /**
@@ -77,34 +78,39 @@ export async function Footer() {
                 <li key={p.line.tel} className="col-span-3 grid grid-cols-subgrid items-center">
                   <PhoneIcon width={16} height={16} className="shrink-0 text-ink-400" />
                   <span className="text-ink-600">{p.label}</span>
-                  <a
+                  <ContactLink
+                    kind="phone"
                     href={`tel:${p.line.tel}`}
+                    target={p.line.display}
                     className="font-medium text-ink tabular-nums hover:text-green-700"
-                    dir="ltr"
                   >
-                    {p.line.display}
-                  </a>
+                    <span dir="ltr">{p.line.display}</span>
+                  </ContactLink>
                 </li>
               ))}
               <li className="col-span-3 grid grid-cols-subgrid items-center">
                 <WhatsAppIcon width={16} height={16} className="shrink-0 text-whatsapp" />
                 <span className="text-ink-600">{t.footer.mobile}</span>
-                <a
+                <ContactLink
+                  kind="whatsapp"
                   href={whatsappUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={CONTACT.lines.mobile.display}
                   className="font-medium text-ink tabular-nums hover:text-green-700"
-                  dir="ltr"
                 >
-                  {CONTACT.lines.mobile.display}
-                </a>
+                  <span dir="ltr">{CONTACT.lines.mobile.display}</span>
+                </ContactLink>
               </li>
               <li className="col-span-3 grid grid-cols-subgrid items-center">
                 <MailIcon width={16} height={16} className="shrink-0 text-ink-400" />
                 <span className="text-ink-600">{t.footer.email}</span>
-                <a href={`mailto:${CONTACT.email}`} className="font-medium text-ink hover:text-green-700">
+                <ContactLink
+                  kind="email"
+                  href={`mailto:${CONTACT.email}`}
+                  target={CONTACT.email}
+                  className="font-medium text-ink hover:text-green-700"
+                >
                   {CONTACT.email}
-                </a>
+                </ContactLink>
               </li>
               <li className="col-span-3 grid grid-cols-subgrid items-start">
                 <PinIcon width={16} height={16} className="mt-0.5 shrink-0 text-ink-400" />

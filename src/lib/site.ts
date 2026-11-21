@@ -6,6 +6,13 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://aimsuae.me
 export const INDEXABLE = process.env.SITE_INDEXABLE === "true";
 
 /**
+ * WhatsApp, phone and email links reach AIMS's real sales lines only when
+ * this is "true" (production). Everywhere else they open a preview notice
+ * first (Plan risk R5: "Demo contacts AIMS's real sales line").
+ */
+export const LIVE_CONTACT = process.env.NEXT_PUBLIC_LIVE_CONTACT === "true";
+
+/**
  * Show "Authorized ZKTeco Distributor" only once AIMS confirms it (Design
  * Doc 3.1 claims policy). Until then the interim line is used.
  */

@@ -97,7 +97,9 @@ export async function Header() {
               search: href("/products"),
               quote: href("/quote"),
               whatsapp: whatsappUrl(),
+              whatsappDisplay: CONTACT.lines.mobile.display,
               tel: CONTACT.lines.showroom.tel,
+              telDisplay: CONTACT.lines.showroom.display,
             }}
           />
         </Suspense>

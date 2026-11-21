@@ -45,3 +45,6 @@ next-env.d.ts
 # playwright
 /test-results/
 /playwright-report/
+
+# the example file documents the variables and holds no secrets
+!.env.example

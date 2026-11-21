@@ -70,7 +70,7 @@ export const ROUTES: RouteEntry[] = [
     title: "Quote list",
     template: "T8 Quote",
     priority: "P0",
-    status: "planned",
+    status: "built",
     replaces: ["/getaquote"],
   },
   {

@@ -95,8 +95,25 @@ and pass axe with zero violations.
 7. The filter parameter for verification method is `verify=` (Design Doc T4); the old `/category/visible-light`
    redirect uses it.
 
-Still to build in the catalogue: header search suggestions (AT-03 currently goes through the listing), and the
-quote page itself (the store, add-to-quote and the header count are done).
+Still to build in the catalogue: header search suggestions (AT-03 currently goes through the listing).
+
+### Quote decisions
+
+1. **Labels follow the design review**: "Review quote request" while assembling (mobile bar), then "Continue to
+   WhatsApp" and "Send enquiry" side by side. WhatsApp is not presented as "send", because the buyer still sends it
+   in WhatsApp.
+2. **Fields adapt to the need** (Design Doc T8): supply → city, timing · installation → emirate (required), site,
+   doors, users, existing system · abroad → country (required), city or port, documents. The need and these fields
+   are saved with the list for 14 days; **contact details are never stored**.
+3. **WhatsApp needs items and the need only** (the chat is the reply channel); the enquiry also needs a name and one
+   valid reply channel. Phones accept any country code (E.164), with no CAPTCHA (honeypot instead).
+4. **Submission goes through `QuoteAdapter`** (`src/lib/quote/adapter.ts`). The preview uses `DemoAdapter`, which
+   makes no network request; the receipt says "Demo: nothing was sent to AIMS" (AT-07). A production adapter (email
+   or CRM via a server action, with a rate limit) plugs in there.
+5. **Contact links are guarded** (Plan risk R5). Every WhatsApp, phone and email link (product pages, menu, footer,
+   quote) opens a preview notice showing who would be contacted and the exact message, with Copy and a deliberate
+   "Open anyway". Set `NEXT_PUBLIC_LIVE_CONTACT=true` in production to make them direct links.
+6. The "signal lines converge into ✓" animation on send (Design Doc 8, SPEC) is not built yet; the receipt is static.
 
 ## Content import
 
