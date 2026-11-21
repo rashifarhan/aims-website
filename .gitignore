@@ -49,3 +49,7 @@ performance-results
 
 # the example file documents the variables and holds no secrets
 !.env.example
+
+# design skill (design-taste-frontend) output; waivers are reviewed, so they stay tracked
+/.taste-skill/*
+!/.taste-skill/waivers.json

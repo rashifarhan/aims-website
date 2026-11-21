@@ -15,11 +15,23 @@ Two documents in `docs/` define this project. Read the relevant pages **before**
 flow, and cite the chapter in your plan or PR description. Claude Code can read a PDF by page range, so read only
 the pages you need.
 
-| Question                                             | Document                                         |
-| ---------------------------------------------------- | ------------------------------------------------ |
-| **What** to build, for whom, why, scope, acceptance  | `docs/master-plan-v2.0.pdf` (Master Plan, 33 pp) |
-| **How** it looks, moves, reads and behaves           | `docs/design-doc-v0.1.pdf` (Design Doc, 26 pp)   |
-| Reference implementations of the approved animations | `docs/prototypes/` (open the HTML in a browser)  |
+| Question                                             | Document                                                       |
+| ---------------------------------------------------- | -------------------------------------------------------------- |
+| **What** to build, for whom, why, scope, acceptance  | `docs/master-plan-v2.0.pdf` (Master Plan, 33 pp)               |
+| **How** it looks, moves, reads and behaves           | `docs/design-doc-v0.1.pdf` (Design Doc, 26 pp)                 |
+| Reference implementations of the approved animations | `docs/prototypes/` (open the HTML in a browser)                |
+| **Design principles: layout, motion, imagery, copy** | **`.agents/skills/design-taste-frontend/`** (tasteskill 2.5.1) |
+
+**The design skill.** Every page is designed and checked with the `design-taste-frontend` skill (invoke it as
+`/design-taste-frontend`; read its `SKILL.md` and the references it names before building). For AIMS:
+
+- **Kind:** page type `product`, site-kind `tech`, kind `tech`. AIMS sells, installs and supports ZKTeco hardware
+  (terminals, readers, locks, turnstiles), so the hardware row of the skill's table applies: AIMS's own product
+  photographs lead, and tech grounds, loops, one count and one effect are allowed.
+- **The brief is this repository:** company facts in `src/lib/site.ts`, products and software in `content/*.json`,
+  open questions below. Under the skill's own copy rules ("Phone: none, unless the brief gives one"), AIMS's
+  published phone lines, WhatsApp, showroom address and map link are brief-given and stay real. Never replace AIMS's
+  own contacts with `.example` stand-ins.
 
 ### Master Plan v2.0: chapter → page
 
@@ -64,10 +76,15 @@ the pages you need.
 ### When sources disagree
 
 1. The user's explicit instruction in the current session wins.
-2. **Design Doc** wins on anything visual, motion, copy or interaction.
-3. **Master Plan** wins on scope, routes, architecture and acceptance criteria.
-4. If the docs conflict with each other, or are silent on something that matters, **stop and ask**. Don't pick
-   silently. If you deviate from a doc deliberately, say so in the commit message and in `README.md` → Decisions.
+2. **Truth (§1), accessibility (§4), performance (§5) and SEO/URLs (§6) below** are never traded away for a design
+   rule, whichever source it comes from.
+3. **The design skill** wins on layout, composition, motion, imagery, copy style and the finish checks (decided by
+   the client on 21 Nov 2026, for "more proven design principles").
+4. **Design Doc** wins on AIMS's brand specifics the skill leaves to the client: palette and tokens, wordmark,
+   claims policy (3.1), Arabic and RTL (13), component anatomy and states (9), and the approved prototypes.
+5. **Master Plan** wins on scope, routes, architecture and acceptance criteria (AT-01 … AT-14).
+6. If sources conflict in a way this order doesn't settle, or are silent on something that matters, **stop and ask**.
+   Don't pick silently. If you deviate deliberately, say so in the commit message and in `README.md` → Decisions.
 
 ## Commands
 
@@ -79,6 +96,17 @@ pnpm e2e                  # Playwright smoke + axe, desktop and mobile
 pnpm format               # Prettier + Tailwind class order
 pnpm import:content       # re-import catalogue from aimsuae.me (rarely; review the diff)
 ```
+
+Design skill checks, run against the production server (`pnpm build && pnpm start`), one at a time:
+
+```bash
+node .agents/skills/design-taste-frontend/scripts/copy-lint.mjs <page.md or built html> --kind tech
+node .agents/skills/design-taste-frontend/scripts/gate.mjs --start http://localhost:3000/ --kind tech --category "ZKTeco access control and time attendance" --primary "Request a quote"
+node .agents/skills/design-taste-frontend/scripts/gate.mjs http://localhost:3000/
+```
+
+The gate writes to `.taste-skill/`. Commit `.taste-skill/waivers.json` (every waiver with its reason); the rest is
+local output.
 
 Node 22, pnpm 10. Don't use npm or yarn, and don't commit another lockfile.
 
@@ -119,25 +147,43 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
 
 - Use **tokens only** (`src/app/globals.css` → `@theme`). Components contain no raw hex, rgb, px font sizes or
   shadows. If a value is missing, add a token with a comment saying why, then use it.
-- **Green-700 is the only action colour.** Lime and ink-300 are decorative: never use them for text or as the only
-  sign of a state.
-- One headline, one primary action and at most one secondary link per section (Principle 1). No carousels, no stacked
-  banners, nothing above the header, no stats in the hero.
+- **Green-700 is the action colour on light surfaces.** On night-green surfaces lime may carry text and actions where
+  it measures ≥ 4.5:1 (the ratios are listed beside the tokens). Ink-300 is decorative only. No violet anywhere.
+- **The skill's house rules apply** (`SKILL.md`, House rules): no caption or description under any image (licence
+  credits go in one footer line); every visual renders at 1440, 1024, 768 and 390; **one section per screen** (each
+  section one or two screens tall at 1440×900, the hero alone on the first); equal left and right content edges.
+- **One system:** one button pair, one card style, one radius scale, one link look; two boxes deep at most.
+- **First screen:** it says what AIMS sells, for whom or where, with one hard fact, and has at most two actions. One
+  main action per screen. No carousels, no timed tabs, no stacked banners, nothing above the header.
 - Typography follows the Design Doc ch. 5 scale. Use sentence case. Model codes are in IBM Plex Mono. Numbers in
   quantities, counts and specs use `tabular-nums`. Body text is 16 px minimum on inputs.
-- Use real product photos only: one clean cut-out or a white product on a white card. No stock photos, collages,
-  glassmorphism, blobs or decorative waves.
+- **Imagery (skill `photos.md`):** AIMS's own product photographs lead, big and whole, a different picture each
+  section. Context the client hasn't supplied (installations, offices, people at work) may use licensed stand-in
+  photographs from the skill's library or its Wikimedia Commons/Unsplash search. Each stand-in is listed in the PR and
+  README as a stand-in, credited in the one footer line, and never presented as AIMS's own premises, staff or
+  customers. Real third-party icons keep their own colours (`icons.mjs`). No drawn look-alike logos.
 - **Mobile first and uncluttered.** Design 390 px first. If a mobile view feels busy, remove things; don't shrink them.
 
-### 3. Motion
+### 3. Motion (skill `references/motion.md`)
 
-- Motion must explain the domain (credentials reaching a reader, a door kit assembling, a lock releasing). Never add
-  decorative motion (Design Doc ch. 8).
-- Animate only `transform`, `opacity` and SVG `stroke-dashoffset`. Allow one signature animated moment per page.
-- Loops pause off-screen (IntersectionObserver). `prefers-reduced-motion` shows the final state with no loops.
-- Nothing may flash more than 3 times per second, block scrolling or jack the scroll.
-- Animation JS stays under 15 KB per page. Motion libraries load lazily, and only on pages that need them.
-- Port approved animations from `docs/prototypes/`. Don't redesign them.
+- **Every page moves in three places, and nothing else moves:** (1) the hero enters once on load (about 1.1 s, then
+  stands); (2) one dealt moment in a section of its own, two on a long page (eight sections or more), picked with
+  `moments.mjs pick --page tech`; (3) the hover and press layer on every link, button, linked card and linked photo
+  (card lifts 2px, photo zooms 1.02–1.03, button steps 1px and presses, underlines draw). As a tech site AIMS may also
+  have loops inside a card's visual, one timed loop in the hero, one count, and the one effect or scene
+  `effects-usage.md` deals.
+- **Scrolling moves nothing but the dealt moment.** No card, row, tile or section fades, rises or staggers in on
+  scroll; no parallax on text; no scroll-jacking or smooth-scroll libraries. A moment may hold its section with
+  `position: sticky` while the page scrolls natively.
+- The approved prototypes in `docs/prototypes/` (hero signal lines and verification, door kit) are AIMS's real
+  domain motion: use them as the hero entrance and loop and as a dealt moment rather than adding generic effects.
+  Port them; don't redesign them.
+- The motion layer animates transform, scale and opacity (a hover may also change colour); a moment may also move the
+  cheap properties its `meta.json` names. Never animate width, height, top, left, margin or padding.
+- Loops pause off-screen; anything moving past 5 s has a pause button; at most four live WebGL contexts. Under
+  `prefers-reduced-motion` everything rests at its final state and nothing stays hidden. Nothing flashes more than
+  3 times per second.
+- Effect and moment code loads lazily, only on pages that deal one, and the page must still meet §5.
 
 ### 4. Accessibility: WCAG 2.2 AA, built in
 
@@ -221,6 +267,8 @@ A change is done only when all of the following hold:
       is covered by the 200 / one-H1 / zoom / axe smoke test.
 - [ ] Logic has unit tests. User flows from Plan ch. 18 (AT-01 … AT-14) get Playwright specs as they are built.
 - [ ] It was checked at **390 px and 1440 px**, in **English and Arabic**, and with **keyboard only**.
+- [ ] The design skill's gate reports `GATE: PASS` (or `GATE: OPEN` with every waiver and its reason in
+      `.taste-skill/waivers.json`), and copy-lint has no FAIL. Report stand-in photographs and open FAILs in the PR.
 - [ ] Docs were followed. Any deviation is recorded in `README.md` → Decisions.
 - [ ] No test was skipped, deleted or weakened to make the suite pass. If a test is wrong, fix it and say why.
 

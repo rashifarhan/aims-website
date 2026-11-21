@@ -292,3 +292,15 @@ text and the closing button on night surfaces, where it is 5.8–8.5:1), and gra
   tokens); axe reports zero violations; the mobile LCP, CLS and transfer budgets still pass; proof figures are counted
   from data, and the map labels only places AIMS names (its offices, the GCC, and its Oman and Kenya pages).
 - **Copy:** the FAQ's quote panel moved into the closing band, so the page ends on one action.
+
+### Design authority: the design-taste-frontend skill
+
+On 21 November 2026 the client chose the `design-taste-frontend` skill (tasteskill 2.5.1, `.agents/skills/`) as the
+authority on layout, motion, imagery, copy style and finish checks, ahead of the Design Doc. `CLAUDE.md` records the
+new order. Truth, accessibility, performance and SEO rules still come first, and the Design Doc still owns AIMS's
+palette, wordmark, claims policy, Arabic/RTL and the approved prototypes. AIMS is classed as kind `tech` (hardware
+sold and installed). Its real phone lines and showroom address are brief-given, which the skill allows, so they stay.
+
+Consequence for `claude/homepage-premium`: its fade-in-on-scroll reveals and the counting band break the skill's
+"scrolling moves nothing but the dealt moment" rule. The homepage must be reworked through the skill's plan, deal and
+gate before that branch merges.
