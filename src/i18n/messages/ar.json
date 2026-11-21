@@ -18,7 +18,19 @@
     "menu": "القائمة",
     "close": "إغلاق",
     "switchLanguage": "English",
-    "skipToContent": "انتقل إلى المحتوى"
+    "skipToContent": "انتقل إلى المحتوى",
+    "primary": "الرئيسية",
+    "productsAll": "جميع المنتجات",
+    "productsLead": "تصفح حسب الفئة أو ابحث برقم الطراز.",
+    "solutionsAll": "جميع الحلول",
+    "solutionsLead": "ابدأ مما تحتاج إلى إنجازه.",
+    "downloadCentre": "مركز تحميل البرامج",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "searchPlaceholder": "ابحث في أكثر من 160 منتجًا",
+    "searchSubmit": "بحث",
+    "quoteCount": "قائمة عرض السعر، {count} عناصر",
+    "contactUs": "تواصل معنا"
   },
   "common": {
     "addToQuote": "أضف إلى عرض السعر",
@@ -26,11 +38,82 @@
     "viewDatasheet": "ورقة المواصفات",
     "whatsapp": "واتساب",
     "call": "اتصال",
-    "partner": "موزع معتمد لـ ZKTeco · الإمارات"
+    "partner": "متخصصون في ZKTeco في دبي وأبوظبي",
+    "partnerConfirmed": "موزع معتمد لـ ZKTeco · الإمارات"
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
     "body": "ربما نُقلت الصفحة. ابحث برقم الطراز أو تصفح جميع المنتجات.",
     "cta": "تصفح المنتجات"
+  },
+  "families": {
+    "time-attendance": {
+      "name": "الحضور والانصراف",
+      "summary": "أجهزة البصمة والوجه والبطاقات"
+    },
+    "access-control": {
+      "name": "التحكم في الدخول",
+      "summary": "القارئات ووحدات التحكم واللوحات"
+    },
+    "entrance-control": {
+      "name": "البوابات والمواقف",
+      "summary": "البوابات الدوارة والحواجز"
+    },
+    "door-locks": {
+      "name": "الأقفال الذكية والفندقية",
+      "summary": "أقفال ذكية وأقفال فندقية RFID"
+    },
+    "door-hardware": {
+      "name": "ملحقات الأبواب",
+      "summary": "أقفال مغناطيسية وأزرار خروج وبطاقات"
+    },
+    "pos": {
+      "name": "أنظمة نقاط البيع",
+      "summary": "أجهزة نقاط بيع بنظام ويندوز وأندرويد"
+    }
+  },
+  "solutions": {
+    "time-attendance": {
+      "name": "الحضور والانصراف",
+      "summary": "سجّل ساعات العمل واربطها بالرواتب"
+    },
+    "access-control": {
+      "name": "التحكم في الدخول",
+      "summary": "تأمين الأبواب والطوابق والمباني"
+    },
+    "entrance-parking": {
+      "name": "البوابات والمواقف",
+      "summary": "الردهات والبوابات ومواقف السيارات"
+    },
+    "door-locks": {
+      "name": "أقفال الأبواب",
+      "summary": "المنازل والمكاتب والفنادق"
+    },
+    "pos": {
+      "name": "أنظمة نقاط البيع",
+      "summary": "المطاعم ومحلات التجزئة"
+    }
+  },
+  "footer": {
+    "products": "المنتجات",
+    "solutions": "الحلول",
+    "software": "البرامج",
+    "company": "الشركة",
+    "locations": "زرنا أو اتصل بنا",
+    "headOffice": "المكتب الرئيسي",
+    "showroom": "صالة العرض",
+    "abuDhabi": "مكتب أبوظبي",
+    "mobile": "الجوال وواتساب",
+    "email": "البريد الإلكتروني",
+    "directions": "الاتجاهات",
+    "popular": "عمليات بحث شائعة",
+    "privacy": "الخصوصية",
+    "terms": "الشروط",
+    "rights": "جميع الحقوق محفوظة.",
+    "services": "الخدمات",
+    "support": "الدعم والضمان",
+    "blog": "المدونة",
+    "aboutShowrooms": "من نحن وصالات العرض",
+    "locationsHub": "المواقع"
   }
 }

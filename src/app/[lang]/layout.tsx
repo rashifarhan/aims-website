@@ -4,6 +4,8 @@ import { inter, plexArabic, plexMono } from "../fonts";
 import { LOCALES, dir, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { INDEXABLE, SITE_URL } from "@/lib/site";
+import { Header } from "@/components/shell/Header";
+import { Footer } from "@/components/shell/Footer";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -45,7 +47,9 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         >
           {t.nav.skipToContent}
         </a>
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -18,7 +18,19 @@
     "menu": "Menu",
     "close": "Close",
     "switchLanguage": "العربية",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "primary": "Main",
+    "productsAll": "All products",
+    "productsLead": "Browse by family, or search by model code.",
+    "solutionsAll": "All solutions",
+    "solutionsLead": "Start from what you need to do.",
+    "downloadCentre": "Software Download Centre",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "searchPlaceholder": "Search 160+ products",
+    "searchSubmit": "Search",
+    "quoteCount": "Quote list, {count} items",
+    "contactUs": "Contact us"
   },
   "common": {
     "addToQuote": "Add to quote",
@@ -26,11 +38,82 @@
     "viewDatasheet": "Datasheet",
     "whatsapp": "WhatsApp",
     "call": "Call",
-    "partner": "Authorized ZKTeco Distributor · UAE"
+    "partner": "ZKTeco specialists in Dubai & Abu Dhabi",
+    "partnerConfirmed": "Authorized ZKTeco Distributor · UAE"
   },
   "notFound": {
     "title": "Page not found",
     "body": "The page may have moved. Try searching for a model code, or browse all products.",
     "cta": "Browse products"
+  },
+  "families": {
+    "time-attendance": {
+      "name": "Time attendance",
+      "summary": "Fingerprint, face and card terminals"
+    },
+    "access-control": {
+      "name": "Access control",
+      "summary": "Readers, controllers and panels"
+    },
+    "entrance-control": {
+      "name": "Entrance & parking",
+      "summary": "Turnstiles, gates and barriers"
+    },
+    "door-locks": {
+      "name": "Smart & hotel locks",
+      "summary": "Smart locks and RFID hotel locks"
+    },
+    "door-hardware": {
+      "name": "Door hardware",
+      "summary": "EM locks, exit buttons, cards, power"
+    },
+    "pos": {
+      "name": "POS systems",
+      "summary": "Windows and Android POS terminals"
+    }
+  },
+  "solutions": {
+    "time-attendance": {
+      "name": "Time attendance",
+      "summary": "Record hours and feed payroll"
+    },
+    "access-control": {
+      "name": "Access control",
+      "summary": "Secure doors, floors and buildings"
+    },
+    "entrance-parking": {
+      "name": "Entrance & parking",
+      "summary": "Lobbies, gates and car parks"
+    },
+    "door-locks": {
+      "name": "Door locks",
+      "summary": "Homes, offices and hotels"
+    },
+    "pos": {
+      "name": "POS systems",
+      "summary": "Restaurants and retail"
+    }
+  },
+  "footer": {
+    "products": "Products",
+    "solutions": "Solutions",
+    "software": "Software",
+    "company": "Company",
+    "locations": "Visit or call",
+    "headOffice": "Head office",
+    "showroom": "Showroom",
+    "abuDhabi": "Abu Dhabi office",
+    "mobile": "Mobile & WhatsApp",
+    "email": "Email",
+    "directions": "Directions",
+    "popular": "Popular searches",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "rights": "All rights reserved.",
+    "services": "Services",
+    "support": "Support & warranty",
+    "blog": "Blog",
+    "aboutShowrooms": "About & showrooms",
+    "locationsHub": "Locations"
   }
 }
