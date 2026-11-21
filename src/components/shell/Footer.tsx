@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { NavigationLink as Link } from "./NavigationLink";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
@@ -49,7 +49,6 @@ export async function Footer() {
         { href: href("/services"), label: t.footer.services },
         { href: href("/support"), label: t.footer.support },
         { href: href("/locations"), label: t.footer.locationsHub },
-        { href: href("/blog"), label: t.footer.blog },
         { href: href("/contact"), label: t.nav.contact },
       ],
     },
@@ -62,7 +61,7 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-line bg-paper-2">
+    <footer className="mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
       <div className="mx-auto max-w-(--container-page) px-4 pt-12 pb-8 sm:px-6 lg:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
           <div>
@@ -132,6 +131,7 @@ export async function Footer() {
                   {c.links.map((l) => (
                     <li key={l.href}>
                       <Link
+                        externalLabel={t.home.external}
                         href={l.href}
                         className="inline-flex min-h-8 items-center text-sm text-ink-700 hover:text-green-700"
                       >
@@ -151,6 +151,7 @@ export async function Footer() {
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
                 <Link
+                  externalLabel={t.home.external}
                   href={href(searchPath(q))}
                   className="inline-flex h-8 items-center rounded-pill border border-line bg-paper px-3 text-sm text-ink-700 hover:border-line-strong"
                 >
@@ -167,12 +168,12 @@ export async function Footer() {
           </p>
           <ul className="flex gap-5">
             <li>
-              <Link href={href("/privacy-policy")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/privacy-policy")} className="hover:text-ink">
                 {t.footer.privacy}
               </Link>
             </li>
             <li>
-              <Link href={href("/terms-and-conditions")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className="hover:text-ink">
                 {t.footer.terms}
               </Link>
             </li>

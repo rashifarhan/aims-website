@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { NavigationLink as Link } from "./NavigationLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { ChevronDownIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
@@ -12,6 +12,7 @@ import type { Locale } from "@/i18n/config";
 type Props = {
   items: NavItem[];
   labels: {
+    external: string;
     open: string;
     close: string;
     menu: string;
@@ -52,7 +53,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
         aria-haspopup="dialog"
         aria-label={labels.open}
         onClick={() => dialog.current?.showModal()}
-        className="grid size-10 place-items-center rounded-md border border-line text-ink lg:hidden"
+        className="grid size-11 place-items-center rounded-md border border-line text-ink lg:hidden"
       >
         <MenuIcon />
       </button>
@@ -73,7 +74,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
               type="button"
               onClick={close}
               aria-label={labels.close}
-              className="grid size-10 place-items-center rounded-md border border-line"
+              className="grid size-11 place-items-center rounded-md border border-line"
             >
               <CloseIcon />
             </button>
@@ -91,7 +92,12 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
               {items.map((item) =>
                 item.kind === "link" ? (
                   <li key={item.label}>
-                    <Link href={item.href} onClick={close} className="flex h-13 items-center text-base font-semibold">
+                    <Link
+                      externalLabel={labels.external}
+                      href={item.href}
+                      onClick={close}
+                      className="flex h-13 items-center text-base font-semibold"
+                    >
                       {item.label}
                     </Link>
                   </li>
@@ -106,6 +112,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
                         {item.links.map((l) => (
                           <li key={l.href}>
                             <Link
+                              externalLabel={labels.external}
                               href={l.href}
                               onClick={close}
                               className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-menu text-ink-700 hover:bg-paper-2"
@@ -117,6 +124,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
                         ))}
                         <li>
                           <Link
+                            externalLabel={labels.external}
                             href={item.footer.href}
                             onClick={close}
                             className="flex min-h-11 items-center px-2 text-menu font-semibold text-green-700"
@@ -134,6 +142,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
 
           <div className="grid gap-2 border-t border-line p-4">
             <Link
+              externalLabel={labels.external}
               href={hrefs.quote}
               onClick={close}
               className="flex h-12 items-center justify-center rounded-pill bg-green-700 font-semibold text-white hover:bg-green-800"

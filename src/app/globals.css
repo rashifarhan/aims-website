@@ -65,6 +65,25 @@
   --duration-base: 200ms;
   --duration-slow: 320ms;
 
+  /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
+  --text-home-display: 4.5rem;
+  --text-home-display-compact: 3.5rem;
+  --text-home-display-mobile: 2.5rem;
+  --text-home-heading: 2.375rem;
+  --text-home-card: 1.125rem;
+  --text-home-lead: 1.1875rem;
+  --text-home-stat: 3.5rem;
+  --text-door-label: 16px; /* SVG viewBox label size, not a screen font size. */
+  --text-device-bar: 5.2cqw;
+  --text-device-clock: 23cqw;
+  --text-device-small: 6.5cqw;
+  --text-device-hint: 6cqw;
+  --text-device-welcome: 12cqw;
+  --container-home: 1344px;
+  --container-home-stage: 1600px;
+  --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
+  --shadow-home-dot: 0 0 0 4px rgb(120 190 32 / 0.18);
+  --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Layout */
   --container-page: 1240px;
 }
@@ -106,5 +125,33 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Prototype effects use palette tokens; only the approved hero uses these. */
+:root {
+  --home-gutter: 2rem;
+  --home-section-space: 3.5rem;
+  --home-hero-height: 760px;
+  --home-mobile-art-height: 400px;
+  --home-button-height: 3.375rem;
+  --gradient-home-glow: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 10%, transparent),
+    transparent
+  );
+  --gradient-home-screen: linear-gradient(180deg, var(--color-paper-2), var(--color-line));
+  --gradient-home-scan: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--color-lime) 45%, transparent),
+    transparent
+  );
+}
+@media (max-width: 639px) {
+  :root {
+    --home-gutter: 1.5rem;
+    --home-section-space: 2rem;
+    --text-home-heading: 1.75rem;
   }
 }

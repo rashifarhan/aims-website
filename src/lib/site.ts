@@ -31,3 +31,19 @@ export const CONTACT = {
 
 export const whatsappUrl = (text?: string) =>
   `https://wa.me/${CONTACT.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+
+/** Homepage fallbacks until the corresponding local routes are built (Design Doc T1). */
+export const LIVE_AIMS = {
+  home: "https://aimsuae.me/",
+  contact: "https://aimsuae.me/enquiry",
+  software: "https://aimsuae.me/swcategory/zk-teco",
+} as const;
+
+/** Short, verbatim excerpts; names as published at LIVE_AIMS.home, checked 21 Nov 2026. */
+export const CUSTOMER_REVIEWS = [
+  { name: "Sneha Paul", excerpt: "Their sales team is kind" },
+  { name: "Traffic Burger Head Office", excerpt: "staff is very cooperative" },
+  { name: "Arjun", excerpt: "very professional" },
+] as const;
+
+export const COMPANY_NAME = "AIMS Security Systems Trading LLC";

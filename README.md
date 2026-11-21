@@ -98,6 +98,45 @@ and pass axe with zero violations.
 Still to build in the catalogue: header search suggestions (AT-03 currently goes through the listing), and the
 quote page itself (the store, add-to-quote and the header count are done).
 
+### Homepage decisions (Design Doc T1; Master Plan ch. 12, 14, 16, 18)
+
+- Built on `codex/homepage`, branched from `main` and fast-forwarded to the prerequisite `claude/project-setup`
+  commit (`164c202`). This keeps the homepage separate while retaining the catalogue and shell it needs.
+- The approved hero prototype is ported with native Web Animations, 26 desktop / 14 mobile signal curves,
+  a static verified state for reduced motion, and off-screen/tab visibility pausing. The scan beam uses
+  `transform` instead of the prototype's animated `top`, per Design Doc ch. 8. The device is explicitly illustrative.
+- The door-kit teaser is static: one signature animation per page. Its action opens the built access-control
+  catalogue; the full interactive door story belongs to the future solution page.
+- The proof band shows the **159 imported products and six families**, not unconfirmed company statistics.
+  No founding year, client count or authorization claim is displayed. Existing approved catalogue taxonomy is retained.
+- Three short review excerpts and reviewer names are sourced from [the live AIMS homepage](https://aimsuae.me/),
+  checked 21 November 2026, and labelled as published by AIMS. No ratings, new endorsements or inferred claims are added.
+- The homepage-only scope uses clearly marked live AIMS destinations for quote/contact, installation and software
+  requests. The local quote page is still planned; the header explicitly explains that the saved preview list is
+  not sent to the live site. Solution menu items open matching built catalogue families; locations opens the
+  homepage showroom section. Unbuilt blog navigation is withheld. Existing canonical URL/redirect definitions stay intact.
+- Location cards use the published phone lines and known showroom address/map in `src/lib/site.ts`.
+  Missing office maps, exact addresses and opening hours are not invented. Arabic remains a draft for AIMS review.
+- No new runtime dependencies, trackers, embedded third-party maps or remote runtime content requests are added.
+  `next/image` uses `preload` for the hero; this Next version deprecates `priority` (local Next image guide).
+
+### Homepage verification
+
+Checked on Node 22.23.5 / pnpm 10.28.0: `pnpm check` (56 unit tests), `pnpm format:check`, `pnpm build`,
+`pnpm e2e --workers=4` (84 passed; eight existing viewport-specific exclusions), and `pnpm e2e:performance` (2 passed).
+Axe reports zero violations across the built routes. Homepage checks cover English/Arabic at 390px and 1440px,
+320px reflow, 44px visible touch targets, keyboard FAQ, valid navigation, reduced motion and animation pausing.
+The hidden keyboard-only skip link is excluded from the pointer-target measurement using its actual clipping styles.
+
+The isolated Chromium mobile run uses a cold browser cache, 390×844 viewport, 4× CPU slowdown, 1.6Mbps download and
+150ms latency: English LCP **704ms**, CLS **0**, transfer **349KB**; Arabic LCP **716ms**, CLS **0.00043**, transfer
+**531KB**. These are local lab measurements, not field guarantees. Both meet Plan AT-11. No third-party runtime
+requests or page errors were observed. The animation source is 4.3KB; its entire shared client chunk transfers
+at approximately 6.4KB gzip, below the 15KB animation budget.
+
+For local preview, bind Next to `localhost` (for example `pnpm dev --hostname localhost`). Binding specifically to
+`127.0.0.1` can conflict with the locale proxy's normalized localhost requests in this Next version.
+
 ## Content import
 
 ```bash

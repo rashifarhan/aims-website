@@ -1,30 +1,51 @@
-import { getDictionary } from "@/i18n/dictionaries";
-import { FAMILIES } from "@/content/taxonomy";
-import { productCount } from "@/content/catalogue";
+import type { Metadata } from "next";
+import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { alternates } from "@/lib/seo";
+import { COMPANY_NAME, CONTACT, SITE_URL } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { Hero } from "@/components/home/Hero";
+import { BuyerRoutes } from "@/components/home/BuyerRoutes";
+import { ProductFamilies } from "@/components/home/ProductFamilies";
+import { DoorTeaser } from "@/components/home/DoorTeaser";
+import { HomeProof } from "@/components/home/HomeProof";
+import { HomeSoftware } from "@/components/home/HomeSoftware";
+import { HomeLocations } from "@/components/home/HomeLocations";
+import { HomeReviews } from "@/components/home/HomeReviews";
+import { HomeFaq } from "@/components/home/HomeFaq";
+import "@/components/home/home.css";
 
-/**
- * Setup placeholder. Replaced by the T1 Home template (hero signal lines,
- * three routes, families, proof bar, showrooms) in the build phase.
- */
-export default async function Home() {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
+  return {
+    title: t.home.metaTitle,
+    description: t.home.metaDescription,
+    alternates: alternates(await getLocale(), "/"),
+  };
+}
+
+/** T1 sequence: Design Doc ch. 10; factual Organization data: Plan AT-12. */
+export default function Home() {
   return (
-    <main id="main" className="mx-auto w-full max-w-(--container-page) flex-1 px-4 py-16 sm:px-6">
-      <p className="text-sm font-medium tracking-wide text-green-700">{t.common.partner}</p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl">
-        AIMS<span className="text-lime">.</span>
-      </h1>
-      <p className="mt-4 max-w-xl text-lg text-ink-600">
-        Project setup is in place. {productCount()} products imported across {FAMILIES.length} families.
-      </p>
-      <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {FAMILIES.map((f) => (
-          <li key={f.slug} className="rounded-lg border border-line p-5">
-            <p className="font-semibold text-ink">{f.name}</p>
-            <p className="mt-1 text-sm text-ink-600">{f.summary}</p>
-          </li>
-        ))}
-      </ul>
+    <main id="main">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: COMPANY_NAME,
+          url: SITE_URL,
+          email: CONTACT.email,
+          telephone: CONTACT.lines.headOffice.tel,
+        }}
+      />
+      <Hero />
+      <BuyerRoutes />
+      <ProductFamilies />
+      <DoorTeaser />
+      <HomeProof />
+      <HomeSoftware />
+      <HomeLocations />
+      <HomeReviews />
+      <HomeFaq />
     </main>
   );
 }

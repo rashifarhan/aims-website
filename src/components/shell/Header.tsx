@@ -56,7 +56,7 @@ export async function Header() {
     <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
       <div className="mx-auto flex h-15 max-w-(--container-page) items-center gap-3 px-4 sm:px-6 lg:h-18 lg:gap-6">
         <Wordmark href={href("/")} descriptor="Security Systems" />
-        <DesktopNav items={items} label={t.nav.primary} />
+        <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch
           id="header-search"
           action={href("/products")}
@@ -69,10 +69,11 @@ export async function Header() {
           <LanguageSwitch
             target={otherLocale}
             label={t.nav.switchLanguage}
-            className="hidden h-10 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink lg:inline-flex"
+            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink lg:inline-flex"
           />
         </Suspense>
         <QuoteLink
+          externalLabel={t.home.quoteNotice}
           href={href("/quote")}
           label={t.nav.quote}
           itemsLabel={t.nav.quoteItems}
@@ -83,6 +84,7 @@ export async function Header() {
             items={items}
             otherLocale={otherLocale}
             labels={{
+              external: t.home.external,
               open: t.nav.openMenu,
               close: t.nav.closeMenu,
               menu: t.nav.menu,

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { NavigationLink as Link } from "./NavigationLink";
 import { useEffect, useId, useRef, useState } from "react";
 import { ArrowIcon, ChevronDownIcon } from "@/components/icons";
 
@@ -14,7 +14,15 @@ export type NavItem =
  * they hold ordinary links). Click toggles; Esc, outside click and
  * navigation close; focus returns to the button on Esc.
  */
-export function DesktopNav({ items, label }: { items: NavItem[]; label: string }) {
+export function DesktopNav({
+  items,
+  label,
+  externalLabel,
+}: {
+  items: NavItem[];
+  label: string;
+  externalLabel: string;
+}) {
   const [open, setOpen] = useState<number | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
@@ -45,8 +53,9 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
           <li key={item.label}>
             {item.kind === "link" ? (
               <Link
+                externalLabel={externalLabel}
                 href={item.href}
-                className="inline-flex h-10 items-center rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink"
+                className="inline-flex h-11 items-center rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink"
               >
                 {item.label}
               </Link>
@@ -60,7 +69,7 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
                   aria-expanded={open === i}
                   aria-controls={`${baseId}-${i}`}
                   onClick={() => setOpen(open === i ? null : i)}
-                  className="inline-flex h-10 items-center gap-1 rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
+                  className="inline-flex h-11 items-center gap-1 rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
                 >
                   {item.label}
                   <ChevronDownIcon
@@ -79,9 +88,10 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
                       <p className="text-lg font-semibold tracking-tight text-ink">{item.label}</p>
                       <p className="mt-2 text-sm text-ink-600">{item.lead}</p>
                       <Link
+                        externalLabel={externalLabel}
                         href={item.footer.href}
                         onClick={() => setOpen(null)}
-                        className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-green-800"
+                        className="mt-5 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-green-800"
                       >
                         {item.footer.label}
                         {item.footer.meta && <span className="font-normal text-ink-600">{item.footer.meta}</span>}
@@ -92,6 +102,7 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
                       {item.links.map((l) => (
                         <li key={l.href}>
                           <Link
+                            externalLabel={externalLabel}
                             href={l.href}
                             onClick={() => setOpen(null)}
                             className="block h-full rounded-md border border-transparent p-3.5 transition-colors hover:border-line hover:bg-paper-2"

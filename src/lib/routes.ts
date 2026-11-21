@@ -36,7 +36,7 @@ export type RouteEntry = {
 
 export const ROUTES: RouteEntry[] = [
   // Core
-  { path: "/", title: "Home", template: "T1 Home", priority: "P0", status: "planned" },
+  { path: "/", title: "Home", template: "T1 Home", priority: "P0", status: "built" },
   {
     path: "/products",
     title: "All products",

@@ -5,7 +5,7 @@ export function Wordmark({ href, descriptor }: { href: string; descriptor?: stri
   return (
     <Link
       href={href}
-      className="flex shrink-0 items-baseline gap-2 whitespace-nowrap"
+      className="flex min-h-11 shrink-0 items-center gap-2 whitespace-nowrap"
       aria-label="AIMS Security Systems, home"
     >
       <span className="text-wordmark font-extrabold tracking-wordmark text-ink" dir="ltr">

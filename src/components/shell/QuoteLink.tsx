@@ -1,18 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import { NavigationLink as Link } from "./NavigationLink";
 import { ListIcon } from "@/components/icons";
 import { useQuote } from "@/lib/quote/useQuote";
 
-type Props = { href: string; label: string; itemsLabel: string; className?: string };
+type Props = { externalLabel: string; href: string; label: string; itemsLabel: string; className?: string };
 
 /** Header "Quote" pill with a live item count (0 on the server, real after hydration). */
-export function QuoteLink({ href, label, itemsLabel, className = "" }: Props) {
+export function QuoteLink({ href, label, itemsLabel, externalLabel, className = "" }: Props) {
   const count = useQuote().lines.length;
   return (
     <Link
+      externalLabel={externalLabel}
       href={href}
-      className={`inline-flex h-10 items-center gap-2 rounded-pill border border-ink px-4 text-sm font-semibold text-ink transition-colors duration-(--duration-fast) hover:bg-ink hover:text-white ${className}`}
+      className={`inline-flex h-11 items-center gap-2 rounded-pill border border-ink px-4 text-sm font-semibold text-ink transition-colors duration-(--duration-fast) hover:bg-ink hover:text-white ${className}`}
     >
       <ListIcon width={18} height={18} className="hidden sm:block" />
       <span>{label}</span>
