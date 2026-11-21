@@ -8,3 +8,6 @@ test-results
 docs/prototypes
 docs/*.pdf
 performance-results
+
+# vendored agent skills: third-party files, never reformatted (the design skill forbids editing its kit)
+.agents
