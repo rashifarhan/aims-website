@@ -1,0 +1,619 @@
+/* T3 solution template (Master Plan 14; Design Doc 5–10). Tokens only. */
+.t3-intro {
+  padding-block: 1.5rem var(--home-section-space);
+}
+.t3-eyebrow {
+  margin-block-start: 2.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.t3-intro h1 {
+  max-width: 48rem;
+  margin-block-start: 0.75rem;
+  font-size: var(--text-page-title);
+  font-weight: 680;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.t3-promise {
+  max-width: 40rem;
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+.t3-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+.t3-section {
+  padding-block: var(--home-section-space);
+}
+.t3-heading {
+  margin-block-end: 2.5rem;
+}
+.t3-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem;
+}
+.t3-heading-row > .home-text-link {
+  flex: none;
+  margin-block-start: 0;
+}
+.t3-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.t3-lead {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+:lang(ar) .t3-intro h1,
+:lang(ar) .t3-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* ---------- Story: steps beside a sticky drawing; never pinned (Design Doc 8) ---------- */
+.story {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 4rem;
+  align-items: start;
+}
+.story-steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  align-content: center;
+  min-height: 55vh;
+  padding-block: 1.5rem;
+  border-block-start: 2px solid var(--color-line);
+}
+.story-steps h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.story-steps p {
+  grid-column: 2;
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.story-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-green-700);
+  line-height: 1.9;
+}
+/* Inactive steps stay readable (ink-400 is 5.19:1, Design Doc 4); the active one gains ink and a green rule. */
+.story[data-motion="on"] .story-steps li:not([aria-current]) :is(h3, p) {
+  color: var(--color-ink-400);
+}
+.story-steps li[aria-current] {
+  border-block-start-color: var(--color-green-700);
+}
+.story-stage {
+  position: sticky;
+  inset-block-start: 6.5rem;
+}
+.story-stage figcaption {
+  margin-block-start: 0.75rem;
+  font-size: var(--text-caption);
+  color: var(--color-ink-400);
+  text-align: center;
+}
+.ta-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ta-text-name {
+  font-size: var(--text-explainer-name);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.ta-text-meta {
+  font-size: var(--text-explainer-meta);
+  font-weight: 500;
+  fill: var(--color-ink-400);
+}
+.ta-text-row {
+  font-size: var(--text-explainer-row);
+  fill: var(--color-ink-700);
+}
+
+/* Each group appears from its step on; the server's final state is step 4. */
+.ta-s2,
+.ta-s3,
+.ta-s4,
+.ta-row,
+.ta-file {
+  transition:
+    opacity var(--duration-slow) var(--ease-aims),
+    transform var(--duration-slow) var(--ease-aims);
+}
+.ta-wire {
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 600ms var(--ease-aims);
+}
+.story[data-step="1"] :is(.ta-s2, .ta-s3, .ta-s4),
+.story[data-step="2"] :is(.ta-s3, .ta-s4),
+.story[data-step="3"] .ta-s4 {
+  opacity: 0;
+}
+.story[data-step="1"] :is(.ta-s2, .ta-s3, .ta-s4) .ta-wire,
+.story[data-step="2"] :is(.ta-s3, .ta-s4) .ta-wire,
+.story[data-step="3"] .ta-s4 .ta-wire {
+  stroke-dashoffset: 1;
+}
+.story:is([data-step="1"], [data-step="2"]) .ta-row {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.story[data-step="3"] .ta-file {
+  transform: translateY(-12px);
+}
+/* Punches travel terminal → BioTime while that step is on screen (Design Doc 8.3). */
+.ta-dots circle {
+  opacity: 0;
+}
+.story[data-motion="on"][data-inview="true"]:is([data-step="2"], [data-step="3"]) .ta-dots circle {
+  animation: ta-punch 1.6s var(--ease-aims) infinite;
+}
+.story[data-motion="on"] .ta-dots circle:nth-child(2) {
+  animation-delay: 530ms;
+}
+.story[data-motion="on"] .ta-dots circle:nth-child(3) {
+  animation-delay: 1060ms;
+}
+@keyframes ta-punch {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(110px);
+  }
+}
+
+/* ---------- Method guide (option cards) ---------- */
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.method-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  transition:
+    box-shadow var(--duration-base) var(--ease-aims),
+    border-color var(--duration-base) var(--ease-aims),
+    transform var(--duration-base) var(--ease-aims);
+}
+.method-icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-green-50);
+  color: var(--color-green-700);
+}
+.method-card h3 {
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.method-card p {
+  margin-block: 0.5rem 1.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+}
+.method-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: auto;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* ---------- Recommended terminals ---------- */
+.pick-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.pick-card {
+  /* Contains its absolutely positioned screen-reader text, so the sideways row clips it. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  transition: box-shadow var(--duration-base) var(--ease-aims);
+}
+.pick-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 11rem;
+  padding: 1rem;
+  overflow: clip;
+}
+.pick-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--duration-slow) var(--ease-aims);
+}
+.pick-brand {
+  margin-block-start: 1rem;
+  font-size: var(--text-brand);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-400);
+}
+.pick-card h3 {
+  margin-block-start: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-home-card);
+  font-weight: 500;
+  text-align: start;
+}
+.pick-card h3 a {
+  color: var(--color-ink);
+}
+.pick-card h3 a:hover {
+  color: var(--color-green-700);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.pick-methods {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.pick-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+.pick-facts > div {
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-paper-2);
+  font-size: var(--text-caption);
+}
+.pick-facts dt {
+  color: var(--color-ink-400);
+}
+.pick-facts dd {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.pick-facts-empty {
+  margin-block: 1rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-400);
+}
+.pick-add {
+  margin-block-start: auto;
+}
+@media (hover: hover) and (pointer: fine) {
+  .method-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--color-green-100);
+  }
+  .method-card:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .method-card:hover .home-action-arrow {
+    translate: -3px 0;
+  }
+  .pick-card:hover {
+    box-shadow: var(--shadow-2);
+  }
+  .pick-card:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* ---------- Process with owners ---------- */
+.t3-band {
+  margin-block: var(--home-section-space);
+  padding-block: calc(var(--home-section-space) * 1.5);
+  background: var(--color-paper-2);
+}
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  counter-reset: none;
+}
+.process-list li {
+  display: flex;
+  flex-direction: column;
+  padding-block-start: 1.25rem;
+  border-block-start: 2px solid var(--color-green-700);
+}
+.process-index {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-green-700);
+  color: var(--color-paper);
+  font-size: var(--text-small);
+  font-weight: 650;
+}
+.process-list h3 {
+  margin-block-start: 1rem;
+  font-size: var(--text-base);
+  font-weight: 650;
+}
+.process-list p {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+.process-list .process-owner {
+  margin-block-start: auto;
+  padding-block-start: 1rem;
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* ---------- Questions ---------- */
+.t3-questions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 4rem;
+  align-items: start;
+}
+.t3-questions details {
+  border-block-end: 1px solid var(--color-line);
+}
+.t3-questions details:first-child {
+  border-block-start: 1px solid var(--color-line);
+}
+.t3-questions summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+  padding-block: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.t3-questions summary::-webkit-details-marker {
+  display: none;
+}
+.t3-questions summary svg {
+  flex: none;
+  transition: transform var(--duration-slow) var(--ease-aims);
+}
+.t3-questions summary:hover {
+  color: var(--color-green-700);
+}
+.t3-questions details[open] summary svg {
+  transform: rotate(180deg);
+}
+.t3-questions details p {
+  max-width: 65ch;
+  padding-block-end: 1.5rem;
+  line-height: 1.65;
+  color: var(--color-ink-600);
+}
+
+/* ---------- Closing band ---------- */
+.t3-cta {
+  padding-block: var(--home-section-space) calc(var(--home-section-space) * 2);
+}
+.t3-cta-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-green-50);
+}
+.t3-cta-actions {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1023px) {
+  .method-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .pick-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .process-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    padding-block: 1.25rem;
+    border-block-start-width: 1px;
+    border-color: var(--color-line);
+  }
+  .process-list li > :not(.process-index) {
+    grid-column: 2;
+  }
+  .process-list h3 {
+    margin-block-start: 0.25rem;
+  }
+  .process-list .process-owner {
+    padding-block-start: 0.5rem;
+  }
+  .t3-questions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  .t3-cta-panel {
+    flex-direction: column;
+    align-items: start;
+  }
+  .t3-cta-actions {
+    align-items: start;
+  }
+  /* Mobile story: the drawing sticks under the header; step text scrolls beneath it. */
+  .story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .story-stage {
+    grid-row: 1;
+    inset-block-start: 4.25rem;
+    z-index: 1;
+    padding-block: 0.5rem;
+    background: var(--color-paper);
+  }
+  .story-stage .ta-drawing {
+    max-height: 38vh;
+  }
+  .story-steps li {
+    min-height: 40vh;
+  }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 639px) {
+  .t3-intro h1 {
+    font-size: var(--text-page-title-mobile);
+    line-height: 1.1;
+  }
+  .t3-promise {
+    font-size: var(--text-base);
+  }
+  .t3-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .t3-actions .home-secondary {
+    justify-content: center;
+  }
+  .t3-heading {
+    margin-block-end: 1.5rem;
+  }
+  .t3-heading-row {
+    display: block;
+  }
+  .t3-heading-row > .home-text-link {
+    margin-block-start: 0.5rem;
+  }
+  .method-grid {
+    gap: 0.75rem;
+  }
+  .method-card {
+    padding: 1rem;
+  }
+  .method-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .method-card h3 {
+    margin-block-start: 0.75rem;
+    font-size: var(--text-base);
+  }
+  .method-card p {
+    display: none;
+  }
+  .method-count {
+    margin-block-start: 0.5rem;
+  }
+  /* Plan 14, T3 mobile: products in a sideways row with the next card visible. */
+  .pick-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-inline: calc(var(--page-gutter) * -1);
+    padding-inline: var(--page-gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--page-gutter);
+    overscroll-behavior-x: contain;
+  }
+  .pick-card {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+  .pick-image {
+    height: 8.5rem;
+  }
+  .t3-cta-panel {
+    padding: 1.5rem;
+  }
+  .t3-cta-actions,
+  .t3-cta-actions .home-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ta-s2,
+  .ta-s3,
+  .ta-s4,
+  .ta-row,
+  .ta-file,
+  .ta-wire,
+  .method-card,
+  .pick-card,
+  .pick-image img,
+  .t3-questions summary svg {
+    transition: none;
+  }
+  .ta-dots circle {
+    animation: none;
+  }
+  .method-card:hover {
+    transform: none;
+  }
+}

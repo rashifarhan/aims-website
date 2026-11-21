@@ -37,7 +37,8 @@ for (const locale of ["en", "ar"]) {
     await expect(page).toHaveURL(new RegExp(`${path}$`));
     await links.first().focus();
     await page.keyboard.press("Enter");
-    await expect(page).toHaveURL(/\/products\/time-attendance$/);
+    // Built solution pages replace the catalogue fallback (navigationHref).
+    await expect(page).toHaveURL(/\/solutions\/time-attendance$/);
   });
 
   test(`${locale} solutions hub keeps the shared grid and reduced-motion layout`, async ({ page }, testInfo) => {

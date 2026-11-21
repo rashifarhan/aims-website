@@ -618,5 +618,152 @@
     "copied": "Copied",
     "openAnyway": "Open anyway",
     "close": "Close"
+  },
+  "solutionTimeAttendance": {
+    "metaTitle": "Time attendance systems in the UAE",
+    "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
+    "eyebrow": "Solution",
+    "title": "Time attendance that feeds payroll.",
+    "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} terminals",
+    "story": {
+      "heading": "From a punch to a payroll file.",
+      "lead": "Four steps happen every time someone checks in.",
+      "label": "How time attendance works",
+      "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
+      "steps": [
+        {
+          "title": "Check in at the terminal",
+          "body": "A face, fingerprint or card verifies the person. The terminal stores the punch with the time."
+        },
+        {
+          "title": "Punches reach BioTime",
+          "body": "Over the network, Wi-Fi or 4G, depending on the model, punches arrive in BioTime on your server or in the cloud."
+        },
+        {
+          "title": "Timesheets build themselves",
+          "body": "BioTime matches punches to shifts and fills each person's day: in, out and hours worked."
+        },
+        {
+          "title": "Export for payroll",
+          "body": "Approved timesheets are exported as a file for your payroll or HR system."
+        }
+      ],
+      "terminal": "Terminal",
+      "checked": "Checked in",
+      "server": "BioTime",
+      "sheet": "Timesheet",
+      "name": "Name",
+      "in": "In",
+      "out": "Out",
+      "hours": "Hours",
+      "people": ["Staff 01", "Staff 02", "Staff 03", "Staff 04"],
+      "file": "Payroll export",
+      "sample": "Illustrative data"
+    },
+    "methods": {
+      "heading": "Choose how people check in.",
+      "lead": "Start with the method that suits your staff and site. Counts are terminals in the AIMS catalogue.",
+      "count": "{count} terminals",
+      "countOne": "1 terminal",
+      "items": {
+        "face": {
+          "title": "Face",
+          "body": "Touch-free and quick at shift change. Nothing to carry or lose."
+        },
+        "fingerprint": {
+          "title": "Fingerprint",
+          "body": "A low cost per person and no cards to manage."
+        },
+        "card": {
+          "title": "Card",
+          "body": "Familiar and fast. Pair it with face or fingerprint to stop buddy punching."
+        },
+        "mobile": {
+          "title": "Mobile & QR",
+          "body": "For teams that check in away from a fixed terminal."
+        }
+      }
+    },
+    "products": {
+      "heading": "Terminals to start with.",
+      "lead": "Six terminals that cover each method. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} terminals",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From site survey to first payroll.",
+      "lead": "Who does what, from your first message to a working system.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about your site",
+          "body": "Number of staff, entrances, shifts and any system you already use.",
+          "owner": "You"
+        },
+        {
+          "title": "Device plan and quote",
+          "body": "AIMS suggests terminals and software and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Terminals are mounted, powered and connected to your network.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "BioTime setup",
+          "body": "Shifts, departments and users are set up, and staff are enrolled on the terminals.",
+          "owner": "AIMS with your HR team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add staff, sites or devices.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that fits.",
+      "lead": "ZKTeco attendance software, from one office to many sites. Confirm which version fits your terminals with AIMS.",
+      "onPremise": "On your server",
+      "cloud": "In the cloud",
+      "mobile": "On staff phones",
+      "purposeOnPremise": "Attendance and workforce management, installed on your own server.",
+      "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
+      "purposeMobile": "Staff and managers see attendance and reports on a phone."
+    },
+    "faq": {
+      "heading": "Time attendance questions.",
+      "items": [
+        {
+          "q": "How many terminals do I need?",
+          "a": "Usually one per entrance staff use at shift change. Large teams may need more so queues stay short. AIMS will suggest a number from your headcount and entrances."
+        },
+        {
+          "q": "Face, fingerprint or card: which is best?",
+          "a": "Face is touch-free and fast. Fingerprint has a low cost per person. Cards are familiar but can be lent, so many sites pair them with face or fingerprint."
+        },
+        {
+          "q": "Can I use one system for several sites?",
+          "a": "Yes. BioTime Cloud, or BioTime on a server your sites can reach, collects punches from terminals in different locations."
+        },
+        {
+          "q": "Can terminals also open a door?",
+          "a": "Some models support access control as well as attendance. Check the model's specifications, or ask AIMS about the lock and exit button it needs."
+        },
+        {
+          "q": "Does it work with my payroll software?",
+          "a": "BioTime exports attendance reports as files. Share your payroll system with AIMS to confirm the format before you order."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan attendance for your site.",
+      "body": "Tell AIMS how many people and entrances you have. You'll get a device plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse terminals"
+    }
   }
 }

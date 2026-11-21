@@ -8,6 +8,7 @@ import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import "../globals.css";
+import "@/components/ui/actions.css";
 
 export function generateStaticParams() {
   return LOCALES.map((l) => ({ lang: l }));

@@ -244,3 +244,28 @@ changed on both sides). Follow-ups from combining them:
 - `html` has scroll padding equal to the sticky header plus 16px, so fields focused from the quote error summary land
   below the header, not under it (WCAG 2.4.11). This surfaced as an axe target-size failure on the quote page.
 - The quote page uses the shared `page-container` grid.
+
+### Time attendance solution (T3; Master Plan 12 #15, 14; Design Doc 8.3, 10)
+
+`/solutions/time-attendance` is the first T3 page. Sections follow the template order: title and promise with two
+actions → scroll explainer → choose-your-method guide → six terminals with Add to quote → installation and support
+process with owners → software that fits → questions → closing band.
+
+- **Explainer.** Design Doc 8.3 specifies "punch dots flow from a terminal into a timesheet that fills row by row
+  → compiles into a payroll file icon"; there is no prototype, so it is built to that spec. `StoryProgress` (a small
+  client leaf) sets the active step from an IntersectionObserver band across the middle of the viewport; CSS draws
+  each state with opacity, transform and `stroke-dashoffset` only. The story never pins or blocks scrolling (four
+  steps of about half a screen each). The punch loop runs only while the story is on screen. The server renders the
+  final state, which is what reduced motion and no-JS visitors get. Inactive steps change colour (ink-400, 5.19:1)
+  rather than fading, because 45% opacity failed contrast. Timesheet rows are labelled "Illustrative data".
+- **Method guide.** Counts are computed from the catalogue; "Mobile & QR" counts both phone credentials and links to
+  `?verify=mobile,qr`. The one-line guidance is general advice, not AIMS claims.
+- **Terminals.** Six models chosen so each method is covered by a terminal with structured specs (editorial choice,
+  `src/content/timeAttendance.ts`); card facts are verbatim, and Horus H1 says "Specs on request". On phones the row
+  scrolls sideways with the next card visible (Plan 14, T3 mobile), never automatically.
+- **Process.** Owners are named per step; no durations or warranty terms, because AIMS hasn't published any.
+- **Actions.** Both quote actions open `/quote?need=install`. Software cards still open AIMS's current pages until the
+  T6 pages exist.
+- **Shared styles.** Buttons and text links moved from the homepage CSS to `src/components/ui/actions.css`, loaded by
+  the layout. T3 classes use a `t3-` prefix because the hub's `solution-*` styles stay loaded after client
+  navigation.
