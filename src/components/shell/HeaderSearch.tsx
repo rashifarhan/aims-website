@@ -58,7 +58,7 @@ export function HeaderSearch({ action, placeholder, submitLabel, id, className =
       {shortcut && (
         <kbd
           aria-hidden="true"
-          className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 rounded-[5px] border border-line bg-paper px-1.5 font-mono text-[11px] text-ink-600 peer-focus:hidden"
+          className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 rounded-xs border border-line bg-paper px-1.5 font-mono text-kbd text-ink-600 peer-focus:hidden"
         >
           /
         </kbd>

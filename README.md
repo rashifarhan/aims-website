@@ -2,7 +2,8 @@
 
 Redesign of [aimsuae.me](https://aimsuae.me) for AIMS Security Systems Trading LLC, a ZKTeco distributor in Dubai.
 It is a hiring assignment: build AIMS a better site than its competitor's. The strategy, scope and design live in
-the planning PDFs (Master Plan v2.0 and Design Document v0.1). This repository is the build.
+[`docs/`](docs/README.md): Master Plan v2.0 and Design Document v0.1, plus the approved animation prototypes. Rules for
+working in this repo (for people and for Claude Code) are in [`CLAUDE.md`](CLAUDE.md).
 
 ## Quick start
 

@@ -66,7 +66,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
       >
         <div className="flex h-full flex-col">
           <div className="flex h-15 items-center justify-between border-b border-line px-4">
-            <span className="text-lg font-extrabold tracking-[0.04em]">
+            <span className="text-lg font-extrabold tracking-wordmark">
               AIMS<span className="text-lime">.</span>
             </span>
             <button
@@ -108,7 +108,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
                             <Link
                               href={l.href}
                               onClick={close}
-                              className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-[15px] text-ink-700 hover:bg-paper-2"
+                              className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-menu text-ink-700 hover:bg-paper-2"
                             >
                               {l.label}
                               {l.meta && <span className="text-xs text-ink-400 tabular-nums">{l.meta}</span>}
@@ -119,7 +119,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale }: Props) {
                           <Link
                             href={item.footer.href}
                             onClick={close}
-                            className="flex min-h-11 items-center px-2 text-[15px] font-semibold text-green-700"
+                            className="flex min-h-11 items-center px-2 text-menu font-semibold text-green-700"
                           >
                             {item.footer.label}
                           </Link>

@@ -46,7 +46,7 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
             {item.kind === "link" ? (
               <Link
                 href={item.href}
-                className="inline-flex h-10 items-center rounded-pill px-3 text-[14.5px] font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink"
+                className="inline-flex h-10 items-center rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink"
               >
                 {item.label}
               </Link>
@@ -60,7 +60,7 @@ export function DesktopNav({ items, label }: { items: NavItem[]; label: string }
                   aria-expanded={open === i}
                   aria-controls={`${baseId}-${i}`}
                   onClick={() => setOpen(open === i ? null : i)}
-                  className="inline-flex h-10 items-center gap-1 rounded-pill px-3 text-[14.5px] font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
+                  className="inline-flex h-10 items-center gap-1 rounded-pill px-3 text-small font-medium text-ink-700 transition-colors hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink"
                 >
                   {item.label}
                   <ChevronDownIcon

@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Time attendance systems — AIMS</title>
+<link rel="stylesheet" href="assets/ds.css">
+<style>
+.page{padding:28px 0 120px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:14px 0 22px}
+h1{font-size:40px;letter-spacing:-.03em;font-weight:680;line-height:1.08}
+.sub{color:var(--ink-600);margin-top:8px;font-size:16px;max-width:560px}
+.psearch{width:400px;height:50px;border:1px solid var(--line-strong);border-radius:var(--r-pill);display:flex;align-items:center;gap:10px;padding:0 18px;font-size:15px;color:var(--ink)}
+.psearch .q{font-family:Mono;font-size:14px}
+.psearch .caret{width:1.5px;height:20px;background:var(--g-700);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.layout{display:grid;grid-template-columns:232px 1fr;gap:36px}
+.facets h4{font-size:13px;font-weight:650;margin:22px 0 10px;color:var(--ink-700)}
+.facets h4:first-child{margin-top:4px}
+.fo{display:flex;align-items:center;gap:10px;font-size:14.5px;padding:6px 0;color:var(--ink-700)}
+.fo small{margin-left:auto;color:var(--ink-400);font-variant-numeric:tabular-nums}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.bar .count{font-size:14px;color:var(--ink-600)}.bar .count b{color:var(--ink)}
+.bar .sort{margin-left:auto;font-size:14px;color:var(--ink-600);display:flex;align-items:center;gap:6px}.bar .sort b{color:var(--ink);font-weight:600}
+.vt{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}.vt span{width:36px;height:34px;display:grid;place-items:center;color:var(--ink-400)}.vt span.on{background:var(--paper-2);color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:#fff;transition:box-shadow var(--t-base),border-color var(--t-base);position:relative}
+.card:hover{box-shadow:var(--sh-2)}
+.card.hov{box-shadow:var(--sh-2);border-color:#d3dad5}
+.card .im{height:200px;display:grid;place-items:center;background:#fff;border-bottom:1px solid var(--line)}
+.card .im img{max-height:178px;max-width:80%;transition:transform var(--t-slow) var(--ease)}
+.card.hov .im img{transform:scale(1.04)}
+.card .bd{padding:14px 16px 16px}
+.card .br{font-size:11.5px;font-weight:600;color:var(--ink-400);letter-spacing:.08em}
+.card h3{font-size:17px;font-weight:650;margin:3px 0 2px;letter-spacing:-.01em}
+.card .ty{font-size:13.5px;color:var(--ink-600)}
+.facts{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+.facts span{font-size:12.5px;background:var(--paper-2);border-radius:6px;padding:4px 8px;color:var(--ink-700);font-variant-numeric:tabular-nums}
+.act{display:flex;align-items:center;justify-content:space-between}
+.cmp{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-600)}
+.added{display:flex;align-items:center;gap:8px}
+.added .stepper{height:38px}.added .stepper button{width:36px;height:36px}
+.ok{font-size:12.5px;color:var(--g-700);font-weight:600;display:flex;align-items:center;gap:5px}
+.tray{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:var(--r-pill);padding:8px 8px 8px 20px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh-3);z-index:40;font-size:14px}
+.tray .th{display:flex}.tray .th img{width:34px;height:34px;border-radius:50%;background:#fff;object-fit:contain;border:2px solid var(--ink);margin-left:-8px}
+.tray .btn{height:40px;background:var(--lime);color:var(--ink)}
+.mfilters{display:none}
+@media (max-width:480px){
+  .page{padding:16px 0 110px}
+  .top{flex-direction:column;align-items:stretch;margin:10px 0 14px}
+  h1{font-size:30px}.sub{font-size:14.5px}
+  .psearch{width:100%;height:48px}
+  .layout{grid-template-columns:1fr}.facets{display:none}
+  .mfilters{display:flex;gap:8px;overflow:hidden;margin-bottom:14px}
+  .bar .sort,.vt,.bar .chip{display:none}
+  .grid{grid-template-columns:1fr;gap:10px}
+  .card{display:grid;grid-template-columns:108px 1fr;border-radius:14px}
+  .card .im{height:auto;border-bottom:0;border-right:1px solid var(--line);padding:8px}.card .im img{max-height:96px;max-width:90%}
+  .card .bd{padding:10px 12px 12px}.card h3{font-size:15.5px}.card .ty{font-size:12.5px}
+  .facts{margin:8px 0 10px}.facts span:nth-child(2){display:none}
+  .cmp span{display:none}
+  .tray{left:12px;right:12px;transform:none;bottom:14px;justify-content:space-between}
+}
+</style></head><body>
+<header class="hd"><div class="wrap">
+  <div class="wm"><b>AIMS<i>.</i></b><span>Security Systems</span></div>
+  <nav><a class="cur">Products</a><a>Solutions</a><a>Software</a><a>Services</a><a>About</a></nav>
+  <div class="hsearch"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search 160+ products<kbd>/</kbd></div>
+  <span class="lang">عربي</span><a class="qbtn">Quote <b>1</b></a><button class="mmenu" aria-label="Menu"><svg class="ico" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg></button>
+</div></header>
+<main class="page"><div class="wrap">
+  <div class="crumb"><a>Products</a><i>/</i>Time attendance</div>
+  <div class="top">
+    <div><h1>Time attendance systems</h1><p class="sub">Face, fingerprint and card terminals that record attendance and connect to BioTime.</p></div>
+    <div class="psearch" role="search"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span style="color:var(--ink-400)">Search within time attendance</span></div>
+  </div>
+  <div class="layout">
+    <aside class="facets" aria-label="Filters">
+      <h4>Verification</h4>
+      <div class="fo"><span class="cb on"></span>Fingerprint<small>7</small></div>
+      <div class="fo"><span class="cb"></span>Face<small>6</small></div>
+      <div class="fo"><span class="cb"></span>Card<small>6</small></div>
+      <div class="fo"><span class="cb"></span>QR / PIN<small>2</small></div>
+      <h4>Connectivity</h4>
+      <div class="fo"><span class="cb"></span>TCP/IP<small>5</small></div>
+      <div class="fo"><span class="cb"></span>Wi-Fi<small>1</small></div>
+      <h4>Environment</h4>
+      <div class="fo"><span class="cb"></span>All-weather / outdoor<small>1</small></div>
+      <h4>Brand</h4>
+      <div class="fo"><span class="cb"></span>ZKTeco<small>12</small></div>
+    </aside>
+    <section>
+      <div class="mfilters"><span class="chip"><svg class="ico" viewBox="0 0 24 24" style="width:16px"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters (1)</span><span class="chip on">Fingerprint <span class="x">×</span></span><span class="chip">Sort</span></div>
+      <div class="bar"><span class="count"><b>7</b> of 12 products</span><span class="chip on">Fingerprint <span class="x">×</span></span><span class="sort">Sort <b>Relevance</b><svg class="ico" viewBox="0 0 24 24" style="width:14px"><path d="m6 9 6 6 6-6"/></svg></span><div class="vt"><span class="on"><svg class="ico" viewBox="0 0 24 24" style="width:16px"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></span><span><svg class="ico" viewBox="0 0 24 24" style="width:16px"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></div></div>
+      <div class="grid">
+        <article class="card"><div class="im"><img src="assets/img/f18.jpg" alt="ZKTeco F18"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">F18</h3><div class="ty">Fingerprint access &amp; attendance terminal</div><div class="facts"><span>3,000 fingerprints</span><span>TCP/IP · RS485</span></div><div class="act"><div class="added"><div class="stepper"><button>−</button><output>12</output><button>+</button></div><span class="ok">✓ In quote</span></div><label class="cmp"><span class="cb on"></span><span>Compare</span></label></div></div></article>
+        <article class="card hov"><div class="im"><img src="assets/img/bio-pro-sa20.jpg" alt="BioPro SA20"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">BioPro SA20</h3><div class="ty">Fingerprint attendance terminal</div><div class="facts"><span>3,000 fingerprints</span><span>100,000 logs</span></div><div class="act"><button class="btn btn-p btn-sm">Add to quote</button><label class="cmp"><span class="cb on"></span><span>Compare</span></label></div></div></article>
+        <article class="card"><div class="im"><img src="assets/img/biopro-mh30.jpg" alt="BioPro MH30"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">BioPro MH30</h3><div class="ty">Face, fingerprint &amp; card terminal</div><div class="facts"><span>3,000 faces</span><span>5,000 fingerprints</span></div><div class="act"><button class="btn btn-s btn-sm">Add to quote</button><label class="cmp"><span class="cb"></span><span>Compare</span></label></div></div></article>
+        <article class="card"><div class="im"><img src="assets/img/ua760.jpg" alt="UA760"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">UA760</h3><div class="ty">Fingerprint attendance, Wi-Fi</div><div class="facts"><span>3,000 users</span><span>TCP/IP · Wi-Fi</span></div><div class="act"><button class="btn btn-s btn-sm">Add to quote</button><label class="cmp"><span class="cb"></span><span>Compare</span></label></div></div></article>
+        <article class="card"><div class="im"><img src="assets/img/zk-x990-c.jpg" alt="X990-C"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">X990-C</h3><div class="ty">Fingerprint attendance terminal</div><div class="facts"><span>3,000 templates</span><span>100,000 logs</span></div><div class="act"><button class="btn btn-s btn-sm">Add to quote</button><label class="cmp"><span class="cb"></span><span>Compare</span></label></div></div></article>
+        <article class="card"><div class="im"><img src="assets/img/g3.jpg" alt="G3"></div><div class="bd"><div class="br">ZKTECO</div><h3 class="mono">G3</h3><div class="ty">Multi-biometric attendance &amp; access</div><div class="facts"><span>Face · fingerprint · card</span><span>Lock relay</span></div><div class="act"><button class="btn btn-s btn-sm">Add to quote</button><label class="cmp"><span class="cb"></span><span>Compare</span></label></div></div></article>
+      </div>
+    </section>
+  </div>
+</div></main>
+<div class="tray" role="region" aria-label="Compare"><div class="th"><img src="assets/img/f18.jpg" alt=""><img src="assets/img/bio-pro-sa20.jpg" alt=""></div><span><b>2</b> selected</span><a class="btn btn-sm">Compare</a></div>
+</body></html>

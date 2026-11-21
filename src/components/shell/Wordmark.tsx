@@ -8,7 +8,7 @@ export function Wordmark({ href, descriptor }: { href: string; descriptor?: stri
       className="flex shrink-0 items-baseline gap-2 whitespace-nowrap"
       aria-label="AIMS Security Systems, home"
     >
-      <span className="text-[22px] font-extrabold tracking-[0.04em] text-ink" dir="ltr">
+      <span className="text-wordmark font-extrabold tracking-wordmark text-ink" dir="ltr">
         AIMS<span className="text-lime">.</span>
       </span>
       {descriptor && <span className="hidden text-xs font-medium text-ink-600 xl:inline">{descriptor}</span>}

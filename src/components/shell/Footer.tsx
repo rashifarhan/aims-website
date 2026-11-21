@@ -71,9 +71,7 @@ export async function Footer() {
               {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
             </p>
 
-            <h2 className="mt-8 text-xs font-semibold tracking-[0.08em] text-ink-600 uppercase">
-              {t.footer.locations}
-            </h2>
+            <h2 className="mt-8 text-sm font-semibold text-ink">{t.footer.locations}</h2>
             <ul className="mt-3 grid grid-cols-[16px_auto_1fr] items-center gap-x-3 gap-y-2.5 text-sm">
               {phones.map((p) => (
                 <li key={p.line.tel} className="col-span-3 grid grid-cols-subgrid items-center">
@@ -129,7 +127,7 @@ export async function Footer() {
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
             {columns.map((c) => (
               <nav key={c.title} aria-label={c.title}>
-                <h2 className="text-xs font-semibold tracking-[0.08em] text-ink-600 uppercase">{c.title}</h2>
+                <h2 className="text-sm font-semibold text-ink">{c.title}</h2>
                 <ul className="mt-3 space-y-1">
                   {c.links.map((l) => (
                     <li key={l.href}>
@@ -148,7 +146,7 @@ export async function Footer() {
         </div>
 
         <div className="mt-12 border-t border-line pt-6">
-          <h2 className="text-xs font-semibold tracking-[0.08em] text-ink-600 uppercase">{t.footer.popular}</h2>
+          <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
