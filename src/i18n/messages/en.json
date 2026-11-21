@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "siteName": "AIMS Security Systems",
+    "titleTemplate": "%s | AIMS Security Systems",
+    "defaultTitle": "AIMS Security Systems | Access control & time attendance in the UAE",
+    "defaultDescription": "ZKTeco access control, time attendance, entrance control and POS systems, supplied and installed across the UAE by AIMS Security Systems Trading LLC."
+  },
+  "nav": {
+    "products": "Products",
+    "solutions": "Solutions",
+    "software": "Software",
+    "services": "Services",
+    "locations": "Locations",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search products",
+    "quote": "Quote",
+    "menu": "Menu",
+    "close": "Close",
+    "switchLanguage": "العربية",
+    "skipToContent": "Skip to content"
+  },
+  "common": {
+    "addToQuote": "Add to quote",
+    "inQuote": "In your quote",
+    "viewDatasheet": "Datasheet",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "partner": "Authorized ZKTeco Distributor · UAE"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page may have moved. Try searching for a model code, or browse all products.",
+    "cta": "Browse products"
+  }
+}

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/*
+ * AIMS design tokens (Design Document v0.1, ch. 4–8).
+ * Contrast ratios are against white. Colours marked "decorative" must not
+ * carry text or the only signal of a state.
+ */
+@theme {
+  /* Brand green */
+  --color-green-50: #eef6f0;
+  --color-green-100: #d9ecdf;
+  --color-green-700: #26703a; /* primary · 6.07:1 */
+  --color-green-800: #1b5e20; /* primary hover / pressed */
+  --color-lime: #78be20; /* decorative only · 2.29:1 (wordmark full stop, signal pulses) */
+
+  /* Ink (text) */
+  --color-ink: #0e1512;
+  --color-ink-700: #26302b; /* 13.64:1 */
+  --color-ink-600: #4a5550; /* 7.76:1 · secondary text */
+  --color-ink-400: #666f6a; /* 5.19:1 · captions, hints */
+  --color-ink-300: #7a837e; /* decorative only */
+
+  /* Lines and surfaces */
+  --color-line: #e3e7e3; /* dividers */
+  --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
+  --color-paper: #ffffff;
+  --color-paper-2: #f6f8f5;
+  --color-paper-3: #eef1ee;
+
+  /* Status */
+  --color-error: #b42318;
+  --color-warn: #8a5300;
+  --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
+
+  /* Type */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-arabic: var(--font-plex-arabic), var(--font-inter), sans-serif;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
+  --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
+  --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
+
+  /* Motion */
+  --ease-aims: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+
+  /* Layout */
+  --container-page: 1240px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :lang(ar) body {
+    font-family: var(--font-arabic);
+  }
+
+  /* Visible focus everywhere (Design Doc ch. 14) */
+  :focus-visible {
+    outline: 2px solid var(--color-green-700);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-green-100);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
