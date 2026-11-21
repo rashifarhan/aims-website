@@ -11,3 +11,9 @@ performance-results
 
 # vendored agent skills: third-party files, never reformatted (the design skill forbids editing its kit)
 .agents
+.claude/skills
+.claude/agents
+.github/skills
+.github/agents
+.github/hooks
+.codex

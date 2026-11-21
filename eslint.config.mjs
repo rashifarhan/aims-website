@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Vendored agent skills: third-party scripts, not part of the app.
     ".agents/**",
+    ".claude/**",
+    ".github/skills/**",
+    ".github/agents/**",
   ]),
 ]);
 

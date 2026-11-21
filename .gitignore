@@ -53,3 +53,6 @@ performance-results
 # design skill (design-taste-frontend) output; waivers are reviewed, so they stay tracked
 /.taste-skill/*
 !/.taste-skill/waivers.json
+
+# personal Claude Code settings (impeccable writes its hooks here); never committed
+.claude/settings.local.json
