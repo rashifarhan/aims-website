@@ -29,8 +29,8 @@
     "closeMenu": "إغلاق القائمة",
     "searchPlaceholder": "ابحث في أكثر من 160 منتجًا",
     "searchSubmit": "بحث",
-    "quoteCount": "قائمة عرض السعر، {count} عناصر",
-    "contactUs": "تواصل معنا"
+    "contactUs": "تواصل معنا",
+    "quoteItems": "عناصر"
   },
   "common": {
     "addToQuote": "أضف إلى عرض السعر",
@@ -39,7 +39,10 @@
     "whatsapp": "واتساب",
     "call": "اتصال",
     "partner": "متخصصون في ZKTeco في دبي وأبوظبي",
-    "partnerConfirmed": "موزع معتمد لـ ZKTeco · الإمارات"
+    "partnerConfirmed": "موزع معتمد لـ ZKTeco · الإمارات",
+    "home": "الرئيسية",
+    "breadcrumb": "مسار التنقل",
+    "externalSite": "يفتح aimsuae.me"
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
@@ -115,5 +118,120 @@
     "blog": "المدونة",
     "aboutShowrooms": "من نحن وصالات العرض",
     "locationsHub": "المواقع"
+  },
+  "catalogue": {
+    "allTitle": "جميع المنتجات",
+    "allLead": "ابحث في {count} منتجًا برقم الطراز أو صفِّ حسب الفئة والميزات.",
+    "familyLead": "{count} منتجًا. ابحث برقم الطراز أو صفِّ حسب الميزات.",
+    "searchLabel": "ابحث في المنتجات",
+    "searchPlaceholder": "رقم الطراز أو المنتج، مثل F18",
+    "resultsCount": "{count} منتجًا",
+    "resultsOne": "منتج واحد",
+    "resultsHeading": "النتائج",
+    "filters": "التصفية",
+    "filtersCount": "التصفية ({count})",
+    "showResults": "عرض {count} منتجًا",
+    "clearAll": "مسح الكل",
+    "closeFilters": "إغلاق التصفية",
+    "facets": {
+      "family": "الفئة",
+      "type": "النوع",
+      "brand": "العلامة التجارية",
+      "verify": "طريقة التحقق",
+      "conn": "الاتصال",
+      "outdoor": "مناسب للخارج"
+    },
+    "types": {
+      "portable": "محمول",
+      "panel": "لوحات التحكم",
+      "pedestrian": "البوابات الدوارة",
+      "parking": "حواجز المواقف",
+      "smart": "أقفال ذكية",
+      "hotel": "أقفال فندقية",
+      "windows": "نقاط بيع ويندوز",
+      "android": "نقاط بيع أندرويد"
+    },
+    "verify": {
+      "face": "الوجه",
+      "palm": "راحة اليد",
+      "fingerprint": "البصمة",
+      "card": "البطاقة",
+      "qr": "رمز QR",
+      "pin": "الرقم السري",
+      "mobile": "بطاقة الجوال"
+    },
+    "conn": {
+      "tcp-ip": "TCP/IP (شبكة)",
+      "wifi": "Wi-Fi",
+      "4g": "4G",
+      "poe": "PoE",
+      "rs485": "RS485",
+      "usb": "USB",
+      "wiegand": "Wiegand",
+      "bluetooth": "بلوتوث"
+    },
+    "brands": {
+      "zkteco": "ZKTeco",
+      "alpha": "Alpha"
+    },
+    "noResults": "لا توجد منتجات مطابقة.",
+    "noResultsFor": "لا توجد منتجات مطابقة لـ «{q}».",
+    "clearFilters": "مسح التصفية",
+    "clearSearch": "مسح البحث",
+    "askAbout": "اسألنا عن «{q}»",
+    "askAdded": "أُضيف إلى عرض السعر كطلب. سترد AIMS بشأن هذا الطراز.",
+    "compare": "مقارنة",
+    "compareRemove": "إزالة {name} من المقارنة",
+    "compareTray": "مقارنة المنتجات",
+    "compareCount": "{count} من 3 محددة",
+    "compareCta": "قارن {count}",
+    "compareNeedTwo": "اختر منتجًا آخر للمقارنة",
+    "compareClear": "مسح",
+    "compareMax": "يمكنك مقارنة 3 منتجات كحد أقصى.",
+    "specsOnRequest": "المواصفات عند الطلب",
+    "add": "أضف إلى عرض السعر",
+    "inQuote": "في عرض السعر",
+    "addedAnnounce": "أُضيف {name} إلى عرض السعر، {qty} وحدات",
+    "qtyAnnounce": "{name}: {qty} وحدات",
+    "qty": "الكمية",
+    "decrease": "إنقاص الكمية",
+    "increase": "زيادة الكمية",
+    "remove": "إزالة من عرض السعر",
+    "viewQuote": "مراجعة طلب عرض السعر"
+  },
+  "product": {
+    "keySpecs": "المواصفات الرئيسية",
+    "specs": "المواصفات",
+    "overview": "نظرة عامة",
+    "downloads": "التنزيلات",
+    "datasheet": "ورقة المواصفات",
+    "datasheetNote": "ملف PDF على aimsuae.me",
+    "noDatasheet": "لا توجد ورقة مواصفات منشورة لهذا الطراز بعد. اطلبها وسنرسلها.",
+    "noSpecs": "لم تنشر AIMS مواصفات مفصلة لهذا الطراز بعد.",
+    "askSpecs": "اطلب المواصفات",
+    "askWhatsapp": "اسأل عبر واتساب",
+    "whatsappText": "مرحبًا AIMS، أنا مهتم بـ {name}.",
+    "needInstall": "هل تحتاج إلى التركيب؟",
+    "needInstallBody": "توفّر AIMS المنتجات وتركّبها في جميع أنحاء الإمارات. أضف المنتجات ثم اختر التوريد والتركيب في طلب عرض السعر.",
+    "fittedWith": "يُركّب عادةً مع",
+    "fittedWithNote": "تذكر ورقة مواصفاته القفل وزر الخروج ضمن ملحقات الباب التي يمكنه تشغيلها.",
+    "compareSimilar": "قارن مع طرازات مشابهة",
+    "inFamily": "المزيد في {family}",
+    "model": "الطراز",
+    "brand": "العلامة التجارية",
+    "notListed": "غير مذكور من AIMS"
+  },
+  "compare": {
+    "title": "مقارنة المنتجات",
+    "lead": "تظهر أولًا الصفوف التي تذكرها جميع المنتجات. الصفوف المختلفة مُعلَّمة.",
+    "back": "العودة إلى النتائج",
+    "empty": "اختر منتجين أو ثلاثة للمقارنة.",
+    "browse": "تصفح المنتجات",
+    "differs": "مختلف",
+    "spec": "المواصفة",
+    "remove": "إزالة",
+    "onlyDiff": "عرض الاختلافات فقط",
+    "showAll": "عرض كل الصفوف",
+    "notFound": "بعض المنتجات في هذا الرابط لم تعد موجودة وتم تخطيها."
   }
 }

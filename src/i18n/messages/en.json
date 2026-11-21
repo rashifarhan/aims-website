@@ -29,8 +29,8 @@
     "closeMenu": "Close menu",
     "searchPlaceholder": "Search 160+ products",
     "searchSubmit": "Search",
-    "quoteCount": "Quote list, {count} items",
-    "contactUs": "Contact us"
+    "contactUs": "Contact us",
+    "quoteItems": "items"
   },
   "common": {
     "addToQuote": "Add to quote",
@@ -39,7 +39,10 @@
     "whatsapp": "WhatsApp",
     "call": "Call",
     "partner": "ZKTeco specialists in Dubai & Abu Dhabi",
-    "partnerConfirmed": "Authorized ZKTeco Distributor · UAE"
+    "partnerConfirmed": "Authorized ZKTeco Distributor · UAE",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "externalSite": "opens aimsuae.me"
   },
   "notFound": {
     "title": "Page not found",
@@ -115,5 +118,120 @@
     "blog": "Blog",
     "aboutShowrooms": "About & showrooms",
     "locationsHub": "Locations"
+  },
+  "catalogue": {
+    "allTitle": "All products",
+    "allLead": "Search {count} products by model code, or narrow by family and features.",
+    "familyLead": "{count} products. Search by model code or filter by features.",
+    "searchLabel": "Search products",
+    "searchPlaceholder": "Model code or product, e.g. F18",
+    "resultsCount": "{count} products",
+    "resultsOne": "1 product",
+    "resultsHeading": "Results",
+    "filters": "Filters",
+    "filtersCount": "Filters ({count})",
+    "showResults": "Show {count} products",
+    "clearAll": "Clear all",
+    "closeFilters": "Close filters",
+    "facets": {
+      "family": "Family",
+      "type": "Type",
+      "brand": "Brand",
+      "verify": "Verification",
+      "conn": "Connectivity",
+      "outdoor": "Outdoor rated"
+    },
+    "types": {
+      "portable": "Portable",
+      "panel": "Control panels",
+      "pedestrian": "Turnstiles & gates",
+      "parking": "Parking barriers",
+      "smart": "Smart locks",
+      "hotel": "Hotel locks",
+      "windows": "Windows POS",
+      "android": "Android POS"
+    },
+    "verify": {
+      "face": "Face",
+      "palm": "Palm",
+      "fingerprint": "Fingerprint",
+      "card": "Card",
+      "qr": "QR code",
+      "pin": "PIN / password",
+      "mobile": "Mobile credential"
+    },
+    "conn": {
+      "tcp-ip": "TCP/IP (network)",
+      "wifi": "Wi-Fi",
+      "4g": "4G",
+      "poe": "PoE",
+      "rs485": "RS485",
+      "usb": "USB",
+      "wiegand": "Wiegand",
+      "bluetooth": "Bluetooth"
+    },
+    "brands": {
+      "zkteco": "ZKTeco",
+      "alpha": "Alpha"
+    },
+    "noResults": "No products match.",
+    "noResultsFor": "No products match “{q}”.",
+    "clearFilters": "Clear filters",
+    "clearSearch": "Clear search",
+    "askAbout": "Ask us about “{q}”",
+    "askAdded": "Added to your quote as a request. AIMS will reply about this model.",
+    "compare": "Compare",
+    "compareRemove": "Remove {name} from compare",
+    "compareTray": "Compare products",
+    "compareCount": "{count} of 3 selected",
+    "compareCta": "Compare {count}",
+    "compareNeedTwo": "Select one more to compare",
+    "compareClear": "Clear",
+    "compareMax": "You can compare up to 3 products.",
+    "specsOnRequest": "Specs on request",
+    "add": "Add to quote",
+    "inQuote": "In quote",
+    "addedAnnounce": "{name} added to quote, {qty} units",
+    "qtyAnnounce": "{name}: {qty} units",
+    "qty": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "remove": "Remove from quote",
+    "viewQuote": "Review quote request"
+  },
+  "product": {
+    "keySpecs": "Key specifications",
+    "specs": "Specifications",
+    "overview": "Overview",
+    "downloads": "Downloads",
+    "datasheet": "Datasheet",
+    "datasheetNote": "PDF on aimsuae.me",
+    "noDatasheet": "No datasheet is published for this model yet. Ask us and we'll send it.",
+    "noSpecs": "AIMS hasn't published structured specifications for this model yet.",
+    "askSpecs": "Ask for the specifications",
+    "askWhatsapp": "Ask on WhatsApp",
+    "whatsappText": "Hi AIMS, I'm interested in the {name}.",
+    "needInstall": "Need it installed?",
+    "needInstallBody": "AIMS supplies and installs across the UAE. Add the products, then choose supply and installation on your quote request.",
+    "fittedWith": "Often fitted with",
+    "fittedWithNote": "Its spec sheet lists a lock and exit button among the door hardware it can drive.",
+    "compareSimilar": "Compare with similar models",
+    "inFamily": "More in {family}",
+    "model": "Model",
+    "brand": "Brand",
+    "notListed": "Not listed by AIMS"
+  },
+  "compare": {
+    "title": "Compare products",
+    "lead": "Rows every product lists come first. Rows that differ are marked.",
+    "back": "Back to results",
+    "empty": "Choose 2 or 3 products to compare.",
+    "browse": "Browse products",
+    "differs": "Differs",
+    "spec": "Specification",
+    "remove": "Remove",
+    "onlyDiff": "Show differences only",
+    "showAll": "Show all rows",
+    "notFound": "Some products in this link no longer exist and were skipped."
   }
 }

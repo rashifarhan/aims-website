@@ -199,7 +199,7 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
 - Comments explain **why**, not what. Reference the doc rule you are implementing, for example
   `// Design Doc 6: no floating button in the first screen`.
 - Don't use the `<a>` element for internal links (use `next/link`). Don't use `dangerouslySetInnerHTML`; content
-  arrives as structured blocks.
+  arrives as structured blocks. The one exception is `src/components/JsonLd.tsx`, which escapes `<`.
 - Errors are handled where they can be handled. User-facing failures show a helpful message and a way forward.
 - Don't hand-edit generated files (`content/*.json`, `next-env.d.ts`, `.next/`).
 

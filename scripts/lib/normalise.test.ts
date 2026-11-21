@@ -85,6 +85,9 @@ describe("identity", () => {
     expect(displayName("F18", "zkteco")).toBe("ZKTeco F18");
     expect(displayName("ZKTeco F18", "zkteco")).toBe("ZKTeco F18");
     expect(displayName("AL-M280", "alpha")).toBe("Alpha AL-M280");
+    expect(displayName("Barrier Gates ZKTeco BGM 1030", "zkteco")).toBe("ZKTeco Barrier Gates BGM 1030");
+    expect(deriveModel("ALF B21 - Exit Button")).toBe("ALF B21");
+    expect(deriveModel("ZKTeco Inbio Pro 460 - Package B")).toBe("Inbio Pro 460 Package B");
   });
 
   it("recognises slug variants of the same product", () => {

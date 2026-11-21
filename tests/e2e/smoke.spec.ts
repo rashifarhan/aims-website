@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { builtRoutes } from "../../src/lib/routes";
 
 // The home page is always checked; every route flipped to "built" joins it.
-const pages = [...new Set(["/", "/ar", ...builtRoutes().map((r) => r.path)])];
+const pages = [...new Set(["/", "/ar", "/ar/products", "/ar/product/f18", ...builtRoutes().map((r) => r.path)])];
 
 test.describe("pages", () => {
   for (const path of pages) {

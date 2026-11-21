@@ -71,13 +71,44 @@ export function categoryRedirectTarget(oldSlug: string): string {
   if (oldSlug === "zk-teco") return "/products?brand=zkteco";
   if (oldSlug === "alpha") return "/products/door-hardware?brand=alpha";
   if (oldSlug === "zk-teco-accessories") return "/products/door-hardware?brand=zkteco";
-  if (oldSlug === "visible-light") return "/products/access-control?method=face";
+  if (oldSlug === "visible-light") return "/products/access-control?verify=face";
   if (oldSlug === "portable-time-attendance") return "/products/time-attendance?type=portable";
   if (oldSlug === "parking-management") return "/products/entrance-control?type=parking";
   if (oldSlug === "hotel-door-lock-system") return "/products/door-locks?type=hotel";
   const family = CATEGORY_TO_FAMILY[oldSlug];
   return family ? `/products/${family}` : "/products";
 }
+
+/**
+ * Product types, taken only from AIMS's own category membership (no
+ * guessing from names). Used as a filter within a family.
+ */
+export const PRODUCT_TYPES = [
+  "portable",
+  "panel",
+  "pedestrian",
+  "parking",
+  "smart",
+  "hotel",
+  "windows",
+  "android",
+] as const;
+export type ProductType = (typeof PRODUCT_TYPES)[number];
+
+export const CATEGORY_TO_TYPE: Partial<Record<string, ProductType>> = {
+  "portable-time-attendance": "portable",
+  "control-pannel": "panel",
+  "entrance-control": "pedestrian",
+  "parking-management": "parking",
+  "smart-lock": "smart",
+  "hotel-door-lock-system": "hotel",
+  "pos-windows": "windows",
+  android: "android",
+};
+
+export const typesFor = (sourceCategories: string[]): ProductType[] => [
+  ...new Set(sourceCategories.map((c) => CATEGORY_TO_TYPE[c]).filter((t): t is ProductType => !!t)),
+];
 
 export const SOFTWARE_TYPES = ["time-attendance", "access-control", "security-platform"] as const;
 export type SoftwareType = (typeof SOFTWARE_TYPES)[number];

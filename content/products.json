@@ -3,7 +3,7 @@
     "slug": "acm-100s",
     "name": "Alpha ACM 100S - Alpha Electric Drop bolt Lock",
     "brand": "alpha",
-    "model": "ACM 100S - Alpha Electric Drop bolt Lock",
+    "model": "ACM 100S",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -94,7 +94,7 @@
     "slug": "acm-132",
     "name": "Alpha ACM 132 - Alpha Electric Strike Lock",
     "brand": "alpha",
-    "model": "ACM 132 - Alpha Electric Strike Lock",
+    "model": "ACM 132",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -220,7 +220,7 @@
     "slug": "al-280d-led-electric-magnetic-door-lock-model",
     "name": "Alpha AL 280D(LED) - Electric Magnetic door Lock",
     "brand": "alpha",
-    "model": "AL 280D(LED) - Electric Magnetic door Lock",
+    "model": "AL 280D(LED)",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -342,7 +342,7 @@
     "slug": "al-m180",
     "name": "Alpha AL M180 - Single Door Magnetic Lock",
     "brand": "alpha",
-    "model": "AL M180 - Single Door Magnetic Lock",
+    "model": "AL M180",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -484,7 +484,7 @@
     "slug": "al-m280",
     "name": "Alpha AL M280 - Electric Magnetic Door Lock",
     "brand": "alpha",
-    "model": "AL M280 - Electric Magnetic Door Lock",
+    "model": "AL M280",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -578,7 +578,7 @@
     "slug": "alf-b21-exit-button",
     "name": "Alpha ALF B21 - Exit Button",
     "brand": "alpha",
-    "model": "ALF B21 - Exit Button",
+    "model": "ALF B21",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -705,7 +705,7 @@
     "slug": "alf-b31-alpha-emergency-break-glass-green",
     "name": "Alpha ALF B31 - Alpha Emergency Break Glass (Green)",
     "brand": "alpha",
-    "model": "ALF B31 - Alpha Emergency Break Glass (Green)",
+    "model": "ALF B31",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -869,7 +869,7 @@
     "slug": "alf-ds24",
     "name": "Alpha ALF DS24 - Automatic Sliding Door Sensor",
     "brand": "alpha",
-    "model": "ALF DS24 - Automatic Sliding Door Sensor",
+    "model": "ALF DS24",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -953,7 +953,7 @@
     "slug": "alf-ks21",
     "name": "Alpha ALF KS21 - Alpha Door Release Key switch",
     "brand": "alpha",
-    "model": "ALF KS21 - Alpha Door Release Key switch",
+    "model": "ALF KS21",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -1146,7 +1146,7 @@
     "slug": "alf-m560-electromagnetic-locks",
     "name": "Alpha ALF M560 - Electromagnetic locks",
     "brand": "alpha",
-    "model": "ALF M560 - Electromagnetic locks",
+    "model": "ALF M560",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -1184,7 +1184,7 @@
     "slug": "alf-sh10w-siren-horn",
     "name": "Alpha ALF SH10W - Siren Horn",
     "brand": "alpha",
-    "model": "ALF SH10W - Siren Horn",
+    "model": "ALF SH10W",
     "family": "door-hardware",
     "sourceCategories": [
       "alpha",
@@ -1394,9 +1394,9 @@
   },
   {
     "slug": "barrier-gates-zkteco-bgm-1030",
-    "name": "ZKTeco Barrier Gates ZKTeco BGM 1030",
+    "name": "ZKTeco Barrier Gates BGM 1030",
     "brand": "zkteco",
-    "model": "Barrier Gates ZKTeco BGM 1030",
+    "model": "Barrier Gates BGM 1030",
     "family": "entrance-control",
     "sourceCategories": [
       "parking-management"
@@ -1480,7 +1480,7 @@
         "src": "/images/products/barrier-gates-zkteco-bgm-1030.webp",
         "width": 1000,
         "height": 1000,
-        "alt": "ZKTeco Barrier Gates ZKTeco BGM 1030",
+        "alt": "ZKTeco Barrier Gates BGM 1030",
         "source": "https://aimsuae.me/laravel-test/public/uploads/product_images/3xer0f9wbGy2zRC7YthB1vgybitkudTFJzwWGhah.png"
       }
     ],
@@ -6392,7 +6392,7 @@
     "slug": "horus-e1-portable",
     "name": "ZKTeco Horus E1 - Portable",
     "brand": "zkteco",
-    "model": "Horus E1 - Portable",
+    "model": "Horus E1",
     "family": "time-attendance",
     "sourceCategories": [
       "portable-time-attendance",
@@ -8518,7 +8518,7 @@
     "slug": "inbio-pro-460-package-b",
     "name": "ZKTeco Inbio Pro 460 - Package B",
     "brand": "zkteco",
-    "model": "Inbio Pro 460 - Package B",
+    "model": "Inbio Pro 460 Package B",
     "family": "access-control",
     "sourceCategories": [
       "control-pannel",
@@ -10555,7 +10555,7 @@
     "slug": "omniac30-all-weather-outdoor-multi-tech-smart-standalone-terminal",
     "name": "ZKTeco OmniAC30 – All Weather Outdoor Multi-tech Smart Standalone Terminal",
     "brand": "zkteco",
-    "model": "OmniAC30 – All Weather Outdoor Multi-tech Smart Standalone Terminal",
+    "model": "OmniAC30",
     "family": "time-attendance",
     "sourceCategories": [
       "time-attendance",

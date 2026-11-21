@@ -75,7 +75,7 @@ export async function Header() {
         <QuoteLink
           href={href("/quote")}
           label={t.nav.quote}
-          countLabel={t.nav.quoteCount}
+          itemsLabel={t.nav.quoteItems}
           className="ms-auto lg:ms-0"
         />
         <Suspense fallback={null}>

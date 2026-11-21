@@ -19,5 +19,5 @@ export const SOFTWARE_LINKS = [
 ] as const;
 
 /** Model codes people search for; each opens a filtered listing. */
-export const POPULAR_SEARCHES = ["F18", "SpeedFace-V5L", "BioTime", "EM lock", "Turnstile", "Hotel lock"] as const;
+export const POPULAR_SEARCHES = ["F18", "SpeedFace-V5L", "Fingerprint", "EM lock", "Turnstile", "Hotel lock"] as const;
 export const searchPath = (q: string) => `/products?q=${encodeURIComponent(q)}`;

@@ -36,3 +36,13 @@ describe("imported content", () => {
     expect(missing).toEqual([]);
   });
 });
+
+describe("product page titles (AT-12)", () => {
+  it("are unique and fit 60 characters with the site suffix", async () => {
+    const { products: live, uniqueName } = await import("./catalogue");
+    const { fitTitle, TITLE_SUFFIX_LENGTH, MAX_TITLE } = await import("@/lib/seo");
+    const titles = live().map((p) => fitTitle(uniqueName(p)));
+    expect(new Set(titles).size).toBe(titles.length);
+    expect(titles.filter((t) => t.length + TITLE_SUFFIX_LENGTH > MAX_TITLE)).toEqual([]);
+  });
+});

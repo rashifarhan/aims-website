@@ -15,7 +15,7 @@ test.describe("header and menus", () => {
 
   test("desktop: '/' focuses search and submitting goes to the listing", async ({ page, isMobile }) => {
     test.skip(isMobile, "keyboard shortcut is desktop only");
-    await page.goto("/", { waitUntil: "networkidle" }); // shortcut is attached on hydration
+    await page.goto("/"); // shortcut attaches on hydration; toPass retries until then
     const input = page.locator("#header-search");
     await expect(async () => {
       await page.keyboard.press("/");

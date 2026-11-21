@@ -76,6 +76,28 @@ serves.
 in the commit that adds its page. From then on the e2e suite requires it to return 200, have one `h1`, allow zoom,
 and pass axe with zero violations.
 
+### Catalogue decisions (after the design review)
+
+1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with
+   the full catalogue imported, that link-out would undercut the demo. The six plan products are the hand-reviewed
+   ones in `src/lib/routes.ts`.
+2. **Card facts are two verbatim spec rows chosen per family** (`src/content/facts.ts`), never inferred. Products
+   without structured specs say "Specs on request".
+3. **Compare is its own page** (`/products/compare?items=…&from=…`), so Back returns to the same results. On phones
+   rows stack (label above values) with no sideways scroll; missing values read "Not listed by AIMS"; ~18 trade
+   terms get a plain-language hint (`src/content/glossary.ts`). "3000 Templates" and "3,000" don't count as a
+   difference.
+4. **"Often fitted with"** appears only when a product's own spec sheet lists a lock and exit button under "Access
+   control interface".
+5. **Listing state** lives in React and is mirrored to the URL with debounced `history.replaceState` (no server
+   round trip, instant checkboxes); the URL wins when it changes from outside (Back, header search).
+6. **Listings for all six families** exist (the plan designed three) because the Products menu links each family.
+7. The filter parameter for verification method is `verify=` (Design Doc T4); the old `/category/visible-light`
+   redirect uses it.
+
+Still to build in the catalogue: header search suggestions (AT-03 currently goes through the listing), and the
+quote page itself (the store, add-to-quote and the header count are done).
+
 ## Content import
 
 ```bash

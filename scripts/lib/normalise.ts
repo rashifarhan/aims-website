@@ -171,12 +171,23 @@ export function deriveBrand(name: string, categories: string[]): "zkteco" | "alp
 
 /** "ZKTeco SpeedFace-V5L [QR]" → "SpeedFace-V5L [QR]"; "Alpha AL-M280" → "AL-M280". */
 export function deriveModel(name: string): string {
-  return cleanText(name.replace(/^(zkteco|zk teco|alpha)\s+/i, ""));
+  return cleanText(
+    stripInnerBrand(name)
+      .replace(/^(zkteco|zk teco|alpha)\s+/i, "")
+      // "ALF B21 - Exit Button" → "ALF B21"; keep "- Package B" (a different product)
+      .replace(/\s+[-–]\s+(?!.*\b(package|kit|bundle)\b).*$/i, "")
+      .replace(/\s+[-–]\s+/, " "),
+  );
+}
+
+/** "Barrier Gates ZKTeco BGM 1030" → "Barrier Gates BGM 1030" (brand repeated mid-name). */
+function stripInnerBrand(name: string): string {
+  return name.replace(/(\S)\s+(zkteco|zk teco)\s+/gi, "$1 ");
 }
 
 /** Displayed name: AIMS often omits the brand, so add it once for ZKTeco devices. */
 export function displayName(name: string, brand: "zkteco" | "alpha" | "other"): string {
-  const n = cleanText(name);
+  const n = cleanText(stripInnerBrand(name));
   if (brand === "zkteco" && !/^zk ?teco\b/i.test(n)) return `ZKTeco ${n}`;
   if (brand === "alpha" && !/^alpha\b/i.test(n)) return `Alpha ${n}`;
   return n.replace(/^zk teco\b/i, "ZKTeco");
