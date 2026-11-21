@@ -95,7 +95,6 @@ and pass axe with zero violations.
 7. The filter parameter for verification method is `verify=` (Design Doc T4); the old `/category/visible-light`
    redirect uses it.
 
-Still to build in the catalogue: the quote page itself (the store, add-to-quote and the header count are done).
 Header suggestions now search a compact local product/software/solution index with 150ms debounce and keyboard selection (AT-03).
 
 ### Homepage decisions (Design Doc T1; Master Plan ch. 12, 14, 16, 18)
@@ -152,6 +151,24 @@ homepage client chunk transfers at approximately 7.4KB gzip, below the 15KB anim
 
 For local preview, bind Next to `localhost` (for example `pnpm dev --hostname localhost`). Binding specifically to
 `127.0.0.1` can conflict with the locale proxy's normalized localhost requests in this Next version.
+
+### Quote decisions
+
+1. **Labels follow the design review**: "Review quote request" while assembling (mobile bar), then "Continue to
+   WhatsApp" and "Send enquiry" side by side. WhatsApp is not presented as "send", because the buyer still sends it
+   in WhatsApp.
+2. **Fields adapt to the need** (Design Doc T8): supply → city, timing · installation → emirate (required), site,
+   doors, users, existing system · abroad → country (required), city or port, documents. The need and these fields
+   are saved with the list for 14 days; **contact details are never stored**.
+3. **WhatsApp needs items and the need only** (the chat is the reply channel); the enquiry also needs a name and one
+   valid reply channel. Phones accept any country code (E.164), with no CAPTCHA (honeypot instead).
+4. **Submission goes through `QuoteAdapter`** (`src/lib/quote/adapter.ts`). The preview uses `DemoAdapter`, which
+   makes no network request; the receipt says "Demo: nothing was sent to AIMS" (AT-07). A production adapter (email
+   or CRM via a server action, with a rate limit) plugs in there.
+5. **Contact links are guarded** (Plan risk R5). Every WhatsApp, phone and email link (product pages, menu, footer,
+   quote) opens a preview notice showing who would be contacted and the exact message, with Copy and a deliberate
+   "Open anyway". Set `NEXT_PUBLIC_LIVE_CONTACT=true` in production to make them direct links.
+6. The "signal lines converge into ✓" animation on send (Design Doc 8, SPEC) is not built yet; the receipt is static.
 
 ## Content import
 
@@ -212,3 +229,18 @@ against both documents and against nuzon.me at 1440 and 390 px. Changes and deli
   it follows the questions so the page ends on the action.
 - Mobile length fell from 8,726 to 8,476 px including the footer (about 8 screens of content against the plan's
   target of 7); the remaining length is mostly the six family tiles and three location cards, which the plan requires.
+
+**Branch integration (homepage, solutions hub, quote list).** The three lines of work started from the catalogue
+commit and are combined on `claude/solution-time-attendance`. Message catalogues were merged key by key (no key was
+changed on both sides). Follow-ups from combining them:
+
+- `navigationHref` now checks the route registry first, so every built page (including `/quote`) links locally and
+  only planned pages fall back to aimsuae.me.
+- The homepage's quote actions open `/quote`; installation and delivery cards open `/quote?need=install|export`,
+  which preselects the need (Design Doc 12, "Get an installation quote"). The parameter is validated with Zod and
+  anything else is ignored.
+- Solution cards use one heading link stretched over the card. The earlier `aria-labelledby` gave a name that did
+  not match the visible text (axe `label-content-name-mismatch`, WCAG 2.5.3).
+- `html` has scroll padding equal to the sticky header plus 16px, so fields focused from the quote error summary land
+  below the header, not under it (WCAG 2.4.11). This surfaced as an axe target-size failure on the quote page.
+- The quote page uses the shared `page-container` grid.

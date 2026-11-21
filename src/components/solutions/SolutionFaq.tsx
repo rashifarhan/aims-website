@@ -1,5 +1,6 @@
-import { getDictionary } from "@/i18n/dictionaries";
-import { LIVE_AIMS } from "@/lib/site";
+import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import Link from "next/link";
+import { localePath } from "@/i18n/config";
 import { ChevronDownIcon } from "@/components/icons";
 
 export async function SolutionFaq() {
@@ -10,10 +11,9 @@ export async function SolutionFaq() {
       <div>
         <h2 id="solution-faq-title">{faq.title}</h2>
         <p className="solution-section-lead">{faq.lead}</p>
-        <a href={LIVE_AIMS.contact} className="solution-advice">
+        <Link href={localePath(await getLocale(), "/quote")} className="solution-advice">
           {faq.action}
-          <span>{t.home.external}</span>
-        </a>
+        </Link>
       </div>
       <div>
         {faq.items.map((item) => (

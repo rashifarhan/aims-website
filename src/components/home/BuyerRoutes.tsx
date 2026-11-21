@@ -2,9 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
-import { LIVE_AIMS } from "@/lib/site";
 import { ArrowIcon } from "@/components/icons";
-import { ExternalLink } from "./ExternalLink";
 
 /** Line icons on the 32px explainer grid (Design Doc 7). */
 const ICONS = [
@@ -15,6 +13,9 @@ const ICONS = [
     d="M16 4a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm0 0c-3 3-5 7.5-5 12s2 9 5 12m0-24c3 3 5 7.5 5 12s-2 9-5 12M4 16h24"
   />,
 ];
+
+/** Catalogue, then the quote list with the need preset (Design Doc 12, "Get an installation quote"). */
+const HREFS = ["/products", "/quote?need=install", "/quote?need=export"] as const;
 
 /** T1 section 2: one card per buyer route, each card one link (Design Doc 10, Plan 14). */
 export async function BuyerRoutes() {
@@ -34,7 +35,7 @@ export async function BuyerRoutes() {
         <p className="home-route-body">{route.body}</p>
         <p className="home-route-action">
           {route.action}
-          {i === 0 && <ArrowIcon width="16" height="16" className="home-action-arrow" />}
+          <ArrowIcon width="16" height="16" className="home-action-arrow" />
         </p>
       </div>
     </>
@@ -52,15 +53,9 @@ export async function BuyerRoutes() {
       <ul className="home-route-grid">
         {routes.map((route, i) => (
           <li key={route.title}>
-            {i === 0 ? (
-              <Link href={localePath(locale, "/products")} className="home-route-card">
-                {body(route, i)}
-              </Link>
-            ) : (
-              <ExternalLink href={LIVE_AIMS.contact} label={t.common.externalSite} className="home-route-card">
-                {body(route, i)}
-              </ExternalLink>
-            )}
+            <Link href={localePath(locale, HREFS[i])} className="home-route-card">
+              {body(route, i)}
+            </Link>
           </li>
         ))}
       </ul>

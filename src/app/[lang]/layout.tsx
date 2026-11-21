@@ -6,6 +6,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { INDEXABLE, SITE_URL } from "@/lib/site";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
+import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -47,9 +48,11 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         >
           {t.nav.skipToContent}
         </a>
-        <Header />
-        {children}
-        <Footer />
+        <ContactGuardProvider labels={t.contactGuard}>
+          <Header />
+          {children}
+          <Footer />
+        </ContactGuardProvider>
       </body>
     </html>
   );

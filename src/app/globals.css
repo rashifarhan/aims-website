@@ -124,6 +124,14 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    /* Focus and in-page jumps land below the sticky header (60px mobile, 72px desktop) plus a
+       16px breath, never under it (WCAG 2.4.11, Design Doc 14). */
+    scroll-padding-block-start: 4.75rem;
+  }
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-block-start: 5.5rem;
+    }
   }
 
   body {

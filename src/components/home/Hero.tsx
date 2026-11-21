@@ -2,13 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
-import { LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { HeroAnimation } from "./HeroAnimation";
 import { SignalLines } from "./SignalLines";
 
 import { ArrowIcon } from "@/components/icons";
 import { HeroTick } from "./HeroTick";
-import { ExternalLink } from "./ExternalLink";
 
 export async function Hero() {
   const t = await getDictionary();
@@ -35,9 +34,9 @@ export async function Hero() {
             {h.explore}
             <ArrowIcon className="home-action-arrow rtl:-scale-x-100" />
           </Link>
-          <ExternalLink href={LIVE_AIMS.contact} label={t.common.externalSite} className="home-secondary">
+          <Link href={localePath(locale, "/quote")} className="home-secondary">
             {h.quote}
-          </ExternalLink>
+          </Link>
         </div>
         <p className="home-trust">{h.trust}</p>
       </div>

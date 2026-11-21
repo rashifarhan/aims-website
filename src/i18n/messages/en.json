@@ -478,5 +478,145 @@
         }
       ]
     }
+  },
+  "quote": {
+    "title": "Your quote request",
+    "lead": "Check the items, tell us what you need, and send it in one go.",
+    "metaTitle": "Quote request",
+    "empty": "Your quote list is empty. Browse products or describe what you need.",
+    "browse": "Browse products",
+    "itemsHeading": "Items",
+    "addProduct": "Add a product",
+    "describe": "Describe an item we don't list",
+    "describeLabel": "Item description",
+    "describePlaceholder": "For example, a 2-door controller with 4 readers",
+    "describeAdd": "Add item",
+    "remove": "Remove {name}",
+    "removed": "{name} removed.",
+    "undo": "Undo",
+    "customLine": "Not listed",
+    "needHeading": "What do you need?",
+    "needs": {
+      "supply": "Supply only",
+      "install": "Supply and installation",
+      "export": "Delivery abroad"
+    },
+    "needHints": {
+      "supply": "I'll install it myself",
+      "install": "In the UAE",
+      "export": "GCC, Africa or elsewhere"
+    },
+    "city": "Delivery city (optional)",
+    "timing": "When do you need it? (optional)",
+    "timings": {
+      "asap": "As soon as possible",
+      "two-weeks": "Within 2 weeks",
+      "month": "Within a month",
+      "planning": "Planning only"
+    },
+    "emirate": "Emirate",
+    "emirates": {
+      "abu-dhabi": "Abu Dhabi",
+      "dubai": "Dubai",
+      "sharjah": "Sharjah",
+      "ajman": "Ajman",
+      "umm-al-quwain": "Umm Al Quwain",
+      "ras-al-khaimah": "Ras Al Khaimah",
+      "fujairah": "Fujairah"
+    },
+    "siteType": "Site type (optional)",
+    "siteTypes": {
+      "office": "Office",
+      "industrial": "Warehouse or factory",
+      "retail": "Shop or mall",
+      "hotel": "Hotel",
+      "residential": "Home or residential building",
+      "other": "Other"
+    },
+    "doors": "Number of doors (optional)",
+    "users": "Number of users (optional)",
+    "existing": "Existing system (optional)",
+    "existingPlaceholder": "For example, old fingerprint readers to replace",
+    "country": "Destination country",
+    "port": "City or port (optional)",
+    "documents": "Documents you need (optional)",
+    "buyerType": "You are (optional)",
+    "buyers": {
+      "installer": "Installer or IT reseller",
+      "end-user": "End user",
+      "consultant": "Consultant",
+      "distributor": "Distributor abroad"
+    },
+    "choose": "Choose…",
+    "detailsHeading": "Your details",
+    "name": "Name",
+    "company": "Company (optional)",
+    "phone": "Mobile or WhatsApp",
+    "phoneHint": "Include the country code, for example +971 50 123 4567.",
+    "email": "Email",
+    "emailOptional": "Email (optional)",
+    "replyBy": "Reply by",
+    "replyChannels": {
+      "whatsapp": "WhatsApp",
+      "phone": "Phone call",
+      "email": "Email"
+    },
+    "honeypot": "Leave this field empty",
+    "summaryHeading": "What AIMS receives",
+    "messageHeading": "Message",
+    "reviewCta": "Review quote request",
+    "whatsappCta": "Continue to WhatsApp",
+    "sendCta": "Send enquiry",
+    "whatsappNote": "WhatsApp opens with this message. You can still edit it before you send it.",
+    "demoNote": "Preview: nothing is sent. On the live site this goes to AIMS sales and you get a reference.",
+    "itemsSummary": "{count} items · {units} units",
+    "itemsSummaryOne": "1 item · {units} units",
+    "errorsHeading": "Fix {count} things before sending",
+    "errorsOne": "Fix 1 thing before sending",
+    "errors": {
+      "noItems": "Add at least one product or describe an item.",
+      "needRequired": "Choose what you need.",
+      "emirateRequired": "Choose the emirate for installation.",
+      "countryRequired": "Enter the destination country.",
+      "nameRequired": "Enter your name.",
+      "phoneRequired": "Add a WhatsApp number, phone or email so we can reply.",
+      "phoneInvalid": "Enter a mobile number with country code, for example +971 50 123 4567.",
+      "emailRequired": "Enter an email address, or choose WhatsApp or a phone call.",
+      "emailInvalid": "Enter a valid email address, for example name@company.com."
+    },
+    "receipt": {
+      "title": "Request ready",
+      "demo": "Demo: nothing was sent to AIMS.",
+      "reference": "Reference",
+      "body": "On the live site, AIMS sales receive this request and reply by {channel}.",
+      "edit": "Edit the request",
+      "clear": "Clear the list",
+      "products": "Back to products"
+    },
+    "message": {
+      "greeting": "Hi AIMS, quote request (ref {ref}):",
+      "custom": "Not listed: {text}",
+      "need": "Need",
+      "timing": "Timing",
+      "buyer": "Buyer",
+      "name": "Name",
+      "replyBy": "Reply by",
+      "doors": "{n} doors",
+      "users": "{n} users",
+      "existing": "existing: {text}",
+      "documents": "documents: {text}"
+    }
+  },
+  "contactGuard": {
+    "title": "Preview: this would contact AIMS",
+    "whatsapp": "On the live site this opens WhatsApp to AIMS sales ({target}).",
+    "phone": "On the live site this calls AIMS ({target}).",
+    "email": "On the live site this opens an email to {target}.",
+    "nothingSent": "Nothing has been sent from this preview.",
+    "message": "Message",
+    "copy": "Copy message",
+    "copied": "Copied",
+    "openAnyway": "Open anyway",
+    "close": "Close"
   }
 }

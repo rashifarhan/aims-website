@@ -12,8 +12,11 @@ for (const locale of ["en", "ar"]) {
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "ar" ? "rtl" : "ltr");
     const cards = page.locator(".solution-card");
     await expect(cards).toHaveCount(5);
-    for (const href of await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")))) {
-      expect(href).toMatch(new RegExp(`^${locale === "ar" ? "/ar" : ""}/products/`));
+    // Each card is one heading link (stretched over the card): its name is the title only.
+    const links = page.locator(".solution-card h2 a");
+    await expect(links).toHaveCount(5);
+    for (const href of await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")))) {
+      expect(href).toMatch(new RegExp(`^${locale === "ar" ? "/ar" : ""}/(products|solutions)/`));
       expect((await request.get(href ?? "")).status()).toBe(200);
     }
     const firstFaq = page.locator(".solution-faq summary").first();
@@ -32,7 +35,7 @@ for (const locale of ["en", "ar"]) {
     await hubLink.focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(new RegExp(`${path}$`));
-    await cards.first().focus();
+    await links.first().focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/products\/time-attendance$/);
   });

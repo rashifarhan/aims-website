@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
+import { CONTACT, whatsappUrl } from "@/lib/site";
 
 type Labels = {
   add: string;
@@ -18,14 +20,14 @@ type Labels = {
   askWhatsapp: string;
 };
 
-type Props = { slug: string; name: string; model: string; whatsappHref: string; quoteHref: string; labels: Labels };
+type Props = { slug: string; name: string; model: string; whatsappMessage: string; quoteHref: string; labels: Labels };
 
 /**
  * Product page actions: qty + "Add to quote" + WhatsApp (Design Doc 10,
  * T5). On mobile a sticky bar with the same controls appears once the
  * inline ones have scrolled above the viewport; both share one quantity.
  */
-export function ProductPurchase({ slug, name, model, whatsappHref, quoteHref, labels }: Props) {
+export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref, labels }: Props) {
   const [qty, setQty] = useState(1);
   const [status, setStatus] = useState("");
   const line = useQuote().lines.find((l) => l.kind === "product" && l.slug === slug);
@@ -81,15 +83,16 @@ export function ProductPurchase({ slug, name, model, whatsappHref, quoteHref, la
         <div className="flex flex-wrap items-center gap-3">
           {stepper}
           {addButton}
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
+          <ContactLink
+            kind="whatsapp"
+            href={whatsappUrl(whatsappMessage)}
+            target={CONTACT.lines.mobile.display}
+            message={whatsappMessage}
             className="inline-flex h-11 items-center gap-2 rounded-pill border border-line-strong px-4 text-sm font-semibold text-ink hover:border-ink"
           >
             <WhatsAppIcon width={18} height={18} className="text-whatsapp" />
             {labels.askWhatsapp}
-          </a>
+          </ContactLink>
         </div>
         <p role="status" className="mt-3 min-h-6 text-sm text-ink-700">
           {line && (

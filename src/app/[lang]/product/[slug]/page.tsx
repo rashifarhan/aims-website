@@ -16,7 +16,8 @@ import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { absoluteUrl, alternates, fitTitle } from "@/lib/seo";
-import { whatsappUrl } from "@/lib/site";
+import { CONTACT, whatsappUrl } from "@/lib/site";
+import { ContactLink } from "@/components/contact/ContactLink";
 
 /** Every live product gets a page from this template (review decision 6). */
 export function generateStaticParams() {
@@ -118,9 +119,9 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             name={p.name}
             model={p.model}
             quoteHref={href("/quote")}
-            whatsappHref={whatsappUrl(
-              fmt(t.product.whatsappText, { name: `${p.name} (${absoluteUrl(`/product/${p.slug}`)})` }),
-            )}
+            whatsappMessage={fmt(t.product.whatsappText, {
+              name: `${p.name} (${absoluteUrl(`/product/${p.slug}`)})`,
+            })}
             labels={{ ...addLabels, viewQuote: t.catalogue.viewQuote, askWhatsapp: t.product.askWhatsapp }}
           />
 
@@ -192,15 +193,16 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         ) : (
           <div className="rounded-md bg-paper-2 p-5">
             <p className="text-ink-700">{t.product.noSpecs}</p>
-            <a
+            <ContactLink
+              kind="whatsapp"
               href={whatsappUrl(fmt(t.product.whatsappText, { name: p.name }))}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={CONTACT.lines.mobile.display}
+              message={fmt(t.product.whatsappText, { name: p.name })}
               className="mt-3 inline-flex items-center gap-1.5 font-semibold text-green-700 underline underline-offset-2"
             >
               {t.product.askSpecs}
               <ArrowIcon width={16} height={16} />
-            </a>
+            </ContactLink>
           </div>
         )}
       </section>
