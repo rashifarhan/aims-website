@@ -1,30 +1,44 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { CUSTOMER_REVIEWS, LIVE_AIMS } from "@/lib/site";
+import { ExternalLink } from "./ExternalLink";
 
+/** T1 row 8: the three real reviews, verbatim, with names as published (Design Doc 10). */
 export async function HomeReviews() {
-  const {
-    home: { reviews, external },
-  } = await getDictionary();
+  const t = await getDictionary();
+  const { reviews } = t.home;
   return (
     <section className="home-section page-container" aria-labelledby="reviews-title">
-      <h2 id="reviews-title" className="home-section-title">
-        {reviews.heading}
-      </h2>
-      <p className="home-section-lead">{reviews.source}</p>
-      <div className="home-three-grid">
-        {CUSTOMER_REVIEWS.map((review) => (
-          <figure key={review.name} className="home-review" lang="en" dir="ltr">
-            <blockquote>
-              <p>“{review.excerpt}”</p>
-            </blockquote>
-            <figcaption>{review.name}</figcaption>
-          </figure>
-        ))}
+      <div className="home-section-heading">
+        <div>
+          <h2 id="reviews-title" className="home-section-title">
+            {reviews.heading}
+          </h2>
+          <p className="home-section-lead">{reviews.source}</p>
+        </div>
+        <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-text-link">
+          {reviews.read}
+        </ExternalLink>
       </div>
-      <a href={LIVE_AIMS.home} className="home-text-link">
-        {reviews.read}
-        <span className="home-external-label">{external}</span>
-      </a>
+      <ul className="home-review-grid">
+        {CUSTOMER_REVIEWS.map((review) => (
+          <li key={review.name}>
+            <figure className="home-review" lang="en" dir="ltr">
+              <span className="home-review-mark" aria-hidden="true">
+                “
+              </span>
+              <blockquote>
+                <p>{review.excerpt}</p>
+              </blockquote>
+              <figcaption>
+                <span className="home-review-initial" aria-hidden="true">
+                  {review.name.charAt(0)}
+                </span>
+                {review.name}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

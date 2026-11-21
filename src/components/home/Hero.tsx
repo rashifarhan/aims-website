@@ -8,6 +8,7 @@ import { SignalLines } from "./SignalLines";
 
 import { ArrowIcon } from "@/components/icons";
 import { HeroTick } from "./HeroTick";
+import { ExternalLink } from "./ExternalLink";
 
 export async function Hero() {
   const t = await getDictionary();
@@ -34,10 +35,9 @@ export async function Hero() {
             {h.explore}
             <ArrowIcon className="home-action-arrow rtl:-scale-x-100" />
           </Link>
-          <a href={LIVE_AIMS.contact} className="home-secondary">
+          <ExternalLink href={LIVE_AIMS.contact} label={t.common.externalSite} className="home-secondary">
             {h.quote}
-            <span className="text-caption font-normal text-ink-600">{t.home.external}</span>
-          </a>
+          </ExternalLink>
         </div>
         <p className="home-trust">{h.trust}</p>
       </div>

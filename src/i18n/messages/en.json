@@ -243,7 +243,7 @@
       "lead": "ZKTeco access control and time attendance systems, supplied, installed and supported across the UAE.",
       "explore": "Explore products",
       "quote": "Request a quote",
-      "trust": "Dubai & Abu Dhabi",
+      "trust": "Deira showroom · Abu Dhabi office",
       "alt": "ZKTeco SpeedFace-V5L access control terminal demonstrating face verification",
       "model": "SpeedFace-V5L",
       "entrance": "Entrance A",
@@ -273,17 +273,19 @@
         "title": "Delivery to GCC & Africa",
         "body": "Share your models, quantities and destination with AIMS.",
         "action": "Ask about delivery"
-      }
+      },
+      "lead": "Three ways to work with AIMS. Pick yours."
     },
     "families": {
       "heading": "Find the right system.",
-      "lead": "From the first credential to the final door. Browse by what you need to do.",
+      "lead": "Six families, from the first credential to the final door.",
       "count": "products",
-      "all": "All products"
+      "all": "All products",
+      "open": "View"
     },
     "door": {
       "heading": "How a door works.",
-      "body": "A reader checks the credential. A controller decides who can enter. The lock releases, and software records the event.",
+      "body": "A reader checks the credential, a controller decides who can enter, the lock releases and software records the event. Six parts, on every controlled door.",
       "action": "Explore door components",
       "reader": "Reader",
       "controller": "Controller",
@@ -291,29 +293,37 @@
       "exit": "Exit button",
       "card": "Credential",
       "software": "Software",
-      "alt": "A door reader connected to a controller, electromagnetic lock, exit button and management software"
+      "alt": "A door reader connected to a controller, electromagnetic lock, exit button and management software",
+      "partsLabel": "The six parts of a controlled door",
+      "outside": "Outside",
+      "inside": "Inside",
+      "granted": "Access granted",
+      "events": "Events",
+      "logRow": "Door 1 · Card"
     },
     "proof": {
-      "heading": "A local team. A connected system.",
-      "body": "Explore the catalogue, then speak to AIMS in Dubai or Abu Dhabi about your project.",
+      "heading": "Local team. Full catalogue.",
+      "body": "Every number below comes from AIMS's published catalogue and contact pages.",
       "catalogue": "products in the catalogue",
       "families": "product families",
-      "locations": "Dubai & Abu Dhabi",
-      "contact": "Speak to the team"
+      "locations": "locations in Dubai & Abu Dhabi",
+      "contact": "Speak to the team",
+      "software": "software platforms"
     },
     "software": {
       "heading": "Hardware meets software.",
-      "lead": "Attendance records and door events, managed in one place.",
-      "centre": "Browse AIMS software",
-      "details": "Learn more",
-      "request": "Software supplied on request",
+      "lead": "Attendance records and door events, managed in one place. Software is supplied on request.",
+      "centre": "All software",
       "attendance": "Time attendance",
       "cloud": "Cloud attendance",
-      "access": "Access management"
+      "access": "Access management",
+      "purposeAttendance": "Attendance and workforce management, installed on your own server.",
+      "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
+      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels."
     },
     "locations": {
       "heading": "Let’s talk in person.",
-      "lead": "Contact the team before your visit to confirm availability and opening hours.",
+      "lead": "Call ahead to confirm opening hours and which devices are on display.",
       "headOffice": "Dubai head office",
       "showroom": "Deira showroom",
       "abuDhabi": "Abu Dhabi office",
@@ -322,7 +332,9 @@
       "call": "Call",
       "map": "Showroom directions",
       "plan": "Plan a visit",
-      "newTab": "opens in a new tab"
+      "newTab": "opens in a new tab",
+      "office": "Office",
+      "showroomTag": "Showroom"
     },
     "reviews": {
       "heading": "In our customers’ words.",
@@ -357,11 +369,14 @@
           "q": "Can I visit the showroom?",
           "a": "The Deira showroom address and directions are listed above. Call before you travel to confirm opening hours and whether the devices you want to see are available."
         }
-      ]
+      ],
+      "ctaHeading": "Have a project in mind?",
+      "ctaBody": "Send AIMS your models, quantities and site. The team replies with a quotation.",
+      "visit": "Visit the showroom"
     },
-    "external": "on aimsuae.me",
     "contactNotice": "Opens AIMS’s live website.",
-    "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent."
+    "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
+    "external": "on aimsuae.me"
   },
   "search": {
     "suggestions": "Search suggestions",

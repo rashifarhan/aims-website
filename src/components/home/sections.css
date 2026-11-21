@@ -1,0 +1,705 @@
+/* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is hover/press feedback. */
+
+/* ---------- Shared section primitives ---------- */
+.home-section {
+  padding-block: var(--home-section-space);
+}
+.home-section-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.home-section-lead {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.home-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem;
+  margin-block-end: 2.5rem;
+}
+.home-section-heading > .home-text-link {
+  flex: none;
+  margin-block-start: 0;
+}
+.home-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  margin-block-start: 1rem;
+  color: var(--color-green-700);
+  font-weight: 600;
+  font-size: var(--text-small);
+  text-decoration: none;
+}
+.home-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.home-text-link:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .home-text-link:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.home-external-mark {
+  display: inline-block;
+  margin-inline-start: 0.3em;
+  font-weight: 500;
+  text-decoration: none;
+}
+/* Design Doc 13: directional marks mirror in Arabic. */
+:dir(rtl) .home-external-mark {
+  transform: scaleX(-1);
+}
+.home-button {
+  min-height: var(--home-button-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 1.75rem;
+  background: var(--color-green-700);
+  color: var(--color-paper);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  box-shadow: var(--shadow-home-action);
+}
+.home-secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 600;
+  color: var(--color-green-700);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.home-hero + .home-routes {
+  padding-block-start: calc(var(--home-section-space) * 1.5);
+}
+
+/* Cards share one hover language: hairline → sh-2, a 2px lift (Design Doc 8.4 "Card hover"). */
+.home-route-card,
+.home-family-card,
+.home-software-card {
+  transition:
+    box-shadow var(--duration-base) var(--ease-aims),
+    border-color var(--duration-base) var(--ease-aims),
+    transform var(--duration-base) var(--ease-aims);
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-route-card:hover,
+  .home-family-card:hover,
+  .home-software-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--color-green-100);
+  }
+}
+.home-route-card:hover .home-action-arrow,
+.home-family-card:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .home-route-card:hover .home-action-arrow,
+:dir(rtl) .home-family-card:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.home-route-card:active,
+.home-family-card:active,
+.home-software-card:active {
+  transform: scale(0.99);
+}
+
+/* ---------- 2 · Buyer routes ---------- */
+.home-route-grid,
+.home-software-grid,
+.home-location-grid,
+.home-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.home-route-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.home-route-icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-green-50);
+  color: var(--color-green-700);
+}
+.home-route-text {
+  padding-inline-end: 1rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.home-route-text h3,
+.home-software-card h3,
+.home-location-card h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+  line-height: 1.3;
+}
+.home-route-body {
+  margin-block: 0.625rem 1.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.home-route-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-block-start: auto;
+  color: var(--color-green-700);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+.home-route-card > .home-external-mark,
+.home-software-card > .home-external-mark {
+  position: absolute;
+  inset-block-start: 1.5rem;
+  inset-inline-end: 1.5rem;
+  color: var(--color-ink-400);
+}
+
+/* ---------- 3 · Product families ---------- */
+.home-family-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.home-family-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.home-family-image {
+  height: 13.5rem;
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-family-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+.home-family-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem 1.375rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.home-family-info h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+  line-height: 1.35;
+}
+.home-family-summary {
+  margin-block-start: 0.375rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+  line-height: 1.5;
+}
+.home-family-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: auto;
+  padding-block-start: 1rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* ---------- 4 · How a door works ---------- */
+.home-door {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 4rem;
+  align-items: center;
+}
+.home-door-parts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.5rem;
+  margin-block-start: 2rem;
+}
+.home-door-parts li {
+  display: flex;
+  gap: 0.875rem;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+  font-weight: 600;
+  font-size: var(--text-small);
+}
+.home-door-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-green-700);
+  line-height: 1.6;
+}
+.home-door-code {
+  display: block;
+  margin-block-start: 0.125rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-ink-400);
+}
+.home-door-stage {
+  border-radius: var(--radius-lg);
+  overflow: clip;
+}
+.home-door-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.home-door-name {
+  font-size: var(--text-door-name);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.home-door-model {
+  font-size: var(--text-door-model);
+  font-weight: 500;
+  fill: var(--color-ink-400);
+}
+.home-door-screen {
+  font-size: var(--text-door-screen);
+  font-weight: 500;
+  fill: var(--color-ink-600);
+}
+.home-door-granted {
+  font-size: var(--text-door-name);
+  font-weight: 600;
+  fill: var(--color-paper);
+}
+
+/* ---------- 5 · Proof bar ---------- */
+.home-proof-band {
+  background: var(--color-green-50);
+  margin-block: var(--home-section-space);
+}
+.home-proof {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: 4rem;
+  padding-block: calc(var(--home-section-space) * 1.25);
+}
+.home-proof dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.home-proof dl > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: start;
+  gap: 0.625rem;
+  padding-inline: 1.5rem;
+  border-inline-start: 1px solid var(--color-green-100);
+}
+.home-proof dt {
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+  line-height: 1.4;
+}
+.home-proof dd {
+  font-size: var(--text-home-stat);
+  font-weight: 680;
+  letter-spacing: -0.03em;
+  color: var(--color-green-700);
+  line-height: 1;
+}
+
+/* ---------- 6 · Software ---------- */
+.home-software-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+.home-software-kind {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.home-software-kind::before {
+  content: "";
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--color-lime);
+}
+.home-software-card h3 {
+  margin-block: 1.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-home-card);
+  text-align: start;
+}
+.home-software-purpose {
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+
+/* ---------- 7 · Showrooms ---------- */
+.home-location-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+}
+.home-location-featured {
+  background: var(--color-green-50);
+  border-color: var(--color-green-100);
+}
+.home-location-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.home-location-card h3 {
+  margin-block-start: 1rem;
+}
+.home-location-address {
+  margin-block: 0.5rem 1.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.home-location-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.home-location-featured .home-location-actions {
+  border-color: var(--color-green-100);
+}
+.home-location-actions .home-text-link {
+  margin-block-start: 0.25rem;
+}
+
+/* ---------- 8 · Reviews ---------- */
+.home-review {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-2);
+}
+.home-review-mark {
+  font-size: var(--text-home-stat);
+  font-weight: 700;
+  line-height: 0.8;
+  color: var(--color-green-700);
+  height: 1.75rem;
+}
+.home-review blockquote {
+  flex: 1;
+  margin-block: 1rem 1.75rem;
+  font-size: var(--text-home-quote);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.home-review figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.home-review-initial {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--color-green-100);
+  color: var(--color-green-800);
+  font-weight: 650;
+}
+
+/* ---------- 9 · FAQ and closing action ---------- */
+.home-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 4rem;
+  align-items: start;
+  padding-block-end: 6rem;
+}
+.home-faq-cta {
+  margin-block-start: 2rem;
+  padding: 1.75rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-green-50);
+}
+.home-faq-cta h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.home-faq-cta p {
+  margin-block: 0.5rem 1.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.home-faq-cta .home-button {
+  width: 100%;
+}
+.home-faq-cta .home-text-link {
+  width: 100%;
+  justify-content: center;
+  margin-block-start: 0.5rem;
+}
+.home-faq details {
+  border-block-end: 1px solid var(--color-line);
+}
+.home-faq details:first-child {
+  border-block-start: 1px solid var(--color-line);
+}
+.home-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+  padding-block: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.home-faq summary::-webkit-details-marker {
+  display: none;
+}
+.home-faq summary svg {
+  flex: none;
+}
+.home-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.home-faq details p {
+  color: var(--color-ink-600);
+  line-height: 1.65;
+  padding-block-end: 1.5rem;
+  max-width: 65ch;
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 1024px) {
+  .home-faq-intro {
+    position: sticky;
+    inset-block-start: 6.5rem;
+  }
+}
+@media (max-width: 1023px) {
+  .home-route-grid,
+  .home-software-grid,
+  .home-location-grid,
+  .home-review-grid,
+  .home-family-grid {
+    gap: 1rem;
+  }
+  .home-family-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-door,
+  .home-faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  .home-proof {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .home-proof dl > div:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+}
+
+/* ---------- Phone (390 first): fewer, tighter rows; nothing shrunk below the type scale ---------- */
+@media (max-width: 639px) {
+  .home-section-heading {
+    display: block;
+    margin-block-end: 1.5rem;
+  }
+  .home-section-heading > .home-text-link {
+    margin-block-start: 0.5rem;
+  }
+  .home-route-grid,
+  .home-software-grid,
+  .home-location-grid,
+  .home-review-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  /* Plan 14, T1 mobile: routes as stacked rows. */
+  .home-route-card {
+    flex-direction: row;
+    align-items: start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+  .home-route-icon {
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  /* The title and action say enough on a phone; the sentence returns at 640 px. */
+  .home-route-body {
+    display: none;
+  }
+  .home-route-action {
+    margin-block-start: 0.25rem;
+  }
+  .home-route-card > .home-external-mark,
+  .home-software-card > .home-external-mark {
+    inset-block-start: 1.25rem;
+    inset-inline-end: 1.25rem;
+  }
+  .home-family-grid {
+    gap: 0.75rem;
+  }
+  .home-family-image {
+    height: 7.5rem;
+    padding: 0.875rem;
+  }
+  .home-family-info {
+    padding: 0.875rem 1rem 1rem;
+  }
+  .home-family-info h3 {
+    font-size: var(--text-base);
+  }
+  .home-family-summary {
+    display: none;
+  }
+  .home-family-count {
+    padding-block-start: 0.375rem;
+  }
+  .home-door-parts {
+    margin-block-start: 1.5rem;
+  }
+  /* The prototype hides the pill tags on phones; the parts list carries the names. */
+  .home-door-tag {
+    display: none;
+  }
+  .home-proof-band {
+    margin-block: var(--home-section-space);
+  }
+  .home-proof dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
+  .home-proof dl > div:nth-child(odd) {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+  .home-proof dd {
+    font-size: var(--text-home-stat-mobile);
+  }
+  .home-software-card,
+  .home-location-card,
+  .home-review {
+    padding: 1.25rem;
+  }
+  .home-software-card h3 {
+    margin-block: 0.75rem 0.25rem;
+  }
+  .home-location-address {
+    margin-block: 0.25rem 0.75rem;
+  }
+  .home-review blockquote {
+    margin-block: 0 0.75rem;
+    font-size: var(--text-home-card);
+  }
+  .home-review-mark {
+    display: none;
+  }
+  .home-review-initial {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: var(--text-caption);
+  }
+  /* Phone order: question list first, then the closing action at the end of the page. */
+  .home-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-block-end: 4rem;
+  }
+  .home-faq-intro {
+    display: contents;
+  }
+  .home-faq > div:last-child {
+    margin-block-start: 1.5rem;
+  }
+  .home-faq-cta {
+    order: 1;
+  }
+  .home-faq-cta {
+    padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-route-card,
+  .home-family-card,
+  .home-software-card,
+  .home-text-link .home-action-arrow {
+    transition: none;
+  }
+  .home-route-card:hover,
+  .home-family-card:hover,
+  .home-software-card:hover,
+  .home-route-card:active,
+  .home-family-card:active,
+  .home-software-card:active {
+    transform: none;
+  }
+}

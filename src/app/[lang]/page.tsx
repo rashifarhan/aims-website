@@ -14,6 +14,7 @@ import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeReviews } from "@/components/home/HomeReviews";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import "@/components/home/home.css";
+import "@/components/home/sections.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();

@@ -34,6 +34,21 @@ for (const locale of ["en", "ar"] as const) {
     expect(JSON.parse(data ?? "{}")["@type"]).toBe("Organization");
   });
 
+  test(`${locale} door drawing has a text equivalent and external links announce themselves`, async ({ page }) => {
+    await page.goto(home);
+    const main = page.getByRole("main");
+    // Design Doc 14: explainers have a text equivalent (the step list).
+    const parts = main.locator(".home-door-parts li");
+    await expect(parts).toHaveCount(6);
+    await expect(parts.nth(2)).toContainText("AL-M280");
+    // Every link that leaves the preview says so to screen readers, not only with a ↗ glyph.
+    const external = main.locator('section a[href^="https://"]');
+    expect(await external.count()).toBeGreaterThan(0);
+    for (const link of await external.all()) {
+      await expect(link.locator(".sr-only")).toHaveCount(1);
+    }
+  });
+
   test(`${locale} FAQ works by keyboard and narrow layout reflows`, async ({ page }) => {
     await page.goto(home);
     const details = page.locator("#faq details");

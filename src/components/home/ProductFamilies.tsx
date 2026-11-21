@@ -4,6 +4,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
+import { ArrowIcon } from "@/components/icons";
 
 const examples = [
   "f18",
@@ -49,8 +50,12 @@ export async function ProductFamilies() {
               </div>
               <div className="home-family-info">
                 <h3>{t.families[family.slug].name}</h3>
-                <p>
-                  <span className="tabular-nums">{productsInFamily(family.slug).length}</span> {t.home.families.count}
+                <p className="home-family-summary">{t.families[family.slug].summary}</p>
+                <p className="home-family-count">
+                  <span>
+                    <span className="tabular-nums">{productsInFamily(family.slug).length}</span> {t.home.families.count}
+                  </span>
+                  <ArrowIcon width="16" height="16" className="home-action-arrow" />
                 </p>
               </div>
             </Link>

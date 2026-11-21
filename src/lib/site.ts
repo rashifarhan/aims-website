@@ -29,6 +29,9 @@ export const CONTACT = {
   showroomMap: "https://maps.app.goo.gl/JJvK9uCbyHMoK4J1A",
 } as const;
 
+/** The three published places to visit or call: head office, Deira showroom, Abu Dhabi office. */
+export const LOCATION_LINES = ["headOffice", "showroom", "abuDhabi"] as const;
+
 export const whatsappUrl = (text?: string) =>
   `https://wa.me/${CONTACT.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 

@@ -186,3 +186,29 @@ From `content/import-report.json`:
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,
 permission to link datasheets and software files, and an Arabic reviewer. `ar.json` is a first draft and needs that
 review.
+
+**Homepage polish audit (Design Doc ch. 2, 7–10, 12–14; Master Plan ch. 14, 18).** Each T1 section was checked
+against both documents and against nuzon.me at 1440 and 390 px. Changes and deliberate choices:
+
+- **External links** carry a ↗ mark (Design Doc 9, "View on current site ↗") and a screen-reader suffix
+  ("opens aimsuae.me") instead of a second "on aimsuae.me" line under every action. The mark mirrors in Arabic.
+  An e2e check requires the suffix on every external link in the page sections.
+- **Buyer routes** are whole-card links (Design Doc T2 rule, "cards are real links with headings"). On phones they
+  become stacked rows with the sentence hidden (Plan 14, T1 mobile: "routes as stacked rows").
+- **Product families** add each family's one-line type summary and a count row with an arrow.
+- **Door teaser** now ports the prototype's final frame faithfully: pill tags with model codes and hairline leaders,
+  green LEDs, credential at the reader, open leaf, "Access granted", the ZKAccess event row and inside/outside
+  labels. A numbered parts list is the text equivalent (Design Doc 14). The drawing stays static: the hero keeps
+  the page's one signature animation. Tags are hidden on phones, as in the prototype.
+- **Proof bar** shows four counted facts (products, families, software platforms, locations), still no company
+  claims (Design Doc 3.1).
+- **Software** cards state each platform's purpose, restated from AIMS's own summary, in place of "Software supplied
+  on request" three times. The imported software images are not used: they mix a logo, a marketing collage and a
+  low-resolution box shot, which fails Design Doc 7.
+- **Showrooms** label office vs showroom, tint the Deira showroom (the place to visit) and keep only published
+  addresses and phones.
+- **Reviews** keep the three verbatim excerpts and published names, set as larger quotes.
+- **FAQ** closes the page with a "Have a project in mind?" panel (one primary action, one secondary link). On phones
+  it follows the questions so the page ends on the action.
+- Mobile length fell from 8,726 to 8,476 px including the footer (about 8 screens of content against the plan's
+  target of 7); the remaining length is mostly the six family tiles and three location cards, which the plan requires.
