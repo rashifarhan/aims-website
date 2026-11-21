@@ -6,7 +6,9 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} homepage has working product routes, factual counts and SEO`, async ({ page }) => {
     await page.goto(home);
     const main = page.getByRole("main");
-    await expect(main.locator("h1")).toContainText(locale === "en" ? "Secure access." : "دخول آمن.");
+    await expect(main.locator("h1")).toContainText(
+      locale === "en" ? "Access control & attendance," : "التحكم في الدخول والحضور،",
+    );
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "en" ? "ltr" : "rtl");
     const families = main.locator("#families");
     const counts = [20, 34, 29, 15, 55, 6];

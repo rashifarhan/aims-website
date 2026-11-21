@@ -8,7 +8,6 @@ import { Hero } from "@/components/home/Hero";
 import { BuyerRoutes } from "@/components/home/BuyerRoutes";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
 import { DoorTeaser } from "@/components/home/DoorTeaser";
-import { HomeProof } from "@/components/home/HomeProof";
 import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeReviews } from "@/components/home/HomeReviews";
@@ -44,7 +43,6 @@ export default async function Home() {
       <BuyerRoutes />
       <ProductFamilies />
       <DoorTeaser />
-      <HomeProof />
       <HomeSoftware />
       <HomeLocations />
       <HomeReviews />

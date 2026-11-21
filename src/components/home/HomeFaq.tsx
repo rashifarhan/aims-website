@@ -14,7 +14,6 @@ export async function HomeFaq() {
         <h2 id="faq-title" className="home-section-title">
           {f.heading}
         </h2>
-        <p className="home-section-lead">{f.lead}</p>
         <div className="home-faq-cta">
           <h3>{f.ctaHeading}</h3>
           <p>{f.ctaBody}</p>

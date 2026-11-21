@@ -269,3 +269,32 @@ process with owners → software that fits → questions → closing band.
 - **Shared styles.** Buttons and text links moved from the homepage CSS to `src/components/ui/actions.css`, loaded by
   the layout. T3 classes use a `t3-` prefix because the hub's `solution-*` styles stay loaded after client
   navigation.
+
+### Experiment: homepage after the charles-unslop skill (`claude/homepage-unslop`)
+
+On request, the homepage was run through `.agents/skills/charles-unslop` on its own branch, to compare with the
+Design Doc version. Your instruction overrides the docs here, so these deviations are deliberate and limited to this
+branch:
+
+- **Direction.** Product: AIMS supplies and installs ZKTeco access control and attendance hardware for UAE companies,
+  installers and resellers. Character: exact, plain-spoken, on-site. World: an installer's site sheet at a building
+  entrance. Moment: the hero terminal verifying a person, plus one type contrast (the catalogue count). Signature:
+  model codes in IBM Plex Mono. Concept: "The page reads like an installer's site sheet: real codes, real counts,
+  real places, and one door that opens."
+- **Subtracted:** the hero eyebrow and its glowing dot, the radial glow behind the device, the lime glow on signal
+  pulses, the green button shadow, the trust line (repeated by the locations section), the proof band (its counts
+  repeat other sections), filler subtitles, icon tiles, review avatars and quote marks, card hover lifts and image
+  zoom.
+- **Copy:** headings name AIMS's things instead of slogans ("Buy, install or ship abroad", "159 models in six
+  families", "Where to find AIMS"). The hero says what AIMS does; its lead carries the counted catalogue size.
+- **Type and colour:** headings at 520–560 instead of 680, the hero's second line in secondary ink instead of green;
+  green is kept for actions only. Display size 64px so the longer headline fits two lines.
+- **Layout:** routes, software, places and reviews become ruled rows on one line each, like a site sheet, instead of
+  four rows of three equal cards. Family tiles name the pictured model in mono.
+- **Kept:** the approved hero animation (it explains the product), the door-kit drawing, all real content, section
+  order, quote actions, claims policy (the partner line stays in the footer) and every accessibility and
+  performance test.
+- **Outside the homepage:** the primary button no longer carries a green shadow anywhere, because it lives in the
+  shared actions stylesheet.
+
+Mobile length went from 8,476 to 7,258 px including the footer; desktop from 5,994 to 5,365 px.

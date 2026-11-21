@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
-import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { fmt } from "@/i18n/format";
+import { productCount } from "@/content/catalogue";
 import { HeroAnimation } from "./HeroAnimation";
 import { SignalLines } from "./SignalLines";
 
@@ -16,19 +17,15 @@ export async function Hero() {
   return (
     <section className="home-hero" aria-labelledby="home-title">
       <div className="home-hero-copy page-container">
-        <p className="home-eyebrow">
-          <span aria-hidden="true" />
-          {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
-        </p>
         <h1 id="home-title" className="home-display">
           <span>
             <span className="home-headline-rise">{h.line1}</span>
           </span>
-          <span className="text-green-700">
+          <span className="home-headline-quiet">
             <span className="home-headline-rise">{h.line2}</span>
           </span>
         </h1>
-        <p className="home-lead">{h.lead}</p>
+        <p className="home-lead">{fmt(h.lead, { count: productCount() })}</p>
         <div className="home-hero-actions">
           <Link href={localePath(locale, "/products")} className="home-button">
             {h.explore}
@@ -38,10 +35,8 @@ export async function Hero() {
             {h.quote}
           </Link>
         </div>
-        <p className="home-trust">{h.trust}</p>
       </div>
       <HeroAnimation>
-        <div className="home-wash" aria-hidden="true" />
         <SignalLines />
         <SignalLines mobile />
         <div className="home-device" role="img" aria-label={h.alt}>
@@ -102,8 +97,7 @@ export async function Hero() {
           </div>
         </div>
         <p className="home-art-caption">
-          <bdi>{h.model}</bdi>
-          <span>{h.demo}</span>
+          <bdi>{h.model}</bdi> · {h.demo}
         </p>
       </HeroAnimation>
     </section>

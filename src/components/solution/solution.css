@@ -617,3 +617,71 @@
     transform: none;
   }
 }
+
+/* ---------- Software that fits (link cards) ---------- */
+.t3-software-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.t3-software-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  transition:
+    box-shadow var(--duration-base) var(--ease-aims),
+    border-color var(--duration-base) var(--ease-aims);
+}
+.t3-software-card > .home-external-mark {
+  position: absolute;
+  inset-block-start: 1.5rem;
+  inset-inline-end: 1.5rem;
+  color: var(--color-ink-400);
+}
+.t3-software-kind {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.t3-software-card h3 {
+  margin-block: 1.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-home-card);
+  font-weight: 500;
+  text-align: start;
+}
+.t3-software-purpose {
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .t3-software-card:hover {
+    box-shadow: var(--shadow-2);
+    border-color: var(--color-green-100);
+  }
+}
+@media (max-width: 1023px) {
+  .t3-software-grid {
+    gap: 1rem;
+  }
+}
+@media (max-width: 639px) {
+  .t3-software-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .t3-software-card {
+    padding: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t3-software-card {
+    transition: none;
+  }
+}

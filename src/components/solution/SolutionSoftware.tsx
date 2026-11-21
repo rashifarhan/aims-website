@@ -18,17 +18,17 @@ export async function SolutionSoftware() {
         </h2>
         <p className="t3-lead">{c.lead}</p>
       </div>
-      <ul className="home-software-grid">
+      <ul className="t3-software-grid">
         {TA_SOFTWARE.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
           const href = navigationHref(localePath(locale, `/software/${slug}`));
           return (
             <li key={slug}>
-              <ExternalLink href={href} label={t.common.externalSite} className="home-software-card">
-                <p className="home-software-kind">{c[kind]}</p>
+              <ExternalLink href={href} label={t.common.externalSite} className="t3-software-card">
+                <p className="t3-software-kind">{c[kind]}</p>
                 <h3 dir="ltr">{software.name}</h3>
-                <p className="home-software-purpose">{c[purpose]}</p>
+                <p className="t3-software-purpose">{c[purpose]}</p>
               </ExternalLink>
             </li>
           );

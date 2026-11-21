@@ -76,16 +76,14 @@
   --duration-hero-wash: 1600ms;
   --color-device-start: #f1f5f3;
   --color-device-end: #e4ebe8;
-  --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
 
   /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
-  --text-home-display: 4.5rem;
+  --text-home-display: 4rem; /* 64px: the unslop headline names the product, so it runs longer than the old slogan */
   --text-home-display-compact: 3.5rem;
   --text-home-display-mobile: 2.5rem;
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
-  --text-home-stat: 3.5rem;
   /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
   --text-door-name: 14px;
   --text-door-model: 12.5px;
@@ -97,16 +95,15 @@
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
-  --text-home-quote: 1.375rem; /* 22px · review excerpts, between H3 and H2 */
-  --text-home-stat-mobile: 2.5rem; /* 40px · proof figures in the 2 × 2 phone grid */
+  /* Unslop pass: the catalogue count is the homepage's one type contrast (120 / 72px). */
+  --text-home-big-number: 7.5rem;
+  --text-home-big-number-mobile: 4.5rem;
   --text-device-bar: 5.2cqw;
   --text-device-clock: 23cqw;
   --text-device-small: 6.5cqw;
   --text-device-hint: 6cqw;
   --text-device-welcome: 12cqw;
   --container-home-stage: 1600px;
-  --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
-  --shadow-home-dot: 0 0 0 4px rgb(120 190 32 / 0.18);
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
   --container-page: 1344px;
@@ -181,11 +178,6 @@
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
-  --gradient-home-glow: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-lime) 10%, transparent),
-    transparent
-  );
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,
