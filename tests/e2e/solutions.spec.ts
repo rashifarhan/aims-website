@@ -10,7 +10,8 @@ for (const locale of ["en", "ar"]) {
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "ar" ? "rtl" : "ltr");
-    const cards = page.locator(".solution-card");
+    await expect(page.locator(".solution-card")).toHaveCount(5);
+    const cards = page.locator(".solution-card-action");
     await expect(cards).toHaveCount(5);
     // Each card is one heading link (stretched over the card): its name is the title only.
     const links = page.locator(".solution-card h2 a");
@@ -23,7 +24,9 @@ for (const locale of ["en", "ar"]) {
     await firstFaq.focus();
     await page.keyboard.press("Enter");
     await expect(page.locator(".solution-faq details").first()).toHaveAttribute("open", "");
-    const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+    const axe = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
     expect(axe.violations.map((v) => v.id)).toEqual([]);
     if (isMobile) await page.getByRole("button", { name: locale === "en" ? "Open menu" : "فتح القائمة" }).click();
     const solutions = isMobile
@@ -67,3 +70,18 @@ for (const locale of ["en", "ar"]) {
     }
   });
 }
+
+// Every "Explore the components" line must name something the linked listing actually contains (CLAUDE.md §1).
+test("component lines match the catalogue they link to", async ({ page, isMobile }) => {
+  test.skip(isMobile, "content check, one viewport is enough");
+  const expectations: [string, RegExp][] = [
+    ["/products/time-attendance?type=portable", /./],
+    ["/products/access-control?verify=face", /./],
+    ["/products/entrance-control?type=pedestrian", /swing|turnstile/i],
+    ["/products/pos", /Biometric POS/],
+  ];
+  for (const [url, pattern] of expectations) {
+    await page.goto(url);
+    await expect(page.getByRole("article").filter({ hasText: pattern }).first()).toBeVisible();
+  }
+});

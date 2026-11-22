@@ -122,28 +122,25 @@
   font-size: var(--text-small);
   font-weight: 600;
 }
-.solution-card-action svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex-shrink: 0;
-}
-.solution-card-link {
-  color: inherit;
-}
-/* Stretched target: the whole card is clickable; focus draws around the card. */
-.solution-card-link::after {
+/* The action link covers the whole card. */
+.solution-card-action::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
 }
-.solution-card-link:focus-visible {
+.solution-card-action:focus-visible {
   outline: none;
 }
-.solution-card:focus-within {
+.solution-card:has(.solution-card-action:focus-visible) {
   outline: 2px solid var(--color-green-700);
   outline-offset: 2px;
   box-shadow: var(--shadow-2);
+}
+.solution-card-action svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
 }
 @media (hover: hover) and (pointer: fine) {
   .solution-card:hover {
@@ -196,6 +193,11 @@
   margin-block-start: 1.5rem;
   color: var(--color-green-700);
   font-weight: 600;
+}
+.solution-advice span {
+  color: var(--color-ink-600);
+  font-size: var(--text-small);
+  font-weight: 400;
 }
 .solution-advice:hover {
   text-decoration: underline;

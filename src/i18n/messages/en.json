@@ -414,19 +414,19 @@
       "time-attendance": {
         "outcome": "Record working hours",
         "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
-        "includes": ["Face, fingerprint and card terminals", "Attendance software"],
+        "includes": ["Face, fingerprint and card terminals", "Portable terminals"],
         "action": "Explore attendance products"
       },
       "access-control": {
         "outcome": "Manage who can enter",
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
-        "includes": ["Readers and controllers", "Locks and exit devices"],
+        "includes": ["Readers and controllers", "Face recognition terminals"],
         "action": "Explore access control products"
       },
       "entrance-parking": {
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
-        "includes": ["Turnstiles and speed gates", "Parking barriers"],
+        "includes": ["Turnstiles and swing barriers", "Parking barriers"],
         "action": "Explore entrance products"
       },
       "door-locks": {
@@ -438,7 +438,7 @@
       "pos": {
         "outcome": "Equip your point of sale",
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
-        "includes": ["Windows and Android terminals", "POS peripherals"],
+        "includes": ["Windows and Android terminals", "Biometric POS terminals"],
         "action": "Explore POS products"
       }
     },
