@@ -11,7 +11,8 @@ export function NavigationLink({ href, externalLabel, children, ...props }: Prop
     return (
       <a {...props} href={destination} title={externalLabel}>
         {children}
-        <span aria-hidden="true" className="ms-1">
+        {/* Design Doc 13: the outward arrow mirrors in Arabic; nowrap keeps it on its label's line. */}
+        <span aria-hidden="true" className="ms-1 inline-block whitespace-nowrap rtl:-scale-x-100">
           ↗
         </span>
         <span className="sr-only"> · {externalLabel}</span>

@@ -21,7 +21,7 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
                 {c.label}
               </span>
             ) : (
-              <Link href={c.href} className="hover:text-ink hover:underline">
+              <Link href={c.href} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
                 {c.label}
               </Link>
             )}

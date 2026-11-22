@@ -186,7 +186,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
             }}
             aria-invalid={error || undefined}
             aria-describedby={error ? "contact-message-hint contact-message-error" : "contact-message-hint"}
-            className="w-full rounded-md border border-line-strong bg-paper px-3.5 py-3 text-base text-ink focus:border-green-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700 aria-invalid:border-error"
+            className="w-full rounded-md border border-line-strong bg-paper px-3.5 py-3 text-base text-ink focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700 aria-invalid:border-error"
           />
           <p id="contact-message-hint" className="mt-1.5 text-sm text-ink-600">
             {t.messageHint}
@@ -206,7 +206,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
                 value={day}
                 maxLength={40}
                 onChange={(e) => setDay(e.target.value)}
-                className="h-12 w-full rounded-md border border-line-strong bg-paper px-3.5 text-base text-ink focus:border-green-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
+                className="h-12 w-full rounded-md border border-line-strong bg-paper px-3.5 text-base text-ink focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
               />
             </>
           )}
