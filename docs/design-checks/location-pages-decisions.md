@@ -1,5 +1,7 @@
 # T7 location-page audit
 
+Client acceptance: **22 November 2026**, “Approve documented T7 exceptions”. The exact T7 exceptions and shared-finding mapping below are accepted under the project gate policy in CLAUDE.md; the native result remains OPEN.
+
 ## Raw result and scope
 
 `GATE: OPEN 29 (rounds used up)` on `/zkteco-distributor-in-oman`, the shared export/T7 template. The kit is unchanged. Round 1 reported 33 findings; round 2 reported 28 after genuine defects were corrected. Round 3 reused round 2's unchanged-page measurements and added the generic waiver-cap finding because the project now has nine named waivers (five historical and four T7 entries). The four T7 reasons were recorded, but the raw gate did not accept them or report PASS. The complete output and record are preserved in `location-pages-raw-gate.txt` and `location-pages-gate-record.json`.
@@ -17,7 +19,7 @@ The native gate measured the Oman template, not four independently passed pages.
 
 ## Four named T7 waiver reasons
 
-These are listed in `.taste-skill/waivers.json` and proposed for the same explicit project review as the shared findings. They do not silently extend the hub's previous approval.
+These are listed in `.taste-skill/waivers.json` and were explicitly accepted by the client for T7 on 22 November 2026. The hub’s previous approval was not silently extended.
 
 1. `no-visual` on `main#main > section.locations-section.location-support`: this is the required T7 support and FAQ section, with practical ordering checks, not an unillustrated feature promise. No installation or premises photographs have been supplied. A filler picture would not evidence support.
 2. `card-layout` on `section#models > div.wrap.page-container > div.location-product-grid`: four real catalogue records use the existing shared card system to compare models and add quantities. Different real photographs and verified specifications distinguish them. The approved T7 design specifies this model selection.
@@ -32,7 +34,7 @@ These are listed in `.taste-skill/waivers.json` and proposed for the same explic
 - Sticky-header screen reference: `section-height` on the hero, two `one-section`, three `screen-height` findings and `neighbour` at the support/footer boundary. The real first screen contains the header and the remaining hero, and later body sections are 900px at 1440×900. The checker uses an available height of about 827px after subtracting the sticky header. Phone sections grow naturally; the final footer is normal-flow navigation, not an additional marketing section.
 - `waivers`: nine project/page entries exceed the kit's global cap of five, even though five existing entries target other pages. No waiver or kit rule was hidden, removed or edited to make this disappear.
 
-The previous hub's project-specific policy is evidence for the shared decisions, not automatic acceptance of these new T7 targets. Final acceptance of the additional T7 exceptions must be explicit; no raw PASS is claimed.
+The client explicitly accepted the additional T7 targets, existing button variants and combined waiver count after reviewing this report. CLAUDE.md records that narrow extension. Genuine defects remain subject to correction and testing; no raw PASS is claimed.
 
 ## Copy, imagery and facts
 
@@ -44,4 +46,4 @@ No founding year, opening hours, stock, price, delivery-time promise, warranty d
 
 ## Verification
 
-Production build, lint, typecheck and formatting pass, with 89 unit tests. Full production browser suite: **295 passed, 15 existing viewport exclusions**, including the Arabic export variants and keyboard flow. Isolated throttled mobile performance: **18/18 passed**, three measurements for each of the four retained T7 pages and both homepages. T7 maximum LCP was 1.284s, CLS 0.0095 and transfer 486,781 bytes; every run had zero external requests and page errors. Final screenshot and CI evidence is recorded in the PR and implementation plan.
+Production build, lint, typecheck and formatting pass, with 89 unit tests. Full production browser suite: **295 passed, 15 existing viewport exclusions**, including the Arabic export variants and keyboard flow. Isolated throttled mobile performance: **18/18 passed**, three measurements for each of the four retained T7 pages and both homepages. T7 maximum LCP was 1.284s, CLS 0.0095 and transfer 486,781 bytes; every run had zero external requests and page errors. English and Arabic screenshots were visually checked at 390px and 1440px, with additional tablet captures and 320/390/768/1024/1440 reflow assertions. Final CI evidence is attached to PR #5.

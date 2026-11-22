@@ -54,19 +54,21 @@ Interface: `LocationPage({ market }: { market: "dubai" | "oman" | "kenya" })`; `
 
 Files: `tests/e2e/location-pages.spec.ts`, `README.md`, new scoped design-check report under `docs/design-checks/`; update this checklist.
 
-- [ ] Check 320, 390, 768, 1024, 1440 layouts; English/Arabic screenshots, keyboard walkthrough, hero/CTA hover contrast, all routes axe zero, no-JS and reduced motion.
-- [ ] Run copy lint, native gate (maximum three rounds; stop and report OFF/ERROR per skill), preserve raw findings and fix genuine defects without weakening tests or the checker.
-- [ ] Request independent final source/diff review; resolve genuine findings.
-- [ ] Run `pnpm check`, `pnpm format:check`, `pnpm build`, full `pnpm e2e`, isolated performance checks.
-- [ ] Record doc chapters, facts, decisions and exact test/audit limits; commit, push separate branch and create dependent PR without merging main.
-- [ ] Start production preview, confirm 200 response, open it in Codex and wait for green CI before final delivery.
+- [x] Check 320, 390, 768, 1024, 1440 layouts; English/Arabic screenshots, keyboard walkthrough, hero/CTA hover contrast, all routes axe zero, no-JS and reduced motion.
+- [x] Run copy lint, native gate (maximum three rounds; stop and report OFF/ERROR per skill), preserve raw findings and fix genuine defects without weakening tests or the checker.
+- [x] Request independent final source/diff review; resolve genuine findings.
+- [x] Run `pnpm check`, `pnpm format:check`, `pnpm build`, full `pnpm e2e`, isolated performance checks.
+- [x] Record doc chapters, facts, decisions and exact test/audit limits; commit, push separate branch and create dependent PR without merging main.
+- [x] Start production preview, confirm 200 response, open it in Codex and start the final CI watch; deliver only after that run is green.
 
 ## Execution evidence
 
 Branch `codex/location-pages` is based on the completed Locations hub (`ab763d8`), which remains PR #4. Routing foundation: `ed0b7c1`. Baseline 84 unit tests; final check 89 tests, lint and types pass; format check and production build pass. Full production browser suite: **295 passed, 15 existing viewport exclusions**. Includes all four retained T7 routes, Arabic export variants, 320/390/768/1024/1440 reflow, canonical/hreflang, both Dubai language switch directions, quote context preservation, guarded contact, no-JS, reduced motion and keyboard focus.
 
-Independent source review found one Important locale-root query/hash bug, verified RED then GREEN; no deferred minors. UI audit fixes were also verified RED then GREEN for the phone hero and tablet nav. Native audit is **GATE: OPEN 29**, not PASS. Exact scope, raw evidence and new named exceptions pending explicit acceptance are in `docs/design-checks/location-pages-decisions.md`.
+Independent source review found one Important locale-root query/hash bug, verified RED then GREEN; no deferred minors. UI audit fixes were also verified RED then GREEN for the phone hero and tablet nav. Native audit is **GATE: OPEN 29**, not PASS. Exact scope, raw evidence and new named exceptions explicitly accepted by the client on 22 November 2026 are in `docs/design-checks/location-pages-decisions.md`.
 
 Ruling: reuse the existing AddToQuote client leaf with optional typed context instead of a separate cloned LocationAdd. It retains the working focus transfer and quantity announcements; the full suite verifies shared behaviour.
 
 Isolated performance: 18/18 passed (three throttled mobile measurements per retained T7 page and both homepages). T7 maximum LCP 1.284s, CLS 0.0095, transfer 486,781 bytes; zero external requests or page errors.
+
+Delivery: implementation pushed as `6b401d0` to `codex/location-pages`; PR #5 targets main and documents its dependency on PR #4. The client accepted the exact T7 exceptions in chat. Production preview responds 200 at `http://localhost:3200/zkteco-distributor-in-dubai`; English/Arabic 390/1440 screenshots inspected. CI status is tracked on [PR #5](https://github.com/rashifarhan/aims-website/pull/5) and must be green before final delivery.

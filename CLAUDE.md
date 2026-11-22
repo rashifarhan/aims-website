@@ -119,6 +119,16 @@ kit gate passed when it is OPEN. Report raw status and unresolved project findin
 For this release, the documented, reviewed project decisions satisfy the design-gate Definition of Done for their
 named findings. Keep `docs/design-checks/locations-raw-findings.json` with the original finding text for audit.
 
+**T7 extension (client approved 22 Nov 2026).** The client explicitly accepted the exact additional findings in
+`docs/design-checks/location-pages-decisions.md`: the required support/FAQ text section, uniform catalogue records,
+literal export-checklist headings, approved destination-route motion, existing header/catalogue button variants,
+and the combined nine-waiver count. That report also maps the current shared directory/contact/sticky-header
+findings to the existing project decisions. These named T7 findings satisfy the project gate for this release;
+this is not a blanket waiver for later pages or genuine contrast, focus, overflow or broken-action defects.
+Preserve `location-pages-raw-gate.txt` and `location-pages-gate-record.json` unchanged. The native result is
+**GATE: OPEN 29**, not PASS; the native measurement scope is the representative Oman T7 template, with the other
+routes validated by the documented browser, visual and performance checks.
+
 Node 22, pnpm 10. Don't use npm or yarn, and don't commit another lockfile.
 
 ## Architecture map

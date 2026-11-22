@@ -10,7 +10,7 @@ The hero enters once; a destination-specific route draws once on visibility and 
 
 Decisions: use one shared server-rendered T7 template with distinct Dubai/export content; reuse `AddToQuote` with optional typed context instead of cloning its quantity and focus logic. Fix the shared language switch for locale roots with query/hash suffixes. Keep desktop navigation on one line at 1024px by reducing the search width at that breakpoint; the full-width desktop search returns at 1280px.
 
-Verification: production build, formatting, lint and types pass; **89 unit tests, 295 browser tests and 18 isolated mobile performance measurements pass** (15 existing viewport exclusions). Native T7 audit: **GATE: OPEN 29**. Exact findings, four new named waiver reasons and the current approval boundary are in `docs/design-checks/location-pages-decisions.md`; raw output and the gate record are retained alongside it. No raw design-gate PASS is claimed.
+Verification: production build, formatting, lint and types pass; **89 unit tests, 295 browser tests and 18 isolated mobile performance measurements pass** (15 existing viewport exclusions). Native T7 audit: **GATE: OPEN 29**. Exact findings, four new named waiver reasons and the client-approved T7 extension are in `docs/design-checks/location-pages-decisions.md`; raw output and the gate record are retained alongside it. The client explicitly accepted the documented T7 exceptions on 22 November 2026; CLAUDE.md records their narrow scope. No raw design-gate PASS is claimed.
 
 ## Locations hub — 22 November 2026
 
