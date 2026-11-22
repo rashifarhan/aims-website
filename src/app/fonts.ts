@@ -19,9 +19,9 @@ export const plexMono = localFont({
 
 export const plexArabic = localFont({
   src: [
+    // Two weights, not four (AT-11 on throttled Arabic pages): 500 falls back to 400 and 600 to 700 by
+    // the CSS font-matching rules, saving about 90 KB on every Arabic page.
     { path: "./fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2", weight: "400" },
-    { path: "./fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2", weight: "500" },
-    { path: "./fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2", weight: "600" },
     { path: "./fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2", weight: "700" },
   ],
   variable: "--font-plex-arabic",
