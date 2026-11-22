@@ -18,11 +18,11 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
             )}
             {i === items.length - 1 ? (
               <span aria-current="page" className="text-ink-700">
-                {c.label}
+                <bdi>{c.label}</bdi>
               </span>
             ) : (
               <Link href={c.href} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
-                {c.label}
+                <bdi>{c.label}</bdi>
               </Link>
             )}
           </li>

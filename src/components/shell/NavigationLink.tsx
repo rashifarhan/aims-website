@@ -10,10 +10,13 @@ export function NavigationLink({ href, externalLabel, children, ...props }: Prop
   if (destination.startsWith("https://")) {
     return (
       <a {...props} href={destination} title={externalLabel}>
-        {children}
-        {/* Design Doc 13: the outward arrow mirrors in Arabic; nowrap keeps it on its label's line. */}
-        <span aria-hidden="true" className="ms-1 inline-block whitespace-nowrap rtl:-scale-x-100">
-          ↗
+        {/* One text run, so in a flex link a wrapped label keeps the arrow after its last word. The arrow
+            mirrors in Arabic (Design Doc 13). */}
+        <span>
+          {children}
+          <span aria-hidden="true" className="ms-1 inline-block rtl:-scale-x-100">
+            ↗
+          </span>
         </span>
         <span className="sr-only"> · {externalLabel}</span>
       </a>

@@ -32,14 +32,10 @@
   gap: 1.5rem;
 }
 .solution-card {
-  position: relative;
+  /* Surface, lift and photo zoom come from the shared .ui-card (actions.css); this is layout only. */
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  box-shadow: var(--shadow-1);
 }
 .solution-card-heading {
   display: flex;
@@ -75,7 +71,26 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transition: transform var(--duration-slow) var(--ease-aims);
+}
+/* Micro facts: the pictured model code in Plex Mono (CLAUDE.md §2) and the family's product count. */
+.solution-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-block-start: 0.75rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-caption);
+}
+.solution-model {
+  max-width: 100%;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper-2);
+  color: var(--color-ink-700);
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
 }
 .solution-card-description {
   margin-block-start: 1.25rem;
@@ -140,18 +155,9 @@
 .solution-card-link:focus-visible {
   outline: none;
 }
-.solution-card:focus-within {
+.solution-card:has(:focus-visible) {
   outline: 2px solid var(--color-green-700);
   outline-offset: 2px;
-  box-shadow: var(--shadow-2);
-}
-@media (hover: hover) and (pointer: fine) {
-  .solution-card:hover {
-    box-shadow: var(--shadow-2);
-  }
-  .solution-card:hover img {
-    transform: scale(1.04);
-  }
 }
 .solution-industries {
   margin-block: 3.5rem;
@@ -296,7 +302,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .solution-card img,
   .solution-faq summary svg {
     transition: none;
   }
