@@ -19,6 +19,12 @@ it("preserves query and hash while switching a Dubai page", () => {
   expect(localePath("ar", "/products?q=F18")).toBe("/ar/products?q=F18");
 });
 
+it("switches locale roots with query and hash suffixes", () => {
+  expect(counterpartPath("/ar?utm=1", "en")).toBe("/?utm=1");
+  expect(counterpartPath("/ar#main", "en")).toBe("/#main");
+  expect(counterpartPath("/?utm=1#main", "ar")).toBe("/ar?utm=1#main");
+});
+
 it("uses self-canonical and reciprocal hreflang for Arabic Dubai", () => {
   expect(alternates("ar", en)).toMatchObject({
     canonical: ar,

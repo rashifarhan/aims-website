@@ -4,7 +4,7 @@ import { useEffect } from "react";
 /** Design Doc 8.3: routes explain delivery from Dubai, once, with a finished static fallback. */
 export function LocationsMotion() {
   useEffect(() => {
-    const root = document.querySelector(".locations-hub");
+    const root = document.querySelector(".locations-hub, .location-page");
     const map = root?.querySelector(".reach-map");
     if (!root || !map) return;
     const media = matchMedia("(prefers-reduced-motion: reduce)");

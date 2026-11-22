@@ -19,4 +19,4 @@ export const LOCATION_PAGES = {
 export type LocationMarket = keyof typeof LOCATION_PAGES;
 
 /** Selection across attendance and door access; no unsupported best-seller ranking. */
-export const LOCATION_MODELS = ["f18", "bio-pro-sa20", "zkteco-speedface-v5l-qr", "inbio-pro-160"] as const;
+export const LOCATION_MODELS = ["f18", "bio-pro-sa20", "inbio-pro-160", "al-m280"] as const;

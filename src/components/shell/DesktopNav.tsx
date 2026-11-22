@@ -74,7 +74,7 @@ export function DesktopNav({
               <Link
                 externalLabel={externalLabel}
                 href={item.href}
-                className="nav-motion inline-flex h-11 items-center rounded-pill px-2 text-small font-medium text-ink-700 hover:bg-paper-2 hover:text-ink xl:px-3"
+                className="nav-motion inline-flex h-11 items-center rounded-pill px-2 text-small font-medium whitespace-nowrap text-ink-700 hover:bg-paper-2 hover:text-ink xl:px-3"
               >
                 {item.label}
               </Link>

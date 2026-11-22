@@ -72,7 +72,7 @@ export async function Header() {
           action={href("/products")}
           placeholder={t.nav.search}
           submitLabel={t.nav.searchSubmit}
-          className="ms-auto hidden w-56 lg:block xl:w-72"
+          className="ms-auto hidden w-40 lg:block xl:w-72"
           shortcut
         />
         <Suspense fallback={null}>

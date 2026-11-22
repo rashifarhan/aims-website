@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ReachMap } from "@/components/home/ReachMap";
+import { LOCATION_PAGES } from "@/lib/locationPages";
 
 export async function LocationMarkets() {
   const all = await getDictionary();
@@ -27,7 +28,14 @@ export async function LocationMarkets() {
                     <li key={country}>
                       <Link
                         className="locations-link"
-                        href={localePath(locale, `/quote?need=export&country=${country}`)}
+                        href={localePath(
+                          locale,
+                          country === "Oman"
+                            ? LOCATION_PAGES.oman.path
+                            : country === "Kenya"
+                              ? LOCATION_PAGES.kenya.path
+                              : `/quote?need=export&country=${country}`,
+                        )}
                       >
                         <span className="sr-only">{t.destinationAction} </span>
                         {t.countries[country]}

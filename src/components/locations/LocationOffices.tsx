@@ -4,6 +4,7 @@ import { ContactLink } from "@/components/contact/ContactLink";
 import Link from "next/link";
 import { localePath } from "@/i18n/config";
 import { PinIcon } from "@/components/icons";
+import { LOCATION_PAGES } from "@/lib/locationPages";
 
 export async function LocationOffices() {
   const t = (await getDictionary()).locationsHub;
@@ -40,9 +41,14 @@ export async function LocationOffices() {
             );
           })}
         </div>
-        <Link className="locations-primary" href={localePath(locale, "/quote?need=install")}>
-          {t.install}
-        </Link>
+        <div className="locations-office-actions locations-actions">
+          <Link className="locations-primary" href={localePath(locale, "/quote?need=install")}>
+            {t.install}
+          </Link>
+          <Link className="locations-link" href={localePath(locale, LOCATION_PAGES.dubai.path)}>
+            {(await getDictionary()).locationPage.dubai.title}
+          </Link>
+        </div>
         <div className="locations-faq">
           <h3>{t.faqTitle}</h3>
           <dl>

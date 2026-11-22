@@ -55,9 +55,11 @@ for (const locale of ["en", "ar"]) {
     await page.locator(".locations-markets .locations-primary").hover();
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
     expect(axe.violations.map((v) => v.id)).toEqual([]);
-    const kenya = page.locator('main a[href$="need=export&country=Kenya"]');
+    const kenya = page.locator('main a[href$="zkteco-distributors-in-kenya"]');
     await kenya.focus();
     await page.keyboard.press("Enter");
+    await expect(page.locator(".location-hero")).toBeVisible();
+    await page.locator(".location-hero .locations-primary").click();
     await expect(page.locator("#quote-country")).toHaveValue("Kenya");
     await page.goto(locale === "en" ? "/quote" : "/ar/quote");
     await page.reload();

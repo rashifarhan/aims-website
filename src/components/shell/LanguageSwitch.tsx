@@ -7,8 +7,11 @@ import { localePath, type Locale } from "@/i18n/config";
 
 /** Path of the same page in the other language: /x ↔ /ar/x. */
 export function counterpartPath(browserPath: string, target: Locale): string {
-  const bare = browserPath.replace(/^\/(ar|en)(?=\/|$)/, "") || "/";
-  return localePath(target, bare);
+  const suffixAt = browserPath.search(/[?#]/);
+  const pathname = suffixAt < 0 ? browserPath : browserPath.slice(0, suffixAt);
+  const suffix = suffixAt < 0 ? "" : browserPath.slice(suffixAt);
+  const bare = pathname.replace(/^\/(ar|en)(?=\/|$)/, "") || "/";
+  return localePath(target, bare) + suffix;
 }
 
 const noop = () => () => {};

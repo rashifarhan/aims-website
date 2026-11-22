@@ -23,5 +23,25 @@
     "check": "card-layout",
     "target": "section#families > div.home-section.page-container > div.home-family-grid",
     "reason": "Six product families are one catalogue index; each card shows a different real AIMS product photograph and count."
+  },
+  {
+    "check": "no-visual",
+    "target": "main#main > section.locations-section.location-support",
+    "reason": "The client-approved T7 design requires support checks and FAQ in this section, not a marketing feature visual. Its content is readable support guidance; no showroom or installation photograph has been supplied, and a stock scene would not evidence export support."
+  },
+  {
+    "check": "card-layout",
+    "target": "section#models > div.wrap.page-container > div.location-product-grid",
+    "reason": "The approved T7 design specifies four real catalogue models with the shared card style, specifications and Add to quote. These are comparable catalogue records with different real photographs, not four duplicated marketing features."
+  },
+  {
+    "check": "copy-headings",
+    "target": "ol.location-steps > li:nth-of-type(1) > div > h3",
+    "reason": "Destination, Documents, Before dispatch and Models to consider name literal T7 export checklist steps and a catalogue selection. The client-approved content uses these section nouns; they are not unsupported brand slogans."
+  },
+  {
+    "check": "effect-kind",
+    "target": "section#fulfilment",
+    "reason": "Design Doc 8.3 and the approved T7 design specify the AIMS Dubai-to-destination route map. LocationsMotion animates its real SVG route once on visibility, pauses offscreen or hidden and cancels to its final state under reduced motion; browser tests verify it. The generic checker only recognizes its own moment modules."
   }
 ]

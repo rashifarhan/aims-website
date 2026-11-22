@@ -201,23 +201,23 @@ export const ROUTES: RouteEntry[] = [
     title: "ZKTeco distributor in Dubai",
     template: "T7 Location",
     priority: "P0",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/zkteco-distributor-in-oman",
     title: "ZKTeco distributor in Oman",
     template: "T7 Location",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/zkteco-distributors-in-kenya",
     title: "ZKTeco distributors in Kenya",
     template: "T7 Location",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
-  { path: "/ar/zkteco-dubai", title: "ZKTeco دبي", template: "T7 Location", priority: "P1", status: "planned" },
+  { path: "/ar/zkteco-dubai", title: "ZKTeco دبي", template: "T7 Location", priority: "P1", status: "built" },
 ];
 
 export const builtRoutes = () => ROUTES.filter((r) => r.status === "built");

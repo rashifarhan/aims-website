@@ -1,0 +1,177 @@
+/* T7 uses the same token scale and content edges as the Locations hub. */
+.location-fulfilment {
+  margin-block-end: 1.5rem;
+  color: var(--color-green-700);
+  font-weight: 600;
+}
+.location-authorised {
+  margin-block-start: 2rem;
+  font-size: var(--text-sm);
+  color: var(--color-ink-600);
+}
+.location-steps {
+  display: grid;
+  gap: 1.5rem;
+}
+.location-steps li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 1rem;
+}
+.location-step-number {
+  color: var(--color-lime);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.location-page .location-steps h3 {
+  font-size: var(--text-lg);
+}
+.location-steps p {
+  color: var(--color-night-muted);
+}
+.location-showroom {
+  border-block-start: 1px solid var(--color-night-line);
+  margin-block-start: 2rem;
+  padding-block-start: 1.5rem;
+}
+.location-showroom .locations-actions {
+  margin-block-start: 1rem;
+  gap: 0.5rem 1.5rem;
+}
+.location-showroom .locations-link {
+  flex-wrap: wrap;
+}
+.location-product-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 2rem;
+}
+.location-product-grid article {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  min-width: 0;
+}
+.location-product-photo {
+  display: block;
+  overflow: hidden;
+  background: var(--color-paper);
+}
+.location-product-photo img {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: contain;
+}
+.location-page .location-product-grid h3 {
+  font-size: var(--text-lg);
+  font-family: var(--font-mono);
+}
+.location-product-grid dl {
+  display: grid;
+  gap: 0.5rem;
+  margin-block: 1rem 1.5rem;
+  font-size: var(--text-sm);
+}
+.location-product-grid dt {
+  color: var(--color-ink-600);
+}
+.location-product-grid dd {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.location-product-grid article > div:last-child {
+  margin-block-start: auto;
+}
+.location-support {
+  background: var(--color-paper-2);
+}
+.location-support-grid {
+  display: grid;
+  gap: 3rem;
+  margin-block-start: 2rem;
+}
+.location-support-grid .locations-lead {
+  margin-block-start: 0;
+}
+.location-support-grid .locations-link {
+  margin-block-start: 1rem;
+}
+.location-faq {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 1.5rem;
+}
+.location-faq dt {
+  font-weight: 650;
+  font-size: var(--text-lg);
+}
+.location-faq dd {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+}
+.location-final {
+  margin-block-start: 3rem;
+  padding-block-start: 2rem;
+}
+.location-final > p {
+  font-weight: 650;
+  font-size: var(--text-xl);
+}
+.location-final .locations-actions {
+  margin-block-start: 1rem;
+}
+@media (min-width: 640px) {
+  .location-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .location-page .locations-hero-grid {
+    margin-block-start: 3rem;
+  }
+  .location-page .locations-hero-grid > img {
+    height: 34rem;
+  }
+  .location-page h1 {
+    max-width: 16ch;
+  }
+  .location-product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .location-product-grid article {
+    padding: 1rem;
+  }
+  .location-product-photo img {
+    block-size: 14rem;
+    aspect-ratio: auto;
+  }
+  .location-support-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 639px) {
+  .location-hero {
+    padding-block: 1rem 2rem;
+  }
+  .location-hero .locations-hero-grid {
+    margin-block-start: 1rem;
+    gap: 1.5rem;
+  }
+  .location-hero .location-fulfilment {
+    margin-block-end: 1rem;
+  }
+  .location-hero .locations-lead {
+    margin-block-start: 1rem;
+  }
+  .location-hero .locations-actions {
+    margin-block-start: 1.5rem;
+  }
+  .location-hero .location-authorised {
+    margin-block-start: 1rem;
+  }
+  .location-hero .locations-hero-grid > img {
+    block-size: 14rem;
+  }
+}

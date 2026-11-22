@@ -1,0 +1,91 @@
+gate: rounds used up; 29 FAIL open (page unchanged since the last run)
+  FAIL waivers          .taste-skill/waivers.json
+       too many waivers: fix instead (9, 5 at most)
+       fix: fix the findings and keep 5 waivers at most
+  FAIL no-visual        main#main > section.locations-section.location-support "Support starts with the right deta  [1440, 390]
+       no picture, effect or mock in this section; a feature section needs a visual
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL card-layout      section#models > div.wrap.page-container > div.location-product-grid "F18 Fingerprint capa  [1440, 390]
+       4 of 4 cards drawn one way (one panel, ground, placement and fragment): copies of one card
+       fix: a card layout at most twice on a page: build the other sections another way
+  FAIL button-styles    (one screen)  [1440, 390]
+       3 button styles on one screen: pill, outline #26703a ("Add to quote"); pill, fill #26703a ("Review your quote"); pill, outline #0e1512 ("Quote"); the odd one out: "Quote"
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL button-styles    (the page)  [1440, 390]
+       4 button styles on the page: pill, outline #0e1512 x1 ("Quote"); pill, fill #26703a x3 ("Request an export quote"); pill, outline #26703a x4 ("Add to quote"); pill, fill #ffffff, outline #e3e7e3 x6 ("F18")
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL copy-headings    ol.location-steps > li:nth-of-type(1) > div > h3 "Destination"  [1440]
+       "Destination" names no product, part, place or section (4 headings like it; at most one brand line per page) (and 3 more like it: "Documents", "Before dispatch", "Models to consider")
+       fix: name the thing in every heading: the product, a part, the place or a section noun
+  FAIL effect-kind      section#fulfilment  [1440]
+       1 [data-moment] mark that never runs: true on section#fulfilment (assets/moments/true/moment.js was never loaded); a moment is judged as one only when it runs
+       fix: load assets/moments/moments.js (system.js does it for a page with [data-moment]) and keep the dealt id, or take the data-moment mark off the section
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span "+971 4 2  [1440]
+       a phone number in international format: "+971 4 252 3253"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink)
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink > span "+971 4 8  [1440]
+       a phone number in international format: "+971 4 880 8445"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink, d
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span "+971 2 5  [1440]
+       a phone number in international format: "+971 2 546 6047"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink)
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span "+971 56   [1440]
+       a phone number in international format: "+971 56 524 0495"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink, 
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL section-height   footer.closing.mt-auto "AIMSAuthorized ZKTeco Distributor · UAEV"  [1440]
+       the section is 776px tall (0.9 screens), 124px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)
+       fix: set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit
+  FAIL section-height   main#main > section.locations-hero.location-hero "Home/Locations/ZKTeco supply to Oman{"@c  [1440]
+       the section starts at 73px, 73px below the screen grid (0 x 900px): sections start on whole screens (SR-2)
+       fix: make every section above it exactly one or two screens tall, so this one starts on a whole screen
+  FAIL one-section      section#fulfilment "From Dubai to your project in OmanTell u"  [1440]
+       the screen at scroll 73px (the top of section 1) shows 73px of section 2 beside section 1: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-section      main#main > section.locations-section.location-support "Support starts with the right deta  [1440]
+       the screen at scroll 3476px (the top of section 5) shows 51px of section 4 beside section 5: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-heading      div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(1) > h2.text-sm.font-semibold "P  [1440]
+       the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)
+       fix: give each section one h2, first in its .wrap, and the hero only its h1
+  FAIL container-edges  footer.closing.mt-auto > div.wrap.page-container "AIMSAuthorized ZKTeco Distributor · UAEV  [1440]
+       footer.closing > .wrap holds 3 children: exactly two (the call, then the legal row) (SR-6)
+       fix: build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(4) > h2.text-sm.font-semibold "C  [1440]
+       the h2 starts 1098px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(3) > h2.text-sm.font-semibold "S  [1440]
+       the h2 starts 892px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(2) > h2.text-sm.font-semibold "S  [1440]
+       the h2 starts 686px right of the container's left: every h1 and h2 starts on it, 2px either way (and 2 more like it: "Products", x 128) (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL row-lines        footer.closing.mt-auto > div.wrap.page-container > div.grid.gap-8 > div.hidden.grid-cols-4  [1440]
+       a row of 4 items: its first item starts at 560px, the container's left line at 80px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL split-pair       footer.closing.mt-auto > div.wrap.page-container > div.grid.gap-8 "AIMSAuthorized ZKTeco D  [1440]
+       the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)
+       fix: put the text in the left column and the visual in the right, on every split
+  FAIL off-grid         div.mt-10.border-t > ul.mt-3.flex > li:nth-of-type(6) > a.inline-flex.h-8 "Hotel lock"  [390]
+       left edge at 201.5px, 7.5px off a common edge of its section at 194px (5 elements)
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL edge-right       footer.closing.mt-auto div "AIMSAuthorized ZKTeco Distributo"  [1440]
+       ends at x 520; the right line is 1360
+       fix: end it on the .wrap right line
+  FAIL edge-left        footer.closing.mt-auto div.hidden.grid-cols-4 "ProductsTime attendanceAccess co"  [1440]
+       starts at x 560; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL screen-height    #fulfilment section.locations-section.locations-markets "From Dubai to your project in Om"  [1440]
+       900px, 1.09 screens; a section is exactly one or two (--h)
+       fix: make the section exactly one or two screens (--h: 1 or 2)
+  FAIL screen-height    #models section.locations-section.location-products "Models to considerChoose attenda"  [1440, 390]
+       900px, 1.09 screens; a section is exactly one or two (--h)
+       fix: make the section exactly one or two screens (--h: 1 or 2)
+  FAIL screen-height    section.locations-section.location-support section.locations-section.location-support "Sup  [1440]
+       900px, 1.09 screens; a section is exactly one or two (--h)
+       fix: make the section exactly one or two screens (--h: 1 or 2)
+  FAIL neighbour        section.locations-section.location-support section.locations-section.location-support "Sup  [390]
+       framed, 306px of the footer shows
+       fix: keep the next section's heading and picture out of this screen
+  10 WARN (not blocking), first: copy-buttons header.nav.sticky > div.wrap.page-contai; copy-actions div.locations-hero-grid > div > div.loca; section-gaps section#fulfilment / section#models; section-gaps section#models / main#main > section.loc; nav-labels header.nav.sticky > a.sr-only "Skip to c
+Stop fixing: put these open FAILs and the waivers in your report, then finish.
+GATE: OPEN 29 (rounds used up)

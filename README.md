@@ -1,5 +1,17 @@
 # aims-website
 
+## Individual location pages — 22 November 2026
+
+The T7 pages are implemented on `codex/location-pages`, based on the Locations hub branch: Dubai (`/zkteco-distributor-in-dubai`), Oman (`/zkteco-distributor-in-oman`), Kenya (`/zkteco-distributors-in-kenya`) and the preserved Arabic Dubai URL (`/ar/zkteco-dubai`). The Arabic-prefixed English Dubai slug redirects directly to the retained Arabic URL; language switching and hreflang use the actual pair.
+
+Sources: Master Plan v2.0 ch. 12, 14 and 18; Design Doc v0.1 ch. 8, 10.1 (T7), 11–14; PRODUCT.md, DESIGN.md and the project design skill. The client approved the T7 design in `docs/superpowers/specs/2026-11-22-location-pages-design.md` before implementation. Dubai uses the confirmed Deira showroom and UAE installation scope. Oman and Kenya are supplied from Dubai, with no invented overseas office, delivery promise or warranty duration. Existing Arabic Dubai material was checked on AIMS's site; new Arabic interface copy remains a draft pending review.
+
+The hero enters once; a destination-specific route draws once on visibility and pauses offscreen or in a hidden tab, settling under reduced motion. Existing buttons, links and product-card hover/press states remain. Catalogue model additions carry the selected need/country into the existing quote store while preserving other lines. Contact actions retain the preview guard; the site remains noindex. All imagery is AIMS's own catalogue photography; no stock stand-ins or new runtime dependencies.
+
+Decisions: use one shared server-rendered T7 template with distinct Dubai/export content; reuse `AddToQuote` with optional typed context instead of cloning its quantity and focus logic. Fix the shared language switch for locale roots with query/hash suffixes. Keep desktop navigation on one line at 1024px by reducing the search width at that breakpoint; the full-width desktop search returns at 1280px.
+
+Verification: production build, formatting, lint and types pass; **89 unit tests, 295 browser tests and 18 isolated mobile performance measurements pass** (15 existing viewport exclusions). Native T7 audit: **GATE: OPEN 29**. Exact findings, four new named waiver reasons and the current approval boundary are in `docs/design-checks/location-pages-decisions.md`; raw output and the gate record are retained alongside it. No raw design-gate PASS is claimed.
+
 ## Locations hub — 22 November 2026
 
 The T2 Locations hub is implemented at `/locations` and `/ar/locations` on `codex/locations-hub` in an isolated worktree. The original checkout's uncommitted software work is preserved. The branch uses the committed site foundation; main and the other feature branches are unchanged.
