@@ -69,12 +69,7 @@ export function ContactGuardProvider({
             )}
             <p className="mt-4 text-sm font-medium text-warn">{labels.nothingSent}</p>
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                autoFocus
-                onClick={close}
-                className="inline-flex h-11 items-center rounded-pill bg-green-700 px-5 font-semibold text-white hover:bg-green-800"
-              >
+              <button type="button" autoFocus onClick={close} className="home-button home-button-sm">
                 {labels.close}
               </button>
               {req.message && (
@@ -88,7 +83,7 @@ export function ContactGuardProvider({
                       setCopied(false); // clipboard blocked: the text above can still be selected
                     }
                   }}
-                  className="inline-flex h-11 items-center rounded-pill border border-line-strong px-4 font-semibold"
+                  className="home-button home-button-outline home-button-sm"
                 >
                   {copied ? labels.copied : labels.copy}
                 </button>

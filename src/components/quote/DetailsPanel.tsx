@@ -17,6 +17,17 @@ type Props = {
  * people don't retype what the browser knows (WCAG 3.3.7).
  */
 export function DetailsPanel({ contact: c, onChange, t, errors }: Props) {
+  // The example number is its own LTR run, or Arabic shows its digit groups in reverse (Design Doc 13).
+  const [hintBefore, hintAfter = ""] = t.phoneHint.split("{example}");
+  const phoneHint = (
+    <>
+      {hintBefore}
+      <bdi dir="ltr" className="tabular-nums">
+        {t.phoneExample}
+      </bdi>
+      {hintAfter}
+    </>
+  );
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -44,7 +55,7 @@ export function DetailsPanel({ contact: c, onChange, t, errors }: Props) {
             />
           )}
         </Field>
-        <Field id="quote-phone" label={t.phone} hint={t.phoneHint} error={errors.phone}>
+        <Field id="quote-phone" label={t.phone} hint={phoneHint} error={errors.phone}>
           {(a) => (
             <input
               {...a}
