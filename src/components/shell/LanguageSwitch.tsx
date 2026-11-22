@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
-import type { Locale } from "@/i18n/config";
+import { localePath, type Locale } from "@/i18n/config";
 
 /** Path of the same page in the other language: /x ↔ /ar/x. */
 export function counterpartPath(browserPath: string, target: Locale): string {
   const bare = browserPath.replace(/^\/(ar|en)(?=\/|$)/, "") || "/";
-  return target === "ar" ? (bare === "/" ? "/ar" : `/ar${bare}`) : bare;
+  return localePath(target, bare);
 }
 
 const noop = () => () => {};
@@ -30,7 +30,7 @@ export function LanguageSwitch({
   usePathname(); // re-render on client navigation
   const browserPath = useSyncExternalStore(
     noop,
-    () => window.location.pathname,
+    () => window.location.pathname + window.location.search + window.location.hash,
     () => null,
   );
   const href = browserPath === null ? (target === "ar" ? "/ar" : "/") : counterpartPath(browserPath, target);
