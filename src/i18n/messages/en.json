@@ -319,7 +319,9 @@
       "access": "Access management",
       "purposeAttendance": "Attendance and workforce management, installed on your own server.",
       "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
-      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels."
+      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels.",
+      "details": "Learn more",
+      "request": "Software supplied on request"
     },
     "locations": {
       "heading": "Let’s talk in person.",
@@ -422,7 +424,7 @@
         "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
         "includes": [
           "Face, fingerprint and card terminals",
-          "Attendance software"
+          "Portable terminals"
         ],
         "action": "Explore attendance products"
       },
@@ -431,7 +433,7 @@
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
         "includes": [
           "Readers and controllers",
-          "Locks and exit devices"
+          "Face recognition terminals"
         ],
         "action": "Explore access control products"
       },
@@ -439,7 +441,7 @@
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
         "includes": [
-          "Turnstiles and speed gates",
+          "Turnstiles and swing barriers",
           "Parking barriers"
         ],
         "action": "Explore entrance products"
@@ -458,7 +460,7 @@
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
         "includes": [
           "Windows and Android terminals",
-          "POS peripherals"
+          "Biometric POS terminals"
         ],
         "action": "Explore POS products"
       }

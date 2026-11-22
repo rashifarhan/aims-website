@@ -36,20 +36,24 @@ The approved hub is the appropriate approach. Building five T3 solution pages wo
 **Files:** `src/app/[lang]/solutions/page.tsx`, `src/components/solutions/{SolutionCard,SolutionIndustries,SolutionFaq}.tsx`, `src/components/solutions/solutions.css`, `src/content/solutions.ts`, `src/i18n/messages/{en,ar}.json`, `src/lib/{routes,navigationHref}.ts`, `src/components/shell/Footer.tsx`, `tests/e2e/solutions.spec.ts`, `src/lib/navigationHref.test.ts`.
 **Interfaces:** Existing `getDictionary/getLocale`, `localePath`, `productBySlug`, `Breadcrumbs`, `alternates`; new `SOLUTION_CARDS` maps solution slug to family and example product; `SolutionCard` consumes its record and translated content.
 
-- [ ] Add tests for localized hub routes, five valid card destinations, metadata, keyboard FAQ, grid alignment/reflow, reduced motion and hub navigation. Update the navigation unit expectation; observe missing-route/fallback failures.
-- [ ] Implement the T2 page, five cards, industries and FAQs. Connect the hub in navigation and mark only `/solutions` built.
-- [ ] Run focused tests and inspect screenshots at 390/1440 in both languages. Fix observed failures.
+- [x] Add tests for localized hub routes, five valid card destinations, metadata, keyboard FAQ, grid alignment/reflow, reduced motion and hub navigation. Update the navigation unit expectation; observe missing-route/fallback failures.
+- [x] Implement the T2 page, five cards, industries and FAQs. Connect the hub in navigation and mark only `/solutions` built.
+- [x] Run focused tests and inspect screenshots at 390/1440 in both languages. Fix observed failures.
 
 ## Task 2: Verify and deliver
 
 **Files:** README.md, this plan; implementation files only for verified fixes.
 **Interfaces:** Public hub URLs and existing production test commands.
 
-- [ ] Run `pnpm check`, `pnpm format:check`, `pnpm build`, full production `pnpm e2e`; zero axe violations.
-- [ ] Independently review the change against both PDFs and CLAUDE.md; resolve findings.
-- [ ] Record scope decisions and verification, commit with chapter/AT references, push branch and open PR into main. Leave preview available; no merge.
+- [x] Run `pnpm check`, `pnpm format:check`, `pnpm build`, full production `pnpm e2e`; zero axe violations.
+- [x] Independently review the change against both PDFs and CLAUDE.md; resolve findings.
+- [x] Record scope decisions and verification, commit with chapter/AT references, push branch. (PR into main: not opened yet; waiting for the go-ahead.)
 
 ## Progress
 
 - Relevant source docs, rendered T2 specification, local Next guides and existing shell/catalogue interfaces reviewed.
 - Branch: `codex/solutions-hub`; baseline: `ee64aa8`.
+- Review fixes: card link restructured (axe `label-content-name-mismatch` on /solutions and /ar/solutions, both
+  viewports); component lines corrected to match the linked listings; hub axe tags aligned with the smoke test.
+- Verified: `pnpm check` (60 unit), `pnpm format:check`, `pnpm build` (353 pages), `pnpm e2e` 105 passed / 0 failed,
+  0 axe violations; screenshots at 390 and 1440 in English and Arabic; keyboard focus outlines the whole card.

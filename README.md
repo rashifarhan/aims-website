@@ -184,6 +184,20 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
    everything and contact details are entered once, on the quote page. "Delivery abroad" also presets the quote's
    need. All WhatsApp, phone and email links stay behind the preview notice (risk R5).
 
+### Solutions hub decisions (Design Doc 10.1 T2; Master Plan ch. 12, 14)
+
+1. **Hub only, as planned** (`docs/superpowers/plans/2026-11-21-solutions-hub.md`): five need cards, an industries
+   strip and an FAQ. The five T3 solution pages are not built yet, so each card links to its family listing and says
+   so ("Explore attendance products"). The P2 finder is deferred.
+2. **Each card's action is its link**, stretched over the card. The whole card is clickable, the link's name is its
+   visible text (WCAG 2.5.3), and the heading stays a heading. The first draft wrapped the whole card in one link
+   labelled by part of its text, which failed axe `label-content-name-mismatch`; the hub test's axe tags now include
+   `wcag21a` like the smoke test, so it can't slip through again.
+3. **"Explore the components" lists only what the linked listing contains** (CLAUDE.md §1). The draft promised
+   attendance software, locks, speed gates and POS peripherals, which those listings don't have; they now read
+   portable terminals, face recognition terminals, turnstiles and swing barriers, and biometric POS terminals. An e2e
+   test checks each line against the catalogue.
+
 ## Content import
 
 ```bash
