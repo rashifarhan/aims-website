@@ -47,7 +47,7 @@ export function QtyStepper({ value, onChange, label, decreaseLabel, increaseLabe
         onChange={(e) => setDraft(e.target.value.replace(/\D/g, "").slice(0, 4))}
         onBlur={(e) => commit(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && commit(e.currentTarget.value)}
-        className="w-12 border-x border-line bg-transparent text-center text-base font-semibold tabular-nums focus:outline-none focus-visible:bg-green-50"
+        className="w-12 border-x border-line bg-transparent text-center text-base font-semibold tabular-nums focus-visible:bg-green-50"
       />
       <button
         type="button"

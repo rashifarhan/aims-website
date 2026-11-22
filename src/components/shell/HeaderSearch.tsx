@@ -41,8 +41,12 @@ export function HeaderSearch({
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}
     >
-      <label htmlFor={id} className="sr-only">
-        {placeholder}
+      {/* A label you can see (design skill system.md, Forms: a placeholder is never the label). */}
+      <label
+        htmlFor={id}
+        className="pointer-events-none absolute start-10 top-1/2 -translate-y-1/2 text-sm font-medium text-ink-600"
+      >
+        {submitLabel}
       </label>
       <SearchIcon
         width={18}
@@ -87,7 +91,7 @@ export function HeaderSearch({
             if (entry) select(entry);
           }
         }}
-        className={`peer h-11 w-full ${shortcut ? "pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
+        className={`peer h-11 w-full ${shortcut ? "pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-24 text-base text-ink placeholder:text-ink-600 focus:border-green-700 focus:bg-paper`}
       />
       {shortcut && (
         <kbd

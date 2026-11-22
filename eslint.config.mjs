@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Vendored agent skills: third-party scripts, not part of the app.
     ".agents/**",
+    // The design skill's kit, copied to public/assets: vendored, never edited (SKILL.md, Never).
+    "public/assets/**",
     ".claude/**",
     ".github/skills/**",
     ".github/agents/**",

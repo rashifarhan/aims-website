@@ -199,7 +199,7 @@ export function ListingView({
           placeholder={t.searchPlaceholder}
           autoComplete="off"
           enterKeyHint="search"
-          className="h-12 w-full rounded-pill border border-line-strong bg-paper ps-12 pe-4 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
+          className="h-12 w-full rounded-pill border border-line-strong bg-paper ps-12 pe-4 text-base text-ink placeholder:text-ink-400 focus:border-green-700"
         />
       </form>
 

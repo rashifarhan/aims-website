@@ -27,10 +27,11 @@
     "downloadCentre": "Software Download Centre",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "searchPlaceholder": "Search all products",
+    "searchPlaceholder": "Model or product",
     "searchSubmit": "Search",
     "contactUs": "Contact us",
-    "quoteItems": "items"
+    "quoteItems": "items",
+    "primaryAction": "Request a quote"
   },
   "common": {
     "addToQuote": "Add to quote",
@@ -422,46 +423,31 @@
       "time-attendance": {
         "outcome": "Record working hours",
         "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
-        "includes": [
-          "Face, fingerprint and card terminals",
-          "Portable terminals"
-        ],
+        "includes": ["Face, fingerprint and card terminals", "Portable terminals"],
         "action": "Explore attendance products"
       },
       "access-control": {
         "outcome": "Manage who can enter",
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
-        "includes": [
-          "Readers and controllers",
-          "Face recognition terminals"
-        ],
+        "includes": ["Readers and controllers", "Face recognition terminals"],
         "action": "Explore access control products"
       },
       "entrance-parking": {
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
-        "includes": [
-          "Turnstiles and swing barriers",
-          "Parking barriers"
-        ],
+        "includes": ["Turnstiles and swing barriers", "Parking barriers"],
         "action": "Explore entrance products"
       },
       "door-locks": {
         "outcome": "Choose access for each room",
         "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
-        "includes": [
-          "Smart door locks",
-          "Hotel lock systems"
-        ],
+        "includes": ["Smart door locks", "Hotel lock systems"],
         "action": "Explore door locks"
       },
       "pos": {
         "outcome": "Equip your point of sale",
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
-        "includes": [
-          "Windows and Android terminals",
-          "Biometric POS terminals"
-        ],
+        "includes": ["Windows and Android terminals", "Biometric POS terminals"],
         "action": "Explore POS products"
       }
     },
@@ -690,12 +676,7 @@
       "in": "In",
       "out": "Out",
       "hours": "Hours",
-      "people": [
-        "Staff 01",
-        "Staff 02",
-        "Staff 03",
-        "Staff 04"
-      ],
+      "people": ["Staff 01", "Staff 02", "Staff 03", "Staff 04"],
       "file": "Payroll export",
       "sample": "Illustrative data"
     },
@@ -860,5 +841,9 @@
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
     }
+  },
+  "closing": {
+    "title": "Request a quote for your site",
+    "lead": "One list with models, quantities and the site. AIMS sales reply with a quotation."
   }
 }

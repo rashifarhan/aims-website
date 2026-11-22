@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { lang } from "next/root-params";
 import { inter, plexArabic, plexMono } from "../fonts";
 import { LOCALES, dir, hasLocale } from "@/i18n/config";
@@ -22,6 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
     description: t.meta.defaultDescription,
     applicationName: t.meta.siteName,
     robots: INDEXABLE ? { index: true, follow: true } : { index: false, follow: false },
+    // The design skill's kind (SKILL.md 1): AIMS sells and installs ZKTeco hardware, so page type
+    // "product" and site-kind "tech". The skill's dealers and checker read these two metas.
+    other: { "site-kind": "tech", "page-type": "product" },
   };
 }
 
@@ -41,19 +45,28 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       lang={locale}
       dir={dir(locale)}
       className={`${inter.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
+      // The kit's page attributes (design skill system.md): AIMS's pill buttons (Design Doc 9),
+      // the soft radius set, the motion layer on, page type product.
+      data-type="product"
+      data-radius="soft"
+      data-buttons="pill"
+      data-motion=""
     >
       <body className="flex min-h-full flex-col">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-paper focus:px-4 focus:py-2 focus:shadow-2"
-        >
-          {t.nav.skipToContent}
-        </a>
         <ContactGuardProvider labels={t.contactGuard}>
           <Header />
           {children}
           <Footer />
         </ContactGuardProvider>
+        {/* The hero waits for motion.js instead of flashing; after 700ms it stands regardless
+            (design skill motion.md, The hero's entrance). The moments get the same guard. */}
+        <Script id="kit-enter" strategy="beforeInteractive">
+          {`document.documentElement.classList.add('m-enter','mo-js');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700);setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)`}
+        </Script>
+        {/* The kit's runtime, loaded from public/assets as plain files (SKILL.md 4, step 0). */}
+        <Script type="module" src="/assets/system.js" strategy="afterInteractive" />
+        <Script type="module" src="/assets/motion/motion.js" strategy="afterInteractive" />
+        <Script type="module" src="/assets/layout/layout.js" strategy="afterInteractive" />
       </body>
     </html>
   );

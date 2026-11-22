@@ -18,7 +18,15 @@ export default function GlobalNotFound() {
       <body>
         <main id="main" className="page-container py-24">
           <p className="text-xl font-bold tracking-wide">
-            AIMS<span className="text-lime">.</span>
+            AIMS
+            <svg
+              viewBox="0 0 6 6"
+              className="ms-px inline-block size-[0.24em] fill-lime"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle cx="3" cy="3" r="3" />
+            </svg>
           </p>
           <h1 className="mt-10 text-3xl font-bold tracking-tight">Page not found</h1>
           <p className="mt-3 max-w-lg text-ink-600">

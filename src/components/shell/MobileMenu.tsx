@@ -85,7 +85,15 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
         <div className="flex h-full flex-col">
           <div className="flex h-15 items-center justify-between border-b border-line px-4">
             <span dir="ltr" className="text-lg font-extrabold tracking-wordmark">
-              AIMS<span className="text-lime">.</span>
+              AIMS
+              <svg
+                viewBox="0 0 6 6"
+                className="ms-px inline-block size-[0.24em] fill-lime"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <circle cx="3" cy="3" r="3" />
+              </svg>
             </span>
             <button
               type="button"

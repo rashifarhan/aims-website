@@ -49,11 +49,13 @@ test.describe("header and menus", () => {
     await expect(page.getByRole("banner").getByRole("link", { name: "English" })).toHaveAttribute("href", "/");
   });
 
-  test("footer lists the real AIMS phone lines", async ({ page }) => {
+  // The footer is the skill's closing screen (layout-v4.md 2): the main action worded as in the
+  // header, and a directory that reaches Contact, where AIMS's real phone lines live (contact.spec).
+  test("footer closes with the main action and links to the contact page", async ({ page }) => {
     await page.goto("/");
     const footer = page.getByRole("contentinfo");
-    for (const tel of ["+97142523253", "+97148808445", "+97125466047"]) {
-      await expect(footer.locator(`a[href="tel:${tel}"]`)).toHaveCount(1);
-    }
+    await expect(footer.getByRole("heading", { level: 2 })).toHaveCount(1);
+    await expect(footer.getByRole("link", { name: "Request a quote" })).toHaveAttribute("href", "/quote");
+    await expect(footer.getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", "/contact");
   });
 });

@@ -14,9 +14,10 @@ import { QuoteLink } from "./QuoteLink";
 import { Wordmark } from "./Wordmark";
 
 /**
- * Site header (Design Doc ch. 6). Desktop 72px: wordmark · Products ·
- * Solutions · Software · Services · About · search · language · Quote.
- * Mobile 60px: wordmark · Quote · menu. Nothing sits above it.
+ * Site header: the design skill's nav (system.md, Nav): fixed, opaque, one hairline, the same at
+ * every scroll depth, its content on the page's .wrap lines with the skip link first. Desktop:
+ * wordmark · Products · Solutions · Software · Services · About · search · language · the main
+ * action. Phone: wordmark · the main action · menu. Nothing sits above it (Design Doc 6).
  */
 export async function Header() {
   const t = await getDictionary();
@@ -55,8 +56,11 @@ export async function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
-      <div className="page-container flex h-15 items-center gap-3 lg:h-18 lg:gap-6">
+    <header className="nav">
+      <div className="wrap nav__bar gap-3 lg:gap-6">
+        <a className="skip-link" href="#main">
+          {t.nav.skipToContent}
+        </a>
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch
@@ -79,7 +83,7 @@ export async function Header() {
         <QuoteLink
           externalLabel={t.home.quoteNotice}
           href={href("/quote")}
-          label={t.nav.quote}
+          label={t.nav.primaryAction}
           itemsLabel={t.nav.quoteItems}
           className="ms-auto lg:ms-0"
         />

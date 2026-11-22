@@ -20,3 +20,5 @@ performance-results
 
 # third-party agent skills: keep them byte-identical to the reviewed source
 skills-lock.json
+# the design skill's kit, copied verbatim: never reformatted
+public/assets

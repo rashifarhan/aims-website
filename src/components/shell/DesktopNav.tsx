@@ -39,10 +39,12 @@ export function DesktopNav({
     const onPointer = (e: PointerEvent) => {
       if (!navRef.current?.contains(e.target as Node)) setOpen(null);
     };
-    document.addEventListener("keydown", onKey);
+    // On window, so focus returns after the kit's document-level Escape (system.js blurs focus
+    // inside .nav): bubbling reaches window last, whichever script registered first.
+    window.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onPointer);
     return () => {
-      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
     };
   }, [open, baseId]);

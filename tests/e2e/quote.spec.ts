@@ -171,6 +171,8 @@ test("contact links in the preview open the notice instead of contacting AIMS (r
   await notice.getByRole("button", { name: "Close" }).first().click();
   await expect(notice).toBeHidden();
 
-  await page.getByRole("contentinfo").getByRole("link", { name: "+971 4 252 3253" }).click();
+  // The phone lines live on the Contact page since the footer became the closing screen.
+  await page.goto("/contact");
+  await page.getByRole("region", { name: "Visit or call" }).locator('a[href="tel:+97142523253"]').click();
   await expect(notice).toContainText("On the live site this calls AIMS (+971 4 252 3253).");
 });

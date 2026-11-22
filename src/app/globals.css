@@ -1,3 +1,15 @@
+/*
+ * The design skill's kit (CLAUDE.md: design-taste-frontend; copied to public/assets, never edited).
+ * It sits in its own cascade layer between Tailwind's base and utilities: the kit's classes
+ * (.wrap, header.nav, footer.closing, .btn, the section box) win over the reset, and a page's
+ * utility classes still win over the kit.
+ */
+@layer theme, base, kit, components, utilities;
+@import "../../public/assets/system.css" layer(kit);
+@import "../../public/assets/ui/cards.css" layer(kit);
+@import "../../public/assets/motion/motion.css" layer(kit);
+@import "../../public/assets/layout/layout.css" layer(kit);
+@import "../../public/assets/icons/icon.css" layer(kit);
 @import "tailwindcss";
 
 /*
@@ -281,5 +293,76 @@ header button:active {
 @media (prefers-reduced-motion: reduce) {
   header button {
     transition: none;
+  }
+}
+
+/*
+ * Kit tokens, set to AIMS's own palette (start.mjs brand with the Design Doc colours; the client's
+ * colours replace the dealt palette) and AIMS's self-hosted fonts (CLAUDE.md §5: no Google Fonts).
+ * Unlayered, so they win over the kit's defaults. Inverse grounds use the night-green tokens, where
+ * lime carries actions at 7.8:1 (CLAUDE.md §2).
+ */
+:root {
+  --p-bg: #ffffff;
+  --p-surface: #f6f8f5;
+  --p-ink: #0e1512;
+  --p-muted: #4a5550;
+  --p-accent: #26703a;
+  --p-accent-ink: #ffffff;
+  --p-action: #26703a;
+  --p-action-ink: #ffffff;
+  --p-inv-bg: #0a1a10;
+  --p-inv-surface: #102619;
+  --p-inv-ink: #ffffff;
+  --p-inv-muted: #b5c4ba;
+  --p-inv-accent: #78be20;
+  --p-inv-accent-ink: #0a1a10;
+  --p-inv-action: #78be20;
+  --p-inv-action-ink: #0a1a10;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-text: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.025em;
+  --display-tracking-xl: -0.035em;
+}
+:root:lang(ar) {
+  --font-display: var(--font-plex-arabic), var(--font-inter), sans-serif;
+  --font-text: var(--font-plex-arabic), var(--font-inter), sans-serif;
+}
+
+/*
+ * The kit's section box (every section one or two screens) applies only to pages built with the
+ * design skill, which mark their <main data-kit>. Older pages keep their flow under the fixed
+ * header until they are rebuilt.
+ */
+@layer components {
+  /* Older pages sit under the fixed header (design skill system.md, Nav), on the body so a page's
+     own padding utilities cannot undo it; a kit page's hero carries --nav itself. */
+  body:has(> main:not([data-kit])) {
+    padding-top: var(--nav);
+  }
+  main:not([data-kit]) > :is(section, .section) {
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    display: revert;
+  }
+  /* Two class names mean different things in Tailwind and in the kit. Outside the kit's own
+     structures (kit pages and the closing footer), "grid" is Tailwind's display: grid (the kit's
+     12 columns and full-row children would break the catalogue and the menus) and "group" is
+     Tailwind's hover marker (the kit's is a flex column). Utilities still win over both. */
+  .grid:not(main[data-kit] .grid, .closing__links .grid) {
+    grid-template-columns: none;
+    column-gap: normal;
+    row-gap: normal;
+  }
+  .grid:not(main[data-kit] .grid, .closing__links .grid) > * {
+    grid-column: auto;
+  }
+  .group:not(main[data-kit] .group) {
+    display: revert;
+    flex-direction: revert;
+    min-height: revert;
   }
 }

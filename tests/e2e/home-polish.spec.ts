@@ -97,9 +97,12 @@ test("approved hero entrances and verification tick settle under reduced motion"
 test("menu exposes its state and moves keyboard focus", async ({ page, isMobile }) => {
   await page.goto("/");
   const trigger = page.getByRole("button", { name: isMobile ? "Open menu" : "Products", exact: true });
-  await trigger.focus();
-  await trigger.press("Enter");
-  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  // The trigger answers once hydrated; retry the key press until then (as shell.spec does for "/").
+  await expect(async () => {
+    await trigger.focus();
+    await trigger.press("Enter");
+    await expect(trigger).toHaveAttribute("aria-expanded", "true", { timeout: 500 });
+  }).toPass();
   if (!isMobile) {
     const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`);
     await expect(panel.getByRole("link").first()).toBeFocused();
