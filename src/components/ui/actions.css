@@ -75,8 +75,14 @@
 .home-button:focus-visible::before {
   opacity: 1;
 }
+/* Taste motion.md, hover layer: a button steps up 1px on hover and presses down on click. */
+@media (hover: hover) and (pointer: fine) {
+  .home-button:hover {
+    transform: translateY(-1px);
+  }
+}
 .home-button:active {
-  transform: scale(0.98);
+  transform: translateY(1px) scale(0.985);
 }
 .home-action-arrow {
   transition: translate var(--duration-base) var(--ease-aims);
@@ -96,5 +102,9 @@
   .home-button::before,
   .home-action-arrow {
     transition: none;
+  }
+  .home-button:hover,
+  .home-button:active {
+    transform: none;
   }
 }

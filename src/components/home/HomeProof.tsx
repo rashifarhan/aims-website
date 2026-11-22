@@ -1,48 +1,57 @@
-import type { CSSProperties } from "react";
 import { getDictionary } from "@/i18n/dictionaries";
-import { productCount, softwareList } from "@/content/catalogue";
-import { FAMILIES } from "@/content/taxonomy";
-import { LOCATION_LINES } from "@/lib/site";
-import { reveal } from "./reveal";
+import { COMPANY_FIGURES, CUSTOMER_REVIEWS, LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { ExternalLink } from "./ExternalLink";
 
 /**
- * T1 row 5: one quiet proof bar. Every figure is counted from imported data, never a
- * company claim, until AIMS confirms its years, installations and clients (Design Doc 3.1).
+ * T1 rows 5 and 8 as one section: AIMS's confirmed figures, labelled as company-stated (Design Doc 3.1),
+ * then the three published review excerpts at body size. Each alone was under half a screen, so the
+ * taste skill's layout rule merges them (layout-v4: a stat row or quote never stands as a strip).
  */
 export async function HomeProof() {
-  const {
-    home: { proof },
-  } = await getDictionary();
-  const facts = [
-    [productCount(), proof.catalogue],
-    [FAMILIES.length, proof.families],
-    [softwareList().length, proof.software],
-    [LOCATION_LINES.length, proof.locations],
-  ] as const;
+  const t = await getDictionary();
+  const { proof, reviews } = t.home;
   return (
-    <section className="home-proof-band" data-scene aria-labelledby="proof-title">
-      <div className="home-section home-proof page-container">
-        <div {...reveal()}>
-          <h2 id="proof-title" className="home-section-title">
-            {proof.heading}
-          </h2>
-          <p className="home-section-lead">{proof.body}</p>
+    <section className="home-proof-band" aria-labelledby="proof-title">
+      <div className="home-section page-container">
+        <div className="home-proof">
+          <div>
+            <h2 id="proof-title" className="home-section-title">
+              {ZKTECO_AUTHORIZATION_CONFIRMED ? proof.heading : proof.headingFallback}
+            </h2>
+            <p className="home-section-lead">{proof.body}</p>
+          </div>
+          <dl>
+            {COMPANY_FIGURES.map(({ key, value, suffix }) => (
+              <div key={key}>
+                <dt>{proof[key]}</dt>
+                <dd className="tabular-nums" dir="ltr">
+                  {value.toLocaleString("en")}
+                  {suffix}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <dl>
-          {facts.map(([value, label]) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              {/* Counts up once in view; width is reserved so the band never shifts (CLS ≤ 0.05). */}
-              <dd
-                className="tabular-nums"
-                data-count={value}
-                style={{ "--digits": String(value).length } as CSSProperties}
-              >
-                {value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className="home-proof-reviews">
+          <div className="home-section-heading">
+            <h3 className="home-subtitle">{proof.reviews}</h3>
+            <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-text-link">
+              {reviews.read}
+            </ExternalLink>
+          </div>
+          <ul className="home-quote-row">
+            {CUSTOMER_REVIEWS.map((review) => (
+              <li key={review.name}>
+                <figure lang="en" dir="ltr">
+                  <blockquote>
+                    <p>“{review.excerpt}”</p>
+                  </blockquote>
+                  <figcaption>{review.name}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

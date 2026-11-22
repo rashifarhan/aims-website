@@ -1,6 +1,5 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { ChevronDownIcon } from "@/components/icons";
-import { reveal } from "./reveal";
 
 /** T1 row 9: six answers. The closing band after it carries the page's last action. */
 export async function HomeFaq() {
@@ -8,13 +7,12 @@ export async function HomeFaq() {
   const f = t.home.faq;
   return (
     <section id="faq" className="home-section home-faq page-container" aria-labelledby="faq-title">
-      <div className="home-faq-intro" {...reveal()}>
+      <div className="home-faq-intro">
         <h2 id="faq-title" className="home-section-title">
           {f.heading}
         </h2>
-        <p className="home-section-lead">{f.lead}</p>
       </div>
-      <div {...reveal(1)}>
+      <div>
         {f.items.map((item) => (
           <details key={item.q}>
             <summary>

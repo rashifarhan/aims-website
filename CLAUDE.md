@@ -284,6 +284,7 @@ A change is done only when all of the following hold:
 
 ## Open questions waiting on AIMS (don't guess)
 
-Logo · ZKTeco authorization wording · founding year (2011 or 2014) · opening hours · which phone serves which need ·
-permission to link datasheets and software files · Arabic reviewer. Data issues from the import are in
+Logo · founding year (2011 or 2014) · opening hours · which phone serves which need · permission to link datasheets
+and software files · Arabic reviewer. (Resolved 21 Nov 2026: the ZKTeco authorization and its wording "Authorized
+ZKTeco Distributor · UAE", and the four company figures in `src/lib/site.ts`.) Data issues from the import are in
 `content/import-report.json` and `README.md`.

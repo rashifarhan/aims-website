@@ -2,18 +2,15 @@ import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
-import { reveal } from "./reveal";
 
-/** Closing band on night green with slow moving light (premium direction; paused off-screen). */
+/** Closing band on night green; two still glows in its ground light it (a tech CSS ground; nothing moves). */
 export async function HomeClosing() {
   const { home } = await getDictionary();
   const c = home.closing;
   const locale = await getLocale();
   return (
-    <section className="home-night home-closing" data-scene aria-labelledby="closing-title">
-      <div className="home-glow home-glow-a" aria-hidden="true" />
-      <div className="home-glow home-glow-b" aria-hidden="true" />
-      <div className="home-closing-inner page-container" {...reveal()}>
+    <section className="home-night home-closing" aria-labelledby="closing-title">
+      <div className="home-closing-inner page-container">
         <h2 id="closing-title" className="home-closing-title">
           {c.heading}
         </h2>

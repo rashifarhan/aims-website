@@ -2,7 +2,6 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { softwareBySlug } from "@/content/catalogue";
 import { LIVE_AIMS } from "@/lib/site";
 import { ExternalLink } from "./ExternalLink";
-import { reveal } from "./reveal";
 
 /** Purpose lines restate each platform's published AIMS summary in one sentence (Design Doc 12). */
 const ENTRIES = [
@@ -11,38 +10,42 @@ const ENTRIES = [
   { slug: "zkaccess-3-5", kind: "access", purpose: "purposeAccess" },
 ] as const;
 
-/** T1 row 6: software strip; full pages are planned, so cards open AIMS's current pages. */
+/**
+ * T1 row 6, set inside the product-families section on night green: the software that runs the hardware
+ * above it. A strip of its own was under half a screen (taste skill layout-v4: no strip sections).
+ * Full software pages are planned, so the cards open AIMS's current pages.
+ */
 export async function HomeSoftware() {
   const t = await getDictionary();
   const s = t.home.software;
   return (
-    <section className="home-section page-container" aria-labelledby="software-title">
-      <div className="home-section-heading" {...reveal()}>
+    <div className="home-software-block">
+      <div className="home-section-heading">
         <div>
-          <h2 id="software-title" className="home-section-title">
+          <h3 id="software-title" className="home-subtitle">
             {s.heading}
-          </h2>
-          <p className="home-section-lead">{s.lead}</p>
+          </h3>
+          <p className="home-night-lead">{s.lead}</p>
         </div>
-        <ExternalLink href={LIVE_AIMS.software} label={t.common.externalSite} className="home-text-link">
+        <ExternalLink href={LIVE_AIMS.software} label={t.common.externalSite} className="home-night-link">
           {s.centre}
         </ExternalLink>
       </div>
       <ul className="home-software-grid">
-        {ENTRIES.map(({ slug, kind, purpose }, i) => {
+        {ENTRIES.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
           return (
-            <li key={slug} {...reveal(i + 1)}>
+            <li key={slug}>
               <ExternalLink href={software.sourceUrl} label={t.common.externalSite} className="home-software-card">
                 <p className="home-software-kind">{s[kind]}</p>
-                <h3 dir="ltr">{software.name}</h3>
+                <h4 dir="ltr">{software.name}</h4>
                 <p className="home-software-purpose">{s[purpose]}</p>
               </ExternalLink>
             </li>
           );
         })}
       </ul>
-    </section>
+    </div>
   );
 }

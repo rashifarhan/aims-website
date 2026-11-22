@@ -16,7 +16,19 @@ export const LIVE_CONTACT = process.env.NEXT_PUBLIC_LIVE_CONTACT === "true";
  * Show "Authorized ZKTeco Distributor" only once AIMS confirms it (Design
  * Doc 3.1 claims policy). Until then the interim line is used.
  */
-export const ZKTECO_AUTHORIZATION_CONFIRMED = false;
+// Confirmed by AIMS via the client on 21 Nov 2026; wording "Authorized ZKTeco Distributor · UAE" approved the same day.
+export const ZKTECO_AUTHORIZATION_CONFIRMED = true;
+
+/**
+ * Company figures AIMS confirmed on 21 Nov 2026 as published on aimsuae.me. Shown only as
+ * company-stated (Design Doc 3.1); the founding year stays off the site until AIMS supplies it.
+ */
+export const COMPANY_FIGURES = [
+  { key: "years", value: 11, suffix: "+" },
+  { key: "installations", value: 2200, suffix: "+" },
+  { key: "clients", value: 200, suffix: "+" },
+  { key: "countries", value: 30, suffix: "+" },
+] as const;
 
 /**
  * Contact details exactly as labelled in the aimsuae.me footer. Opening

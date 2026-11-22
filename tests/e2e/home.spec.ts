@@ -1,12 +1,16 @@
 import { expect, test } from "@playwright/test";
 import { builtRoutes } from "../../src/lib/routes";
+import { ZKTECO_AUTHORIZATION_CONFIRMED } from "../../src/lib/site";
+import catalogue from "../../content/products.json";
 
 for (const locale of ["en", "ar"] as const) {
   const home = locale === "en" ? "/" : "/ar";
   test(`${locale} homepage has working product routes, factual counts and SEO`, async ({ page }) => {
     await page.goto(home);
     const main = page.getByRole("main");
-    await expect(main.locator("h1")).toContainText(locale === "en" ? "Secure access." : "دخول آمن.");
+    await expect(main.locator("h1")).toContainText(
+      locale === "en" ? "ZKTeco access control" : "أنظمة ZKTeco للتحكم في الدخول",
+    );
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "en" ? "ltr" : "rtl");
     const families = main.locator("#families");
     const counts = [20, 34, 29, 15, 55, 6];
@@ -16,7 +20,10 @@ for (const locale of ["en", "ar"] as const) {
       await expect(link).toContainText(String(counts[index]));
     }
     await expect(main).not.toContainText("Project setup is in place");
-    await expect(main).not.toContainText("Authorized ZKTeco Distributor");
+    // Claims policy (Design Doc 3.1): the line appears exactly when AIMS has confirmed it (site.ts flag).
+    if (ZKTECO_AUTHORIZATION_CONFIRMED)
+      await expect(main).toContainText(locale === "en" ? "Authorized ZKTeco Distributor" : "موزع معتمد");
+    else await expect(main).not.toContainText("Authorized ZKTeco Distributor");
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
@@ -28,7 +35,11 @@ for (const locale of ["en", "ar"] as const) {
       .evaluateAll((links) =>
         links.map((link) => new URL((link as HTMLAnchorElement).href).pathname.replace(/^\/ar(?=\/|$)/, "") || "/"),
       );
-    const available = new Set(builtRoutes().map((route) => route.path));
+    // T5 is built for every catalogue product (generateStaticParams), so any shown product page counts.
+    const productPages = catalogue
+      .filter((p) => !("duplicateOf" in p && p.duplicateOf))
+      .map((p) => `/product/${p.slug}`);
+    const available = new Set([...builtRoutes().map((route) => route.path), ...productPages]);
     expect([...new Set(localLinks)].filter((path) => !available.has(path))).toEqual([]);
     const data = await page.locator('script[type="application/ld+json"]').textContent();
     expect(JSON.parse(data ?? "{}")["@type"]).toBe("Organization");

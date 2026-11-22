@@ -3,7 +3,8 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  min-height: var(--home-hero-height);
+  /* The hero alone fills the first screen below the sticky header (taste House rule 3). */
+  min-height: max(var(--home-hero-height), calc(100svh - var(--home-header-block)));
   max-width: var(--container-home-stage);
   margin-inline: auto;
   display: flex;
@@ -32,7 +33,6 @@
   height: 0.5rem;
   border-radius: 50%;
   background: var(--color-lime);
-  box-shadow: var(--shadow-home-dot);
 }
 .home-display {
   font-size: var(--text-home-display);
@@ -40,10 +40,11 @@
   line-height: 1.03;
   letter-spacing: -0.04em;
   margin-block: 1.5rem;
-  max-width: 52rem;
+  max-width: 54rem;
 }
 .home-display > span {
   display: block;
+  text-wrap: balance;
 }
 .home-lead {
   max-width: 32.5rem;
@@ -258,23 +259,36 @@
 .home-granted svg {
   width: 0.875rem;
 }
-.home-art-caption {
-  position: absolute;
-  inset-block-end: 3%;
-  inset-inline-start: 70%;
-  font-size: var(--text-caption);
+/* DESIGN.md One Sign Rule: the second line of the h1 steps back in ink; green is for actions. */
+.home-headline-quiet {
   color: var(--color-ink-600);
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  text-align: center;
 }
-.home-art-caption bdi {
-  font-family: var(--font-mono);
-  font-weight: 500;
+/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). */
+.home-motion-toggle {
+  position: absolute;
+  inset-block-end: 1.5rem;
+  /* On the content's end edge: the art spans the wider hero stage, the copy the page container. */
+  inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter));
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  pointer-events: auto;
+  transition:
+    transform var(--duration-fast) var(--ease-aims),
+    border-color var(--duration-fast) var(--ease-aims);
 }
-.home-art-caption span {
-  font-size: var(--text-caption);
+.home-motion-toggle:hover {
+  border-color: var(--color-ink-600);
+  transform: translateY(-1px);
+}
+.home-motion-toggle:active {
+  transform: translateY(1px) scale(0.985);
 }
 :lang(ar) .home-display,
 :lang(ar) .home-section-title {
@@ -305,7 +319,8 @@
   .home-hero {
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    justify-content: space-between;
+    min-height: calc(100svh - var(--home-header-block));
   }
   .home-hero-copy {
     padding-block: 3.5rem 0;
@@ -356,9 +371,8 @@
   .home-granted {
     display: none;
   }
-  .home-art-caption {
-    inset-inline: 0;
-    inset-block-end: 1rem;
+  .home-motion-toggle {
+    inset-block-end: 0.5rem;
   }
 }
 @media (max-width: 639px) {
@@ -477,7 +491,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .home-family-card:hover img {
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
 }
 .home-family-card:focus-visible {
@@ -514,8 +528,13 @@
     stroke-dashoffset: 0 !important;
   }
   .home-family-image img,
-  .home-faq summary svg {
+  .home-faq summary svg,
+  .home-motion-toggle {
     transition: none;
+  }
+  .home-motion-toggle:hover,
+  .home-motion-toggle:active {
+    transform: none;
   }
 }
 

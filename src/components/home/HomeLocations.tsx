@@ -3,11 +3,11 @@ import { CONTACT, LIVE_AIMS, LOCATION_LINES } from "@/lib/site";
 import { PhoneIcon, PinIcon } from "@/components/icons";
 import { ExternalLink } from "./ExternalLink";
 import { ReachMap } from "./ReachMap";
-import { reveal } from "./reveal";
 
 /**
- * T1 row 7 on night green: where AIMS works from and ships to, then the three places to call or
- * visit. Addresses, maps and hours AIMS hasn't published are left out, not guessed.
+ * T1 row 7 on night green. The Deira showroom leads as the place to visit (DESIGN.md North Star, "The
+ * Trusted Showroom"); the two offices follow; the map of where AIMS ships is the page's second dealt
+ * moment and draws its routes once. Addresses, maps and hours AIMS hasn't published are left out.
  */
 export async function HomeLocations() {
   const t = await getDictionary();
@@ -18,10 +18,12 @@ export async function HomeLocations() {
     showroom: { name: l.showroom, address: CONTACT.showroomAddress, tag: l.showroomTag },
     abuDhabi: { name: l.abuDhabi, address: l.abuDhabiArea, tag: l.office },
   };
+  // The showroom first: it is the one place AIMS invites visitors to.
+  const order = ["showroom", "headOffice", "abuDhabi"] as const satisfies readonly (typeof LOCATION_LINES)[number][];
   return (
-    <section id="showrooms" className="home-night home-reach" data-scene aria-labelledby="locations-title">
+    <section id="showrooms" className="home-night home-reach" data-moment aria-labelledby="locations-title">
       <div className="home-section page-container">
-        <div className="home-section-heading" {...reveal()}>
+        <div className="home-section-heading">
           <div>
             <h2 id="locations-title" className="home-section-title">
               {r.heading}
@@ -30,26 +32,13 @@ export async function HomeLocations() {
           </div>
         </div>
         <div className="home-reach-grid">
-          <figure className="home-reach-map" {...reveal(1)}>
-            <ReachMap labels={r} />
-            <figcaption className="home-reach-legend">
-              <span>
-                <i className="home-legend-dot" aria-hidden="true" />
-                {r.offices}
-              </span>
-              <span>
-                <i className="home-legend-line" aria-hidden="true" />
-                {r.routes}
-              </span>
-            </figcaption>
-          </figure>
           <ul className="home-place-cards">
-            {LOCATION_LINES.map((key, i) => {
+            {order.map((key) => {
               const place = details[key];
               const line = CONTACT.lines[key];
               const showroom = key === "showroom";
               return (
-                <li key={key} className="home-place-card" {...reveal(i + 2)}>
+                <li key={key} className={showroom ? "home-place-card home-place-featured" : "home-place-card"}>
                   <p className="home-place-tag">
                     <PinIcon width="16" height="16" />
                     {place.tag}
@@ -86,6 +75,9 @@ export async function HomeLocations() {
               );
             })}
           </ul>
+          <div className="home-reach-map">
+            <ReachMap labels={r} />
+          </div>
         </div>
       </div>
     </section>

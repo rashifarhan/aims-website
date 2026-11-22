@@ -107,7 +107,7 @@ Header suggestions now search a compact local product/software/solution index wi
 - The door-kit teaser is static: one signature animation per page. Its action opens the built access-control
   catalogue; the full interactive door story belongs to the future solution page.
 - The proof band shows the **159 imported products and six families**, not unconfirmed company statistics.
-  No founding year, client count or authorization claim is displayed. Existing approved catalogue taxonomy is retained.
+  No founding year is displayed; the authorization line and company figures followed AIMS's confirmation (see "Homepage through the taste skill"). Existing approved catalogue taxonomy is retained.
 - Three short review excerpts and reviewer names are sourced from [the live AIMS homepage](https://aimsuae.me/),
   checked 21 November 2026, and labelled as published by AIMS. No ratings, new endorsements or inferred claims are added.
 - The homepage-only scope uses clearly marked live AIMS destinations for quote/contact, installation and software
@@ -304,3 +304,66 @@ sold and installed). Its real phone lines and showroom address are brief-given, 
 Consequence for `claude/homepage-premium`: its fade-in-on-scroll reveals and the counting band break the skill's
 "scrolling moves nothing but the dealt moment" rule. The homepage must be reworked through the skill's plan, deal and
 gate before that branch merges.
+
+### Homepage through the taste skill (`claude/homepage-taste`, 22 Nov 2026)
+
+The existing homepage was improved in place with the `design-taste-frontend` skill: same framework, routes, components,
+content and brand, and no starter template or second design system. It follows the Impeccable critique and audit
+(`.impeccable/`) and the client's answers: "bug, then motion", tone "confident and calm", all P1s, and the claim wording
+"Authorized ZKTeco Distributor · UAE".
+
+- **Prefetch storm (bug).** From `/`, Next 16's segment prefetch of `/solutions` and `/products?q=…` asked the
+  proxy-rewritten homepage for the wrong segment (`/$d$lang/__PAGE__`, 404) and then looped on `/$d$lang`:
+  about 2,400 RSC requests in 5 s. `prefetchSafe()` (`src/lib/navigationHref.ts`, unit-tested) turns prefetch off
+  for those links in `NavigationLink`. An e2e spec scrolls five pages to the footer and asks for fewer than 80 RSC
+  requests; repeated runs show 5–19.
+- **Claims.** AIMS confirmed the authorization and approved its wording on 21 Nov 2026, so
+  `ZKTECO_AUTHORIZATION_CONFIRMED` is `true` and the eyebrow reads "Authorized ZKTeco Distributor · UAE". The four
+  company figures (`COMPANY_FIGURES` in `site.ts`) appear under "Figures stated by AIMS, November 2026" (Design Doc 3.1).
+  The founding year is still not shown.
+- **Copy (skill `copy.md`).** The h1 names the category and the place ("ZKTeco access control and attendance for the
+  UAE"). Headings name things, buttons are a verb and an object ("See all products", "Request an installation quote"),
+  and the caption under the hero art is gone (House rule 1).
+- **Sections (skill `layout-v4.md`).** These blocks were under half a screen, so they were merged rather than kept as
+  strips:
+  - software now sits inside the product-families section;
+  - figures and review excerpts form one proof section;
+  - the showroom leads the reach section.
+
+  On a desktop each section is exactly one screen tall (the catalogue two), with its content centred. The hero alone
+  fills the first screen. Order: hero, routes, families + software, door, proof, showroom + map, questions, close.
+
+- **One card (DESIGN.md Plinth Rule; skill `cards.md`).** White, a hairline, `shadow-1` at rest, 32px padding and
+  16px body text in ink-700. A linked card lifts 2px to `shadow-2`. On night green the same card is night-800 with a
+  hairline, and its edge turns lime on hover (the green glow and wide shadows are gone). Route cards lost their icon
+  tiles. The proof band moved from a green gradient to the light showroom floor (paper-2). Green is used only for
+  actions: the h1's second line is ink-600 and the lime button has no glow.
+- **Motion (skill `motion.md`, three layers).**
+  - The hero enters once and its loop now has a pause button (WCAG 2.2.2).
+  - The door kit and the reach map are the two dealt moments: each plays once when it comes into view
+    (`MomentTrigger`) and finishes even if scrolled away.
+  - The hover and press layer: cards lift 2px, photographs zoom 1.03, buttons step 1px and press at .985.
+
+  Removed: the scroll reveals, the counting figures, the scanner sweep, the drifting glows, the travelling map pulses
+  and the pulsing ring (`ScrollEffects.tsx` and `reveal.ts` deleted). Reduced motion shows every final state.
+
+- **Actionable door kit.** Each part's model code links to its product page (T5 is built for every catalogue
+  product), so a trade buyer never retypes a code. The route cards preset the quote list's need
+  (`/quote?need=install|export`), and the empty list says which quote it is.
+- **Tablet.** Text cards stack below 1024px, photographs keep two across, the proof figures go 2 × 2, and the three
+  places sit in a row under the map. From 1024 to 1279px the header search is narrower, its "/" hint hides, and its
+  placeholder is shortened to "Search products", so it no longer cuts off.
+- **Gate.** copy-lint: 0 FAIL. One WARN, the per-family counts, which come from the catalogue.
+  `gate.mjs` still FAILs, mostly on checks that assume the skill's own page system, which this project does not adopt
+  (the client asked to keep the existing one):
+  - `.wrap` and its container lines (this site uses `page-container` and a wider hero stage);
+  - the footer and skip-link layout;
+  - split lines on the footer;
+  - text-only sections (routes, proof, questions) and text-only cards (software, places): AIMS has supplied no
+    photographs for them yet;
+  - empty-area on the shortest sections;
+  - two button styles (the lime close and the header outline).
+
+  Five FAILs that conflict with CLAUDE.md are waived with reasons in `.taste-skill/waivers.json`: real phone numbers,
+  the preserved WhatsApp button, the wordmark's lime dot, the ported prototype moments, and the six-family catalogue
+  grid. No stand-in photographs were added.

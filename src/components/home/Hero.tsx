@@ -24,7 +24,8 @@ export async function Hero() {
           <span>
             <span className="home-headline-rise">{h.line1}</span>
           </span>
-          <span className="text-green-700">
+          {/* DESIGN.md One Sign Rule: green marks actions, so the second line steps back in ink. */}
+          <span className="home-headline-quiet">
             <span className="home-headline-rise">{h.line2}</span>
           </span>
         </h1>
@@ -40,7 +41,7 @@ export async function Hero() {
         </div>
         <p className="home-trust">{h.trust}</p>
       </div>
-      <HeroAnimation>
+      <HeroAnimation pauseLabel={h.pause}>
         <div className="home-wash" aria-hidden="true" />
         <SignalLines />
         <SignalLines mobile />
@@ -101,10 +102,6 @@ export async function Hero() {
             {h.granted}
           </div>
         </div>
-        <p className="home-art-caption">
-          <bdi>{h.model}</bdi>
-          <span>{h.demo}</span>
-        </p>
       </HeroAnimation>
     </section>
   );

@@ -1,4 +1,4 @@
-/* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is hover/press feedback. */
+/* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is the hover and press layer. */
 
 /* ---------- Shared section primitives ---------- */
 .home-section {
@@ -15,6 +15,7 @@
   max-width: 38rem;
   margin-block-start: 0.875rem;
   color: var(--color-ink-600);
+  font-size: var(--text-base);
   line-height: 1.6;
   text-wrap: pretty;
 }
@@ -29,11 +30,31 @@
   flex: none;
   margin-block-start: 0;
 }
-.home-hero + .home-routes {
-  padding-block-start: calc(var(--home-section-space) * 1.5);
+/* A heading one step below the section title, for a block that shares a section (taste layout-v4). */
+.home-subtitle {
+  font-size: var(--text-home-subtitle);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
 }
 
-/* Cards share one hover language: hairline → sh-2, a 2px lift (Design Doc 8.4 "Card hover"). */
+/*
+ * One card (DESIGN.md Plinth Rule; taste cards.md "barely there"): white, a hairline, the resting
+ * shadow, 32px of padding. A linked card lifts 2px to the hover shadow; pressing settles it.
+ */
+.home-route-card,
+.home-software-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-1);
+}
 .home-route-card,
 .home-family-card,
 .home-software-card {
@@ -48,7 +69,6 @@
   .home-software-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-2);
-    border-color: var(--color-green-100);
   }
 }
 .home-route-card:hover .home-action-arrow,
@@ -62,55 +82,41 @@
 .home-route-card:active,
 .home-family-card:active,
 .home-software-card:active {
-  transform: scale(0.99);
+  transform: translateY(0) scale(0.99);
+}
+.home-route-card:focus-visible,
+.home-family-card:focus-visible,
+.home-software-card:focus-visible {
+  box-shadow: var(--shadow-2);
+}
+.home-route-card > .home-external-mark,
+.home-software-card > .home-external-mark {
+  position: absolute;
+  inset-block-start: 1.5rem;
+  inset-inline-end: 1.5rem;
+  color: var(--color-ink-400);
 }
 
 /* ---------- 2 · Buyer routes ---------- */
+.home-routes-title {
+  max-width: 40rem;
+  margin-block-end: 2.5rem;
+}
 .home-route-grid,
-.home-software-grid,
-.home-location-grid,
-.home-review-grid {
+.home-software-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
-.home-route-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: 100%;
-  padding: 1.75rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  color: var(--color-ink);
-}
-.home-route-icon {
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: var(--radius-md);
-  background: var(--color-green-50);
-  color: var(--color-green-700);
-}
-.home-route-text {
-  padding-inline-end: 1rem;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-.home-route-text h3,
-.home-software-card h3,
-.home-location-card h3 {
+.home-route-card h3,
+.home-software-card :is(h3, h4) {
   font-size: var(--text-home-card);
   font-weight: 650;
   line-height: 1.3;
 }
 .home-route-body {
-  margin-block: 0.625rem 1.25rem;
-  color: var(--color-ink-600);
+  margin-block: 0.75rem 1.75rem;
+  color: var(--color-ink-700);
   line-height: 1.6;
 }
 .home-route-action {
@@ -122,13 +128,6 @@
   font-size: var(--text-small);
   font-weight: 600;
 }
-.home-route-card > .home-external-mark,
-.home-software-card > .home-external-mark {
-  position: absolute;
-  inset-block-start: 1.5rem;
-  inset-inline-end: 1.5rem;
-  color: var(--color-ink-400);
-}
 
 /* ---------- 3 · Product families ---------- */
 .home-family-grid {
@@ -139,14 +138,16 @@
 .home-family-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-paper);
   color: var(--color-ink);
+  box-shadow: var(--shadow-1);
 }
 .home-family-image {
-  height: 13.5rem;
+  height: 14rem;
   padding: 1.75rem;
   display: flex;
   align-items: center;
@@ -161,7 +162,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 1.25rem 1.5rem 1.375rem;
+  padding: 1.5rem 2rem 1.75rem;
   border-block-start: 1px solid var(--color-line);
 }
 .home-family-info h3 {
@@ -170,20 +171,45 @@
   line-height: 1.35;
 }
 .home-family-summary {
-  margin-block-start: 0.375rem;
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-  line-height: 1.5;
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-700);
+  line-height: 1.55;
 }
 .home-family-count {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-block-start: auto;
-  padding-block-start: 1rem;
+  padding-block-start: 1.25rem;
   font-size: var(--text-small);
   font-weight: 600;
   color: var(--color-green-700);
+}
+
+/* ---------- 3b · Software, inside the families section ---------- */
+.home-software-block {
+  margin-block-start: 5rem;
+}
+.home-software-block .home-section-heading {
+  margin-block-end: 2rem;
+}
+.home-software-kind {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.home-software-card :is(h3, h4) {
+  margin-block: 1.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-align: start;
+}
+.home-software-purpose {
+  color: var(--color-ink-700);
+  line-height: 1.6;
 }
 
 /* ---------- 4 · How a door works ---------- */
@@ -197,21 +223,37 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 1.5rem;
-  margin-block-start: 2rem;
+  margin-block: 2rem 0.5rem;
 }
 .home-door-parts li {
   display: flex;
+  align-items: center;
   gap: 0.875rem;
-  padding-block: 0.875rem;
+  min-height: 3.5rem;
   border-block-start: 1px solid var(--color-line);
   font-weight: 600;
   font-size: var(--text-small);
+}
+/* The whole row is the link, so the target is the full 56px row (WCAG 2.5.8). */
+.home-door-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  color: var(--color-ink);
+}
+.home-door-link:hover {
+  color: var(--color-green-700);
+}
+.home-door-link:hover .home-door-code {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 .home-door-index {
   font-family: var(--font-mono);
   font-size: var(--text-caption);
   font-weight: 500;
-  color: var(--color-green-700);
+  color: var(--color-ink-400);
   line-height: 1.6;
 }
 .home-door-code {
@@ -220,7 +262,10 @@
   font-family: var(--font-mono);
   font-size: var(--text-caption);
   font-weight: 500;
-  color: var(--color-ink-400);
+  color: var(--color-ink-600);
+}
+.home-door-link .home-door-code {
+  color: var(--color-green-700);
 }
 .home-door-stage {
   border-radius: var(--radius-lg);
@@ -252,29 +297,29 @@
   fill: var(--color-paper);
 }
 
-/* ---------- 5 · Proof bar ---------- */
+/* ---------- 5 · Proof: company-stated figures, then the published reviews ---------- */
+/* The showroom floor (DESIGN.md): a quiet ground change, not a coloured band. */
 .home-proof-band {
-  background: var(--color-green-50);
-  margin-block: var(--home-section-space);
+  background: var(--color-paper-2);
+  border-block: 1px solid var(--color-line);
 }
 .home-proof {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: start;
   gap: 4rem;
-  padding-block: calc(var(--home-section-space) * 1.25);
 }
+/* Two by two: a four-digit figure at stat size needs more than a quarter of the row. */
 .home-proof dl {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
 }
 .home-proof dl > div {
   display: flex;
   flex-direction: column-reverse;
   justify-content: start;
-  gap: 0.625rem;
-  padding-inline: 1.5rem;
-  border-inline-start: 1px solid var(--color-green-100);
+  gap: 0.5rem;
 }
 .home-proof dt {
   font-size: var(--text-small);
@@ -285,165 +330,48 @@
   font-size: var(--text-home-stat);
   font-weight: 680;
   letter-spacing: -0.03em;
-  color: var(--color-green-700);
+  color: var(--color-ink);
   line-height: 1;
 }
-
-/* ---------- 6 · Software ---------- */
-.home-software-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 1.75rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper-2);
-  color: var(--color-ink);
+/* Parted from the figures by air, not a rule (taste layout-v4, section air). */
+.home-proof-reviews {
+  margin-block-start: 5rem;
 }
-.home-software-kind {
-  display: flex;
+.home-proof-reviews .home-section-heading {
   align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
+  margin-block-end: 1.75rem;
 }
-.home-software-kind::before {
-  content: "";
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border-radius: 50%;
-  background: var(--color-lime);
-}
-.home-software-card h3 {
-  margin-block: 1.25rem 0.5rem;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: var(--text-home-card);
-  text-align: start;
-}
-.home-software-purpose {
-  color: var(--color-ink-600);
-  line-height: 1.6;
-}
-
-/* ---------- 7 · Showrooms ---------- */
-.home-location-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.75rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-}
-.home-location-featured {
-  background: var(--color-green-50);
-  border-color: var(--color-green-100);
-}
-.home-location-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
-}
-.home-location-card h3 {
-  margin-block-start: 1rem;
-}
-.home-location-address {
-  margin-block: 0.5rem 1.25rem;
-  color: var(--color-ink-600);
-  line-height: 1.6;
-}
-.home-location-actions {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 1.5rem;
-  margin-block-start: auto;
-  padding-block-start: 0.5rem;
-  border-block-start: 1px solid var(--color-line);
-}
-.home-location-featured .home-location-actions {
-  border-color: var(--color-green-100);
-}
-.home-location-actions .home-text-link {
-  margin-block-start: 0.25rem;
-}
-
-/* ---------- 8 · Reviews ---------- */
-.home-review {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 1.75rem;
-  border-radius: var(--radius-lg);
-  background: var(--color-paper-2);
-}
-.home-review-mark {
-  font-size: var(--text-home-stat);
-  font-weight: 700;
-  line-height: 0.8;
-  color: var(--color-green-700);
-  height: 1.75rem;
-}
-.home-review blockquote {
-  flex: 1;
-  margin-block: 1rem 1.75rem;
-  font-size: var(--text-home-quote);
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-}
-.home-review figcaption {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-}
-.home-review-initial {
+.home-quote-row {
   display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background: var(--color-green-100);
-  color: var(--color-green-800);
-  font-weight: 650;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.home-quote-row figure {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+.home-quote-row blockquote {
+  flex: 1;
+  font-size: var(--text-home-card);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+.home-quote-row figcaption {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-ink-600);
 }
 
-/* ---------- 9 · FAQ and closing action ---------- */
+/* ---------- 8 · FAQ ---------- */
 .home-faq {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
   gap: 4rem;
   align-items: start;
-  padding-block-end: 6rem;
-}
-.home-faq-cta {
-  margin-block-start: 2rem;
-  padding: 1.75rem;
-  border: 1px solid var(--color-green-100);
-  border-radius: var(--radius-lg);
-  background: var(--color-green-50);
-}
-.home-faq-cta h3 {
-  font-size: var(--text-home-card);
-  font-weight: 650;
-}
-.home-faq-cta p {
-  margin-block: 0.5rem 1.5rem;
-  color: var(--color-ink-600);
-  line-height: 1.6;
-}
-.home-faq-cta .home-button {
-  width: 100%;
-}
-.home-faq-cta .home-text-link {
-  width: 100%;
-  justify-content: center;
-  margin-block-start: 0.5rem;
 }
 .home-faq details {
   border-block-end: 1px solid var(--color-line);
@@ -472,42 +400,74 @@
   transform: rotate(180deg);
 }
 .home-faq details p {
-  color: var(--color-ink-600);
+  color: var(--color-ink-700);
   line-height: 1.65;
   padding-block-end: 1.5rem;
   max-width: 65ch;
 }
 
-/* ---------- Tablet ---------- */
+/* ---------- Desktop: more air between sections (taste layout-v4, one section per screen) ---------- */
 @media (min-width: 1024px) {
+  .home-section {
+    padding-block: calc(var(--home-section-space) * 1.75);
+  }
   .home-faq-intro {
     position: sticky;
     inset-block-start: 6.5rem;
   }
 }
+
+/*
+ * One section per screen (taste House rule 3; CLAUDE.md §2): on a desktop screen each section is one
+ * screen tall, the catalogue two, with its content centred in it, so a screen shows one idea and the
+ * next heading never peeks in. Short desktop windows keep the natural height.
+ */
+@media (min-width: 1024px) and (min-height: 700px) {
+  main > :is(.home-routes, .home-proof-band, .home-reach, .home-closing) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+  }
+  main > .home-families {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200svh;
+  }
+  main > :is(.home-door, .home-faq) {
+    align-content: center;
+    min-height: 100svh;
+  }
+}
+
+/* ---------- Tablet (640–1023): text cards stack; photographs keep two across ---------- */
 @media (max-width: 1023px) {
   .home-route-grid,
   .home-software-grid,
-  .home-location-grid,
-  .home-review-grid,
-  .home-family-grid {
+  .home-family-grid,
+  .home-quote-row {
     gap: 1rem;
+  }
+  .home-route-grid,
+  .home-software-grid,
+  .home-quote-row {
+    grid-template-columns: minmax(0, 1fr);
   }
   .home-family-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .home-door,
-  .home-faq {
+  .home-faq,
+  .home-proof {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
-  .home-proof {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
+  .home-proof-reviews {
+    margin-block-start: 3.5rem;
   }
-  .home-proof dl > div:first-child {
-    border-inline-start: 0;
-    padding-inline-start: 0;
+  .home-software-block {
+    margin-block-start: 3.5rem;
   }
 }
 
@@ -520,31 +480,23 @@
   .home-section-heading > .home-text-link {
     margin-block-start: 0.5rem;
   }
+  .home-routes-title {
+    margin-block-end: 1.5rem;
+  }
+  .home-hero + .home-routes {
+    padding-block-start: calc(var(--home-section-space) * 2.5);
+  }
   .home-route-grid,
   .home-software-grid,
-  .home-location-grid,
-  .home-review-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .home-quote-row {
     gap: 0.75rem;
   }
-  /* Plan 14, T1 mobile: routes as stacked rows. */
-  .home-route-card {
-    flex-direction: row;
-    align-items: start;
-    gap: 1rem;
-    padding: 1.25rem;
+  .home-route-card,
+  .home-software-card {
+    padding: 1.5rem;
   }
-  .home-route-icon {
-    flex: none;
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-  /* The title and action say enough on a phone; the sentence returns at 640 px. */
   .home-route-body {
-    display: none;
-  }
-  .home-route-action {
-    margin-block-start: 0.25rem;
+    margin-block: 0.5rem 1.25rem;
   }
   .home-route-card > .home-external-mark,
   .home-software-card > .home-external-mark {
@@ -559,79 +511,37 @@
     padding: 0.875rem;
   }
   .home-family-info {
-    padding: 0.875rem 1rem 1rem;
+    padding: 1rem 1rem 1.125rem;
   }
   .home-family-info h3 {
     font-size: var(--text-base);
   }
+  /* The name and count say enough at half width; the summary returns at 640px. */
   .home-family-summary {
     display: none;
   }
   .home-family-count {
-    padding-block-start: 0.375rem;
+    padding-block-start: 0.5rem;
+  }
+  .home-software-card :is(h3, h4) {
+    margin-block: 0.75rem 0.25rem;
   }
   .home-door-parts {
+    grid-template-columns: minmax(0, 1fr);
     margin-block-start: 1.5rem;
   }
   /* The prototype hides the pill tags on phones; the parts list carries the names. */
   .home-door-tag {
     display: none;
   }
-  .home-proof-band {
-    margin-block: var(--home-section-space);
-  }
-  .home-proof dl {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 1.5rem;
-  }
-  .home-proof dl > div:nth-child(odd) {
-    border-inline-start: 0;
-    padding-inline-start: 0;
-  }
   .home-proof dd {
     font-size: var(--text-home-stat-mobile);
   }
-  .home-software-card,
-  .home-location-card,
-  .home-review {
-    padding: 1.25rem;
+  .home-proof-reviews .home-section-heading {
+    margin-block-end: 1.25rem;
   }
-  .home-software-card h3 {
-    margin-block: 0.75rem 0.25rem;
-  }
-  .home-location-address {
-    margin-block: 0.25rem 0.75rem;
-  }
-  .home-review blockquote {
-    margin-block: 0 0.75rem;
-    font-size: var(--text-home-card);
-  }
-  .home-review-mark {
-    display: none;
-  }
-  .home-review-initial {
-    width: 1.75rem;
-    height: 1.75rem;
-    font-size: var(--text-caption);
-  }
-  /* Phone order: question list first, then the closing action at the end of the page. */
   .home-faq {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-block-end: 4rem;
-  }
-  .home-faq-intro {
-    display: contents;
-  }
-  .home-faq > div:last-child {
-    margin-block-start: 1.5rem;
-  }
-  .home-faq-cta {
-    order: 1;
-  }
-  .home-faq-cta {
-    padding: 1.25rem;
+    gap: 1.5rem;
   }
 }
 

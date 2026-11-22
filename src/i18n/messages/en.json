@@ -238,14 +238,13 @@
     "metaTitle": "Access control & time attendance",
     "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",
     "hero": {
-      "line1": "Secure access.",
-      "line2": "Accurate attendance.",
+      "line1": "ZKTeco access control",
+      "line2": "and attendance for the UAE",
       "lead": "ZKTeco access control and time attendance systems, supplied, installed and supported across the UAE.",
-      "explore": "Explore products",
+      "explore": "See all products",
       "quote": "Request a quote",
-      "trust": "Deira showroom · Abu Dhabi office",
-      "alt": "ZKTeco SpeedFace-V5L access control terminal demonstrating face verification",
-      "model": "SpeedFace-V5L",
+      "trust": "Showroom in Deira, Dubai · Office in Abu Dhabi",
+      "alt": "Illustration on a ZKTeco SpeedFace-V5L terminal: a face is verified and the door unlocks",
       "entrance": "Entrance A",
       "time": "08:17",
       "day": "Thursday",
@@ -255,38 +254,36 @@
       "checked": "Checked in · 08:17",
       "unlocked": "Door unlocked",
       "granted": "Access granted",
-      "demo": "Illustrative device sequence"
+      "pause": "Pause animation"
     },
     "routes": {
-      "heading": "What do you need?",
+      "heading": "Three ways to buy from AIMS",
       "supply": {
         "title": "Buy for projects & stock",
         "body": "Find models, compare specifications and build your product list.",
-        "action": "Browse the catalogue"
+        "action": "See all products"
       },
       "install": {
         "title": "Supply & installation in the UAE",
         "body": "Discuss the devices, installation and setup your site needs.",
-        "action": "Discuss installation"
+        "action": "Request an installation quote"
       },
       "export": {
         "title": "Delivery to GCC & Africa",
         "body": "Share your models, quantities and destination with AIMS.",
-        "action": "Ask about delivery"
-      },
-      "lead": "Three ways to work with AIMS. Pick yours."
+        "action": "Request an export quote"
+      }
     },
     "families": {
-      "heading": "Find the right system.",
-      "lead": "Six families, from the first credential to the final door.",
+      "heading": "{count} models in six product families",
+      "lead": "ZKTeco and Alpha terminals, readers, controllers, locks, turnstiles and POS, each with its published specifications.",
       "count": "products",
-      "all": "All products",
-      "open": "View"
+      "all": "See all products"
     },
     "door": {
-      "heading": "How a door works.",
+      "heading": "How a controlled door works",
       "body": "A reader checks the credential, a controller decides who can enter, the lock releases and software records the event. Six parts, on every controlled door.",
-      "action": "Explore door components",
+      "action": "See door components",
       "reader": "Reader",
       "controller": "Controller",
       "lock": "EM lock",
@@ -302,16 +299,17 @@
       "logRow": "Door 1 · Card"
     },
     "proof": {
-      "heading": "Local team. Full catalogue.",
-      "body": "Every number below comes from AIMS's published catalogue and contact pages.",
-      "catalogue": "products in the catalogue",
-      "families": "product families",
-      "locations": "locations in Dubai & Abu Dhabi",
-      "contact": "Speak to the team",
-      "software": "software platforms"
+      "heading": "An authorized ZKTeco distributor in the UAE",
+      "body": "Figures stated by AIMS, November 2026.",
+      "years": "years of experience",
+      "installations": "security system installations",
+      "clients": "corporate clients",
+      "countries": "countries supplied",
+      "reviews": "From reviews published by AIMS",
+      "headingFallback": "ZKTeco specialists in Dubai and Abu Dhabi"
     },
     "software": {
-      "heading": "Hardware meets software.",
+      "heading": "Software that runs them",
       "lead": "Attendance records and door events, managed in one place. Software is supplied on request.",
       "centre": "All software",
       "attendance": "Time attendance",
@@ -337,13 +335,10 @@
       "showroomTag": "Showroom"
     },
     "reviews": {
-      "heading": "In our customers’ words.",
-      "source": "Short excerpts from reviews published by AIMS.",
       "read": "Read the published reviews"
     },
     "faq": {
-      "heading": "A few useful answers.",
-      "lead": "Start here, or speak to AIMS about your project.",
+      "heading": "Questions about buying and installation",
       "items": [
         {
           "q": "Can I buy products without installation?",
@@ -375,22 +370,20 @@
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
     "external": "on aimsuae.me",
     "reach": {
-      "heading": "From Dubai to the GCC and East Africa.",
+      "heading": "Visit the showroom in Deira",
       "lead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
       "mapLabel": "Map: AIMS offices in Dubai and Abu Dhabi, with delivery routes to the GCC, Muscat and Nairobi",
       "dubai": "Dubai",
       "abuDhabi": "Abu Dhabi",
       "muscat": "Muscat",
       "nairobi": "Nairobi",
-      "gcc": "GCC",
-      "offices": "AIMS offices",
-      "routes": "Delivery routes"
+      "gcc": "GCC"
     },
     "closing": {
-      "heading": "Plan your doors and time clocks with AIMS.",
+      "heading": "Send AIMS your model list or site plan",
       "body": "Send the models you need, or describe the site. AIMS replies with a quotation.",
       "action": "Request a quote",
-      "secondary": "Browse products"
+      "secondary": "See all products"
     }
   },
   "search": {
@@ -620,7 +613,9 @@
       "users": "{n} users",
       "existing": "existing: {text}",
       "documents": "documents: {text}"
-    }
+    },
+    "presetInstall": "Installation enquiry: describe your site below (for example \"6 doors, 80 staff, Dubai office\"), then add any models you already know.",
+    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know."
   },
   "contactGuard": {
     "title": "Preview: this would contact AIMS",

@@ -157,6 +157,13 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   if (!quote.lines.length && !attempt) {
     return (
       <div className="mt-8 rounded-lg border border-line bg-paper-2 p-6 sm:p-8">
+        {/* Arriving from "Request an installation / export quote": say what to do first, since the
+            need is already chosen and the buyer may not know any model yet (critique, 22 Nov 2026). */}
+        {context.need === "install" || context.need === "export" ? (
+          <p className="mb-4 max-w-2xl text-base text-ink-700">
+            {context.need === "install" ? t.presetInstall : t.presetExport}
+          </p>
+        ) : null}
         <p className="text-lg font-semibold text-ink">{t.empty}</p>
         <Link
           href={hrefs.products}

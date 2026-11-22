@@ -3,9 +3,10 @@ import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
-import { productBySlug, productsInFamily } from "@/content/catalogue";
+import { productBySlug, productCount, productsInFamily } from "@/content/catalogue";
 import { ArrowIcon } from "@/components/icons";
-import { reveal } from "./reveal";
+import { HomeSoftware } from "./HomeSoftware";
+import { fmt } from "@/i18n/format";
 
 const examples = [
   "f18",
@@ -21,13 +22,12 @@ export async function ProductFamilies() {
   const locale = await getLocale();
   return (
     // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
-    <section id="families" className="home-night home-families" data-scene aria-labelledby="families-title">
-      <div className="home-sweep" aria-hidden="true" />
+    <section id="families" className="home-night home-families" aria-labelledby="families-title">
       <div className="home-section page-container">
-        <div className="home-section-heading" {...reveal()}>
+        <div className="home-section-heading">
           <div>
             <h2 id="families-title" className="home-section-title">
-              {t.home.families.heading}
+              {fmt(t.home.families.heading, { count: productCount() })}
             </h2>
             <p className="home-night-lead">{t.home.families.lead}</p>
           </div>
@@ -44,7 +44,6 @@ export async function ProductFamilies() {
                 key={family.slug}
                 href={localePath(locale, `/products/${family.slug}`)}
                 className="home-family-card"
-                {...reveal(i)}
               >
                 <div className="home-family-image">
                   {image && (
@@ -72,6 +71,7 @@ export async function ProductFamilies() {
             );
           })}
         </div>
+        <HomeSoftware />
       </div>
     </section>
   );

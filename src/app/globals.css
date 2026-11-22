@@ -40,8 +40,6 @@
   --color-night-line: #24432f;
   --color-night-text: #e9f2ec;
   --color-night-muted: #a9bdb0;
-  --color-green-on: #dcefe1; /* labels on the green proof band: 6.4:1 on green-800, 5.0:1 on green-700 */
-  --color-green-line: #3f8a52; /* dividers on the green proof band */
 
   /* Type */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -90,7 +88,7 @@
   --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
 
   /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
-  --text-home-display: 4.5rem;
+  --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
   --text-home-display-compact: 3.5rem;
   --text-home-display-mobile: 2.5rem;
   --text-home-heading: 2.375rem;
@@ -111,7 +109,7 @@
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
-  --text-home-quote: 1.375rem; /* 22px · review excerpts, between H3 and H2 */
+  --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */
   --text-home-stat-mobile: 2.5rem; /* 40px · proof figures in the 2 × 2 phone grid */
   --text-device-bar: 5.2cqw;
   --text-device-clock: 23cqw;
@@ -120,7 +118,6 @@
   --text-device-welcome: 12cqw;
   --container-home-stage: 1600px;
   --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
-  --shadow-home-dot: 0 0 0 4px rgb(120 190 32 / 0.18);
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
   --container-page: 1344px;
@@ -192,6 +189,9 @@
 /* Prototype effects use palette tokens; only the approved hero uses these. */
 :root {
   --home-section-space: 3.5rem;
+  /* The sticky header's height with its hairline (h-15 / lg:h-18 + 1px): the hero fills the rest of the
+     first screen (taste House rule 3, CLAUDE.md §2 "one section per screen"). */
+  --home-header-block: 3.8125rem;
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
@@ -200,17 +200,10 @@
     color-mix(in srgb, var(--color-lime) 10%, transparent),
     transparent
   );
-  /* Premium homepage surfaces (README → Decisions): night green, the proof band and its light. */
+  /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
-  --gradient-proof: linear-gradient(120deg, var(--color-green-800), var(--color-green-700) 55%, var(--color-night-800));
-  --gradient-sweep: linear-gradient(
-    180deg,
-    transparent,
-    color-mix(in srgb, var(--color-lime) 9%, transparent),
-    transparent
-  );
   --gradient-glow-lime: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-lime) 22%, transparent),
@@ -221,8 +214,6 @@
     color-mix(in srgb, var(--color-green-700) 55%, transparent),
     transparent
   );
-  --shadow-night: 0 24px 48px rgb(0 0 0 / 0.35);
-  --shadow-lime-ring: 0 0 0 1px rgb(120 190 32 / 0.55), 0 0 32px rgb(120 190 32 / 0.16);
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,
@@ -230,6 +221,11 @@
     color-mix(in srgb, var(--color-lime) 45%, transparent),
     transparent
   );
+}
+@media (min-width: 1024px) {
+  :root {
+    --home-header-block: 4.5625rem;
+  }
 }
 @media (max-width: 639px) {
   :root {

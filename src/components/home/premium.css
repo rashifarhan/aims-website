@@ -1,24 +1,13 @@
 /*
- * Premium homepage layer (user direction, 21 Nov 2026; README → Decisions). Light, night-green and
- * gradient sections in turn, scroll reveals, a door that assembles itself, counting figures, an
- * animated reach map and moving light behind the closing band.
+ * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
+ * catalogue, the showroom and the close; the light showroom floor for proof.
  *
- * Rules kept from the docs: transform, opacity and stroke-dashoffset only; loops pause off-screen
- * (data-inview); nothing is hidden or moving unless ScrollEffects set data-effects="on", which it
- * never does for reduced motion; text keeps AA contrast on every surface.
+ * Motion (taste motion.md, three layers): the hero enters once; the door assembles once and the reach
+ * map draws its routes once, each when its section comes into view (MomentTrigger sets data-played);
+ * the hover and press layer. Nothing else moves, nothing loops, and scrolling reveals nothing.
+ * Moments animate transform, opacity and stroke-dashoffset only. Nothing is hidden unless
+ * MomentTrigger set data-effects="on", which it never does under reduced motion.
  */
-
-/* ---------- Scroll reveal ---------- */
-[data-reveal] {
-  transition:
-    opacity 700ms var(--ease-aims),
-    transform 700ms var(--ease-aims);
-  transition-delay: calc(var(--reveal-i, 0) * 70ms);
-}
-:root[data-effects="on"] [data-reveal]:not([data-revealed]) {
-  opacity: 0;
-  transform: translateY(28px);
-}
 
 /* ---------- Night sections ---------- */
 .home-night {
@@ -28,7 +17,7 @@
   background: var(--gradient-night);
   color: var(--color-night-text);
 }
-.home-night .home-section-title {
+.home-night :is(.home-section-title, .home-subtitle) {
   color: var(--color-night-text);
 }
 .home-night-lead {
@@ -58,47 +47,42 @@
   flex: none;
 }
 
-/* ---------- 3 · Families on night green; a scanner light sweeps the band ---------- */
+/* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */
+.home-families :is(.home-family-card, .home-software-card),
+.home-place-card {
+  border: 1px solid var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-families :is(.home-family-card, .home-software-card):hover {
+    border-color: var(--color-lime);
+    box-shadow: none;
+  }
+}
+.home-families :is(.home-family-card, .home-software-card):focus-visible {
+  border-color: var(--color-lime);
+  box-shadow: none;
+}
+
+/* ---------- 3 · Families and software on night green ---------- */
 .home-families .home-section {
   padding-block: calc(var(--home-section-space) * 2);
 }
-.home-sweep {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: 0;
-  z-index: -1;
-  height: 45%;
-  background: var(--gradient-sweep);
-  transform: translateY(-100%);
-  pointer-events: none;
-}
-:root[data-effects="on"] .home-families .home-sweep {
-  animation: home-sweep 9s linear infinite;
-}
-.home-families .home-family-card {
-  border-color: var(--color-night-line);
-  background: var(--color-night-800);
-  color: var(--color-night-text);
-  box-shadow: var(--shadow-night);
-}
+/* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
 .home-families .home-family-image {
   background: var(--color-paper);
+  overflow: clip;
 }
 .home-families .home-family-info {
   border-color: var(--color-night-line);
 }
-.home-families .home-family-info p:not(.home-family-count) {
+.home-families :is(.home-family-summary, .home-software-purpose) {
   color: var(--color-night-muted);
 }
-.home-families .home-family-count {
+.home-families :is(.home-family-count, .home-software-kind) {
   color: var(--color-lime);
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-families .home-family-card:hover {
-    border-color: var(--color-lime);
-    box-shadow: var(--shadow-lime-ring);
-    transform: none;
-  }
 }
 
 /* ---------- 4 · The door assembles itself once, in the prototype's order (Design Doc 8.2) ---------- */
@@ -165,48 +149,15 @@
   animation: door-in 400ms 3700ms var(--ease-aims) both;
 }
 
-/* ---------- 5 · Proof band: green gradient, figures count up once ---------- */
-.home-proof-band {
-  position: relative;
-  overflow: clip;
-  background: var(--gradient-proof);
-  color: var(--color-paper);
-}
-.home-proof-band::before {
-  content: "";
-  position: absolute;
-  inset: -40% auto -40% -20%;
-  width: 40%;
-  background: var(--gradient-glow-lime);
-  pointer-events: none;
-}
-:root[data-effects="on"] .home-proof-band::before {
-  animation: home-drift 14s ease-in-out infinite alternate;
-}
-.home-proof-band .home-section-title {
-  color: var(--color-paper);
-}
-.home-proof-band .home-section-lead,
-.home-proof-band dt {
-  color: var(--color-green-on);
-}
-.home-proof-band dd {
-  color: var(--color-paper);
-  min-inline-size: calc(var(--digits, 1) * 1ch);
-}
-.home-proof-band dl > div {
-  border-color: var(--color-green-line);
-}
-
-/* ---------- 7 · Reach: map and places on night green ---------- */
+/* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 .home-reach .home-section {
-  padding-block: calc(var(--home-section-space) * 2);
+  padding-block: calc(var(--home-section-space) * 1.25);
 }
 .home-reach-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  gap: 2.5rem;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 4rem; /* the proof split's lines: both splits share one column edge (taste layout-v4) */
+  align-items: start;
 }
 .reach-map {
   display: block;
@@ -226,15 +177,12 @@
 .reach-route {
   stroke-dasharray: 1;
 }
+/* The travelling pulses and the pulsing ring were ambient loops (taste motion.md: none); they rest hidden. */
 .reach-pulse {
-  stroke-dasharray: 0.06 0.94;
-  stroke-dashoffset: 1;
-  opacity: 0;
+  display: none;
 }
 .reach-ring {
   opacity: 0.25;
-  transform-box: fill-box;
-  transform-origin: center;
 }
 .reach-labels text {
   font-size: var(--text-map-label);
@@ -269,48 +217,17 @@
 :root[data-effects="on"] .home-reach[data-played] g > g:nth-child(6) .reach-route {
   animation-delay: 600ms;
 }
-:root[data-effects="on"] .home-reach[data-played] .reach-pulse {
-  animation: reach-travel 3.2s 1.6s linear infinite;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(even) .reach-pulse {
-  animation-delay: 2.4s;
-}
-:root[data-effects="on"] .home-reach .reach-ring {
-  animation: reach-ring 2.4s ease-out infinite;
-}
-.home-reach-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  margin-block-start: 1rem;
-  font-size: var(--text-caption);
-  color: var(--color-night-muted);
-}
-.home-reach-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.home-legend-dot {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  background: var(--color-lime);
-}
-.home-legend-line {
-  width: 1.5rem;
-  height: 2px;
-  background: var(--color-night-muted);
-}
 .home-place-cards {
   display: grid;
   gap: 1rem;
 }
 .home-place-card {
-  padding: 1.25rem 1.5rem;
-  border: 1px solid var(--color-night-line);
+  padding: 1.5rem 2rem;
   border-radius: var(--radius-lg);
-  background: var(--color-night-800);
+}
+/* The showroom is the one place AIMS invites visitors to (DESIGN.md North Star): its edge carries the light. */
+.home-place-featured {
+  border-color: var(--color-lime);
 }
 .home-place-tag {
   display: inline-flex;
@@ -319,6 +236,9 @@
   font-size: var(--text-caption);
   font-weight: 600;
   color: var(--color-night-muted);
+}
+.home-place-featured .home-place-tag {
+  color: var(--color-lime);
 }
 .home-place-card h3 {
   margin-block-start: 0.5rem;
@@ -333,14 +253,19 @@
 .home-place-actions {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 1.25rem;
+  column-gap: 1.5rem;
   margin-block-start: 0.5rem;
 }
 
-/* ---------- Closing band: night green with drifting light ---------- */
+/* ---------- Closing band: night green, still light ---------- */
+/* The two glows are layers of the ground itself, so nothing spills past the band. */
 .home-closing {
   padding-block: calc(var(--home-section-space) * 2.5);
   text-align: center;
+  background:
+    var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
+    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
+    var(--gradient-night);
 }
 .home-closing-inner {
   position: relative;
@@ -367,9 +292,11 @@
   gap: 1rem 1.75rem;
   margin-block-start: 2rem;
 }
+/* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
 .home-button-lime {
   background: var(--color-lime);
   color: var(--color-ink);
+  box-shadow: none;
 }
 .home-button-lime:hover {
   background: var(--color-lime);
@@ -381,60 +308,12 @@
 .home-button-lime:focus-visible::before {
   opacity: 0.2;
 }
-.home-glow {
-  position: absolute;
-  z-index: -1;
-  width: 60vmax;
-  height: 60vmax;
-  pointer-events: none;
-}
-.home-glow-a {
-  inset-block-start: -30vmax;
-  inset-inline-start: -15vmax;
-  background: var(--gradient-glow-green);
-}
-.home-glow-b {
-  inset-block-end: -35vmax;
-  inset-inline-end: -20vmax;
-  background: var(--gradient-glow-lime);
-}
-:root[data-effects="on"] .home-closing .home-glow-a {
-  animation: home-drift 16s ease-in-out infinite alternate;
-}
-:root[data-effects="on"] .home-closing .home-glow-b {
-  animation: home-drift 20s ease-in-out infinite alternate-reverse;
-}
 :dir(rtl) .home-closing-title,
 :lang(ar) .home-closing-title {
   letter-spacing: 0;
   line-height: 1.25;
 }
 
-/* ---------- Loops pause off-screen (Design Doc 8 rules) ---------- */
-[data-scene][data-inview="false"] *,
-[data-scene][data-inview="false"]::before {
-  animation-play-state: paused !important;
-}
-.home-proof-band[data-inview="false"]::before {
-  animation-play-state: paused;
-}
-
-@keyframes home-sweep {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(250%);
-  }
-}
-@keyframes home-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(12%, 8%, 0);
-  }
-}
 @keyframes door-in {
   from {
     opacity: 0;
@@ -489,34 +368,22 @@
     transform: none;
   }
 }
-@keyframes reach-travel {
-  0% {
-    opacity: 0;
-    stroke-dashoffset: 1;
-  }
-  10%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes reach-ring {
-  from {
-    opacity: 0.45;
-    transform: scale(0.6);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1.8);
-  }
-}
 
 /* ---------- Tablet and phone ---------- */
 @media (max-width: 1023px) {
   .home-reach-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Tablet: the three places sit side by side under the map's width; phones stack them. */
+  .home-place-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .home-reach-map {
+    order: -1;
+  }
+}
+@media (max-width: 767px) {
+  .home-place-cards {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -534,6 +401,9 @@
   .home-families .home-section,
   .home-reach .home-section {
     padding-block: calc(var(--home-section-space) * 1.5);
+  }
+  .home-place-card {
+    padding: 1.25rem 1.5rem;
   }
   .home-closing {
     padding-block: calc(var(--home-section-space) * 2);

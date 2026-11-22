@@ -87,12 +87,12 @@ export function HeaderSearch({
             if (entry) select(entry);
           }
         }}
-        className={`peer h-11 w-full ${shortcut ? "pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
+        className={`peer h-11 w-full ${shortcut ? "pe-4 xl:pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
       />
       {shortcut && (
         <kbd
           aria-hidden="true"
-          className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 rounded-xs border border-line bg-paper px-1.5 font-mono text-kbd text-ink-600 peer-focus:hidden"
+          className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 rounded-xs border border-line bg-paper px-1.5 font-mono text-kbd text-ink-600 peer-focus:hidden max-xl:invisible"
         >
           /
         </kbd>

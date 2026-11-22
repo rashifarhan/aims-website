@@ -9,12 +9,10 @@ import { BuyerRoutes } from "@/components/home/BuyerRoutes";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
 import { DoorTeaser } from "@/components/home/DoorTeaser";
 import { HomeProof } from "@/components/home/HomeProof";
-import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { HomeLocations } from "@/components/home/HomeLocations";
-import { HomeReviews } from "@/components/home/HomeReviews";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { HomeClosing } from "@/components/home/HomeClosing";
-import { ScrollEffects } from "@/components/home/ScrollEffects";
+import { MomentTrigger } from "@/components/home/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";
@@ -48,12 +46,10 @@ export default async function Home() {
       <ProductFamilies />
       <DoorTeaser />
       <HomeProof />
-      <HomeSoftware />
       <HomeLocations />
-      <HomeReviews />
       <HomeFaq />
       <HomeClosing />
-      <ScrollEffects />
+      <MomentTrigger />
       <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
     </main>
   );
