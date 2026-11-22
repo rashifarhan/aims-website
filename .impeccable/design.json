@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-21T16:27:15Z",
+  "title": "Design System: AIMS Security Systems",
+  "extensions": {
+    "colorMeta": {
+      "aims-green": {
+        "role": "primary",
+        "displayName": "AIMS Green",
+        "canonical": "#26703a",
+        "tonalRamp": ["#0f2e18", "#174524", "#1b5e20", "#26703a", "#3f8a52", "#7fb38e", "#d9ecdf", "#eef6f0"]
+      },
+      "aims-green-deep": {
+        "role": "primary",
+        "displayName": "AIMS Green Deep",
+        "canonical": "#1b5e20"
+      },
+      "showroom-mint": {
+        "role": "primary",
+        "displayName": "Showroom Mint",
+        "canonical": "#eef6f0"
+      },
+      "mint-hairline": {
+        "role": "primary",
+        "displayName": "Mint Hairline",
+        "canonical": "#d9ecdf"
+      },
+      "reader-lime": {
+        "role": "secondary",
+        "displayName": "Reader Lime",
+        "canonical": "#78be20",
+        "tonalRamp": ["#2c4a0b", "#41700f", "#5a9917", "#78be20", "#93cf4a", "#b2de7f", "#d3edb5", "#eef8e3"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0e1512",
+        "tonalRamp": ["#0e1512", "#26302b", "#4a5550", "#666f6a", "#8a948e", "#e3e7e3", "#eef1ee", "#f6f8f5"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#26302b"
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Ink Secondary",
+        "canonical": "#4a5550"
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#666f6a"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e3e7e3"
+      },
+      "control-border": {
+        "role": "neutral",
+        "displayName": "Control Border",
+        "canonical": "#8a948e"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff"
+      },
+      "showroom-floor": {
+        "role": "neutral",
+        "displayName": "Showroom Floor",
+        "canonical": "#f6f8f5"
+      },
+      "showroom-floor-deep": {
+        "role": "neutral",
+        "displayName": "Showroom Floor Deep",
+        "canonical": "#eef1ee"
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "canonical": "#0a1a10",
+        "tonalRamp": ["#06100a", "#0a1a10", "#102619", "#18352a", "#24432f", "#a9bdb0", "#e9f2ec", "#f6f8f5"]
+      },
+      "night-deepest": {
+        "role": "neutral",
+        "displayName": "Night Deepest",
+        "canonical": "#06100a"
+      },
+      "night-raised": {
+        "role": "neutral",
+        "displayName": "Night Raised",
+        "canonical": "#102619"
+      },
+      "night-glow": {
+        "role": "neutral",
+        "displayName": "Night Glow",
+        "canonical": "#18352a"
+      },
+      "night-hairline": {
+        "role": "neutral",
+        "displayName": "Night Hairline",
+        "canonical": "#24432f"
+      },
+      "night-text": {
+        "role": "neutral",
+        "displayName": "Night Text",
+        "canonical": "#e9f2ec"
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Night Muted",
+        "canonical": "#a9bdb0"
+      },
+      "error": {
+        "role": "status",
+        "displayName": "Error",
+        "canonical": "#b42318"
+      },
+      "warn": {
+        "role": "status",
+        "displayName": "Warn",
+        "canonical": "#8a5300"
+      },
+      "whatsapp": {
+        "role": "status",
+        "displayName": "WhatsApp",
+        "canonical": "#128043"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Homepage hero headline only."
+      },
+      "page-title": {
+        "displayName": "Page title",
+        "purpose": "H1 on hub and solution pages."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and step titles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The sentence under a title, Ink Secondary, max 38rem."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Text and every input (16px)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav, buttons, text links."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Meta, counts, chips, tile labels."
+      },
+      "model-code": {
+        "displayName": "Model code",
+        "purpose": "IBM Plex Mono for model codes, spec values and indices."
+      },
+      "arabic": {
+        "displayName": "Arabic",
+        "purpose": "IBM Plex Sans Arabic on /ar pages, same scale, +0.1 line height."
+      }
+    },
+    "shadows": [
+      {
+        "name": "resting-card",
+        "value": "0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04)",
+        "purpose": "Product, family, route and solution cards at rest."
+      },
+      {
+        "name": "lifted-card",
+        "value": "0 12px 32px rgb(14 21 18 / 0.08)",
+        "purpose": "Hover and focus-within on linked cards; popovers and suggestions."
+      },
+      {
+        "name": "floating",
+        "value": "0 24px 60px rgb(14 21 18 / 0.12)",
+        "purpose": "Dialogs, the mobile menu sheet, trays."
+      },
+      {
+        "name": "night-card",
+        "value": "0 24px 48px rgb(0 0 0 / 0.35)",
+        "purpose": "Cards on night surfaces."
+      },
+      {
+        "name": "lime-ring",
+        "value": "0 0 0 1px rgb(120 190 32 / 0.55), 0 0 32px rgb(120 190 32 / 0.16)",
+        "purpose": "Hover on night cards."
+      },
+      {
+        "name": "device",
+        "value": "drop-shadow(0 34px 40px rgb(14 21 18 / 0.22))",
+        "purpose": "The hero's dark device cut-out only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-aims",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Every UI transition and entrance."
+      },
+      {
+        "name": "duration-fast",
+        "value": "120ms",
+        "purpose": "Hover, press, colour changes."
+      },
+      {
+        "name": "duration-base",
+        "value": "200ms",
+        "purpose": "Chips, toggles, stepper value, badge bump."
+      },
+      {
+        "name": "duration-slow",
+        "value": "320ms",
+        "purpose": "Sheets, trays, accordions, image zoom."
+      },
+      {
+        "name": "duration-nav",
+        "value": "250ms",
+        "purpose": "Nav underline growing from the reading start."
+      },
+      {
+        "name": "hero-rise",
+        "value": "900ms",
+        "purpose": "Hero headline rising, once on load."
+      },
+      {
+        "name": "hero-device",
+        "value": "1100ms",
+        "purpose": "Hero device settling in, once on load."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled action per section: AIMS Green pill with an arrow.",
+      "html": "<button class=\"ds-btn-primary\">Explore products <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:12px;min-height:54px;padding:0 28px;border:0;border-radius:999px;background:var(--color-green-700,#26703a);color:#fff;font:600 16px/1 Inter,system-ui,sans-serif;cursor:pointer;transition:background 120ms cubic-bezier(.2,.8,.2,1),transform 120ms cubic-bezier(.2,.8,.2,1)}.ds-btn-primary svg{transition:translate 200ms cubic-bezier(.2,.8,.2,1)}.ds-btn-primary:hover{background:var(--color-green-800,#1b5e20)}.ds-btn-primary:hover svg{translate:3px 0}.ds-btn-primary:active{transform:scale(.98)}.ds-btn-primary:focus-visible{outline:2px solid #26703a;outline-offset:2px}"
+    },
+    {
+      "name": "Night Button",
+      "kind": "button",
+      "refersTo": "button-night",
+      "description": "The action on night-green sections: lime pill with an ink label.",
+      "html": "<div class=\"ds-night-stage\"><button class=\"ds-btn-night\">Request a quote</button></div>",
+      "css": ".ds-night-stage{padding:24px;background:#0a1a10;border-radius:18px}.ds-btn-night{min-height:54px;padding:0 28px;border:0;border-radius:999px;background:#78be20;color:#0e1512;font:600 16px/1 Inter,system-ui,sans-serif;cursor:pointer;transition:background 120ms cubic-bezier(.2,.8,.2,1),transform 120ms}.ds-btn-night:hover{background:#93cf4a}.ds-btn-night:active{transform:scale(.98)}.ds-btn-night:focus-visible{outline:2px solid #78be20;outline-offset:2px}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "The secondary action beside a primary, and every card's action.",
+      "html": "<a class=\"ds-link\" href=\"#\">All products <span aria-hidden=\"true\">→</span></a>",
+      "css": ".ds-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:#26703a;font:600 14.5px/1.4 Inter,system-ui,sans-serif;text-decoration:none}.ds-link:hover{text-decoration:underline;text-underline-offset:.25em}.ds-link:focus-visible{outline:2px solid #26703a;outline-offset:2px;border-radius:4px}"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card-product",
+      "description": "A product on a lifted white plinth, named by its mono model code.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-img\"><svg viewBox=\"0 0 60 110\" width=\"48\" height=\"88\" aria-hidden=\"true\"><rect x=\"6\" y=\"4\" width=\"48\" height=\"102\" rx=\"8\" fill=\"#0e1512\"/><rect x=\"12\" y=\"14\" width=\"36\" height=\"46\" rx=\"2\" fill=\"#eef1ee\"/><circle cx=\"30\" cy=\"82\" r=\"7\" fill=\"#26302b\"/></svg></span><span class=\"ds-card-body\"><span class=\"ds-card-brand\">ZKTECO</span><span class=\"ds-card-code\">SpeedFace-V5L</span><span class=\"ds-card-meta\">34 products</span></span></a>",
+      "css": ".ds-card{display:flex;flex-direction:column;width:240px;border:1px solid #e3e7e3;border-radius:18px;overflow:hidden;background:#fff;color:#0e1512;text-decoration:none;box-shadow:0 1px 2px rgb(14 21 18/.06),0 1px 1px rgb(14 21 18/.04);transition:box-shadow 200ms cubic-bezier(.2,.8,.2,1),transform 200ms cubic-bezier(.2,.8,.2,1),border-color 200ms}.ds-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgb(14 21 18/.08);border-color:#d9ecdf}.ds-card:focus-visible{outline:2px solid #26703a;outline-offset:2px}.ds-card-img{display:grid;place-items:center;height:150px}.ds-card-body{display:flex;flex-direction:column;gap:4px;padding:16px 20px 20px;border-top:1px solid #e3e7e3}.ds-card-brand{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.08em;color:#666f6a}.ds-card-code{font:500 18px/1.3 'IBM Plex Mono',ui-monospace,monospace}.ds-card-meta{font:600 14.5px/1.4 Inter,sans-serif;color:#26703a}"
+    },
+    {
+      "name": "Night Card",
+      "kind": "card",
+      "refersTo": "card-night",
+      "description": "A place or product card on the after-hours night surface.",
+      "html": "<div class=\"ds-night-stage\"><div class=\"ds-night-card\"><span class=\"ds-night-tag\">Showroom</span><strong>Deira showroom</strong><span class=\"ds-night-muted\">Naif Bazar Building, Deira, Dubai</span><a href=\"#\">+971 4 880 8445</a></div></div>",
+      "css": ".ds-night-stage{padding:24px;background:#0a1a10;border-radius:18px}.ds-night-card{display:flex;flex-direction:column;gap:6px;max-width:320px;padding:24px;border:1px solid #24432f;border-radius:18px;background:#102619;color:#e9f2ec;font:400 16px/1.5 Inter,sans-serif;box-shadow:0 24px 48px rgb(0 0 0/.35);transition:box-shadow 200ms,border-color 200ms}.ds-night-card:hover{border-color:#78be20;box-shadow:0 0 0 1px rgb(120 190 32/.55),0 0 32px rgb(120 190 32/.16)}.ds-night-tag{font:600 13px/1 Inter,sans-serif;color:#a9bdb0}.ds-night-card strong{font-weight:650;font-size:18px}.ds-night-muted{color:#a9bdb0}.ds-night-card a{min-height:44px;display:inline-flex;align-items:center;color:#78be20;font-weight:600;text-decoration:none}.ds-night-card a:hover{text-decoration:underline}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "The header's pill search with the '/' shortcut.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><span class=\"ds-sr\">Search products</span><input placeholder=\"Search all products\"><kbd>/</kbd></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;width:288px;min-height:44px;padding:0 10px 0 16px;border:1px solid #8a948e;border-radius:999px;background:#fff;color:#4a5550}.ds-search:focus-within{outline:2px solid #26703a;outline-offset:2px}.ds-search input{flex:1;border:0;outline:0;font:400 16px/1 Inter,sans-serif;color:#0e1512;background:transparent}.ds-search kbd{padding:2px 6px;border:1px solid #e3e7e3;border-radius:5px;font:500 11px/1 'IBM Plex Mono',monospace;color:#666f6a}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A filter or popular-search pill; selected turns Showroom Mint.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"false\">Fingerprint</button><button class=\"ds-chip\" aria-pressed=\"true\">Face</button></div>",
+      "css": ".ds-chips{display:flex;gap:8px}.ds-chip{min-height:44px;padding:0 16px;border:1px solid #8a948e;border-radius:999px;background:#fff;color:#26302b;font:500 13px/1 Inter,sans-serif;cursor:pointer;transition:background 200ms,border-color 200ms,color 200ms}.ds-chip:hover{border-color:#26703a}.ds-chip[aria-pressed=true]{background:#eef6f0;border-color:#26703a;color:#1b5e20}.ds-chip:focus-visible{outline:2px solid #26703a;outline-offset:2px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Sticky header nav word with the growing green underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"#\">Products</a><a href=\"#\">Solutions</a><a href=\"#\" aria-current=\"page\">Software</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px;padding:0 16px;height:72px;align-items:center;background:rgb(255 255 255/.94);border-bottom:1px solid #e3e7e3}.ds-nav a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:#0e1512;font:500 15px/1 Inter,sans-serif;text-decoration:none}.ds-nav a::after{content:'';position:absolute;inset-inline:12px;bottom:4px;height:1.5px;background:#26703a;transform:scaleX(0);transform-origin:left;transition:transform 250ms cubic-bezier(.2,.8,.2,1)}.ds-nav a:hover::after,.ds-nav a[aria-current=page]::after{transform:scaleX(1)}.ds-nav a:focus-visible{outline:2px solid #26703a;outline-offset:2px;border-radius:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Trusted Showroom",
+    "overview": "AIMS is a ZKTeco distributor you can walk into, and the interface behaves like its Deira showroom. The page is a light showroom floor in barely-green greys. Real products stand on white lifted cards like display plinths, each named by its model code. AIMS green is the sign over the door: it marks what you can act on and almost nothing else. When the story needs drama, the page turns to the showroom after hours: deep night-green surfaces where lime becomes the light at the reader, the one moment a credential is accepted.\n\nDensity follows the visitor. Marketing surfaces are spacious, with one idea per screen and the product shown big. The catalogue, compare and quote surfaces are exact and Swiss: tabular figures, hairlines, mono model codes, nothing decorative between the buyer and the spec. Motion exists only to show how access and attendance work (credentials reaching a reader, a door kit assembling, a punch becoming a timesheet) or to answer a pointer.\n\nRejected, on the evidence of aimsuae.me and NUZON: a manufacturer-branded header, stock \"consulting\" and \"ACCESS GRANTED\" photographs, carousels, the same green button repeated four times in a row, a secondary blue, glassmorphism, blobs and burgundy ribbons.",
+    "keyCharacteristics": [
+      "Light showroom floor, white lifted product cards, real cut-outs on white.",
+      "One action colour (AIMS green); lime only as light, never as body text on light surfaces.",
+      "Night-green sections for the after-hours moments; daylight for the catalogue.",
+      "Model codes in IBM Plex Mono as the system's signature.",
+      "Inter throughout, heavy-ish display weights (650–680), sentence case.",
+      "Pill controls, gently rounded cards, hairline borders."
+    ],
+    "rules": [
+      {
+        "name": "The One Sign Rule",
+        "body": "AIMS Green marks what can be acted on and nothing decorative. If something green can't be clicked, selected or read as a state, it shouldn't be green.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lime Is Light Rule",
+        "body": "Lime is a light source, not a paint: wordmark stop, signal pulses, the reader LED, and text only on night surfaces. Never a fill behind dark text on light pages.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Second Accent Rule",
+        "body": "No blue, no violet, no burgundy. aimsuae.me's secondary blue was considered and rejected: it competes with green as the clickable colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Datasheet Rule",
+        "body": "Every model code is in IBM Plex Mono and stays left-to-right inside Arabic. Quantities, counts and specs use tabular figures; units take a space (\"12 V DC\", \"280 kg\").",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Sentence case everywhere except the brand line. No trailing periods on buttons and labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Plinth Rule",
+        "body": "A card that holds a product or a link sits on a resting shadow and lifts 2px with the lifted shadow on hover. Bands, tables and text never cast shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** show real AIMS product cut-outs on white, big and whole, named by their model codes in mono.",
+      "**Do** keep AIMS Green (#26703a) for actions and selection only, and lime for light and signal only.",
+      "**Do** lift linked cards: hairline + resting shadow at rest, 2px rise with the lifted shadow on hover.",
+      "**Do** switch to night-green surfaces (#0a1a10 family) for a section that tells a story, and back to the showroom floor for the catalogue.",
+      "**Do** keep every text pair at 4.5:1 or better, including lime and muted text on night surfaces.",
+      "**Do** keep 44px touch targets and the shared container's two content edges on every section."
+    ],
+    "donts": [
+      "**Don't** put a manufacturer's logo in the header or hero; ZKTeco logos only identify products.",
+      "**Don't** use a secondary blue, violet or burgundy, or gradients as decoration on light surfaces.",
+      "**Don't** use stock \"consulting\", hologram or \"ACCESS GRANTED\" imagery, glassmorphism, blobs or carousels.",
+      "**Don't** repeat the same filled green button across a row of cards; a card's action is a text link.",
+      "**Don't** set lime as text on light surfaces (2.29:1) or use ink-300 for information.",
+      "**Don't** caption images; licence credits go in one footer line."
+    ]
+  }
+}

@@ -1,0 +1,838 @@
+{
+  "meta": {
+    "siteName": "AIMS Security Systems",
+    "titleTemplate": "%s | AIMS Security Systems",
+    "defaultTitle": "AIMS Security Systems | Access control & time attendance in the UAE",
+    "defaultDescription": "ZKTeco access control, time attendance, entrance control and POS systems, supplied and installed across the UAE by AIMS Security Systems Trading LLC."
+  },
+  "nav": {
+    "products": "Products",
+    "solutions": "Solutions",
+    "software": "Software",
+    "services": "Services",
+    "locations": "Locations",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search products",
+    "quote": "Quote",
+    "menu": "Menu",
+    "close": "Close",
+    "switchLanguage": "العربية",
+    "skipToContent": "Skip to content",
+    "primary": "Main",
+    "productsAll": "All products",
+    "productsLead": "Browse by family, or search by model code.",
+    "solutionsAll": "All solutions",
+    "solutionsLead": "Start from what you need to do.",
+    "downloadCentre": "Software Download Centre",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "searchPlaceholder": "Search all products",
+    "searchSubmit": "Search",
+    "contactUs": "Contact us",
+    "quoteItems": "items"
+  },
+  "common": {
+    "addToQuote": "Add to quote",
+    "inQuote": "In your quote",
+    "viewDatasheet": "Datasheet",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "partner": "ZKTeco specialists in Dubai & Abu Dhabi",
+    "partnerConfirmed": "Authorized ZKTeco Distributor · UAE",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "externalSite": "opens aimsuae.me"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page may have moved. Try searching for a model code, or browse all products.",
+    "cta": "Browse products"
+  },
+  "families": {
+    "time-attendance": {
+      "name": "Time attendance",
+      "summary": "Fingerprint, face and card terminals"
+    },
+    "access-control": {
+      "name": "Access control",
+      "summary": "Readers, controllers and panels"
+    },
+    "entrance-control": {
+      "name": "Entrance & parking",
+      "summary": "Turnstiles, gates and barriers"
+    },
+    "door-locks": {
+      "name": "Smart & hotel locks",
+      "summary": "Smart locks and RFID hotel locks"
+    },
+    "door-hardware": {
+      "name": "Door hardware",
+      "summary": "EM locks, exit buttons, cards, power"
+    },
+    "pos": {
+      "name": "POS systems",
+      "summary": "Windows and Android POS terminals"
+    }
+  },
+  "solutions": {
+    "time-attendance": {
+      "name": "Time attendance",
+      "summary": "Record hours and feed payroll"
+    },
+    "access-control": {
+      "name": "Access control",
+      "summary": "Secure doors, floors and buildings"
+    },
+    "entrance-parking": {
+      "name": "Entrance & parking",
+      "summary": "Lobbies, gates and car parks"
+    },
+    "door-locks": {
+      "name": "Door locks",
+      "summary": "Homes, offices and hotels"
+    },
+    "pos": {
+      "name": "POS systems",
+      "summary": "Restaurants and retail"
+    }
+  },
+  "footer": {
+    "products": "Products",
+    "solutions": "Solutions",
+    "software": "Software",
+    "company": "Company",
+    "locations": "Visit or call",
+    "headOffice": "Head office",
+    "showroom": "Showroom",
+    "abuDhabi": "Abu Dhabi office",
+    "mobile": "Mobile & WhatsApp",
+    "email": "Email",
+    "directions": "Directions",
+    "popular": "Popular searches",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "rights": "All rights reserved.",
+    "services": "Services",
+    "support": "Support & warranty",
+    "blog": "Blog",
+    "aboutShowrooms": "About & showrooms",
+    "locationsHub": "Locations"
+  },
+  "catalogue": {
+    "allTitle": "All products",
+    "allLead": "Search {count} products by model code, or narrow by family and features.",
+    "familyLead": "{count} products. Search by model code or filter by features.",
+    "searchLabel": "Search products",
+    "searchPlaceholder": "Model code or product, e.g. F18",
+    "resultsCount": "{count} products",
+    "resultsOne": "1 product",
+    "resultsHeading": "Results",
+    "filters": "Filters",
+    "filtersCount": "Filters ({count})",
+    "showResults": "Show {count} products",
+    "clearAll": "Clear all",
+    "closeFilters": "Close filters",
+    "facets": {
+      "family": "Family",
+      "type": "Type",
+      "brand": "Brand",
+      "verify": "Verification",
+      "conn": "Connectivity",
+      "outdoor": "Outdoor rated"
+    },
+    "types": {
+      "portable": "Portable",
+      "panel": "Control panels",
+      "pedestrian": "Turnstiles & gates",
+      "parking": "Parking barriers",
+      "smart": "Smart locks",
+      "hotel": "Hotel locks",
+      "windows": "Windows POS",
+      "android": "Android POS"
+    },
+    "verify": {
+      "face": "Face",
+      "palm": "Palm",
+      "fingerprint": "Fingerprint",
+      "card": "Card",
+      "qr": "QR code",
+      "pin": "PIN / password",
+      "mobile": "Mobile credential"
+    },
+    "conn": {
+      "tcp-ip": "TCP/IP (network)",
+      "wifi": "Wi-Fi",
+      "4g": "4G",
+      "poe": "PoE",
+      "rs485": "RS485",
+      "usb": "USB",
+      "wiegand": "Wiegand",
+      "bluetooth": "Bluetooth"
+    },
+    "brands": {
+      "zkteco": "ZKTeco",
+      "alpha": "Alpha"
+    },
+    "noResults": "No products match.",
+    "noResultsFor": "No products match “{q}”.",
+    "clearFilters": "Clear filters",
+    "clearSearch": "Clear search",
+    "askAbout": "Ask us about “{q}”",
+    "askAdded": "Added to your quote as a request. AIMS will reply about this model.",
+    "compare": "Compare",
+    "compareRemove": "Remove {name} from compare",
+    "compareTray": "Compare products",
+    "compareCount": "{count} of 3 selected",
+    "compareCta": "Compare {count}",
+    "compareNeedTwo": "Select one more to compare",
+    "compareClear": "Clear",
+    "compareMax": "You can compare up to 3 products.",
+    "specsOnRequest": "Specs on request",
+    "add": "Add to quote",
+    "inQuote": "In quote",
+    "addedAnnounce": "{name} added to quote, {qty} units",
+    "qtyAnnounce": "{name}: {qty} units",
+    "qty": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "remove": "Remove from quote",
+    "viewQuote": "Review quote request"
+  },
+  "product": {
+    "keySpecs": "Key specifications",
+    "specs": "Specifications",
+    "overview": "Overview",
+    "downloads": "Downloads",
+    "datasheet": "Datasheet",
+    "datasheetNote": "PDF on aimsuae.me",
+    "noDatasheet": "No datasheet is published for this model yet. Ask us and we'll send it.",
+    "noSpecs": "AIMS hasn't published structured specifications for this model yet.",
+    "askSpecs": "Ask for the specifications",
+    "askWhatsapp": "Ask on WhatsApp",
+    "whatsappText": "Hi AIMS, I'm interested in the {name}.",
+    "needInstall": "Need it installed?",
+    "needInstallBody": "AIMS supplies and installs across the UAE. Add the products, then choose supply and installation on your quote request.",
+    "fittedWith": "Often fitted with",
+    "fittedWithNote": "Its spec sheet lists a lock and exit button among the door hardware it can drive.",
+    "compareSimilar": "Compare with similar models",
+    "inFamily": "More in {family}",
+    "model": "Model",
+    "brand": "Brand",
+    "notListed": "Not listed by AIMS"
+  },
+  "compare": {
+    "title": "Compare products",
+    "lead": "Rows every product lists come first. Rows that differ are marked.",
+    "back": "Back to results",
+    "empty": "Choose 2 or 3 products to compare.",
+    "browse": "Browse products",
+    "differs": "Differs",
+    "spec": "Specification",
+    "remove": "Remove",
+    "onlyDiff": "Show differences only",
+    "showAll": "Show all rows",
+    "notFound": "Some products in this link no longer exist and were skipped."
+  },
+  "home": {
+    "metaTitle": "Access control & time attendance",
+    "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",
+    "hero": {
+      "line1": "ZKTeco access control",
+      "line2": "and attendance for the UAE",
+      "lead": "ZKTeco access control and time attendance systems, supplied, installed and supported across the UAE.",
+      "explore": "See all products",
+      "quote": "Request a quote",
+      "trust": "Showroom in Deira, Dubai · Office in Abu Dhabi",
+      "alt": "Illustration on a ZKTeco SpeedFace-V5L terminal: a face is verified and the door unlocks",
+      "entrance": "Entrance A",
+      "time": "08:17",
+      "day": "Thursday",
+      "idle": "Look at the camera",
+      "scanning": "Verifying…",
+      "welcome": "Welcome",
+      "checked": "Checked in · 08:17",
+      "unlocked": "Door unlocked",
+      "granted": "Access granted",
+      "pause": "Pause animation"
+    },
+    "routes": {
+      "heading": "Three ways to buy from AIMS",
+      "supply": {
+        "title": "Buy for projects & stock",
+        "body": "Find models, compare specifications and build your product list.",
+        "action": "See all products"
+      },
+      "install": {
+        "title": "Supply & installation in the UAE",
+        "body": "Discuss the devices, installation and setup your site needs.",
+        "action": "Request an installation quote"
+      },
+      "export": {
+        "title": "Delivery to GCC & Africa",
+        "body": "Share your models, quantities and destination with AIMS.",
+        "action": "Request an export quote"
+      }
+    },
+    "families": {
+      "heading": "{count} models in six product families",
+      "lead": "ZKTeco and Alpha terminals, readers, controllers, locks, turnstiles and POS, each with its published specifications.",
+      "count": "products",
+      "all": "See all products"
+    },
+    "door": {
+      "heading": "How a controlled door works",
+      "body": "A reader checks the credential, a controller decides who can enter, the lock releases and software records the event. Six parts, on every controlled door.",
+      "action": "See door components",
+      "reader": "Reader",
+      "controller": "Controller",
+      "lock": "EM lock",
+      "exit": "Exit button",
+      "card": "Credential",
+      "software": "Software",
+      "alt": "A door reader connected to a controller, electromagnetic lock, exit button and management software",
+      "partsLabel": "The six parts of a controlled door",
+      "outside": "Outside",
+      "inside": "Inside",
+      "granted": "Access granted",
+      "events": "Events",
+      "logRow": "Door 1 · Card"
+    },
+    "proof": {
+      "heading": "An authorized ZKTeco distributor in the UAE",
+      "body": "Figures stated by AIMS, November 2026.",
+      "years": "years of experience",
+      "installations": "security system installations",
+      "clients": "corporate clients",
+      "countries": "countries supplied",
+      "reviews": "From reviews published by AIMS",
+      "headingFallback": "ZKTeco specialists in Dubai and Abu Dhabi"
+    },
+    "software": {
+      "heading": "Software that runs them",
+      "lead": "Attendance records and door events, managed in one place. Software is supplied on request.",
+      "centre": "All software",
+      "attendance": "Time attendance",
+      "cloud": "Cloud attendance",
+      "access": "Access management",
+      "purposeAttendance": "Attendance and workforce management, installed on your own server.",
+      "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
+      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels."
+    },
+    "locations": {
+      "heading": "Let’s talk in person.",
+      "lead": "Call ahead to confirm opening hours and which devices are on display.",
+      "headOffice": "Dubai head office",
+      "showroom": "Deira showroom",
+      "abuDhabi": "Abu Dhabi office",
+      "dubaiArea": "Deira, Dubai · UAE",
+      "abuDhabiArea": "Abu Dhabi · UAE",
+      "call": "Call",
+      "map": "Showroom directions",
+      "plan": "Plan a visit",
+      "newTab": "opens in a new tab",
+      "office": "Office",
+      "showroomTag": "Showroom"
+    },
+    "reviews": {
+      "read": "Read the published reviews",
+      "rating": "Rated {count} out of 5"
+    },
+    "faq": {
+      "heading": "Questions about buying and installation",
+      "items": [
+        {
+          "q": "Can I buy products without installation?",
+          "a": "Browse the catalogue and compare specifications. Send AIMS the model codes and quantities you need to request a supply quotation."
+        },
+        {
+          "q": "Can AIMS help with installation?",
+          "a": "AIMS supplies, installs and supports access control and time attendance systems across the UAE. Contact the team with your site location and requirements."
+        },
+        {
+          "q": "Do you supply customers outside the UAE?",
+          "a": "For delivery to the GCC or Africa, share your destination, model codes and quantities. Ask AIMS to confirm delivery arrangements and any required documents."
+        },
+        {
+          "q": "How do I choose a time attendance device?",
+          "a": "Start with your preferred verification method, user capacity and connection requirements. Compare the published specifications and ask AIMS about software compatibility before ordering."
+        },
+        {
+          "q": "Where can I get the software?",
+          "a": "The software links open AIMS’s current pages. Software is supplied on request; confirm licensing, compatibility and setup requirements with the team."
+        },
+        {
+          "q": "Can I visit the showroom?",
+          "a": "The Deira showroom address and directions are listed above. Call before you travel to confirm opening hours and whether the devices you want to see are available."
+        }
+      ]
+    },
+    "contactNotice": "Opens AIMS’s live website.",
+    "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
+    "external": "on aimsuae.me",
+    "reach": {
+      "heading": "Visit the showroom in Deira",
+      "lead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
+      "mapLabel": "Map: AIMS offices in Dubai and Abu Dhabi, with delivery routes to the GCC, Muscat and Nairobi",
+      "dubai": "Dubai",
+      "abuDhabi": "Abu Dhabi",
+      "muscat": "Muscat",
+      "nairobi": "Nairobi",
+      "gcc": "GCC"
+    },
+    "closing": {
+      "heading": "Send AIMS your model list or site plan",
+      "body": "Send the models you need, or describe the site. AIMS replies with a quotation.",
+      "action": "Request a quote",
+      "secondary": "See all products"
+    }
+  },
+  "search": {
+    "suggestions": "Search suggestions",
+    "count": "{count} suggestions",
+    "empty": "No matching suggestions. Press Enter to search all products.",
+    "product": "Product",
+    "software": "Software",
+    "solution": "Solution",
+    "external": "on aimsuae.me"
+  },
+  "contactPreview": {
+    "trigger": "Chat on WhatsApp",
+    "title": "Preview contact",
+    "body": "Nothing has been sent to AIMS. Continue to open the real AIMS WhatsApp chat; your preview quote list will not be sent.",
+    "cancel": "Stay in preview",
+    "open": "Open WhatsApp",
+    "newTab": "Opens in a new tab or the WhatsApp app."
+  },
+  "solutionsHub": {
+    "metaTitle": "Solutions for your business",
+    "metaDescription": "Explore AIMS systems for time attendance, access control, entrances, door locks and POS. Start with your needs and browse the relevant products.",
+    "title": "Start with what you need.",
+    "lead": "From recording working hours to managing who comes through the door. Find the right starting point for your site.",
+    "components": "Explore the components",
+    "cards": {
+      "time-attendance": {
+        "outcome": "Record working hours",
+        "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
+        "includes": ["Face, fingerprint and card terminals", "Portable terminals"],
+        "action": "Explore attendance products"
+      },
+      "access-control": {
+        "outcome": "Manage who can enter",
+        "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
+        "includes": ["Readers and controllers", "Face recognition terminals"],
+        "action": "Explore access control products"
+      },
+      "entrance-parking": {
+        "outcome": "Organise entry and exit",
+        "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
+        "includes": ["Turnstiles and swing barriers", "Parking barriers"],
+        "action": "Explore entrance products"
+      },
+      "door-locks": {
+        "outcome": "Choose access for each room",
+        "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
+        "includes": ["Smart door locks", "Hotel lock systems"],
+        "action": "Explore door locks"
+      },
+      "pos": {
+        "outcome": "Equip your point of sale",
+        "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
+        "includes": ["Windows and Android terminals", "Biometric POS terminals"],
+        "action": "Explore POS products"
+      }
+    },
+    "industries": {
+      "title": "Plan around your space.",
+      "lead": "Start with the activity you need to manage, then consider the people, doors and systems involved.",
+      "items": [
+        {
+          "name": "Offices & teams",
+          "needs": "Attendance and workplace access"
+        },
+        {
+          "name": "Buildings & car parks",
+          "needs": "Doors, lobbies and vehicle entrances"
+        },
+        {
+          "name": "Hotels & property",
+          "needs": "Room access and door locks"
+        },
+        {
+          "name": "Shops & restaurants",
+          "needs": "Point-of-sale hardware"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Before you choose.",
+      "lead": "A few things to consider when planning your system.",
+      "action": "Discuss your requirements",
+      "items": [
+        {
+          "q": "How is time attendance different from access control?",
+          "a": "Time attendance records when people check in and out. Access control manages entry to a door or area. Some terminals support both; check the individual model specifications."
+        },
+        {
+          "q": "Can I keep my existing software or door hardware?",
+          "a": "Compatibility depends on the model, connections and software version. Share the details of your current system with AIMS before choosing new equipment."
+        },
+        {
+          "q": "Can AIMS help with installation?",
+          "a": "AIMS supplies and installs systems in the UAE. Contact the team with your site location, the number of doors or users, and any existing equipment to discuss the scope."
+        },
+        {
+          "q": "What if I already know the model I need?",
+          "a": "Use the search in the header to find the model, view its published specifications and add it to your quote list."
+        }
+      ]
+    }
+  },
+  "quote": {
+    "title": "Your quote request",
+    "lead": "Check the items, tell us what you need, and send it in one go.",
+    "metaTitle": "Quote request",
+    "empty": "Your quote list is empty. Browse products or describe what you need.",
+    "browse": "Browse products",
+    "itemsHeading": "Items",
+    "addProduct": "Add a product",
+    "describe": "Describe an item we don't list",
+    "describeLabel": "Item description",
+    "describePlaceholder": "For example, a 2-door controller with 4 readers",
+    "describeAdd": "Add item",
+    "remove": "Remove {name}",
+    "removed": "{name} removed.",
+    "undo": "Undo",
+    "customLine": "Not listed",
+    "needHeading": "What do you need?",
+    "needs": {
+      "supply": "Supply only",
+      "install": "Supply and installation",
+      "export": "Delivery abroad"
+    },
+    "needHints": {
+      "supply": "I'll install it myself",
+      "install": "In the UAE",
+      "export": "GCC, Africa or elsewhere"
+    },
+    "city": "Delivery city (optional)",
+    "timing": "When do you need it? (optional)",
+    "timings": {
+      "asap": "As soon as possible",
+      "two-weeks": "Within 2 weeks",
+      "month": "Within a month",
+      "planning": "Planning only"
+    },
+    "emirate": "Emirate",
+    "emirates": {
+      "abu-dhabi": "Abu Dhabi",
+      "dubai": "Dubai",
+      "sharjah": "Sharjah",
+      "ajman": "Ajman",
+      "umm-al-quwain": "Umm Al Quwain",
+      "ras-al-khaimah": "Ras Al Khaimah",
+      "fujairah": "Fujairah"
+    },
+    "siteType": "Site type (optional)",
+    "siteTypes": {
+      "office": "Office",
+      "industrial": "Warehouse or factory",
+      "retail": "Shop or mall",
+      "hotel": "Hotel",
+      "residential": "Home or residential building",
+      "other": "Other"
+    },
+    "doors": "Number of doors (optional)",
+    "users": "Number of users (optional)",
+    "existing": "Existing system (optional)",
+    "existingPlaceholder": "For example, old fingerprint readers to replace",
+    "country": "Destination country",
+    "port": "City or port (optional)",
+    "documents": "Documents you need (optional)",
+    "buyerType": "You are (optional)",
+    "buyers": {
+      "installer": "Installer or IT reseller",
+      "end-user": "End user",
+      "consultant": "Consultant",
+      "distributor": "Distributor abroad"
+    },
+    "choose": "Choose…",
+    "detailsHeading": "Your details",
+    "name": "Name",
+    "company": "Company (optional)",
+    "phone": "Mobile or WhatsApp",
+    "phoneHint": "Include the country code, for example +971 50 123 4567.",
+    "email": "Email",
+    "emailOptional": "Email (optional)",
+    "replyBy": "Reply by",
+    "replyChannels": {
+      "whatsapp": "WhatsApp",
+      "phone": "Phone call",
+      "email": "Email"
+    },
+    "honeypot": "Leave this field empty",
+    "summaryHeading": "What AIMS receives",
+    "messageHeading": "Message",
+    "reviewCta": "Review quote request",
+    "whatsappCta": "Continue to WhatsApp",
+    "sendCta": "Send enquiry",
+    "whatsappNote": "WhatsApp opens with this message. You can still edit it before you send it.",
+    "demoNote": "Preview: nothing is sent. On the live site this goes to AIMS sales and you get a reference.",
+    "itemsSummary": "{count} items · {units} units",
+    "itemsSummaryOne": "1 item · {units} units",
+    "errorsHeading": "Fix {count} things before sending",
+    "errorsOne": "Fix 1 thing before sending",
+    "errors": {
+      "noItems": "Add at least one product or describe an item.",
+      "needRequired": "Choose what you need.",
+      "emirateRequired": "Choose the emirate for installation.",
+      "countryRequired": "Enter the destination country.",
+      "nameRequired": "Enter your name.",
+      "phoneRequired": "Add a WhatsApp number, phone or email so we can reply.",
+      "phoneInvalid": "Enter a mobile number with country code, for example +971 50 123 4567.",
+      "emailRequired": "Enter an email address, or choose WhatsApp or a phone call.",
+      "emailInvalid": "Enter a valid email address, for example name@company.com."
+    },
+    "receipt": {
+      "title": "Request ready",
+      "demo": "Demo: nothing was sent to AIMS.",
+      "reference": "Reference",
+      "body": "On the live site, AIMS sales receive this request and reply by {channel}.",
+      "edit": "Edit the request",
+      "clear": "Clear the list",
+      "products": "Back to products"
+    },
+    "message": {
+      "greeting": "Hi AIMS, quote request (ref {ref}):",
+      "custom": "Not listed: {text}",
+      "need": "Need",
+      "timing": "Timing",
+      "buyer": "Buyer",
+      "name": "Name",
+      "replyBy": "Reply by",
+      "doors": "{n} doors",
+      "users": "{n} users",
+      "existing": "existing: {text}",
+      "documents": "documents: {text}"
+    },
+    "presetInstall": "Installation enquiry: describe your site below (for example \"6 doors, 80 staff, Dubai office\"), then add any models you already know.",
+    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know."
+  },
+  "contactGuard": {
+    "title": "Preview: this would contact AIMS",
+    "whatsapp": "On the live site this opens WhatsApp to AIMS sales ({target}).",
+    "phone": "On the live site this calls AIMS ({target}).",
+    "email": "On the live site this opens an email to {target}.",
+    "nothingSent": "Nothing has been sent from this preview.",
+    "message": "Message",
+    "copy": "Copy message",
+    "copied": "Copied",
+    "openAnyway": "Open anyway",
+    "close": "Close"
+  },
+  "solutionTimeAttendance": {
+    "metaTitle": "Time attendance systems in the UAE",
+    "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
+    "eyebrow": "Solution",
+    "title": "Time attendance that feeds payroll.",
+    "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} terminals",
+    "story": {
+      "heading": "From a punch to a payroll file.",
+      "lead": "Four steps happen every time someone checks in.",
+      "label": "How time attendance works",
+      "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
+      "steps": [
+        {
+          "title": "Check in at the terminal",
+          "body": "A face, fingerprint or card verifies the person. The terminal stores the punch with the time."
+        },
+        {
+          "title": "Punches reach BioTime",
+          "body": "Over the network, Wi-Fi or 4G, depending on the model, punches arrive in BioTime on your server or in the cloud."
+        },
+        {
+          "title": "Timesheets build themselves",
+          "body": "BioTime matches punches to shifts and fills each person's day: in, out and hours worked."
+        },
+        {
+          "title": "Export for payroll",
+          "body": "Approved timesheets are exported as a file for your payroll or HR system."
+        }
+      ],
+      "terminal": "Terminal",
+      "checked": "Checked in",
+      "server": "BioTime",
+      "sheet": "Timesheet",
+      "name": "Name",
+      "in": "In",
+      "out": "Out",
+      "hours": "Hours",
+      "people": ["Staff 01", "Staff 02", "Staff 03", "Staff 04"],
+      "file": "Payroll export",
+      "sample": "Illustrative data"
+    },
+    "methods": {
+      "heading": "Choose how people check in.",
+      "lead": "Start with the method that suits your staff and site. Counts are terminals in the AIMS catalogue.",
+      "count": "{count} terminals",
+      "countOne": "1 terminal",
+      "items": {
+        "face": {
+          "title": "Face",
+          "body": "Touch-free and quick at shift change. Nothing to carry or lose."
+        },
+        "fingerprint": {
+          "title": "Fingerprint",
+          "body": "A low cost per person and no cards to manage."
+        },
+        "card": {
+          "title": "Card",
+          "body": "Familiar and fast. Pair it with face or fingerprint to stop buddy punching."
+        },
+        "mobile": {
+          "title": "Mobile & QR",
+          "body": "For teams that check in away from a fixed terminal."
+        }
+      }
+    },
+    "products": {
+      "heading": "Terminals to start with.",
+      "lead": "Six terminals that cover each method. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} terminals",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From site survey to first payroll.",
+      "lead": "Who does what, from your first message to a working system.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about your site",
+          "body": "Number of staff, entrances, shifts and any system you already use.",
+          "owner": "You"
+        },
+        {
+          "title": "Device plan and quote",
+          "body": "AIMS suggests terminals and software and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Terminals are mounted, powered and connected to your network.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "BioTime setup",
+          "body": "Shifts, departments and users are set up, and staff are enrolled on the terminals.",
+          "owner": "AIMS with your HR team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add staff, sites or devices.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that fits.",
+      "lead": "ZKTeco attendance software, from one office to many sites. Confirm which version fits your terminals with AIMS.",
+      "onPremise": "On your server",
+      "cloud": "In the cloud",
+      "mobile": "On staff phones",
+      "purposeOnPremise": "Attendance and workforce management, installed on your own server.",
+      "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
+      "purposeMobile": "Staff and managers see attendance and reports on a phone."
+    },
+    "faq": {
+      "heading": "Time attendance questions.",
+      "items": [
+        {
+          "q": "How many terminals do I need?",
+          "a": "Usually one per entrance staff use at shift change. Large teams may need more so queues stay short. AIMS will suggest a number from your headcount and entrances."
+        },
+        {
+          "q": "Face, fingerprint or card: which is best?",
+          "a": "Face is touch-free and fast. Fingerprint has a low cost per person. Cards are familiar but can be lent, so many sites pair them with face or fingerprint."
+        },
+        {
+          "q": "Can I use one system for several sites?",
+          "a": "Yes. BioTime Cloud, or BioTime on a server your sites can reach, collects punches from terminals in different locations."
+        },
+        {
+          "q": "Can terminals also open a door?",
+          "a": "Some models support access control as well as attendance. Check the model's specifications, or ask AIMS about the lock and exit button it needs."
+        },
+        {
+          "q": "Does it work with my payroll software?",
+          "a": "BioTime exports attendance reports as files. Share your payroll system with AIMS to confirm the format before you order."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan attendance for your site.",
+      "body": "Tell AIMS how many people and entrances you have. You'll get a device plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse terminals"
+    }
+  },
+  "contactPage": {
+    "metaTitle": "Contact AIMS",
+    "metaDescription": "WhatsApp, call or visit AIMS Security Systems in Dubai and Abu Dhabi. Choose what you need and reach the right channel.",
+    "title": "Contact AIMS",
+    "lead": "Choose what you need and we'll show you the quickest way to reach the right person.",
+    "needLegend": "What do you need?",
+    "needs": {
+      "sales": {
+        "label": "Sales and quotes",
+        "hint": "Product advice and quotations"
+      },
+      "software": {
+        "label": "Software and setup",
+        "hint": "BioTime, ZKAccess and other software"
+      },
+      "visit": {
+        "label": "Showroom visit",
+        "hint": "See products in Deira, Dubai"
+      },
+      "export": {
+        "label": "Delivery abroad",
+        "hint": "GCC, Africa and other countries"
+      }
+    },
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "salesNext": "Know the models already? Add them to a quote list and send it in one go.",
+    "salesCta": "Browse products",
+    "softwareNext": "AIMS's software requests go to this WhatsApp line.",
+    "visitNext": "Opening hours aren't published yet, so please call before you visit.",
+    "directions": "Get directions",
+    "exportNext": "Add the products, then choose “Delivery abroad” on your quote request.",
+    "exportCta": "Start an export quote",
+    "whatsappText": {
+      "sales": "Hi AIMS, I need advice and a quotation.",
+      "software": "Hi AIMS, I need help with software.",
+      "visit": "Hi AIMS, I would like to visit the Dubai showroom.",
+      "export": "Hi AIMS, I need a quotation for delivery abroad."
+    },
+    "formTitle": "Or leave a short message",
+    "formLead": "It's added to your quote request, so you can send everything together.",
+    "message": "Your message",
+    "messageHint": "For example, the models, quantities or the problem you need solved.",
+    "visitDay": "Preferred day and time (optional)",
+    "submit": "Add to my request",
+    "errorMessage": "Write a short message first.",
+    "added": "Added to your request.",
+    "review": "Review quote request",
+    "advicePrefix": "{need}: {message}",
+    "visitSuffix": " (preferred: {day})",
+    "locationsTitle": "Visit or call",
+    "emailLabel": "Email",
+    "locations": {
+      "headOffice": "Head office, Dubai",
+      "showroom": "Dubai showroom",
+      "abuDhabi": "Abu Dhabi office"
+    }
+  }
+}

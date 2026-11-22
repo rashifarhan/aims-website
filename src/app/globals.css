@@ -1,0 +1,333 @@
+@import "tailwindcss";
+
+/*
+ * AIMS design tokens (Design Document v0.1, ch. 4–8).
+ * Contrast ratios are against white. Colours marked "decorative" must not
+ * carry text or the only signal of a state.
+ */
+@theme {
+  /* Brand green */
+  --color-green-50: #eef6f0;
+  --color-green-100: #d9ecdf;
+  --color-green-700: #26703a; /* primary · 6.07:1 */
+  --color-green-800: #1b5e20; /* primary hover / pressed */
+  --color-lime: #78be20; /* decorative only · 2.29:1 (wordmark full stop, signal pulses) */
+
+  /* Ink (text) */
+  --color-ink: #0e1512;
+  --color-ink-700: #26302b; /* 13.64:1 */
+  --color-ink-600: #4a5550; /* 7.76:1 · secondary text */
+  --color-ink-400: #666f6a; /* 5.19:1 · captions, hints */
+  --color-ink-300: #7a837e; /* decorative only */
+
+  /* Lines and surfaces */
+  --color-line: #e3e7e3; /* dividers */
+  --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
+  --color-paper: #ffffff;
+  --color-paper-2: #f6f8f5;
+  --color-paper-3: #eef1ee;
+
+  /* Status */
+  --color-error: #b42318;
+  --color-warn: #8a5300;
+  --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
+  /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
+     Contrast on night-900: text 15.9:1, night-muted 8.9:1, lime 7.8:1, so lime may carry text there. */
+  --color-night-950: #06100a;
+  --color-night-900: #0a1a10;
+  --color-night-800: #102619;
+  --color-night-700: #18352a;
+  --color-night-line: #24432f;
+  --color-night-text: #e9f2ec;
+  --color-night-muted: #a9bdb0;
+
+  /* Type */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-arabic: var(--font-plex-arabic), var(--font-inter), sans-serif;
+
+  /* Type sizes outside Tailwind's default scale (Design Doc ch. 5) */
+  --text-kbd: 0.6875rem; /* 11px · keyboard hints */
+  --text-caption: 0.8125rem; /* 13px · captions, tile labels */
+  --text-small: 0.90625rem; /* 14.5px · nav, labels */
+  --text-menu: 0.9375rem; /* 15px · mobile menu links */
+  --text-wordmark: 1.375rem; /* 22px · interim wordmark */
+  --text-brand: 0.71875rem; /* 11.5px · brand line on cards, the only all-caps label (Design Doc 5) */
+  --tracking-wordmark: 0.04em;
+  --tracking-brand: 0.08em;
+  /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
+  --text-page-title: 3rem;
+  --text-page-title-mobile: 2.25rem;
+  --font-weight-display: 680;
+  --font-weight-card: 650;
+
+  /* Radius */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
+  --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
+  --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
+
+  /* Motion */
+  --ease-aims: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  /* Interaction layer (Emil Kowalski's design-engineering rules, 22 Nov 2026): hover colour fades,
+     dropdowns and disclosures enter in under 200ms, the edge sheet uses a drawer curve and leaves faster
+     than it arrives. */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-hover: 150ms;
+  --duration-dropdown: 180ms;
+  --duration-card: 240ms;
+  --duration-drawer: 300ms;
+  --duration-drawer-exit: 200ms;
+  /* Approved hero prototype and Design Doc 8.4. */
+  --duration-nav: 250ms;
+  --duration-hero-rise: 900ms;
+  --duration-hero-device: 1100ms;
+  --duration-hero-wash: 1600ms;
+  --color-device-start: #f1f5f3;
+  --color-device-end: #e4ebe8;
+  --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
+
+  /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
+  --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
+  --text-home-display-compact: 3.5rem;
+  --text-home-display-mobile: 2.5rem;
+  --text-home-heading: 2.375rem;
+  --text-home-card: 1.125rem;
+  --text-home-lead: 1.1875rem;
+  --text-home-stat: 3.5rem;
+  /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
+  --text-door-name: 14px;
+  --text-door-model: 12.5px;
+  --text-door-screen: 10px;
+  /* T3 solution pages: H1 within Design Doc 5's 44–56 / 30–36 range. */
+  --text-page-title: 3.25rem;
+  --text-page-title-mobile: 2.125rem;
+  /* Explainer SVG text in viewBox units (760 wide), as for the door kit. */
+  --text-map-label: 15px; /* reach map, viewBox units (640 wide) */
+  --text-map-label-mobile: 24px;
+  --text-home-closing: 3.25rem;
+  --text-explainer-name: 15px;
+  --text-explainer-meta: 13px;
+  --text-explainer-row: 14px;
+  --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */
+  --text-home-stat-mobile: 2.5rem; /* 40px · proof figures in the 2 × 2 phone grid */
+  --text-device-bar: 5.2cqw;
+  --text-device-clock: 23cqw;
+  --text-device-small: 6.5cqw;
+  --text-device-hint: 6cqw;
+  --text-device-welcome: 12cqw;
+  --container-home-stage: 1600px;
+  --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
+  --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
+  /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
+  --container-page: 1344px;
+  --page-gutter: 1.5rem;
+}
+
+/* One grid for the shell and every page; mobile gutters are 24px. */
+@utility page-container {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-gutter: 2rem;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    /* Focus and in-page jumps land below the sticky header (60px mobile, 72px desktop) plus a
+       16px breath, never under it (WCAG 2.4.11, Design Doc 14). */
+    scroll-padding-block-start: 4.75rem;
+  }
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-block-start: 5.5rem;
+    }
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :lang(ar) body {
+    font-family: var(--font-arabic);
+  }
+
+  /* Visible focus everywhere (Design Doc ch. 14) */
+  :focus-visible {
+    outline: 2px solid var(--color-green-700);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-green-100);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Shared interaction motion (README → Decisions, "Interaction layer").
+ * .motion-disclose: content that appears when a disclosure opens (mobile menu sections, FAQ answers)
+ *   fades in and settles 4px; nothing animates height.
+ * .motion-fade: an overlay (dropdown panel, dialog, sheet) that may slide or scale. Under reduced
+ *   motion it keeps only a short opacity fade (fewer, gentler animations, not none) and never moves.
+ */
+@keyframes aims-disclose {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes aims-fade {
+  from {
+    opacity: 0;
+  }
+}
+.motion-disclose {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-disclose {
+    animation-name: aims-fade !important;
+    animation-duration: var(--duration-fast) !important;
+  }
+  /* Only opacity (and the discrete display/overlay switch) transitions, so any slide or scale jumps
+     straight to its end state. Setting translate/scale to none instead is lost in the minified build. */
+  .motion-fade,
+  .motion-fade::backdrop {
+    transition-property: opacity, display, overlay !important;
+    transition-duration: var(--duration-fast) !important;
+  }
+}
+
+/* Prototype effects use palette tokens; only the approved hero uses these. */
+:root {
+  --home-section-space: 3.5rem;
+  /* The sticky header's height with its hairline (h-15 / lg:h-18 + 1px): the hero fills the rest of the
+     first screen (taste House rule 3, CLAUDE.md §2 "one section per screen"). */
+  --home-header-block: 3.8125rem;
+  --home-hero-height: 760px;
+  --home-mobile-art-height: 400px;
+  --home-button-height: 3.375rem;
+  --gradient-home-glow: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 10%, transparent),
+    transparent
+  );
+  /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
+  --gradient-night:
+    radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
+    linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
+  --gradient-glow-lime: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 22%, transparent),
+    transparent
+  );
+  --gradient-glow-green: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-green-700) 55%, transparent),
+    transparent
+  );
+  --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
+  --gradient-home-scan: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--color-lime) 45%, transparent),
+    transparent
+  );
+}
+@media (min-width: 1024px) {
+  :root {
+    --home-header-block: 4.5625rem;
+  }
+}
+@media (max-width: 639px) {
+  :root {
+    --home-section-space: 2rem;
+    --text-home-heading: 1.75rem;
+  }
+}
+
+/* Design Doc 8.4: directional navigation underline, transform only. */
+.nav-motion {
+  position: relative;
+}
+.nav-motion::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.75rem;
+  inset-block-end: 0.25rem;
+  height: 1.5px;
+  background: var(--color-green-700);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-nav) var(--ease-aims);
+}
+:dir(rtl) .nav-motion::after {
+  transform-origin: right;
+}
+.nav-motion:hover::after,
+.nav-motion:focus-visible::after,
+.nav-motion[aria-expanded="true"]::after {
+  transform: scaleX(1);
+}
+.nav-motion:active {
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-motion::after {
+    transition: none;
+  }
+}
+/* Nav items fade their hover colour with plain ease (a colour change has no travel to ease out of) and
+   keep the fast brand-eased press scale from the `header button` rule below; the class selector
+   outranks it, so all three are listed here. */
+.nav-motion {
+  transition-property: color, background-color, transform;
+  transition-duration: var(--duration-hover), var(--duration-hover), var(--duration-fast);
+  transition-timing-function: ease, ease, var(--ease-aims);
+}
+/* Press feedback confirms activation without animating layout or colour. */
+header button {
+  transition-property: transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-aims);
+}
+header button:active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  header button {
+    transition: none;
+  }
+}

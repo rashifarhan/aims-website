@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AIMS — Access control: the door kit</title>
+<style>
+@font-face{font-family:Inter;src:url(assets/inter.woff2) format('woff2');font-weight:100 900}
+:root{--ink:#0e1512;--mut:#4a5550;--line:#e3e7e3;--g:#26703a;--g8:#1b5e20;--lime:#78be20;--p2:#f6f8f5;--wire:#9aa59f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+header{position:sticky;top:0;height:72px;display:flex;align-items:center;padding:0 80px;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);z-index:20}
+.wm b{font-size:22px;font-weight:800;letter-spacing:.04em}.wm b i{font-style:normal;color:var(--lime)}.wm span{font-size:12px;color:var(--mut);font-weight:500;margin-left:8px}
+nav{display:flex;gap:32px;margin:0 auto;font-size:14.5px;font-weight:500}nav a.cur{color:var(--g)}
+.q{height:40px;padding:0 16px;border:1px solid var(--ink);border-radius:999px;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.q b{min-width:20px;height:20px;border-radius:10px;background:var(--g);color:#fff;font-size:11.5px;display:none;place-items:center;padding:0 5px}
+.q b.has{display:grid}
+.q b.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.35)}}
+.menu{display:none}
+
+.intro{padding:72px 112px 40px;max-width:1440px}
+.crumb{font-size:13px;color:var(--mut)}.crumb a{color:var(--g)}
+.intro h1{font-size:56px;letter-spacing:-.035em;line-height:1.04;font-weight:680;margin:18px 0 16px;max-width:760px}
+.intro h1 em{font-style:normal;color:var(--g)}
+.intro p{font-size:18.5px;color:var(--mut);max-width:620px;line-height:1.55}
+
+/* scroll story */
+.story{position:relative;height:420vh}
+.stick{position:sticky;top:72px;height:calc(100vh - 72px);display:grid;grid-template-columns:440px 1fr;gap:40px;align-items:center;padding:0 80px 0 112px}
+.steps{list-style:none;counter-reset:s}
+.steps li{padding:14px 0 14px 18px;border-left:2px solid var(--line);opacity:.38;transition:opacity .35s,border-color .35s}
+.steps li.on{opacity:1;border-color:var(--g)}
+.steps li .n{font-size:12px;font-weight:700;color:var(--g);letter-spacing:.06em}
+.steps li h3{font-size:19px;font-weight:650;margin:3px 0 4px;letter-spacing:-.01em}
+.steps li p{font-size:14.5px;color:var(--mut);line-height:1.5;max-height:0;overflow:hidden;transition:max-height .45s}
+.steps li.on p{max-height:120px}
+.steps li .prod{display:none;margin-top:8px;font-size:13.5px;font-weight:600;color:var(--g)}
+.steps li.on .prod{display:inline-flex;gap:6px;align-items:center}
+.stage{position:relative;height:100%;max-height:680px;display:flex;align-items:center}
+#kit{width:100%;height:auto;max-height:640px;overflow:visible}
+.lbl{font:600 12px Inter;fill:var(--ink)}.lbls{font:500 11px Inter;fill:var(--mut)}
+.tag rect{fill:#fff;stroke:var(--line)}
+.prog{position:absolute;left:0;right:0;bottom:24px;height:2px;background:var(--line)}
+.prog i{display:block;height:100%;width:0;background:var(--g)}
+
+/* kit builder */
+.kit{padding:40px 112px 120px;display:grid;grid-template-columns:1fr 520px;gap:64px;align-items:start}
+.kit h2{font-size:38px;letter-spacing:-.03em;font-weight:680;line-height:1.08}
+.kit .lead{font-size:16.5px;color:var(--mut);margin-top:14px;max-width:520px;line-height:1.55}
+.card{border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 20px 50px rgba(14,21,18,.06)}
+.row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.row:last-of-type{border-bottom:0}
+.row .nm{display:flex;flex-direction:column}.row .nm small{color:var(--mut);font-size:12.5px;margin-top:2px}
+.row .qty{font-variant-numeric:tabular-nums;font-weight:650;min-width:40px;text-align:right}
+.ctl{display:flex;align-items:center;justify-content:space-between;background:var(--p2);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.ctl label{font-weight:600;font-size:14.5px}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer}
+.step output{min-width:32px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.add{margin-top:18px;width:100%;height:52px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px Inter;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:background .2s}
+.add.done{background:var(--g8)}
+.note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.5}
+.swap{animation:swap .5s}
+@keyframes swap{0%{background:rgba(120,190,32,.22)}100%{background:transparent}}
+
+@media (max-width:480px){
+  header{height:60px;padding:0 20px}.wm span,nav{display:none}.q{margin-left:auto;height:38px}.menu{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;margin-left:8px;background:#fff}
+  .intro{padding:36px 22px 20px}.intro h1{font-size:36px}.intro p{font-size:15.5px}
+  .story{height:520vh}
+  .stick{top:60px;height:calc(100vh - 60px);grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;gap:0;padding:28px 18px 0}
+  .stage{order:-1;max-height:none;height:auto;display:block;padding-bottom:26px}
+  .steps li{display:none;border-left:0;padding:0;opacity:1}
+  .steps li.on{display:block;animation:fadeup .4s}
+  .steps li h3{font-size:22px}.steps li p{max-height:none;font-size:15px}
+  @keyframes fadeup{from{opacity:0;transform:translateY(8px)}}
+  .prog{bottom:8px}
+  #kit .tag:not(#granted){display:none}
+  .steps{align-self:start;padding-top:18px}
+  #kit{max-height:none}
+  .kit{grid-template-columns:1fr;padding:24px 18px 80px;gap:24px}.kit h2{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><div class="wm"><b>AIMS<i>.</i></b><span>Security Systems</span></div>
+ <nav><a>Products</a><a class="cur">Solutions</a><a>Software</a><a>Services</a><a>About</a></nav>
+ <a class="q">Quote <b id="qc">0</b></a><button class="menu" aria-label="Open menu"><svg class="ico" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg></button></header>
+
+<section class="intro">
+  <div class="crumb"><a>Solutions</a> / Access control</div>
+  <h1>Access control, <em>door by door.</em></h1>
+  <p>Every controlled door needs the same six parts. Scroll to see how they work together, then build the kit for your doors.</p>
+</section>
+
+<section class="story" id="story">
+  <div class="stick">
+    <ol class="steps" id="steps">
+      <li><span class="n">01</span><h3>Reader</h3><p>Reads a card or PIN at the door and sends it to the controller over Wiegand.</p><a class="prod" href="https://aimsuae.me/product/kr602">ZKTeco KR602 E/M reader →</a></li>
+      <li><span class="n">02</span><h3>Controller</h3><p>Decides who may enter, and when. InBio Pro panels run 1, 2 or 4 doors and hold 60,000 cardholders.</p><a class="prod" href="https://aimsuae.me/product/inbio-pro-160">ZKTeco InBio Pro 160 →</a></li>
+      <li><span class="n">03</span><h3>Electromagnetic lock</h3><p>Holds the door shut with 280 kg of force, and releases instantly when access is granted. Fail-safe.</p><a class="prod" href="https://aimsuae.me/product/al-m280">Alpha AL-M280 →</a></li>
+      <li><span class="n">04</span><h3>Exit button</h3><p>Lets people leave from the inside without a card.</p><a class="prod" href="https://aimsuae.me/product/alf-b21-exit-button">Alpha ALF B21 →</a></li>
+      <li><span class="n">05</span><h3>Credentials</h3><p>Tap a card: the reader checks it, the controller verifies it, the lock releases.</p><a class="prod" href="https://aimsuae.me/product/id-card-thin">ZKTeco ID card (thin) →</a></li>
+      <li><span class="n">06</span><h3>Software</h3><p>Add users, set time zones and see every door event in one place.</p><a class="prod" href="https://aimsuae.me/software/zkaccess-3-5">ZKAccess 3.5 →</a></li>
+    </ol>
+    <div class="stage" aria-hidden="true">
+      <svg id="kit" viewBox="0 0 760 600">
+        <!-- room -->
+        <rect x="40" y="40" width="680" height="500" rx="4" fill="#f6f8f5"/>
+        <line x1="20" y1="540" x2="740" y2="540" stroke="#c9d1cb" stroke-width="1.5"/>
+        <!-- doorway + door -->
+        <rect x="300" y="150" width="180" height="390" fill="none" stroke="#0e1512" stroke-width="2"/>
+        <rect x="306" y="156" width="168" height="384" fill="#dfe6e1"/>
+        <g id="leaf" style="transform-origin:306px 348px"><rect x="306" y="156" width="168" height="384" fill="#fff" stroke="#0e1512" stroke-width="1.5"/>
+          <rect x="324" y="176" width="132" height="150" fill="none" stroke="#c9d1cb"/><line x1="448" y1="356" x2="448" y2="392" stroke="#0e1512" stroke-width="4" stroke-linecap="round"/></g>
+        <text x="200" y="572" class="lbls" text-anchor="middle">OUTSIDE</text><text x="600" y="572" class="lbls" text-anchor="middle">INSIDE</text>
+
+        <!-- 1 reader -->
+        <g class="s s0"><rect class="d" x="228" y="318" width="40" height="66" rx="7" fill="#fff" stroke="#0e1512" stroke-width="1.8"/><circle id="led" cx="248" cy="334" r="3.6" fill="#c9d1cb"/><rect class="d" x="236" y="346" width="24" height="26" rx="3" fill="none" stroke="#9aa59f"/>
+          <g class="tag"><line x1="228" y1="350" x2="146" y2="350" stroke="#0e1512"/><rect x="60" y="334" width="88" height="34" rx="8"/><text x="70" y="350" class="lbl">Reader</text><text x="70" y="362" class="lbls">KR602 E/M</text></g></g>
+        <!-- 2 controller + wire to reader -->
+        <g class="s s1"><rect class="d" x="80" y="78" width="132" height="84" rx="8" fill="#fff" stroke="#0e1512" stroke-width="1.8"/>
+          <g fill="#26703a"><circle cx="100" cy="100" r="3"/><circle cx="112" cy="100" r="3"/></g><g stroke="#9aa59f"><line x1="96" y1="128" x2="196" y2="128"/><line x1="96" y1="140" x2="176" y2="140"/></g>
+          <path class="d w" id="wR" d="M150 162 C150 240 248 250 248 318" fill="none" stroke="#9aa59f" stroke-width="1.6"/>
+          <g class="tag"><rect x="80" y="172" width="132" height="34" rx="8"/><text x="90" y="188" class="lbl">Controller</text><text x="90" y="200" class="lbls">InBio Pro 160 · 1 door</text></g></g>
+        <!-- 3 lock + wire -->
+        <g class="s s2"><rect class="d" id="lock" x="370" y="152" width="100" height="16" rx="3" fill="#fff" stroke="#0e1512" stroke-width="1.8"/><circle id="lockled" cx="462" cy="160" r="2.6" fill="#b42318"/>
+          <path class="d w" id="wL" d="M212 96 C300 96 360 96 400 152" fill="none" stroke="#9aa59f" stroke-width="1.6"/>
+          <g class="tag"><line x1="470" y1="160" x2="540" y2="112" stroke="#0e1512"/><rect x="540" y="92" width="142" height="34" rx="8"/><text x="550" y="108" class="lbl">EM lock</text><text x="550" y="120" class="lbls">AL-M280 · 280 kg</text></g></g>
+        <!-- 4 exit button + wire -->
+        <g class="s s3"><rect class="d" x="532" y="330" width="40" height="40" rx="6" fill="#fff" stroke="#0e1512" stroke-width="1.8"/><circle class="d" cx="552" cy="350" r="9" fill="none" stroke="#26703a" stroke-width="1.8"/>
+          <path class="d w" d="M212 112 C430 112 552 150 552 330" fill="none" stroke="#9aa59f" stroke-width="1.6" stroke-dasharray="0"/>
+          <g class="tag"><line x1="572" y1="350" x2="600" y2="350" stroke="#0e1512"/><rect x="600" y="334" width="96" height="34" rx="8"/><text x="610" y="350" class="lbl">Exit button</text><text x="610" y="362" class="lbls">ALF B21</text></g></g>
+        <!-- 5 credential -->
+        <g class="s s4"><g id="card"><rect x="0" y="0" width="34" height="50" rx="5" fill="#26703a"/><rect x="6" y="8" width="14" height="10" rx="2" fill="#78be20"/><line x1="6" y1="36" x2="26" y2="36" stroke="#fff" stroke-opacity=".7"/></g>
+          <circle id="pulse" r="5" fill="#78be20" style="filter:drop-shadow(0 0 6px #78be20)" opacity="0"/>
+          <g class="tag" id="granted" opacity="0"><rect x="318" y="100" width="144" height="34" rx="17" style="fill:#26703a;stroke:none"/><text x="390" y="122" class="lbl" fill="#fff" text-anchor="middle" style="fill:#fff">✓ Access granted</text></g></g>
+        <!-- 6 software -->
+        <g class="s s5"><path class="d w" d="M196 78 L196 58 L706 58 L706 404" fill="none" stroke="#26703a" stroke-width="1.4"/>
+          <rect class="d" x="556" y="404" width="150" height="96" rx="6" fill="#fff" stroke="#0e1512" stroke-width="1.8"/><path class="d" d="M540 508 H722 L712 516 H550 Z" fill="#fff" stroke="#0e1512" stroke-width="1.5"/>
+          <rect x="564" y="412" width="134" height="14" fill="#eef6f0"/><text x="570" y="423" class="lbls" style="font-size:9px;fill:#26703a">ZKAccess 3.5 · Events</text>
+          <g id="log" opacity="0"><rect x="564" y="432" width="134" height="18" fill="#fff" stroke="#e3e7e3"/><text x="570" y="445" class="lbls" style="font-size:8.6px">08:17  Door 1  Card  ✓</text></g>
+          <g class="tag"><rect x="556" y="520" width="150" height="0"/></g></g>
+      </svg>
+      <div class="prog"><i id="pg"></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="kit" id="build">
+  <div>
+    <h2>Build the kit for your doors.</h2>
+    <p class="lead">Choose how many doors and users. We pick the right controller and quantities, and add everything to your quote in one step. An AIMS engineer confirms power supplies, cabling and door type before quoting.</p>
+  </div>
+  <div class="card">
+    <div class="ctl"><label for="doors">Doors</label><div class="step"><button data-k="doors" data-d="-1" aria-label="Fewer doors">−</button><output id="doors">1</output><button data-k="doors" data-d="1" aria-label="More doors">+</button></div></div>
+    <div class="ctl"><label for="users">Users (cards)</label><div class="step"><button data-k="users" data-d="-10" aria-label="Fewer users">−</button><output id="users">20</output><button data-k="users" data-d="10" aria-label="More users">+</button></div></div>
+    <div class="row"><span class="nm">Reader<small>ZKTeco KR602 E/M</small></span><span class="qty" id="q0">1</span></div>
+    <div class="row" id="ctrlrow"><span class="nm">Controller<small id="ctrl">ZKTeco InBio Pro 160 · 1 door</small></span><span class="qty">1</span></div>
+    <div class="row"><span class="nm">EM lock<small>Alpha AL-M280 · 280 kg</small></span><span class="qty" id="q2">1</span></div>
+    <div class="row"><span class="nm">Exit button<small>Alpha ALF B21</small></span><span class="qty" id="q3">1</span></div>
+    <div class="row"><span class="nm">ID cards<small>ZKTeco ID card (thin)</small></span><span class="qty" id="q4">20</span></div>
+    <div class="row"><span class="nm">Software<small>ZKAccess 3.5 · setup on quotation</small></span><span class="qty">1</span></div>
+    <button class="add" id="add">Add kit to quote <svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <p class="note" id="note">Kit suggestion based on AIMS product specifications. More than 4 doors? We'll design a multi-panel system.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const svg=document.getElementById('kit'), steps=[...document.querySelectorAll('#steps li')], story=document.getElementById('story');
+  const groups=[...svg.querySelectorAll('.s')];
+  // prepare drawable strokes
+  groups.forEach(g=>g.querySelectorAll('.d').forEach(el=>{const L=el.getTotalLength?el.getTotalLength():300;el.dataset.L=L;el.style.strokeDasharray=L;el.style.strokeDashoffset=L;el.style.fillOpacity=0}));
+  const card=document.getElementById('card'), pulse=document.getElementById('pulse'), led=document.getElementById('led'), lockled=document.getElementById('lockled'), leaf=document.getElementById('leaf'), granted=document.getElementById('granted'), log=document.getElementById('log'), pg=document.getElementById('pg');
+  const wR=document.getElementById('wR'), wL=document.getElementById('wL');
+  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)), ease=t=>1-Math.pow(1-t,3), lerp=(a,b,t)=>a+(b-a)*t;
+  function render(p){
+    const sf=p*6.2;
+    steps.forEach((li,i)=>li.classList.toggle('on',i===Math.min(5,Math.floor(sf))));
+    groups.forEach((g,i)=>{
+      const t=clamp(sf-i); g.style.opacity=i===4?1:clamp(t*5);
+      g.querySelectorAll('.d').forEach(el=>{el.style.strokeDashoffset=(+el.dataset.L)*(1-ease(clamp(t*1.4)));el.style.fillOpacity=clamp(t*2-0.6)});
+      g.querySelectorAll('.tag').forEach(tg=>{if(tg.id!=='granted'){tg.style.opacity=clamp(t*3-1.2);}});
+    });
+    // step 5: credential story
+    const c=clamp(sf-4);
+    const cx=lerp(110,231,ease(clamp(c/0.35))), cy=lerp(430,326,ease(clamp(c/0.35)));
+    card.setAttribute('transform',`translate(${cx} ${cy}) rotate(${lerp(-14,0,ease(clamp(c/0.35)))})`);
+    card.style.opacity=clamp(c*5);
+    led.setAttribute('fill',c>0.36?'#78be20':'#c9d1cb');
+    // pulse: reader→controller (wR reversed) then controller→lock (wL)
+    if(c>0.38&&c<0.78){const u=(c-0.38)/0.4;pulse.style.opacity=1;let pt;
+      if(u<0.5){const L=wR.getTotalLength();pt=wR.getPointAtLength(L*(1-u*2));}else{const L=wL.getTotalLength();pt=wL.getPointAtLength(L*((u-0.5)*2));}
+      pulse.setAttribute('cx',pt.x);pulse.setAttribute('cy',pt.y);} else pulse.style.opacity=0;
+    const open=ease(clamp((c-0.78)/0.2));
+    lockled.setAttribute('fill',c>0.78?'#78be20':'#b42318');
+    leaf.style.transform=`scaleX(${lerp(1,0.74,open)})`;
+    granted.style.opacity=clamp((c-0.8)*6);
+    log.style.opacity=clamp((sf-5)*3-0.6);
+    pg.style.width=(p*100)+'%';
+  }
+  if(reduce){render(1);steps.forEach(li=>li.classList.add('on'));return}
+  let ticking=false;
+  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{const r=story.getBoundingClientRect(),vh=innerHeight;render(clamp(-r.top/(r.height-vh)));ticking=false})}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+// kit builder
+(function(){
+  const st={doors:1,users:20}, $=id=>document.getElementById(id);
+  const ctrl=d=>d===1?'ZKTeco InBio Pro 160 · 1 door':d===2?'ZKTeco InBio Pro 260 · 2 doors':'ZKTeco InBio Pro 460 · 4 doors';
+  function upd(changed){
+    $('doors').value=st.doors;$('users').value=st.users;
+    ['q0','q2','q3'].forEach(i=>$(i).textContent=st.doors);$('q4').textContent=st.users;
+    const name=ctrl(st.doors); if($('ctrl').textContent!==name){$('ctrl').textContent=name;$('ctrlrow').classList.remove('swap');void $('ctrlrow').offsetWidth;$('ctrlrow').classList.add('swap')}
+  }
+  document.querySelectorAll('.step button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;st[k]=Math.max(k==='doors'?1:10,Math.min(k==='doors'?4:500,st[k]+(+b.dataset.d)));upd(k)}));
+  $('add').addEventListener('click',()=>{const b=$('qc');b.textContent=6;b.classList.add('has');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');$('add').classList.add('done');$('add').innerHTML='✓ Added 6 items to your quote'});
+  window.__kit={st,upd};
+})();
+</script>
+</body></html>

@@ -1,0 +1,382 @@
+{
+  "source": "https://aimsuae.me",
+  "importedAt": "2026-11-21T10:41:11.892Z",
+  "counts": {
+    "productsFound": 162,
+    "productsImported": 162,
+    "duplicates": 3,
+    "withoutSpecs": 42,
+    "withoutImage": 0,
+    "withoutDatasheet": 6,
+    "software": 8,
+    "softwareByRequestOnly": 8
+  },
+  "familyCounts": {
+    "access-control": 34,
+    "door-hardware": 55,
+    "door-locks": 15,
+    "entrance-control": 29,
+    "pos": 6,
+    "time-attendance": 20
+  },
+  "categoryCounts": {
+    "hotel-door-lock-system": 6,
+    "smart-lock": 9,
+    "parking-management": 7,
+    "entrance-control": 22,
+    "pos-windows": 4,
+    "android": 2,
+    "zkteco-pos": 6,
+    "portable-time-attendance": 3,
+    "time-attendance": 20,
+    "control-pannel": 15,
+    "visible-light": 9,
+    "access-control-time-attendance": 10,
+    "alpha": 17,
+    "zk-teco-accessories": 27,
+    "accessories": 55,
+    "zk-teco": 99
+  },
+  "issues": [
+    {
+      "kind": "content",
+      "slug": "acm-100s",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "acm-132",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "al-20db",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "al-40b",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "alf-b31-alpha-emergency-break-glass-green",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "alf-ks21",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "alf-m560-electromagnetic-locks",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "alf-sh10w-siren-horn",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "alpha-door-bell-12v",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "biopro-mh20-1",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "cr60w",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "door-contact",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "face-kiosk-v43",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "fbl4200",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "g2",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "horus-e1-rfid",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "id-card-thick",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "id-card-thin",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kjz-03",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr500",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr501",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "kr501-m",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "kr502",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr503",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr600",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr601",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "kr602",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "lh-5000",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "lh-7500",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "lprc100",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "proface-x-p",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "proface-x-ti",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "proid10",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "proid20",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "proid30",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "proid40",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "qr500",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "sbt1000s-series",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "sface-lite",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "tl300",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "tl400",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "ts1200-series",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "ts2000-pro-series",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "ts2100-series",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "ts2133",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "u1000",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "u2000",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "ua860",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "uhf-10",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "uhf-5",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "uhf1-tag1",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "uhf1-tag2",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "ur10r-1e",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "ur10r-1f",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zk-df01-card-dual",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zk4500",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "zk9500",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "zkp8001",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-c3-400-package-b",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-iface-990-plus",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-inbio-pro-260-package-b",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-inbiopro-460-plus-package-b",
+      "detail": "No structured specifications on the AIMS page"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-kr500-m-rfid-reader",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "content",
+      "slug": "zkteco-kr502-e",
+      "detail": "Spec tab empty; specs read from a table in the overview"
+    },
+    {
+      "kind": "data",
+      "slug": "zkbio810",
+      "detail": "Titled \"ZKTeco ZKAIO1000\" like zkaio1000; check the title with AIMS"
+    },
+    {
+      "kind": "duplicate",
+      "slug": "biopro-mh20-1",
+      "detail": "Duplicate of biopro-mh20 (specs differ; canonical has more rows)"
+    },
+    {
+      "kind": "duplicate",
+      "slug": "biopro-sa20",
+      "detail": "Duplicate of bio-pro-sa20 (specs differ; canonical has more rows)"
+    },
+    {
+      "kind": "duplicate",
+      "slug": "f18-1",
+      "detail": "Duplicate of f18 (specs differ; canonical has more rows)"
+    }
+  ]
+}

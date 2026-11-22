@@ -1,0 +1,419 @@
+/*
+ * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
+ * catalogue, the showroom and the close; the light showroom floor for proof.
+ *
+ * Motion (taste motion.md, three layers): the hero enters once; the door assembles once and the reach
+ * map draws its routes once, each when its section comes into view (MomentTrigger sets data-played);
+ * the hover and press layer. Nothing else moves, nothing loops, and scrolling reveals nothing.
+ * Moments animate transform, opacity and stroke-dashoffset only. Nothing is hidden unless
+ * MomentTrigger set data-effects="on", which it never does under reduced motion.
+ */
+
+/* ---------- Night sections ---------- */
+.home-night {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.home-night :is(.home-section-title, .home-subtitle) {
+  color: var(--color-night-text);
+}
+.home-night-lead {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-night-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.home-night-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  color: var(--color-lime);
+  font-weight: 600;
+  font-size: var(--text-small);
+}
+.home-night-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.home-night :focus-visible {
+  outline-color: var(--color-lime);
+}
+.home-night .home-section-heading > .home-night-link {
+  flex: none;
+}
+
+/* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */
+.home-families :is(.home-family-card, .home-software-card),
+.home-place-card {
+  border: 1px solid var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-families :is(.home-family-card, .home-software-card):hover {
+    border-color: var(--color-lime);
+    box-shadow: none;
+  }
+}
+.home-families :is(.home-family-card, .home-software-card):focus-visible {
+  border-color: var(--color-lime);
+  box-shadow: none;
+}
+
+/* ---------- 3 · Families and software on night green ---------- */
+.home-families .home-section {
+  padding-block: calc(var(--home-section-space) * 2);
+}
+/* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
+.home-families .home-family-image {
+  background: var(--color-paper);
+  overflow: clip;
+}
+.home-families .home-family-info {
+  border-color: var(--color-night-line);
+}
+.home-families :is(.home-family-summary, .home-software-purpose) {
+  color: var(--color-night-muted);
+}
+.home-families :is(.home-family-count, .home-software-kind) {
+  color: var(--color-lime);
+}
+
+/* ---------- 4 · The door assembles itself once, in the prototype's order (Design Doc 8.2) ---------- */
+.door-wire {
+  stroke-dasharray: 1;
+}
+.door-leaf {
+  transform-box: view-box;
+  transform-origin: 306px 348px;
+  transform: scaleX(0.74);
+}
+.door-granted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+:root[data-effects="on"]
+  .home-door:not([data-played])
+  :is(.door-part, .door-card, .door-led, .door-granted, .door-log) {
+  opacity: 0;
+}
+:root[data-effects="on"] .home-door:not([data-played]) .door-leaf {
+  transform: scaleX(1);
+}
+:root[data-effects="on"] .home-door:not([data-played]) .door-wire {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .home-door[data-played] .door-controller {
+  animation: door-in 500ms 200ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-reader {
+  animation: door-in 500ms 450ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-wires {
+  animation: door-fade 1ms 450ms both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-wires .door-wire {
+  animation: door-draw 900ms 500ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-lock {
+  animation: door-in 500ms 800ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-exit {
+  animation: door-in 500ms 1100ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-software {
+  animation: door-in 500ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-software .door-wire {
+  animation: door-draw 1000ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-card {
+  animation: door-card 800ms 2000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-led {
+  animation: door-fade 200ms 2800ms both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-leaf {
+  animation: door-open 700ms 3000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-granted {
+  animation: door-pop 450ms 3400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-door[data-played] .door-log {
+  animation: door-in 400ms 3700ms var(--ease-aims) both;
+}
+
+/* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
+.home-reach .home-section {
+  padding-block: calc(var(--home-section-space) * 1.25);
+}
+.home-reach-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 4rem; /* the proof split's lines: both splits share one column edge (taste layout-v4) */
+  align-items: start;
+}
+.reach-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.reach-land {
+  opacity: 0.55;
+}
+.reach-stop-near {
+  stop-color: var(--color-paper);
+}
+.reach-stop-far {
+  stop-color: var(--color-paper);
+  stop-opacity: 0.08;
+}
+.reach-route {
+  stroke-dasharray: 1;
+}
+/* The travelling pulses and the pulsing ring were ambient loops (taste motion.md: none); they rest hidden. */
+.reach-pulse {
+  display: none;
+}
+.reach-ring {
+  opacity: 0.25;
+}
+.reach-labels text {
+  font-size: var(--text-map-label);
+  fill: var(--color-night-muted);
+}
+.reach-labels .reach-label-strong {
+  font-weight: 600;
+  fill: var(--color-night-text);
+}
+.reach-labels .reach-label-region {
+  font-weight: 600;
+  fill: var(--color-lime);
+}
+:root[data-effects="on"] .home-reach:not([data-played]) .reach-route {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .home-reach[data-played] .reach-route {
+  animation: door-draw 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(2) .reach-route {
+  animation-delay: 120ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(3) .reach-route {
+  animation-delay: 240ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(4) .reach-route {
+  animation-delay: 360ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(5) .reach-route {
+  animation-delay: 480ms;
+}
+:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(6) .reach-route {
+  animation-delay: 600ms;
+}
+.home-place-cards {
+  display: grid;
+  gap: 1rem;
+}
+.home-place-card {
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-lg);
+}
+/* The showroom is the one place AIMS invites visitors to (DESIGN.md North Star): its edge carries the light. */
+.home-place-featured {
+  border-color: var(--color-lime);
+}
+.home-place-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-night-muted);
+}
+.home-place-featured .home-place-tag {
+  color: var(--color-lime);
+}
+.home-place-card h3 {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.home-place-address {
+  margin-block-start: 0.25rem;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.home-place-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  margin-block-start: 0.5rem;
+}
+
+/* ---------- Closing band: night green, still light ---------- */
+/* The two glows are layers of the ground itself, so nothing spills past the band. */
+.home-closing {
+  padding-block: calc(var(--home-section-space) * 2.5);
+  text-align: center;
+  background:
+    var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
+    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
+    var(--gradient-night);
+}
+.home-closing-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-closing-title {
+  max-width: 44rem;
+  font-size: var(--text-home-closing);
+  font-weight: 680;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.home-closing .home-night-lead {
+  margin-inline: auto;
+}
+.home-closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+/* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
+.home-button-lime {
+  background: var(--color-lime);
+  color: var(--color-ink);
+  box-shadow: none;
+}
+.home-button-lime:hover {
+  background: var(--color-lime);
+}
+.home-button-lime::before {
+  background: var(--color-paper);
+}
+.home-button-lime:hover::before,
+.home-button-lime:focus-visible::before {
+  opacity: 0.2;
+}
+:dir(rtl) .home-closing-title,
+:lang(ar) .home-closing-title {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+@keyframes door-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes door-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes door-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes door-card {
+  from {
+    opacity: 0;
+    transform: translate(-150px, 70px) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes door-open {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.74);
+  }
+}
+@keyframes door-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1023px) {
+  .home-reach-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Tablet: the three places sit side by side under the map's width; phones stack them. */
+  .home-place-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .home-reach-map {
+    order: -1;
+  }
+}
+@media (max-width: 767px) {
+  .home-place-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 639px) {
+  :root {
+    --text-home-closing: 2.125rem;
+  }
+  /* The map draws at about half size on a phone; labels scale up to stay near 13px. */
+  .reach-labels text {
+    font-size: var(--text-map-label-mobile);
+  }
+  .home-reach-map {
+    margin-inline: calc(var(--page-gutter) * -0.5);
+  }
+  .home-families .home-section,
+  .home-reach .home-section {
+    padding-block: calc(var(--home-section-space) * 1.5);
+  }
+  .home-place-card {
+    padding: 1.25rem 1.5rem;
+  }
+  .home-closing {
+    padding-block: calc(var(--home-section-space) * 2);
+  }
+  .home-closing-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .home-closing-actions .home-night-link {
+    justify-content: center;
+  }
+}
