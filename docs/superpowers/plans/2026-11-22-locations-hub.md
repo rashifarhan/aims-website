@@ -17,8 +17,10 @@ User expanded scope on 22 November: reconcile shared header/footer rules and the
 - [x] Implement server-rendered sections and localized copy; small motion leaf and URL preset parser; mark hub built.
 - [x] Inspect at 390/768/1024/1440 in both languages; reduced motion and keyboard checks.
 - [x] Run check/format/build/full e2e, design copy lint and gate; record waivers and limitations.
-- [ ] Independent review; commit/push new branch and PR, leave preview available.
+- [x] Independent review; commit/push new branch and PR, leave preview available.
 
 Verification: 75 unit tests, production build, full 168-check browser suite (10 existing viewport exclusions), six isolated performance checks pass. Final hover contrast fix reproduced red, then all six focused Locations checks passed. Raw design gate OPEN29, project findings resolved under the user-approved named policy; independent reviewer confirmed no unresolved genuine defects. Complete raw output is retained. No kit edits, new dependency or invented location facts.
 
 Integration: rebased onto main eeeb551 after the homepage/contact/solutions merge. Kept main's optional WhatsApp-number argument and local contact route. Fresh integrated validation: 75 unit tests, formatting, production build, 183 browser checks pass with 11 existing viewport-specific skips. Independent integration review found no unresolved defects.
+
+Delivery: pushed `codex/locations-hub`; PR #4 into main. Six isolated performance runs pass on the integrated release build. Preview: `http://localhost:3200/locations` and `/ar/locations`. No merge performed.
