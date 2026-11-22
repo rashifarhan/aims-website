@@ -9,8 +9,9 @@ describe("preview navigation", () => {
   it("keeps catalogue paths and URL state unchanged", () => {
     expect(navigationHref("/ar/products?verify=face")).toBe("/ar/products?verify=face");
   });
-  it("routes solution categories to available catalogue families in the same locale", () => {
-    expect(navigationHref("/ar/solutions/entrance-parking")).toBe("/ar/products/entrance-control");
+  it("keeps the hub and all five built solution pages local", () => {
+    for (const slug of ["time-attendance", "access-control", "entrance-parking", "door-locks", "pos"])
+      expect(navigationHref(`/ar/solutions/${slug}`)).toBe(`/ar/solutions/${slug}`);
     expect(navigationHref("/solutions")).toBe("/solutions");
     expect(navigationHref("/ar/solutions")).toBe("/ar/solutions");
   });

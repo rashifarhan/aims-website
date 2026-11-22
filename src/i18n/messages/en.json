@@ -1268,9 +1268,9 @@
       "heading": "From a fingerprint to an open door.",
       "lead": "What a smart lock does each time someone comes home.",
       "label": "How a smart lock works",
-      "alt": "A finger touches the lock's sensor, the light turns green, the bolt draws back, the door opens and the unlock shows on a phone",
+      "alt": "A finger touches the lock's sensor, the light turns green, the bolt draws back, the door opens and the phone app shows it",
       "sample": "Illustration",
-      "record": "Unlocked",
+      "record": "Opened",
       "recordMethod": "Fingerprint",
       "lockTag": "Smart lock",
       "appTag": "Phone app",
@@ -1281,7 +1281,7 @@
         },
         {
           "title": "The lock opens itself",
-          "body": "Fully automatic locks such as the TL800 unlock after verification and lock again."
+          "body": "Fully automatic locks such as the TL800 open after verification and lock again."
         },
         {
           "title": "See who is at the door",
@@ -1289,7 +1289,7 @@
         },
         {
           "title": "Manage it from your phone",
-          "body": "Wi-Fi models work with the ZSmart app: unlock remotely, share temporary passwords and check unlocking records."
+          "body": "Wi-Fi models work with the ZSmart app: open the door remotely, share temporary passwords and see the lock's records."
         }
       ]
     },
@@ -1372,7 +1372,7 @@
         },
         {
           "q": "Which locks work with a phone?",
-          "a": "The TL800, TL700W, TL300 and HBL400 connect over Wi-Fi. The TL800 and TL700W use the ZSmart app to unlock remotely, share temporary passwords and check unlocking records."
+          "a": "The TL800, TL700W, TL300 and HBL400 connect over Wi-Fi. The TL800 and TL700W use the ZSmart app to open the door remotely, share temporary passwords and see the lock's records."
         },
         {
           "q": "What if the batteries run out?",
@@ -1454,7 +1454,7 @@
     },
     "products": {
       "heading": "Terminals to start with.",
-      "lead": "Windows, Android and handheld terminals, and a receipt printer. Add the ones you want, with quantities, to your quote.",
+      "lead": "Windows, Android and handheld terminals. Add the ones you want, with quantities, to your quote.",
       "all": "All {count} POS terminals",
       "methods": "Verification"
     },

@@ -105,17 +105,17 @@ export const ROUTES: RouteEntry[] = [
     title: "Access control",
     template: "T3 Solution",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/solutions/entrance-parking",
     title: "Entrance & parking",
     template: "T3 Solution",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
-  { path: "/solutions/door-locks", title: "Door locks", template: "T3 Solution", priority: "P1", status: "planned" },
-  { path: "/solutions/pos", title: "POS systems", template: "T3 Solution", priority: "P1", status: "planned" },
+  { path: "/solutions/door-locks", title: "Door locks", template: "T3 Solution", priority: "P1", status: "built" },
+  { path: "/solutions/pos", title: "POS systems", template: "T3 Solution", priority: "P1", status: "built" },
 
   // Listings
   {

@@ -9,9 +9,9 @@ export const POS_PAGE = defineSolutionPage({
   slug: "pos",
   family: "pos",
   hero: SOLUTION_CARDS.find((card) => card.slug === "pos")?.product ?? "zkaio1000",
-  // Windows, Android and handheld terminals, then the receipt printer the counter story prints on. The
-  // zkbio810 page is left out: its data is titled "ZKAIO1000", so two cards would carry one name.
-  products: ["zkbio900-series", "zk15-series", "zk1515-series", "zkaio1000", "zk-h300", "zkp8001"],
+  // The family's terminals minus the hero (shown once) and zkbio810, whose data is titled "ZKAIO1000", so
+  // two cards would carry one name. Four cards: counter.css lays them in one row on desktop.
+  products: ["zkbio900-series", "zk15-series", "zk1515-series", "zk-h300"],
   // POS is supplied and set up rather than installed (prep: hero), so the supply need is preset.
   quote: "/quote?need=supply",
 });

@@ -99,7 +99,7 @@
 @keyframes lk-touch {
   from {
     opacity: 0;
-    transform: translate(-40px, 80px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;

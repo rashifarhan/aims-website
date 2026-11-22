@@ -10,6 +10,10 @@
   .pc-page .t3-hero-photo {
     max-width: 21.875rem;
   }
+  /* Four terminals in one row, not three and an orphan. */
+  .pc-page .pick-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .pc-counter {

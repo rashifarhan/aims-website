@@ -79,7 +79,7 @@ export function CounterDrawing({ copy }: { copy: Copy }) {
         strokeLinejoin="round"
         pathLength="1"
       />
-      <path d="M405 344a10 10 0 0 1 20 0v32h-20Z" fill="none" className="pc-finger stroke-green-700" strokeWidth="2" />
+      <path d="M405 360v-16a10 10 0 0 1 20 0v16" fill="none" className="pc-finger stroke-paper" strokeWidth="2" />
 
       {/* ZKP8001 receipt printer, wired to the terminal (its USB, serial and Ethernet interfaces) */}
       <path

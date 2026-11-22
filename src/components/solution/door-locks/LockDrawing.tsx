@@ -55,12 +55,7 @@ export function LockDrawing({ copy }: { copy: Copy }) {
           )}
         </g>
         <rect x="338" y="376" width="14" height="36" rx="7" className="fill-ink-700" />
-        <path
-          d="M334 306a11 11 0 0 1 22 0v70h-22Z"
-          fill="none"
-          className="lk-finger stroke-green-700"
-          strokeWidth="2"
-        />
+        <path d="M334 328v-22a11 11 0 0 1 22 0v22" fill="none" className="lk-finger stroke-paper" strokeWidth="2" />
       </g>
 
       <path
