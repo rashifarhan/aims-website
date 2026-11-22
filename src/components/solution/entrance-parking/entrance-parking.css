@@ -1,0 +1,330 @@
+/*
+ * /solutions/entrance-parking only (imported by that page). Tokens only.
+ * The lanes moment follows the door's rules (access-control/door.css): transform, opacity and
+ * stroke-dashoffset only; once; nothing is hidden unless MomentTrigger set data-effects="on", which it
+ * never does under reduced motion, so the markup's finished frame always shows.
+ */
+
+/* ---------- Lanes: heading and steps beside the drawing; phones stack heading, drawing, steps ---------- */
+.ep-lanes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-areas:
+    "heading stage"
+    "steps stage";
+  grid-template-rows: auto 1fr;
+  column-gap: 4rem;
+  align-items: start;
+}
+.ep-lanes-heading {
+  grid-area: heading;
+}
+.ep-lanes-stage {
+  grid-area: stage;
+  align-self: center;
+}
+.ep-steps {
+  grid-area: steps;
+  margin-block-start: 1.75rem;
+}
+.ep-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.875rem;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.ep-steps h3 {
+  font-size: var(--text-base);
+  font-weight: 650;
+}
+.ep-steps p {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+.ep-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ep-code {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Choose the lane: one shared card each, chips link to the example models ---------- */
+.ep-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.ep-option {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+.ep-option h3 {
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.ep-option > p {
+  margin-block: 0.5rem 1rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+}
+.ep-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  margin-block-start: auto;
+}
+/* The chip sits in a 44px link (CLAUDE.md §4 touch targets); hover recolours it, press steps it. */
+.ep-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  transition: transform var(--duration-fast) var(--ease-aims);
+}
+.ep-chip > span {
+  transition:
+    border-color var(--duration-hover) ease,
+    color var(--duration-hover) ease;
+}
+.ep-chip:hover > span {
+  border-color: var(--color-green-700);
+  color: var(--color-green-700);
+}
+.ep-chip:active {
+  transform: translateY(1px);
+}
+.ep-option-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 2rem;
+  margin-block-start: 1rem;
+}
+
+/* ---------- The lanes play once, people first, then the car ---------- */
+.ep-wire,
+.ep-tick {
+  stroke-dasharray: 1;
+}
+.ep-panel {
+  transform-box: view-box;
+  transform: scaleX(0.12);
+}
+.ep-panel-start {
+  transform-origin: 141px 268px;
+}
+.ep-panel-end {
+  transform-origin: 259px 268px;
+}
+.ep-boom {
+  transform-box: view-box;
+  transform-origin: 450px 282px;
+  transform: rotate(-80deg);
+}
+.ep-car {
+  transform-box: view-box;
+  transform-origin: 590px 358px;
+}
+.ep-granted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ep-cone {
+  opacity: 0.35;
+}
+:root[data-effects="on"]
+  .ep-lanes:not([data-played])
+  :is(.ep-card, .ep-granted, .ep-led, .ep-car, .ep-cone, .ep-plate) {
+  opacity: 0;
+}
+:root[data-effects="on"] .ep-lanes:not([data-played]) :is(.ep-wire, .ep-tick) {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .ep-lanes:not([data-played]) .ep-panel {
+  transform: none;
+}
+:root[data-effects="on"] .ep-lanes:not([data-played]) .ep-boom {
+  transform: none;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-card {
+  animation: ep-card 450ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-wire {
+  animation: ep-draw 400ms 350ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-granted {
+  animation: ep-pop 300ms 700ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-tick {
+  animation: ep-draw 300ms 850ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-led {
+  animation: ep-fade 150ms 900ms both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-panel {
+  animation: ep-swing 500ms 1000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-car {
+  animation: ep-car 500ms 1000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-cone {
+  animation: ep-cone 300ms 1350ms both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-wire-plate {
+  animation-delay: 1450ms;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-plate {
+  animation: ep-fade 200ms 1850ms both;
+}
+:root[data-effects="on"] .ep-lanes[data-played] .ep-boom {
+  animation: ep-lift 500ms 1950ms var(--ease-aims) both;
+}
+@keyframes ep-card {
+  from {
+    opacity: 0;
+    transform: translate(-60px, 40px) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ep-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ep-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ep-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ep-swing {
+  from {
+    transform: none;
+  }
+  to {
+    transform: scaleX(0.12);
+  }
+}
+@keyframes ep-car {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ep-cone {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.35;
+  }
+}
+@keyframes ep-lift {
+  from {
+    transform: none;
+  }
+  to {
+    transform: rotate(-80deg);
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1023px) {
+  .ep-lanes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "heading"
+      "stage"
+      "steps";
+    grid-template-rows: none;
+  }
+  .ep-lanes-stage {
+    margin-block-start: 2rem;
+  }
+  .ep-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+/* ---------- Phone: options in one column, the icon beside the title so nothing is shrunk ---------- */
+@media (max-width: 639px) {
+  .ep-lanes-stage {
+    margin-block-start: 1.5rem;
+  }
+  .ep-options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .ep-option {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.875rem;
+    align-items: center;
+    padding: 1rem;
+  }
+  .ep-option .method-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .ep-option h3 {
+    margin-block-start: 0;
+    font-size: var(--text-base);
+  }
+  .ep-option > :is(p, .ep-chips) {
+    grid-column: 1 / -1;
+  }
+  .ep-option > p {
+    margin-block: 0.75rem 0.25rem;
+    font-size: var(--text-small);
+  }
+  .ep-option-links {
+    flex-direction: column;
+    gap: 0;
+  }
+  /* The drawing renders at about half its viewBox width on a phone; its text grows to stay legible.
+     Derived from the door-kit SVG tokens so the type stays on the same scale (viewBox units). */
+  .ep-drawing .home-door-name {
+    font-size: calc(var(--text-door-name) * 1.4);
+  }
+  .ep-drawing .home-door-model {
+    font-size: calc(var(--text-door-model) * 1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ep-chip,
+  .ep-chip > span {
+    transition: none;
+  }
+  .ep-chip:active {
+    transform: none;
+  }
+}

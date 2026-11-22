@@ -1120,5 +1120,140 @@
       "action": "Get an installation quote",
       "secondary": "Browse access control products"
     }
+  },
+  "solutionEntranceParking": {
+    "metaTitle": "Turnstiles & parking barriers, UAE",
+    "metaDescription": "Tripod, flap, swing and full-height turnstiles, parking barrier gates and plate recognition from ZKTeco, supplied and installed by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Turnstiles for lobbies, barriers for car parks.",
+    "lead": "Turnstiles and swing or flap barriers decide who walks in. Barrier gates, plate recognition and radar sensors manage the cars.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} entrance and parking products",
+    "lanes": {
+      "heading": "One credential, one lane open.",
+      "lead": "What happens at a lane, for people and for cars.",
+      "stepsLabel": "How an entrance lane works",
+      "alt": "A reader checks a card and a swing barrier opens; a camera reads a number plate and a boom barrier lifts",
+      "people": "People",
+      "vehicles": "Vehicles",
+      "steps": [
+        {
+          "title": "Present a credential",
+          "body": "A card, fingerprint, QR code or face at the reader. Some turnstiles come with the reader built in."
+        },
+        {
+          "title": "The barrier opens",
+          "body": "Flaps retract, arms swing or the tripod turns, and sensors watch for anyone following too close."
+        },
+        {
+          "title": "Cars read by plate",
+          "body": "A plate recognition camera reads the number plate and tells the barrier gate to lift."
+        },
+        {
+          "title": "Safe in an emergency",
+          "body": "On many models the barriers open or the arms drop in an emergency or power cut."
+        }
+      ]
+    },
+    "options": {
+      "heading": "Choose the lane.",
+      "lead": "Start with who passes and how many. Each option names models to compare.",
+      "examples": "Example models",
+      "allIn": "All {count} in {type}",
+      "items": {
+        "tripod": {
+          "title": "Tripod turnstile",
+          "body": "A compact lane where a rotating tripod lets people through. Arms drop in a power cut on models such as TS1200 and TS2100."
+        },
+        "speed": {
+          "title": "Flap or swing barrier",
+          "body": "Faster lanes for busy lobbies. The FBL5000 lists up to 30 people a minute; flaps open in an emergency."
+        },
+        "full": {
+          "title": "Full-height turnstile",
+          "body": "Floor-to-head lanes where security matters most. The FHT2300 lists security level High."
+        },
+        "vehicle": {
+          "title": "Parking barrier",
+          "body": "Boom barriers from 3 m to 6 m, with plate recognition and radar sensors for car parks."
+        }
+      }
+    },
+    "products": {
+      "heading": "Lanes and barriers to start with.",
+      "lead": "Six models, one for each kind of lane. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} entrance and parking products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From site survey to working lanes.",
+      "lead": "Who does what, from your first message to a working entrance.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the entrance",
+          "body": "Lanes, people or vehicles an hour, and the readers you use.",
+          "owner": "You"
+        },
+        {
+          "title": "Lane plan and quote",
+          "body": "AIMS suggests turnstiles, barriers and readers, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Gates and barriers are fixed, cabled and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Reader setup",
+          "body": "Cards, faces or tags are enrolled for the lanes.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add lanes, users or sites.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that runs the site.",
+      "lead": "ZKTeco platforms with parking modules. Confirm with AIMS which one fits your lanes and readers.",
+      "platform": "Security platform",
+      "purposeCvsecurity": "Access control, visitors, and parking and vehicle control in one web platform.",
+      "purposeBioSecurity": "A web platform with access control, visitor and parking modules."
+    },
+    "faq": {
+      "heading": "Entrance and parking questions.",
+      "items": [
+        {
+          "q": "Can a turnstile come with its own reader?",
+          "a": "Some do. The TS1022 Pro comes with a controller and a fingerprint and RFID reader, and the FBL4000, FBL4200 and SBT1000S ship with the card or fingerprint reader you choose. Others take readers you add."
+        },
+        {
+          "q": "What happens in a power cut?",
+          "a": "On flap barriers such as the FBL4000 and FBL5000 the barriers retract when a battery is installed, and on tripods such as the TS1200 and TS2100 the arms drop, so people can leave."
+        },
+        {
+          "q": "Tripod, flap, swing or full height?",
+          "a": "Full-height turnstiles suit high-security entrances. Flap and swing barriers move more people: the FBL5000 lists up to 30 a minute. Tripods are compact. AIMS helps you choose for each entrance."
+        },
+        {
+          "q": "Can a barrier open by number plate?",
+          "a": "Yes. The LPRC100 camera and the LPRS4000 system read number plates and connect to barrier gates. The VR10 radar detects cars and people at the barrier without cutting the road for a loop."
+        },
+        {
+          "q": "Do you supply security screening?",
+          "a": "Yes: ZK-D180 and ZK-D100S handheld metal detectors, the ZK-D3180S metal detector with 18 detection zones, and the ZKX5030A X-ray system for bags and parcels."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan your entrance.",
+      "body": "Tell AIMS how many lanes, people and vehicles you expect. You'll get a lane plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse entrance products"
+    }
   }
 }
