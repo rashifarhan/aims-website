@@ -57,7 +57,7 @@ export async function Header() {
 
   return (
     <header className="nav">
-      <div className="wrap nav__bar gap-3 lg:gap-6">
+      <div className="wrap nav__bar gap-3 xl:gap-6">
         <a className="skip-link" href="#main">
           {t.nav.skipToContent}
         </a>
@@ -70,14 +70,14 @@ export async function Header() {
           action={href("/products")}
           placeholder={t.nav.searchPlaceholder}
           submitLabel={t.nav.searchSubmit}
-          className="ms-auto hidden w-72 lg:block"
+          className="ms-auto hidden w-72 xl:block"
           shortcut
         />
         <Suspense fallback={null}>
           <LanguageSwitch
             target={otherLocale}
             label={t.nav.switchLanguage}
-            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink lg:inline-flex"
+            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink xl:inline-flex"
           />
         </Suspense>
         <QuoteLink
@@ -85,7 +85,7 @@ export async function Header() {
           href={href("/quote")}
           label={t.nav.primaryAction}
           itemsLabel={t.nav.quoteItems}
-          className="ms-auto lg:ms-0"
+          className="ms-auto xl:ms-0"
         />
         <Suspense fallback={null}>
           <MobileMenu

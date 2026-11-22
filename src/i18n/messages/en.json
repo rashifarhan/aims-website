@@ -118,7 +118,8 @@
     "support": "Support & warranty",
     "blog": "Blog",
     "aboutShowrooms": "About & showrooms",
-    "locationsHub": "Locations"
+    "locationsHub": "Locations",
+    "photoCredits": "Photographs"
   },
   "catalogue": {
     "allTitle": "All products",
@@ -845,5 +846,152 @@
   "closing": {
     "title": "Request a quote for your site",
     "lead": "One list with models, quantities and the site. AIMS sales reply with a quotation."
+  },
+  "solutionAccessControl": {
+    "metaTitle": "Access control in Dubai & Abu Dhabi | AIMS",
+    "metaDescription": "ZKTeco readers, InBio Pro panels, EM locks and ZKAccess software for one door or a building, supplied and installed by AIMS in Dubai and Abu Dhabi.",
+    "title": "Access control for UAE doors",
+    "lead": "Readers, panels, locks and software for one door or a whole building, from {count} access control models. AIMS installs and supports them from Dubai and Abu Dhabi.",
+    "secondary": "Build a door kit",
+    "heroAlt": "ZKTeco InBio Pro 460 Package B: the panel and its power supply in an open cabinet",
+    "story": {
+      "heading": "Six parts at every controlled door",
+      "steps": {
+        "reader": "Reads a card at the door and sends it to the controller.",
+        "controller": "Decides who may enter, and when. InBio Pro panels run 1, 2 or 4 doors.",
+        "lock": "Holds the door shut with 280 kg and releases when access is granted.",
+        "exit": "Lets people leave from the inside without a card.",
+        "card": "Tap a card: the reader reads it, the controller checks it, the lock releases.",
+        "software": "Add users, set door hours and see every door event in one place."
+      },
+      "cardTitle": "Access card"
+    },
+    "kit": {
+      "heading": "Access control kit for one to four doors",
+      "lead": "Set the doors and the users. The panel changes with the doors, and the kit goes into your quote in one step. An AIMS engineer confirms power supplies, cabling and door type before quoting.",
+      "doors": "Doors",
+      "users": "Users (cards)",
+      "fewerDoors": "Fewer doors",
+      "moreDoors": "More doors",
+      "fewerUsers": "Fewer users",
+      "moreUsers": "More users",
+      "parts": {
+        "reader": "Reader",
+        "controller": "Controller",
+        "lock": "EM lock",
+        "exit": "Exit button",
+        "card": "ID cards"
+      },
+      "software": "Software",
+      "softwareLine": "ZKAccess 3.5 setup for a door kit",
+      "softwareNote": "Setup on quotation",
+      "add": "Add kit to quote",
+      "added": "Kit added: {count} lines in your quote",
+      "controllerChanged": "Controller changed to {name}",
+      "more": "More than four doors? AIMS plans a system with more panels.",
+      "review": "Review your quote"
+    },
+    "methods": {
+      "heading": "Access terminals by verification method",
+      "lead": "Choose how people prove who they are at the door. Each terminal below is one of AIMS's access control models; the link shows every model with that method.",
+      "items": {
+        "card": "Card access",
+        "fingerprint": "Fingerprint access",
+        "face": "Face access"
+      },
+      "all": "See all {count} {method} models"
+    },
+    "process": {
+      "heading": "Installation and support from AIMS",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about your doors",
+          "body": "Doors, users, door types and any system you already run.",
+          "owner": "You"
+        },
+        {
+          "title": "Kit plan and quote",
+          "body": "AIMS suggests readers, panels and locks, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Locks, readers and panels are mounted, wired and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Software setup",
+          "body": "Users, cards and door hours are set up in the access software.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, users or sites.",
+          "owner": "AIMS"
+        }
+      ],
+      "alt": "An electromagnetic lock fitted to the top of a glass office door"
+    },
+    "software": {
+      "heading": "Access control software for ZKTeco panels",
+      "lead": "Run doors from one PC or from a browser. Ask AIMS which version fits your panels.",
+      "items": {
+        "zkaccess-3-5": {
+          "kind": "On a Windows PC",
+          "body": "For standalone devices, C3 and inBIO panels."
+        },
+        "zkbio-cvaccess": {
+          "kind": "In a browser",
+          "body": "Web-based access control management."
+        },
+        "zkbio-cvsecurity": {
+          "kind": "In a browser",
+          "body": "Web-based security platform, with access control as one part."
+        }
+      },
+      "open": "Open {name}",
+      "events": "Events",
+      "log": [
+        {
+          "time": "08:17",
+          "text": "Door 1 · Card"
+        },
+        {
+          "time": "08:21",
+          "text": "Door 2 · Fingerprint"
+        },
+        {
+          "time": "08:30",
+          "text": "Door 1 · Exit button"
+        },
+        {
+          "time": "08:42",
+          "text": "Door 3 · Face"
+        }
+      ],
+      "logLabel": "An example ZKAccess 3.5 event list: door, method and time for each opening"
+    },
+    "faq": {
+      "heading": "Access control questions",
+      "items": [
+        {
+          "q": "Can one access panel run more than one door?",
+          "a": "Yes. InBio Pro 160 runs one door, 260 two and 460 four. More doors take more panels."
+        },
+        {
+          "q": "Card, fingerprint or face for access control?",
+          "a": "A card is the simplest. Fingerprint and face terminals check the person, not only the card. AIMS helps you choose for each door."
+        },
+        {
+          "q": "Can I keep my access readers?",
+          "a": "InBio Pro panels take 26-bit Wiegand and RS485 FR series readers. Send the model and AIMS checks it."
+        },
+        {
+          "q": "Who installs the access control kit?",
+          "a": "An AIMS engineer confirms power supplies, cabling and door type before quoting, then installs the kit."
+        }
+      ]
+    }
   }
 }

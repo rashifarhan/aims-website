@@ -15,7 +15,8 @@
     "e2e": "playwright test",
     "import:content": "tsx scripts/import-aims.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
-    "e2e:performance": "playwright test --config playwright.performance.config.ts"
+    "e2e:performance": "playwright test --config playwright.performance.config.ts",
+    "derive:cutouts": "tsx scripts/derive-cutouts.ts"
   },
   "dependencies": {
     "minisearch": "7.2.0",

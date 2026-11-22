@@ -66,7 +66,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
           dialog.current?.showModal();
           setExpanded(true);
         }}
-        className="grid size-11 place-items-center rounded-md border border-line text-ink lg:hidden"
+        className="grid size-11 place-items-center rounded-md border border-line text-ink xl:hidden"
       >
         <MenuIcon />
       </button>

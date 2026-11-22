@@ -332,3 +332,46 @@ sold and installed). Its real phone lines and showroom address are brief-given, 
 Consequence for `claude/homepage-premium`: its fade-in-on-scroll reveals and the counting band break the skill's
 "scrolling moves nothing but the dealt moment" rule. The homepage must be reworked through the skill's plan, deal and
 gate before that branch merges.
+
+### Shared shell on the skill's kit (`claude/solution-pages`)
+
+- **Kit integration.** The skill's kit is copied to `public/assets` unedited. Its CSS loads in a `kit` cascade layer
+  under Tailwind's `components` and `utilities`, so existing Tailwind pages keep working. A page opts into the kit's
+  one-section-per-screen box with `<main data-kit>`. `motion.css` is linked as its own file, as `motion.md`
+  prescribes. It targets only kit classes, so it overrides no utility.
+- **Header.** A fixed `header.nav` with one `.wrap`. The main action reads "Request a quote" everywhere. The full
+  desktop nav starts at 1280 px; from 1024 to 1279 the header shows the menu button, so nothing runs past the screen.
+- **Footer: the close.** One closing screen on night green (dealt: `footer-dark`, `close-word`). It holds the main
+  action, four link columns and the legal row, and takes two screens on a tablet and a phone. **Deviation from Master
+  Plan 14:** the footer no longer lists the three locations with phones. The skill caps waivers at five, and its
+  phone rule fires on every number, so AIMS's real lines stay on the Contact page, which the footer links to. The
+  WhatsApp and call shortcuts in the mobile menu remain and are waived (brief-given, `CLAUDE.md`).
+- **One button pair.** The close's button on night green is the same green-700 pill as everywhere else (white text
+  6.0:1), not lime. Design Doc 4 allows lime there; the skill's one-button-style rule decided it.
+- **Kept against the skill, for the client's brand (`CLAUDE.md` order 4):** Inter (self-hosted; the skill avoids
+  Inter), pill buttons (the deal said solid), and the interim wordmark (the deal said dots).
+- **Wordmark.** The lime full stop is a drawn decorative dot. Lime is 2.3:1 on white, so it is not text.
+- **Cut-outs.** `pnpm derive:cutouts` trims the white margin from every imported product photo into
+  `public/images/cutouts/` and `content/cutouts.json`, so a product stands big and whole. The imported photos and
+  `content/products.json` are untouched. Re-run it after `pnpm import:content`.
+
+### Access control solution (T3; Master Plan 12, 14; Design Doc 8.2, 10)
+
+Plan: kind `tech`, page type `product`. Dealt hero `product`; the deal first gave `photo`, re-dealt because AIMS has no
+photograph of 1920 px or more. Sections: hero → door-kit story (the dealt moment) → kit builder → terminals by method →
+installation → questions → software → the shared close.
+
+- **The dealt moment is the approved door-kit prototype** (`CLAUDE.md` §3; Design Doc 8.2), ported from
+  `docs/prototypes/door-kit`. The timeline is `src/lib/doorStory.ts` (unit-tested). A client leaf writes each frame to
+  the home page's `DoorIllustration` while the section holds the drawing with `position: sticky`. It scrubs from
+  1024 px. Below that, and under reduced motion, the drawing stands finished.
+- **Kit builder** (FIG 10.7). Doors 1–4 and users drive the quantities. The panel is chosen from the catalogue's own
+  "Doors controlled" rows: InBio Pro 160 / 260 / 460, logic in `src/lib/doorKit.ts`, unit-tested. The panel's
+  picture changes with it. "Add kit to quote" adds five product lines and one software line.
+- **Order:** questions sit before software, so the page closes on a picture rather than a text-only section (the
+  skill's finish check). This swaps Master Plan 14 rows 6 and 7.
+- **Copy:** each step heading carries its model code, and the questions name access control, because the skill
+  requires a noun in every heading. Facts come only from spec rows: 280 kg (AL M280); 1, 2 and 4 doors (InBio Pro);
+  26-bit Wiegand and RS485 FR readers (InBio Pro).
+- **Stand-in photograph:** the installation section uses "Magnetic Lock" by Mooinglemur, public domain, from
+  Wikimedia Commons. It is credited in the footer line. Replace it with a photograph of an AIMS installation.

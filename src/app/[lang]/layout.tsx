@@ -63,7 +63,11 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         <Script id="kit-enter" strategy="beforeInteractive">
           {`document.documentElement.classList.add('m-enter','mo-js');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700);setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)`}
         </Script>
-        {/* The kit's runtime, loaded from public/assets as plain files (SKILL.md 4, step 0). */}
+        {/* The kit's runtime, loaded from public/assets as plain files (SKILL.md 4, step 0). The hover
+            layer's CSS is linked as its own file, as motion.md prescribes ("link motion.css after
+            cards.css"); it targets only kit classes, so it overrides no Tailwind utility. */}
+        {/* eslint-disable-next-line @next/next/no-css-tags -- a kit file served as-is, not app CSS */}
+        <link rel="stylesheet" href="/assets/motion/motion.css" precedence="default" />
         <Script type="module" src="/assets/system.js" strategy="afterInteractive" />
         <Script type="module" src="/assets/motion/motion.js" strategy="afterInteractive" />
         <Script type="module" src="/assets/layout/layout.js" strategy="afterInteractive" />

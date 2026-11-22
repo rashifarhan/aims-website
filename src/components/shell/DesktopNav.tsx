@@ -50,7 +50,7 @@ export function DesktopNav({
   }, [open, baseId]);
 
   return (
-    <nav ref={navRef} aria-label={label} className="hidden lg:block">
+    <nav ref={navRef} aria-label={label} className="hidden xl:block">
       <ul className="flex items-center gap-1">
         {items.map((item, i) => (
           <li key={item.label}>

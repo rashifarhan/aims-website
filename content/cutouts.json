@@ -1,0 +1,797 @@
+{
+  "acm-100s": {
+    "src": "/images/cutouts/acm-100s.webp",
+    "width": 842,
+    "height": 575
+  },
+  "acm-132": {
+    "src": "/images/cutouts/acm-132.webp",
+    "width": 601,
+    "height": 482
+  },
+  "al-20db": {
+    "src": "/images/cutouts/al-20db.webp",
+    "width": 592,
+    "height": 795
+  },
+  "al-280d-led-electric-magnetic-door-lock-model": {
+    "src": "/images/cutouts/al-280d-led-electric-magnetic-door-lock-model.webp",
+    "width": 782,
+    "height": 493
+  },
+  "al-40b": {
+    "src": "/images/cutouts/al-40b.webp",
+    "width": 236,
+    "height": 675
+  },
+  "al-m180": {
+    "src": "/images/cutouts/al-m180.webp",
+    "width": 697,
+    "height": 497
+  },
+  "al-m280": {
+    "src": "/images/cutouts/al-m280.webp",
+    "width": 822,
+    "height": 635
+  },
+  "alf-b21-exit-button": {
+    "src": "/images/cutouts/alf-b21-exit-button.webp",
+    "width": 561,
+    "height": 721
+  },
+  "alf-b31-alpha-emergency-break-glass-green": {
+    "src": "/images/cutouts/alf-b31-alpha-emergency-break-glass-green.webp",
+    "width": 714,
+    "height": 717
+  },
+  "alf-cp-access-control-box": {
+    "src": "/images/cutouts/alf-cp-access-control-box.webp",
+    "width": 610,
+    "height": 614
+  },
+  "alf-ds24": {
+    "src": "/images/cutouts/alf-ds24.webp",
+    "width": 477,
+    "height": 562
+  },
+  "alf-ks21": {
+    "src": "/images/cutouts/alf-ks21.webp",
+    "width": 552,
+    "height": 691
+  },
+  "alf-lz280": {
+    "src": "/images/cutouts/alf-lz280.webp",
+    "width": 717,
+    "height": 440
+  },
+  "alf-m560-electromagnetic-locks": {
+    "src": "/images/cutouts/alf-m560-electromagnetic-locks.webp",
+    "width": 741,
+    "height": 327
+  },
+  "alf-sh10w-siren-horn": {
+    "src": "/images/cutouts/alf-sh10w-siren-horn.webp",
+    "width": 628,
+    "height": 800
+  },
+  "alpha-door-bell-12v": {
+    "src": "/images/cutouts/alpha-door-bell-12v.webp",
+    "width": 721,
+    "height": 616
+  },
+  "barrier-gates-bgm-1045": {
+    "src": "/images/cutouts/barrier-gates-bgm-1045.webp",
+    "width": 873,
+    "height": 838
+  },
+  "barrier-gates-zkteco-bgm-1030": {
+    "src": "/images/cutouts/barrier-gates-zkteco-bgm-1030.webp",
+    "width": 572,
+    "height": 475
+  },
+  "bio-pro-sa20": {
+    "src": "/images/cutouts/bio-pro-sa20.webp",
+    "width": 429,
+    "height": 1017
+  },
+  "bioface-b1": {
+    "src": "/images/cutouts/bioface-b1.webp",
+    "width": 394,
+    "height": 757
+  },
+  "biopro-mh20": {
+    "src": "/images/cutouts/biopro-mh20.webp",
+    "width": 704,
+    "height": 832
+  },
+  "biopro-mh30": {
+    "src": "/images/cutouts/biopro-mh30.webp",
+    "width": 657,
+    "height": 815
+  },
+  "biopro-mv30": {
+    "src": "/images/cutouts/biopro-mv30.webp",
+    "width": 434,
+    "height": 882
+  },
+  "c3-100-1": {
+    "src": "/images/cutouts/c3-100-1.webp",
+    "width": 896,
+    "height": 877
+  },
+  "c3-200": {
+    "src": "/images/cutouts/c3-200.webp",
+    "width": 947,
+    "height": 888
+  },
+  "c3-400": {
+    "src": "/images/cutouts/c3-400.webp",
+    "width": 941,
+    "height": 791
+  },
+  "cr20e-zkteco": {
+    "src": "/images/cutouts/cr20e-zkteco.webp",
+    "width": 540,
+    "height": 574
+  },
+  "cr60w": {
+    "src": "/images/cutouts/cr60w.webp",
+    "width": 496,
+    "height": 722
+  },
+  "door-contact": {
+    "src": "/images/cutouts/door-contact.webp",
+    "width": 1041,
+    "height": 1063
+  },
+  "ec10": {
+    "src": "/images/cutouts/ec10.webp",
+    "width": 973,
+    "height": 681
+  },
+  "ex16": {
+    "src": "/images/cutouts/ex16.webp",
+    "width": 908,
+    "height": 862
+  },
+  "f18": {
+    "src": "/images/cutouts/f18.webp",
+    "width": 396,
+    "height": 971
+  },
+  "face-kiosk-v43": {
+    "src": "/images/cutouts/face-kiosk-v43.webp",
+    "width": 736,
+    "height": 1017
+  },
+  "fbl4000": {
+    "src": "/images/cutouts/fbl4000.webp",
+    "width": 663,
+    "height": 615
+  },
+  "fbl4200": {
+    "src": "/images/cutouts/fbl4200.webp",
+    "width": 488,
+    "height": 726
+  },
+  "fbl5000": {
+    "src": "/images/cutouts/fbl5000.webp",
+    "width": 765,
+    "height": 753
+  },
+  "fht2300": {
+    "src": "/images/cutouts/fht2300.webp",
+    "width": 490,
+    "height": 784
+  },
+  "fht2300d": {
+    "src": "/images/cutouts/fht2300d.webp",
+    "width": 681,
+    "height": 795
+  },
+  "fht2400d": {
+    "src": "/images/cutouts/fht2400d.webp",
+    "width": 735,
+    "height": 893
+  },
+  "fr1200": {
+    "src": "/images/cutouts/fr1200.webp",
+    "width": 373,
+    "height": 852
+  },
+  "fr1300": {
+    "src": "/images/cutouts/fr1300.webp",
+    "width": 721,
+    "height": 862
+  },
+  "fr1500": {
+    "src": "/images/cutouts/fr1500.webp",
+    "width": 483,
+    "height": 890
+  },
+  "g2": {
+    "src": "/images/cutouts/g2.webp",
+    "width": 725,
+    "height": 848
+  },
+  "g3": {
+    "src": "/images/cutouts/g3.webp",
+    "width": 797,
+    "height": 856
+  },
+  "g4": {
+    "src": "/images/cutouts/g4.webp",
+    "width": 399,
+    "height": 893
+  },
+  "gl300": {
+    "src": "/images/cutouts/gl300.webp",
+    "width": 489,
+    "height": 871
+  },
+  "horus-e1-portable": {
+    "src": "/images/cutouts/horus-e1-portable.webp",
+    "width": 514,
+    "height": 668
+  },
+  "horus-e1-rfid": {
+    "src": "/images/cutouts/horus-e1-rfid.webp",
+    "width": 207,
+    "height": 510
+  },
+  "id-card-thick": {
+    "src": "/images/cutouts/id-card-thick.webp",
+    "width": 673,
+    "height": 533
+  },
+  "id-card-thin": {
+    "src": "/images/cutouts/id-card-thin.webp",
+    "width": 690,
+    "height": 685
+  },
+  "iface-990": {
+    "src": "/images/cutouts/iface-990.webp",
+    "width": 734,
+    "height": 830
+  },
+  "iface900": {
+    "src": "/images/cutouts/iface900.webp",
+    "width": 791,
+    "height": 785
+  },
+  "inbio-160": {
+    "src": "/images/cutouts/inbio-160.webp",
+    "width": 923,
+    "height": 735
+  },
+  "inbio-260": {
+    "src": "/images/cutouts/inbio-260.webp",
+    "width": 951,
+    "height": 708
+  },
+  "inbio-460": {
+    "src": "/images/cutouts/inbio-460.webp",
+    "width": 954,
+    "height": 744
+  },
+  "inbio-pro-160": {
+    "src": "/images/cutouts/inbio-pro-160.webp",
+    "width": 805,
+    "height": 715
+  },
+  "inbio-pro-260": {
+    "src": "/images/cutouts/inbio-pro-260.webp",
+    "width": 882,
+    "height": 749
+  },
+  "inbio-pro-460": {
+    "src": "/images/cutouts/inbio-pro-460.webp",
+    "width": 928,
+    "height": 620
+  },
+  "inbio-pro-460-package-b": {
+    "src": "/images/cutouts/inbio-pro-460-package-b.webp",
+    "width": 926,
+    "height": 833
+  },
+  "k-us10c-id-time-attendance-terminal": {
+    "src": "/images/cutouts/k-us10c-id-time-attendance-terminal.webp",
+    "width": 723,
+    "height": 627
+  },
+  "kjz-03": {
+    "src": "/images/cutouts/kjz-03.webp",
+    "width": 167,
+    "height": 663
+  },
+  "kr500": {
+    "src": "/images/cutouts/kr500.webp",
+    "width": 349,
+    "height": 857
+  },
+  "kr501": {
+    "src": "/images/cutouts/kr501.webp",
+    "width": 521,
+    "height": 721
+  },
+  "kr501-m": {
+    "src": "/images/cutouts/kr501-m.webp",
+    "width": 519,
+    "height": 523
+  },
+  "kr502": {
+    "src": "/images/cutouts/kr502.webp",
+    "width": 540,
+    "height": 778
+  },
+  "kr503": {
+    "src": "/images/cutouts/kr503.webp",
+    "width": 435,
+    "height": 884
+  },
+  "kr600": {
+    "src": "/images/cutouts/kr600.webp",
+    "width": 429,
+    "height": 795
+  },
+  "kr601": {
+    "src": "/images/cutouts/kr601.webp",
+    "width": 567,
+    "height": 737
+  },
+  "kr602": {
+    "src": "/images/cutouts/kr602.webp",
+    "width": 597,
+    "height": 719
+  },
+  "lh-5000": {
+    "src": "/images/cutouts/lh-5000.webp",
+    "width": 401,
+    "height": 767
+  },
+  "lh-7500": {
+    "src": "/images/cutouts/lh-7500.webp",
+    "width": 768,
+    "height": 501
+  },
+  "lh4000": {
+    "src": "/images/cutouts/lh4000.webp",
+    "width": 449,
+    "height": 918
+  },
+  "lh6000": {
+    "src": "/images/cutouts/lh6000.webp",
+    "width": 404,
+    "height": 829
+  },
+  "lprc100": {
+    "src": "/images/cutouts/lprc100.webp",
+    "width": 765,
+    "height": 497
+  },
+  "lprs4000": {
+    "src": "/images/cutouts/lprs4000.webp",
+    "width": 233,
+    "height": 848
+  },
+  "omniac30-all-weather-outdoor-multi-tech-smart-standalone-terminal": {
+    "src": "/images/cutouts/omniac30-all-weather-outdoor-multi-tech-smart-standalone-terminal.webp",
+    "width": 440,
+    "height": 873
+  },
+  "plock-2": {
+    "src": "/images/cutouts/plock-2.webp",
+    "width": 751,
+    "height": 835
+  },
+  "pro-bg3000": {
+    "src": "/images/cutouts/pro-bg3000.webp",
+    "width": 456,
+    "height": 925
+  },
+  "proface-x": {
+    "src": "/images/cutouts/proface-x.webp",
+    "width": 520,
+    "height": 915
+  },
+  "proface-x-p": {
+    "src": "/images/cutouts/proface-x-p.webp",
+    "width": 515,
+    "height": 914
+  },
+  "proface-x-ti": {
+    "src": "/images/cutouts/proface-x-ti.webp",
+    "width": 436,
+    "height": 906
+  },
+  "proid10": {
+    "src": "/images/cutouts/proid10.webp",
+    "width": 420,
+    "height": 840
+  },
+  "proid20": {
+    "src": "/images/cutouts/proid20.webp",
+    "width": 578,
+    "height": 809
+  },
+  "proid30": {
+    "src": "/images/cutouts/proid30.webp",
+    "width": 555,
+    "height": 722
+  },
+  "proid40": {
+    "src": "/images/cutouts/proid40.webp",
+    "width": 503,
+    "height": 894
+  },
+  "qr500": {
+    "src": "/images/cutouts/qr500.webp",
+    "width": 621,
+    "height": 820
+  },
+  "s922": {
+    "src": "/images/cutouts/s922.webp",
+    "width": 729,
+    "height": 887
+  },
+  "sbt1000s-series": {
+    "src": "/images/cutouts/sbt1000s-series.webp",
+    "width": 642,
+    "height": 793
+  },
+  "sc405": {
+    "src": "/images/cutouts/sc405.webp",
+    "width": 529,
+    "height": 911
+  },
+  "scr100": {
+    "src": "/images/cutouts/scr100.webp",
+    "width": 528,
+    "height": 880
+  },
+  "sf300": {
+    "src": "/images/cutouts/sf300.webp",
+    "width": 724,
+    "height": 865
+  },
+  "sface-lite": {
+    "src": "/images/cutouts/sface-lite.webp",
+    "width": 795,
+    "height": 811
+  },
+  "speedface-h5l-p": {
+    "src": "/images/cutouts/speedface-h5l-p.webp",
+    "width": 601,
+    "height": 893
+  },
+  "speedface-v5l-p": {
+    "src": "/images/cutouts/speedface-v5l-p.webp",
+    "width": 382,
+    "height": 894
+  },
+  "speedface-v5l-ti": {
+    "src": "/images/cutouts/speedface-v5l-ti.webp",
+    "width": 362,
+    "height": 927
+  },
+  "tf1700": {
+    "src": "/images/cutouts/tf1700.webp",
+    "width": 346,
+    "height": 902
+  },
+  "tl100": {
+    "src": "/images/cutouts/tl100.webp",
+    "width": 389,
+    "height": 912
+  },
+  "tl300": {
+    "src": "/images/cutouts/tl300.webp",
+    "width": 300,
+    "height": 847
+  },
+  "tl400": {
+    "src": "/images/cutouts/tl400.webp",
+    "width": 353,
+    "height": 806
+  },
+  "ts1000-pro-series": {
+    "src": "/images/cutouts/ts1000-pro-series.webp",
+    "width": 614,
+    "height": 731
+  },
+  "ts1200-series": {
+    "src": "/images/cutouts/ts1200-series.webp",
+    "width": 731,
+    "height": 704
+  },
+  "ts2000-pro-series": {
+    "src": "/images/cutouts/ts2000-pro-series.webp",
+    "width": 719,
+    "height": 782
+  },
+  "ts2100-series": {
+    "src": "/images/cutouts/ts2100-series.webp",
+    "width": 629,
+    "height": 790
+  },
+  "ts2133": {
+    "src": "/images/cutouts/ts2133.webp",
+    "width": 535,
+    "height": 781
+  },
+  "u1000": {
+    "src": "/images/cutouts/u1000.webp",
+    "width": 650,
+    "height": 819
+  },
+  "u2000": {
+    "src": "/images/cutouts/u2000.webp",
+    "width": 642,
+    "height": 803
+  },
+  "ua760": {
+    "src": "/images/cutouts/ua760.webp",
+    "width": 740,
+    "height": 698
+  },
+  "ua860": {
+    "src": "/images/cutouts/ua860.webp",
+    "width": 767,
+    "height": 791
+  },
+  "uhf-10": {
+    "src": "/images/cutouts/uhf-10.webp",
+    "width": 492,
+    "height": 767
+  },
+  "uhf-5": {
+    "src": "/images/cutouts/uhf-5.webp",
+    "width": 506,
+    "height": 619
+  },
+  "uhf1-tag1": {
+    "src": "/images/cutouts/uhf1-tag1.webp",
+    "width": 730,
+    "height": 475
+  },
+  "uhf1-tag2": {
+    "src": "/images/cutouts/uhf1-tag2.webp",
+    "width": 817,
+    "height": 394
+  },
+  "ur10r-1e": {
+    "src": "/images/cutouts/ur10r-1e.webp",
+    "width": 583,
+    "height": 827
+  },
+  "ur10r-1f": {
+    "src": "/images/cutouts/ur10r-1f.webp",
+    "width": 577,
+    "height": 832
+  },
+  "vr10-vehicle-people-detection-radar-sensor": {
+    "src": "/images/cutouts/vr10-vehicle-people-detection-radar-sensor.webp",
+    "width": 620,
+    "height": 858
+  },
+  "x8-bt": {
+    "src": "/images/cutouts/x8-bt.webp",
+    "width": 684,
+    "height": 855
+  },
+  "zk-9500": {
+    "src": "/images/cutouts/zk-9500.webp",
+    "width": 236,
+    "height": 226
+  },
+  "zk-biopro-mh-40": {
+    "src": "/images/cutouts/zk-biopro-mh-40.webp",
+    "width": 266,
+    "height": 205
+  },
+  "zk-d100s": {
+    "src": "/images/cutouts/zk-d100s.webp",
+    "width": 168,
+    "height": 871
+  },
+  "zk-d3180s": {
+    "src": "/images/cutouts/zk-d3180s.webp",
+    "width": 357,
+    "height": 821
+  },
+  "zk-df01-card-dual": {
+    "src": "/images/cutouts/zk-df01-card-dual.webp",
+    "width": 275,
+    "height": 182
+  },
+  "zk-dm10-single-door-extension-panel": {
+    "src": "/images/cutouts/zk-dm10-single-door-extension-panel.webp",
+    "width": 323,
+    "height": 255
+  },
+  "zk-h300": {
+    "src": "/images/cutouts/zk-h300.webp",
+    "width": 215,
+    "height": 243
+  },
+  "zk-mars-b1222-dual-lane-swing-barrier-tunstile": {
+    "src": "/images/cutouts/zk-mars-b1222-dual-lane-swing-barrier-tunstile.webp",
+    "width": 459,
+    "height": 771
+  },
+  "zk-x990-c": {
+    "src": "/images/cutouts/zk-x990-c.webp",
+    "width": 847,
+    "height": 837
+  },
+  "zk15-series": {
+    "src": "/images/cutouts/zk15-series.webp",
+    "width": 259,
+    "height": 291
+  },
+  "zk1515-series": {
+    "src": "/images/cutouts/zk1515-series.webp",
+    "width": 259,
+    "height": 289
+  },
+  "zk4500": {
+    "src": "/images/cutouts/zk4500.webp",
+    "width": 474,
+    "height": 775
+  },
+  "zk9500": {
+    "src": "/images/cutouts/zk9500.webp",
+    "width": 627,
+    "height": 586
+  },
+  "zkaio1000": {
+    "src": "/images/cutouts/zkaio1000.webp",
+    "width": 231,
+    "height": 290
+  },
+  "zkbio810": {
+    "src": "/images/cutouts/zkbio810.webp",
+    "width": 271,
+    "height": 281
+  },
+  "zkbio900-series": {
+    "src": "/images/cutouts/zkbio900-series.webp",
+    "width": 225,
+    "height": 282
+  },
+  "zkp8001": {
+    "src": "/images/cutouts/zkp8001.webp",
+    "width": 629,
+    "height": 694
+  },
+  "zkteco-barrier-gates-bgm-1060": {
+    "src": "/images/cutouts/zkteco-barrier-gates-bgm-1060.webp",
+    "width": 876,
+    "height": 350
+  },
+  "zkteco-c3-200-package-b": {
+    "src": "/images/cutouts/zkteco-c3-200-package-b.webp",
+    "width": 725,
+    "height": 494
+  },
+  "zkteco-c3-400-package-b": {
+    "src": "/images/cutouts/zkteco-c3-400-package-b.webp",
+    "width": 793,
+    "height": 459
+  },
+  "zkteco-hbl400": {
+    "src": "/images/cutouts/zkteco-hbl400.webp",
+    "width": 407,
+    "height": 817
+  },
+  "zkteco-horus-h1": {
+    "src": "/images/cutouts/zkteco-horus-h1.webp",
+    "width": 562,
+    "height": 799
+  },
+  "zkteco-iface-990-plus": {
+    "src": "/images/cutouts/zkteco-iface-990-plus.webp",
+    "width": 734,
+    "height": 829
+  },
+  "zkteco-inbio-pro-260-package-b": {
+    "src": "/images/cutouts/zkteco-inbio-pro-260-package-b.webp",
+    "width": 651,
+    "height": 492
+  },
+  "zkteco-inbiopro-460-plus-package-b": {
+    "src": "/images/cutouts/zkteco-inbiopro-460-plus-package-b.webp",
+    "width": 409,
+    "height": 309
+  },
+  "zkteco-kr-502-wiegand-reader": {
+    "src": "/images/cutouts/zkteco-kr-502-wiegand-reader.webp",
+    "width": 726,
+    "height": 730
+  },
+  "zkteco-kr500-m-rfid-reader": {
+    "src": "/images/cutouts/zkteco-kr500-m-rfid-reader.webp",
+    "width": 338,
+    "height": 566
+  },
+  "zkteco-kr502-e": {
+    "src": "/images/cutouts/zkteco-kr502-e.webp",
+    "width": 577,
+    "height": 570
+  },
+  "zkteco-lh6500-door-lock": {
+    "src": "/images/cutouts/zkteco-lh6500-door-lock.webp",
+    "width": 463,
+    "height": 771
+  },
+  "zkteco-mars-b1022-single-lane-swing-barrier-turnstile": {
+    "src": "/images/cutouts/zkteco-mars-b1022-single-lane-swing-barrier-turnstile.webp",
+    "width": 533,
+    "height": 481
+  },
+  "zkteco-mars-b1200-double-swing-barrier-gate": {
+    "src": "/images/cutouts/zkteco-mars-b1200-double-swing-barrier-gate.webp",
+    "width": 540,
+    "height": 627
+  },
+  "zkteco-proma-series-multi-biometric-outdoor-access-control-with-video-intercom": {
+    "src": "/images/cutouts/zkteco-proma-series-multi-biometric-outdoor-access-control-with-video-intercom.webp",
+    "width": 276,
+    "height": 694
+  },
+  "zkteco-prorf-access-control-terminal": {
+    "src": "/images/cutouts/zkteco-prorf-access-control-terminal.webp",
+    "width": 507,
+    "height": 790
+  },
+  "zkteco-qr600-qr-code-rfid-readers": {
+    "src": "/images/cutouts/zkteco-qr600-qr-code-rfid-readers.webp",
+    "width": 522,
+    "height": 760
+  },
+  "zkteco-speedface-v5l-qr": {
+    "src": "/images/cutouts/zkteco-speedface-v5l-qr.webp",
+    "width": 418,
+    "height": 832
+  },
+  "zkteco-tl700-fingerprint-smart-door-lock": {
+    "src": "/images/cutouts/zkteco-tl700-fingerprint-smart-door-lock.webp",
+    "width": 791,
+    "height": 750
+  },
+  "zkteco-tl800-wi-fi-smart-digital-lock": {
+    "src": "/images/cutouts/zkteco-tl800-wi-fi-smart-digital-lock.webp",
+    "width": 449,
+    "height": 723
+  },
+  "zkteco-ts1011-pro-tripod-turnstile": {
+    "src": "/images/cutouts/zkteco-ts1011-pro-tripod-turnstile.webp",
+    "width": 486,
+    "height": 536
+  },
+  "zkteco-ts1022-pro-tripod-turnstile-w-controller-and-combination-of-fingerprint-rfid-reader": {
+    "src": "/images/cutouts/zkteco-ts1022-pro-tripod-turnstile-w-controller-and-combination-of-fingerprint-rfid-reader.webp",
+    "width": 494,
+    "height": 545
+  },
+  "zkteco-vt07-b0-w-smart-ip-video-indoor-monitor": {
+    "src": "/images/cutouts/zkteco-vt07-b0-w-smart-ip-video-indoor-monitor.webp",
+    "width": 843,
+    "height": 554
+  },
+  "zkteco-zk-d180": {
+    "src": "/images/cutouts/zkteco-zk-d180.webp",
+    "width": 68,
+    "height": 318
+  },
+  "zkx5030a": {
+    "src": "/images/cutouts/zkx5030a.webp",
+    "width": 830,
+    "height": 687
+  },
+  "ztkeco-cr20m": {
+    "src": "/images/cutouts/ztkeco-cr20m.webp",
+    "width": 540,
+    "height": 574
+  }
+}

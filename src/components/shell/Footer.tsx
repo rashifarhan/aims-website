@@ -5,6 +5,7 @@ import { FAMILIES } from "@/content/taxonomy";
 import { SOFTWARE_LINKS, SOLUTIONS, familyPath, solutionPath } from "@/lib/nav";
 import { COMPANY_NAME, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { Wordmark } from "./Wordmark";
+import { STAND_INS } from "@/content/standIns";
 
 /** Copyright year, fixed at build time (Cache Components disallow a bare new Date()). */
 async function buildYear() {
@@ -13,7 +14,8 @@ async function buildYear() {
 }
 
 /** Every footer link is a 44px tap target (CLAUDE.md §4, skill house rules). */
-const TARGET = "inline-flex min-h-11 items-center";
+// inline-block, not flex: a wrapped label keeps its ↗ on its own last line, on the column edge.
+const TARGET = "inline-block min-h-11 py-2.5";
 
 /**
  * The page's last section (design skill layout-v4.md 2, system.md Footer): the dealt close
@@ -62,7 +64,7 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="footer closing footer--dark ground-inverse" aria-labelledby="close-h">
+    <footer className="footer closing footer--dark ground-inverse g2m" aria-labelledby="close-h">
       <div className="wrap">
         <div className="closing__cta close--word">
           <div className="section-head--split">
@@ -116,6 +118,19 @@ export async function Footer() {
             <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className={TARGET}>
               {t.footer.terms}
             </Link>
+            {/* Licence credits for stand-in photographs: one line, never a caption (skill house rule 1). */}
+            <p className="credits">
+              {t.footer.photoCredits}:{" "}
+              {Object.values(STAND_INS).map((s, i) => (
+                <span key={s.source} lang="en" dir="ltr">
+                  {i > 0 && "; "}
+                  <a href={s.source} rel="noopener" className={TARGET}>
+                    {s.title}
+                  </a>
+                  , {s.author}, {s.licence}
+                </span>
+              ))}
+            </p>
           </div>
         </div>
       </div>

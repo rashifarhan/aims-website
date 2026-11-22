@@ -7,7 +7,6 @@
 @layer theme, base, kit, components, utilities;
 @import "../../public/assets/system.css" layer(kit);
 @import "../../public/assets/ui/cards.css" layer(kit);
-@import "../../public/assets/motion/motion.css" layer(kit);
 @import "../../public/assets/layout/layout.css" layer(kit);
 @import "../../public/assets/icons/icon.css" layer(kit);
 @import "tailwindcss";
@@ -317,8 +316,10 @@ header button:active {
   --p-inv-muted: #b5c4ba;
   --p-inv-accent: #78be20;
   --p-inv-accent-ink: #0a1a10;
-  --p-inv-action: #78be20;
-  --p-inv-action-ink: #0a1a10;
+  /* One button style on every ground (skill: one button pair): the close's action on night green
+     is the same green-700 pill as everywhere else, white text 6.0:1 (Design Doc 4). */
+  --p-inv-action: #26703a;
+  --p-inv-action-ink: #ffffff;
   --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-text: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -364,5 +365,24 @@ header button:active {
     display: revert;
     flex-direction: revert;
     min-height: revert;
+  }
+}
+
+@layer components {
+  /* The header holds the wordmark, the main action and the menu at 320px too (CLAUDE.md §4 reflow). */
+  @media (max-width: 379px) {
+    header.nav .btn {
+      padding-inline: var(--s-3);
+    }
+  }
+  /* On a tablet the close and the directory stack past one screen: they take two (skill SR-2). */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    footer.closing {
+      --h: 2;
+    }
+  }
+  /* The kit sets the close word at line-height .86 with overflow: clip, which cuts Inter's capitals. */
+  .close__word {
+    line-height: 1;
   }
 }

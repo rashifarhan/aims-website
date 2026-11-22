@@ -105,7 +105,7 @@ export const ROUTES: RouteEntry[] = [
     title: "Access control",
     template: "T3 Solution",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/solutions/entrance-parking",

@@ -15,13 +15,21 @@ export type AddToQuoteLabels = {
   increase: string;
 };
 
-type Props = { slug: string; name: string; labels: AddToQuoteLabels; size?: "md" | "sm"; className?: string };
+type Props = {
+  slug: string;
+  name: string;
+  labels: AddToQuoteLabels;
+  size?: "md" | "sm";
+  /** "kit": the design skill's secondary button, on pages built on the kit (one button pair). */
+  look?: "pill" | "kit";
+  className?: string;
+};
 
 /**
  * "Add to quote" that becomes a quantity stepper + "✓ In quote" once
  * added (Design Doc 9). Never "Buy" or "Order". Changes are announced.
  */
-export function AddToQuote({ slug, name, labels, size = "sm", className = "" }: Props) {
+export function AddToQuote({ slug, name, labels, size = "sm", look = "pill", className = "" }: Props) {
   const quote = useQuote();
   const line = quote.lines.find((l) => l.kind === "product" && l.slug === slug);
   const [status, setStatus] = useState("");
@@ -52,7 +60,11 @@ export function AddToQuote({ slug, name, labels, size = "sm", className = "" }: 
             dispatchQuote({ type: "add", slug, qty: 1 });
             setStatus(fmt(labels.addedAnnounce, { name, qty: 1 }));
           }}
-          className={`inline-flex items-center rounded-pill bg-green-700 px-4 font-semibold text-white transition-colors duration-(--duration-fast) hover:bg-green-800 ${size === "md" ? "h-11" : "h-11 text-sm sm:h-9"}`}
+          className={
+            look === "kit"
+              ? "btn btn--secondary"
+              : `inline-flex items-center rounded-pill bg-green-700 px-4 font-semibold text-white transition-colors duration-(--duration-fast) hover:bg-green-800 ${size === "md" ? "h-11" : "h-11 text-sm sm:h-9"}`
+          }
         >
           {labels.add}
         </button>

@@ -33,7 +33,7 @@ function Tag({ x, y, width, name, model }: { x: number; y: number; width: number
  * "Access granted" shows (Design Doc 8.2). Each `door-part` is timed in sections.css; this
  * markup is the finished frame, which reduced motion and no-JS visitors see.
  */
-export function DoorIllustration({ labels }: { labels: Labels }) {
+export function DoorIllustration({ labels, pulse = false }: { labels: Labels; pulse?: boolean }) {
   return (
     <svg className="home-door-drawing" viewBox="0 0 760 600" role="img" aria-label={labels.alt} direction="ltr">
       <rect x="40" y="40" width="680" height="500" rx="4" className="fill-paper-2" />
@@ -109,6 +109,9 @@ export function DoorIllustration({ labels }: { labels: Labels }) {
           <path d="M6 36h20" className="stroke-paper" strokeOpacity="0.7" />
         </g>
       </g>
+
+      {/* The signal that runs reader → controller → lock in the scroll story (Design Doc 8.2). */}
+      {pulse && <circle className="door-pulse fill-lime" r="5" cx="248" cy="318" opacity="0" />}
 
       <g className="door-log">
         <rect x="564" y="434" width="134" height="20" className="fill-paper stroke-line" />

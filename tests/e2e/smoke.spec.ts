@@ -15,16 +15,18 @@ test.describe("pages", () => {
         "content",
         /user-scalable=no|maximum-scale=1/,
       );
+      // A kit hero (data-enter) marks itself is-entered when its entrance is over (motion.js).
+      const kitHero = page.locator(".hero[data-enter]");
+      if (await kitHero.count()) await expect(kitHero).toHaveClass(/is-entered/);
       // Audit the rendered text after approved entrance fades, not a translucent animation frame.
-      // Infinite domain loops stay active and have separate motion/reduced-motion coverage.
+      // The kit's hero entrance runs on the Web Animations API (motion.js), so every finite
+      // animation is awaited, not only CSS ones. Infinite domain loops stay active and have
+      // separate motion/reduced-motion coverage.
       await page.evaluate(() =>
         Promise.all(
           document
             .getAnimations()
-            .filter(
-              (animation) =>
-                animation instanceof CSSAnimation && Number.isFinite(animation.effect?.getTiming().iterations),
-            )
+            .filter((animation) => Number.isFinite(animation.effect?.getTiming().iterations))
             .map((animation) => animation.finished.catch(() => undefined)),
         ),
       );

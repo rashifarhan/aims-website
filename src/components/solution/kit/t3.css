@@ -1,0 +1,296 @@
+/*
+ * T3 solution pages on the design skill's kit (main[data-kit]). Page CSS only where the skill
+ * allows it: inside a visual, the door-kit story's hold, the kit builder's rows. Kit tokens
+ * (--s-*, --r-*, --line, --surface, --muted, --accent) and AIMS tokens only (CLAUDE.md §2).
+ */
+
+/* ---------- Door-kit story (Design Doc 8.2): the drawing holds while the steps scroll ---------- */
+/* Two screens where it scrubs (1024 and up, and a phone's stack); one on a tablet, where it stands
+   finished above its steps (the still rule, skill moments.md). */
+.door-story {
+  --h: 2;
+}
+/* The text column runs the section's full height (the kit starts grid rows at the top). */
+.door-story > .wrap.grid {
+  align-content: stretch;
+}
+.door-story__text {
+  display: flex;
+  flex-direction: column;
+}
+/* The six steps spread over the section's two screens, so each is read while the drawing reaches it. */
+.door-story__steps {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+}
+.door-story__steps > li {
+  display: grid;
+  gap: var(--s-1);
+}
+.door-story__steps > li[data-current] .door-story__num {
+  color: var(--accent);
+}
+.door-story__steps h3 {
+  font: 500 var(--t-card) / 1.3 var(--font-text);
+}
+.door-story__num {
+  color: var(--muted);
+  font-size: var(--t-label);
+  transition: color var(--dur) var(--ease);
+}
+.door-story__model {
+  font-size: var(--t-small);
+  font-weight: 400;
+}
+.door-story__hold {
+  align-self: stretch;
+}
+.door-story__stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.door-story__stage :is(.door-card, .door-pulse) {
+  transform-box: view-box;
+}
+@media (min-width: 1024px) {
+  /* The section scrolls natively; the drawing holds under the header (CLAUDE.md §3: sticky only). */
+  .door-story__stage {
+    position: sticky;
+    top: calc(var(--nav) + var(--s-6));
+  }
+}
+@media (max-width: 1023px) {
+  .door-story__hold {
+    order: -1;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .door-story {
+    --h: 1;
+  }
+  .door-story > .wrap.grid > * {
+    grid-column: 1 / -1;
+  }
+  .door-story__stage svg {
+    height: 40svh;
+    width: auto;
+    max-width: 100%;
+  }
+  .door-story__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-5) var(--s-4);
+  }
+}
+
+/* ---------- Kit builder (Design Doc 10, FIG 10.7) ---------- */
+.kit__intro > * + * {
+  margin-top: var(--s-5);
+}
+.kit__counters {
+  display: grid;
+  gap: var(--s-3);
+}
+.kit__counter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 4ch auto;
+  align-items: center;
+  gap: var(--s-3);
+}
+.kit__counter-label {
+  font-weight: 500;
+}
+.kit__step {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: var(--t-lead);
+}
+.kit__step:disabled {
+  color: var(--muted);
+  opacity: 0.6;
+}
+.kit__value {
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--t-lead);
+}
+.kit__more {
+  color: var(--muted);
+  font-size: var(--t-small);
+}
+.kit__part small {
+  display: block;
+  color: var(--muted);
+  font: 400 var(--t-small) / 1.4 var(--font-mono);
+}
+.kit__panel {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: clamp(10rem, 24svh, 15rem);
+  object-fit: contain;
+}
+.kit__row {
+  position: relative;
+}
+/* The controller row tints once when the model switches (Design Doc 8.4); opacity only. */
+.kit__row--swap::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--s-3));
+  border-radius: var(--r-sm);
+  background: var(--color-green-50);
+  opacity: 0;
+  z-index: -1;
+  animation: kit-swap 900ms var(--ease) 1;
+}
+@keyframes kit-swap {
+  20% {
+    opacity: 1;
+  }
+}
+.kit__actions {
+  margin-top: var(--s-5);
+  align-items: center;
+}
+.kit__status {
+  margin-top: var(--s-3);
+  min-height: 1.5em;
+  color: var(--accent);
+  font-size: var(--t-small);
+  font-weight: 500;
+}
+
+/* ---------- Method tiles: AIMS's cut-outs stand on white, whole (sections.md, Product rule 1) ---------- */
+.method-tiles .tile__media {
+  background: var(--bg);
+}
+.method-tiles .tile__media > img {
+  object-fit: contain;
+  padding: var(--s-5);
+}
+.method-tiles__facts {
+  display: grid;
+  gap: var(--s-1);
+}
+.method-tiles__facts > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--s-3);
+}
+.method-tiles__facts dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.method-tiles__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+}
+.method-tiles__actions .link {
+  white-space: normal;
+}
+.method-tiles > .tile {
+  min-width: 0;
+}
+
+/* ---------- Process rows and their photograph ---------- */
+.process-rows__num {
+  margin-inline-end: var(--s-3);
+  color: var(--muted);
+  font-size: var(--t-label);
+}
+.process-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+/* ---------- The event log, the software section's picture ---------- */
+.event-log {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  overflow: clip;
+  box-shadow: var(--shadow-2, none);
+}
+.event-log__bar {
+  padding: var(--s-3) var(--s-5);
+  background: var(--color-green-50);
+  color: var(--color-green-800);
+  font: 500 var(--t-small) / 1.4 var(--font-mono);
+}
+.event-log__rows > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border-top: 1px solid var(--line);
+}
+.event-log__ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Tablet (768–1023): splits stay two columns on the page's one split line, and the
+   method tiles stay three across, so every section keeps to one or two screens (skill SR-2) ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .t3-split > .span-4,
+  .t3-split > .span-5 {
+    grid-column: 1 / span 5;
+  }
+  .t3-split > :is(.span-6, .span-7) {
+    grid-column: 6 / span 7;
+  }
+}
+@media (min-width: 640px) {
+  .grid.method-tiles > .tile.span-4 {
+    grid-column: auto / span 4;
+  }
+}
+/* A tile is not one link (it holds Add to quote), so the tile answers its own hover: it lifts 2px
+   and its photograph zooms 1.03 inside its frame (skill house rule 5). */
+.method-tiles > .tile {
+  transition: transform var(--dur) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .method-tiles > .tile:hover {
+    transform: translateY(-2px);
+  }
+  .method-tiles > .tile:hover .tile__media > img {
+    transform: scale(1.03);
+  }
+}
+/* Installation on a tablet: the rows in two columns over a wide photograph, one screen. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #install .t3-split > * {
+    grid-column: 1 / -1;
+  }
+  #install .process-rows {
+    columns: 2;
+    column-gap: var(--s-6);
+  }
+  #install .process-rows > li {
+    break-inside: avoid;
+  }
+  #install .process-photo img {
+    aspect-ratio: 21 / 9;
+  }
+}
