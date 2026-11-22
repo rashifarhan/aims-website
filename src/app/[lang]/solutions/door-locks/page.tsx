@@ -21,8 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * T3 solution, door locks (Master Plan 12, 14; Design Doc 10) on the design skill's kit: the dealt
- * product hero, lock types, questions, and fitting with the dealt marquee of lock and hardware
- * words as its last row (moments.md: a marquee merges into the section above).
+ * product hero, lock types, questions with the dealt marquee of lock and hardware words as their
+ * last row (moments.md: a marquee merges into the section above), and fitting.
  */
 export default async function DoorLocksSolution() {
   const t = await getDictionary();
@@ -50,7 +50,11 @@ export default async function DoorLocksSolution() {
         secondary={{ href: "#types", label: c.secondary }}
       />
       <MethodTiles id="types" heading={c.types.heading} lead={c.types.lead} tiles={tiles} />
-      <FaqSection heading={c.faq.heading} items={c.faq.items} />
+      <FaqSection
+        heading={c.faq.heading}
+        items={c.faq.items}
+        after={<MarqueeRow label={c.marqueeLabel} words={c.marquee} />}
+      />
       {picture && (
         <ProcessSplit
           heading={c.process.heading}
@@ -59,7 +63,6 @@ export default async function DoorLocksSolution() {
           photo={picture}
           fit="contain"
           alt={c.process.alt}
-          after={<MarqueeRow label={c.marqueeLabel} words={c.marquee} />}
         />
       )}
     </main>

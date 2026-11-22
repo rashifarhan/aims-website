@@ -180,31 +180,22 @@
   background: var(--bg);
   --tile-ratio: 16 / 10;
 }
-/* A phone: each tile is a row, its photograph beside its words, so the three fit two screens; the
-   section is two screens there as one run of content (no .g2m groups, which would stretch the head). */
+/* A phone: one tile a row, its photograph across the column; the spec rows give way (the product
+   page carries them), so the three tiles and their pictures fit two screens (CLAUDE.md §2: remove,
+   don't shrink). The section is two screens as one run of content (no .g2m groups). */
 @media (max-width: 639px) {
   .method-section {
     --hm: 2;
   }
-}
-@media (max-width: 639px) {
-  /* One tile a row (the kit pairs span-4 tiles on a phone, too narrow for a photograph beside words). */
+  /* The kit pairs span-4 tiles on a phone, too narrow for a photograph and its words. */
   .grid.method-tiles > .tile.span-4 {
     grid-column: 1 / -1;
   }
-  .grid.method-tiles > .tile {
-    grid-template-columns: 7rem minmax(0, 1fr);
-    column-gap: var(--s-4);
-    align-items: start;
+  .method-tiles .tile__media {
+    --tile-ratio: 16 / 9;
   }
-  .grid.method-tiles > .tile > .tile__media {
-    grid-column: 1;
-    grid-row: 1 / span 3;
-    --tile-ratio: 1;
-  }
-  .grid.method-tiles > .tile > :not(.tile__media) {
-    grid-column: 2;
-    min-width: 0;
+  .method-tiles .method-tiles__facts {
+    display: none;
   }
   .grid.method-tiles > .tile .tile__head {
     flex-wrap: wrap;
@@ -213,16 +204,13 @@
   .grid.method-tiles > .tile .tile__head > a {
     overflow-wrap: anywhere;
   }
-  .method-tiles__actions .btn {
-    padding-inline: var(--s-4);
-  }
   /* The second screen of a two-screen section is the picture's: the installation photograph
      fills it, and the kit's list stands without the panel picture above (skill SR-3). */
-  #install .process-photo,
-  #install .process-photo img {
+  #install .process-photo--cover,
+  #install .process-photo--cover img {
     height: 100%;
   }
-  #install .process-photo img {
+  #install .process-photo--cover img {
     aspect-ratio: auto;
   }
   .kit__panel {
@@ -274,8 +262,8 @@
   object-fit: contain;
   background: var(--bg);
 }
-.process-after {
-  margin-top: var(--s-6);
+.faq-after {
+  margin-top: var(--s-7);
   min-width: 0;
 }
 .process-photo img {

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
 import type { Picture } from "@/content/cutouts";
 
 type Step = { title: string; body: string; owner: string };
@@ -11,8 +10,6 @@ type Props = {
   photo: Picture;
   fit?: "cover" | "contain";
   alt: string;
-  /** A last row under the steps, e.g. a dealt marquee (moments.md: it merges into the section above). */
-  after?: ReactNode;
 };
 
 /**
@@ -20,7 +17,7 @@ type Props = {
  * one list of rows beside one picture, a 5/7 split on the page's one split line. A stand-in
  * photograph shows until AIMS supplies its own installation pictures (CLAUDE.md §2); no caption.
  */
-export function ProcessSplit({ heading, ownerLabel, steps, photo, fit = "cover", alt, after }: Props) {
+export function ProcessSplit({ heading, ownerLabel, steps, photo, fit = "cover", alt }: Props) {
   return (
     <section className="section g2m" id="install" aria-labelledby="install-h">
       <div className="wrap grid--middle t3-split grid">
@@ -43,8 +40,6 @@ export function ProcessSplit({ heading, ownerLabel, steps, photo, fit = "cover",
               </li>
             ))}
           </ol>
-          {/* Inside the text column, so a phone's two screens keep two groups (.g2m). */}
-          {after && <div className="process-after">{after}</div>}
         </div>
         <div className={`span-7 process-photo start-6 process-photo--${fit}`}>
           <Image
