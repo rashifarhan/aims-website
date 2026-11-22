@@ -1,0 +1,45 @@
+/*
+ * Product page's one dealt moment (taste motion.md; audit signature SIGNAL): the "How it connects" lines
+ * draw once from the model code, then each destination settles in, when the diagram enters view.
+ * stroke-dashoffset and opacity only. Nothing is hidden unless MomentTrigger set data-effects="on",
+ * which it never does under reduced motion, so the finished diagram is the resting state.
+ */
+.connects-line {
+  stroke-dasharray: 1;
+}
+:root[data-effects="on"] .connects:not([data-played]) .connects-line {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .connects:not([data-played]) .connects-node {
+  opacity: 0;
+}
+:root[data-effects="on"] .connects[data-played] .connects-line {
+  animation: connects-draw 900ms var(--ease-aims) calc(var(--i) * 90ms) both;
+}
+:root[data-effects="on"] .connects[data-played] .connects-node {
+  animation: connects-node var(--duration-slow) var(--ease-aims) calc(var(--i) * 90ms + 600ms) both;
+}
+@keyframes connects-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes connects-node {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .connects .connects-line,
+  .connects .connects-node {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
