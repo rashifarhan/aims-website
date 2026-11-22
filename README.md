@@ -517,5 +517,35 @@ Design Doc 10.1; skill `layout-v4.md`, `motion.md`).
   `MomentTrigger`); the Download Centre has none. It is pinned LTR, because its lines are physical SVG coordinates.
 - **The other five platforms** (Bio Security 3.2, BioTime 8.5, CVAccess, CVSecurity, mobile app) are cards that open AIMS's
   current pages, marked ↗; their `/software/{slug}` URLs are not built here.
-- **Existing issue found, not fixed:** `/` fails axe `color-contrast` (lime `#78be20` on white, `.home-family-count` and the
-  families "See all products" link), so `smoke.spec.ts` fails for `/` and `/ar`. It comes from `claude/homepage-taste`.
+- **Homepage contrast (resolved):** the lime-on-white `color-contrast` failure this branch found on `/` was fixed on `main`
+  by the site-wide polish; `smoke.spec.ts` passes for `/` and `/ar`.
+
+### Software polish and four solution pages (`claude/pages-polish`, 22 Nov 2026)
+
+Merges `claude/software-pages`, polishes it to the site system, and builds `/solutions/{access-control, entrance-parking,
+door-locks, pos}` on one data-driven T3 template (Master Plan 12 #16–19, 14; Design Doc 8, 10; skill `motion.md`).
+`claude/solution-pages` was **ported, not merged**: it built the same pages from the taste kit's own markup, a second design
+system (CLAUDE.md §2). `claude/homepage-unslop` is superseded by what is on `main` and was left out.
+
+- **Software:** shared `.ui-card` cards, the shared button pair and filter chips with the catalogue's count tick. The
+  terminals diagram (SIGNAL) draws lines only to terminals the platform's own data lists, so BioTime Cloud no longer
+  borrows BioTime 9.5's. The Download Centre deals no moment: the data supports none honestly.
+- **T3 template:** `defineSolutionPage({ slug, family, hero, products, methods?, software?, quote })` in
+  `src/content/solutionPages.ts` (API documented there, unit-tested); each section takes its page data and copy.
+- **One dealt moment per page, each the trade's own:** access control (UNLOCK, the door kit), entrance and parking
+  (SIGNAL, a card opens the swing lane and the plate reader lifts the boom), door locks (UNLOCK, TL800 fingerprint, the
+  bolt draws back, ZSmart logs "Opened"), POS (VERIFY on the ZKBio900 pad, a receipt from the ZKP8001). Each plays once
+  and rests on its last frame under reduced motion. The drawings stay LTR in Arabic, as the door drawing does.
+- **Truth:** counts come from the catalogue and are labelled with the listing's own filter names ("All 22 in
+  Turnstiles & gates" includes non-turnstiles, so no card claims its own count; the hotel-lock filter includes the CR60W
+  reader, so that card names its filter). Barriers without a boom length show "Specs on request". POS shows no prices.
+  `zkbio810` (mistitled as ZKAIO1000 in the import) is excluded. Door locks and POS carry no software section: the
+  software their specs name is not in the software catalogue.
+- **POS photographs are 350 px wide;** the hero caps them at their own width so they never upscale.
+- **Preview navigation:** all five solution slugs are built, so the fallback that sent unbuilt solution slugs to product
+  families was removed.
+- **Spec hardening, no assertion weakened:** axe now audits the settled frame on software pages (it measured the hero
+  mid-fade); keyboard and style reads wait for the streamed listing and hydration.
+- **Arabic copy on all four pages is a draft** for AIMS's reviewer (Design Doc 17).
+- **Template follow-ups (not done):** a type-count helper and the moment step list are repeated in the door locks and POS
+  modules; both could move into the template.
