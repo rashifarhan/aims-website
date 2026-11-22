@@ -51,6 +51,18 @@ export const CONTACT = {
 /** The three published places to visit or call: head office, Deira showroom, Abu Dhabi office. */
 export const LOCATION_LINES = ["headOffice", "showroom", "abuDhabi"] as const;
 
+/** Published delivery markets recorded in PRODUCT.md and Master Plan ch. 11; these are not office locations. */
+export const DELIVERY_MARKETS = [
+  "Oman",
+  "Bahrain",
+  "Kuwait",
+  "Kenya",
+  "Tanzania",
+  "Cameroon",
+  "Nigeria",
+  "Uganda",
+] as const;
+
 export const whatsappUrl = (text?: string, number: string = CONTACT.whatsapp) =>
   `https://wa.me/${number}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 

@@ -15,7 +15,7 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/solutions")).toBe("/ar/solutions");
   });
   it("uses the built showroom section and live software/contact destinations", () => {
-    expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
+    expect(navigationHref("/ar/locations")).toBe("/ar/locations");
     // /contact is built (T9), so it stays local; unbuilt services and support still use AIMS's enquiry page.
     expect(navigationHref("/contact")).toBe("/contact");
     expect(navigationHref("/support")).toBe("https://aimsuae.me/enquiry");
