@@ -32,26 +32,29 @@ export async function HomeProof() {
             ))}
           </dl>
         </div>
-        <div className="home-proof-reviews">
-          <div className="home-section-heading">
-            <h3 className="home-subtitle">{proof.reviews}</h3>
-            <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-text-link">
-              {reviews.read}
-            </ExternalLink>
+        {/* Harden: the excerpts are AIMS's published reviews; with none on file the block is left out, not shown empty. */}
+        {CUSTOMER_REVIEWS.length > 0 && (
+          <div className="home-proof-reviews">
+            <div className="home-section-heading">
+              <h3 className="home-subtitle">{proof.reviews}</h3>
+              <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-text-link">
+                {reviews.read}
+              </ExternalLink>
+            </div>
+            <ul className="home-quote-row">
+              {CUSTOMER_REVIEWS.map((review) => (
+                <li key={review.name}>
+                  <figure lang="en" dir="ltr">
+                    <blockquote>
+                      <p>“{review.excerpt}”</p>
+                    </blockquote>
+                    <figcaption>{review.name}</figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="home-quote-row">
-            {CUSTOMER_REVIEWS.map((review) => (
-              <li key={review.name}>
-                <figure lang="en" dir="ltr">
-                  <blockquote>
-                    <p>“{review.excerpt}”</p>
-                  </blockquote>
-                  <figcaption>{review.name}</figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </div>
+        )}
       </div>
     </section>
   );
