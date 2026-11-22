@@ -26,6 +26,8 @@ Client approval: 22 November 2026, “Expand to resolve shared rules”. The sto
 
 ## Remaining evidence
 
+**Audit provenance after upstream integration:** OPEN29 and the raw files below were captured from the Locations working tree based on 4f6d521, before the subsequent main merges. Main c433994 later changed the footer to disclosures and added site-wide polish; its current DOM is not represented by those historical 29 findings. A final refresh returned `GATE: OFF (no build active)`. The skill explicitly says to report OFF and not rerun. No fresh stock-gate PASS or current OPEN29 count is claimed. Current integration evidence is the fresh 253-check browser suite (15 existing viewport exclusions), 84 unit tests, source review, formatting and production build; the named project policy and raw historical audit remain reviewable.
+
 The complete unmodified gate log is preserved in `locations-raw-gate.txt`, including layout-check findings. `locations-raw-findings.json` contains the consistency checker's unmerged per-viewport records.
 
 Layout-check `edge-left` / `edge-right` only on `footer.closing` directory columns are the same directory-column classification above: these are columns inside the full-width wrap, not blocks intended to span its entire width.

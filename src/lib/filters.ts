@@ -87,8 +87,22 @@ function matches(card: ProductCard, s: FilterState, skip?: FacetGroup): boolean 
  * restricts and orders the results; null means no search.
  */
 export function applyFilters(cards: ProductCard[], s: FilterState, searchOrder: string[] | null): ProductCard[] {
-  const base = searchOrder ? orderBy(cards, searchOrder) : cards;
+  const base = searchOrder ? orderBy(cards, searchOrder) : defaultOrder(cards);
   return base.filter((c) => matches(c, s));
+}
+
+const FAMILY_RANK = new Map<string, number>(FAMILIES.map((f, i) => [f.slug, i]));
+const completeness = (c: ProductCard) => (c.image && c.facts.length > 0 ? 0 : 1);
+
+/**
+ * Order with no search (site polish T5): cards with a photo and published key facts first, so the first
+ * screen isn't a row of "Specs on request"; then families in FAMILIES order. Array sort is stable, so
+ * import order holds within each group. It only reorders: the same products appear.
+ */
+export function defaultOrder(cards: ProductCard[]): ProductCard[] {
+  return [...cards].sort(
+    (a, b) => completeness(a) - completeness(b) || (FAMILY_RANK.get(a.family) ?? 0) - (FAMILY_RANK.get(b.family) ?? 0),
+  );
 }
 
 function orderBy(cards: ProductCard[], slugs: string[]): ProductCard[] {

@@ -8,9 +8,9 @@ Scope follows Master Plan ch. 12/14/16 and Design Doc 10.1 T2: published UAE con
 
 Design decisions: retain the shared grid, palette, shell and real SpeedFace photograph. The approved Design Doc 8.3 Dubai delivery-route drawing is reused as the domain moment instead of the randomly dealt iris wipe, which would not explain delivery. It runs once when the actual map becomes visible, pauses offscreen, and rests under reduced motion. Hero entrance and link/press feedback use transform and opacity. FAQs are grouped with UAE contacts to avoid a sparse separate screen.
 
-Validation after rebasing onto main `eeeb551`: `pnpm check` passes 75 unit tests; formatting and production build pass. The full production browser suite passes 183 checks, with 11 existing viewport exclusions and zero axe violations. New checks cover both locales, 320/390/768/1024/1440 layouts, country persistence without URL parameters, once-only/reduced map motion and hovered CTA contrast. The search test now uses the active preview URL instead of hardcoded port 3100. The merged contact page, contact-specific WhatsApp routing and current disclosure keyboard behavior are preserved.
+Validation after integrating main c433994: check passes 84 unit tests; formatting and production build pass. The full production browser suite passes 253 checks, with 15 inherited viewport exclusions and zero axe violations, including hovered CTA contrast. Both locales, 320/390/768/1024/1440 layouts, country persistence and once-only/reduced map motion are covered. Upstream footer disclosures, external search labels, local contact fallbacks and site-wide polish are preserved.
 
-The unchanged design gate reports **GATE: OPEN 29**. After the client approved reconciling the shared rules, genuine defects were fixed (search labeling, wordmark accessible name, focus outlines, FAQ alignment, section height and hover contrast). Exact remaining findings and project decisions are preserved in `docs/design-checks/locations-raw-gate.txt`, `locations-raw-findings.json` and `locations-gate-decisions.md`. CLAUDE.md records this release's explicit policy: the reviewed named exceptions satisfy its project gate, while the raw kit result remains OPEN. No kit file or check was edited, and no raw PASS is claimed. The final hovered-state axe regression passes all six focused checks.
+The historical design audit is **GATE: OPEN 29**, captured before main’s latest footer polish. The final refresh returned **GATE: OFF (no build active)**; the skill says to report OFF without rerunning. No fresh stock-gate PASS is claimed. After the client approved reconciling the shared rules, genuine defects were fixed (search labeling, wordmark accessible name, focus outlines, FAQ alignment, section height and hover contrast). Exact remaining findings and project decisions are preserved in `docs/design-checks/locations-raw-gate.txt`, `locations-raw-findings.json` and `locations-gate-decisions.md`. CLAUDE.md records this release's explicit policy: the reviewed named exceptions satisfy its project gate, while the raw kit result remains OPEN. No kit file or check was edited, and no raw PASS is claimed. The final hovered-state axe regression passes all six focused checks.
 
 Redesign of [aimsuae.me](https://aimsuae.me) for AIMS Security Systems Trading LLC, a ZKTeco distributor in Dubai.
 It is a hiring assignment: build AIMS a better site than its competitor's. The strategy, scope and design live in
@@ -166,9 +166,9 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 
 ### Quote decisions
 
-1. **Labels follow the design review**: "Review quote request" while assembling (mobile bar), then "Continue to
-   WhatsApp" and "Send enquiry" side by side. WhatsApp is not presented as "send", because the buyer still sends it
-   in WhatsApp.
+1. **Labels follow the design review**: "Review quote request" while assembling (mobile bar), then "Send enquiry"
+   (the filled main action, first) and "Continue to WhatsApp" (outline). WhatsApp is not presented as "send",
+   because the buyer still sends it in WhatsApp. Site polish (22 Nov 2026) put the real send first.
 2. **Fields adapt to the need** (Design Doc T8): supply → city, timing · installation → emirate (required), site,
    doors, users, existing system · abroad → country (required), city or port, documents. The need and these fields
    are saved with the list for 14 days; **contact details are never stored**.
@@ -180,7 +180,10 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 5. **Contact links are guarded** (Plan risk R5). Every WhatsApp, phone and email link (product pages, menu, footer,
    quote) opens a preview notice showing who would be contacted and the exact message, with Copy and a deliberate
    "Open anyway". Set `NEXT_PUBLIC_LIVE_CONTACT=true` in production to make them direct links.
-6. The "signal lines converge into ✓" animation on send (Design Doc 8, SPEC) is not built yet; the receipt is static.
+6. **VERIFY on send is built** (Design Doc 8, "signal lines converge into ✓"): when the receipt mounts, three short
+   lines labelled with the request's items, need and reply channel draw into a green-700 disc and the hero's tick
+   strokes in, once, then stands (`VerifyMark.tsx`, `quote.css`; CSS only). Reduced motion shows the final frame,
+   and focus still moves to the receipt heading.
 
 ### Solutions hub decisions (Design Doc 10.1 T2; Master Plan ch. 12, 14)
 
@@ -290,6 +293,52 @@ leaves faster than it arrives. Tokens: `--duration-hover` 150ms, `--duration-dro
   - Inter, which is the Design Doc's face.
 
   The eyebrow above the h1 carries the approved claim; moving it needs AIMS's agreement.
+
+### Site-wide polish (Taste + Impeccable + Emil, 22 Nov 2026)
+
+One time-boxed pass over every built template: a shared step first, then four templates in parallel, then QA.
+
+- **Shared.**
+  - Keyboard focus is visible in every text field.
+  - One card (`.ui-card`) and one button set (outline and small variants) in `ui/actions.css`.
+  - The footer's link groups fold on phones; phones and addresses stay open.
+  - Services and Support link to `/contact`.
+  - Breadcrumbs are 44px targets, headings balance, and the outward arrow mirrors in Arabic and stays with its label.
+- **Product.**
+  - No horizontal scroll at 390px. That had been 12 pages, caused by long imported words and spec tables.
+  - English data stays left-to-right on Arabic pages.
+  - Add to quote presses and announces the new quantity.
+  - "Often fitted with" items are cards with an outline Add.
+  - A model-code chip, and the **Signal** moment "How it connects": lines draw from the model code to the
+    connections and door hardware the product's own spec lists. It appears only with at least 2 items and never
+    infers software.
+- **Listing and compare.**
+  - Shared card with an outline Add and the model code in mono.
+  - Products with a photo and key facts come first.
+  - Sticky filter rail on desktop, equal compare columns, a result-count tick, and compare-tray thumbnails.
+- **Quote and contact.**
+  - `?need=install|export` opens the site-details form.
+  - Arabic phone examples stay left-to-right.
+  - Shared buttons, with Send enquiry as the main action.
+  - The **Verify** moment on send: lines converge into a check.
+  - Contact uses the page container and gains the reach map band and "answered on" lines.
+- **404, hub and time attendance.**
+  - Unknown URLs render the localized 404 inside the shell (status 404), with a search, model chips and the
+    **Unlock** moment reversed ("Access denied").
+  - The header quote badge flashes a check on add.
+  - Hub cards use the shared card.
+  - The time attendance hero shows the F18 photo and enters once; under reduced motion the story keeps its
+    natural height.
+- **QA.**
+  - Sweep: 344 routes at 1440 and 390, 688 loads: 0 overflow, 0 broken images, 0 console errors, one h1 each.
+  - Full e2e suite and the performance budget pass.
+- **Open (P1, already on `main`):** `/product/<unknown>` and `/products/<unknown>` answer 200 with the not-found
+  UI. Under Cache Components the prerendered shell is sent before the page's `notFound()`. Fixing it needs a
+  proxy-level check against the generated slug list.
+- **Recommendations, not done in this pass:**
+  - Clean the importer: summaries cut mid-sentence, SEO filler, glued words and "✔" runs in overviews.
+  - Restructure the Solutions menu, which repeats Products.
+  - Make the time attendance story a timed sequence instead of scroll-driven.
 
 ## Not yet confirmed by AIMS
 

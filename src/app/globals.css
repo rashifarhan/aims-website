@@ -148,6 +148,18 @@
 }
 
 @layer base {
+  /* Taste and Impeccable: headings break into balanced lines, paragraphs avoid a lone last word.
+     In the base layer, so any component can still override it. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;

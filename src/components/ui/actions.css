@@ -117,3 +117,79 @@
     transform: none;
   }
 }
+
+/*
+ * Outline and small variants of the one button (site polish, 22 Nov 2026). A card's own action uses the
+ * outline so a grid never shows a wall of filled green (DESIGN.md: one main action per screen; Design Doc
+ * 9 Button). Same radius, weight, step and press as .home-button.
+ */
+.home-button-outline {
+  border: 1px solid var(--color-green-700);
+  background: var(--color-paper);
+  color: var(--color-green-700);
+  box-shadow: none;
+}
+.home-button-outline::before {
+  background: var(--color-green-50);
+}
+.home-button-outline:hover {
+  background: var(--color-paper);
+}
+.home-button-sm {
+  min-height: 2.75rem;
+  padding-inline: 1.25rem;
+  gap: 0.5rem;
+  font-size: var(--text-small);
+  box-shadow: none;
+}
+.home-button:disabled,
+.home-button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/*
+ * The one card (DESIGN.md Plinth Rule), shared beyond the homepage: hairline, resting shadow; a linked
+ * or interactive card lifts 2px to the hover shadow and settles when pressed. Photos inside zoom 1.03.
+ */
+.ui-card {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-1);
+  transition:
+    box-shadow var(--duration-card) var(--ease-aims),
+    border-color var(--duration-card) var(--ease-aims),
+    transform var(--duration-card) var(--ease-aims);
+}
+.ui-card-photo img {
+  transition: transform var(--duration-card) var(--ease-aims);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ui-card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+  }
+  .ui-card-interactive:hover .ui-card-photo img {
+    transform: scale(1.03);
+  }
+}
+.ui-card-interactive:active {
+  transform: translateY(0) scale(0.99);
+}
+.ui-card-interactive:has(:focus-visible) {
+  box-shadow: var(--shadow-2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-card,
+  .ui-card-photo img {
+    transition: none;
+  }
+  .ui-card-interactive:hover,
+  .ui-card-interactive:active,
+  .ui-card-interactive:hover .ui-card-photo img {
+    transform: none;
+  }
+}

@@ -16,6 +16,8 @@ type Props = {
   shortcut?: boolean;
   entries: SearchEntry[];
   labels: Dictionary["search"];
+  /** The page shows its own visible <label for={id}>, so this one stays out (one label per field). */
+  labelledOutside?: boolean;
 };
 
 /** Real GET fallback plus a local, keyboard-operated 150ms combobox (Design Doc 8.4; AT-03). */
@@ -28,6 +30,7 @@ export function HeaderSearch({
   shortcut = false,
   entries,
   labels,
+  labelledOutside = false,
 }: Props) {
   const { ref, query, setQuery, results, resolved, open, setOpen, active, setActive, listId, expanded, select } =
     useHeaderSearch(entries, id, shortcut);
@@ -41,9 +44,14 @@ export function HeaderSearch({
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}
     >
-      <label htmlFor={id} className="absolute start-4 -top-2 z-10 bg-paper px-1 text-caption font-medium text-ink-600">
-        {placeholder}
-      </label>
+      {!labelledOutside && (
+        <label
+          htmlFor={id}
+          className="absolute start-4 -top-2 z-10 bg-paper px-1 text-caption font-medium text-ink-600"
+        >
+          {placeholder}
+        </label>
+      )}
       <SearchIcon
         width={18}
         height={18}

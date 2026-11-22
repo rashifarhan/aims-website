@@ -16,6 +16,7 @@ import { MomentTrigger } from "@/components/home/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";
+import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();

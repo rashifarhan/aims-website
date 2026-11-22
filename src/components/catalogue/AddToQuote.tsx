@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
@@ -15,19 +15,41 @@ export type AddToQuoteLabels = {
   increase: string;
 };
 
-type Props = { slug: string; name: string; labels: AddToQuoteLabels; size?: "md" | "sm"; className?: string };
+type Props = {
+  slug: string;
+  name: string;
+  labels: AddToQuoteLabels;
+  size?: "md" | "sm";
+  /** A card's own action is the outline button, so a grid never shows a wall of filled green (DESIGN.md). */
+  variant?: "primary" | "outline";
+  className?: string;
+};
 
 /**
  * "Add to quote" that becomes a quantity stepper + "✓ In quote" once
  * added (Design Doc 9). Never "Buy" or "Order". Changes are announced.
  */
-export function AddToQuote({ slug, name, labels, size = "sm", className = "" }: Props) {
+export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "" }: Props) {
   const quote = useQuote();
   const line = quote.lines.find((l) => l.kind === "product" && l.slug === slug);
   const [status, setStatus] = useState("");
+  const root = useRef<HTMLDivElement>(null);
+  const justAdded = useRef(false);
+
+  // The button unmounts once the line exists; keep keyboard focus on the control that replaced it
+  // (WCAG 2.4.3) instead of dropping it to the page. The "+" button, not the field, so a phone doesn't
+  // open its keyboard.
+  useEffect(() => {
+    if (!line || !justAdded.current) return;
+    justAdded.current = false;
+    root.current?.querySelector<HTMLButtonElement>("button:not(:disabled)")?.focus();
+  }, [line]);
+
+  // The outline is always the small one; it only appears inside cards.
+  const button = `home-button ${variant === "outline" ? "home-button-outline home-button-sm" : size === "sm" ? "home-button-sm" : ""}`;
 
   return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-2 ${className}`}>
+    <div ref={root} className={`flex flex-wrap items-center gap-x-3 gap-y-2 ${className}`}>
       {line ? (
         <>
           <QtyStepper
@@ -49,10 +71,11 @@ export function AddToQuote({ slug, name, labels, size = "sm", className = "" }: 
         <button
           type="button"
           onClick={() => {
+            justAdded.current = true;
             dispatchQuote({ type: "add", slug, qty: 1 });
             setStatus(fmt(labels.addedAnnounce, { name, qty: 1 }));
           }}
-          className={`inline-flex items-center rounded-pill bg-green-700 px-4 font-semibold text-white transition-colors duration-(--duration-fast) hover:bg-green-800 ${size === "md" ? "h-11" : "h-11 text-sm sm:h-9"}`}
+          className={button}
         >
           {labels.add}
         </button>

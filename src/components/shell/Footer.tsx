@@ -7,6 +7,7 @@ import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED, whatsappUrl } from "@/lib/site
 import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { Wordmark } from "./Wordmark";
+import { FooterLinks } from "./FooterLinks";
 
 /**
  * Footer (Design Doc ch. 6): four link columns, the three locations with
@@ -67,7 +68,7 @@ export async function Footer() {
   return (
     <footer className="closing mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
       <div className="wrap page-container pt-12 pb-8 lg:pt-16">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_2fr]">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_2fr]">
           <div>
             <Wordmark href={href("/")} />
             <p className="mt-3 max-w-xs text-sm text-ink-600">
@@ -132,29 +133,10 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
-            {columns.map((c) => (
-              <nav key={c.title} aria-label={c.title}>
-                <h2 className="text-sm font-semibold text-ink">{c.title}</h2>
-                <ul className="mt-3 space-y-1">
-                  {c.links.map((l) => (
-                    <li key={l.href}>
-                      <Link
-                        externalLabel={t.home.external}
-                        href={l.href}
-                        className="inline-flex min-h-8 items-center text-sm text-ink-700 hover:text-green-700"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ))}
-          </div>
+          <FooterLinks columns={columns} externalLabel={t.home.external} />
         </div>
 
-        <div className="mt-12 border-t border-line pt-6">
+        <div className="mt-10 border-t border-line pt-6 sm:mt-12">
           <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {POPULAR_SEARCHES.map((q) => (

@@ -150,6 +150,7 @@
 }
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
+/* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
 .home-reach .home-section {
   padding-block: calc(var(--home-section-space) * 1.25);
 }
@@ -158,64 +159,6 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 4rem; /* the proof split's lines: both splits share one column edge (taste layout-v4) */
   align-items: start;
-}
-.reach-map {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.reach-land {
-  opacity: 0.55;
-}
-.reach-stop-near {
-  stop-color: var(--color-paper);
-}
-.reach-stop-far {
-  stop-color: var(--color-paper);
-  stop-opacity: 0.08;
-}
-.reach-route {
-  stroke-dasharray: 1;
-}
-/* The travelling pulses and the pulsing ring were ambient loops (taste motion.md: none); they rest hidden. */
-.reach-pulse {
-  display: none;
-}
-.reach-ring {
-  opacity: 0.25;
-}
-.reach-labels text {
-  font-size: var(--text-map-label);
-  fill: var(--color-night-muted);
-}
-.reach-labels .reach-label-strong {
-  font-weight: 600;
-  fill: var(--color-night-text);
-}
-.reach-labels .reach-label-region {
-  font-weight: 600;
-  fill: var(--color-lime);
-}
-:root[data-effects="on"] .home-reach:not([data-played]) .reach-route {
-  stroke-dashoffset: 1;
-}
-:root[data-effects="on"] .home-reach[data-played] .reach-route {
-  animation: door-draw 1400ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(2) .reach-route {
-  animation-delay: 120ms;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(3) .reach-route {
-  animation-delay: 240ms;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(4) .reach-route {
-  animation-delay: 360ms;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(5) .reach-route {
-  animation-delay: 480ms;
-}
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(6) .reach-route {
-  animation-delay: 600ms;
 }
 .home-place-cards {
   display: grid;
@@ -378,9 +321,6 @@
   .home-place-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .home-reach-map {
-    order: -1;
-  }
 }
 @media (max-width: 767px) {
   .home-place-cards {
@@ -390,13 +330,6 @@
 @media (max-width: 639px) {
   :root {
     --text-home-closing: 2.125rem;
-  }
-  /* The map draws at about half size on a phone; labels scale up to stay near 13px. */
-  .reach-labels text {
-    font-size: var(--text-map-label-mobile);
-  }
-  .home-reach-map {
-    margin-inline: calc(var(--page-gutter) * -0.5);
   }
   .home-families .home-section,
   .home-reach .home-section {

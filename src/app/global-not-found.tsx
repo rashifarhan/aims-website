@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { inter, plexArabic } from "./fonts";
 import "./globals.css";
+import "@/components/ui/actions.css";
 
 /**
- * 404 for unmatched URLs. The root layout sits under a dynamic [lang]
- * segment, so Next renders this page directly instead (docs: global-not-found).
- * It cannot know the locale, so it carries one Arabic line.
+ * Last-resort 404. Unknown paths normally render [lang]/not-found inside the shell through the
+ * [lang]/[...missing] catch-all; this page only answers what never reaches a locale (docs:
+ * global-not-found). It cannot know the locale, so it carries one Arabic line.
  */
 export const metadata: Metadata = {
   title: "Page not found | AIMS Security Systems",
@@ -17,9 +18,15 @@ export default function GlobalNotFound() {
     <html lang="en" className={`${inter.variable} ${plexArabic.variable}`}>
       <body>
         <main id="main" className="page-container py-24">
-          <p className="text-xl font-bold tracking-wide">
-            AIMS<span className="text-lime">.</span>
-          </p>
+          <Link
+            href="/"
+            aria-label="AIMS Security Systems, home"
+            className="inline-flex min-h-11 items-center text-xl font-bold tracking-wide"
+          >
+            <span dir="ltr">
+              AIMS<span className="text-lime">.</span>
+            </span>
+          </Link>
           <h1 className="mt-10 text-3xl font-bold tracking-tight">Page not found</h1>
           <p className="mt-3 max-w-lg text-ink-600">
             The page may have moved. Try searching for a model code, or browse all products.
@@ -27,10 +34,7 @@ export default function GlobalNotFound() {
           <p lang="ar" dir="rtl" className="mt-2 max-w-lg font-arabic text-ink-600">
             الصفحة غير موجودة. تصفح جميع المنتجات.
           </p>
-          <Link
-            href="/products"
-            className="mt-8 inline-flex h-11 items-center rounded-pill bg-green-700 px-5 font-medium text-white hover:bg-green-800"
-          >
+          <Link href="/products" className="home-button mt-8">
             Browse products
           </Link>
         </main>

@@ -1,0 +1,55 @@
+/*
+ * The message preview (MessagePreview.tsx): the page's own face, not <pre>'s monospace, and each line
+ * takes the direction of its first letter, so Arabic and model lines both read right (Design Doc 13).
+ */
+.message-preview {
+  font-family: inherit;
+  unicode-bidi: plaintext;
+}
+
+/*
+ * VERIFY on send (README Quote decisions 6; Design Doc 8 "signal lines converge into ✓"; taste
+ * motion.md: a moment plays once, then stands). The receipt mounts after "Send enquiry", so the
+ * sequence runs once on insertion: the three lines draw into the disc (stroke-dashoffset), the disc
+ * settles (transform, opacity), the tick strokes in. The resting styles are the final frame, so with
+ * reduced motion nothing is hidden and nothing moves.
+ */
+.verify-line,
+.verify-tick {
+  stroke-dasharray: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .verify-line {
+    animation: verify-draw 520ms var(--ease-aims) both;
+  }
+  .verify-line:nth-child(2) {
+    animation-delay: 90ms;
+  }
+  .verify-line:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  .verify-disc {
+    animation: verify-disc 320ms 560ms var(--ease-aims) both;
+  }
+  .verify-tick {
+    animation: verify-draw 360ms 820ms var(--ease-aims) both;
+  }
+}
+@keyframes verify-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes verify-disc {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

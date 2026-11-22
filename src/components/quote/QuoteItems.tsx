@@ -9,7 +9,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { lineKey, type QuoteLine } from "@/lib/quote/store";
 import { dispatchQuote } from "@/lib/quote/useQuote";
-import { inputClass } from "./fields";
+import { DescribeItem } from "./DescribeItem";
 
 export type CatalogEntry = { name: string; model: string; image: string | null };
 
@@ -21,14 +21,13 @@ type Props = {
   productHref: (slug: string) => string;
   productsHref: string;
   error?: string;
+  preset?: "install" | "export";
 };
 
 /** Panel 1: quote lines with steppers, remove + undo (5 s), and free-text items. */
-export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHref, error }: Props) {
+export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHref, error, preset }: Props) {
   const [removed, setRemoved] = useState<{ line: QuoteLine; index: number; name: string } | null>(null);
   const undoTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const [describing, setDescribing] = useState(false);
-  const [text, setText] = useState("");
 
   const nameOf = (l: QuoteLine) => (l.kind === "product" ? (catalog[l.slug]?.name ?? l.slug) : l.text);
 
@@ -37,13 +36,6 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
     setRemoved({ line, index, name: nameOf(line) });
     clearTimeout(undoTimer.current);
     undoTimer.current = setTimeout(() => setRemoved(null), 5000);
-  };
-
-  const addCustom = () => {
-    if (!text.trim()) return;
-    dispatchQuote({ type: "addCustom", id: `c-${Date.now()}`, text, qty: 1 });
-    setText("");
-    setDescribing(false);
   };
 
   return (
@@ -110,7 +102,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
                 dispatchQuote({ type: "restore", line: removed.line, index: removed.index });
                 setRemoved(null);
               }}
-              className="font-semibold text-green-700 underline underline-offset-2"
+              className="home-secondary"
             >
               {t.undo}
             </button>
@@ -124,54 +116,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
         </p>
       )}
 
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
-        <Link
-          href={productsHref}
-          className="inline-flex min-h-11 items-center font-semibold text-green-700 underline underline-offset-2"
-        >
-          + {t.addProduct}
-        </Link>
-        {!describing && (
-          <button
-            type="button"
-            id="quote-items"
-            onClick={() => setDescribing(true)}
-            className="inline-flex min-h-11 items-center text-start font-semibold text-green-700 underline underline-offset-2"
-          >
-            + {t.describe}
-          </button>
-        )}
-      </div>
-
-      {describing && (
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-          <label htmlFor="quote-items" className="sr-only">
-            {t.describeLabel}
-          </label>
-          <input
-            id="quote-items"
-            autoFocus
-            value={text}
-            maxLength={200}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                addCustom();
-              }
-            }}
-            placeholder={t.describePlaceholder}
-            className={inputClass}
-          />
-          <button
-            type="button"
-            onClick={addCustom}
-            className="h-12 shrink-0 rounded-pill border border-ink px-5 font-semibold text-ink hover:bg-ink hover:text-white"
-          >
-            {t.describeAdd}
-          </button>
-        </div>
-      )}
+      <DescribeItem t={t} productsHref={productsHref} preset={preset} />
     </div>
   );
 }

@@ -1,22 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useContactGuard } from "@/components/contact/ContactGuard";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { fmt } from "@/i18n/format";
+import { countLabel, fmt } from "@/i18n/format";
 import { DemoAdapter, type QuoteReceipt } from "@/lib/quote/adapter";
 import { messageLabels } from "@/lib/quote/labels";
 import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
-import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError, type FieldId } from "@/lib/quote/request";
+import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 import { destinationFromSearch, needFromSearch } from "@/lib/quote/context";
 import { CONTACT, LIVE_CONTACT, whatsappUrl } from "@/lib/site";
-import { DetailsPanel } from "./DetailsPanel";
-import { ErrorSummary } from "./ErrorSummary";
-import { Panel } from "./fields";
-import { NeedPanel } from "./NeedPanel";
-import { QuoteItems, type CatalogEntry } from "./QuoteItems";
+import { EmptyQuote } from "./EmptyQuote";
+import { MobileReviewBar } from "./MobileReviewBar";
+import type { CatalogEntry } from "./QuoteItems";
+import { QuotePanels } from "./QuotePanels";
 import { QuoteSummary } from "./QuoteSummary";
 import { Receipt } from "./Receipt";
 
@@ -25,16 +23,6 @@ type Props = {
   t: Dictionary["quote"];
   stepper: { qty: string; decrease: string; increase: string };
   hrefs: { products: string; productBase: string };
-};
-
-const FIELD_TARGET: Record<FieldId, string> = {
-  items: "quote-items",
-  need: "need",
-  emirate: "quote-emirate",
-  country: "quote-country",
-  name: "quote-name",
-  phone: "quote-phone",
-  email: "quote-email",
 };
 
 const noopSubscribe = () => () => {};
@@ -68,10 +56,6 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   const [focusErrors, setFocusErrors] = useState(0);
 
   const errors: FieldError[] = attempt ? validateRequest(quote.lines, context, contact, attempt) : [];
-  const errorText = (field: FieldId) => {
-    const e = errors.find((x) => x.field === field);
-    return e ? t.errors[e.code] : undefined;
-  };
 
   useEffect(() => {
     if (focusErrors) summaryRef.current?.focus();
@@ -105,11 +89,11 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   const message = buildMessage("whatsapp");
 
   const units = quote.lines.reduce((n, l) => n + l.qty, 0);
-  const countText =
-    quote.lines.length === 1
-      ? fmt(t.itemsSummaryOne, { units })
-      : fmt(t.itemsSummary, { count: quote.lines.length, units });
-
+  // Each count takes its own singular or plural, so one line of one unit reads "1 item · 1 unit".
+  const countText = fmt(t.itemsSummary, {
+    items: countLabel(quote.lines.length, t.itemOne, t.itemMany),
+    units: countLabel(units, t.unitOne, t.unitMany),
+  });
   const fail = (mode: "enquiry" | "whatsapp") => {
     setAttempt(mode);
     if (validateRequest(quote.lines, context, contact, mode).length) {
@@ -142,6 +126,8 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
         <Receipt
           receipt={receipt}
           message={sent}
+          // Validation passed, so the need is set; the fallback only satisfies the type.
+          signals={[countText, context.need ? t.needs[context.need] : "", t.replyChannels[receipt.channel]]}
           t={t}
           productsHref={hrefs.products}
           onEdit={() => setReceipt(null)}
@@ -155,80 +141,31 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
     );
   }
 
-  if (!quote.lines.length && !attempt) {
-    return (
-      <div className="mt-8 rounded-lg border border-line bg-paper-2 p-6 sm:p-8">
-        {/* Arriving from "Request an installation / export quote": say what to do first, since the
-            need is already chosen and the buyer may not know any model yet (critique, 22 Nov 2026). */}
-        {context.need === "install" || context.need === "export" ? (
-          <p className="mb-4 max-w-2xl text-base text-ink-700">
-            {context.need === "install" ? t.presetInstall : t.presetExport}
-          </p>
-        ) : null}
-        <p className="text-lg font-semibold text-ink">{t.empty}</p>
-        <Link
-          href={hrefs.products}
-          className="mt-4 inline-flex h-11 items-center rounded-pill bg-green-700 px-5 font-semibold text-white hover:bg-green-800"
-        >
-          {t.browse}
-        </Link>
-        <div className="mt-6 border-t border-line pt-4">
-          <QuoteItems
-            lines={[]}
-            catalog={catalog}
-            t={t}
-            stepper={stepper}
-            productHref={(s) => `${hrefs.productBase}/${s}`}
-            productsHref={hrefs.products}
-          />
-        </div>
-      </div>
-    );
-  }
+  // An installation or export link (/quote?need=install) opens the form even with nothing listed (site
+  // polish T7); once any need is chosen the form stays, so changing it never swaps back to this state.
+  if (!quote.lines.length && !attempt && !context.need) return <EmptyQuote t={t} productsHref={hrefs.products} />;
 
   return (
     <div className="mt-8 pb-24 lg:pb-0">
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start lg:gap-8">
-        <div className="space-y-4">
-          {errors.length > 0 && (
-            <ErrorSummary
-              ref={summaryRef}
-              heading={errors.length === 1 ? t.errorsOne : fmt(t.errorsHeading, { count: errors.length })}
-              errors={errors.map((e) => ({ fieldId: FIELD_TARGET[e.field], message: t.errors[e.code] }))}
-            />
-          )}
-          <Panel n={1} id="panel-items" title={`${t.itemsHeading} · ${quote.lines.length}`}>
-            <QuoteItems
-              lines={quote.lines}
-              catalog={catalog}
-              t={t}
-              stepper={stepper}
-              productHref={(s) => `${hrefs.productBase}/${s}`}
-              productsHref={hrefs.products}
-              error={errorText("items")}
-            />
-          </Panel>
-          <Panel n={2} id="panel-need" title={t.needHeading}>
-            <NeedPanel
-              context={context}
-              t={t}
-              errors={{ need: errorText("need"), emirate: errorText("emirate"), country: errorText("country") }}
-            />
-          </Panel>
-          <Panel n={3} id="panel-details" title={t.detailsHeading}>
-            <DetailsPanel
-              contact={contact}
-              onChange={(patch) => setContact((c) => ({ ...c, ...patch }))}
-              t={t}
-              errors={{ name: errorText("name"), phone: errorText("phone"), email: errorText("email") }}
-            />
-          </Panel>
-        </div>
+        <QuotePanels
+          lines={quote.lines}
+          context={context}
+          contact={contact}
+          onContact={(patch) => setContact((c) => ({ ...c, ...patch }))}
+          errors={errors}
+          summaryRef={summaryRef}
+          catalog={catalog}
+          t={t}
+          stepper={stepper}
+          hrefs={hrefs}
+        />
         <div id="quote-summary" className="mt-4 lg:sticky lg:top-24 lg:mt-0">
           <QuoteSummary
             t={t}
             countText={countText}
             message={message}
+            reference={reference}
             onWhatsApp={onWhatsApp}
             onSend={onSend}
             headingRef={summaryHeading}
@@ -236,20 +173,7 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
         </div>
       </div>
 
-      {/* Mobile: sticky "n items · units · Review quote request" (Design Doc 6, review decision 2). */}
-      <div className="fixed inset-x-0 bottom-0 z-20 flex items-center gap-3 border-t border-line bg-paper/96 px-4 py-3 shadow-3 backdrop-blur-md lg:hidden">
-        <p className="min-w-0 flex-1 text-sm font-semibold text-ink tabular-nums">{countText}</p>
-        <button
-          type="button"
-          onClick={() => {
-            document.getElementById("quote-summary")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            summaryHeading.current?.focus({ preventScroll: true });
-          }}
-          className="h-11 shrink-0 rounded-pill bg-green-700 px-5 font-semibold text-white"
-        >
-          {t.reviewCta}
-        </button>
-      </div>
+      <MobileReviewBar countText={countText} label={t.reviewCta} headingRef={summaryHeading} />
     </div>
   );
 }

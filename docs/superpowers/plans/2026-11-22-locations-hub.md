@@ -24,3 +24,5 @@ Verification: 75 unit tests, production build, full 168-check browser suite (10 
 Integration: rebased onto main eeeb551 after the homepage/contact/solutions merge. Kept main's optional WhatsApp-number argument and local contact route. Fresh integrated validation: 75 unit tests, formatting, production build, 183 browser checks pass with 11 existing viewport-specific skips. Independent integration review found no unresolved defects.
 
 Delivery: pushed `codex/locations-hub`; PR #4 into main. Six isolated performance runs pass on the integrated release build. Preview: `http://localhost:3200/locations` and `/ar/locations`. No merge performed.
+
+Further integration: merged main c433994 (site-wide polish) into the feature branch without rewriting published history. Kept upstream footer disclosures and externally supplied search labels. Fresh validation passes 84 unit tests, formatting, production build and 253 browser checks (15 inherited viewport exclusions). The final gate refresh is OFF (no active build), reported without rerunning per the skill; historical OPEN29 provenance is explicit in the design decisions.

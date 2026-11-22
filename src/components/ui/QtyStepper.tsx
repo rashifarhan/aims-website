@@ -9,7 +9,8 @@ type Props = {
   label: string;
   decreaseLabel: string;
   increaseLabel: string;
-  size?: "md" | "sm";
+  /** "lg" matches the full-height .home-button it sits beside on the product page. */
+  size?: "lg" | "md" | "sm";
 };
 
 /**
@@ -24,8 +25,9 @@ export function QtyStepper({ value, onChange, label, decreaseLabel, increaseLabe
     if (Number.isFinite(n)) onChange(Math.min(MAX_QTY, Math.max(1, n)));
     setDraft(null);
   };
-  const box = size === "md" ? "h-11" : "h-11 sm:h-9";
-  const btn = size === "md" ? "w-11" : "w-11 sm:w-9";
+  // sm matches the 44px outline button it replaces on a card, so the card keeps its height (CLAUDE.md §4).
+  const box = { lg: "h-(--home-button-height)", md: "h-11", sm: "h-11" }[size];
+  const btn = { lg: "w-12", md: "w-11", sm: "w-11" }[size];
 
   return (
     <div className={`inline-flex ${box} items-stretch overflow-hidden rounded-pill border border-line-strong bg-paper`}>
@@ -34,7 +36,7 @@ export function QtyStepper({ value, onChange, label, decreaseLabel, increaseLabe
         onClick={() => onChange(Math.max(1, value - 1))}
         disabled={value <= 1}
         aria-label={decreaseLabel}
-        className={`${btn} grid place-items-center text-lg text-ink-700 hover:bg-paper-2 disabled:text-ink-300`}
+        className={`${btn} grid place-items-center text-lg text-ink-700 hover:bg-paper-2 active:bg-paper-3 disabled:text-ink-300`}
       >
         −
       </button>
@@ -53,7 +55,7 @@ export function QtyStepper({ value, onChange, label, decreaseLabel, increaseLabe
         type="button"
         onClick={() => onChange(Math.min(MAX_QTY, value + 1))}
         aria-label={increaseLabel}
-        className={`${btn} grid place-items-center text-lg text-ink-700 hover:bg-paper-2`}
+        className={`${btn} grid place-items-center text-lg text-ink-700 hover:bg-paper-2 active:bg-paper-3`}
       >
         +
       </button>

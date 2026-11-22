@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactRouter } from "@/components/contact/ContactRouter";
+import { ContactReach } from "@/components/contact/ContactReach";
 import { LocationCards } from "@/components/contact/LocationCards";
+import { MomentTrigger } from "@/components/home/MomentTrigger";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
+import "@/components/contact/channel-button.css";
+import "@/components/contact/contact.css";
+import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -16,14 +21,18 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** T9 Contact (Design Doc 10.1; Master Plan ch. 12 row 8, replaces /enquiry). */
+/**
+ * T9 Contact (Design Doc 10.1; Master Plan ch. 12 row 8, replaces /enquiry). Its one dealt moment is
+ * the reach band after the branches: the SIGNAL routes draw once (taste motion.md).
+ */
 export default async function ContactPage() {
   const t = await getDictionary();
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1 bg-paper-2">
-      <div className="mx-auto max-w-(--container-page) px-4 pt-6 pb-16 sm:px-6">
+      {/* page-container: the same content edges as the header and footer (taste House rule 4). */}
+      <div className="page-container pt-6 pb-16">
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[
@@ -40,6 +49,8 @@ export default async function ContactPage() {
         />
         <LocationCards t={t.contactPage} />
       </div>
+      <ContactReach t={t.contactPage} labels={t.home.reach} />
+      <MomentTrigger />
     </main>
   );
 }

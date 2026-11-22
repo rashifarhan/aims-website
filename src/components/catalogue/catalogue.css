@@ -1,0 +1,77 @@
+/*
+ * T4 listing (site polish, 22 Nov 2026). Loaded by the listing pages only.
+ */
+
+/* Phones list products as rows divided by hairlines (CLAUDE.md 2: mobile first, uncluttered); the shared
+   card chrome (actions.css .ui-card) starts at 640px, where products sit in a grid. */
+@media (width < 40rem) {
+  .product-card.ui-card {
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* The card presses only when its links are pressed. The stepper and Compare press themselves; a card
+   that sinks on every quantity tap is noise (Emil: no motion on frequent actions). */
+.product-card.ui-card-interactive:active:has(:is(button, input, label):active) {
+  transform: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .product-card.ui-card-interactive:hover:has(:is(button, input, label):active) {
+    transform: translateY(-2px);
+  }
+}
+
+/* SIGNAL tick on the result count (signature S): the count swaps once (opacity + 4px) and a hairline
+   draws from the inline-start edge in --ease-aims, like the homepage signal lines reaching a
+   destination, then fades. Transform and opacity only; plays once per filter change. */
+.result-count {
+  position: relative;
+  display: inline-block;
+}
+.result-count-line {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -0.25rem;
+  height: 1.5px;
+  background: var(--color-lime); /* decorative only (globals.css): it never carries the count */
+  transform-origin: left center;
+  opacity: 0; /* at rest, and as the fade ends: the line is a signal, not an underline */
+}
+:dir(rtl) .result-count-line {
+  transform-origin: right center;
+}
+.result-count[data-tick] {
+  animation: result-count-swap var(--duration-base) var(--ease-aims) both;
+}
+.result-count[data-tick] .result-count-line {
+  animation:
+    result-count-draw 400ms var(--ease-aims) both,
+    result-count-fade var(--duration-slow) 700ms ease both;
+}
+@keyframes result-count-swap {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes result-count-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes result-count-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .result-count[data-tick],
+  .result-count[data-tick] .result-count-line {
+    animation: none;
+  }
+}

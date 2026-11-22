@@ -13,6 +13,20 @@ for (const locale of ["en", "ar"]) {
     await expect(page.locator(".solution-card")).toHaveCount(5);
     const cards = page.locator(".solution-card-action");
     await expect(cards).toHaveCount(5);
+    // T11: the shared card, a Plex Mono model chip and the family's product count on every card.
+    await expect(page.locator(".solution-card.ui-card.ui-card-interactive")).toHaveCount(5);
+    await expect(page.locator(".solution-card .ui-card-photo img")).toHaveCount(5);
+    await expect(page.locator(".solution-model")).toHaveCount(5);
+    await expect(page.locator(".solution-model").first()).toContainText("F18");
+    expect(
+      await page
+        .locator(".solution-model")
+        .first()
+        .evaluate((el) => getComputedStyle(el).fontFamily),
+    ).toMatch(/plex|mono/i);
+    await expect(page.locator(".solution-card-meta").first()).toContainText(/\d+/);
+    // The time-attendance card opens the solution page, so its action no longer promises "products".
+    await expect(cards.first()).not.toContainText(locale === "en" ? "products" : "منتجات");
     // Each card is one heading link (stretched over the card): its name is the title only.
     const links = page.locator(".solution-card h2 a");
     await expect(links).toHaveCount(5);

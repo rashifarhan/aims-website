@@ -6,6 +6,7 @@ import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
+import { MAX_QTY } from "@/lib/quote/store";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 import { CONTACT, whatsappUrl } from "@/lib/site";
 
@@ -13,6 +14,7 @@ type Labels = {
   add: string;
   inQuote: string;
   addedAnnounce: string;
+  qtyAnnounce: string;
   qty: string;
   decrease: string;
   increase: string;
@@ -55,7 +57,13 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
 
   const add = () => {
     dispatchQuote({ type: "add", slug, qty });
-    setStatus(fmt(labels.addedAnnounce, { name, qty }));
+    // Adding again raises the line's quantity (store reducer); say the new total, so a repeat add is
+    // never silent and never repeats the previous announcement word for word (audit T2).
+    setStatus(
+      line
+        ? fmt(labels.qtyAnnounce, { name, qty: Math.min(MAX_QTY, line.qty + qty) })
+        : fmt(labels.addedAnnounce, { name, qty }),
+    );
   };
 
   const stepper = (
@@ -65,14 +73,11 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       label={labels.qty}
       decreaseLabel={labels.decrease}
       increaseLabel={labels.increase}
+      size="lg"
     />
   );
   const addButton = (
-    <button
-      type="button"
-      onClick={add}
-      className="inline-flex h-11 flex-1 items-center justify-center rounded-pill bg-green-700 px-6 font-semibold text-white transition-colors duration-(--duration-fast) hover:bg-green-800 sm:flex-none"
-    >
+    <button type="button" onClick={add} className="home-button flex-1 sm:flex-none">
       {labels.add}
     </button>
   );
@@ -88,7 +93,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
             href={whatsappUrl(whatsappMessage)}
             target={CONTACT.lines.mobile.display}
             message={whatsappMessage}
-            className="inline-flex h-11 items-center gap-2 rounded-pill border border-line-strong px-4 text-sm font-semibold text-ink hover:border-ink"
+            className="inline-flex min-h-(--home-button-height) items-center gap-2 rounded-pill border border-line-strong px-5 text-sm font-semibold text-ink transition-colors duration-(--duration-hover) hover:border-ink active:bg-paper-2"
           >
             <WhatsAppIcon width={18} height={18} className="text-whatsapp" />
             {labels.askWhatsapp}
@@ -98,8 +103,11 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
           {line && (
             <>
               <span className="font-semibold text-green-700">
-                <span aria-hidden="true">✓</span> {labels.inQuote} · <span className="font-mono">{model}</span> ×{" "}
-                <span className="tabular-nums">{line.qty}</span>
+                <span aria-hidden="true">✓</span> {labels.inQuote} ·{" "}
+                <span className="font-mono" dir="ltr">
+                  {model}
+                </span>{" "}
+                × <span className="tabular-nums">{line.qty}</span>
               </span>{" "}
               <Link href={quoteHref} className="font-semibold underline underline-offset-2">
                 {labels.viewQuote}
