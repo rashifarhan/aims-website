@@ -345,3 +345,39 @@
     aspect-ratio: 21 / 9;
   }
 }
+
+/* ---------- Time attendance drawing (Design Doc 8.3), shown as its finished frame ---------- */
+.ta-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ta-text-name {
+  font-size: var(--text-explainer-name);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.ta-text-meta {
+  font-size: var(--text-explainer-meta);
+  font-weight: 500;
+  fill: var(--color-ink-400);
+}
+.ta-text-row {
+  font-size: var(--text-explainer-row);
+  fill: var(--color-ink-700);
+}
+.ta-wire {
+  fill: none;
+  stroke-dasharray: 1;
+}
+
+/* A phone: punch to payroll's steps centre on their screen (an even gap after the hero), and the
+   software section keeps its list and picture to two screens by leaving out its lead line. */
+@media (max-width: 639px) {
+  #how.g2m > .wrap > :first-child {
+    align-self: center;
+  }
+  #software .section-head .t-lead {
+    display: none;
+  }
+}

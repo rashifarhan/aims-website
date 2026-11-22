@@ -641,16 +641,12 @@
   "solutionTimeAttendance": {
     "metaTitle": "Time attendance systems in the UAE",
     "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
-    "eyebrow": "Solution",
-    "title": "Time attendance that feeds payroll.",
-    "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
-    "primary": "Get an installation quote",
-    "secondary": "Browse {count} terminals",
+    "title": "Time attendance for UAE teams",
+    "lead": "Face, fingerprint and card terminals record when people arrive and leave, and BioTime turns each punch into a timesheet for payroll. {count} terminals, installed by AIMS in Dubai and Abu Dhabi.",
+    "secondary": "See terminals by method",
+    "heroAlt": "ZKTeco SFace Lite face and fingerprint time attendance terminal",
     "story": {
-      "heading": "From a punch to a payroll file.",
-      "lead": "Four steps happen every time someone checks in.",
-      "label": "How time attendance works",
-      "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
+      "heading": "Time attendance, from punch to payroll",
       "steps": [
         {
           "title": "Check in at the terminal",
@@ -669,6 +665,8 @@
           "body": "Approved timesheets are exported as a file for your payroll or HR system."
         }
       ],
+      "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
+      "label": "How time attendance works",
       "terminal": "Terminal",
       "checked": "Checked in",
       "server": "BioTime",
@@ -682,38 +680,17 @@
       "sample": "Illustrative data"
     },
     "methods": {
-      "heading": "Choose how people check in.",
-      "lead": "Start with the method that suits your staff and site. Counts are terminals in the AIMS catalogue.",
-      "count": "{count} terminals",
-      "countOne": "1 terminal",
+      "heading": "Time attendance terminals by method",
+      "lead": "Start with the method that suits your staff and site. Each link shows every terminal with that method in the AIMS catalogue.",
       "items": {
-        "face": {
-          "title": "Face",
-          "body": "Touch-free and quick at shift change. Nothing to carry or lose."
-        },
-        "fingerprint": {
-          "title": "Fingerprint",
-          "body": "A low cost per person and no cards to manage."
-        },
-        "card": {
-          "title": "Card",
-          "body": "Familiar and fast. Pair it with face or fingerprint to stop buddy punching."
-        },
-        "mobile": {
-          "title": "Mobile & QR",
-          "body": "For teams that check in away from a fixed terminal."
-        }
-      }
-    },
-    "products": {
-      "heading": "Terminals to start with.",
-      "lead": "Six terminals that cover each method. Add the ones you want, with quantities, to your quote.",
-      "all": "All {count} terminals",
-      "methods": "Verification"
+        "face": "Face attendance",
+        "fingerprint": "Fingerprint attendance",
+        "card": "Card attendance"
+      },
+      "all": "See all {count} terminals with this method"
     },
     "process": {
-      "heading": "From site survey to first payroll.",
-      "lead": "Who does what, from your first message to a working system.",
+      "heading": "Time attendance setup and support from AIMS",
       "owner": "Who",
       "steps": [
         {
@@ -741,48 +718,72 @@
           "body": "Ask AIMS when you add staff, sites or devices.",
           "owner": "AIMS"
         }
-      ]
+      ],
+      "alt": "ZKTeco Horus H1 time attendance terminal"
     },
     "software": {
-      "heading": "Software that fits.",
+      "heading": "Time attendance software from ZKTeco",
       "lead": "ZKTeco attendance software, from one office to many sites. Confirm which version fits your terminals with AIMS.",
-      "onPremise": "On your server",
-      "cloud": "In the cloud",
-      "mobile": "On staff phones",
-      "purposeOnPremise": "Attendance and workforce management, installed on your own server.",
-      "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
-      "purposeMobile": "Staff and managers see attendance and reports on a phone."
-    },
-    "faq": {
-      "heading": "Time attendance questions.",
-      "items": [
+      "items": {
+        "biotime-9-5": {
+          "kind": "On your server",
+          "body": "Attendance and workforce management, installed on your own server."
+        },
+        "biotimecloud": {
+          "kind": "In the cloud",
+          "body": "Cloud-based attendance and workforce management for one or many sites."
+        },
+        "zkbiotime-mobile-app": {
+          "kind": "On staff phones",
+          "body": "Staff and managers see attendance and reports on a phone."
+        }
+      },
+      "open": "Open {name}",
+      "panelTitle": "BioTime · Timesheet",
+      "panelLabel": "An example BioTime timesheet with illustrative punches: who checked in or out, and when",
+      "rows": [
         {
-          "q": "How many terminals do I need?",
-          "a": "Usually one per entrance staff use at shift change. Large teams may need more so queues stay short. AIMS will suggest a number from your headcount and entrances."
+          "time": "08:02",
+          "text": "Staff 01 · In"
         },
         {
-          "q": "Face, fingerprint or card: which is best?",
-          "a": "Face is touch-free and fast. Fingerprint has a low cost per person. Cards are familiar but can be lent, so many sites pair them with face or fingerprint."
+          "time": "08:11",
+          "text": "Staff 03 · In"
         },
         {
-          "q": "Can I use one system for several sites?",
-          "a": "Yes. BioTime Cloud, or BioTime on a server your sites can reach, collects punches from terminals in different locations."
+          "time": "13:30",
+          "text": "Staff 04 · Out"
         },
         {
-          "q": "Can terminals also open a door?",
-          "a": "Some models support access control as well as attendance. Check the model's specifications, or ask AIMS about the lock and exit button it needs."
-        },
-        {
-          "q": "Does it work with my payroll software?",
-          "a": "BioTime exports attendance reports as files. Share your payroll system with AIMS to confirm the format before you order."
+          "time": "17:05",
+          "text": "Staff 01 · Out"
         }
       ]
     },
-    "cta": {
-      "heading": "Plan attendance for your site.",
-      "body": "Tell AIMS how many people and entrances you have. You'll get a device plan and a quotation.",
-      "action": "Get an installation quote",
-      "secondary": "Browse terminals"
+    "faq": {
+      "heading": "Time attendance questions",
+      "items": [
+        {
+          "q": "How many attendance terminals do I need?",
+          "a": "Usually one per entrance staff use at shift change. Large teams may need more so queues stay short. AIMS will suggest a number from your headcount and entrances."
+        },
+        {
+          "q": "Face, fingerprint or card for time attendance?",
+          "a": "Face is touch-free and fast. Fingerprint has a low cost per person. Cards are familiar but can be lent, so many sites pair them with face or fingerprint."
+        },
+        {
+          "q": "Can one attendance system cover several sites?",
+          "a": "Yes. BioTime Cloud, or BioTime on a server your sites can reach, collects punches from terminals in different locations."
+        },
+        {
+          "q": "Can attendance terminals also open a door?",
+          "a": "Some models support access control as well as attendance. Check the model's specifications, or ask AIMS about the lock and exit button it needs."
+        },
+        {
+          "q": "Does BioTime attendance work with my payroll?",
+          "a": "BioTime exports attendance reports as files. Share your payroll system with AIMS to confirm the format before you order."
+        }
+      ]
     }
   },
   "contactPage": {
@@ -848,7 +849,7 @@
     "lead": "One list with models, quantities and the site. AIMS sales reply with a quotation."
   },
   "solutionAccessControl": {
-    "metaTitle": "Access control in Dubai & Abu Dhabi | AIMS",
+    "metaTitle": "Access control in Dubai & Abu Dhabi",
     "metaDescription": "ZKTeco readers, InBio Pro panels, EM locks and ZKAccess software for one door or a building, supplied and installed by AIMS in Dubai and Abu Dhabi.",
     "title": "Access control for UAE doors",
     "lead": "Readers, panels, locks and software for one door or a whole building, from {count} access control models. AIMS installs and supports them from Dubai and Abu Dhabi.",
@@ -999,7 +1000,7 @@
     }
   },
   "solutionEntranceParking": {
-    "metaTitle": "Turnstiles & parking barriers in Dubai | AIMS",
+    "metaTitle": "Turnstiles & parking barriers, UAE",
     "metaDescription": "ZKTeco tripod turnstiles, swing barriers and parking barrier gates for lobbies and car parks, supplied and installed by AIMS in Dubai and Abu Dhabi.",
     "title": "Turnstiles and barriers in the UAE",
     "lead": "Tripod turnstiles, swing barriers and car park barriers, from {count} entrance and parking models. AIMS supplies and installs them in Dubai and Abu Dhabi.",
@@ -1076,7 +1077,7 @@
     }
   },
   "solutionDoorLocks": {
-    "metaTitle": "Smart & hotel door locks in Dubai | AIMS",
+    "metaTitle": "Smart & hotel door locks in Dubai",
     "metaDescription": "ZKTeco smart locks, hotel card locks and door hardware, supplied and fitted by AIMS in Dubai and Abu Dhabi.",
     "title": "Smart and hotel locks in the UAE",
     "lead": "Fingerprint and Wi-Fi smart locks, hotel card locks and door hardware, from {count} smart and hotel lock models. AIMS supplies and fits them in Dubai and Abu Dhabi.",
@@ -1162,7 +1163,7 @@
     }
   },
   "solutionPos": {
-    "metaTitle": "POS terminals in Dubai & Abu Dhabi | AIMS",
+    "metaTitle": "POS terminals in Dubai & Abu Dhabi",
     "metaDescription": "ZKTeco Windows, Android and biometric POS terminals, supplied and set up by AIMS in Dubai and Abu Dhabi.",
     "title": "POS terminals for shops in the UAE",
     "lead": "Windows, Android and biometric point-of-sale terminals, from {count} POS models, supplied and set up by AIMS in Dubai and Abu Dhabi.",

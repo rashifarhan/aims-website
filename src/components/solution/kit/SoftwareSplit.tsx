@@ -4,43 +4,51 @@ import { fmt } from "@/i18n/format";
 import { softwareBySlug } from "@/content/catalogue";
 import { NavigationLink } from "@/components/shell/NavigationLink";
 
-const SOFTWARE = ["zkaccess-3-5", "zkbio-cvaccess", "zkbio-cvsecurity"] as const;
+type Props = {
+  heading: string;
+  lead: string;
+  /** Programs from content/software.json, each with how it runs and what it is for. */
+  items: { slug: string; kind: string; body: string }[];
+  /** "Open {name}" link label. */
+  open: string;
+  /** The section's picture: one screen of the subject (an event log, a timesheet), illustrative. */
+  panel: { title: string; label: string; rows: { time: string; text: string }[] };
+};
 
 /**
- * T3 row 7, software that fits (Master Plan 14): ZKTeco's access programs as one list of rows,
- * beside one picture of the subject, the door event log (as on the prototype's screen). Software
- * pages are planned routes, so NavigationLink sends them to aimsuae.me, marked as external.
+ * T3 software that fits (Master Plan 14): the programs as one list of rows beside one picture of
+ * the subject as live HTML (data-ui, the skill's UI mock). Software pages are planned routes, so
+ * NavigationLink sends them to aimsuae.me, marked as external.
  */
-export async function SoftwareSplit() {
+export async function SoftwareSplit({ heading, lead, items, open, panel }: Props) {
   const t = await getDictionary();
-  const c = t.solutionAccessControl.software;
   const locale = await getLocale();
   return (
     <section className="section ground-surface g2m" id="software" aria-labelledby="software-h">
       <div className="wrap grid--middle t3-split grid">
         <div className="span-5 stack-5">
           <div className="section-head">
-            <h2 id="software-h">{c.heading}</h2>
-            <p className="t-lead">{c.lead}</p>
+            <h2 id="software-h">{heading}</h2>
+            <p className="t-lead">{lead}</p>
           </div>
           <ul className="rows">
-            {SOFTWARE.flatMap((slug) => {
-              const s = softwareBySlug(slug);
+            {items.flatMap((item) => {
+              const s = softwareBySlug(item.slug);
               if (!s) return [];
               return (
-                <li key={slug}>
+                <li key={item.slug}>
                   <span className="rows__name" dir="ltr">
                     {s.name}
                   </span>
-                  <span className="rows__value t-small">{c.items[slug].kind}</span>
+                  <span className="rows__value t-small">{item.kind}</span>
                   <p>
-                    {c.items[slug].body}{" "}
+                    {item.body}{" "}
                     <NavigationLink
                       externalLabel={t.home.external}
-                      href={localePath(locale, `/software/${slug}`)}
+                      href={localePath(locale, `/software/${item.slug}`)}
                       className="link"
                     >
-                      {fmt(c.open, { name: s.name })}
+                      {fmt(open, { name: s.name })}
                     </NavigationLink>
                   </p>
                 </li>
@@ -48,12 +56,12 @@ export async function SoftwareSplit() {
             })}
           </ul>
         </div>
-        <figure className="span-7 event-log start-6" role="img" aria-label={c.logLabel} data-ui="">
+        <figure className="span-7 event-log start-6" role="img" aria-label={panel.label} data-ui="">
           <div className="event-log__bar" dir="ltr">
-            ZKAccess 3.5 · {c.events}
+            {panel.title}
           </div>
           <ol className="event-log__rows">
-            {c.log.map((row) => (
+            {panel.rows.map((row) => (
               <li key={row.time + row.text}>
                 <span className="mono tabular-nums" dir="ltr">
                   {row.time}

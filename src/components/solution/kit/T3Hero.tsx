@@ -49,7 +49,8 @@ export async function T3Hero({ path, crumb, title, lead, product, alt, secondary
               <p className="hero__lead">{lead}</p>
             </div>
             <div className="btn-row">
-              <Link href={href("/quote")} className="btn btn--primary">
+              {/* The quote opens with the installation need preset (Design Doc 12). */}
+              <Link href={href("/quote?need=install")} className="btn btn--primary">
                 {t.nav.primaryAction}
                 <KitArrow />
               </Link>

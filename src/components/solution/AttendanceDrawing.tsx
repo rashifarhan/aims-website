@@ -13,7 +13,7 @@ const ROWS = [
 /**
  * Design Doc 8.3, time attendance: punch dots flow from a terminal into BioTime, a timesheet
  * fills row by row, then compiles into a payroll file. Explainer line art per Design Doc 7.
- * Each `ta-sN` group appears at step N; see story.css.
+ * Rendered as its finished frame on the kit page (every group shown).
  */
 export function AttendanceDrawing({ copy }: { copy: Copy }) {
   return (
@@ -69,8 +69,11 @@ export function AttendanceDrawing({ copy }: { copy: Copy }) {
         <path d="M436 266H480" className="ta-wire stroke-line-strong" strokeWidth="1.6" pathLength="1" />
         <rect x="480" y="96" width="248" height="280" rx="12" className="fill-paper stroke-ink" strokeWidth="1.8" />
         <rect x="481" y="97" width="246" height="36" rx="11" className="fill-green-50" />
+        {/* The rows are illustrative, so the sheet says so on its own title bar (CLAUDE.md §1),
+            not in a caption under the picture (design skill house rule 1). */}
         <text x="496" y="121" className="ta-text-name">
           {copy.sheet}
+          <tspan className="ta-text-meta"> · {copy.sample}</tspan>
         </text>
         <g className="ta-text-meta">
           <text x="496" y="160">
@@ -88,7 +91,7 @@ export function AttendanceDrawing({ copy }: { copy: Copy }) {
         </g>
         <path d="M496 172h218" className="stroke-line" />
         {ROWS.map(([checkIn, checkOut, hours], i) => (
-          <g key={copy.people[i]} className="ta-row" style={{ transitionDelay: `${120 * i}ms` }}>
+          <g key={copy.people[i]} className="ta-row">
             <text x="496" y={204 + 44 * i} className="ta-text-row">
               {copy.people[i]}
             </text>

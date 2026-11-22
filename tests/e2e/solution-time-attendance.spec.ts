@@ -4,7 +4,7 @@ const PATH = "/solutions/time-attendance";
 
 for (const locale of ["en", "ar"] as const) {
   const path = locale === "ar" ? `/ar${PATH}` : PATH;
-  test(`${locale} time attendance page: one H1, method counts match the listing, local links only`, async ({
+  test(`${locale} time attendance page: one H1, method counts match the listing, quote presets installation`, async ({
     page,
     request,
   }) => {
@@ -14,69 +14,62 @@ for (const locale of ["en", "ar"] as const) {
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
 
-    // Method guide: four options, each opening a filtered listing that returns 200.
-    const methods = page.locator(".method-card");
-    await expect(methods).toHaveCount(4);
-    for (const href of await methods.evaluateAll((links) => links.map((a) => a.getAttribute("href") ?? ""))) {
-      expect(href).toMatch(/\/products\/time-attendance\?verify=/);
+    // Terminals by method: three tiles, each with Add to quote and a filtered listing that returns 200.
+    const tiles = page.locator("#methods .tile");
+    await expect(tiles).toHaveCount(3);
+    await expect(tiles.getByRole("button", { name: /Add to quote|أضف إلى عرض السعر/ })).toHaveCount(3);
+    const links = page.locator("#methods .method-tiles__actions a.link");
+    for (const href of await links.evaluateAll((as) => as.map((a) => a.getAttribute("href") ?? ""))) {
+      expect(href).toMatch(/\/products\/time-attendance\?verify=(face|fingerprint|card)$/);
       expect((await request.get(href)).status()).toBe(200);
     }
-    // Six terminals, each with a model link and Add to quote.
-    await expect(page.locator(".pick-card")).toHaveCount(6);
-    await expect(
-      page.locator(".pick-card").getByRole("button", { name: /Add to quote|أضف إلى عرض السعر/ }),
-    ).toHaveCount(6);
-    // Both quote actions preset the installation need (Design Doc 12).
-    await expect(page.locator(`main a[href="${locale === "ar" ? "/ar" : ""}/quote?need=install"]`)).toHaveCount(2);
+    // The hero's quote action presets the installation need (Design Doc 12).
+    await expect(page.locator(`main a[href="${locale === "ar" ? "/ar" : ""}/quote?need=install"]`)).toHaveCount(1);
   });
 }
 
-test("story steps follow the scroll and the drawing reaches the payroll file", async ({ page }) => {
+test("each method tile's count matches the listing it opens", async ({ page, isMobile }) => {
+  test.skip(isMobile, "content check, one viewport is enough");
   await page.goto(PATH);
-  const story = page.locator(".story");
-  await expect(story).toHaveAttribute("data-motion", "on");
-  const steps = page.locator("[data-story-step]");
-  await expect(steps).toHaveCount(4);
-  for (const n of [1, 2, 3, 4]) {
-    await steps.nth(n - 1).evaluate((el) => el.scrollIntoView({ block: "center" }));
-    await expect(story).toHaveAttribute("data-step", String(n));
-    await expect(steps.nth(n - 1)).toHaveAttribute("aria-current", "step");
+  for (const link of await page.locator("#methods .method-tiles__actions a.link").all()) {
+    const count = Number((await link.textContent())?.match(/\d+/)?.[0]);
+    const listing = await page.context().newPage();
+    await listing.goto((await link.getAttribute("href")) ?? "");
+    await expect(listing.getByText(new RegExp(`^${count} products?$`)).first()).toBeVisible();
+    await listing.close();
   }
-  await expect(page.locator(".ta-file")).toHaveCSS("opacity", "1");
 });
 
-test("reduced motion shows the final drawing with every step readable", async ({ page }) => {
+// Punch to payroll is the dealt line-carries-colour moment; the drawing is its finished frame,
+// with every step and its illustrative-data label readable without motion (Design Doc 8.3).
+test("punch to payroll: the moment mounts and reduced motion shows every step and the drawing", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(PATH);
-  const story = page.locator(".story");
-  await expect(story).toHaveAttribute("data-motion", "off");
-  await expect(story).toHaveAttribute("data-step", "4");
-  for (const row of await page.locator(".ta-row").all()) await expect(row).toHaveCSS("opacity", "1");
-  for (const step of await page.locator("[data-story-step] h3").all())
-    await expect(step).toHaveCSS("color", "rgb(14, 21, 18)");
-  expect(
-    await story.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
-  ).toBe(0);
+  const how = page.locator("#how");
+  await expect(how).toHaveAttribute("data-moment-mounted", /.*/);
+  await expect(how.locator(".process-rows > li")).toHaveCount(4);
+  await expect(how.getByRole("img")).toHaveAttribute("aria-label", /payroll/);
+  await expect(how.locator(".ta-drawing")).toContainText("Illustrative data");
+  for (const row of await how.locator(".ta-row").all()) await expect(row).toHaveCSS("opacity", "1");
 });
 
 test("adding a terminal updates the quote, and the quote opens with installation chosen", async ({ page }) => {
   await page.goto(PATH);
-  const card = page.locator(".pick-card").first();
-  await card.getByRole("button", { name: "Add to quote" }).click();
-  await expect(card.getByText("In quote")).toBeVisible();
-  await page.locator('.t3-cta a[href="/quote?need=install"]').click();
+  const tile = page.locator("#methods .tile").first();
+  await expect(async () => {
+    await tile.getByRole("button", { name: "Add to quote" }).click({ timeout: 1000 });
+    await expect(tile.getByText("In quote")).toBeVisible({ timeout: 500 });
+  }).toPass();
+  await page.locator('main a[href="/quote?need=install"]').click();
   await expect(page).toHaveURL(/\/quote\?need=install$/);
   await expect(page.getByRole("radio", { name: "Supply and installation" })).toBeChecked();
-  // Next keeps the previous page mounted but display:none (React Activity); query the visible landmark.
-  await expect(page.getByRole("main")).toContainText("Biopro MH20");
+  await expect(page.getByRole("main")).toContainText("IFace 990");
 });
 
-test("phones scroll the terminals sideways without widening the page", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(PATH);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const row = page.locator(".pick-row");
-  expect(await row.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
-  await page.setViewportSize({ width: 320, height: 800 });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+test("phones and 320px screens never scroll sideways", async ({ page }) => {
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto(PATH);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });

@@ -12,7 +12,7 @@ import { ProcessSplit } from "@/components/solution/kit/ProcessSplit";
 import { FaqSection } from "@/components/solution/kit/FaqSection";
 import { DoorKitStory } from "@/components/solution/access/DoorKitStory";
 import { KitSection } from "@/components/solution/access/KitSection";
-import { SoftwareSplit } from "@/components/solution/access/SoftwareSplit";
+import { SoftwareSplit } from "@/components/solution/kit/SoftwareSplit";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";
 import "@/components/solution/kit/t3.css";
@@ -85,7 +85,16 @@ export default async function AccessControlSolution() {
       {/* Questions before software: the page closes on a picture, not a text-only section (skill
           finish check text-only); README → Decisions records the swap of Master Plan 14's order. */}
       <FaqSection heading={c.faq.heading} items={c.faq.items} />
-      <SoftwareSplit />
+      <SoftwareSplit
+        heading={c.software.heading}
+        lead={c.software.lead}
+        open={c.software.open}
+        items={(["zkaccess-3-5", "zkbio-cvaccess", "zkbio-cvsecurity"] as const).map((slug) => ({
+          slug,
+          ...c.software.items[slug],
+        }))}
+        panel={{ title: `ZKAccess 3.5 · ${c.software.events}`, label: c.software.logLabel, rows: c.software.log }}
+      />
     </main>
   );
 }

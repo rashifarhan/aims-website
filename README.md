@@ -397,6 +397,24 @@ close. Questions sit before installation, so each page closes on a picture.
   hard-coded in English inside the kit; it reads "Pause"/"Play" on the Arabic page too.
 - **Phone tiles** drop their spec rows (the product page carries them), so the three tiles fit two screens.
 
+### Time attendance rebuilt on the kit (T3; Master Plan 12 #15, 14; Design Doc 8.3, 10)
+
+The page now follows the same plan as the other four: dealt hero `product` (SFace Lite cut-out), then punch to payroll on
+night green as the dealt `line-carries-colour` moment. The four steps sit beside the existing `AttendanceDrawing`, shown
+as its finished frame. After that come terminals by method (face, fingerprint, card, linked to `?verify=` listings with
+matching counts), questions, BioTime software, and setup.
+
+- **Removed:** the old scroll story wrapper (`StoryProgress`, `AttendanceStory`) and the T3 components and
+  `solution.css` it alone used. The drawing's "Illustrative data" label moved from a caption onto the timesheet's own
+  title bar.
+- **Software split** is now generic (`src/components/solution/kit/SoftwareSplit.tsx`); access control passes its event
+  log and time attendance a BioTime timesheet, both illustrative and named as examples.
+- **Deviation from Design Doc 10 (T3 mobile):** phones no longer scroll the terminals sideways. They stack one tile per
+  row with the photograph across the column, which the skill's finish checks require (skill wins on layout).
+- **Headings** now name time attendance, as the skill requires. The answers are unchanged.
+- **Titles:** solution meta titles no longer add "| AIMS" (the layout appends the site name), so every title is 60
+  characters or fewer.
+
 ### Gate results (tasteskill 2.5.1)
 
 | Page               | Gate          | Open findings                                                                                                                                                                                           |
@@ -406,6 +424,7 @@ close. Questions sit before installation, so each page closes on a picture.
 | POS                | **OPEN** (9)  | AIMS's POS photos are 130–250 px, so they are upscaled in the hero, tiles and installation (needs larger photos from AIMS); the figures section and the FAQ are sparse; a 390 px gap after installation |
 | Access control     | **OPEN** (39) | mostly phone layout from the round before the tile overflow fix; see the PR                                                                                                                             |
 
-Waivers (`.taste-skill/waivers.json`, 4 of 5): the WhatsApp and showroom phone links (brief-given), `moment-none` on
-access control (the approved door-kit prototype is its moment), and `hero-lines` (the check pads the h1 to 39
-characters; every real h1 sits on two lines at 390).
+Waivers (`.taste-skill/waivers.json`, 5 of 5): the WhatsApp and showroom phone links (brief-given), `moment-none` on
+access control (the approved door-kit prototype is its moment), `hero-lines` (the check pads the h1 to 39 characters;
+every real h1 sits on two lines at 390), and `container-edges` on time attendance (the dealt `line-carries-colour`
+moment's own inset stage, built by its unedited script).
