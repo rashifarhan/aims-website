@@ -2,10 +2,9 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { softwareBySlug } from "@/content/catalogue";
 import { TA_SOFTWARE } from "@/content/timeAttendance";
-import { navigationHref } from "@/lib/navigationHref";
-import { ExternalLink } from "@/components/home/ExternalLink";
+import Link from "next/link";
 
-/** T3 row 6: software that fits. Software pages are planned, so cards open AIMS's current pages. */
+/** T3 row 6: software that fits; cards open the built software pages (Plan 12 #29–31). */
 export async function SolutionSoftware() {
   const t = await getDictionary();
   const c = t.solutionTimeAttendance.software;
@@ -22,14 +21,14 @@ export async function SolutionSoftware() {
         {TA_SOFTWARE.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
-          const href = navigationHref(localePath(locale, `/software/${slug}`));
+          const href = localePath(locale, `/software/${slug}`);
           return (
             <li key={slug}>
-              <ExternalLink href={href} label={t.common.externalSite} className="home-software-card">
+              <Link href={href} className="home-software-card">
                 <p className="home-software-kind">{c[kind]}</p>
                 <h3 dir="ltr">{software.name}</h3>
                 <p className="home-software-purpose">{c[purpose]}</p>
-              </ExternalLink>
+              </Link>
             </li>
           );
         })}
