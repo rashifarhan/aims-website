@@ -885,5 +885,641 @@
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
     }
+  },
+  "softwareCentre": {
+    "metaTitle": "ZKTeco software download centre",
+    "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
+    "title": "ZKTeco software for attendance and access control",
+    "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
+    "primary": "Request an installation quote",
+    "filterLabel": "Software type",
+    "all": "All software",
+    "types": {
+      "time-attendance": "Attendance",
+      "access-control": "Access control",
+      "security-platform": "Security platform"
+    },
+    "count": "{count} platforms",
+    "countOne": "1 platform",
+    "listHeading": "Software platforms",
+    "open": "See {name}",
+    "purpose": {
+      "bio-security-3-2": "Access control software for ZKTeco panels and standalone terminals.",
+      "biotime-8-5": "Earlier BioTime version for attendance terminals already on site.",
+      "biotime-9-5": "Attendance, shifts and payroll reports from ZKTeco terminals in one database.",
+      "biotimecloud": "Attendance in a web browser and mobile app, with no local server.",
+      "zkaccess-3-5": "Users, door permissions and live door events for inBio and C3 panels.",
+      "zkbio-cvaccess": "Access control and video verification in one web platform.",
+      "zkbio-cvsecurity": "Access, attendance, video and visitors for large sites.",
+      "zkbiotime-mobile-app": "Staff check in and see their attendance records on a phone."
+    },
+    "close": {
+      "heading": "Software set up on your terminals",
+      "body": "Tell AIMS which terminals you run and how many sites you have. The quote covers the software, licences and installation."
+    }
+  },
+  "softwarePage": {
+    "software": "Software",
+    "pages": {
+      "biotime-9-5": {
+        "metaTitle": "BioTime 9.5 attendance software",
+        "metaDescription": "ZKTeco BioTime 9.5 for attendance, shifts and payroll reports, supplied, installed and supported by AIMS in Dubai and across the UAE.",
+        "title": "BioTime 9.5 attendance software",
+        "lead": "Collects check-ins from ZKTeco face, fingerprint and card terminals into one database for shifts, leave and payroll reports. Supplied and set up by AIMS in the UAE.",
+        "jump": "See supported terminals"
+      },
+      "biotimecloud": {
+        "metaTitle": "BioTime Cloud attendance software",
+        "metaDescription": "ZKTeco BioTime Cloud: attendance, shifts and leave in a web browser and mobile app, with no local server. Supplied and configured by AIMS in the UAE.",
+        "title": "BioTime Cloud attendance software",
+        "lead": "Attendance, shifts and leave in a web browser and mobile app, with no local server to run. Suits companies with several branches. Configured by AIMS in the UAE.",
+        "jump": "See how it connects"
+      },
+      "zkaccess-3-5": {
+        "metaTitle": "ZKAccess 3.5 access software",
+        "metaDescription": "ZKTeco ZKAccess 3.5 for users, door permissions and live door events on inBio and C3 panels. Supplied, installed and configured by AIMS in the UAE.",
+        "title": "ZKAccess 3.5 access control software",
+        "lead": "Manages users, door permissions and live door events for ZKTeco inBio and C3 panels, up to 30,000 users on Windows. Installed and configured by AIMS in the UAE.",
+        "jump": "See supported terminals"
+      }
+    },
+    "add": "Add to quote",
+    "inQuote": "In your quote",
+    "added": "{name} added to your quote",
+    "viewQuote": "View quote list",
+    "line": "{name} software: installer, licences and setup",
+    "features": {
+      "heading": "What {name} does",
+      "lead": "The main features, as AIMS lists them.",
+      "system": "Capacity and system",
+      "full": "Read AIMS's full description"
+    },
+    "terminals": {
+      "heading": "Terminals listed with {name}",
+      "lead": "Their AIMS product pages name {name} as supported software. AIMS confirms the version for your site.",
+      "cloudHeading": "Where BioTime Cloud connects",
+      "cloudLead": "AIMS lists BioTime Cloud for ZKTeco attendance terminals, reached from a browser or the mobile app. Confirm cloud support for your model before ordering.",
+      "cloudNodes": ["Web browser", "Mobile app", "Branch offices", "Attendance terminals"],
+      "cloudAll": "See attendance terminals",
+      "diagram": "{name}, linked to {nodes}"
+    },
+    "setup": {
+      "heading": "Licences, installer and setup",
+      "steps": [
+        {
+          "title": "Add it to your quote",
+          "body": "Say how many terminals, users and sites you have."
+        },
+        {
+          "title": "AIMS confirms version and licences",
+          "body": "Matched to the terminals you run or are buying."
+        },
+        {
+          "title": "AIMS installs and configures it",
+          "body": "AIMS sends the installer file on request, for the right version."
+        }
+      ],
+      "questions": "Questions",
+      "faq": [
+        {
+          "q": "Can I download the installer here?",
+          "a": "Not from this page. AIMS sends the installer on request, for the version that matches your terminals."
+        },
+        {
+          "q": "Will it work with my terminals?",
+          "a": "Send the model codes with your quote. AIMS checks them against the software version before you order."
+        }
+      ]
+    },
+    "close": {
+      "heading": "{name} set up for your site",
+      "body": "Add it to your quote with your terminal count. AIMS replies with licences, installation and timing.",
+      "all": "See all software"
+    }
+  },
+  "solutionAccessControl": {
+    "metaTitle": "Access control systems in the UAE",
+    "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Decide who opens every door.",
+    "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} access control products",
+    "door": {
+      "heading": "Six parts at every controlled door.",
+      "lead": "Tap a card: the reader reads it, the controller checks it and the lock releases. Each part is a model in the AIMS catalogue.",
+      "partsLabel": "The six parts of a controlled door",
+      "parts": {
+        "reader": "Reads the card at the door and passes it to the controller.",
+        "controller": "Decides who may enter, and when. InBio Pro panels run one, two or four doors.",
+        "lock": "Holds the door shut with 280 kg and releases when access is granted.",
+        "exit": "Lets people leave from the inside without a card.",
+        "card": "The credential each person taps at the reader.",
+        "software": "Add users, set door permissions and watch door events live."
+      }
+    },
+    "methods": {
+      "heading": "Choose how people prove who they are.",
+      "lead": "Start with the method that suits each door. Counts are access control products in the AIMS catalogue.",
+      "count": "{count} products",
+      "countOne": "1 product",
+      "items": {
+        "card": {
+          "title": "Card",
+          "body": "The simplest to roll out. A lost card is removed in the software."
+        },
+        "fingerprint": {
+          "title": "Fingerprint",
+          "body": "Checks the person, not only what they carry. Nothing to lend or lose."
+        },
+        "face": {
+          "title": "Face",
+          "body": "Touch-free at busy doors. Some models also read a card or a palm."
+        },
+        "palm": {
+          "title": "Palm",
+          "body": "Touch-free palm reading, on terminals that also recognise faces."
+        }
+      }
+    },
+    "products": {
+      "heading": "Panels and terminals to start with.",
+      "lead": "Panels for one, two and four doors, and terminals for each method. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} access control products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From door survey to the first card.",
+      "lead": "Who does what, from your first message to working doors.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about your doors",
+          "body": "Doors, users, door types and any system you already run.",
+          "owner": "You"
+        },
+        {
+          "title": "Door plan and quote",
+          "body": "AIMS suggests readers, panels and locks, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Locks, readers and panels are mounted, wired and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Software setup",
+          "body": "Users, cards and door permissions are set up in the access software.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, users or sites.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that runs the doors.",
+      "lead": "Run doors from one Windows PC or from a browser. Confirm with AIMS which version fits your panels.",
+      "pc": "On a Windows PC",
+      "browser": "In a browser",
+      "purposeZkaccess": "Users, door permissions and live door events for standalone devices, C3 and inBIO panels.",
+      "purposeCvaccess": "Web-based access control for devices and doors across several locations.",
+      "purposeCvsecurity": "One web platform for access control, visitors, parking and video."
+    },
+    "faq": {
+      "heading": "Access control questions.",
+      "items": [
+        {
+          "q": "Can one panel run more than one door?",
+          "a": "Yes. The InBio Pro 160 controls one door, the 260 two and the 460 four, according to their specifications. Larger sites use more panels."
+        },
+        {
+          "q": "Card, fingerprint or face: which is best?",
+          "a": "A card is the simplest. Fingerprint, face and palm terminals check the person, not only the card. AIMS helps you choose for each door."
+        },
+        {
+          "q": "Can I keep my existing readers?",
+          "a": "InBio Pro panels take 26-bit Wiegand and RS485 FR series readers. Send AIMS your reader's model to check."
+        },
+        {
+          "q": "Which lock suits my door?",
+          "a": "The AL-M280 electromagnetic lock holds 280 kg and is listed for wooden, glass, metal and fireproof doors. AIMS checks your doors on the site survey."
+        },
+        {
+          "q": "Can a terminal open the door by itself?",
+          "a": "Some can. The F18 and SpeedFace V5L-P list a lock, door sensor and exit button connection in their specifications. Check the model, or ask AIMS."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan access for your doors.",
+      "body": "Tell AIMS how many doors and users you have. You'll get a door plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse access control products"
+    }
+  },
+  "solutionEntranceParking": {
+    "metaTitle": "Turnstiles & parking barriers, UAE",
+    "metaDescription": "Tripod, flap, swing and full-height turnstiles, parking barrier gates and plate recognition from ZKTeco, supplied and installed by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Turnstiles for lobbies, barriers for car parks.",
+    "lead": "Turnstiles and swing or flap barriers decide who walks in. Barrier gates, plate recognition and radar sensors manage the cars.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} entrance and parking products",
+    "lanes": {
+      "heading": "One credential, one lane open.",
+      "lead": "What happens at a lane, for people and for cars.",
+      "stepsLabel": "How an entrance lane works",
+      "alt": "A reader checks a card and a swing barrier opens; a camera reads a number plate and a boom barrier lifts",
+      "people": "People",
+      "vehicles": "Vehicles",
+      "steps": [
+        {
+          "title": "Present a credential",
+          "body": "A card, fingerprint, QR code or face at the reader. Some turnstiles come with the reader built in."
+        },
+        {
+          "title": "The barrier opens",
+          "body": "Flaps retract, arms swing or the tripod turns, and sensors watch for anyone following too close."
+        },
+        {
+          "title": "Cars read by plate",
+          "body": "A plate recognition camera reads the number plate and tells the barrier gate to lift."
+        },
+        {
+          "title": "Safe in an emergency",
+          "body": "On many models the barriers open or the arms drop in an emergency or power cut."
+        }
+      ]
+    },
+    "options": {
+      "heading": "Choose the lane.",
+      "lead": "Start with who passes and how many. Each option names models to compare.",
+      "examples": "Example models",
+      "allIn": "All {count} in {type}",
+      "items": {
+        "tripod": {
+          "title": "Tripod turnstile",
+          "body": "A compact lane where a rotating tripod lets people through. Arms drop in a power cut on models such as TS1200 and TS2100."
+        },
+        "speed": {
+          "title": "Flap or swing barrier",
+          "body": "Faster lanes for busy lobbies. The FBL5000 lists up to 30 people a minute; flaps open in an emergency."
+        },
+        "full": {
+          "title": "Full-height turnstile",
+          "body": "Floor-to-head lanes where security matters most. The FHT2300 lists security level High."
+        },
+        "vehicle": {
+          "title": "Parking barrier",
+          "body": "Boom barriers from 3 m to 6 m, with plate recognition and radar sensors for car parks."
+        }
+      }
+    },
+    "products": {
+      "heading": "Lanes and barriers to start with.",
+      "lead": "Six models, one for each kind of lane. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} entrance and parking products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From site survey to working lanes.",
+      "lead": "Who does what, from your first message to a working entrance.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the entrance",
+          "body": "Lanes, people or vehicles an hour, and the readers you use.",
+          "owner": "You"
+        },
+        {
+          "title": "Lane plan and quote",
+          "body": "AIMS suggests turnstiles, barriers and readers, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Gates and barriers are fixed, cabled and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Reader setup",
+          "body": "Cards, faces or tags are enrolled for the lanes.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add lanes, users or sites.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that runs the site.",
+      "lead": "ZKTeco platforms with parking modules. Confirm with AIMS which one fits your lanes and readers.",
+      "platform": "Security platform",
+      "purposeCvsecurity": "Access control, visitors, and parking and vehicle control in one web platform.",
+      "purposeBioSecurity": "A web platform with access control, visitor and parking modules."
+    },
+    "faq": {
+      "heading": "Entrance and parking questions.",
+      "items": [
+        {
+          "q": "Can a turnstile come with its own reader?",
+          "a": "Some do. The TS1022 Pro comes with a controller and a fingerprint and RFID reader, and the FBL4000, FBL4200 and SBT1000S ship with the card or fingerprint reader you choose. Others take readers you add."
+        },
+        {
+          "q": "What happens in a power cut?",
+          "a": "On flap barriers such as the FBL4000 and FBL5000 the barriers retract when a battery is installed, and on tripods such as the TS1200 and TS2100 the arms drop, so people can leave."
+        },
+        {
+          "q": "Tripod, flap, swing or full height?",
+          "a": "Full-height turnstiles suit high-security entrances. Flap and swing barriers move more people: the FBL5000 lists up to 30 a minute. Tripods are compact. AIMS helps you choose for each entrance."
+        },
+        {
+          "q": "Can a barrier open by number plate?",
+          "a": "Yes. The LPRC100 camera and the LPRS4000 system read number plates and connect to barrier gates. The VR10 radar detects cars and people at the barrier without cutting the road for a loop."
+        },
+        {
+          "q": "Do you supply security screening?",
+          "a": "Yes: ZK-D180 and ZK-D100S handheld metal detectors, the ZK-D3180S metal detector with 18 detection zones, and the ZKX5030A X-ray system for bags and parcels."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan your entrance.",
+      "body": "Tell AIMS how many lanes, people and vehicles you expect. You'll get a lane plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse entrance products"
+    }
+  },
+  "solutionDoorLocks": {
+    "metaTitle": "Smart and hotel door locks, UAE",
+    "metaDescription": "ZKTeco fingerprint and Wi-Fi smart locks, a glass door lock and RFID hotel card locks, supplied and fitted by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Smart locks for homes, card locks for hotels.",
+    "lead": "Fingerprint, PIN, card and app locks for front doors and offices, and RFID card locks for guest rooms. AIMS supplies and fits them.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} smart and hotel lock products",
+    "unlock": {
+      "heading": "From a fingerprint to an open door.",
+      "lead": "What a smart lock does each time someone comes home.",
+      "label": "How a smart lock works",
+      "alt": "A finger touches the lock's sensor, the light turns green, the bolt draws back, the door opens and the phone app shows it",
+      "sample": "Illustration",
+      "record": "Opened",
+      "recordMethod": "Fingerprint",
+      "lockTag": "Smart lock",
+      "appTag": "Phone app",
+      "steps": [
+        {
+          "title": "Verify at the door",
+          "body": "A fingerprint, PIN or card. The HBL400 also recognises faces."
+        },
+        {
+          "title": "The lock opens itself",
+          "body": "Fully automatic locks such as the TL800 open after verification and lock again."
+        },
+        {
+          "title": "See who is at the door",
+          "body": "The TL800 has a doorbell, a camera and a 3.5-inch screen on the indoor unit."
+        },
+        {
+          "title": "Manage it from your phone",
+          "body": "Wi-Fi models work with the ZSmart app: open the door remotely, share temporary passwords and see the lock's records."
+        }
+      ]
+    },
+    "methods": {
+      "heading": "Choose by the door.",
+      "lead": "The door decides the lock. Counts are models in the AIMS catalogue.",
+      "smartCount": "{count} smart locks",
+      "smartCountOne": "1 smart lock",
+      "glassLink": "See the GL300",
+      "hotelLink": "Browse hotel locks",
+      "wiredCount": "{count} hardware and accessories",
+      "wiredCountOne": "1 hardware item",
+      "items": {
+        "smart": {
+          "title": "Home or office door",
+          "body": "Fingerprint, PIN and card on one lock. Wi-Fi models add your phone."
+        },
+        "glass": {
+          "title": "Glass door",
+          "body": "The GL300 clamps on without drilling and fits 10–12 mm glass."
+        },
+        "hotel": {
+          "title": "Hotel room",
+          "body": "RFID card locks for guest rooms, run from hotel lock software."
+        },
+        "wired": {
+          "title": "Access-controlled door",
+          "body": "EM locks, exit buttons and readers for doors run by an access control system."
+        }
+      }
+    },
+    "products": {
+      "heading": "Locks to start with.",
+      "lead": "Six locks for homes, glass doors and hotel rooms. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} smart and hotel lock products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From your doors to working locks.",
+      "lead": "Who does what, from your first message to locks in use.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the doors",
+          "body": "Door types, rooms or units, and who needs access.",
+          "owner": "You"
+        },
+        {
+          "title": "Lock plan and quote",
+          "body": "AIMS suggests locks and hardware for each door, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Fitting",
+          "body": "Locks and hardware are fitted and tested on each door.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Setup",
+          "body": "Fingerprints, cards or hotel cards are enrolled.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, rooms or users.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "faq": {
+      "heading": "Door lock questions.",
+      "items": [
+        {
+          "q": "Smart lock or hotel lock?",
+          "a": "Smart locks such as the TL700 open by fingerprint, password or card, for homes and offices. Hotel locks such as the LH4000 open with RFID key cards and are built for guest rooms."
+        },
+        {
+          "q": "Do you have a lock for glass doors?",
+          "a": "Yes. The GL300 opens by fingerprint, MF card, password or remote control, clamps on without drilling and fits 10–12 mm glass."
+        },
+        {
+          "q": "Which locks work with a phone?",
+          "a": "The TL800, TL700W, TL300 and HBL400 connect over Wi-Fi. The TL800 and TL700W use the ZSmart app to open the door remotely, share temporary passwords and see the lock's records."
+        },
+        {
+          "q": "What if the batteries run out?",
+          "a": "The locks warn you first. The TL700, TL800 and GL300 have a micro-USB emergency power port; the AL20DB and TL400 take a 9V battery for emergency power."
+        },
+        {
+          "q": "How are hotel locks managed?",
+          "a": "With hotel lock software: the LH4000 lists ZKBiolock, and the LH6000 and LH6500 also list ZKBioSecurity. The CR60W is a USB RFID reader for hotel management. Confirm the software version with AIMS."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan locks for your doors.",
+      "body": "Tell AIMS which doors, rooms and users you have. You'll get a lock plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse door locks"
+    }
+  },
+  "solutionPos": {
+    "metaTitle": "POS terminals for shops, UAE",
+    "metaDescription": "ZKTeco Windows, Android and fingerprint POS terminals, a handheld POS and receipt printers, supplied and set up by AIMS for shops and restaurants in the UAE.",
+    "eyebrow": "Solution",
+    "title": "POS terminals for shops, cafés and restaurants.",
+    "lead": "Windows and Android touchscreen terminals, a handheld with a built-in printer, and a terminal with fingerprint verification. Choose by the software your counter runs.",
+    "primary": "Get a quote",
+    "secondary": "Browse {count} POS terminals",
+    "counter": {
+      "heading": "From sign-in to receipt.",
+      "lead": "Four things happen at the counter with every sale.",
+      "label": "How a POS counter works",
+      "alt": "A fingerprint verifies the cashier, the sale is entered on the touchscreen, the customer display lights up and a receipt prints",
+      "sample": "Illustration",
+      "terminalTag": "Fingerprint POS",
+      "printerTag": "Receipt printer",
+      "steps": [
+        {
+          "title": "Staff verify",
+          "body": "On the ZKBio900 series, a fingerprint verifies the cashier before a sale."
+        },
+        {
+          "title": "Ring up the sale",
+          "body": "On a 10.1- or 15-inch touchscreen, or the 5.5-inch handheld."
+        },
+        {
+          "title": "The customer sees the total",
+          "body": "Customer displays range from an LED digit display to a second screen, by model."
+        },
+        {
+          "title": "Print the receipt",
+          "body": "The ZKAIO1000 and ZKH300 have a 58 mm printer built in; other terminals pair with a printer such as the ZKP8001."
+        }
+      ]
+    },
+    "methods": {
+      "heading": "Choose by your software and counter.",
+      "lead": "Start with the software you run. Counts are terminals in the AIMS catalogue.",
+      "count": "{count} terminals",
+      "countOne": "1 terminal",
+      "handheldLink": "See the ZKH300",
+      "fingerprintLink": "See the ZKBio900 series",
+      "items": {
+        "windows": {
+          "title": "Windows POS",
+          "body": "15-inch touchscreen terminals for Windows till software."
+        },
+        "android": {
+          "title": "Android POS",
+          "body": "For Android apps, with a 58 mm receipt printer built in."
+        },
+        "handheld": {
+          "title": "Handheld",
+          "body": "The ZKH300 takes orders and prints at the table or on delivery, over 4G, Wi-Fi or Bluetooth."
+        },
+        "fingerprint": {
+          "title": "Fingerprint verification",
+          "body": "The ZKBio900 series verifies staff by fingerprint."
+        }
+      }
+    },
+    "products": {
+      "heading": "Terminals to start with.",
+      "lead": "Windows, Android and handheld terminals. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} POS terminals",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From your counter to the first sale.",
+      "lead": "Who does what, from your first message to a working till.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the counter",
+          "body": "Tills, the POS software you run, and printers or scanners.",
+          "owner": "You"
+        },
+        {
+          "title": "Terminal plan and quote",
+          "body": "AIMS suggests terminals and printers to match your software, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Delivery",
+          "body": "Terminals are delivered and connected at each counter.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Setup",
+          "body": "Terminals and printers are configured, ready for your POS software.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add tills or branches.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "faq": {
+      "heading": "POS terminal questions.",
+      "items": [
+        {
+          "q": "Will my POS software run on it?",
+          "a": "Choose by the software you run: Windows terminals for Windows POS software, Android terminals for Android apps. Share your software's requirements with AIMS before you order."
+        },
+        {
+          "q": "Is there a POS with a fingerprint reader?",
+          "a": "Yes. The ZKBio900 series (ZKBio910, ZKBio930 and ZKBio950) has built-in fingerprint verification for staff."
+        },
+        {
+          "q": "Which terminals print receipts?",
+          "a": "The ZKAIO1000 and ZKH300 have a 58 mm thermal printer built in. Other terminals pair with a printer such as the ZKP8001, which has an auto cutter."
+        },
+        {
+          "q": "Is there a handheld POS?",
+          "a": "Yes. The ZKH300 has a 5.5-inch touchscreen, 4G, Wi-Fi and Bluetooth, a 5600 mAh battery and a camera that scans barcodes and QR codes."
+        },
+        {
+          "q": "Can customers see the total?",
+          "a": "Yes, on a customer display: an LED digit display on the ZK15, ZK1515, ZKBio900 and ZKAIO1000, and a 4.3-inch LCD option on the ZKAIO1000."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Equip your counter.",
+      "body": "Tell AIMS how many tills you run and which POS software you use. You'll get a terminal plan and a quotation.",
+      "action": "Get a quote",
+      "secondary": "Browse POS terminals"
+    }
   }
 }

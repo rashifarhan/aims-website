@@ -1,7 +1,8 @@
-import { getDictionary } from "@/i18n/dictionaries";
+import Link from "next/link";
+import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
 import { softwareBySlug } from "@/content/catalogue";
-import { LIVE_AIMS } from "@/lib/site";
-import { ExternalLink } from "./ExternalLink";
+import { ArrowIcon } from "@/components/icons";
 
 /** Purpose lines restate each platform's published AIMS summary in one sentence (Design Doc 12). */
 const ENTRIES = [
@@ -13,11 +14,12 @@ const ENTRIES = [
 /**
  * T1 row 6, set inside the product-families section on night green: the software that runs the hardware
  * above it. A strip of its own was under half a screen (taste skill layout-v4: no strip sections).
- * Full software pages are planned, so the cards open AIMS's current pages.
+ * Cards open the built software pages (Plan 12 #29–31).
  */
 export async function HomeSoftware() {
   const t = await getDictionary();
   const s = t.home.software;
+  const locale = await getLocale();
   return (
     <div className="home-software-block">
       <div className="home-section-heading">
@@ -27,9 +29,10 @@ export async function HomeSoftware() {
           </h3>
           <p className="home-night-lead">{s.lead}</p>
         </div>
-        <ExternalLink href={LIVE_AIMS.software} label={t.common.externalSite} className="home-night-link">
+        <Link href={localePath(locale, "/software")} className="home-night-link">
           {s.centre}
-        </ExternalLink>
+          <ArrowIcon width="16" height="16" className="home-action-arrow" />
+        </Link>
       </div>
       <ul className="home-software-grid">
         {ENTRIES.map(({ slug, kind, purpose }) => {
@@ -37,11 +40,11 @@ export async function HomeSoftware() {
           if (!software) return null;
           return (
             <li key={slug}>
-              <ExternalLink href={software.sourceUrl} label={t.common.externalSite} className="home-software-card">
+              <Link href={localePath(locale, `/software/${slug}`)} className="home-software-card">
                 <p className="home-software-kind">{s[kind]}</p>
                 <h4 dir="ltr">{software.name}</h4>
                 <p className="home-software-purpose">{s[purpose]}</p>
-              </ExternalLink>
+              </Link>
             </li>
           );
         })}

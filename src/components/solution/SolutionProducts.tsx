@@ -6,16 +6,24 @@ import { fmt } from "@/i18n/format";
 import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
 import { keyFacts } from "@/content/facts";
-import { TA_PRODUCTS } from "@/content/timeAttendance";
+import type { SolutionPageData } from "@/content/solutionPages";
+import type { ProductsCopy } from "./types";
 
 /**
  * T3 row 4: recommended products with Add (Plan 14). Facts are verbatim spec rows; a model
  * without them says "Specs on request" (CLAUDE.md §1). Phones scroll the row sideways with the
  * next card visible, never automatically (no carousel).
  */
-export async function SolutionProducts() {
+export async function SolutionProducts({
+  idPrefix,
+  page,
+  copy: c,
+}: {
+  idPrefix: string;
+  page: Pick<SolutionPageData, "family" | "products">;
+  copy: ProductsCopy;
+}) {
   const t = await getDictionary();
-  const c = t.solutionTimeAttendance.products;
   const locale = await getLocale();
   const labels = {
     add: t.catalogue.add,
@@ -26,18 +34,18 @@ export async function SolutionProducts() {
     decrease: t.catalogue.decrease,
     increase: t.catalogue.increase,
   };
-  const products = TA_PRODUCTS.flatMap((slug) => productBySlug(slug) ?? []);
+  const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <section className="t3-section page-container" aria-labelledby="ta-products-title">
+    <section className="t3-section page-container" aria-labelledby={`${idPrefix}-products-title`}>
       <div className="t3-heading t3-heading-row">
         <div>
-          <h2 id="ta-products-title" className="t3-title">
+          <h2 id={`${idPrefix}-products-title`} className="t3-title">
             {c.heading}
           </h2>
           <p className="t3-lead">{c.lead}</p>
         </div>
-        <Link href={localePath(locale, "/products/time-attendance")} className="home-text-link">
-          {fmt(c.all, { count: productsInFamily("time-attendance").length })}
+        <Link href={localePath(locale, `/products/${page.family}`)} className="home-text-link">
+          {fmt(c.all, { count: productsInFamily(page.family).length })}
         </Link>
       </div>
       <ul className="pick-row">
@@ -64,10 +72,12 @@ export async function SolutionProducts() {
                   {p.model}
                 </Link>
               </h3>
-              <p className="pick-methods">
-                <span className="sr-only">{c.methods}: </span>
-                {p.methods.map((m) => t.catalogue.verify[m]).join(" · ")}
-              </p>
+              {p.methods.length > 0 && (
+                <p className="pick-methods">
+                  <span className="sr-only">{c.methods}: </span>
+                  {p.methods.map((m) => t.catalogue.verify[m]).join(" · ")}
+                </p>
+              )}
               {facts.length ? (
                 <dl className="pick-facts" lang="en">
                   {facts.map((f) => (

@@ -1,0 +1,165 @@
+/*
+ * /solutions/access-control: the UNLOCK moment (Design Doc 8.2), loaded by that page only.
+ * The keyframes are the homepage door's (src/components/home/premium.css), copied under t3 names and
+ * keyed to `.t3-door[data-played]` so this page doesn't load the homepage's surfaces. Same rules:
+ * transform, opacity and stroke-dashoffset only; once; nothing hidden unless MomentTrigger set
+ * data-effects="on", which it never does under reduced motion, so the final frame always shows.
+ */
+.t3-door {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 4rem;
+  align-items: center;
+}
+.t3-door-parts {
+  margin-block-start: 1.75rem;
+}
+.t3-door-parts li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.875rem;
+  align-items: start;
+  padding-block: 0.375rem 0.75rem;
+  border-block-start: 1px solid var(--color-line);
+  font-size: var(--text-small);
+}
+.t3-door-parts .home-door-index {
+  padding-block-start: 0.75rem;
+}
+/* The name and model code are the link: a 44px target (WCAG 2.5.8). */
+.t3-door-parts .home-door-link,
+.t3-door-parts li > div > span {
+  min-height: 2.75rem;
+  font-weight: 600;
+}
+.t3-door-parts li > div > span {
+  display: flex;
+  align-items: center;
+}
+.t3-door-note {
+  color: var(--color-ink-600);
+  line-height: 1.5;
+}
+
+/* ---------- The door assembles once, in the prototype's order ---------- */
+.t3-door .door-wire {
+  stroke-dasharray: 1;
+}
+.t3-door .door-leaf {
+  transform-box: view-box;
+  transform-origin: 306px 348px;
+  transform: scaleX(0.74);
+}
+.t3-door .door-granted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+:root[data-effects="on"] .t3-door:not([data-played]) :is(.door-part, .door-card, .door-led, .door-granted, .door-log) {
+  opacity: 0;
+}
+:root[data-effects="on"] .t3-door:not([data-played]) .door-leaf {
+  transform: scaleX(1);
+}
+:root[data-effects="on"] .t3-door:not([data-played]) .door-wire {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-controller {
+  animation: t3-door-in 500ms 200ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-reader {
+  animation: t3-door-in 500ms 450ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-wires {
+  animation: t3-door-fade 1ms 450ms both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-wires .door-wire {
+  animation: t3-door-draw 900ms 500ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-lock {
+  animation: t3-door-in 500ms 800ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-exit {
+  animation: t3-door-in 500ms 1100ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-software {
+  animation: t3-door-in 500ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-software .door-wire {
+  animation: t3-door-draw 1000ms 1400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-card {
+  animation: t3-door-card 800ms 2000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-led {
+  animation: t3-door-fade 200ms 2800ms both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-leaf {
+  animation: t3-door-open 700ms 3000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-granted {
+  animation: t3-door-pop 450ms 3400ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .t3-door[data-played] .door-log {
+  animation: t3-door-in 400ms 3700ms var(--ease-aims) both;
+}
+@keyframes t3-door-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes t3-door-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes t3-door-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes t3-door-card {
+  from {
+    opacity: 0;
+    transform: translate(-150px, 70px) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes t3-door-open {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.74);
+  }
+}
+@keyframes t3-door-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .t3-door {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
