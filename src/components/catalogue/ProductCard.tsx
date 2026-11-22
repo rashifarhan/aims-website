@@ -19,23 +19,31 @@ type Props = {
 
 const BRAND_LINE: Record<Card["brand"], string> = { zkteco: "ZKTeco", alpha: "Alpha", other: "" };
 
-/** Strip the brand from the title; the brand line above already says it. */
-const titleOf = (c: Card) => c.name.replace(/^(ZKTeco|Alpha)\s+/i, "");
+/**
+ * The heading is the model code (Design Doc 9 card anatomy: "model (mono)"). Where AIMS's name adds a
+ * description after the code ("ALF B21 - Exit Button"), that description replaces the type line, so no
+ * words from the name are lost and nothing is said twice.
+ */
+function describe(c: Card): string {
+  const title = c.name.replace(/^(ZKTeco|Alpha)\s+/i, "");
+  if (!title.toLowerCase().startsWith(c.model.toLowerCase())) return "";
+  return title.slice(c.model.length).replace(/^\s*[-–]\s*/, "");
+}
 
 /**
- * Product card (Design Doc 9): row on mobile, tile from 640px. Not one big
- * link: the title is the link, actions are separate controls. Facts are
- * verbatim spec values; missing specs say so.
+ * Product card (Design Doc 9): row on mobile, tile from 640px, in the one card style (actions.css
+ * .ui-card). Not one big link: the model is the link, actions are separate controls. Facts are verbatim
+ * spec values; missing specs say so.
  */
 export function ProductCard({ card, href, subtitle, labels, compare, eager = false }: Props) {
-  const title = titleOf(card);
+  const description = describe(card);
   return (
-    <article className="grid grid-cols-[88px_1fr] gap-4 border-b border-line py-4 sm:flex sm:flex-col sm:gap-0 sm:rounded-lg sm:border sm:bg-paper sm:p-4 sm:transition-shadow sm:hover:shadow-2">
+    <article className="product-card ui-card ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
       <Link
         href={href}
         tabIndex={-1}
         aria-hidden="true"
-        className="relative block aspect-square overflow-hidden rounded-md border border-line bg-white sm:mb-4"
+        className="ui-card-photo relative block aspect-square overflow-hidden rounded-md border border-line bg-paper sm:mb-4 sm:border-0"
       >
         {card.image && (
           <Image
@@ -53,12 +61,15 @@ export function ProductCard({ card, href, subtitle, labels, compare, eager = fal
         {BRAND_LINE[card.brand] && (
           <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
         )}
-        <h3 className="mt-0.5 text-base leading-snug font-semibold text-ink sm:text-lg">
-          <Link href={href} className="hover:text-green-700 hover:underline">
-            {title}
+        <h3 className="mt-0.5 text-base leading-snug font-medium text-ink sm:text-lg">
+          <Link href={href} dir="ltr" className="font-mono break-words hover:text-green-700 hover:underline">
+            {card.model}
           </Link>
         </h3>
-        <p className="mt-0.5 text-sm text-ink-600">{subtitle}</p>
+        {/* Product data is English (CLAUDE.md 7); the type label comes from the dictionary. */}
+        <p className="mt-0.5 text-sm text-ink-600" lang={description ? "en" : undefined}>
+          {description || subtitle}
+        </p>
 
         {card.facts.length > 0 ? (
           <dl className="mt-3 grid gap-1.5 text-sm">
@@ -74,10 +85,12 @@ export function ProductCard({ card, href, subtitle, labels, compare, eager = fal
           <p className="mt-3 text-sm text-ink-600">{labels.specsOnRequest}</p>
         )}
 
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
-          <AddToQuote slug={card.slug} name={card.name} labels={labels} />
+        {/* Two fixed rows, so adding to the quote (stepper + "In quote") never moves Compare or changes
+            the card's height. The outline button keeps a grid from becoming a wall of filled green. */}
+        <div className="mt-auto grid gap-1 pt-4">
+          <AddToQuote slug={card.slug} name={card.name} labels={labels} variant="outline" className="min-h-11" />
           <label
-            className={`inline-flex min-h-11 items-center gap-2 text-sm sm:min-h-9 ${compare.disabled ? "text-ink-400" : "cursor-pointer text-ink-700"}`}
+            className={`inline-flex min-h-11 items-center gap-2 justify-self-start text-sm ${compare.disabled ? "text-ink-400" : "cursor-pointer text-ink-700"}`}
           >
             <input
               type="checkbox"

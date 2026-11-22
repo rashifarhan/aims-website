@@ -1,17 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import type { ProductCard as Card } from "@/content/cards";
-import { FAMILIES, type FamilySlug } from "@/content/taxonomy";
+import type { FamilySlug } from "@/content/taxonomy";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { countLabel, fmt } from "@/i18n/format";
 import {
   MAX_COMPARE,
   activeFilterCount,
   applyFilters,
-  facetCounts,
   parseFilters,
   serializeFilters,
   toggle,
@@ -22,8 +20,12 @@ import { dispatchQuote } from "@/lib/quote/useQuote";
 import { createIndex, searchSlugs } from "@/lib/search";
 import { CloseIcon, SearchIcon } from "@/components/icons";
 import { CompareTray } from "./CompareTray";
-import { FacetPanel, type FacetGroupView } from "./FacetPanel";
+import { EmptyResults } from "./EmptyResults";
+import { facetGroupViews } from "./facetGroups";
+import { FacetPanel } from "./FacetPanel";
+import { FilterSheet } from "./FilterSheet";
 import { ProductCard } from "./ProductCard";
+import { ResultCount } from "./ResultCount";
 
 export type ListingProps = {
   cards: Card[];
@@ -88,64 +90,7 @@ export function ListingView({
   };
 
   /* ---------- facets ---------- */
-  const typeLabels = t.types as Record<string, string>;
-  const groupDefs: { id: FacetGroup; legend: string; label: (v: string) => string; order: string[] }[] = [
-    ...(family
-      ? []
-      : [
-          {
-            id: "family" as const,
-            legend: t.facets.family,
-            label: (v: string) => familyNames[v] ?? v,
-            order: FAMILIES.map((f) => f.slug),
-          },
-        ]),
-    { id: "type", legend: t.facets.type, label: (v) => typeLabels[v] ?? v, order: Object.keys(t.types) },
-    {
-      id: "brand",
-      legend: t.facets.brand,
-      label: (v) => (t.brands as Record<string, string>)[v] ?? v,
-      order: ["zkteco", "alpha"],
-    },
-    {
-      id: "verify",
-      legend: t.facets.verify,
-      label: (v) => (t.verify as Record<string, string>)[v] ?? v,
-      order: Object.keys(t.verify),
-    },
-    {
-      id: "conn",
-      legend: t.facets.conn,
-      label: (v) => (t.conn as Record<string, string>)[v] ?? v,
-      order: Object.keys(t.conn),
-    },
-  ];
-
-  const groups: FacetGroupView[] = groupDefs
-    .map((g): FacetGroupView | null => {
-      const counts = facetCounts(cards, effective, order, g.id);
-      const selected = g.id === "family" ? (effective.family ? [effective.family] : []) : (effective[g.id] as string[]);
-      const options = g.order
-        .map((value) => ({
-          value,
-          label: g.label(value),
-          count: counts.get(value) ?? 0,
-          checked: selected.includes(value),
-        }))
-        .filter((o) => o.count > 0 || o.checked);
-      // A group with a single option filters nothing.
-      return options.length > 1 || options.some((o) => o.checked) ? { id: g.id, legend: g.legend, options } : null;
-    })
-    .filter((g): g is FacetGroupView => g !== null);
-
-  const outdoorCount = applyFilters(cards, { ...effective, outdoor: true }, order).length;
-  if (outdoorCount > 0 || effective.outdoor) {
-    groups.push({
-      id: "outdoor",
-      legend: t.facets.outdoor,
-      options: [{ value: "1", label: t.facets.outdoor, count: outdoorCount, checked: effective.outdoor }],
-    });
-  }
+  const groups = facetGroupViews({ cards, state: effective, searchOrder: order, family, t, familyNames });
 
   const onToggle = (groupId: string, value: string) => {
     if (groupId === "outdoor") return update({ outdoor: !state.outdoor });
@@ -180,6 +125,7 @@ export function ListingView({
     compare: t.compare,
     specsOnRequest: t.specsOnRequest,
   };
+  const typeLabels = t.types as Record<string, string>;
   const subtitle = (c: Card) => (c.types[0] ? typeLabels[c.types[0]] : familyNames[c.family]) ?? "";
   const countText = countLabel(results.length, t.resultsOne, t.resultsCount);
 
@@ -204,8 +150,12 @@ export function ListingView({
       </form>
 
       <div className="mt-8 lg:grid lg:grid-cols-[232px_1fr] lg:gap-10">
-        {/* Desktop facet rail */}
-        <aside aria-label={t.filters} className="hidden lg:block">
+        {/* Desktop facet rail. It stays beside a long grid and scrolls on its own when taller than the screen; it stops
+            above the compare tray when one is shown (WCAG 2.4.11). */}
+        <aside
+          aria-label={t.filters}
+          className={`hidden overscroll-contain lg:sticky lg:top-20 lg:-ms-1 lg:block lg:self-start lg:overflow-y-auto lg:py-1 lg:ps-1 lg:pe-2 ${compareItems.length ? "lg:max-h-[calc(100dvh-12rem)]" : "lg:max-h-[calc(100dvh-6.5rem)]"}`}
+        >
           <h2 className="sr-only">{t.filters}</h2>
           <FacetPanel groups={groups} onToggle={onToggle} idPrefix="rail" />
         </aside>
@@ -216,9 +166,11 @@ export function ListingView({
           </h2>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p aria-live="polite" className="text-sm font-medium text-ink-700 tabular-nums">
-              {countText}
-            </p>
+            <ResultCount
+              count={results.length}
+              text={countText}
+              cause={serializeFilters({ ...effective, q: "", cmp: [] })}
+            />
             <button
               type="button"
               onClick={() => sheet.current?.showModal()}
@@ -261,117 +213,53 @@ export function ListingView({
           )}
 
           {results.length > 0 ? (
-            <ul className="mt-4 grid border-t border-line sm:grid-cols-2 sm:gap-4 sm:border-0 lg:grid-cols-2 xl:grid-cols-3">
+            <ul className="mt-4 grid border-t border-line sm:grid-cols-2 sm:gap-5 sm:border-0 lg:grid-cols-2 xl:grid-cols-3">
               {results.map((c, i) => (
                 <li key={c.slug} className="flex">
-                  <div className="w-full">
-                    <ProductCard
-                      card={c}
-                      href={`${hrefs.product}/${c.slug}`}
-                      subtitle={subtitle(c)}
-                      labels={cardLabels}
-                      eager={i < 4}
-                      compare={{
-                        checked: state.cmp.includes(c.slug),
-                        disabled: !state.cmp.includes(c.slug) && state.cmp.length >= MAX_COMPARE,
-                        onToggle: () => update({ cmp: toggle(state.cmp, c.slug) }),
-                      }}
-                    />
-                  </div>
+                  <ProductCard
+                    card={c}
+                    href={`${hrefs.product}/${c.slug}`}
+                    subtitle={subtitle(c)}
+                    labels={cardLabels}
+                    eager={i < 4}
+                    compare={{
+                      checked: state.cmp.includes(c.slug),
+                      disabled: !state.cmp.includes(c.slug) && state.cmp.length >= MAX_COMPARE,
+                      onToggle: () => update({ cmp: toggle(state.cmp, c.slug) }),
+                    }}
+                  />
                 </li>
               ))}
             </ul>
           ) : (
-            <div className="mt-6 rounded-lg border border-line bg-paper-2 p-6">
-              <p className="text-lg font-semibold text-ink">
-                {state.q ? fmt(t.noResultsFor, { q: state.q }) : t.noResults}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {state.q && (
-                  <button
-                    type="button"
-                    onClick={() => update({ q: "" })}
-                    className="inline-flex h-11 items-center rounded-pill border border-line-strong bg-paper px-4 text-sm font-semibold"
-                  >
-                    {t.clearSearch}
-                  </button>
-                )}
-                {filterCount > 0 && (
-                  <button
-                    type="button"
-                    onClick={clearFilters}
-                    className="inline-flex h-11 items-center rounded-pill border border-line-strong bg-paper px-4 text-sm font-semibold"
-                  >
-                    {t.clearFilters}
-                  </button>
-                )}
-                {state.q && asked !== state.q && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1 });
-                      setAsked(state.q);
-                    }}
-                    className="inline-flex h-11 items-center rounded-pill bg-green-700 px-4 text-sm font-semibold text-white hover:bg-green-800"
-                  >
-                    {fmt(t.askAbout, { q: state.q })}
-                  </button>
-                )}
-              </div>
-              <p role="status" className="mt-3 text-sm text-ink-700">
-                {asked && asked === state.q && (
-                  <>
-                    {t.askAdded}{" "}
-                    <Link href={hrefs.quote} className="font-semibold text-green-700 underline">
-                      {t.viewQuote}
-                    </Link>
-                  </>
-                )}
-              </p>
-            </div>
+            <EmptyResults
+              q={state.q}
+              hasFilters={filterCount > 0}
+              asked={asked}
+              quoteHref={hrefs.quote}
+              t={t}
+              onClearSearch={() => update({ q: "" })}
+              onClearFilters={clearFilters}
+              onAsk={() => {
+                dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1 });
+                setAsked(state.q);
+              }}
+            />
           )}
         </section>
       </div>
 
-      {/* Mobile filter sheet */}
-      <dialog
-        ref={sheet}
-        aria-label={t.filters}
-        onClick={(e) => e.target === sheet.current && sheet.current?.close()}
-        className="mt-auto mb-0 max-h-[85dvh] w-full max-w-none rounded-t-lg bg-paper p-0 text-ink backdrop:bg-ink/40 lg:hidden"
-      >
-        <div className="flex max-h-[85dvh] flex-col">
-          <div className="flex items-center justify-between border-b border-line px-4 py-2">
-            <h2 className="text-base font-semibold">{t.filters}</h2>
-            <button
-              type="button"
-              onClick={() => sheet.current?.close()}
-              aria-label={t.closeFilters}
-              className="grid size-11 place-items-center rounded-md"
-            >
-              <CloseIcon />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
-            <FacetPanel groups={groups} onToggle={onToggle} idPrefix="sheet" />
-          </div>
-          <div className="flex gap-3 border-t border-line p-4">
-            <button type="button" onClick={clearFilters} className="h-12 px-4 text-sm font-semibold text-ink-700">
-              {t.clearAll}
-            </button>
-            <button
-              type="button"
-              onClick={() => sheet.current?.close()}
-              className="h-12 flex-1 rounded-pill bg-green-700 font-semibold text-white"
-            >
-              {fmt(t.showResults, { count: results.length })}
-            </button>
-          </div>
-        </div>
-      </dialog>
+      <FilterSheet
+        sheetRef={sheet}
+        groups={groups}
+        resultCount={results.length}
+        t={t}
+        onToggle={onToggle}
+        onClear={clearFilters}
+      />
 
       <CompareTray
-        items={compareItems.map((c) => ({ slug: c.slug, name: c.name }))}
+        items={compareItems.map((c) => ({ slug: c.slug, name: c.name, image: c.image }))}
         compareHref={compareHref}
         max={MAX_COMPARE}
         labels={t}
