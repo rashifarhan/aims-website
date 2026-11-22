@@ -9,11 +9,15 @@
   color: var(--color-green-700);
   font-weight: 600;
   font-size: var(--text-small);
-  text-decoration: none;
+  /* The underline is always laid out and only its colour changes, so it fades in on hover
+     instead of snapping, and the link never shifts (taste motion.md: underlines draw). */
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-hover) ease;
 }
 .home-text-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
+  text-decoration-color: currentColor;
 }
 .home-text-link:hover .home-action-arrow {
   translate: 3px 0;
@@ -51,6 +55,11 @@
   color: var(--color-green-700);
   text-decoration: underline;
   text-underline-offset: 0.25em;
+  /* Already underlined at rest, so hover answers by darkening to the primary hover colour. */
+  transition: color var(--duration-hover) ease;
+}
+.home-secondary:hover {
+  color: var(--color-green-800);
 }
 .home-button {
   position: relative;

@@ -58,10 +58,11 @@
 .home-route-card,
 .home-family-card,
 .home-software-card {
+  /* One timing for the lift and the family photo zoom (home.css), so card and photo move together. */
   transition:
-    box-shadow var(--duration-base) var(--ease-aims),
-    border-color var(--duration-base) var(--ease-aims),
-    transform var(--duration-base) var(--ease-aims);
+    box-shadow var(--duration-card) var(--ease-aims),
+    border-color var(--duration-card) var(--ease-aims),
+    transform var(--duration-card) var(--ease-aims);
 }
 @media (hover: hover) and (pointer: fine) {
   .home-route-card:hover,

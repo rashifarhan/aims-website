@@ -487,7 +487,8 @@
   overflow: clip;
 }
 .home-family-image img {
-  transition: transform var(--duration-slow) var(--ease-aims);
+  /* Same timing as the card lift (sections.css), so the zoom never trails the card. */
+  transition: transform var(--duration-card) var(--ease-aims);
 }
 @media (hover: hover) and (pointer: fine) {
   .home-family-card:hover img {
