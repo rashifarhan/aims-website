@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
-import { navigationHref } from "@/lib/navigationHref";
+import { navigationHref, prefetchSafe } from "@/lib/navigationHref";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & { href: string; externalLabel: string };
 
@@ -19,7 +19,7 @@ export function NavigationLink({ href, externalLabel, children, ...props }: Prop
     );
   }
   return (
-    <Link {...props} href={destination}>
+    <Link prefetch={prefetchSafe(destination) ? undefined : false} {...props} href={destination}>
       {children}
     </Link>
   );

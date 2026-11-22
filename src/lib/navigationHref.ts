@@ -22,3 +22,15 @@ export function navigationHref(href: string): string {
   }
   return href;
 }
+
+/**
+ * Links whose automatic prefetch must stay off. In this Next version, prefetching the solutions hub or
+ * a filtered listing (`?q=…`) from the homepage requests the homepage's own page segment through the
+ * locale rewrite, gets a 404 and then re-fetches the layout segment in an endless loop (~2,400 requests
+ * in 5 s, reproduced 22 Nov 2026). These pages still load normally on click.
+ */
+export function prefetchSafe(href: string): boolean {
+  const [path, query] = href.split("?");
+  const local = path.replace(/^\/ar(?=\/|$)/, "") || "/";
+  return !query && local !== "/solutions";
+}

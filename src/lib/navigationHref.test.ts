@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { navigationHref } from "./navigationHref";
+import { navigationHref, prefetchSafe } from "./navigationHref";
 
 describe("preview navigation", () => {
   it("keeps built pages local, including the quote list", () => {
@@ -19,5 +19,16 @@ describe("preview navigation", () => {
     expect(navigationHref("/contact")).toBe("https://aimsuae.me/enquiry");
     expect(navigationHref("/ar/software")).toBe("https://aimsuae.me/swcategory/zk-teco");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("https://aimsuae.me/software/biotime-9-5");
+  });
+});
+
+describe("prefetch guard", () => {
+  it("turns prefetch off for the solutions hub and filtered listings only", () => {
+    expect(prefetchSafe("/solutions")).toBe(false);
+    expect(prefetchSafe("/ar/solutions")).toBe(false);
+    expect(prefetchSafe("/products?q=F18")).toBe(false);
+    expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
+    expect(prefetchSafe("/products")).toBe(true);
+    expect(prefetchSafe("/ar")).toBe(true);
   });
 });
