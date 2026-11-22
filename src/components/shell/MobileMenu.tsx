@@ -80,7 +80,11 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
           setExpanded(false);
           toggle.current?.focus();
         }}
-        className="ms-auto me-0 h-dvh max-h-none w-[min(100vw,420px)] max-w-none bg-paper p-0 text-ink opacity-0 transition-[opacity,translate,display,overlay] transition-discrete duration-(--duration-slow) ease-(--ease-aims) not-open:translate-x-8 backdrop:bg-ink/40 backdrop:opacity-0 backdrop:transition-opacity open:opacity-100 open:backdrop:opacity-100 rtl:not-open:-translate-x-8 starting:open:translate-x-8 starting:open:opacity-0 starting:open:backdrop:opacity-0 rtl:starting:open:-translate-x-8"
+        // A sheet attached to the inline-end edge slides fully in from that edge (Design Doc 8);
+        // the open state carries the enter timing, the closed state the faster exit. Opacity stays in
+        // the transition so .motion-fade can keep a fade alone under reduced motion. The sheet is
+        // fixed in the top layer, so the off-screen translate adds no page scroll.
+        className="motion-fade ms-auto me-0 h-dvh max-h-none w-[min(100vw,420px)] max-w-none bg-paper p-0 text-ink opacity-0 transition-[opacity,translate,display,overlay] transition-discrete duration-(--duration-drawer-exit) ease-(--ease-aims) not-open:translate-x-full backdrop:bg-ink/40 backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-(--duration-drawer-exit) backdrop:ease-(--ease-aims) open:opacity-100 open:duration-(--duration-drawer) open:ease-(--ease-drawer) open:backdrop:opacity-100 open:backdrop:duration-(--duration-drawer) open:backdrop:ease-(--ease-drawer) rtl:not-open:-translate-x-full starting:open:translate-x-full starting:open:opacity-0 starting:open:backdrop:opacity-0 rtl:starting:open:-translate-x-full"
       >
         <div className="flex h-full flex-col">
           <div className="flex h-15 items-center justify-between border-b border-line px-4">
@@ -125,16 +129,17 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
                     <details className="group">
                       <summary className="flex h-13 cursor-pointer list-none items-center justify-between text-base font-semibold [&::-webkit-details-marker]:hidden">
                         {item.label}
-                        <ChevronDownIcon className="text-ink-600 transition-transform group-open:rotate-180" />
+                        <ChevronDownIcon className="text-ink-600 transition-transform duration-(--duration-base) ease-(--ease-aims) group-open:rotate-180" />
                       </summary>
-                      <ul className="pb-3">
+                      {/* display flips none → block on open, which restarts .motion-disclose every time. */}
+                      <ul className="motion-disclose hidden pb-3 group-open:block">
                         {item.links.map((l) => (
                           <li key={l.href}>
                             <Link
                               externalLabel={labels.external}
                               href={l.href}
                               onClick={close}
-                              className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-menu text-ink-700 hover:bg-paper-2"
+                              className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-menu text-ink-700 transition-colors duration-(--duration-hover) ease-(--ease-aims) hover:bg-paper-2"
                             >
                               {l.label}
                               {l.meta && <span className="text-xs text-ink-400 tabular-nums">{l.meta}</span>}
@@ -164,7 +169,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
               externalLabel={labels.external}
               href={hrefs.quote}
               onClick={close}
-              className="flex h-12 items-center justify-center rounded-pill bg-green-700 font-semibold text-white hover:bg-green-800"
+              className="flex h-12 items-center justify-center rounded-pill bg-green-700 font-semibold text-white [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] hover:bg-green-800 motion-safe:active:scale-[.98]"
             >
               {labels.quote}
             </Link>
@@ -173,7 +178,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
                 kind="whatsapp"
                 href={hrefs.whatsapp}
                 target={hrefs.whatsappDisplay}
-                className="flex h-12 items-center justify-center gap-2 rounded-pill bg-whatsapp font-semibold text-white"
+                className="flex h-12 items-center justify-center gap-2 rounded-pill bg-whatsapp font-semibold text-white [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] motion-safe:active:scale-[.98]"
               >
                 <WhatsAppIcon width={18} height={18} />
                 {labels.whatsapp}
@@ -182,7 +187,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
                 kind="phone"
                 href={`tel:${hrefs.tel}`}
                 target={hrefs.telDisplay}
-                className="flex h-12 items-center justify-center gap-2 rounded-pill border border-ink font-semibold"
+                className="flex h-12 items-center justify-center gap-2 rounded-pill border border-ink font-semibold [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] motion-safe:active:scale-[.98]"
               >
                 <PhoneIcon width={18} height={18} />
                 {labels.call}
