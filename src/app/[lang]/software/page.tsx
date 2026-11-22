@@ -11,6 +11,7 @@ import { ArrowIcon } from "@/components/icons";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/home/sections.css";
+import "@/components/catalogue/catalogue.css";
 import "@/components/solution/solution.css";
 import "@/components/software/software.css";
 
@@ -70,16 +71,22 @@ export default async function SoftwareCentre() {
             { href: href("/software"), label: t.softwarePage.software },
           ]}
         />
-        <h1 id="sw-centre-title">{c.title}</h1>
-        <p className="t3-promise">{c.lead}</p>
-        <div className="t3-actions">
+        <h1 id="sw-centre-title" className="sw-enter">
+          {c.title}
+        </h1>
+        <p className="t3-promise sw-enter">{c.lead}</p>
+        <div className="t3-actions sw-enter">
           <Link href={href("/quote?need=install")} className="home-button">
             {c.primary}
-            <ArrowIcon width="18" height="18" className="home-action-arrow" />
+            <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
           </Link>
         </div>
       </section>
-      <section className="sw-centre page-container" aria-labelledby="sw-centre-title">
+      <section className="sw-centre page-container" aria-labelledby="sw-centre-list">
+        {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
+        <h2 id="sw-centre-list" className="sr-only">
+          {c.listHeading}
+        </h2>
         <Suspense fallback={<SoftwareFilterView {...filter} active={null} />}>
           <SoftwareFilter {...filter} />
         </Suspense>
@@ -95,7 +102,7 @@ export default async function SoftwareCentre() {
           <div className="t3-cta-actions">
             <Link href={href("/quote?need=install")} className="home-button">
               {c.primary}
-              <ArrowIcon width="18" height="18" className="home-action-arrow" />
+              <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
             </Link>
           </div>
         </div>

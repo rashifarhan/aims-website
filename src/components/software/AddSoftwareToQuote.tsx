@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowIcon } from "@/components/icons";
 import { fmt } from "@/i18n/format";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
@@ -21,6 +21,16 @@ export function AddSoftwareToQuote({ slug, name, quoteHref, labels }: Props) {
   const id = `software-${slug}`;
   const inQuote = quote.lines.some((l) => l.kind === "custom" && l.id === id);
   const [status, setStatus] = useState("");
+  const link = useRef<HTMLAnchorElement>(null);
+  const justAdded = useRef(false);
+
+  // The button unmounts once the line exists: keep keyboard focus on the link that replaced it
+  // (WCAG 2.4.3), as the catalogue's AddToQuote does, instead of dropping it to the page.
+  useEffect(() => {
+    if (!inQuote || !justAdded.current) return;
+    justAdded.current = false;
+    link.current?.focus();
+  }, [inQuote]);
 
   return (
     <div className="sw-add">
@@ -29,9 +39,9 @@ export function AddSoftwareToQuote({ slug, name, quoteHref, labels }: Props) {
           <span className="sw-in-quote">
             <span aria-hidden="true">✓</span> {labels.inQuote}
           </span>
-          <Link href={quoteHref} className="home-text-link">
+          <Link ref={link} href={quoteHref} className="home-text-link">
             {labels.viewQuote}
-            <ArrowIcon width="16" height="16" className="home-action-arrow" />
+            <ArrowIcon width="16" height="16" className="home-action-arrow rtl:-scale-x-100" />
           </Link>
         </>
       ) : (
@@ -39,6 +49,7 @@ export function AddSoftwareToQuote({ slug, name, quoteHref, labels }: Props) {
           type="button"
           className="home-button"
           onClick={() => {
+            justAdded.current = true;
             dispatchQuote({ type: "addCustom", id, text: fmt(labels.line, { name }), qty: 1 });
             setStatus(fmt(labels.added, { name }));
           }}

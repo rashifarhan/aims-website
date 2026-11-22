@@ -8,11 +8,11 @@ import { loadSoftwarePage } from "./softwareCopy";
 /**
  * T6 detail, first screen (Plan 14; taste layout-v4 §3): the h1 names the platform and its category,
  * the lead says what it does and where AIMS sets it up (the hard fact), two actions, and AIMS's own
- * product image whole beside the words. Enters once on load (taste motion.md).
+ * product image whole beside the words. No label above the h1: it names the category itself
+ * (impeccable craft floor). Enters once on load, then stands (taste motion.md; software.css).
  */
 export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
   const { software, t, c, page, addLabels, href } = await loadSoftwarePage(slug);
-  const type = software.types[0];
   return (
     <section className="sw-hero page-container" aria-labelledby="sw-title" data-enter>
       <div className="sw-hero-text">
@@ -24,10 +24,11 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
             { href: href(`/software/${slug}`), label: software.name },
           ]}
         />
-        {type && <p className="t3-eyebrow">{c.eyebrow[type]}</p>}
-        <h1 id="sw-title">{page.title}</h1>
-        <p className="t3-promise">{page.lead}</p>
-        <div className="t3-actions">
+        <h1 id="sw-title" className="sw-enter">
+          {page.title}
+        </h1>
+        <p className="t3-promise sw-enter">{page.lead}</p>
+        <div className="t3-actions sw-enter">
           <AddSoftwareToQuote slug={slug} name={software.name} quoteHref={href("/quote")} labels={addLabels} />
           <Link href="#terminals" className="home-secondary">
             {page.jump}
@@ -41,8 +42,8 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
             alt={software.image.alt}
             width={software.image.width}
             height={software.image.height}
-            sizes="(min-width: 1024px) 420px, 280px"
-            priority
+            sizes="(min-width: 1024px) 420px, 288px"
+            preload
           />
         </div>
       )}

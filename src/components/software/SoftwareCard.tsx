@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "@/components/home/ExternalLink";
+import { ArrowIcon } from "@/components/icons";
 import type { Software } from "@/content/schema";
 import type { SoftwareType } from "@/content/taxonomy";
 
@@ -12,8 +13,11 @@ export type SoftwareCardLabels = {
 };
 
 /**
- * One Download Centre card (Plan 12 #4; taste cards.md: one card style, the whole card linked).
- * A built platform opens its page here; the others open AIMS's current page, marked ↗.
+ * One Download Centre card (Plan 12 #4) in the shared card (actions.css .ui-card): it lifts 2px and
+ * its picture zooms on hover. The name is the link and its ::after covers the card, so the whole card
+ * answers a click while the accessible name stays the platform's name (WCAG 2.5.3, as SolutionCard).
+ * A built platform opens its page here; the others open AIMS's current page, marked ↗. The type sits
+ * under the name as a fact, never as a label above it (impeccable craft floor: no eyebrows).
  */
 export function SoftwareCard({
   software,
@@ -24,40 +28,46 @@ export function SoftwareCard({
   href: string | null;
   labels: SoftwareCardLabels;
 }) {
-  const body = (
-    <>
-      <span className="sw-card-image">
+  // The product name stays left-to-right inside Arabic; the ↗ mark outside it still mirrors (Design Doc 13).
+  const name = (
+    <span dir="ltr" translate="no">
+      {software.name}
+    </span>
+  );
+  return (
+    <article className="sw-card ui-card ui-card-interactive">
+      <div className="sw-card-image ui-card-photo">
         {software.image && (
           <Image
             src={software.image.src}
             alt=""
             width={software.image.width}
             height={software.image.height}
-            sizes="(min-width: 1024px) 120px, 96px"
+            sizes="(min-width: 1024px) 112px, 80px"
           />
         )}
-      </span>
-      <span className="sw-card-text">
-        <span className="home-software-kind">{software.types.map((type) => labels.types[type]).join(" · ")}</span>
-        <span className="sw-card-name" dir="ltr">
-          {software.name}
-        </span>
-        <span className="home-software-purpose">{labels.purpose}</span>
+      </div>
+      <div className="sw-card-text">
+        <h3 className="sw-card-name">
+          {href ? (
+            <Link href={href} className="sw-card-link">
+              {name}
+            </Link>
+          ) : (
+            <ExternalLink href={software.sourceUrl} label={labels.external} className="sw-card-link">
+              {name}
+            </ExternalLink>
+          )}
+        </h3>
+        <p className="sw-card-purpose">{labels.purpose}</p>
+        <p className="sw-card-types">{software.types.map((type) => labels.types[type]).join(" · ")}</p>
         {href && (
           <span className="sw-card-open" aria-hidden="true">
             {labels.open}
+            <ArrowIcon width="16" height="16" className="home-action-arrow rtl:-scale-x-100" />
           </span>
         )}
-      </span>
-    </>
-  );
-  return href ? (
-    <Link href={href} className="home-software-card sw-card">
-      {body}
-    </Link>
-  ) : (
-    <ExternalLink href={software.sourceUrl} label={labels.external} className="home-software-card sw-card">
-      {body}
-    </ExternalLink>
+      </div>
+    </article>
   );
 }

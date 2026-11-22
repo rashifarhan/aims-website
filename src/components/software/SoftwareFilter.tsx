@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { SOFTWARE_TYPES, type SoftwareType } from "@/content/taxonomy";
-import { fmt } from "@/i18n/format";
+import { countLabel } from "@/i18n/format";
 import { typeFromParam } from "@/lib/software";
+import { ResultCount } from "@/components/catalogue/ResultCount";
 
 export type SoftwareFilterItem = { slug: string; types: SoftwareType[]; card: ReactNode };
 export type SoftwareFilterLabels = {
@@ -23,7 +24,12 @@ type ViewProps = {
   active: SoftwareType | null;
 };
 
-/** The chips and the grid. Server-rendered unfiltered as the Suspense fallback, so it never shifts. */
+/**
+ * The chips and the grid. Server-rendered unfiltered as the Suspense fallback, so it never shifts.
+ * Chips are the shared small outline button (actions.css); the active one is marked aria-current and
+ * tinted, never filled, so the page keeps one filled action per screen. A filter change answers with
+ * the catalogue's count tick (ResultCount); the cards never animate (taste motion.md).
+ */
 export function SoftwareFilterView({ items, basePath, labels, active }: ViewProps) {
   const shown = active ? items.filter((i) => i.types.includes(active)) : items;
   const chips: { type: SoftwareType | null; label: string }[] = [
@@ -41,16 +47,18 @@ export function SoftwareFilterView({ items, basePath, labels, active }: ViewProp
                 scroll={false}
                 prefetch={false}
                 aria-current={type === active ? "page" : undefined}
-                className="sw-chip"
+                className="sw-chip home-button home-button-outline home-button-sm"
               >
                 {label}
               </Link>
             </li>
           ))}
         </ul>
-        <p className="sw-count tabular-nums" aria-live="polite">
-          {shown.length === 1 ? labels.countOne : fmt(labels.count, { count: shown.length })}
-        </p>
+        <ResultCount
+          count={shown.length}
+          cause={active ?? ""}
+          text={countLabel(shown.length, labels.countOne, labels.count)}
+        />
       </nav>
       <ul className="sw-card-grid">
         {shown.map((item) => (

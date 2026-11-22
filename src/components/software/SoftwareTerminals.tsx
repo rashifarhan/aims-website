@@ -3,21 +3,17 @@ import Link from "next/link";
 import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { fmt } from "@/i18n/format";
 import { terminalsFor } from "@/content/softwarePages";
+import type { Product } from "@/content/schema";
 import type { BuiltSoftware } from "@/lib/software";
-import { SoftwareHub } from "./SoftwareHub";
+import { SoftwareSignal, type SignalNode } from "./SoftwareSignal";
 import { loadSoftwarePage } from "./softwareCopy";
 
-/**
- * T6 detail, "works with which devices" (Plan 12 #29–31), and the page's dealt moment. BioTime 9.5
- * and ZKAccess 3.5 list only terminals whose AIMS product text names them; BioTime Cloud is named by
- * no product page, so its hub shows how it is reached (from its own feature list) and its copy asks
- * buyers to confirm cloud support (CLAUDE.md §1).
- */
-export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
-  const { software, t, c, href } = await loadSoftwarePage(slug);
-  const cloud = slug === "biotimecloud";
-  const terminals = terminalsFor(slug);
-  const nodes = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
+type Loaded = Awaited<ReturnType<typeof loadSoftwarePage>>;
+
+/** One terminal in the shared card (actions.css): photo, model code as the link, outline Add. */
+function terminalCard(p: Product, { t, href }: Loaded): SignalNode {
+  const image = p.images[0];
+  const productHref = href(`/product/${p.slug}`);
   const labels = {
     add: t.catalogue.add,
     inQuote: t.catalogue.inQuote,
@@ -27,60 +23,63 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     decrease: t.catalogue.decrease,
     increase: t.catalogue.increase,
   };
+  return {
+    key: p.slug,
+    content: (
+      <article className="sw-terminal ui-card ui-card-interactive">
+        <Link href={productHref} tabIndex={-1} aria-hidden="true" className="sw-terminal-image ui-card-photo">
+          {image && <Image src={image.src} alt="" width={image.width} height={image.height} sizes="72px" />}
+        </Link>
+        <div className="sw-terminal-text">
+          <h3>
+            {/* Model codes in Plex Mono and left-to-right inside Arabic (Design Doc 5, 13). */}
+            <Link href={productHref} dir="ltr" translate="no" className="sw-terminal-model">
+              {p.model}
+            </Link>
+          </h3>
+          <AddToQuote slug={p.slug} name={p.name} labels={labels} variant="outline" />
+        </div>
+      </article>
+    ),
+  };
+}
+
+/**
+ * T6 detail, "works with which devices" (Plan 12 #29–31), and the page's dealt moment (SIGNAL).
+ * BioTime 9.5 and ZKAccess 3.5 draw lines to the terminals whose own AIMS product text names them.
+ * No AIMS product page names BioTime Cloud, so it names no terminal: its lines reach the ways in
+ * that its own feature list gives (browser, mobile app, branches, attendance devices), and its copy
+ * asks buyers to confirm cloud support (CLAUDE.md §1: no inferred compatibility).
+ */
+export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
+  const loaded = await loadSoftwarePage(slug);
+  const { software, c, href } = loaded;
+  const cloud = slug === "biotimecloud";
+  const terminals = terminalsFor(slug);
+  const nodes: SignalNode[] = cloud
+    ? c.terminals.cloudNodes.map((text) => ({ key: text, content: <span className="sw-signal-pill">{text}</span> }))
+    : terminals.map((p) => terminalCard(p, loaded));
+  const names = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
   return (
-    <section
-      id="terminals"
-      className="sw-section sw-screen sw-band page-container"
-      aria-labelledby="sw-terminals-title"
-      data-moment
-    >
-      <div className="t3-heading t3-heading-row">
+    <section id="terminals" className="sw-section sw-screen page-container" aria-labelledby="sw-terminals-title">
+      <div className="sw-split">
         <div>
           <h2 id="sw-terminals-title" className="t3-title">
             {cloud ? c.terminals.cloudHeading : fmt(c.terminals.heading, { name: software.name })}
           </h2>
           <p className="t3-lead">{cloud ? c.terminals.cloudLead : fmt(c.terminals.lead, { name: software.name })}</p>
+          {cloud && (
+            <Link href={href("/products/time-attendance")} className="home-text-link">
+              {c.terminals.cloudAll}
+            </Link>
+          )}
         </div>
-        {cloud && (
-          <Link href={href("/products/time-attendance")} className="home-text-link">
-            {c.terminals.cloudAll}
-          </Link>
-        )}
-      </div>
-      <div className="sw-terminals">
-        <SoftwareHub
-          centre={software.name}
+        <SoftwareSignal
+          source={software.name}
           nodes={nodes}
-          mono={!cloud}
-          label={fmt(c.terminals.diagram, { name: software.name, nodes: nodes.join(", ") })}
+          size={cloud ? "chip" : "card"}
+          label={fmt(c.terminals.diagram, { name: software.name, nodes: names.join(", ") })}
         />
-        <ul className="sw-terminal-grid">
-          {terminals.map((p) => {
-            const image = p.images[0];
-            const productHref = href(`/product/${p.slug}`);
-            return (
-              <li key={p.slug} className="pick-card">
-                <Link href={productHref} tabIndex={-1} aria-hidden="true" className="pick-image sw-terminal-image">
-                  {image && (
-                    <Image
-                      src={image.src}
-                      alt=""
-                      width={image.width}
-                      height={image.height}
-                      sizes="(min-width: 1024px) 160px, 140px"
-                    />
-                  )}
-                </Link>
-                <h3>
-                  <Link href={productHref} dir="ltr">
-                    {p.model}
-                  </Link>
-                </h3>
-                <AddToQuote slug={p.slug} name={p.name} labels={labels} className="pick-add" />
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </section>
   );
