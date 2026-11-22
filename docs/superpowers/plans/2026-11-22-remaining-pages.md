@@ -51,7 +51,7 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 
 ### Agent E: company and editorial (`claude/company-polish`)
 
-- [ ] Compare both editorial branches; choose one editorial system and one importer
+- [x] Compare both editorial branches; choose one editorial system and one importer
 - [ ] `/privacy-policy`, `/terms-and-conditions`
 - [ ] `/blog`, `/blog/[slug]` with AIMS's images
 - [ ] `/about`, `/services`, `/support` (services and support stop falling back to `/contact`)
