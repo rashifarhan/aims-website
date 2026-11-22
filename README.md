@@ -1,5 +1,17 @@
 # aims-website
 
+## Locations hub — 22 November 2026
+
+The T2 Locations hub is implemented at `/locations` and `/ar/locations` on `codex/locations-hub` in an isolated worktree. The original checkout's uncommitted software work is preserved. The branch uses the committed site foundation; main and the other feature branches are unchanged.
+
+Scope follows Master Plan ch. 12/14/16 and Design Doc 10.1 T2: published UAE contacts and Deira directions, GCC/Africa delivery markets, export notes and FAQs. Country links preset the existing quote context and persist through its existing 14-day store. Markets are delivery destinations, not claims of local offices. Exact office maps/addresses and opening hours remain absent until supplied. Arabic remains a draft. Contact links retain the existing preview guard; the map opens only on request. No third-party runtime fetch, stand-in premises photography or new dependency is added.
+
+Design decisions: retain the shared grid, palette, shell and real SpeedFace photograph. The approved Design Doc 8.3 Dubai delivery-route drawing is reused as the domain moment instead of the randomly dealt iris wipe, which would not explain delivery. It runs once when the actual map becomes visible, pauses offscreen, and rests under reduced motion. Hero entrance and link/press feedback use transform and opacity. FAQs are grouped with UAE contacts to avoid a sparse separate screen.
+
+Validation after integrating main c433994: check passes 84 unit tests; formatting and production build pass. The full production browser suite passes 253 checks, with 15 inherited viewport exclusions and zero axe violations, including hovered CTA contrast. Both locales, 320/390/768/1024/1440 layouts, country persistence and once-only/reduced map motion are covered. Upstream footer disclosures, external search labels, local contact fallbacks and site-wide polish are preserved.
+
+The historical design audit is **GATE: OPEN 29**, captured before main’s latest footer polish. The final refresh returned **GATE: OFF (no build active)**; the skill says to report OFF without rerunning. No fresh stock-gate PASS is claimed. After the client approved reconciling the shared rules, genuine defects were fixed (search labeling, wordmark accessible name, focus outlines, FAQ alignment, section height and hover contrast). Exact remaining findings and project decisions are preserved in `docs/design-checks/locations-raw-gate.txt`, `locations-raw-findings.json` and `locations-gate-decisions.md`. CLAUDE.md records this release's explicit policy: the reviewed named exceptions satisfy its project gate, while the raw kit result remains OPEN. No kit file or check was edited, and no raw PASS is claimed. The final hovered-state axe regression passes all six focused checks.
+
 Redesign of [aimsuae.me](https://aimsuae.me) for AIMS Security Systems Trading LLC, a ZKTeco distributor in Dubai.
 It is a hiring assignment: build AIMS a better site than its competitor's. The strategy, scope and design live in
 [`docs/`](docs/README.md): Master Plan v2.0 and Design Document v0.1, plus the approved animation prototypes. Rules for

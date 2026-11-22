@@ -1,4 +1,55 @@
 {
+  "locationsHub": {
+    "title": "Security systems from Dubai",
+    "metaTitle": "Locations & delivery",
+    "description": "Visit AIMS in Deira, contact the Dubai or Abu Dhabi office, or choose a delivery destination for your security systems quote.",
+    "lead": "Visit our Deira showroom for ZKTeco hardware, discuss installation in the UAE, or request delivery to the GCC and Africa.",
+    "visit": "Find UAE contacts",
+    "export": "Choose a destination",
+    "uaeTitle": "UAE offices and showroom",
+    "uaeLead": "Call before visiting to confirm opening hours and product availability.",
+    "showroom": "Deira showroom",
+    "headOffice": "Dubai head office",
+    "abuDhabi": "Abu Dhabi office",
+    "dubaiArea": "Deira, Dubai",
+    "abuDhabiArea": "Abu Dhabi, UAE",
+    "call": "Call",
+    "directions": "Get showroom directions",
+    "install": "Request installation",
+    "mapExternal": "Google Maps, opens in a new tab",
+    "marketsTitle": "Delivery from Dubai",
+    "marketsLead": "Choose your destination to start an export request. Add models and quantities to your quote list.",
+    "gcc": "GCC destinations",
+    "africa": "African destinations",
+    "destinationAction": "Request delivery to",
+    "countries": {
+      "Oman": "Oman",
+      "Bahrain": "Bahrain",
+      "Kuwait": "Kuwait",
+      "Kenya": "Kenya",
+      "Tanzania": "Tanzania",
+      "Cameroon": "Cameroon",
+      "Nigeria": "Nigeria",
+      "Uganda": "Uganda"
+    },
+    "notes": "Delivery details",
+    "notesBody": "Share your city or port and any document requirements. AIMS confirms delivery arrangements and costs with your quotation.",
+    "faqTitle": "Visits and delivery questions",
+    "faq": [
+      {
+        "q": "Can I visit the showroom?",
+        "a": "The Deira showroom is in Naif Bazar Building. Call the published showroom line before visiting to confirm opening hours and availability."
+      },
+      {
+        "q": "Does a market listing mean there is a local office?",
+        "a": "The GCC and Africa destinations are delivery markets. The offices and showroom listed here are in the UAE."
+      },
+      {
+        "q": "What should I include in an export request?",
+        "a": "Include model names, quantities, destination city or port, and required documents. Your selected country is carried into the quote form."
+      }
+    ]
+  },
   "meta": {
     "siteName": "AIMS Security Systems",
     "titleTemplate": "%s | AIMS Security Systems",

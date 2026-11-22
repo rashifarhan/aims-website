@@ -15,7 +15,7 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/solutions")).toBe("/ar/solutions");
   });
   it("uses the built showroom section and live software/contact destinations", () => {
-    expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
+    expect(navigationHref("/ar/locations")).toBe("/ar/locations");
     // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
     expect(navigationHref("/contact")).toBe("/contact");
     expect(navigationHref("/support")).toBe("/contact");

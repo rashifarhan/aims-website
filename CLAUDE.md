@@ -110,6 +110,15 @@ node .agents/skills/design-taste-frontend/scripts/gate.mjs http://localhost:3000
 The gate writes to `.taste-skill/`. Commit `.taste-skill/waivers.json` (every waiver with its reason); the rest is
 local output.
 
+**Project gate reconciliation (client approved 22 Nov 2026).** Preserve the skill's raw report and kit unchanged.
+For the Locations release, also review `docs/design-checks/locations-gate-decisions.md`: it records exact findings
+that conflict with required real AIMS contacts, approved domain motion, or the shared bilingual directory shell.
+Those decisions supersede the generic kit's five-waiver limit only for the named findings. Genuine page layout,
+focus, contrast, overflow, unlabeled fields and broken actions must still be fixed and tested. Do not claim the raw
+kit gate passed when it is OPEN. Report raw status and unresolved project findings separately in the PR.
+For this release, the documented, reviewed project decisions satisfy the design-gate Definition of Done for their
+named findings. Keep `docs/design-checks/locations-raw-findings.json` with the original finding text for audit.
+
 Node 22, pnpm 10. Don't use npm or yarn, and don't commit another lockfile.
 
 ## Architecture map

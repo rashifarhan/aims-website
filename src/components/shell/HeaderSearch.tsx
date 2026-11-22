@@ -45,7 +45,10 @@ export function HeaderSearch({
       }}
     >
       {!labelledOutside && (
-        <label htmlFor={id} className="sr-only">
+        <label
+          htmlFor={id}
+          className="absolute start-4 -top-2 z-10 bg-paper px-1 text-caption font-medium text-ink-600"
+        >
           {placeholder}
         </label>
       )}

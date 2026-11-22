@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DELIVERY_MARKETS } from "@/lib/site";
 
 /**
  * What the buyer needs (Design Doc 10, T8 "Quote list rules"). Saved with
@@ -50,4 +51,11 @@ export type Need = (typeof NEEDS)[number];
 export function needFromSearch(search: string): Need | undefined {
   const parsed = z.enum(NEEDS).safeParse(new URLSearchParams(search).get("need"));
   return parsed.success ? parsed.data : undefined;
+}
+
+/** Master Plan T2: a market link carries its supported destination into the quote. */
+export function destinationFromSearch(search: string): Pick<QuoteContext, "need" | "country"> | undefined {
+  const params = new URLSearchParams(search);
+  const country = z.enum(DELIVERY_MARKETS).safeParse(params.get("country"));
+  return params.get("need") === "export" && country.success ? { need: "export", country: country.data } : undefined;
 }

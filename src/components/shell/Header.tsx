@@ -55,8 +55,14 @@ export async function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
-      <div className="page-container flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
+    <header className="nav sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-paper focus:px-4 focus:py-2 focus:shadow-2"
+      >
+        {t.nav.skipToContent}
+      </a>
+      <div className="wrap page-container flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch

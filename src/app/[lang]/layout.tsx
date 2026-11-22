@@ -43,12 +43,6 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       className={`${inter.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-paper focus:px-4 focus:py-2 focus:shadow-2"
-        >
-          {t.nav.skipToContent}
-        </a>
         <ContactGuardProvider labels={t.contactGuard}>
           <Header />
           {children}

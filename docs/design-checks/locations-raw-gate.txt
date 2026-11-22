@@ -1,0 +1,98 @@
+gate: checking http://localhost:3200/locations (tech); this takes a few minutes on a CPU Chrome
+gate: rounds used up; 29 FAIL open
+  FAIL scroll-reveal    section#delivery > div.wrap.page-container > div.locations-market-grid > svg.reach-map "Du  [1440, 390]
+       starts an animation (1.4 s) the moment it is scrolled into view (an IntersectionObserver) on path.reach-route.stroke-night-muted
+       fix: show it at rest: no fade, rise or unmask when it is scrolled into view
+  FAIL no-visual        section#uae "UAE offices and showroom"  [1440, 390]
+       no picture, effect or mock in this section; a feature section needs a visual
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL button-styles    (the page)  [1440, 390]
+       4 button styles on the page: pill, outline #0e1512 x1 ("Quote"); pill, fill #26703a x2 ("Find UAE contacts"); pill, fill #78be20 x1 ("Request a quote"); pill, fill #ffffff, outline #e3e7e3 x6 ("F18")
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL copy-headings    section#uae > div.wrap.page-container > h2 "UAE offices and showroom"  [1440]
+       "UAE offices and showroom" names no product, part, place or section (2 headings like it; at most one brand line per page) (and 1 more like it: "GCC destinations")
+       fix: name the thing in every heading: the product, a part, the place or a section noun
+  FAIL effect-kind      section#delivery  [1440]
+       1 [data-moment] mark that never runs: true on section#delivery (assets/moments/true/moment.js was never loaded); a moment is judged as one only when it runs
+       fix: load assets/moments/moments.js (system.js does it for a page with [data-moment]) and keep the dealt id, or take the data-moment mark off the section
+  FAIL phone-number     div.locations-offices > article:nth-of-type(1) > a.locations-link:nth-of-type(1) > bdi "+9  [1440]
+       a phone number in international format: "+971 4 880 8445"; a visitor can dial it and reach a stranger (and 4 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink > span, div.wrap.page-c
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     div.locations-offices > article:nth-of-type(2) > a.locations-link > bdi "+971 4 252 3253"  [1440]
+       a phone number in international format: "+971 4 252 3253"; a visitor can dial it and reach a stranger (and 3 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span, div.wrap.page-c
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     div.locations-offices > article:nth-of-type(3) > a.locations-link > bdi "+971 2 546 6047"  [1440]
+       a phone number in international format: "+971 2 546 6047"; a visitor can dial it and reach a stranger (and 3 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span, div.wrap.page-c
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span "+971 56   [1440]
+       a phone number in international format: "+971 56 524 0495"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink, 
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL section-height   footer.closing.mt-auto "AIMSAuthorized ZKTeco Distributor · UAEV"  [1440]
+       the section is 776px tall (0.9 screens), 124px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)
+       fix: set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit
+  FAIL section-height   main#main > section.locations-hero "Home/Locations{"@context":"https://schem"  [1440]
+       the section starts at 73px, 73px below the screen grid (0 x 900px): sections start on whole screens (SR-2)
+       fix: make every section above it exactly one or two screens tall, so this one starts on a whole screen
+  FAIL one-section      section#uae "UAE offices and showroomCall before visi"  [1440]
+       the screen at scroll 73px (the top of section 1) shows 73px of section 2 beside section 1: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-section      section#delivery "Delivery from DubaiChoose your destinati"  [1440]
+       the screen at scroll 2576px (the top of section 4) shows 51px of section 3 beside section 4: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-heading      div.grid.gap-10 > div.grid.grid-cols-2 > nav:nth-of-type(1) > h2.text-sm.font-semibold "Pr  [1440]
+       the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)
+       fix: give each section one h2, first in its .wrap, and the hero only its h1
+  FAIL container-edges  footer.closing.mt-auto > div.wrap.page-container "AIMSAuthorized ZKTeco Distributor · UAEV  [1440]
+       footer.closing > .wrap holds 3 children: exactly two (the call, then the legal row) (SR-6)
+       fix: build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing
+  FAIL container-edges  div.grid.gap-10 > div.grid.grid-cols-2 > nav:nth-of-type(4) > h2.text-sm.font-semibold "Co  [1440]
+       the h2 starts 1098px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  div.grid.gap-10 > div.grid.grid-cols-2 > nav:nth-of-type(3) > h2.text-sm.font-semibold "So  [1440]
+       the h2 starts 892px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  div.grid.gap-10 > div.grid.grid-cols-2 > nav:nth-of-type(2) > h2.text-sm.font-semibold "So  [1440]
+       the h2 starts 686px right of the container's left: every h1 and h2 starts on it, 2px either way (and 1 more like it: "Products") (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL row-lines        footer.closing.mt-auto > div.wrap.page-container > div.grid.gap-10 > div.grid.grid-cols-2   [1440]
+       a row of 4 items: its first item starts at 560px, the container's left line at 80px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL split-pair       footer.closing.mt-auto > div.wrap.page-container > div.grid.gap-10 "AIMSAuthorized ZKTeco   [1440]
+       the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)
+       fix: put the text in the left column and the visual in the right, on every split
+  FAIL off-grid         div.mt-12.border-t > ul.mt-3.flex > li:nth-of-type(3) > a.inline-flex.h-8 "Fingerprint"  [390]
+       left edge at 220.5px, 13.5px off a common edge of its section at 207px (13 elements, like a.inline-flex.min-h-8); 2 more in this section off the grid too (a.inline-flex.h-8 at 201.5px, span.ms-1 at 172.5px)
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL edge-right       footer.closing.mt-auto div "AIMSAuthorized ZKTeco Distributo"  [1440]
+       ends at x 520; the right line is 1360
+       fix: end it on the .wrap right line
+  FAIL edge-left        footer.closing.mt-auto div.grid.grid-cols-2 "ProductsTime attendanceAccess co"  [1440]
+       starts at x 560; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL edge-left        footer.closing.mt-auto nav "ProductsTime attendanceAccess co"  [1440]
+       starts at x 560; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL edge-left        footer.closing.mt-auto nav "SolutionsTime attendanceAccess c"  [1440]
+       starts at x 766; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL edge-left        footer.closing.mt-auto nav "SoftwareSoftware Download Centre"  [1440]
+       starts at x 972; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL edge-left        footer.closing.mt-auto nav "CompanyAbout & showrooms↗ · on a"  [1440]
+       starts at x 1178; the lines are 80 and the column starts
+       fix: start it on the .wrap left line
+  FAIL screen-height    #uae section.locations-section "UAE offices and showroomCall bef"  [1440, 390]
+       900px, 1.09 screens; a section is exactly one or two (--h)
+       fix: make the section exactly one or two screens (--h: 1 or 2)
+  FAIL screen-height    #delivery section.locations-section.locations-markets "Delivery from DubaiChoose your d"  [1440]
+       900px, 1.09 screens; a section is exactly one or two (--h)
+       fix: make the section exactly one or two screens (--h: 1 or 2)
+  waiver ignored (matches no open finding): phone-number "ul.home-place-cards > li.home-place-card.home-place-featured > div.home-place-actions"
+  waiver ignored (matches no open finding): nav-covers "main#main > button.home-floating-contact"
+  waiver ignored (matches no open finding): text-contrast "div.page-container.flex > a.flex.min-h-11 > span.text-wordmark.font-extrabold"
+  waiver ignored (matches no open finding): effect-kind "main#main > section.home-section.home-door"
+  waiver ignored (matches no open finding): card-layout "section#families > div.home-section.page-container > div.home-family-grid"
+  9 WARN (not blocking), first: copy-buttons header.nav.sticky > div.wrap.page-contai; copy-actions (the page); section-gaps section#uae / section#delivery; section-gaps section#delivery / footer.closing.mt-aut; nav-labels header.nav.sticky > a.sr-only "Skip to c
+Stop fixing: put these open FAILs and the waivers in your report, then finish.
+GATE: OPEN 29 (rounds used up)
+

@@ -71,7 +71,7 @@ test.describe("search", () => {
     await expect(page.getByRole("article").first()).toContainText("SA20");
 
     const fresh = await (await browser.newContext()).newPage();
-    await fresh.goto(page.url().replace(/^.*?\/products/, "http://localhost:3100/products"));
+    await fresh.goto(page.url());
     await expect(fresh.getByRole("article").first()).toContainText("SA20");
     await fresh.context().close();
   });
