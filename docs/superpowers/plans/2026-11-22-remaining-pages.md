@@ -46,7 +46,7 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 - [ ] `/locations` hub on our system (replaces `navigationHref`'s `#showrooms` fallback)
 - [ ] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
 - [ ] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
-- [ ] Destination quote flow and its unit tests
+- [x] Destination quote flow and its unit tests
 - [ ] Routes flipped to built; e2e specs; `pnpm check` + build clean
 
 #### Agent L: what is ported from `codex/location-pages`

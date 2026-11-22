@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DELIVERY_COUNTRIES } from "@/lib/site";
 
 /**
  * What the buyer needs (Design Doc 10, T8 "Quote list rules"). Saved with
@@ -50,4 +51,25 @@ export type Need = (typeof NEEDS)[number];
 export function needFromSearch(search: string): Need | undefined {
   const parsed = z.enum(NEEDS).safeParse(new URLSearchParams(search).get("need"));
   return parsed.success ? parsed.data : undefined;
+}
+
+/**
+ * An export link such as /quote?need=export&country=Oman (Design Doc 10.1 T7 "set destination") arrives with
+ * that destination. Only a market AIMS lists is accepted; anything else falls back to needFromSearch.
+ */
+export function destinationFromSearch(search: string): Pick<QuoteContext, "need" | "country"> | undefined {
+  const params = new URLSearchParams(search);
+  const country = z.enum(DELIVERY_COUNTRIES).safeParse(params.get("country"));
+  return params.get("need") === "export" && country.success ? { need: "export", country: country.data } : undefined;
+}
+
+/**
+ * What a page's preset adds to the saved context: nothing once the buyer has chosen a need, so adding a model on
+ * the Oman page never overwrites a choice made on the quote page (Design Doc 10, T8 "Quote list rules").
+ */
+export function presetPatch(
+  current: QuoteContext | undefined,
+  preset: Partial<QuoteContext> | undefined,
+): Partial<QuoteContext> | undefined {
+  return current?.need ? undefined : preset;
 }
