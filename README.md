@@ -442,3 +442,15 @@ Design Doc 10.1; skill `layout-v4.md`, `motion.md`).
   current pages, marked ↗; their `/software/{slug}` URLs are not built here.
 - **Existing issue found, not fixed:** `/` fails axe `color-contrast` (lime `#78be20` on white, `.home-family-count` and the
   families "See all products" link), so `smoke.spec.ts` fails for `/` and `/ar`. It comes from `claude/homepage-taste`.
+
+### Company, legal and blog pages (`claude/company-pages`, 22 Nov 2026)
+
+Master Plan ch. 12 (T2, T3, T10), Design Doc 10.
+
+- **Importer:** `pnpm import:pages` writes `content/pages.json` (About, privacy, terms, warranty, FAQ, installation, one blog article, blog titles). Pages carry AIMS's own text as blocks; we wrote none of it.
+- **Legal and policy text** is shown verbatim and in English only (`lang="en"` on Arabic pages). It names `info@mssolution.me` / `mssolution.me`, which is AIMS's published wording and an open issue to raise with AIMS.
+- **Founding year** is removed from About (the live site says both 2011 and 2014) until AIMS confirms it.
+- **Locations** link to aimsuae.me for Dubai, Oman and Kenya until their T7 pages are built; Abu Dhabi goes to the homepage showrooms.
+- **Services** copy is limited to published facts.
+- **Blog:** only the one article is built; AIMS's other posts are external links to aimsuae.me.
+- **Arabic UI copy** is a draft until AIMS's reviewer approves it.

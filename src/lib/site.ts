@@ -58,7 +58,6 @@ export const whatsappUrl = (text?: string) =>
 export const LIVE_AIMS = {
   home: "https://aimsuae.me/",
   contact: "https://aimsuae.me/enquiry",
-  software: "https://aimsuae.me/swcategory/zk-teco",
 } as const;
 
 /** Short, verbatim excerpts; names as published at LIVE_AIMS.home, checked 21 Nov 2026. */

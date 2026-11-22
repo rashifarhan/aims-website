@@ -14,12 +14,8 @@ export function navigationHref(href: string): string {
     const family = path.slice("/solutions/".length).replace("entrance-parking", "entrance-control");
     return localePath(locale, `/products/${family}`);
   }
-  if (path === "/locations") return `${localePath(locale, "/")}#showrooms`;
-  if (["/contact", "/services", "/support"].includes(path)) return LIVE_AIMS.contact;
-  if (path === "/software") return LIVE_AIMS.software;
-  if (path.startsWith("/software/") || ["/about", "/privacy-policy", "/terms-and-conditions"].includes(path)) {
-    return `${LIVE_AIMS.home.slice(0, -1)}${path}`;
-  }
+  if (path === "/contact") return LIVE_AIMS.contact;
+  if (path.startsWith("/software/")) return `${LIVE_AIMS.home.slice(0, -1)}${path}`;
   return href;
 }
 

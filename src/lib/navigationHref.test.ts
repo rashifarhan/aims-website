@@ -19,8 +19,13 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
-  it("uses the built showroom section and live destinations for pages not built yet", () => {
-    expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
+  it("keeps the built company pages local", () => {
+    for (const path of ["/about", "/services", "/support", "/locations", "/privacy-policy", "/blog"]) {
+      expect(navigationHref(path)).toBe(path);
+      expect(navigationHref(`/ar${path}`)).toBe(`/ar${path}`);
+    }
+  });
+  it("uses live destinations for pages not built yet", () => {
     expect(navigationHref("/contact")).toBe("https://aimsuae.me/enquiry");
     expect(navigationHref("/ar/software/zkbio-cvaccess")).toBe("https://aimsuae.me/software/zkbio-cvaccess");
   });

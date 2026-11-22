@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "import:content": "tsx scripts/import-aims.ts",
+    "import:pages": "tsx scripts/import-pages.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "e2e:performance": "playwright test --config playwright.performance.config.ts"
   },
