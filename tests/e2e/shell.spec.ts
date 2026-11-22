@@ -13,6 +13,22 @@ test.describe("header and menus", () => {
     await expect(button).toBeFocused();
   });
 
+  test("desktop: opening keeps focus on the button; focus leaving the nav closes the panel", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, "desktop navigation only");
+    await page.goto("/");
+    const button = page.getByRole("button", { name: "Products" });
+    await button.focus();
+    await page.keyboard.press("Enter");
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    await expect(button).toBeFocused();
+    // The search field sits after the nav in the header, outside it.
+    await page.locator("#header-search").focus();
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+  });
+
   test("desktop: '/' focuses search and submitting goes to the listing", async ({ page, isMobile }) => {
     test.skip(isMobile, "keyboard shortcut is desktop only");
     await page.goto("/"); // shortcut attaches on hydration; toPass retries until then

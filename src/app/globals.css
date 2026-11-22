@@ -78,6 +78,15 @@
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
+  /* Interaction layer (Emil Kowalski's design-engineering rules, 22 Nov 2026): hover colour fades,
+     dropdowns and disclosures enter in under 200ms, the edge sheet uses a drawer curve and leaves faster
+     than it arrives. */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-hover: 150ms;
+  --duration-dropdown: 180ms;
+  --duration-card: 240ms;
+  --duration-drawer: 300ms;
+  --duration-drawer-exit: 200ms;
   /* Approved hero prototype and Design Doc 8.4. */
   --duration-nav: 250ms;
   --duration-hero-rise: 900ms;
@@ -186,6 +195,41 @@
   }
 }
 
+/*
+ * Shared interaction motion (README → Decisions, "Interaction layer").
+ * .motion-disclose: content that appears when a disclosure opens (mobile menu sections, FAQ answers)
+ *   fades in and settles 4px; nothing animates height.
+ * .motion-fade: an overlay (dropdown panel, dialog, sheet) that may slide or scale. Under reduced
+ *   motion it keeps only a short opacity fade (fewer, gentler animations, not none) and never moves.
+ */
+@keyframes aims-disclose {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes aims-fade {
+  from {
+    opacity: 0;
+  }
+}
+.motion-disclose {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-disclose {
+    animation-name: aims-fade !important;
+    animation-duration: var(--duration-fast) !important;
+  }
+  /* Only opacity (and the discrete display/overlay switch) transitions, so any slide or scale jumps
+     straight to its end state. Setting translate/scale to none instead is lost in the minified build. */
+  .motion-fade,
+  .motion-fade::backdrop {
+    transition-property: opacity, display, overlay !important;
+    transition-duration: var(--duration-fast) !important;
+  }
+}
+
 /* Prototype effects use palette tokens; only the approved hero uses these. */
 :root {
   --home-section-space: 3.5rem;
@@ -264,6 +308,14 @@
   .nav-motion::after {
     transition: none;
   }
+}
+/* Nav items fade their hover colour with plain ease (a colour change has no travel to ease out of) and
+   keep the fast brand-eased press scale from the `header button` rule below; the class selector
+   outranks it, so all three are listed here. */
+.nav-motion {
+  transition-property: color, background-color, transform;
+  transition-duration: var(--duration-hover), var(--duration-hover), var(--duration-fast);
+  transition-timing-function: ease, ease, var(--ease-aims);
 }
 /* Press feedback confirms activation without animating layout or colour. */
 header button {

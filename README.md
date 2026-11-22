@@ -198,6 +198,38 @@ From `content/import-report.json`:
 - **All 8 software "Download" buttons open WhatsApp.** There is no direct download, so the Download Centre treats
   delivery as "request" until AIMS says files can be linked.
 
+### Interaction layer (Emil Kowalski's design-engineering rules, 22 Nov 2026)
+
+Audited against `emil-design-eng`. The client approved all four groups and asked that reduced motion keep a short
+fade. Everything animates transform and opacity only (plus colour on hover), enters with the brand ease-out and
+leaves faster than it arrives. Tokens: `--duration-hover` 150ms, `--duration-dropdown` 180ms, `--duration-card`
+240ms, `--duration-drawer` 300ms in and 200ms out, `--ease-drawer`.
+
+- **Desktop dropdowns.**
+  - The panel fades in and settles 6px over 180ms and closes at once.
+  - Switching from one open menu to another is instant.
+  - Opening leaves focus on the button (WAI-ARIA disclosure); focus leaving the nav closes the panel.
+  - Hover backgrounds fade.
+- **Mobile menu.**
+  - The sheet slides fully in from the inline-end edge (300ms, drawer curve) and leaves in 200ms; the backdrop fades
+    with it.
+  - Section links fade in as a section opens.
+  - The Quote, WhatsApp and Call buttons press to 0.98.
+- **Buttons, links and cards.**
+  - The Quote pill's colours fade and its press matches `.home-button`.
+  - Text-link underlines fade in.
+  - "Request a quote" darkens on hover.
+  - The card lift and the photo zoom share one 240ms timing.
+- **Contact and FAQ.**
+  - The WhatsApp button fades in and rises 8px when it appears.
+  - The contact dialog grows from 0.96 at the centre.
+  - FAQ answers fade in as they open.
+- **Unchanged on purpose.** Search results and the "/" shortcut stay instant (keyboard, frequent), there are still no
+  scroll reveals, and in-page jumps don't animate.
+- **Reduced motion.** Overlays marked `.motion-fade` keep a 120ms opacity fade and never move; `.motion-disclose`
+  content fades only. Everything else is instant under the global rule. Setting `translate`/`scale` to `none` was
+  dropped by the CSS minifier, so the helper limits `transition-property` to opacity instead.
+
 ## Not yet confirmed by AIMS
 
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,

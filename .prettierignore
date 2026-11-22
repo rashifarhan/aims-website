@@ -17,3 +17,5 @@ performance-results
 .github/agents
 .github/hooks
 .codex
+# Impeccable's edit-hook cache (local, git-ignored); rewritten on every edit
+.impeccable/hook.cache.json
