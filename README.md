@@ -230,6 +230,27 @@ leaves faster than it arrives. Tokens: `--duration-hover` 150ms, `--duration-dro
   content fades only. Everything else is instant under the global rule. Setting `translate`/`scale` to `none` was
   dropped by the CSS minifier, so the helper limits `transition-property` to opacity instead.
 
+### Final Impeccable pass (adapt, harden, optimize, audit, polish; 22 Nov 2026)
+
+- **Adapt.**
+  - Portrait tablets up to 1279px (iPad Pro) take the stacked hero at its natural height; the side-by-side art had
+    cropped the device there.
+  - The one-screen section rule applies to landscape desktops only.
+  - Header gaps tighten from 1024 to 1279px so "Search products" fits.
+  - Checked from 320 to 2560px, in phone landscape and at 200% zoom: no horizontal scroll.
+- **Harden.**
+  - The reviews block is left out if no published reviews are on file.
+  - Without JavaScript the door and map show their final state. The mobile menu button needs JavaScript; the footer
+    lists every route (open, P2).
+- **Optimize.** Arabic pages load two IBM Plex Sans Arabic weights (400, 700) instead of four: 500 falls back to 400
+  and 600 to 700. Arabic fonts went from 253 to 163 KB, and throttled Arabic LCP from 2.6 to 2.45 s.
+- **Polish.** Body copy uses `text-wrap: pretty`, so no Arabic or English line ends on a single word.
+- **Audit:** 16/20 (from 13/20). Two detector items are false positives:
+  - closing-band contrast, where sampled pixels read 6.8–9.4:1;
+  - Inter, which is the Design Doc's face.
+
+  The eyebrow above the h1 carries the approved claim; moving it needs AIMS's agreement.
+
 ## Not yet confirmed by AIMS
 
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,

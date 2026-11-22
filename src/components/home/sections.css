@@ -98,6 +98,15 @@
   color: var(--color-ink-400);
 }
 
+/* Polish: body copy never leaves one word alone on its last line, in English or Arabic. */
+.home-route-body,
+.home-family-summary,
+.home-software-purpose,
+.home-faq details p,
+.home-quote-row blockquote {
+  text-wrap: pretty;
+}
+
 /* ---------- 2 · Buyer routes ---------- */
 .home-routes-title {
   max-width: 40rem;
