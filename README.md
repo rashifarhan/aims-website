@@ -497,3 +497,25 @@ content and brand, and no starter template or second design system. It follows t
   Five FAILs that conflict with CLAUDE.md are waived with reasons in `.taste-skill/waivers.json`: real phone numbers,
   the preserved WhatsApp button, the wordmark's lime dot, the ported prototype moments, and the six-family catalogue
   grid. No stand-in photographs were added.
+
+### Software pages (`claude/software-pages`, 22 Nov 2026)
+
+T6 for `/software` (Download Centre) and `/software/{biotime-9-5, biotimecloud, zkaccess-3-5}` (Master Plan 12 #4, #29–31;
+Design Doc 10.1; skill `layout-v4.md`, `motion.md`).
+
+- **"Add to quote", not "Download".** The Plan's primary CTA is Download, but no installer file is published and AIMS has not
+  given permission to link software files (open question). Every software action adds one described line ("ZKAccess 3.5
+  software: installer, licences and setup") to the quote list, and the page says AIMS sends the installer on request. This
+  deviates from Plan 14 (T6) and Design Doc 12 ("Download + type + size"); revisit when AIMS supplies files.
+- **Terminals come from AIMS's own product text.** A terminal is listed only when its product page names the platform
+  (`namesSoftware`, `src/lib/software.ts`, unit-tested). BioTime Cloud is named by no product page, so its page shows how it
+  is reached, from its own feature list, and asks buyers to confirm cloud support. "Start trial" (Plan #30) is left out: AIMS
+  publishes no trial.
+- **Features and capacity are AIMS's published lists** (English, marked `lang="en"` on Arabic pages); a platform without a
+  capacity list shows none. Version date, file size and requirements tables (Design Doc 10.1) are not shown: the data has none.
+- **One dealt moment per page:** the terminals diagram draws its lines once when it scrolls into view (`stroke-dashoffset`,
+  `MomentTrigger`); the Download Centre has none. It is pinned LTR, because its lines are physical SVG coordinates.
+- **The other five platforms** (Bio Security 3.2, BioTime 8.5, CVAccess, CVSecurity, mobile app) are cards that open AIMS's
+  current pages, marked ↗; their `/software/{slug}` URLs are not built here.
+- **Existing issue found, not fixed:** `/` fails axe `color-contrast` (lime `#78be20` on white, `.home-family-count` and the
+  families "See all products" link), so `smoke.spec.ts` fails for `/` and `/ar`. It comes from `claude/homepage-taste`.

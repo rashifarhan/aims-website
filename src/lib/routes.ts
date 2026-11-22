@@ -51,7 +51,7 @@ export const ROUTES: RouteEntry[] = [
     title: "Software Download Centre",
     template: "T6 Software",
     priority: "P1",
-    status: "planned",
+    status: "built",
     replaces: ["/swcategory/*"],
   },
   { path: "/services", title: "Services", template: "T3 Solution", priority: "P1", status: "planned" },
@@ -185,15 +185,15 @@ export const ROUTES: RouteEntry[] = [
   { path: "/product/zkaio1000", title: "ZKTeco ZKAIO1000", template: "T5 Product", priority: "P2", status: "built" },
 
   // Software (URLs unchanged)
-  { path: "/software/biotime-9-5", title: "BioTime 9.5", template: "T6 Software", priority: "P0", status: "planned" },
+  { path: "/software/biotime-9-5", title: "BioTime 9.5", template: "T6 Software", priority: "P0", status: "built" },
   {
     path: "/software/biotimecloud",
     title: "BioTime Cloud",
     template: "T6 Software",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
-  { path: "/software/zkaccess-3-5", title: "ZKAccess 3.5", template: "T6 Software", priority: "P1", status: "planned" },
+  { path: "/software/zkaccess-3-5", title: "ZKAccess 3.5", template: "T6 Software", priority: "P1", status: "built" },
 
   // Locations (URLs unchanged)
   {

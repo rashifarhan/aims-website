@@ -14,14 +14,19 @@ describe("preview navigation", () => {
     expect(navigationHref("/solutions")).toBe("/solutions");
     expect(navigationHref("/ar/solutions")).toBe("/ar/solutions");
   });
-  it("uses the built showroom section and live software/contact destinations", () => {
+  it("keeps the built software pages local, with the type filter", () => {
+    expect(navigationHref("/software")).toBe("/software");
+    expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
+    expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
+  });
+  it("uses the built showroom section and live destinations for pages not built yet", () => {
     expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
     // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
     expect(navigationHref("/contact")).toBe("/contact");
     expect(navigationHref("/support")).toBe("/contact");
     expect(navigationHref("/ar/services")).toBe("/ar/contact");
-    expect(navigationHref("/ar/software")).toBe("https://aimsuae.me/swcategory/zk-teco");
-    expect(navigationHref("/ar/software/biotime-9-5")).toBe("https://aimsuae.me/software/biotime-9-5");
+    // Software pages AIMS lists but this site hasn't built still open AIMS's own page.
+    expect(navigationHref("/ar/software/zkbio-cvaccess")).toBe("https://aimsuae.me/software/zkbio-cvaccess");
   });
 });
 

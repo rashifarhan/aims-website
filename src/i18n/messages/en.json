@@ -885,5 +885,120 @@
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
     }
+  },
+  "softwareCentre": {
+    "metaTitle": "ZKTeco software download centre",
+    "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
+    "title": "ZKTeco software for attendance and access control",
+    "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
+    "primary": "Request an installation quote",
+    "filterLabel": "Software type",
+    "all": "All software",
+    "types": {
+      "time-attendance": "Attendance",
+      "access-control": "Access control",
+      "security-platform": "Security platform"
+    },
+    "count": "{count} platforms",
+    "countOne": "1 platform",
+    "open": "See {name}",
+    "purpose": {
+      "bio-security-3-2": "Access control software for ZKTeco panels and standalone terminals.",
+      "biotime-8-5": "Earlier BioTime version for attendance terminals already on site.",
+      "biotime-9-5": "Attendance, shifts and payroll reports from ZKTeco terminals in one database.",
+      "biotimecloud": "Attendance in a web browser and mobile app, with no local server.",
+      "zkaccess-3-5": "Users, door permissions and live door events for inBio and C3 panels.",
+      "zkbio-cvaccess": "Access control and video verification in one web platform.",
+      "zkbio-cvsecurity": "Access, attendance, video and visitors for large sites.",
+      "zkbiotime-mobile-app": "Staff check in and see their attendance records on a phone."
+    },
+    "close": {
+      "heading": "Software set up on your terminals",
+      "body": "Tell AIMS which terminals you run and how many sites you have. The quote covers the software, licences and installation."
+    }
+  },
+  "softwarePage": {
+    "software": "Software",
+    "eyebrow": {
+      "time-attendance": "Attendance software",
+      "access-control": "Access control software",
+      "security-platform": "Security platform"
+    },
+    "pages": {
+      "biotime-9-5": {
+        "metaTitle": "BioTime 9.5 attendance software",
+        "metaDescription": "ZKTeco BioTime 9.5 for attendance, shifts and payroll reports, supplied, installed and supported by AIMS in Dubai and across the UAE.",
+        "title": "BioTime 9.5 attendance software",
+        "lead": "Collects check-ins from ZKTeco face, fingerprint and card terminals into one database for shifts, leave and payroll reports. Supplied and set up by AIMS in the UAE.",
+        "jump": "See supported terminals"
+      },
+      "biotimecloud": {
+        "metaTitle": "BioTime Cloud attendance software",
+        "metaDescription": "ZKTeco BioTime Cloud: attendance, shifts and leave in a web browser and mobile app, with no local server. Supplied and configured by AIMS in the UAE.",
+        "title": "BioTime Cloud attendance software",
+        "lead": "Attendance, shifts and leave in a web browser and mobile app, with no local server to run. Suits companies with several branches. Configured by AIMS in the UAE.",
+        "jump": "See how it connects"
+      },
+      "zkaccess-3-5": {
+        "metaTitle": "ZKAccess 3.5 access software",
+        "metaDescription": "ZKTeco ZKAccess 3.5 for users, door permissions and live door events on inBio and C3 panels. Supplied, installed and configured by AIMS in the UAE.",
+        "title": "ZKAccess 3.5 access control software",
+        "lead": "Manages users, door permissions and live door events for ZKTeco inBio and C3 panels, up to 30,000 users on Windows. Installed and configured by AIMS in the UAE.",
+        "jump": "See supported terminals"
+      }
+    },
+    "add": "Add to quote",
+    "inQuote": "In your quote",
+    "added": "{name} added to your quote",
+    "viewQuote": "View quote list",
+    "line": "{name} software: installer, licences and setup",
+    "features": {
+      "heading": "What {name} does",
+      "lead": "The main features, as AIMS lists them.",
+      "system": "Capacity and system",
+      "full": "Read AIMS's full description"
+    },
+    "terminals": {
+      "heading": "Terminals listed with {name}",
+      "lead": "Their AIMS product pages name {name} as supported software. AIMS confirms the version for your site.",
+      "cloudHeading": "Where BioTime Cloud connects",
+      "cloudLead": "AIMS lists BioTime Cloud for ZKTeco attendance terminals, reached from a browser or the mobile app. Confirm cloud support for your model before ordering.",
+      "cloudNodes": ["Web browser", "Mobile app", "Branch offices", "Attendance terminals"],
+      "cloudAll": "See attendance terminals",
+      "diagram": "{name} at the centre, linked to {nodes}"
+    },
+    "setup": {
+      "heading": "Licences, installer and setup",
+      "steps": [
+        {
+          "title": "Add it to your quote",
+          "body": "Say how many terminals, users and sites you have."
+        },
+        {
+          "title": "AIMS confirms version and licences",
+          "body": "Matched to the terminals you run or are buying."
+        },
+        {
+          "title": "AIMS installs and configures it",
+          "body": "AIMS sends the installer file on request, for the right version."
+        }
+      ],
+      "questions": "Questions",
+      "faq": [
+        {
+          "q": "Can I download the installer here?",
+          "a": "Not from this page. AIMS sends the installer on request, for the version that matches your terminals."
+        },
+        {
+          "q": "Will it work with my terminals?",
+          "a": "Send the model codes with your quote. AIMS checks them against the software version before you order."
+        }
+      ]
+    },
+    "close": {
+      "heading": "{name} set up for your site",
+      "body": "Add it to your quote with your terminal count. AIMS replies with licences, installation and timing.",
+      "all": "See all software"
+    }
   }
 }

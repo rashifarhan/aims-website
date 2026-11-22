@@ -1,0 +1,288 @@
+/* T6 software pages (Master Plan 14; Design Doc 10.1; taste layout-v4). Tokens only. */
+.sw-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 3rem;
+  align-items: center;
+  padding-block: 1.5rem var(--home-section-space);
+}
+.sw-hero h1,
+.sw-centre-intro h1 {
+  max-width: 48rem;
+  margin-block-start: 0.75rem;
+  font-size: var(--text-page-title);
+  font-weight: 680;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.sw-hero-art {
+  padding: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  animation: home-device-in var(--duration-hero-device) 350ms var(--ease-aims) both;
+}
+.sw-hero-art img {
+  width: 100%;
+  height: auto;
+}
+.sw-hero-text > :not(nav) {
+  animation: home-copy-in 800ms var(--ease-aims) both;
+}
+.sw-centre-intro {
+  padding-block: 1.5rem var(--home-section-space);
+}
+.sw-section {
+  padding-block: var(--home-section-space);
+}
+.sw-band {
+  background: var(--color-paper-2);
+}
+.sw-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+.sw-in-quote {
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* Features and system */
+.sw-features-split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 2rem;
+}
+.sw-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.sw-feature,
+.sw-system {
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+}
+.sw-feature h3,
+.sw-system h3 {
+  font-weight: 650;
+}
+.sw-feature p,
+.sw-system li {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+}
+.sw-full {
+  margin-block-start: 2rem;
+}
+.sw-full summary {
+  min-height: 2.75rem;
+  font-weight: 600;
+  color: var(--color-green-700);
+  cursor: pointer;
+}
+
+/* Terminals and the hub moment */
+.sw-terminals {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 2rem;
+  align-items: center;
+}
+.sw-terminal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.sw-hub {
+  position: relative;
+  aspect-ratio: 1 / 0.9;
+}
+.sw-hub-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--color-green-700);
+  stroke-width: 2;
+}
+.sw-hub-line {
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms var(--ease-aims);
+}
+.sw-hub-line:nth-child(2) {
+  transition-delay: 150ms;
+}
+.sw-hub-line:nth-child(3) {
+  transition-delay: 300ms;
+}
+.sw-hub-line:nth-child(4) {
+  transition-delay: 450ms;
+}
+[data-effects="on"] [data-moment]:not([data-played]) .sw-hub-line {
+  stroke-dashoffset: 1;
+}
+.sw-hub-nodes {
+  display: contents;
+}
+/* Boxes sit at the corners and centre with open space between, so the lines show (taste diagrams.md). */
+.sw-hub-node,
+.sw-hub-centre {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 36%;
+  height: 19%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+  font-size: var(--text-small);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.sw-hub-node:nth-child(1) {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+.sw-hub-node:nth-child(2) {
+  inset-block-start: 0;
+  inset-inline-end: 0;
+}
+.sw-hub-node:nth-child(3) {
+  inset-block-end: 0;
+  inset-inline-start: 0;
+}
+.sw-hub-node:nth-child(4) {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+.sw-hub-centre {
+  inset-block-start: 40.5%;
+  inset-inline-start: 32%;
+  border-color: var(--color-green-700);
+  font-weight: 650;
+}
+
+/* Setup */
+.sw-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-block: 2.5rem;
+}
+.sw-steps li {
+  padding-block-start: 1.25rem;
+  border-block-start: 2px solid var(--color-green-700);
+}
+.sw-steps h3 {
+  margin-block-start: 1rem;
+  font-weight: 650;
+}
+.sw-steps p {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+}
+.sw-questions-title {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+
+/* Download Centre */
+.sw-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+}
+.sw-filter ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sw-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+}
+.sw-chip[aria-current] {
+  border-color: var(--color-green-700);
+  background: var(--color-green-700);
+  color: var(--color-paper);
+}
+.sw-count {
+  color: var(--color-ink-600);
+}
+.sw-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding-block-end: var(--home-section-space);
+}
+.sw-card {
+  flex-direction: row;
+  gap: 1.25rem;
+}
+.sw-card-image {
+  flex: none;
+  width: 6rem;
+}
+.sw-card-image img {
+  width: 100%;
+  height: auto;
+}
+.sw-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.sw-card-name {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.sw-card-open {
+  margin-block-start: auto;
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* One section per screen on a desktop (taste House rule 3), as on the homepage. */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .sw-hero {
+    min-height: calc(100svh - var(--home-header-block));
+  }
+  .sw-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+  }
+}
+@media (max-width: 1023px) {
+  .sw-hero,
+  .sw-features-split,
+  .sw-feature-grid,
+  .sw-terminals,
+  .sw-steps,
+  .sw-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sw-hero-art {
+    max-width: 18rem;
+  }
+}
