@@ -1,0 +1,157 @@
+/*
+ * /solutions/door-locks: the UNLOCK moment (Design Doc 8.2), loaded by that page only. Same rules as the
+ * homepage door (premium.css): transform, opacity and stroke-dashoffset only; it plays once; nothing is
+ * hidden unless MomentTrigger set data-effects="on", which it never does under reduced motion, so the
+ * finished frame (lock open, door open, record on the phone) always shows.
+ */
+.lk-unlock {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 4rem;
+  align-items: center;
+}
+.lk-steps {
+  margin-block-start: 1.75rem;
+}
+.lk-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.875rem;
+  align-items: baseline;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.lk-steps h3 {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+.lk-steps p {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-ink-600);
+}
+.lk-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Model codes in IBM Plex Mono (Design Doc 5). */
+.lk-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-door-model);
+  font-weight: 500;
+  fill: var(--color-ink-600);
+}
+
+/* ---------- Finished frame: unlocked, bolt back, door open ---------- */
+.lk-leaf {
+  /* Hinged on the leaf's left edge: its own box, so the cropped viewBox can't shift the origin. */
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0.74);
+}
+.lk-bolt {
+  transform: translateX(-20px);
+}
+.lk-ring,
+.lk-signal {
+  stroke-dasharray: 1;
+}
+
+/* ---------- Before the moment: locked and closed (only when effects are on) ---------- */
+:root[data-effects="on"] .lk-unlock:not([data-played]) :is(.lk-finger, .lk-led, .lk-record, .lk-tag) {
+  opacity: 0;
+}
+:root[data-effects="on"] .lk-unlock:not([data-played]) .lk-leaf,
+:root[data-effects="on"] .lk-unlock:not([data-played]) .lk-bolt {
+  transform: none;
+}
+:root[data-effects="on"] .lk-unlock:not([data-played]) :is(.lk-ring, .lk-signal) {
+  stroke-dashoffset: 1;
+}
+
+/* ---------- The sequence, once (about 3 s) ---------- */
+:root[data-effects="on"] .lk-unlock[data-played] .lk-finger {
+  animation: lk-touch 600ms 200ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-ring {
+  animation: lk-draw 400ms 800ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-led {
+  animation: lk-fade 200ms 1150ms both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-bolt {
+  animation: lk-retract 400ms 1350ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-leaf {
+  animation: lk-open 700ms 1750ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-signal {
+  animation: lk-draw 600ms 2350ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-record {
+  animation: lk-in 400ms 2850ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .lk-unlock[data-played] .lk-tag {
+  animation: lk-fade 300ms 2850ms both;
+}
+@keyframes lk-touch {
+  from {
+    opacity: 0;
+    transform: translate(-40px, 80px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes lk-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes lk-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes lk-retract {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateX(-20px);
+  }
+}
+@keyframes lk-open {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.74);
+  }
+}
+@keyframes lk-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .lk-unlock {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}

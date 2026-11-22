@@ -1255,5 +1255,271 @@
       "action": "Get an installation quote",
       "secondary": "Browse entrance products"
     }
+  },
+  "solutionDoorLocks": {
+    "metaTitle": "Smart and hotel door locks, UAE",
+    "metaDescription": "ZKTeco fingerprint and Wi-Fi smart locks, a glass door lock and RFID hotel card locks, supplied and fitted by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Smart locks for homes, card locks for hotels.",
+    "lead": "Fingerprint, PIN, card and app locks for front doors and offices, and RFID card locks for guest rooms. AIMS supplies and fits them.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} smart and hotel lock products",
+    "unlock": {
+      "heading": "From a fingerprint to an open door.",
+      "lead": "What a smart lock does each time someone comes home.",
+      "label": "How a smart lock works",
+      "alt": "A finger touches the lock's sensor, the light turns green, the bolt draws back, the door opens and the unlock shows on a phone",
+      "sample": "Illustration",
+      "record": "Unlocked",
+      "recordMethod": "Fingerprint",
+      "lockTag": "Smart lock",
+      "appTag": "Phone app",
+      "steps": [
+        {
+          "title": "Verify at the door",
+          "body": "A fingerprint, PIN or card. The HBL400 also recognises faces."
+        },
+        {
+          "title": "The lock opens itself",
+          "body": "Fully automatic locks such as the TL800 unlock after verification and lock again."
+        },
+        {
+          "title": "See who is at the door",
+          "body": "The TL800 has a doorbell, a camera and a 3.5-inch screen on the indoor unit."
+        },
+        {
+          "title": "Manage it from your phone",
+          "body": "Wi-Fi models work with the ZSmart app: unlock remotely, share temporary passwords and check unlocking records."
+        }
+      ]
+    },
+    "methods": {
+      "heading": "Choose by the door.",
+      "lead": "The door decides the lock. Counts are models in the AIMS catalogue.",
+      "smartCount": "{count} smart locks",
+      "smartCountOne": "1 smart lock",
+      "glassLink": "See the GL300",
+      "hotelLink": "Browse hotel locks",
+      "wiredCount": "{count} hardware and accessories",
+      "wiredCountOne": "1 hardware item",
+      "items": {
+        "smart": {
+          "title": "Home or office door",
+          "body": "Fingerprint, PIN and card on one lock. Wi-Fi models add your phone."
+        },
+        "glass": {
+          "title": "Glass door",
+          "body": "The GL300 clamps on without drilling and fits 10–12 mm glass."
+        },
+        "hotel": {
+          "title": "Hotel room",
+          "body": "RFID card locks for guest rooms, run from hotel lock software."
+        },
+        "wired": {
+          "title": "Access-controlled door",
+          "body": "EM locks, exit buttons and readers for doors run by an access control system."
+        }
+      }
+    },
+    "products": {
+      "heading": "Locks to start with.",
+      "lead": "Six locks for homes, glass doors and hotel rooms. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} smart and hotel lock products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From your doors to working locks.",
+      "lead": "Who does what, from your first message to locks in use.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the doors",
+          "body": "Door types, rooms or units, and who needs access.",
+          "owner": "You"
+        },
+        {
+          "title": "Lock plan and quote",
+          "body": "AIMS suggests locks and hardware for each door, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Fitting",
+          "body": "Locks and hardware are fitted and tested on each door.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Setup",
+          "body": "Fingerprints, cards or hotel cards are enrolled.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, rooms or users.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "faq": {
+      "heading": "Door lock questions.",
+      "items": [
+        {
+          "q": "Smart lock or hotel lock?",
+          "a": "Smart locks such as the TL700 open by fingerprint, password or card, for homes and offices. Hotel locks such as the LH4000 open with RFID key cards and are built for guest rooms."
+        },
+        {
+          "q": "Do you have a lock for glass doors?",
+          "a": "Yes. The GL300 opens by fingerprint, MF card, password or remote control, clamps on without drilling and fits 10–12 mm glass."
+        },
+        {
+          "q": "Which locks work with a phone?",
+          "a": "The TL800, TL700W, TL300 and HBL400 connect over Wi-Fi. The TL800 and TL700W use the ZSmart app to unlock remotely, share temporary passwords and check unlocking records."
+        },
+        {
+          "q": "What if the batteries run out?",
+          "a": "The locks warn you first. The TL700, TL800 and GL300 have a micro-USB emergency power port; the AL20DB and TL400 take a 9V battery for emergency power."
+        },
+        {
+          "q": "How are hotel locks managed?",
+          "a": "With hotel lock software: the LH4000 lists ZKBiolock, and the LH6000 and LH6500 also list ZKBioSecurity. The CR60W is a USB RFID reader for hotel management. Confirm the software version with AIMS."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan locks for your doors.",
+      "body": "Tell AIMS which doors, rooms and users you have. You'll get a lock plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse door locks"
+    }
+  },
+  "solutionPos": {
+    "metaTitle": "POS terminals for shops, UAE",
+    "metaDescription": "ZKTeco Windows, Android and fingerprint POS terminals, a handheld POS and receipt printers, supplied and set up by AIMS for shops and restaurants in the UAE.",
+    "eyebrow": "Solution",
+    "title": "POS terminals for shops, cafés and restaurants.",
+    "lead": "Windows and Android touchscreen terminals, a handheld with a built-in printer, and a terminal with fingerprint verification. Choose by the software your counter runs.",
+    "primary": "Get a quote",
+    "secondary": "Browse {count} POS terminals",
+    "counter": {
+      "heading": "From sign-in to receipt.",
+      "lead": "Four things happen at the counter with every sale.",
+      "label": "How a POS counter works",
+      "alt": "A fingerprint verifies the cashier, the sale is entered on the touchscreen, the customer display lights up and a receipt prints",
+      "sample": "Illustration",
+      "terminalTag": "Fingerprint POS",
+      "printerTag": "Receipt printer",
+      "steps": [
+        {
+          "title": "Staff verify",
+          "body": "On the ZKBio900 series, a fingerprint verifies the cashier before a sale."
+        },
+        {
+          "title": "Ring up the sale",
+          "body": "On a 10.1- or 15-inch touchscreen, or the 5.5-inch handheld."
+        },
+        {
+          "title": "The customer sees the total",
+          "body": "Customer displays range from an LED digit display to a second screen, by model."
+        },
+        {
+          "title": "Print the receipt",
+          "body": "The ZKAIO1000 and ZKH300 have a 58 mm printer built in; other terminals pair with a printer such as the ZKP8001."
+        }
+      ]
+    },
+    "methods": {
+      "heading": "Choose by your software and counter.",
+      "lead": "Start with the software you run. Counts are terminals in the AIMS catalogue.",
+      "count": "{count} terminals",
+      "countOne": "1 terminal",
+      "handheldLink": "See the ZKH300",
+      "fingerprintLink": "See the ZKBio900 series",
+      "items": {
+        "windows": {
+          "title": "Windows POS",
+          "body": "15-inch touchscreen terminals for Windows till software."
+        },
+        "android": {
+          "title": "Android POS",
+          "body": "For Android apps, with a 58 mm receipt printer built in."
+        },
+        "handheld": {
+          "title": "Handheld",
+          "body": "The ZKH300 takes orders and prints at the table or on delivery, over 4G, Wi-Fi or Bluetooth."
+        },
+        "fingerprint": {
+          "title": "Fingerprint verification",
+          "body": "The ZKBio900 series verifies staff by fingerprint."
+        }
+      }
+    },
+    "products": {
+      "heading": "Terminals to start with.",
+      "lead": "Windows, Android and handheld terminals, and a receipt printer. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} POS terminals",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From your counter to the first sale.",
+      "lead": "Who does what, from your first message to a working till.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the counter",
+          "body": "Tills, the POS software you run, and printers or scanners.",
+          "owner": "You"
+        },
+        {
+          "title": "Terminal plan and quote",
+          "body": "AIMS suggests terminals and printers to match your software, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Delivery",
+          "body": "Terminals are delivered and connected at each counter.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Setup",
+          "body": "Terminals and printers are configured, ready for your POS software.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add tills or branches.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "faq": {
+      "heading": "POS terminal questions.",
+      "items": [
+        {
+          "q": "Will my POS software run on it?",
+          "a": "Choose by the software you run: Windows terminals for Windows POS software, Android terminals for Android apps. Share your software's requirements with AIMS before you order."
+        },
+        {
+          "q": "Is there a POS with a fingerprint reader?",
+          "a": "Yes. The ZKBio900 series (ZKBio910, ZKBio930 and ZKBio950) has built-in fingerprint verification for staff."
+        },
+        {
+          "q": "Which terminals print receipts?",
+          "a": "The ZKAIO1000 and ZKH300 have a 58 mm thermal printer built in. Other terminals pair with a printer such as the ZKP8001, which has an auto cutter."
+        },
+        {
+          "q": "Is there a handheld POS?",
+          "a": "Yes. The ZKH300 has a 5.5-inch touchscreen, 4G, Wi-Fi and Bluetooth, a 5600 mAh battery and a camera that scans barcodes and QR codes."
+        },
+        {
+          "q": "Can customers see the total?",
+          "a": "Yes, on a customer display: an LED digit display on the ZK15, ZK1515, ZKBio900 and ZKAIO1000, and a 4.3-inch LCD option on the ZKAIO1000."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Equip your counter.",
+      "body": "Tell AIMS how many tills you run and which POS software you use. You'll get a terminal plan and a quotation.",
+      "action": "Get a quote",
+      "secondary": "Browse POS terminals"
+    }
   }
 }

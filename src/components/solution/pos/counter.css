@@ -1,0 +1,157 @@
+/*
+ * /solutions/pos: the VERIFY moment at the counter (Design Doc 8.2) and the hero photo cap, loaded by
+ * that page only. Same rules as the homepage moments: transform, opacity and stroke-dashoffset only; it
+ * plays once; nothing is hidden unless MomentTrigger set data-effects="on", which it never does under
+ * reduced motion, so the finished frame (verified, sale on screen, receipt out) always shows.
+ */
+
+/* Every POS photograph is 350 px wide (content/products.json): never show it larger, or it blurs. */
+@media (min-width: 1024px) {
+  .pc-page .t3-hero-photo {
+    max-width: 21.875rem;
+  }
+}
+
+.pc-counter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 4rem;
+  align-items: center;
+}
+.pc-steps {
+  margin-block-start: 1.75rem;
+}
+.pc-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.875rem;
+  align-items: baseline;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.pc-steps h3 {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+.pc-steps p {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-ink-600);
+}
+.pc-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Model codes in IBM Plex Mono (Design Doc 5). */
+.pc-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-door-model);
+  font-weight: 500;
+  fill: var(--color-ink-600);
+}
+
+/* ---------- Finished frame ---------- */
+.pc-line,
+.pc-tick,
+.pc-wire {
+  stroke-dasharray: 1;
+}
+.pc-check {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* The receipt grows out of the printer's slot, from its bottom edge. */
+.pc-receipt {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+/* ---------- Before the moment (only when effects are on) ---------- */
+:root[data-effects="on"] .pc-counter:not([data-played]) :is(.pc-finger, .pc-check, .pc-sale, .pc-digits) {
+  opacity: 0;
+}
+:root[data-effects="on"] .pc-counter:not([data-played]) :is(.pc-line, .pc-tick, .pc-wire) {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .pc-counter:not([data-played]) .pc-receipt {
+  transform: scaleY(0);
+}
+
+/* ---------- The sequence, once (about 3 s) ---------- */
+:root[data-effects="on"] .pc-counter[data-played] .pc-finger {
+  animation: pc-touch 500ms 200ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-line {
+  animation: pc-draw 500ms 600ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-check {
+  animation: pc-pop 400ms 1000ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-tick {
+  animation: pc-draw 300ms 1300ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-sale {
+  animation: pc-fade 400ms 1550ms both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-digits {
+  animation: pc-fade 300ms 1800ms both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-wire {
+  animation: pc-draw 400ms 1900ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .pc-counter[data-played] .pc-receipt {
+  animation: pc-print 700ms 2250ms var(--ease-aims) both;
+}
+@keyframes pc-touch {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pc-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pc-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pc-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pc-print {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .pc-counter {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
