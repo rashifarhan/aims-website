@@ -101,7 +101,10 @@ test("menu exposes its state and moves keyboard focus", async ({ page, isMobile 
   await trigger.press("Enter");
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   if (!isMobile) {
+    // WAI-ARIA disclosure (README, "Interaction layer"): focus stays on the button; Tab reaches the panel next.
     const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`);
+    await expect(trigger).toBeFocused();
+    await page.keyboard.press("Tab");
     await expect(panel.getByRole("link").first()).toBeFocused();
   } else await expect(page.getByRole("dialog", { name: "Menu" })).toBeVisible();
   await page.keyboard.press("Escape");

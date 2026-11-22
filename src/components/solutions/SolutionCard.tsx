@@ -5,13 +5,8 @@ import { localePath } from "@/i18n/config";
 import { productBySlug } from "@/content/catalogue";
 import type { SolutionCardData } from "@/content/solutions";
 import { ArrowIcon } from "@/components/icons";
+import { navigationHref } from "@/lib/navigationHref";
 
-/**
- * Hub card (Design Doc 10.1 T2: "cards are real links with headings").
- * The visible "Explore … products" action is the link, stretched over the
- * card, so the whole card is clickable and the link's name is exactly its
- * visible text (WCAG 2.5.3); the heading stays a heading.
- */
 export async function SolutionCard({ solution }: { solution: SolutionCardData }) {
   const t = await getDictionary();
   const locale = await getLocale();
@@ -20,11 +15,20 @@ export async function SolutionCard({ solution }: { solution: SolutionCardData })
   const photo = product?.images[0];
   const titleId = `solution-${solution.slug}`;
   return (
-    <article className="solution-card" aria-labelledby={titleId}>
+    // The heading holds the link and its ::after covers the card, so the name is the title,
+    // not every line of the card (WCAG 2.5.3; Design Doc T2 "cards are real links with headings").
+    <article className="solution-card">
       <div className="solution-card-heading">
         <div>
           <p className="solution-outcome">{copy.outcome}</p>
-          <h2 id={titleId}>{t.solutions[solution.slug].name}</h2>
+          <h2 id={titleId}>
+            <Link
+              href={navigationHref(localePath(locale, `/solutions/${solution.slug}`))}
+              className="solution-card-link"
+            >
+              {t.solutions[solution.slug].name}
+            </Link>
+          </h2>
         </div>
         <div className="solution-card-art">
           {photo && (
@@ -47,10 +51,10 @@ export async function SolutionCard({ solution }: { solution: SolutionCardData })
           ))}
         </ul>
       </div>
-      <Link href={localePath(locale, `/products/${solution.family}`)} className="solution-card-action">
+      <span className="solution-card-action" aria-hidden="true">
         {copy.action}
         <ArrowIcon className="rtl:-scale-x-100" />
-      </Link>
+      </span>
     </article>
   );
 }
