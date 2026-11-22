@@ -130,6 +130,8 @@
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
   --container-page: 1344px;
+  /* Design Doc 10, T10 editorial: a 680px reading column. */
+  --container-reading: 680px;
   --page-gutter: 1.5rem;
 }
 

@@ -1,0 +1,23 @@
+/* T10 editorial copy (Design Doc 5 scale, 10): one reading rhythm for policies and articles. */
+.editorial-body {
+  color: var(--color-ink-700);
+  line-height: 1.7;
+}
+.editorial-body > * + * {
+  margin-top: 1rem;
+}
+.editorial-body h2 {
+  margin-top: 2.5rem;
+  color: var(--color-ink);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.editorial-body ul {
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+.editorial-body li + li {
+  margin-top: 0.5rem;
+}

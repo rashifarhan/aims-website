@@ -885,5 +885,17 @@
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
     }
+  },
+  "editorial": {
+    "privacy-policy": "Privacy policy",
+    "terms-and-conditions": "Terms and conditions",
+    "privacyDescription": "How AIMS Security Systems Trading LLC collects, uses and protects personal information on its website.",
+    "termsDescription": "The terms that govern use of the AIMS Security Systems website and its services.",
+    "blog": "Blog",
+    "blogTitle": "AIMS blog: access control, attendance and POS",
+    "blogLead": "{count} articles from AIMS on access control, time attendance, entrance control and POS in the UAE.",
+    "blogDescription": "Articles from AIMS on ZKTeco access control, time attendance, turnstiles and POS systems in the UAE.",
+    "published": "Published",
+    "englishOnly": "This page is published in English."
   }
 }

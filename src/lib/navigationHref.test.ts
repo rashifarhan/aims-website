@@ -30,6 +30,8 @@ describe("prefetch guard", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
+    expect(prefetchSafe("/privacy-policy")).toBe(false);
+    expect(prefetchSafe("/ar/terms-and-conditions")).toBe(false);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
     expect(prefetchSafe("/products")).toBe(true);
     expect(prefetchSafe("/ar")).toBe(true);

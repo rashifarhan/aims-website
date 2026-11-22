@@ -885,5 +885,17 @@
       "showroom": "صالة العرض في دبي",
       "abuDhabi": "مكتب أبوظبي"
     }
+  },
+  "editorial": {
+    "privacy-policy": "سياسة الخصوصية",
+    "terms-and-conditions": "الشروط والأحكام",
+    "privacyDescription": "كيف تجمع AIMS Security Systems Trading LLC المعلومات الشخصية وتستخدمها وتحميها على موقعها.",
+    "termsDescription": "الشروط التي تحكم استخدام موقع AIMS Security Systems وخدماته.",
+    "blog": "المدونة",
+    "blogTitle": "مدونة AIMS: التحكم في الدخول والحضور ونقاط البيع",
+    "blogLead": "{count} مقالًا من AIMS عن التحكم في الدخول والحضور والانصراف والبوابات ونقاط البيع في الإمارات.",
+    "blogDescription": "مقالات من AIMS عن أنظمة ZKTeco للتحكم في الدخول والحضور والبوابات ونقاط البيع في الإمارات.",
+    "published": "نُشر في",
+    "englishOnly": "هذه الصفحة منشورة باللغة الإنجليزية."
   }
 }

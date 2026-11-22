@@ -497,3 +497,33 @@ content and brand, and no starter template or second design system. It follows t
   Five FAILs that conflict with CLAUDE.md are waived with reasons in `.taste-skill/waivers.json`: real phone numbers,
   the preserved WhatsApp button, the wordmark's lime dot, the ported prototype moments, and the six-family catalogue
   grid. No stand-in photographs were added.
+
+### Editorial pages: privacy, terms and blog (T10; Master Plan 12; Design Doc 10)
+
+- **Content.** `pnpm import:pages` (`scripts/import-pages.ts`) imports AIMS's published privacy policy, terms and
+  conditions, and every blog article into `content/pages.json` as structured blocks, verbatim, with one image per
+  article saved to `public/images/blog/`. Nothing is rewritten (CLAUDE.md §1), and nothing calls aimsuae.me at runtime.
+  The live pages nest whole sections inside list items (malformed HTML), so the importer walks the tree rather than
+  flattening it.
+- **All 19 live articles keep their URLs** (CLAUDE.md §6) from one `/blog/[slug]` template. Only one was in the route
+  registry; the other 18 had no route and no redirect and would have broken. `tests/e2e/editorial.spec.ts` checks
+  every one.
+- **Prefetch.** Once the footer's Privacy and Terms links became local, prefetching them from the homepage
+  re-triggered the Next 16 segment loop that `prefetchSafe()` guards against (1,410 RSC requests, caught by
+  `home-premium.spec.ts`). Both are now on its no-prefetch list beside `/solutions`; they still load on click.
+- **Arabic.** The text is English as published. On `/ar` pages it carries `lang="en" dir="ltr"`, and the page says it
+  is published in English.
+- **Raise with AIMS (their text, shown as published):**
+  - the Terms name the site "mssolution.me" and the email `info@mssolution.me`, not aimsuae.me;
+  - the Terms call AIMS "a leading distributor";
+  - the privacy policy names the company "AIMS Security System LLC", not "AIMS Security Systems Trading LLC";
+  - several articles open with stock phrases ("In today's fast-paced…").
+- **Gate (blog index): OPEN, 30, rounds used up.** Most findings are `main`'s shell, which is not on the design
+  kit: header bar, container edges, the footer's phone links, the header search label, footer height. Page-level
+  findings:
+  - no button in the first screen;
+  - the index is one long section, not screens;
+  - no dealt moment;
+  - three-line clamped excerpts at 390;
+  - a stock phrase in AIMS's own article copy.
+    These follow `main`'s design, and the article text is AIMS's to change.
