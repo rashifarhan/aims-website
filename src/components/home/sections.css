@@ -396,6 +396,7 @@
 }
 .home-faq summary svg {
   flex: none;
+  transition: transform var(--duration-base) var(--ease-aims);
 }
 .home-faq details[open] summary svg {
   transform: rotate(180deg);
@@ -405,6 +406,18 @@
   line-height: 1.65;
   padding-block-end: 1.5rem;
   max-width: 65ch;
+}
+/* Same motion as .motion-disclose (globals.css): the answer fades in and settles 4px each time its
+   question opens, replaying because the selector starts matching again; height never animates. */
+.home-faq details[open] p {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* !important beats the global reduced-motion rule so a short fade remains instead of a jump. */
+  .home-faq details[open] p {
+    animation-name: aims-fade !important;
+    animation-duration: var(--duration-fast) !important;
+  }
 }
 
 /* ---------- Desktop: more air between sections (taste layout-v4, one section per screen) ---------- */

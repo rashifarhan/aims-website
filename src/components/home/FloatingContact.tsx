@@ -48,7 +48,7 @@ export function FloatingContact({ href, labels }: Props) {
         ref={trigger}
         type="button"
         hidden={!visible}
-        className="home-floating-contact"
+        className="home-floating-contact motion-fade"
         aria-label={labels.trigger}
         aria-haspopup="dialog"
         onClick={() => dialog.current?.showModal()}
@@ -59,7 +59,7 @@ export function FloatingContact({ href, labels }: Props) {
       <dialog
         ref={dialog}
         aria-labelledby={title}
-        className="home-contact-dialog"
+        className="home-contact-dialog motion-fade"
         onClick={(event) => {
           if (event.target === dialog.current) dialog.current.close();
         }}

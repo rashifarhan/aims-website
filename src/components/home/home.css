@@ -555,7 +555,19 @@
   font-weight: 600;
   font-size: var(--text-small);
   box-shadow: var(--shadow-2);
-  transition: transform var(--duration-fast);
+  transition:
+    transform var(--duration-fast),
+    background-color var(--duration-hover) var(--ease-aims),
+    opacity var(--duration-base) var(--ease-aims),
+    translate var(--duration-base) var(--ease-aims);
+}
+/* Appearing after the hero: fade in and rise 8px from display:none. Hiding stays instant
+   ([hidden] has no transition), so the exit is faster than the enter. */
+@starting-style {
+  .home-floating-contact {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
 }
 .home-floating-contact[hidden] {
   display: none;
@@ -580,9 +592,43 @@
   color: var(--color-ink);
   background: var(--color-paper);
   box-shadow: var(--shadow-3);
+  /* Closing state and timing: a 120ms fade out, faster than the open. display/overlay are
+     discrete so the dialog stays in the top layer until the fade ends. */
+  opacity: 0;
+  scale: 0.96;
+  transition-property: opacity, scale, display, overlay;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-aims);
+  transition-behavior: allow-discrete;
+}
+/* Opens from the centre (default transform-origin), from 0.96 not 0, so it never pops from nothing. */
+.home-contact-dialog[open] {
+  opacity: 1;
+  scale: 1;
+  transition-duration: var(--duration-base);
+}
+@starting-style {
+  .home-contact-dialog[open] {
+    opacity: 0;
+    scale: 0.96;
+  }
 }
 .home-contact-dialog::backdrop {
   background: color-mix(in srgb, var(--color-ink) 40%, transparent);
+  opacity: 0;
+  transition-property: opacity, display, overlay;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-aims);
+  transition-behavior: allow-discrete;
+}
+.home-contact-dialog[open]::backdrop {
+  opacity: 1;
+  transition-duration: var(--duration-base);
+}
+@starting-style {
+  .home-contact-dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 @media (max-width: 639px) {
   .home-floating-contact {
@@ -592,11 +638,6 @@
   }
   .home-floating-contact span {
     display: none;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-floating-contact {
-    transition: none;
   }
 }
 .home-contact-dialog button,
