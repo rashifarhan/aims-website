@@ -6,21 +6,18 @@ import { fmt } from "@/i18n/format";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
-import { SOLUTION_CARDS } from "@/content/solutions";
-
-// The product the solutions hub pictures for this need, so both pages show the same terminal.
-const HERO_PRODUCT = SOLUTION_CARDS.find((card) => card.slug === "time-attendance")?.product ?? "f18";
+import type { SolutionPageData } from "@/content/solutionPages";
+import type { IntroCopy } from "./types";
 
 /**
  * T3 row 1: title, promise and two actions beside AIMS's own product photograph (Master Plan 14;
  * taste photos.md "the product leads"). It enters once on load like the homepage hero (solution.css).
  */
-export async function SolutionIntro() {
+export async function SolutionIntro({ page, copy }: { page: SolutionPageData; copy: IntroCopy }) {
   const t = await getDictionary();
-  const c = t.solutionTimeAttendance;
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
-  const photo = productBySlug(HERO_PRODUCT)?.images[0];
+  const photo = productBySlug(page.hero)?.images[0];
   return (
     <div className="t3-intro page-container">
       <Breadcrumbs
@@ -28,21 +25,21 @@ export async function SolutionIntro() {
         items={[
           { href: href("/"), label: t.common.home },
           { href: href("/solutions"), label: t.nav.solutions },
-          { href: href("/solutions/time-attendance"), label: t.solutions["time-attendance"].name },
+          { href: href(`/solutions/${page.slug}`), label: t.solutions[page.slug].name },
         ]}
       />
       <div className="t3-hero">
         <div className="t3-hero-copy">
-          <p className="t3-eyebrow t3-enter">{c.eyebrow}</p>
-          <h1 className="t3-enter">{c.title}</h1>
-          <p className="t3-promise t3-enter">{c.lead}</p>
+          <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>
+          <h1 className="t3-enter">{copy.title}</h1>
+          <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">
-            <Link href={href("/quote?need=install")} className="home-button">
-              {c.primary}
+            <Link href={href(page.quote)} className="home-button">
+              {copy.primary}
               <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
             </Link>
-            <Link href={href("/products/time-attendance")} className="home-secondary">
-              {fmt(c.secondary, { count: productsInFamily("time-attendance").length })}
+            <Link href={href(`/products/${page.family}`)} className="home-secondary">
+              {fmt(copy.secondary, { count: productsInFamily(page.family).length })}
             </Link>
           </div>
         </div>

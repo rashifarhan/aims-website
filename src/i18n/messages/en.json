@@ -901,6 +901,7 @@
     },
     "count": "{count} platforms",
     "countOne": "1 platform",
+    "listHeading": "Software platforms",
     "open": "See {name}",
     "purpose": {
       "bio-security-3-2": "Access control software for ZKTeco panels and standalone terminals.",
@@ -919,11 +920,6 @@
   },
   "softwarePage": {
     "software": "Software",
-    "eyebrow": {
-      "time-attendance": "Attendance software",
-      "access-control": "Access control software",
-      "security-platform": "Security platform"
-    },
     "pages": {
       "biotime-9-5": {
         "metaTitle": "BioTime 9.5 attendance software",
@@ -965,7 +961,7 @@
       "cloudLead": "AIMS lists BioTime Cloud for ZKTeco attendance terminals, reached from a browser or the mobile app. Confirm cloud support for your model before ordering.",
       "cloudNodes": ["Web browser", "Mobile app", "Branch offices", "Attendance terminals"],
       "cloudAll": "See attendance terminals",
-      "diagram": "{name} at the centre, linked to {nodes}"
+      "diagram": "{name}, linked to {nodes}"
     },
     "setup": {
       "heading": "Licences, installer and setup",
@@ -999,6 +995,130 @@
       "heading": "{name} set up for your site",
       "body": "Add it to your quote with your terminal count. AIMS replies with licences, installation and timing.",
       "all": "See all software"
+    }
+  },
+  "solutionAccessControl": {
+    "metaTitle": "Access control systems in the UAE",
+    "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
+    "eyebrow": "Solution",
+    "title": "Decide who opens every door.",
+    "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
+    "primary": "Get an installation quote",
+    "secondary": "Browse {count} access control products",
+    "door": {
+      "heading": "Six parts at every controlled door.",
+      "lead": "Tap a card: the reader reads it, the controller checks it and the lock releases. Each part is a model in the AIMS catalogue.",
+      "partsLabel": "The six parts of a controlled door",
+      "parts": {
+        "reader": "Reads the card at the door and passes it to the controller.",
+        "controller": "Decides who may enter, and when. InBio Pro panels run one, two or four doors.",
+        "lock": "Holds the door shut with 280 kg and releases when access is granted.",
+        "exit": "Lets people leave from the inside without a card.",
+        "card": "The credential each person taps at the reader.",
+        "software": "Add users, set door permissions and watch door events live."
+      }
+    },
+    "methods": {
+      "heading": "Choose how people prove who they are.",
+      "lead": "Start with the method that suits each door. Counts are access control products in the AIMS catalogue.",
+      "count": "{count} products",
+      "countOne": "1 product",
+      "items": {
+        "card": {
+          "title": "Card",
+          "body": "The simplest to roll out. A lost card is removed in the software."
+        },
+        "fingerprint": {
+          "title": "Fingerprint",
+          "body": "Checks the person, not only what they carry. Nothing to lend or lose."
+        },
+        "face": {
+          "title": "Face",
+          "body": "Touch-free at busy doors. Some models also read a card or a palm."
+        },
+        "palm": {
+          "title": "Palm",
+          "body": "Touch-free palm reading, on terminals that also recognise faces."
+        }
+      }
+    },
+    "products": {
+      "heading": "Panels and terminals to start with.",
+      "lead": "Panels for one, two and four doors, and terminals for each method. Add the ones you want, with quantities, to your quote.",
+      "all": "All {count} access control products",
+      "methods": "Verification"
+    },
+    "process": {
+      "heading": "From door survey to the first card.",
+      "lead": "Who does what, from your first message to working doors.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about your doors",
+          "body": "Doors, users, door types and any system you already run.",
+          "owner": "You"
+        },
+        {
+          "title": "Door plan and quote",
+          "body": "AIMS suggests readers, panels and locks, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Locks, readers and panels are mounted, wired and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Software setup",
+          "body": "Users, cards and door permissions are set up in the access software.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, users or sites.",
+          "owner": "AIMS"
+        }
+      ]
+    },
+    "software": {
+      "heading": "Software that runs the doors.",
+      "lead": "Run doors from one Windows PC or from a browser. Confirm with AIMS which version fits your panels.",
+      "pc": "On a Windows PC",
+      "browser": "In a browser",
+      "purposeZkaccess": "Users, door permissions and live door events for standalone devices, C3 and inBIO panels.",
+      "purposeCvaccess": "Web-based access control for devices and doors across several locations.",
+      "purposeCvsecurity": "One web platform for access control, visitors, parking and video."
+    },
+    "faq": {
+      "heading": "Access control questions.",
+      "items": [
+        {
+          "q": "Can one panel run more than one door?",
+          "a": "Yes. The InBio Pro 160 controls one door, the 260 two and the 460 four, according to their specifications. Larger sites use more panels."
+        },
+        {
+          "q": "Card, fingerprint or face: which is best?",
+          "a": "A card is the simplest. Fingerprint, face and palm terminals check the person, not only the card. AIMS helps you choose for each door."
+        },
+        {
+          "q": "Can I keep my existing readers?",
+          "a": "InBio Pro panels take 26-bit Wiegand and RS485 FR series readers. Send AIMS your reader's model to check."
+        },
+        {
+          "q": "Which lock suits my door?",
+          "a": "The AL-M280 electromagnetic lock holds 280 kg and is listed for wooden, glass, metal and fireproof doors. AIMS checks your doors on the site survey."
+        },
+        {
+          "q": "Can a terminal open the door by itself?",
+          "a": "Some can. The F18 and SpeedFace V5L-P list a lock, door sensor and exit button connection in their specifications. Check the model, or ask AIMS."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Plan access for your doors.",
+      "body": "Tell AIMS how many doors and users you have. You'll get a door plan and a quotation.",
+      "action": "Get an installation quote",
+      "secondary": "Browse access control products"
     }
   }
 }
