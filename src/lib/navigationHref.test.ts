@@ -16,7 +16,9 @@ describe("preview navigation", () => {
   });
   it("uses the built showroom section and live software/contact destinations", () => {
     expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
-    expect(navigationHref("/contact")).toBe("https://aimsuae.me/enquiry");
+    // /contact is built (T9), so it stays local; unbuilt services and support still use AIMS's enquiry page.
+    expect(navigationHref("/contact")).toBe("/contact");
+    expect(navigationHref("/support")).toBe("https://aimsuae.me/enquiry");
     expect(navigationHref("/ar/software")).toBe("https://aimsuae.me/swcategory/zk-teco");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("https://aimsuae.me/software/biotime-9-5");
   });

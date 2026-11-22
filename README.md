@@ -184,6 +184,20 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
    portable terminals, face recognition terminals, turnstiles and swing barriers, and biometric POS terminals. An e2e
    test checks each line against the catalogue.
 
+### Contact decisions (Design Doc 10.1 T9; Master Plan ch. 12 row 8)
+
+1. **"What do you need?" routes to AIMS's own channels**, never a guessed one (`NEED_CHANNELS` in `src/lib/site.ts`):
+   sales and delivery abroad → WhatsApp/call +971 56 524 0495 (AIMS's "Order Now" and site chat); software and
+   showroom visits → +971 4 880 8445 (every software "Download" button on aimsuae.me opens WhatsApp to it, and
+   /enquiry lists it as the Dubai Showroom). AIMS publishes no separate technical support line, so the page offers
+   "Software and setup" rather than inventing one.
+2. **Three branch cards** use the addresses and Google Maps links from aimsuae.me/enquiry ("Our Branches"). Maps are
+   links, not iframes: the plan's "map iframes" would make third-party requests, which CLAUDE.md §5 forbids.
+3. **Opening hours aren't published**, so the page says so and asks visitors to call first, instead of showing hours.
+4. **The short message becomes an advice line** in the quote request (Master Plan T9), so there is one place to send
+   everything and contact details are entered once, on the quote page. "Delivery abroad" also presets the quote's
+   need. All WhatsApp, phone and email links stay behind the preview notice (risk R5).
+
 ## Content import
 
 ```bash

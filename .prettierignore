@@ -19,3 +19,4 @@ performance-results
 .codex
 # Impeccable's edit-hook cache (local, git-ignored); rewritten on every edit
 .impeccable/hook.cache.json
+skills-lock.json
