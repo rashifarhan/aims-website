@@ -10,10 +10,6 @@ export function navigationHref(href: string): string {
   const path = locale === "ar" ? href.slice(3) || "/" : href;
   // A built page always wins over its preview fallback (CLAUDE.md §6: link to built routes).
   if (BUILT.has(path.split(/[?#]/)[0])) return href;
-  if (path.startsWith("/solutions/")) {
-    const family = path.slice("/solutions/".length).replace("entrance-parking", "entrance-control");
-    return localePath(locale, `/products/${family}`);
-  }
   if (path === "/locations") return `${localePath(locale, "/")}#showrooms`;
   if (["/contact", "/services", "/support"].includes(path)) return LIVE_AIMS.contact;
   if (path === "/software") return LIVE_AIMS.software;
