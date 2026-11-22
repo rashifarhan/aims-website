@@ -73,6 +73,9 @@
   .door-story {
     --h: 1;
   }
+  .door-story > .wrap.grid {
+    align-content: center;
+  }
   .door-story > .wrap.grid > * {
     grid-column: 1 / -1;
   }
@@ -175,6 +178,43 @@
 /* ---------- Method tiles: AIMS's cut-outs stand on white, whole (sections.md, Product rule 1) ---------- */
 .method-tiles .tile__media {
   background: var(--bg);
+  --tile-ratio: 16 / 11;
+}
+/* A phone: each tile is a row, its photograph beside its words, so the three fit two screens. */
+@media (max-width: 639px) {
+  .grid.method-tiles > .tile {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    column-gap: var(--s-4);
+    align-items: start;
+  }
+  .grid.method-tiles > .tile > .tile__media {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    --tile-ratio: 1;
+  }
+  .grid.method-tiles > .tile > :not(.tile__media) {
+    grid-column: 2;
+    min-width: 0;
+  }
+  .grid.method-tiles > .tile .tile__head {
+    flex-wrap: wrap;
+    gap: 0 var(--s-2);
+  }
+  /* The second screen of a two-screen section is the picture's: the installation photograph
+     fills it, and the kit's list stands without the panel picture above (skill SR-3). */
+  #install .process-photo,
+  #install .process-photo img {
+    height: 100%;
+  }
+  #install .process-photo img {
+    aspect-ratio: auto;
+  }
+  .kit__panel {
+    display: none;
+  }
+  .method-tiles .tile__media > img {
+    padding: var(--s-2);
+  }
 }
 .method-tiles .tile__media > img {
   object-fit: contain;
@@ -270,13 +310,11 @@
 .method-tiles > .tile {
   transition: transform var(--dur) var(--ease);
 }
-@media (hover: hover) and (pointer: fine) {
-  .method-tiles > .tile:hover {
-    transform: translateY(-2px);
-  }
-  .method-tiles > .tile:hover .tile__media > img {
-    transform: scale(1.03);
-  }
+.method-tiles > .tile:hover {
+  transform: translateY(-2px);
+}
+.method-tiles > .tile:hover .tile__media > img {
+  transform: scale(1.03);
 }
 /* Installation on a tablet: the rows in two columns over a wide photograph, one screen. */
 @media (min-width: 640px) and (max-width: 1023px) {

@@ -1,0 +1,17 @@
+[
+  {
+    "check": "phone-number",
+    "target": "div.flex.h-full > div.grid.gap-2 > div.grid.grid-cols-2 > a.flex.h-12:nth-of-type(1)",
+    "reason": "AIMS's own published WhatsApp line in the mobile menu: brief-given, kept real by CLAUDE.md (the skill's own rule: unless the brief gives the number)."
+  },
+  {
+    "check": "phone-number",
+    "target": "div.flex.h-full > div.grid.gap-2 > div.grid.grid-cols-2 > a.flex.h-12:nth-of-type(2)",
+    "reason": "AIMS's own published showroom phone line in the mobile menu: brief-given, kept real by CLAUDE.md."
+  },
+  {
+    "check": "moment-none",
+    "target": "(the page)",
+    "reason": "Access control's dealt moment is the client-approved door-kit prototype (CLAUDE.md §3, Design Doc 8.2), mounted by its own client leaf, not the kit's moment loader the checker looks for."
+  }
+]

@@ -988,6 +988,10 @@
           "a": "InBio Pro panels take 26-bit Wiegand and RS485 FR series readers. Send the model and AIMS checks it."
         },
         {
+          "q": "Does the access control kit include power supplies?",
+          "a": "The kit lists readers, the panel, locks, exit buttons and cards. An AIMS engineer confirms power supplies and cabling before quoting."
+        },
+        {
           "q": "Who installs the access control kit?",
           "a": "An AIMS engineer confirms power supplies, cabling and door type before quoting, then installs the kit."
         }

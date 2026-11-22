@@ -375,8 +375,14 @@ header button:active {
       padding-inline: var(--s-3);
     }
   }
-  /* On a tablet the close and the directory stack past one screen: they take two (skill SR-2). */
-  @media (min-width: 640px) and (max-width: 1023px) {
+  /* Below 1024 the close word already names AIMS, so the directory drops its wordmark row and the
+     close fits one screen on a tall tablet; a short tablet gives it two (skill SR-2). */
+  @media (max-width: 1023px) {
+    footer.closing .closing__links .grid > :first-child {
+      display: none;
+    }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) and (max-height: 1100px) {
     footer.closing {
       --h: 2;
     }
