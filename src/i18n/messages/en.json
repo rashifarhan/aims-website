@@ -47,7 +47,11 @@
   "notFound": {
     "title": "Page not found",
     "body": "The page may have moved. Try searching for a model code, or browse all products.",
-    "cta": "Browse products"
+    "cta": "Browse products",
+    "searchLabel": "Search by model code",
+    "popular": "Popular searches",
+    "denied": "Access denied",
+    "doorAlt": "A card is held to the door reader. Its light blinks red twice and the door stays shut: access denied."
   },
   "families": {
     "time-attendance": {
@@ -191,8 +195,8 @@
     "specsOnRequest": "Specs on request",
     "add": "Add to quote",
     "inQuote": "In quote",
-    "addedAnnounce": "{name} added to quote, {qty} units",
-    "qtyAnnounce": "{name}: {qty} units",
+    "addedAnnounce": "{name} added to quote. Quantity: {qty}",
+    "qtyAnnounce": "{name}: quantity {qty}",
     "qty": "Quantity",
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
@@ -219,7 +223,32 @@
     "inFamily": "More in {family}",
     "model": "Model",
     "brand": "Brand",
-    "notListed": "Not listed by AIMS"
+    "notListed": "Not listed by AIMS",
+    "connects": {
+      "title": "How it connects",
+      "lead": "Taken from the {model} spec sheet. Ask us about anything not listed.",
+      "links": "Connects over",
+      "door": "Drives at the door"
+    },
+    "specHints": {
+      "algorithmVersion": "The version of the matching software inside the device. Newer versions usually match faster.",
+      "wiegandSignal": "A standard wiring format for connecting readers and controllers, including other brands.",
+      "communication": "How it connects: TCP/IP is a network cable, RS485 a long wired bus, plus USB or Wi-Fi where listed.",
+      "accessControlInterface": "Door hardware the device can drive directly, such as a lock, door sensor or exit button.",
+      "eventCapacity": "How many clock-in or door events the device stores before they need downloading.",
+      "eventLogCapacity": "How many door events the controller stores before they need downloading.",
+      "cardHolderCapacity": "How many card users the controller can store.",
+      "readersSupported": "How many card or biometric readers can be connected to the controller.",
+      "doorsControlled": "How many doors one controller manages.",
+      "holdingForce": "The force a magnetic lock resists when locked. Higher values hold heavier doors.",
+      "laneWidth": "The clear width people or vehicles pass through.",
+      "mcbf": "Mean cycles between failures: the average number of openings before a fault.",
+      "optionalFunctions": "Features available when the device is ordered with that option.",
+      "standardFunctions": "Features included as standard.",
+      "auxInput": "An extra input for a sensor or alarm contact.",
+      "doorThickness": "The range of door thickness the lock fits.",
+      "sensor": "The type of fingerprint scanner."
+    }
   },
   "compare": {
     "title": "Compare products",
@@ -410,12 +439,15 @@
     "title": "Start with what you need.",
     "lead": "From recording working hours to managing who comes through the door. Find the right starting point for your site.",
     "components": "Explore the components",
+    "productCountOne": "1 product",
+    "productCount": "{count} products",
+    "pictured": "Pictured:",
     "cards": {
       "time-attendance": {
         "outcome": "Record working hours",
         "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
         "includes": ["Face, fingerprint and card terminals", "Portable terminals"],
-        "action": "Explore attendance products"
+        "action": "See how time attendance works"
       },
       "access-control": {
         "outcome": "Manage who can enter",
@@ -499,6 +531,12 @@
     "describe": "Describe an item we don't list",
     "describeLabel": "Item description",
     "describePlaceholder": "For example, a 2-door controller with 4 readers",
+    "describeSite": "Describe your site",
+    "describeSiteLabel": "Site description",
+    "describeSitePlaceholder": "For example, 6 doors, 80 staff, Dubai office",
+    "describeExport": "Describe what you need",
+    "describeExportLabel": "What you need and where it goes",
+    "describeExportPlaceholder": "For example, 30 terminals to Nairobi",
     "describeAdd": "Add item",
     "remove": "Remove {name}",
     "removed": "{name} removed.",
@@ -561,7 +599,8 @@
     "name": "Name",
     "company": "Company (optional)",
     "phone": "Mobile or WhatsApp",
-    "phoneHint": "Include the country code, for example +971 50 123 4567.",
+    "phoneHint": "Include the country code, for example {example}.",
+    "phoneExample": "+971 50 123 4567",
     "email": "Email",
     "emailOptional": "Email (optional)",
     "replyBy": "Reply by",
@@ -578,8 +617,11 @@
     "sendCta": "Send enquiry",
     "whatsappNote": "WhatsApp opens with this message. You can still edit it before you send it.",
     "demoNote": "Preview: nothing is sent. On the live site this goes to AIMS sales and you get a reference.",
-    "itemsSummary": "{count} items · {units} units",
-    "itemsSummaryOne": "1 item · {units} units",
+    "itemsSummary": "{items} · {units}",
+    "itemOne": "1 item",
+    "itemMany": "{count} items",
+    "unitOne": "1 unit",
+    "unitMany": "{count} units",
     "errorsHeading": "Fix {count} things before sending",
     "errorsOne": "Fix 1 thing before sending",
     "errors": {
@@ -828,6 +870,15 @@
     "advicePrefix": "{need}: {message}",
     "visitSuffix": " (preferred: {day})",
     "locationsTitle": "Visit or call",
+    "answeredBy": "Answered on the {line} line.",
+    "lineNames": {
+      "headOffice": "head office",
+      "showroom": "Dubai showroom",
+      "abuDhabi": "Abu Dhabi office",
+      "mobile": "mobile and WhatsApp"
+    },
+    "reachTitle": "Where AIMS delivers",
+    "reachLead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
     "emailLabel": "Email",
     "locations": {
       "headOffice": "Head office, Dubai",

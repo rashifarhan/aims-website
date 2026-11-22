@@ -21,7 +21,8 @@ export function Panel({ n, title, id, children }: { n: number; title: string; id
 type FieldProps = {
   id: string;
   label: string;
-  hint?: string;
+  /** A node, so a phone or model example can sit in its own LTR <bdi> inside Arabic (Design Doc 13). */
+  hint?: ReactNode;
   error?: string;
   children: (a11y: { id: string; "aria-describedby"?: string; "aria-invalid"?: true }) => ReactNode;
 };
@@ -51,7 +52,7 @@ export function Field({ id, label, hint, error, children }: FieldProps) {
 
 /** 16px text so iOS doesn't zoom on focus (Design Doc 5). */
 export const inputClass =
-  "h-12 w-full rounded-md border border-line-strong bg-paper px-3.5 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700 aria-invalid:border-error";
+  "h-12 w-full rounded-md border border-line-strong bg-paper px-3.5 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700 aria-invalid:border-error";
 
 /** Radio options styled as chips; native radios underneath. */
 export function ChipRadios<T extends string>({

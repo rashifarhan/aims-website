@@ -1,23 +1,27 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
-import { ArrowIcon } from "@/components/icons";
-import { AddToQuote } from "@/components/catalogue/AddToQuote";
+import { ConnectsDiagram } from "@/components/product/ConnectsDiagram";
+import { FittedWith } from "@/components/product/FittedWith";
 import { Overview } from "@/components/product/Overview";
-import { ProductPurchase } from "@/components/product/ProductPurchase";
-import { SpecTable } from "@/components/product/SpecTable";
+import { ProductSummary } from "@/components/product/ProductSummary";
+import { SpecsSection } from "@/components/product/SpecsSection";
+import { connections } from "@/components/product/connects";
+import { englishData } from "@/components/product/englishData";
+import "@/components/product/product.css";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";
-import { keyFacts } from "@/content/facts";
 import type { FamilySlug } from "@/content/taxonomy";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { absoluteUrl, alternates, fitTitle } from "@/lib/seo";
-import { CONTACT, whatsappUrl } from "@/lib/site";
-import { ContactLink } from "@/components/contact/ContactLink";
+
+/**
+ * Heading column beside content from 1024px. minmax(0, …) lets long verbatim spec values and overview
+ * text wrap inside their column instead of widening the page at 390px (audit T1).
+ */
+const SECTION = "mt-14 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-10";
 
 /** Every live product gets a page from this template (review decision 6). */
 export function generateStaticParams() {
@@ -43,14 +47,10 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   const t = await getDictionary();
   const locale = await getLocale();
   const href = (path: string) => localePath(locale, path);
-  // Product data is English; mark it so Arabic pages read it correctly.
-  const contentLang = locale === "en" ? undefined : "en";
+  const data = englishData(locale);
   const family = p.family as FamilySlug;
   const familyName = t.families[family].name;
-  const tiles = keyFacts(p, 4);
-  const fitted = fittedWith(p);
   const image = p.images[0];
-  const name = uniqueName(p);
 
   const addLabels = {
     add: t.catalogue.add,
@@ -73,152 +73,57 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         ]}
       />
 
-      {/* Summary */}
-      <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
-        <div className="relative aspect-square overflow-hidden rounded-lg border border-line bg-white">
-          {image && (
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              priority
-              sizes="(min-width: 1024px) 560px, 100vw"
-              className="object-contain p-8"
-            />
-          )}
-        </div>
+      <ProductSummary
+        p={p}
+        name={uniqueName(p)}
+        familyName={familyName}
+        href={href}
+        addLabels={addLabels}
+        t={t}
+        data={data}
+      />
 
-        <div lang={contentLang}>
-          <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">
-            {p.brand === "alpha" ? "Alpha" : "ZKTeco"} · {familyName}
-          </p>
-          <h1 className="mt-2 text-3xl leading-tight font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
-            {name}
-          </h1>
-          <p className="mt-1 font-mono text-base text-ink-600">{p.model}</p>
-          <p className="mt-4 max-w-[60ch] text-lg text-ink-600">{p.summary}</p>
+      <ConnectsDiagram
+        model={p.model}
+        connections={connections(p)}
+        connLabels={t.catalogue.conn}
+        labels={{ ...t.product.connects, lead: fmt(t.product.connects.lead, { model: p.model }) }}
+        sectionClass={SECTION}
+        data={data}
+      />
 
-          {tiles.length > 0 && (
-            <section aria-labelledby="key-specs" className="mt-6">
-              <h2 id="key-specs" className="sr-only">
-                {t.product.keySpecs}
-              </h2>
-              <dl className="grid grid-cols-2 gap-2">
-                {tiles.map((f) => (
-                  <div key={f.label} className="flex flex-col-reverse rounded-md bg-paper-2 p-4">
-                    <dt className="mt-1 text-caption text-ink-600">{f.label}</dt>
-                    <dd className="text-lg leading-snug font-semibold text-ink tabular-nums">{f.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )}
+      <FittedWith
+        items={fittedWith(p)}
+        heading={t.product.fittedWith}
+        note={t.product.fittedWithNote}
+        href={href}
+        addLabels={addLabels}
+        data={data}
+      />
 
-          <ProductPurchase
-            slug={p.slug}
-            name={p.name}
-            model={p.model}
-            quoteHref={href("/quote")}
-            whatsappMessage={fmt(t.product.whatsappText, {
-              name: `${p.name} (${absoluteUrl(`/product/${p.slug}`)})`,
-            })}
-            labels={{ ...addLabels, viewQuote: t.catalogue.viewQuote, askWhatsapp: t.product.askWhatsapp }}
-          />
+      <SpecsSection
+        p={p}
+        heading={t.product.specs}
+        hints={t.product.specHints}
+        empty={{
+          body: t.product.noSpecs,
+          ask: t.product.askSpecs,
+          message: fmt(t.product.whatsappText, { name: p.name }),
+        }}
+        sectionClass={SECTION}
+        data={data}
+      />
 
-          <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
-            {p.datasheetUrl && (
-              <li>
-                <a
-                  href={p.datasheetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-700 underline underline-offset-2"
-                >
-                  {t.product.datasheet}
-                  <span className="font-normal text-ink-600"> · {t.product.datasheetNote}</span>
-                </a>
-              </li>
-            )}
-            <li>
-              <Link
-                href={href(`/products/${family}?cmp=${p.slug}`)}
-                className="text-green-700 underline underline-offset-2"
-              >
-                {t.product.compareSimilar}
-              </Link>
-            </li>
-          </ul>
-
-          <div className="mt-6 rounded-md border border-line p-4">
-            <p className="font-semibold text-ink">{t.product.needInstall}</p>
-            <p className="mt-1 text-sm text-ink-600">{t.product.needInstallBody}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Often fitted with */}
-      {fitted.length > 0 && (
-        <section aria-labelledby="fitted" className="mt-14">
-          <h2 id="fitted" className="text-2xl font-bold tracking-tight">
-            {t.product.fittedWith}
-          </h2>
-          <p className="mt-1 text-sm text-ink-600">{t.product.fittedWithNote}</p>
-          <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-3">
-            {fitted.map((f) => (
-              <li key={f.slug} className="flex items-center gap-4 rounded-md border border-line p-3">
-                <div className="relative size-16 shrink-0 overflow-hidden rounded-sm border border-line bg-white">
-                  {f.images[0] && (
-                    <Image src={f.images[0].src} alt="" fill sizes="64px" className="object-contain p-1" />
-                  )}
-                </div>
-                <div className="min-w-0 flex-1" lang={contentLang}>
-                  <Link href={href(`/product/${f.slug}`)} className="block truncate font-semibold hover:underline">
-                    {f.name}
-                  </Link>
-                  <AddToQuote slug={f.slug} name={f.name} labels={addLabels} className="mt-2" />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {/* Specifications */}
-      <section aria-labelledby="specs" className="mt-14 grid gap-6 lg:grid-cols-[232px_1fr] lg:gap-10">
-        <h2 id="specs" className="text-2xl font-bold tracking-tight">
-          {t.product.specs}
-        </h2>
-        {p.specs.length > 0 ? (
-          <SpecTable groups={p.specs} lang={contentLang} />
-        ) : (
-          <div className="rounded-md bg-paper-2 p-5">
-            <p className="text-ink-700">{t.product.noSpecs}</p>
-            <ContactLink
-              kind="whatsapp"
-              href={whatsappUrl(fmt(t.product.whatsappText, { name: p.name }))}
-              target={CONTACT.lines.mobile.display}
-              message={fmt(t.product.whatsappText, { name: p.name })}
-              className="mt-3 inline-flex items-center gap-1.5 font-semibold text-green-700 underline underline-offset-2"
-            >
-              {t.product.askSpecs}
-              <ArrowIcon width={16} height={16} />
-            </ContactLink>
-          </div>
-        )}
-      </section>
-
-      {/* Overview */}
       {p.overview.length > 0 && (
-        <section aria-labelledby="overview" className="mt-14 grid gap-6 lg:grid-cols-[232px_1fr] lg:gap-10">
+        <section aria-labelledby="overview" className={SECTION}>
           <h2 id="overview" className="text-2xl font-bold tracking-tight">
             {t.product.overview}
           </h2>
-          <Overview blocks={p.overview} lang={contentLang} />
+          <Overview blocks={p.overview} data={data} />
         </section>
       )}
 
-      {/* Downloads */}
-      <section aria-labelledby="downloads" className="mt-14 grid gap-6 lg:grid-cols-[232px_1fr] lg:gap-10">
+      <section aria-labelledby="downloads" className={SECTION}>
         <h2 id="downloads" className="text-2xl font-bold tracking-tight">
           {t.product.downloads}
         </h2>
@@ -227,9 +132,12 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             href={p.datasheetUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-md border border-line px-4 py-3 font-semibold hover:border-line-strong"
+            className="inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 rounded-md border border-line px-4 py-3 font-semibold transition-colors duration-(--duration-hover) hover:border-line-strong active:bg-paper-2"
           >
-            {t.product.datasheet} <span className="font-mono text-sm font-normal text-ink-600">{p.model}</span>
+            {t.product.datasheet}{" "}
+            <span className="font-mono text-sm font-normal text-ink-600" dir="ltr">
+              {p.model}
+            </span>
             <span className="text-sm font-normal text-ink-600">· {t.product.datasheetNote}</span>
           </a>
         ) : (

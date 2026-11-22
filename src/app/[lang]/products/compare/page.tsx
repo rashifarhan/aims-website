@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { ArrowIcon } from "@/components/icons";
 import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { productBySlug } from "@/content/catalogue";
 import type { Product } from "@/content/schema";
@@ -64,9 +65,14 @@ function CompareView({
   const backToResults = (
     <Link
       href={from}
-      className="inline-flex h-11 items-center font-semibold text-green-700 underline underline-offset-2"
+      className="inline-flex h-11 items-center gap-1.5 font-semibold text-green-700 underline underline-offset-2"
     >
-      ← {t.compare.back}
+      {/* "Back" points to the inline start: the outer flip turns ArrowIcon (→, mirrored in Arabic by
+          its own rtl:-scale-x-100) into ← in English and → in Arabic (Design Doc 13). */}
+      <span className="inline-flex -scale-x-100">
+        <ArrowIcon width={18} height={18} />
+      </span>
+      {t.compare.back}
     </Link>
   );
 
@@ -79,7 +85,7 @@ function CompareView({
     );
   }
 
-  const rows = compareRows(items);
+  const rows = compareRows(items, t.product.specHints);
   const visible = onlyDiff ? rows.filter((r) => r.differs) : rows;
   const selfHref = (diff: boolean) =>
     `?items=${items.map((p) => p.slug).join(",")}${diff ? "&diff=1" : ""}&from=${encodeURIComponent(from)}`;
@@ -160,7 +166,9 @@ function CompareView({
         <ul className="mt-6 grid gap-4" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
           {items.map((p) => (
             <li key={p.slug} className="min-w-0">
-              <p className="mb-2 truncate text-sm font-semibold">{p.model}</p>
+              <p className="mb-2 truncate font-mono text-sm font-medium">
+                <span dir="ltr">{p.model}</span>
+              </p>
               <AddToQuote slug={p.slug} name={p.name} labels={addLabels} />
             </li>
           ))}
@@ -169,10 +177,18 @@ function CompareView({
 
       {/* From 640px: a real table with a header row of products. */}
       <div className="mt-6 hidden sm:block">
-        <table className="w-full border-collapse text-start text-sm" lang={contentLang}>
+        {/* Fixed layout: the label column is 14rem and the products share the rest equally, so a long
+            value in one product never squeezes the others (site polish T6). */}
+        <table className="w-full table-fixed border-collapse text-start text-sm" lang={contentLang}>
+          <colgroup>
+            <col className="w-56" />
+            {items.map((p) => (
+              <col key={p.slug} />
+            ))}
+          </colgroup>
           <thead>
             <tr className="align-top">
-              <td className="w-56" />
+              <td />
               {items.map((p) => (
                 <th key={p.slug} scope="col" className="px-3 pb-4 text-start font-normal">
                   <div className="relative mb-3 aspect-square w-32 overflow-hidden rounded-md border border-line bg-white">
@@ -183,7 +199,9 @@ function CompareView({
                   <Link href={hrefOf(`/product/${p.slug}`)} className="block font-semibold text-ink hover:underline">
                     {p.name}
                   </Link>
-                  <span className="mt-0.5 block font-mono text-xs text-ink-600">{p.model}</span>
+                  <span className="mt-0.5 block font-mono text-xs text-ink-600">
+                    <span dir="ltr">{p.model}</span>
+                  </span>
                   <AddToQuote slug={p.slug} name={p.name} labels={addLabels} className="mt-3" />
                   {items.length > 2 && (
                     <Link
@@ -215,7 +233,7 @@ function CompareView({
                   {r.hint && <span className="mt-1 block text-xs leading-snug text-ink-600">{r.hint}</span>}
                 </th>
                 {r.values.map((v, i) => (
-                  <td key={items[i].slug} className="px-3 py-3">
+                  <td key={items[i].slug} className="px-3 py-3 break-words">
                     {v ?? <span className="text-ink-600 italic">{t.product.notListed}</span>}
                   </td>
                 ))}

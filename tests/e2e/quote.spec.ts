@@ -117,7 +117,8 @@ test("AT-07: preview send makes no third-party request and the receipt says noth
   const receipt = page.getByRole("heading", { name: "Request ready" });
   await expect(receipt).toBeFocused();
   await expect(page.getByText("Demo: nothing was sent to AIMS.")).toBeVisible();
-  await expect(page.getByText(/^Q-\d{4}-\d{4}$/)).toBeVisible();
+  // The reference also sits in the message preview as its own run, so match the receipt's labelled line.
+  await expect(page.getByText(/^Reference: Q-\d{4}-\d{4}$/)).toBeVisible();
   await axe(page);
   expect(external).toEqual([]);
 

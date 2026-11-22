@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons";
 import { fmt } from "@/i18n/format";
 
-type Item = { slug: string; name: string };
+type Item = { slug: string; name: string; image: { src: string } | null };
 type Labels = {
   compareTray: string;
   compareCount: string;
@@ -25,7 +26,7 @@ type Props = {
 };
 
 /**
- * Compare tray (Design Doc 9): appears only when ≥ 1 product is selected;
+ * Compare tray (Design Doc 9: ink pill tray, thumbnails): appears only when ≥ 1 product is selected;
  * the compare view needs 2–3. It sits above the page, so the listing adds
  * bottom padding while it is shown (WCAG 2.4.11: never hide focus).
  */
@@ -45,8 +46,12 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
           {items.map((i) => (
             <li
               key={i.slug}
-              className="inline-flex h-9 max-w-56 items-center gap-1 rounded-pill border border-line bg-paper-2 ps-3 pe-1 text-sm"
+              className="inline-flex h-9 max-w-60 items-center gap-1.5 rounded-pill border border-line bg-paper-2 ps-1 pe-1 text-sm"
             >
+              {/* The photo helps tell picks apart at a glance; the name beside it is what is read out. */}
+              <span className="relative size-7 shrink-0 overflow-hidden rounded-pill bg-paper">
+                {i.image && <Image src={i.image.src} alt="" fill sizes="28px" className="object-contain p-0.5" />}
+              </span>
               <span className="truncate">{i.name}</span>
               <button
                 type="button"

@@ -1,0 +1,106 @@
+/*
+ * UNLOCK reversed for the 404 (Design Doc 8.2 door kit; taste motion.md "the hero enters once on load").
+ * Keyframes are copied from the homepage door (premium.css) so this file stands alone. The resting
+ * styles are the final frame; the sequence runs once only when motion is allowed, with fill-mode both,
+ * so nothing is ever hidden under reduced motion or before the CSS loads. Transform and opacity only.
+ * The reader light shows twice (2 flashes/s, under the 3-per-second limit, WCAG 2.3.1).
+ */
+.door-denied {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.door-denied-name {
+  font-size: var(--text-door-name);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.door-denied-model {
+  font-family: var(--font-mono);
+  font-size: var(--text-door-model);
+  font-weight: 500;
+  fill: var(--color-ink-600);
+}
+.door-denied-label {
+  font-size: var(--text-door-name);
+  font-weight: 600;
+  fill: var(--color-paper);
+}
+.door-denied-leaf {
+  transform-box: view-box;
+  transform-origin: 226px 260px;
+}
+.door-denied-badge {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .door-denied-card {
+    animation: door-denied-card 700ms 300ms var(--ease-aims) both;
+  }
+  .door-denied-led {
+    animation: door-denied-blink 1000ms 1000ms linear both;
+  }
+  .door-denied-leaf {
+    animation: door-denied-shudder 360ms 1150ms var(--ease-aims) both;
+  }
+  .door-denied-badge {
+    animation: door-denied-pop 450ms 1450ms var(--ease-aims) both;
+  }
+}
+
+@keyframes door-denied-card {
+  from {
+    opacity: 0;
+    transform: translate(-110px, 60px) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Off, on, off, on: two red blinks in one second, ending lit. */
+@keyframes door-denied-blink {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  35% {
+    opacity: 1;
+  }
+  43%,
+  57% {
+    opacity: 0;
+  }
+  65%,
+  100% {
+    opacity: 1;
+  }
+}
+/* The leaf tries to move 2px against the lock and settles shut. */
+@keyframes door-denied-shudder {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: translateX(2px);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(1px);
+  }
+}
+@keyframes door-denied-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -7,6 +7,7 @@ import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { Listing, ListingView, type ListingProps } from "./Listing";
+import "./catalogue.css";
 
 /**
  * Server part of the T4 listing: heading and data. The interactive list

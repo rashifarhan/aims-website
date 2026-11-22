@@ -16,6 +16,8 @@ type Props = {
   shortcut?: boolean;
   entries: SearchEntry[];
   labels: Dictionary["search"];
+  /** The page shows its own visible <label for={id}>, so this one stays out (one label per field). */
+  labelledOutside?: boolean;
 };
 
 /** Real GET fallback plus a local, keyboard-operated 150ms combobox (Design Doc 8.4; AT-03). */
@@ -28,6 +30,7 @@ export function HeaderSearch({
   shortcut = false,
   entries,
   labels,
+  labelledOutside = false,
 }: Props) {
   const { ref, query, setQuery, results, resolved, open, setOpen, active, setActive, listId, expanded, select } =
     useHeaderSearch(entries, id, shortcut);
@@ -41,9 +44,11 @@ export function HeaderSearch({
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}
     >
-      <label htmlFor={id} className="sr-only">
-        {placeholder}
-      </label>
+      {!labelledOutside && (
+        <label htmlFor={id} className="sr-only">
+          {placeholder}
+        </label>
+      )}
       <SearchIcon
         width={18}
         height={18}
@@ -87,7 +92,7 @@ export function HeaderSearch({
             if (entry) select(entry);
           }
         }}
-        className={`peer h-11 w-full ${shortcut ? "pe-4 xl:pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
+        className={`peer h-11 w-full ${shortcut ? "pe-4 xl:pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
       />
       {shortcut && (
         <kbd

@@ -1,5 +1,5 @@
 import type { Product } from "@/content/schema";
-import { specHint } from "@/content/glossary";
+import { specHint, type SpecHints } from "@/content/glossary";
 
 export const NOT_LISTED = null;
 
@@ -26,7 +26,8 @@ const norm = (v: string) =>
  * Rows every product lists come first, in the first product's order;
  * the rest follow. Missing values are explicit, never blank.
  */
-export function compareRows(products: Pick<Product, "specs">[]): CompareRow[] {
+/** `hints` is the page dictionary's product.specHints, so Arabic pages explain specs in Arabic. */
+export function compareRows(products: Pick<Product, "specs">[], hints?: SpecHints): CompareRow[] {
   const maps = products.map((p) => new Map(p.specs.flatMap((g) => g.rows).map((r) => [r.label, r.value] as const)));
   const labels: string[] = [];
   for (const m of maps) for (const l of m.keys()) if (!labels.includes(l)) labels.push(l);
@@ -37,7 +38,7 @@ export function compareRows(products: Pick<Product, "specs">[]): CompareRow[] {
     const shared = listed.length === values.length;
     return {
       label,
-      hint: specHint(label),
+      hint: specHint(label, hints),
       values,
       shared,
       differs: !shared || new Set(listed.map(norm)).size > 1,

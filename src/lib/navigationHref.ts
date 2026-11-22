@@ -15,7 +15,8 @@ export function navigationHref(href: string): string {
     return localePath(locale, `/products/${family}`);
   }
   if (path === "/locations") return `${localePath(locale, "/")}#showrooms`;
-  if (["/contact", "/services", "/support"].includes(path)) return LIVE_AIMS.contact;
+  // Services and support route to the built contact page, which sends each need to the right AIMS line.
+  if (["/services", "/support"].includes(path)) return localePath(locale, "/contact");
   if (path === "/software") return LIVE_AIMS.software;
   if (path.startsWith("/software/") || ["/about", "/privacy-policy", "/terms-and-conditions"].includes(path)) {
     return `${LIVE_AIMS.home.slice(0, -1)}${path}`;

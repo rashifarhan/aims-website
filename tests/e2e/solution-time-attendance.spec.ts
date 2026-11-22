@@ -80,3 +80,61 @@ test("phones scroll the terminals sideways without widening the page", async ({ 
   await page.setViewportSize({ width: 320, height: 800 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+// T12: the hero leads with the F18 photograph, preloaded as the LCP image.
+test("the hero shows the F18 photograph beside the copy", async ({ page }) => {
+  await page.goto(PATH);
+  const photo = page.locator(".t3-hero-photo img");
+  await expect(photo).toBeVisible();
+  await expect(photo).toHaveAttribute("src", /f18/);
+  // Next 16's `preload` loads the LCP photo early through a preload link (CLAUDE.md §5).
+  await expect(page.locator('link[rel="preload"][as="image"][imagesrcset*="f18"]')).toHaveCount(1);
+  // The entrance plays once and stands.
+  const iterations = await page
+    .locator(".t3-hero")
+    .evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect?.getTiming().iterations));
+  expect(iterations.every((n) => n === 1)).toBe(true);
+});
+
+test("reduced motion: the hero is still and the story steps keep their natural height", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(PATH);
+  await expect(page.locator(".story")).toHaveAttribute("data-motion", "off");
+  for (const step of await page.locator("[data-story-step]").all())
+    expect((await step.boundingBox())?.height ?? 0).toBeLessThan(900 * 0.55 - 1);
+  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+    await expect(part).toHaveCSS("opacity", "1");
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+  test("story steps keep their natural height", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(PATH);
+    for (const step of await page.locator("[data-story-step]").all())
+      expect((await step.boundingBox())?.height ?? 0).toBeLessThan(844 * 0.4 - 1);
+  });
+});
+
+// Micro VERIFY on the header Quote badge: a rise shows the tick; loading a page with items does not.
+test("the header quote badge verifies an addition, not a page load", async ({ page }) => {
+  await page.goto(PATH);
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "aims.quote.v1",
+      JSON.stringify({ v: 1, updatedAt: Date.now(), lines: [{ kind: "product", slug: "f18", qty: 1 }] }),
+    ),
+  );
+  await page.reload();
+  const tick = page.locator("header [data-quote-tick]");
+  await expect(tick).toHaveCount(1);
+  expect(await tick.evaluate((el) => el.getAnimations().length)).toBe(0);
+  await expect(tick).toHaveCSS("opacity", "0");
+  const card = page.locator(".pick-card").filter({ hasNotText: "F18" }).first();
+  await card.getByRole("button", { name: "Add to quote" }).click();
+  await page.waitForFunction(
+    () => (document.querySelector("header [data-quote-tick]")?.getAnimations().length ?? 0) > 0,
+  );
+  await expect(page.getByRole("banner").getByRole("link", { name: /Quote 2 items/ })).toBeVisible();
+});
