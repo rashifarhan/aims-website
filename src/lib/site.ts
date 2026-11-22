@@ -19,9 +19,9 @@ export const LIVE_CONTACT = process.env.NEXT_PUBLIC_LIVE_CONTACT === "true";
 export const ZKTECO_AUTHORIZATION_CONFIRMED = false;
 
 /**
- * Contact details exactly as labelled in the aimsuae.me footer. Opening
- * hours and map links for the head office and Abu Dhabi are not published
- * yet (open question for AIMS).
+ * Contact details exactly as published on aimsuae.me (footer and the
+ * "Our Branches" block on /enquiry). Opening hours are not published yet
+ * (open question for AIMS), so the site never states them.
  */
 export const CONTACT = {
   whatsapp: "971565240495",
@@ -39,9 +39,6 @@ export const CONTACT = {
 /** The three published places to visit or call: head office, Deira showroom, Abu Dhabi office. */
 export const LOCATION_LINES = ["headOffice", "showroom", "abuDhabi"] as const;
 
-export const whatsappUrl = (text?: string) =>
-  `https://wa.me/${CONTACT.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
-
 /** Homepage fallbacks until the corresponding local routes are built (Design Doc T1). */
 export const LIVE_AIMS = {
   home: "https://aimsuae.me/",
@@ -57,3 +54,39 @@ export const CUSTOMER_REVIEWS = [
 ] as const;
 
 export const COMPANY_NAME = "AIMS Security Systems Trading LLC";
+
+export const whatsappUrl = (text?: string, number: string = CONTACT.whatsapp) =>
+  `https://wa.me/${number}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+
+export type LocationId = "headOffice" | "showroom" | "abuDhabi";
+
+/**
+ * The three branches as listed on aimsuae.me/enquiry ("Our Branches"),
+ * with the address shown there or in AIMS's own directions link. Map
+ * links open Google Maps; the site embeds no map (no third-party requests
+ * at runtime, CLAUDE.md §5).
+ */
+export const LOCATIONS: { id: LocationId; address: string; line: keyof typeof CONTACT.lines; map: string }[] = [
+  { id: "headOffice", address: "Deira, Dubai", line: "headOffice", map: "https://maps.app.goo.gl/hnfo29MVNtrfCaUm7" },
+  { id: "showroom", address: CONTACT.showroomAddress, line: "showroom", map: CONTACT.showroomMap },
+  {
+    id: "abuDhabi",
+    address: "Electra Street, Al Danah, Zone 1, Abu Dhabi",
+    line: "abuDhabi",
+    map: "https://maps.app.goo.gl/3G5TbnFs5Xpysr648",
+  },
+];
+
+/**
+ * Which channel serves which need, from AIMS's own buttons: product
+ * "Order Now" and the site-wide chat use the mobile line; every software
+ * "Download" button opens WhatsApp to the Dubai showroom line. AIMS
+ * publishes no separate support line, so none is invented.
+ */
+export const NEED_CHANNELS = {
+  sales: CONTACT.lines.mobile,
+  software: CONTACT.lines.showroom,
+  visit: CONTACT.lines.showroom,
+  export: CONTACT.lines.mobile,
+} as const;
+export type ContactNeed = keyof typeof NEED_CHANNELS;
