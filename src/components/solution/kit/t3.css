@@ -178,10 +178,20 @@
 /* ---------- Method tiles: AIMS's cut-outs stand on white, whole (sections.md, Product rule 1) ---------- */
 .method-tiles .tile__media {
   background: var(--bg);
-  --tile-ratio: 16 / 11;
+  --tile-ratio: 16 / 10;
 }
-/* A phone: each tile is a row, its photograph beside its words, so the three fit two screens. */
+/* A phone: each tile is a row, its photograph beside its words, so the three fit two screens; the
+   section is two screens there as one run of content (no .g2m groups, which would stretch the head). */
 @media (max-width: 639px) {
+  .method-section {
+    --hm: 2;
+  }
+}
+@media (max-width: 639px) {
+  /* One tile a row (the kit pairs span-4 tiles on a phone, too narrow for a photograph beside words). */
+  .grid.method-tiles > .tile.span-4 {
+    grid-column: 1 / -1;
+  }
   .grid.method-tiles > .tile {
     grid-template-columns: 7rem minmax(0, 1fr);
     column-gap: var(--s-4);
@@ -199,6 +209,12 @@
   .grid.method-tiles > .tile .tile__head {
     flex-wrap: wrap;
     gap: 0 var(--s-2);
+  }
+  .grid.method-tiles > .tile .tile__head > a {
+    overflow-wrap: anywhere;
+  }
+  .method-tiles__actions .btn {
+    padding-inline: var(--s-4);
   }
   /* The second screen of a two-screen section is the picture's: the installation photograph
      fills it, and the kit's list stands without the panel picture above (skill SR-3). */
@@ -252,6 +268,15 @@
   margin-inline-end: var(--s-3);
   color: var(--muted);
   font-size: var(--t-label);
+}
+/* An AIMS product cut-out stands whole on white instead of being cropped. */
+.process-photo.process-photo--contain img {
+  object-fit: contain;
+  background: var(--bg);
+}
+.process-after {
+  margin-top: var(--s-6);
+  min-width: 0;
 }
 .process-photo img {
   display: block;

@@ -997,5 +997,247 @@
         }
       ]
     }
+  },
+  "solutionEntranceParking": {
+    "metaTitle": "Turnstiles & parking barriers in Dubai | AIMS",
+    "metaDescription": "ZKTeco tripod turnstiles, swing barriers and parking barrier gates for lobbies and car parks, supplied and installed by AIMS in Dubai and Abu Dhabi.",
+    "title": "Turnstiles and barriers in the UAE",
+    "lead": "Tripod turnstiles, swing barriers and car park barriers, from {count} entrance and parking models. AIMS supplies and installs them in Dubai and Abu Dhabi.",
+    "secondary": "See entrance types",
+    "heroAlt": "ZKTeco MARS-B1022 single-lane swing barrier turnstile",
+    "statement": {
+      "heading": "Turnstiles for lobbies, barriers for car parks",
+      "text": "People pass a {turnstile} or a swing barrier in the lobby; cars stop at a barrier gate at the car park. AIMS plans both, from the first lane to the last barrier.",
+      "strong": "tripod turnstile"
+    },
+    "types": {
+      "heading": "Turnstile and parking barrier types",
+      "lead": "Choose the lane, then the model. Each link shows every model of that kind in the AIMS catalogue.",
+      "items": {
+        "tripod": "Tripod turnstile",
+        "swing": "Swing barrier",
+        "parking": "Parking barrier"
+      },
+      "pedestrian": "See all {count} pedestrian entrance models",
+      "parking": "See all {count} parking models"
+    },
+    "process": {
+      "heading": "Turnstile installation and support from AIMS",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the entrance",
+          "body": "Lanes, people or vehicles an hour, and the readers you use.",
+          "owner": "You"
+        },
+        {
+          "title": "Lane plan and quote",
+          "body": "AIMS suggests turnstiles, barriers and readers, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Gates and barriers are fixed, cabled and powered.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Reader setup",
+          "body": "Cards, faces or tags are enrolled for the lanes.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add lanes, users or sites.",
+          "owner": "AIMS"
+        }
+      ],
+      "alt": "Swing glass speed gates in an office lobby"
+    },
+    "faq": {
+      "heading": "Turnstile and parking questions",
+      "items": [
+        {
+          "q": "Can a turnstile come with its own reader?",
+          "a": "Some do: the TS1022 Pro tripod turnstile comes with a controller and a fingerprint and RFID reader. Others take the readers you choose."
+        },
+        {
+          "q": "Which parking models do you list?",
+          "a": "Barrier gates such as the Pro BG3000, the LPRC100 licence plate recognition camera and the VR10 vehicle and people detection radar."
+        },
+        {
+          "q": "Tripod turnstile or swing barrier?",
+          "a": "A tripod turnstile lets one person through at a time; a swing barrier leaves a wider lane. AIMS helps you choose for each entrance."
+        },
+        {
+          "q": "Who installs the turnstiles and barriers?",
+          "a": "An AIMS engineer confirms the lane, the power supply and the cabling before quoting, then installs the entrance."
+        }
+      ]
+    }
+  },
+  "solutionDoorLocks": {
+    "metaTitle": "Smart & hotel door locks in Dubai | AIMS",
+    "metaDescription": "ZKTeco smart locks, hotel card locks and door hardware, supplied and fitted by AIMS in Dubai and Abu Dhabi.",
+    "title": "Smart and hotel locks in the UAE",
+    "lead": "Fingerprint and Wi-Fi smart locks, hotel card locks and door hardware, from {count} smart and hotel lock models. AIMS supplies and fits them in Dubai and Abu Dhabi.",
+    "secondary": "See lock types",
+    "heroAlt": "ZKTeco TL700 fingerprint smart door lock",
+    "types": {
+      "heading": "Door lock types for homes, offices and hotels",
+      "lead": "Choose the door, then the lock. Each link shows every model of that kind in the AIMS catalogue.",
+      "items": {
+        "smart": "Smart lock",
+        "hotel": "Hotel lock",
+        "hardware": "Door hardware"
+      },
+      "smart": "See all {count} smart lock models",
+      "hotel": "See all {count} hotel lock models",
+      "hardware": "See all {count} door hardware items"
+    },
+    "marquee": [
+      "Fingerprint",
+      "MF card",
+      "Wi-Fi",
+      "Glass doors",
+      "Hotel rooms",
+      "EM locks",
+      "Exit buttons",
+      "Drop bolts",
+      "Electric strikes",
+      "ID cards"
+    ],
+    "marqueeLabel": "Lock and hardware types",
+    "process": {
+      "heading": "Door lock fitting and support from AIMS",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the doors",
+          "body": "Door types, rooms or units, and who needs access.",
+          "owner": "You"
+        },
+        {
+          "title": "Lock plan and quote",
+          "body": "AIMS suggests locks and hardware for each door, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Fitting",
+          "body": "Locks and hardware are fitted and tested on each door.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Setup",
+          "body": "Fingerprints, cards or hotel cards are enrolled.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add doors, rooms or users.",
+          "owner": "AIMS"
+        }
+      ],
+      "alt": "ZKTeco LH6000 hotel door lock"
+    },
+    "faq": {
+      "heading": "Door lock questions",
+      "items": [
+        {
+          "q": "Smart lock or hotel lock?",
+          "a": "Smart locks such as the TL700 open by fingerprint, for homes and offices. Hotel locks such as the LH4000 are built for guest rooms."
+        },
+        {
+          "q": "Do you have a lock for glass doors?",
+          "a": "Yes: the GL300 is a fingerprint and MF card lock for glass doors."
+        },
+        {
+          "q": "Which door lock connects over Wi-Fi?",
+          "a": "The TL800 is a Wi-Fi smart digital door lock. Ask AIMS which other models connect."
+        },
+        {
+          "q": "Who fits the door locks?",
+          "a": "An AIMS engineer confirms the door type before quoting, then fits and tests the locks."
+        }
+      ]
+    }
+  },
+  "solutionPos": {
+    "metaTitle": "POS terminals in Dubai & Abu Dhabi | AIMS",
+    "metaDescription": "ZKTeco Windows, Android and biometric POS terminals, supplied and set up by AIMS in Dubai and Abu Dhabi.",
+    "title": "POS terminals for shops in the UAE",
+    "lead": "Windows, Android and biometric point-of-sale terminals, from {count} POS models, supplied and set up by AIMS in Dubai and Abu Dhabi.",
+    "secondary": "See POS types",
+    "heroAlt": "ZKTeco ZK1515 series POS terminal",
+    "figures": {
+      "heading": "The POS range in the AIMS catalogue",
+      "total": "POS models",
+      "windows": "Windows terminals",
+      "android": "Android terminals"
+    },
+    "types": {
+      "heading": "POS terminal types for shops and counters",
+      "lead": "Choose by the software your shop runs. Each link shows every model of that kind in the AIMS catalogue.",
+      "items": {
+        "windows": "Windows POS",
+        "android": "Android POS",
+        "biometric": "Biometric POS"
+      },
+      "windows": "See all {count} Windows POS models",
+      "android": "See all {count} Android POS models",
+      "all": "See all {count} POS models"
+    },
+    "process": {
+      "heading": "POS setup and support from AIMS",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell us about the counter",
+          "body": "Tills, the POS software you run, and printers or scanners.",
+          "owner": "You"
+        },
+        {
+          "title": "Terminal plan and quote",
+          "body": "AIMS suggests terminals that fit your software, and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Delivery",
+          "body": "Terminals are delivered and connected at each counter.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Setup",
+          "body": "Your POS software is checked on the terminal.",
+          "owner": "AIMS with your team"
+        },
+        {
+          "title": "Support",
+          "body": "Ask AIMS when you add tills or branches.",
+          "owner": "AIMS"
+        }
+      ],
+      "alt": "ZKTeco ZKAIO1000 POS terminal"
+    },
+    "faq": {
+      "heading": "POS terminal questions",
+      "items": [
+        {
+          "q": "Windows or Android POS?",
+          "a": "Choose by the till software you run: Windows terminals for Windows POS software, Android terminals for Android apps. AIMS checks it fits."
+        },
+        {
+          "q": "Is there a POS with a fingerprint reader?",
+          "a": "Yes: the ZKBio900 series is a biometric POS terminal."
+        },
+        {
+          "q": "Does any POS terminal print receipts?",
+          "a": "The ZKH300 is an Android POS terminal with a built-in printer."
+        },
+        {
+          "q": "Who sets up the POS terminals?",
+          "a": "AIMS confirms your software and counters before quoting, then delivers and connects the terminals."
+        }
+      ]
+    }
   }
 }

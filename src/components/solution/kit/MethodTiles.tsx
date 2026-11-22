@@ -35,7 +35,7 @@ export async function MethodTiles({ id, heading, lead, tiles }: Props) {
     increase: t.catalogue.increase,
   };
   return (
-    <section className="section g2m" id={id} aria-labelledby={`${id}-h`}>
+    <section className="section method-section" id={id} aria-labelledby={`${id}-h`}>
       <div className="wrap stack-6">
         <div className="section-head section-head--split">
           <h2 id={`${id}-h`}>{heading}</h2>

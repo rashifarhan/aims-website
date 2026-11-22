@@ -1,15 +1,26 @@
 import Image from "next/image";
-import type { StandIn } from "@/content/standIns";
+import type { ReactNode } from "react";
+import type { Picture } from "@/content/cutouts";
 
 type Step = { title: string; body: string; owner: string };
-type Props = { heading: string; ownerLabel: string; steps: Step[]; photo: StandIn; alt: string };
+type Props = {
+  heading: string;
+  ownerLabel: string;
+  steps: Step[];
+  /** A licensed stand-in photograph ("cover") or an AIMS product cut-out ("contain"). */
+  photo: Picture;
+  fit?: "cover" | "contain";
+  alt: string;
+  /** A last row under the steps, e.g. a dealt marquee (moments.md: it merges into the section above). */
+  after?: ReactNode;
+};
 
 /**
  * T3 row 6, installation and support with owners (Master Plan 14; Design Doc 10): the steps as
- * one list of rows beside one photograph (a 5/7 split on the page's one split line). The photograph is a licensed stand-in
- * until AIMS supplies its own installation pictures (CLAUDE.md §2); it carries no caption.
+ * one list of rows beside one picture, a 5/7 split on the page's one split line. A stand-in
+ * photograph shows until AIMS supplies its own installation pictures (CLAUDE.md §2); no caption.
  */
-export function ProcessSplit({ heading, ownerLabel, steps, photo, alt }: Props) {
+export function ProcessSplit({ heading, ownerLabel, steps, photo, fit = "cover", alt, after }: Props) {
   return (
     <section className="section g2m" id="install" aria-labelledby="install-h">
       <div className="wrap grid--middle t3-split grid">
@@ -32,14 +43,18 @@ export function ProcessSplit({ heading, ownerLabel, steps, photo, alt }: Props) 
               </li>
             ))}
           </ol>
+          {/* Inside the text column, so a phone's two screens keep two groups (.g2m). */}
+          {after && <div className="process-after">{after}</div>}
         </div>
-        <div className="span-7 process-photo start-6">
+        <div className={`span-7 process-photo start-6 process-photo--${fit}`}>
           <Image
             src={photo.src}
             alt={alt}
             width={photo.width}
             height={photo.height}
-            sizes="(min-width: 1024px) 730px, 92vw"
+            // A cover photograph is cropped to its frame (4:3 on a desktop, a full screen's height on a
+            // phone), so it is fetched wider than the frame to never upscale.
+            sizes={fit === "cover" ? "(min-width: 1024px) 1100px, 340vw" : "(min-width: 1024px) 730px, 92vw"}
           />
         </div>
       </div>

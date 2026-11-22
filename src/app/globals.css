@@ -387,6 +387,13 @@ header button:active {
       --h: 2;
     }
   }
+  /* A phone: the close and the directory share two screens; the close word, a large repeat of the
+     wordmark, gives way so the links fit. */
+  @media (max-width: 639px) {
+    footer.closing .close__word {
+      display: none;
+    }
+  }
   /* The kit sets the close word at line-height .86 with overflow: clip, which cuts Inter's capitals. */
   .close__word {
     line-height: 1;

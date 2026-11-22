@@ -23,4 +23,14 @@ export const STAND_INS = {
     licence: "Public domain",
     source: "https://commons.wikimedia.org/wiki/File:Magnetic_Lock.jpg",
   },
+  lobbySpeedGates: {
+    src: "/images/stand-ins/lobby-speed-gates.webp",
+    width: 1600,
+    height: 868,
+    title: "SlimLane EPR optical turnstiles",
+    author: "McGov1258",
+    licence: "CC BY-SA 4.0",
+    source:
+      "https://commons.wikimedia.org/wiki/File:Automatic_Systems_SlimLane_EPR_Optical_Turnstile_swing_glass_with_QR_reader_and_Elev_Dest_Dispatch.jpg",
+  },
 } as const satisfies Record<string, StandIn>;
