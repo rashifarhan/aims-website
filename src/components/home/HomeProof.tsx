@@ -1,10 +1,11 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { COMPANY_FIGURES, CUSTOMER_REVIEWS, LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { ExternalLink } from "./ExternalLink";
+import { ReviewCard } from "./ReviewCard";
 
 /**
  * T1 rows 5 and 8 as one section: AIMS's confirmed figures, labelled as company-stated (Design Doc 3.1),
- * then the three published review excerpts at body size. Each alone was under half a screen, so the
+ * then three published reviews as cards (ReviewCard). Each alone was under half a screen, so the
  * taste skill's layout rule merges them (layout-v4: a stat row or quote never stands as a strip).
  */
 export async function HomeProof() {
@@ -41,15 +42,10 @@ export async function HomeProof() {
                 {reviews.read}
               </ExternalLink>
             </div>
-            <ul className="home-quote-row">
+            <ul className="home-review-grid">
               {CUSTOMER_REVIEWS.map((review) => (
                 <li key={review.name}>
-                  <figure lang="en" dir="ltr">
-                    <blockquote>
-                      <p>“{review.excerpt}”</p>
-                    </blockquote>
-                    <figcaption>{review.name}</figcaption>
-                  </figure>
+                  <ReviewCard review={review} ratingLabel={reviews.rating} />
                 </li>
               ))}
             </ul>

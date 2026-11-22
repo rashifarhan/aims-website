@@ -61,11 +61,38 @@ export const LIVE_AIMS = {
   software: "https://aimsuae.me/swcategory/zk-teco",
 } as const;
 
-/** Short, verbatim excerpts; names as published at LIVE_AIMS.home, checked 21 Nov 2026. */
-export const CUSTOMER_REVIEWS = [
-  { name: "Sneha Paul", excerpt: "Their sales team is kind" },
-  { name: "Traffic Burger Head Office", excerpt: "staff is very cooperative" },
-  { name: "Arjun", excerpt: "very professional" },
-] as const;
+/**
+ * Reviews as published at LIVE_AIMS.home (checked 22 Nov 2026): verbatim sentences, "…" marks a cut, and
+ * each review is shown there with five stars and the place below the name. `photo` stays empty until AIMS
+ * supplies the reviewer's own photo with consent; a stock photo must never stand in for a named customer
+ * (CLAUDE.md §1 and §2, Imagery).
+ */
+export type CustomerReview = {
+  name: string;
+  place: string;
+  rating: number;
+  excerpt: string;
+  photo?: { src: string; width: number; height: number };
+};
+export const CUSTOMER_REVIEWS: readonly CustomerReview[] = [
+  {
+    name: "Sneha Paul",
+    place: "Dubai, UAE",
+    rating: 5,
+    excerpt: "Their sales team is kind and ready to help any time.",
+  },
+  {
+    name: "Traffic Burger Head Office",
+    place: "Abu Dhabi, UAE",
+    rating: 5,
+    excerpt: "…staff is very cooperative and all the time available to help you out.",
+  },
+  {
+    name: "Arjun",
+    place: "Oman",
+    rating: 5,
+    excerpt: "They are very professional … I am very happy with their service.",
+  },
+];
 
 export const COMPANY_NAME = "AIMS Security Systems Trading LLC";

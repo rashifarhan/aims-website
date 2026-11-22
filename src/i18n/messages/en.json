@@ -335,7 +335,8 @@
       "showroomTag": "Showroom"
     },
     "reviews": {
-      "read": "Read the published reviews"
+      "read": "Read the published reviews",
+      "rating": "Rated {count} out of 5"
     },
     "faq": {
       "heading": "Questions about buying and installation",

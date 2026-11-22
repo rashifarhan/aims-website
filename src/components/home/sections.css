@@ -103,7 +103,7 @@
 .home-family-summary,
 .home-software-purpose,
 .home-faq details p,
-.home-quote-row blockquote {
+.home-review-card blockquote {
   text-wrap: pretty;
 }
 
@@ -351,28 +351,70 @@
   align-items: center;
   margin-block-end: 1.75rem;
 }
-.home-quote-row {
+/* Published reviews: one card each (DESIGN.md Plinth Rule at rest; not linked, so no lift). */
+.home-review-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
-.home-quote-row figure {
+.home-review-grid > li {
   display: flex;
+}
+.home-review-card {
+  display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 1.25rem;
-  height: 100%;
+  padding: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-1);
 }
-.home-quote-row blockquote {
+/* Ink, not green or lime: the rating is information, not an action (One Sign Rule, Lime Is Light Rule). */
+.home-review-stars {
+  display: flex;
+  gap: 0.125rem;
+  color: var(--color-ink);
+}
+.home-review-card blockquote {
   flex: 1;
   font-size: var(--text-home-card);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
   color: var(--color-ink);
-  text-wrap: pretty;
 }
-.home-quote-row figcaption {
+.home-review-card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+.home-review-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  color: var(--color-ink-700);
   font-size: var(--text-small);
-  font-weight: 600;
+  font-weight: 650;
+}
+.home-review-name,
+.home-review-place {
+  display: block;
+}
+.home-review-name {
+  font-weight: 650;
+  color: var(--color-ink);
+  line-height: 1.35;
+}
+.home-review-place {
+  font-size: var(--text-small);
   color: var(--color-ink-600);
 }
 
@@ -469,12 +511,12 @@
   .home-route-grid,
   .home-software-grid,
   .home-family-grid,
-  .home-quote-row {
+  .home-review-grid {
     gap: 1rem;
   }
   .home-route-grid,
   .home-software-grid,
-  .home-quote-row {
+  .home-review-grid {
     grid-template-columns: minmax(0, 1fr);
   }
   .home-family-grid {
@@ -511,8 +553,11 @@
   }
   .home-route-grid,
   .home-software-grid,
-  .home-quote-row {
+  .home-review-grid {
     gap: 0.75rem;
+  }
+  .home-review-card {
+    padding: 1.5rem;
   }
   .home-route-card,
   .home-software-card {
