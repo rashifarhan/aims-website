@@ -375,3 +375,37 @@ installation → questions → software → the shared close.
   26-bit Wiegand and RS485 FR readers (InBio Pro).
 - **Stand-in photograph:** the installation section uses "Magnetic Lock" by Mooinglemur, public domain, from
   Wikimedia Commons. It is credited in the footer line. Replace it with a photograph of an AIMS installation.
+
+### Entrance & parking, door locks and POS solutions (T3; Master Plan 12, 14; Design Doc 10)
+
+Plan: kind `tech`, page type `product`, the `product` hero (AIMS cut-outs). Moments were dealt with `moments.mjs pick
+--page tech`: entrance `word-highlight`, door locks `marquee-row`, POS `counter-rolls`. Each page runs: hero → its moment
+(a statement, a marquee row, or the figures) → types with Add to quote → questions → installation, then the shared
+close. Questions sit before installation, so each page closes on a picture.
+
+- **Truth.** Every model, name and fact comes from `content/products.json`. Counts come from the catalogue
+  (`src/content/solutionTiles.ts`), so each "See all N" matches its filtered listing (tested). The POS figures are
+  catalogue counts.
+- **Design Doc 8.3 domain animations** (barrier lifting, keycard, receipt printing) were specified but never
+  prototyped. Under the skill's motion rules each page carries its dealt moment instead.
+- **Stand-ins.** Entrance uses "SlimLane EPR optical turnstiles" by McGov1258, CC BY-SA 4.0, from Wikimedia Commons,
+  credited in the footer. It shows another maker's gates, so it stands only for the setting and is never captioned
+  as AIMS's work; replace it with a photo of an AIMS lobby installation. Commons had no clean lock or POS photograph,
+  so those pages show AIMS product cut-outs (LH6000, ZKAIO1000) in the installation section.
+- **Accessibility.** The kit's moment scripts name their hosts with `aria-label`, so the statement carries
+  `role="group"` and each figure `role="img"`, where ARIA allows a name. The marquee's pause button label is
+  hard-coded in English inside the kit; it reads "Pause"/"Play" on the Arabic page too.
+- **Phone tiles** drop their spec rows (the product page carries them), so the three tiles fit two screens.
+
+### Gate results (tasteskill 2.5.1)
+
+| Page               | Gate          | Open findings                                                                                                                                                                                           |
+| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Entrance & parking | **PASS**      | none (waivers: the 2 phone links, hero-lines)                                                                                                                                                           |
+| Door locks         | **OPEN** (7)  | the kit marquee's own clip and bleed (row-lines, bleed-one-side ×2); FAQ container-edges ×3 once the marquee row joins its grid; a 390 px gap after installation                                        |
+| POS                | **OPEN** (9)  | AIMS's POS photos are 130–250 px, so they are upscaled in the hero, tiles and installation (needs larger photos from AIMS); the figures section and the FAQ are sparse; a 390 px gap after installation |
+| Access control     | **OPEN** (39) | mostly phone layout from the round before the tile overflow fix; see the PR                                                                                                                             |
+
+Waivers (`.taste-skill/waivers.json`, 4 of 5): the WhatsApp and showroom phone links (brief-given), `moment-none` on
+access control (the approved door-kit prototype is its moment), and `hero-lines` (the check pads the h1 to 39
+characters; every real h1 sits on two lines at 390).
