@@ -75,7 +75,10 @@ test("the counter verifies and prints once when it comes into view", async ({ pa
   await moment.locator(".pc-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(moment).toHaveAttribute("data-played", "true");
   await expect(moment.locator(".pc-check")).toHaveCSS("opacity", "1", { timeout: 6000 });
-  await expect(moment.locator(".pc-receipt")).toHaveCSS("transform", "none", { timeout: 6000 });
+  // At rest the receipt is untransformed; after a fill-mode animation the browser reports the identity matrix.
+  await expect(moment.locator(".pc-receipt")).toHaveCSS("transform", /^(none|matrix\(1, 0, 0, 1, 0, 0\))$/, {
+    timeout: 6000,
+  });
   // It plays once and then stands: nothing in the section keeps running.
   await expect
     .poll(
