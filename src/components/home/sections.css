@@ -434,9 +434,9 @@
 /*
  * One section per screen (taste House rule 3; CLAUDE.md §2): on a desktop screen each section is one
  * screen tall, the catalogue two, with its content centred in it, so a screen shows one idea and the
- * next heading never peeks in. Short desktop windows keep the natural height.
+ * next heading never peeks in. Short desktop windows and portrait tablets keep the natural height.
  */
-@media (min-width: 1024px) and (min-height: 700px) {
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
   main > :is(.home-routes, .home-proof-band, .home-reach, .home-closing) {
     display: flex;
     flex-direction: column;

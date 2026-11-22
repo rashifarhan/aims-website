@@ -315,11 +315,12 @@
     max-width: 28rem;
   }
 }
-@media (max-width: 1023px) {
+/* Portrait tablets up to 1279px (iPad Pro) take the stacked hero: the side-by-side art crops there. */
+@media (max-width: 1023px), (max-width: 1279px) and (orientation: portrait) {
   .home-hero {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     min-height: calc(100svh - var(--home-header-block));
   }
   .home-hero-copy {
@@ -373,6 +374,12 @@
   }
   .home-motion-toggle {
     inset-block-end: 0.5rem;
+  }
+}
+/* A portrait tablet's screen is far taller than the stacked hero: keep its natural height, no empty band. */
+@media (min-width: 1024px) and (max-width: 1279px) and (orientation: portrait) {
+  .home-hero {
+    min-height: 0;
   }
 }
 @media (max-width: 639px) {
@@ -504,7 +511,7 @@
 .home-faq summary:hover {
   color: var(--color-green-700);
 }
-@media (max-width: 1023px) {
+@media (max-width: 1023px), (max-width: 1279px) and (orientation: portrait) {
   .home-wash {
     width: 700px;
     height: 700px;
