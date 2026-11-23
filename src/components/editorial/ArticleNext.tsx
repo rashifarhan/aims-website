@@ -8,7 +8,7 @@ import { solutionPath } from "@/lib/nav";
 /**
  * The article's way forward (Master Plan 12 #13–14: "Read → solution; links into products"): the
  * solution its slug names as a linked card, and one quote action. A slug that names no trade leads to
- * the solutions hub instead.
+ * the solutions hub instead. The solution is a plain link block on the panel, not a card inside it.
  */
 export async function ArticleNext({ slug }: { slug: string }) {
   const t = await getDictionary();
@@ -25,7 +25,7 @@ export async function ArticleNext({ slug }: { slug: string }) {
       </h2>
       <p className="ed-next-body">{c.nextBody}</p>
       <div className="ed-next-actions">
-        <div className="ed-next-card ui-card ui-card-interactive">
+        <div className="ed-next-card">
           <p className="ed-next-label">{c.solutionLabel}</p>
           <Link href={localePath(locale, target.href)} className="ed-next-link">
             {target.name}

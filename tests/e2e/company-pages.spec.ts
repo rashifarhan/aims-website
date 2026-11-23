@@ -46,7 +46,7 @@ test("header and footer reach the built company pages, not the contact fallback"
   // The desktop bar and the menu both carry them; none falls back to /contact or aimsuae.me.
   await expect(page.getByRole("banner").locator('a[href="/services"]').first()).toBeVisible();
   await expect(page.getByRole("banner").locator('a[href="/about"]').first()).toBeVisible();
-  for (const href of ["/about", "/services", "/support"])
+  for (const href of ["/about", "/services", "/support", "/blog"])
     expect(await page.getByRole("contentinfo").locator(`a[href="${href}"]`).count(), href).toBeGreaterThan(0);
 });
 

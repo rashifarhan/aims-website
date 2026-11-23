@@ -72,6 +72,16 @@ test.describe("header and menus", () => {
       await expect(footer.locator(`a[href="tel:${tel}"]`)).toHaveCount(1);
     }
   });
+
+  // Audit 23 Nov 2026 (B-I01, CLAUDE.md §7): English runs stay one left-to-right run inside Arabic.
+  test("Arabic footer keeps the company line and showroom address left-to-right", async ({ page }) => {
+    await page.goto("/ar");
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.locator('span[dir="ltr"]', { hasText: "AIMS Security Systems Trading LLC" })).toHaveCount(1);
+    await expect(footer.locator('span[dir="ltr"]', { hasText: "Naif Bazar Building" })).toHaveCount(1);
+    // Columns from 640px, folded groups on phones: the link is in the DOM in both, visible in one.
+    expect(await footer.locator('a[href="/ar/blog"]').count()).toBeGreaterThan(0);
+  });
 });
 
 // Audit T10: unknown URLs render the localized 404 inside the shell, with a real 404 status.

@@ -3,9 +3,11 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { alternates } from "@/lib/seo";
+import { CompanyClose } from "@/components/company/CompanyClose";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { EditorialIntro } from "@/components/editorial/EditorialIntro";
 import { articles } from "@/content/pages";
+import "@/components/solution/solution.css";
 import "@/components/editorial/editorial.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,8 +21,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * T10 editorial, the blog index (Master Plan 12 #13): every article AIMS has published, newest first,
- * each with AIMS's own image. Entrance and hover only: a dealt moment on a list of articles would be
- * decoration (README → Decisions).
+ * each with AIMS's own image, then the shared closing band, so the index ends on a way forward (taste cta,
+ * audit 23 Nov 2026). Entrance and hover only: a dealt moment on a list of articles would be decoration
+ * (README → Decisions). The first card's image is the LCP element, so only it is preloaded (CLAUDE.md §5).
  */
 export default async function Blog() {
   const t = await getDictionary();
@@ -40,13 +43,20 @@ export default async function Blog() {
       />
       <div className="page-container pb-(--home-section-space)">
         <ul className="ed-card-grid">
-          {list.map((a) => (
+          {list.map((a, i) => (
             <li key={a.slug}>
-              <ArticleCard article={a} href={href(`/blog/${a.slug}`)} />
+              <ArticleCard article={a} href={href(`/blog/${a.slug}`)} lead={i === 0} />
             </li>
           ))}
         </ul>
       </div>
+      <CompanyClose
+        id="blog-close-title"
+        heading={t.blog.closeHeading}
+        body={t.blog.closeBody}
+        action={{ href: href("/quote"), label: t.blog.closeAction }}
+        secondary={{ href: href("/solutions"), label: t.blog.closeSecondary }}
+      />
     </main>
   );
 }

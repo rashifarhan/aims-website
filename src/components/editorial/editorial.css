@@ -46,6 +46,11 @@
   letter-spacing: 0;
   line-height: 1.2;
 }
+/* AIMS's English article title keeps dir="ltr" on an Arabic page; its end edge is the page's start edge, so
+   it lines up with the breadcrumb, eyebrow and date above and below it (Design Doc 13; audit B-I06). */
+:dir(rtl) .ed-intro h1[dir="ltr"] {
+  text-align: end;
+}
 
 /* The solution template's entrance (solution.css .t3-enter), once on load, then it stands. */
 @media (prefers-reduced-motion: no-preference) {
@@ -133,8 +138,15 @@
 .ed-index summary::-webkit-details-marker {
   display: none;
 }
+.ed-index summary {
+  transition: color var(--duration-hover) ease;
+}
+.ed-index summary:hover {
+  color: var(--color-green-700);
+}
+/* One timing for every disclosure chevron on the site (the footer groups, the header dropdowns). */
 .ed-index summary svg {
-  transition: transform var(--duration-slow) var(--ease-aims);
+  transition: transform var(--duration-dropdown) var(--ease-aims);
 }
 .ed-index[open] summary svg {
   transform: rotate(180deg);
@@ -155,14 +167,22 @@
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.25em;
-  transition: text-decoration-color var(--duration-hover) ease;
+  /* Colour and underline fade together, so the hover never shows two states (Emil; audit B-E05). */
+  transition-property: color, text-decoration-color, opacity;
+  transition-duration: var(--duration-hover);
+  transition-timing-function: ease;
 }
 .ed-index a:hover {
   color: var(--color-green-700);
   text-decoration-color: currentColor;
 }
+.ed-index a:active {
+  opacity: 0.75;
+}
 
 /* ---------- AIMS's own copy (blocks): one reading rhythm ---------- */
+/* 16px on phones; 18px from 640px, so the 680px column (Design Doc 10.1) holds about 75 characters a line
+   instead of 90 (Impeccable typeset, Read mode; audit B-I02). */
 .editorial-body {
   color: var(--color-ink-700);
   font-size: var(--text-base);
@@ -181,6 +201,16 @@
   text-wrap: balance;
   /* Anchored headings clear the sticky header when the index jumps to them. */
   scroll-margin-block-start: calc(var(--home-header-block) + 1rem);
+}
+/* After the base heading rule, so the larger sizes win at the same specificity. */
+@media (min-width: 640px) {
+  .editorial-body {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+  }
+  .editorial-body :is(h2, h3, h4) {
+    font-size: var(--text-2xl);
+  }
 }
 .editorial-body ul {
   padding-inline-start: 1.25rem;
@@ -254,8 +284,13 @@
   inset: 0;
   border-radius: inherit;
 }
+/* The ring goes round the whole card (below); the title itself also underlines, so the focused link
+   changes too (audit B-I07, taste focus-ring). */
 .ed-card a:focus-visible {
   outline: none;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
 }
 .ed-card:has(a:focus-visible) {
   outline: 2px solid var(--color-green-700);
@@ -318,11 +353,25 @@
   gap: 1.25rem 1.5rem;
   margin-block-start: 1.5rem;
 }
+/* A plain block on the panel, not a card in a card (Impeccable nested-cards; audit B-I05); its link covers
+   it and the arrow nudges on hover; focus rings the whole block, as on the article cards (B-I08). */
 .ed-next-card {
+  position: relative;
   flex: 1 1 16rem;
-  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+}
+.ed-next-link:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+.ed-next-card:has(.ed-next-link:focus-visible) {
+  outline: 2px solid var(--color-green-700);
+  outline-offset: 4px;
 }
 .ed-next-label {
+  margin-block-end: 0.125rem;
   font-size: var(--text-caption);
   font-weight: 600;
   color: var(--color-ink-600);
@@ -334,6 +383,18 @@
   min-height: 2.75rem;
   font-weight: 650;
   color: var(--color-green-700);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition-property: text-decoration-color, opacity;
+  transition-duration: var(--duration-hover);
+  transition-timing-function: ease;
+}
+.ed-next-card:hover .ed-next-link {
+  text-decoration-color: currentColor;
+}
+.ed-next-link:active {
+  opacity: 0.75;
 }
 .ed-next-link::after {
   content: "";
@@ -354,7 +415,7 @@
 
 /* More articles, closing the page. */
 .ed-more {
-  padding-block: var(--home-section-space) calc(var(--home-section-space) * 1.5);
+  padding-block: var(--home-section-space);
   border-block-start: 1px solid var(--color-line);
 }
 .ed-more-heading {
@@ -393,9 +454,17 @@
     display: none;
   }
 }
+/* "Jump to" opens like the footer groups and the FAQ: its links fade in and settle 4px (audit B-E04). */
+.ed-index-narrow[open] nav {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
 @media (prefers-reduced-motion: reduce) {
   .ed-index summary svg {
     transition: none;
+  }
+  .ed-index-narrow[open] nav {
+    animation-name: aims-fade !important;
+    animation-duration: var(--duration-fast) !important;
   }
 }
 /* A numbered subsection under a section heading reads one step smaller. */
@@ -403,4 +472,10 @@
 .editorial-body h4 {
   margin-block-start: 1.75rem;
   font-size: var(--text-lg);
+}
+@media (min-width: 640px) {
+  .editorial-body h2 ~ h3,
+  .editorial-body h4 {
+    font-size: var(--text-xl);
+  }
 }
