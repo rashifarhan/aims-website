@@ -86,3 +86,53 @@ counted below.
   plays when its section enters (CLAUDE.md §3); same as the homepage's waived door kit.
 - T-16 · P2 · solution pages · `no-visual`, `text-only` on methods, process, FAQ and closing · Icon cards and step
   lists count as no visual. · Template decision (Plan 14 T3 rows); no change.
+
+## 2. Impeccable (`impeccable` audit, then harden/adapt/polish)
+
+Method: `impeccable detect` on the built pages (EN and AR) and on the source; axe (WCAG 2.2 A/AA tags), a 44px
+target probe and a Tab walk (60 stops, focus indicator present) on all 8 pages + `/products/access-control`, EN and
+AR, 1440 and 390; screenshots at 320–1440 read by eye.
+
+### Audit health score
+
+| #   | Dimension                | Score | Key finding                                                                       |
+| --- | ------------------------ | ----: | --------------------------------------------------------------------------------- |
+| 1   | Accessibility            |     3 | axe 0 violations, every Tab stop shows a ring; model-code links are 20–23px tall  |
+| 2   | Performance              |     3 | moments lazy, one preloaded hero image; two hero pictures upscaled (T-04)         |
+| 3   | Theming                  |     4 | tokens only in the audited CSS; no raw hex                                        |
+| 4   | Responsive design        |     2 | no overflow at 320; Arabic spec values break alignment; wrapped buttons at 320 AR |
+| 5   | Implementation integrity |     2 | `.pick-card` is a second card system; icon-tile feature cards (detector)          |
+|     | **Total**                | 14/20 | Good: address responsive and integrity                                            |
+
+Detector: `icon-tile-stack` ×4 on every T3 page (method/option cards), `overused-font` (Inter is the brief's face:
+DESIGN.md, not changed). Software pages: clean apart from the font.
+
+### Findings
+
+- I-01 · P1 · `ProductCard` on `/ar/products`, `/ar/zkteco-distributor-in-dubai` at 390 · Impeccable adapt/RTL · A
+  spec value too long for its row (Inbio 160 "Readers supported: 4(2 RS-485 Reader, 2 26-bit wiegand reader)")
+  wraps to its own line, left-aligned and flush to the card's inline edge, while every other line in the card is
+  right-aligned. · In Arabic, align the LTR value to the row's end (`rtl:text-end`), so a wrapped value lines up
+  under its label.
+- I-02 · P1 · solution pages, Arabic · RTL · In the recommended-product spec chips the English label inherits RTL
+  (right-aligned) and the value is LTR (left-aligned): one chip, two alignments. · Make the whole chip LTR English
+  data (`dir="ltr" lang="en"`) aligned to the chip's end on Arabic pages.
+- I-03 · P1 · solution pages (T-05) · harden, long data · 41 imported `model` fields carry a description; on the
+  rail they set as six-line mono headings. · Split code and description (as `ProductCard.describe()`), unit-tested.
+- I-04 · P1 · solution pages and `ProductCard` · CLAUDE.md §4 touch targets · The model-code links (the card's one
+  link for keyboard and screen readers) are 20–23px tall; the photo link is `aria-hidden` and not focusable. · Give
+  the inline link 12px of block padding (inline padding does not move the line box), so its target is ≥44px.
+- I-05 · P1 · `/ar/software/*` at 320 · adapt · In the terminal cards beside the SIGNAL lines "Add to quote" wraps to
+  two lines in Arabic ("أضف إلى / عرض السعر"). · Below 26rem: smaller thumbnail and tighter padding, label on one
+  line.
+- I-06 · P2 · T3 method/option cards · detector `icon-tile-stack` · A 52px icon tile above each heading is the
+  generic feature-card shape. · Set the icon beside the heading (one row) in `solution.css`.
+- I-07 · P2 · all pages · targets · Breadcrumb links are 34–42px wide (44px tall). · Shared `Breadcrumbs.tsx`:
+  for the integrator.
+- I-08 · P2 · `/products/*` · targets · Facet labels measure 36px tall at 1440 despite `min-h-11`. · `FacetPanel`
+  is not in this branch's files: for the integrator.
+- I-09 · P2 · `/software` hub · `.sw-card-link` is 21–27px tall, but its `::after` covers the card, so the target is
+  the card. · No change (probe artefact).
+
+Positive: axe 0 at both widths in both languages; reduced motion leaves every moment on its final frame; product
+data stays LTR in Arabic; "Specs on request" shows where a model has no key facts; no horizontal scroll at 320.
