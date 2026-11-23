@@ -614,3 +614,19 @@ Ported from `claude/editorial-pages` and `claude/company-pages` onto the site sy
   prefetch back on.
 - **Open for AIMS:** the published Terms name "mssolution.me" and show the date "[30-09-2025]", and the Privacy
   Policy says "AIMS Security System LLC". They are shown as published.
+
+### Purposeful motion (`codex/purposeful-motion`, 23 Nov 2026)
+
+- The client approved `docs/superpowers/specs/2026-11-23-purposeful-motion-design.md`: original domain motion on home,
+  Access Control, Time Attendance, product details and software details. Master Plan ch. 6/9/14/16/18 and Design Doc
+  ch. 3–9/13/14 apply. NUZON's audit is reference evidence, never a source of brand assets or implementation.
+- This supersedes the earlier **timed door trigger** on home and Access Control: the approved illustration now
+  follows native desktop scroll within two screens, reverses on the way back, and shows six real part links.
+  Phones/short windows play once only when the drawing is visible, preserve progress on resize, and pause out of view.
+- Attendance keeps its four stages and labelled sample rows; phone playback advances in visible time, with no pinned
+  drawing over the text. Transport dots finish rather than looping while someone reads.
+- Hero entrances use the existing AIMS tokens and whole text runs. Controls work immediately. Still green studio
+  lighting sits behind the real hardware; homepage verification light shares the existing paused/offscreen-aware clock.
+  Connection diagrams keep their text readable and draw only data-backed paths. Runtime reduced-motion changes finish
+  the diagrams, including with multiple mounted triggers. No library, WebGL, competitor asset or new product claim.
+- Review findings, decisions and verification are recorded in `docs/design-checks/purposeful-motion.md`.

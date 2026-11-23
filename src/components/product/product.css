@@ -1,6 +1,6 @@
 /*
  * Product page's one dealt moment (taste motion.md; audit signature SIGNAL): the "How it connects" lines
- * draw once from the model code, then each destination settles in, when the diagram enters view.
+ * draw together from the model code, then their endpoint dots confirm arrival. Node text stays visible.
  * stroke-dashoffset and opacity only. Nothing is hidden unless MomentTrigger set data-effects="on",
  * which it never does under reduced motion, so the finished diagram is the resting state.
  */
@@ -10,14 +10,11 @@
 :root[data-effects="on"] .connects:not([data-played]) .connects-line {
   stroke-dashoffset: 1;
 }
-:root[data-effects="on"] .connects:not([data-played]) .connects-node {
-  opacity: 0;
-}
 :root[data-effects="on"] .connects[data-played] .connects-line {
-  animation: connects-draw 900ms var(--ease-aims) calc(var(--i) * 90ms) both;
+  animation: connects-draw var(--duration-hero-rise) var(--ease-aims) both;
 }
-:root[data-effects="on"] .connects[data-played] .connects-node {
-  animation: connects-node var(--duration-slow) var(--ease-aims) calc(var(--i) * 90ms + 600ms) both;
+:root[data-effects="on"] .connects[data-played] .connects-status {
+  animation: connects-node var(--duration-slow) var(--duration-hero-rise) var(--ease-aims) both;
 }
 @keyframes connects-draw {
   from {
@@ -29,15 +26,17 @@
 }
 @keyframes connects-node {
   from {
-    opacity: 0;
+    opacity: 0.5;
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
+    transform: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .connects .connects-line,
-  .connects .connects-node {
+  .connects .connects-status {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;

@@ -255,8 +255,23 @@
   --home-button-height: 3.375rem;
   --gradient-home-glow: radial-gradient(
     closest-side,
-    color-mix(in srgb, var(--color-lime) 10%, transparent),
-    transparent
+    color-mix(in srgb, var(--color-lime) 18%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 12%, transparent) 24%,
+    color-mix(in srgb, var(--color-lime) 5%, transparent) 55%,
+    transparent 78%
+  );
+  /* Still studio light for real hardware; the hero's verified layer shares its existing clock. */
+  --gradient-studio-light: radial-gradient(
+    ellipse at 50% 55%,
+    color-mix(in srgb, var(--color-lime) 15%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 8%, transparent) 36%,
+    transparent 72%
+  );
+  --gradient-verified-light: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 26%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 12%, transparent) 38%,
+    transparent 76%
   );
   /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
   --gradient-night:

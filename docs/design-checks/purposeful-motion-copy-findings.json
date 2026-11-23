@@ -1,0 +1,248 @@
+[
+  {
+    "target": "home-en",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "20 / 34 / 29 / 15 / 55 / 6",
+        "sentence": "20 / 34 / 29 / 15 / 55 / 6"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "home-ar",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "20 / 34 / 29 / 15 / 55 / 6",
+        "sentence": "20 / 34 / 29 / 15 / 55 / 6"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "access-control-en",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "4 / 6,000 / 5,000",
+        "sentence": "4 / 6,000 / 5,000"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "product-en",
+    "severity": "FAIL",
+    "check": "copy-slop-word",
+    "message": "old slop words (unparalleled)",
+    "hits": [
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      },
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      },
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "software-en",
+    "severity": "FAIL",
+    "check": "copy-slop-word",
+    "message": "old slop words (seamless, seamlessly, powerful)",
+    "hits": [
+      {
+        "match": "seamless",
+        "sentence": "Our team ensures a seamless transition from traditional attendance systems to an automated, intelligent solution."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "Connects seamlessly with a wide range of ZKTeco terminals for centralized data management."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "Multi-Device Connectivity: Connects seamlessly with a wide range of ZKTeco terminals for centralized data management."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "It also integrates seamlessly with third-party applications for enhanced functionality."
+      },
+      {
+        "match": "powerful",
+        "sentence": "Its high compatibility with biometric devices and real-time synchronization make it a powerful solution for improving accuracy, productivity, and compliance."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "software-en",
+    "severity": "FAIL",
+    "check": "copy-stock-phrase",
+    "message": "stock phrases that fit any business",
+    "hits": [
+      {
+        "match": "with just a few clicks",
+        "sentence": "Generate accurate attendance, payroll, and compliance reports with just a few clicks."
+      },
+      {
+        "match": "with just a few clicks",
+        "sentence": "Comprehensive Reports: Generate accurate attendance, payroll, and compliance reports with just a few clicks."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "software-en",
+    "severity": "WARN",
+    "check": "copy-ing-rider",
+    "message": "-ing riders (\", ensuring...\", \", allowing...\"): 2, budget 1",
+    "hits": [
+      {
+        "match": ", helping organizations simplify HR operations through automation and accuracy.",
+        "sentence": "At AIMS Security Systems Trading LLC, we offer installation, integration, and support for BioTime 9.5 across Dubai and the UAE, helping organizations simplif..."
+      },
+      {
+        "match": ", ensuring flexibility and scalability for all business types—from small offi...",
+        "sentence": "The software supports multiple biometric attendance devices including fingerprint, face, palm, and RFID-based systems, ensuring flexibility and scalability f..."
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "access-control-ar",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "4 / 6,000 / 5,000",
+        "sentence": "4 / 6,000 / 5,000"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "software-ar",
+    "severity": "FAIL",
+    "check": "copy-slop-word",
+    "message": "old slop words (seamless, seamlessly, powerful)",
+    "hits": [
+      {
+        "match": "seamless",
+        "sentence": "Our team ensures a seamless transition from traditional attendance systems to an automated, intelligent solution."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "Connects seamlessly with a wide range of ZKTeco terminals for centralized data management."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "Multi-Device Connectivity: Connects seamlessly with a wide range of ZKTeco terminals for centralized data management."
+      },
+      {
+        "match": "seamlessly",
+        "sentence": "It also integrates seamlessly with third-party applications for enhanced functionality."
+      },
+      {
+        "match": "powerful",
+        "sentence": "Its high compatibility with biometric devices and real-time synchronization make it a powerful solution for improving accuracy, productivity, and compliance."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "software-ar",
+    "severity": "FAIL",
+    "check": "copy-stock-phrase",
+    "message": "stock phrases that fit any business",
+    "hits": [
+      {
+        "match": "with just a few clicks",
+        "sentence": "Generate accurate attendance, payroll, and compliance reports with just a few clicks."
+      },
+      {
+        "match": "with just a few clicks",
+        "sentence": "Comprehensive Reports: Generate accurate attendance, payroll, and compliance reports with just a few clicks."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "software-ar",
+    "severity": "WARN",
+    "check": "copy-ing-rider",
+    "message": "-ing riders (\", ensuring...\", \", allowing...\"): 2, budget 1",
+    "hits": [
+      {
+        "match": ", helping organizations simplify HR operations through automation and accuracy.",
+        "sentence": "At AIMS Security Systems Trading LLC, we offer installation, integration, and support for BioTime 9.5 across Dubai and the UAE, helping organizations simplif..."
+      },
+      {
+        "match": ", ensuring flexibility and scalability for all business types—from small offi...",
+        "sentence": "The software supports multiple biometric attendance devices including fingerprint, face, palm, and RFID-based systems, ensuring flexibility and scalability f..."
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "product-ar",
+    "severity": "FAIL",
+    "check": "copy-slop-word",
+    "message": "old slop words (unparalleled)",
+    "hits": [
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      },
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      },
+      {
+        "match": "unparalleled",
+        "sentence": "Offering unparalleled performance by using an advanced algorithm for reliability, precision, and excellent matching speed."
+      }
+    ],
+    "decision": "No text was introduced by the motion work. Retain verbatim imported AIMS product/software descriptions in this batch; native copy findings remain visible in the report, not relabelled PASS."
+  },
+  {
+    "target": "time-attendance-en",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "3,000 / 5,000 / 1,500 / 2,000 / 100,000 / 3000 / 3000",
+        "sentence": "3,000 / 5,000 / 1,500 / 2,000 / 100,000 / 3000 / 3000"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  },
+  {
+    "target": "time-attendance-ar",
+    "severity": "WARN",
+    "check": "copy-stat-strip",
+    "message": "stat strip x1",
+    "hits": [
+      {
+        "match": "3,000 / 5,000 / 1,500 / 2,000 / 100,000 / 3000 / 3000",
+        "sentence": "3,000 / 5,000 / 1,500 / 2,000 / 100,000 / 3000 / 3000"
+      }
+    ],
+    "decision": "Existing copy retained in this motion-only batch; inspect the original hit in this report."
+  }
+]

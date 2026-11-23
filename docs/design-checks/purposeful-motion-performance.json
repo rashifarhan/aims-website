@@ -1,0 +1,201 @@
+{
+  "conditions": {
+    "viewport": "390x844",
+    "networkLatencyMs": 150,
+    "downloadBitsPerSecond": 1600000,
+    "cpuThrottling": 4,
+    "browserCache": "disabled",
+    "workers": 1,
+    "samplesPerLocaleAndTarget": 3
+  },
+  "stats": {
+    "startTime": "2026-11-23T07:50:09.563Z",
+    "duration": 116339.214,
+    "expected": 30,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "measurements": [
+    {
+      "target": "en mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 1232,
+      "cls": 0,
+      "transfer": 409144
+    },
+    {
+      "target": "ar mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 2156,
+      "cls": 0.0028249653523488485,
+      "transfer": 500525
+    },
+    {
+      "target": "en mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 980,
+      "cls": 0,
+      "transfer": 409144
+    },
+    {
+      "target": "ar mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 2092,
+      "cls": 0.0028249653523488485,
+      "transfer": 500525
+    },
+    {
+      "target": "en mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 944,
+      "cls": 0,
+      "transfer": 409144
+    },
+    {
+      "target": "ar mobile home meets transfer, LCP and CLS budgets",
+      "lcp": 2228,
+      "cls": 0.0028249653523488485,
+      "transfer": 500525
+    },
+    {
+      "target": "/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 900,
+      "cls": 0,
+      "transfer": 428802
+    },
+    {
+      "target": "/ar/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 964,
+      "cls": 0.0002419076830064061,
+      "transfer": 537799
+    },
+    {
+      "target": "/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 832,
+      "cls": 0,
+      "transfer": 426329
+    },
+    {
+      "target": "/ar/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 864,
+      "cls": 0.00023903950145393792,
+      "transfer": 517998
+    },
+    {
+      "target": "/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1280,
+      "cls": 6.409167540642014e-5,
+      "transfer": 387540
+    },
+    {
+      "target": "/ar/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1296,
+      "cls": 0.00040986042167366713,
+      "transfer": 504064
+    },
+    {
+      "target": "/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 840,
+      "cls": 0.012648581433264854,
+      "transfer": 372735
+    },
+    {
+      "target": "/ar/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 860,
+      "cls": 0.017434602310980873,
+      "transfer": 488799
+    },
+    {
+      "target": "/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 912,
+      "cls": 0,
+      "transfer": 428802
+    },
+    {
+      "target": "/ar/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 984,
+      "cls": 0.0002419076830064061,
+      "transfer": 537799
+    },
+    {
+      "target": "/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 820,
+      "cls": 0,
+      "transfer": 426329
+    },
+    {
+      "target": "/ar/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 880,
+      "cls": 0.00023903950145393792,
+      "transfer": 517998
+    },
+    {
+      "target": "/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1276,
+      "cls": 6.409167540642014e-5,
+      "transfer": 387540
+    },
+    {
+      "target": "/ar/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1308,
+      "cls": 0.00040986042167366713,
+      "transfer": 504064
+    },
+    {
+      "target": "/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 876,
+      "cls": 0.012648581433264854,
+      "transfer": 372735
+    },
+    {
+      "target": "/ar/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 876,
+      "cls": 0.017434602310980873,
+      "transfer": 488799
+    },
+    {
+      "target": "/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 908,
+      "cls": 0,
+      "transfer": 428802
+    },
+    {
+      "target": "/ar/solutions/access-control keeps the mobile LCP and CLS budgets",
+      "lcp": 1008,
+      "cls": 0.0002419076830064061,
+      "transfer": 537799
+    },
+    {
+      "target": "/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 832,
+      "cls": 0,
+      "transfer": 426329
+    },
+    {
+      "target": "/ar/solutions/time-attendance keeps the mobile LCP and CLS budgets",
+      "lcp": 864,
+      "cls": 0.00023903950145393792,
+      "transfer": 517998
+    },
+    {
+      "target": "/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1244,
+      "cls": 6.409167540642014e-5,
+      "transfer": 387540
+    },
+    {
+      "target": "/ar/product/f18 keeps the mobile LCP and CLS budgets",
+      "lcp": 1320,
+      "cls": 0.00040986042167366713,
+      "transfer": 504064
+    },
+    {
+      "target": "/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 832,
+      "cls": 0.012648581433264854,
+      "transfer": 372735
+    },
+    {
+      "target": "/ar/software/biotime-9-5 keeps the mobile LCP and CLS budgets",
+      "lcp": 852,
+      "cls": 0.017434602310980873,
+      "transfer": 488799
+    }
+  ]
+}

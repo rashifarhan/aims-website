@@ -8,6 +8,7 @@ import { ArrowIcon } from "@/components/icons";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { IntroCopy } from "./types";
+import "@/components/motion/entrance.css";
 
 /**
  * T3 row 1: title, promise and two actions beside AIMS's own product photograph (Master Plan 14;
@@ -18,8 +19,9 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(page.hero)?.images[0];
+  const purposeful = page.slug === "access-control" || page.slug === "time-attendance";
   return (
-    <div className="t3-intro page-container">
+    <div className={purposeful ? "t3-intro aims-hero page-container" : "t3-intro page-container"}>
       <Breadcrumbs
         label={t.common.breadcrumb}
         items={[
@@ -31,7 +33,9 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
       <div className="t3-hero">
         <div className="t3-hero-copy">
           <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>
-          <h1 className="t3-enter">{copy.title}</h1>
+          <h1 className={purposeful ? "aims-headline-mask" : "t3-enter"}>
+            <span className={purposeful ? "aims-headline" : undefined}>{copy.title}</span>
+          </h1>
           <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">
             <Link href={href(page.quote)} className="home-button">
@@ -44,7 +48,7 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
           </div>
         </div>
         {photo && (
-          <div className="t3-hero-photo">
+          <div className={purposeful ? "t3-hero-photo aims-studio" : "t3-hero-photo"}>
             {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
             <Image
               src={photo.src}

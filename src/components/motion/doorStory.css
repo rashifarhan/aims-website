@@ -1,0 +1,64 @@
+/* Approved UNLOCK, Design Doc 8.2: two native-scroll screens; a complete ordinary-flow still otherwise. */
+.door-story.home-door,
+.door-story.t3-door {
+  display: block;
+}
+.door-story-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 4rem;
+  align-items: center;
+}
+.door-story[data-mode="scroll"] {
+  min-height: 200svh;
+  align-content: normal;
+}
+.door-story[data-mode="scroll"] .door-story-layout {
+  position: sticky;
+  inset-block-start: 6.5rem;
+}
+.door-story .door-wire {
+  stroke-dasharray: 1;
+}
+.door-story .door-leaf {
+  transform-box: view-box;
+  transform-origin: 306px 348px;
+  transform: scaleX(0.74);
+}
+.door-story .door-granted {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.door-story [data-door-step] {
+  transition: border-color var(--duration-base) var(--ease-aims);
+}
+.door-story [aria-current="step"] {
+  border-block-start-color: var(--color-green-700);
+}
+.door-story [aria-current="step"] .home-door-index {
+  color: var(--color-paper);
+  background: var(--color-green-700);
+  border-radius: var(--radius-sm);
+}
+.door-story .home-door-index {
+  display: grid;
+  place-items: center;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  padding-block: 0;
+  transition:
+    color var(--duration-base) ease,
+    background-color var(--duration-base) ease;
+}
+@media (max-width: 1023px) {
+  .door-story-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .door-story [data-door-step],
+  .door-story .home-door-index {
+    transition: none;
+  }
+}

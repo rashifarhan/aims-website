@@ -17,11 +17,11 @@
   {
     "check": "effect-kind",
     "target": "main#main > section.home-section.home-door",
-    "reason": "The two moments are AIMS's approved door-kit and reach prototypes (CLAUDE.md: port them, don't redesign), played once by MomentTrigger, not kit moments."
+    "reason": "AIMS's approved door-kit and reach prototypes remain the domain moments (CLAUDE.md 3). The client approved DoorStory's reversible desktop scroll and finite phone playback on 23 Nov 2026; the reach map still draws once."
   },
   {
-    "check": "card-layout",
-    "target": "section#families > div.home-section.page-container > div.home-family-grid",
-    "reason": "Six product families are one catalogue index; each card shows a different real AIMS product photograph and count."
+    "check": "text-contrast",
+    "target": "div:nth-of-type(1) > a.flex.min-h-11 > span.text-wordmark.font-extrabold > span.text-lime",
+    "reason": "The footer repeats the approved AIMS wordmark. Its lime full stop is a decorative logo mark, not reading text, exactly as in the header. The previous card-layout waiver matched two distinct findings and was ignored; their uniform catalogue-index rationale is preserved in the motion gate report."
   }
 ]

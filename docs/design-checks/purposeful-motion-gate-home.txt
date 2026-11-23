@@ -1,0 +1,169 @@
+gate: checking http://localhost:3200/ (tech); this takes a few minutes on a CPU Chrome
+gate: 53 FAIL open
+  FAIL empty-visual     main#main > section.home-hero > div.home-hero-art > svg.home-signals.home-signals-desktop  [1440]
+       the picture shows nothing here: with it hidden the screen looks the same (the picture is there but invisible: faded out, clipped or covered), so the visitor sees only the ground behind it
+       fix: make the visual draw at every width: a picture that loads, an effect that renders, or its still fallback; never an empty frame
+  FAIL scroll-reveal    main#main > section.home-section.home-door > div.door-story-layout > div.home-door-stage "  [1440, 390]
+       starts an animation (1.0 s) the moment it is scrolled into view (an IntersectionObserver) on g.door-part.door-controller
+       fix: show it at rest: no fade, rise or unmask when it is scrolled into view
+  FAIL scroll-reveal    section#showrooms "Visit the showroom in Deira Supply and i"  [1440, 390]
+       starts "reach-draw" (1.4 s) the moment it is scrolled into view (an IntersectionObserver) on path.reach-route.stroke-night-muted
+       fix: show it at rest: no fade, rise or unmask when it is scrolled into view
+  FAIL pinned           main#main > section.home-section.home-door > div.door-story-layout "How a controlled door   [1440]
+       held on screen for 1.2 screens of scroll (position: sticky) while the page moves on
+       fix: let the section scroll with the page
+  FAIL text-only        main#main > section.home-section.home-routes "Three ways to buy from AIMS"  [1440, 390]
+       the section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)
+       fix: give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground
+  FAIL text-only        main#main > section.home-proof-band "An authorized ZKTeco distributor in the "  [1440, 390]
+       the quote section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)
+       fix: give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground
+  FAIL text-only        section#faq "Questions about buying and installation"  [1440, 390]
+       the section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)
+       fix: give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground
+  FAIL card-visual      section#families > div.home-section.page-container > div.home-software-block > ul.home-sof  [1440, 390]
+       3 cards hold only text: no picture, icon, UI fragment or effect in any of them
+       fix: give the cards a visual: an inset panel with a UI fragment, a photograph or real icons
+  FAIL card-visual      section#showrooms > div.home-section.page-container > div.home-reach-grid > ul.home-place-  [1440, 390]
+       3 cards hold only text: no picture, icon, UI fragment or effect in any of them
+       fix: give the cards a visual: an inset panel with a UI fragment, a photograph or real icons
+  FAIL card-layout      section#families > div.home-section.page-container > div.home-family-grid "Time attendance  [1440]
+       6 of 6 cards drawn one way (one panel, ground, placement and fragment): copies of one card
+       fix: a card layout at most twice on a page: build the other sections another way
+  FAIL button-styles    (the page)  [1440, 390]
+       4 button styles on the page: pill, outline #0e1512 x1 ("Quote"); pill, fill #26703a x2 ("See all products"); pill, fill #78be20 x1 ("Request a quote"); pill, fill #ffffff, outline #e3e7e3 x6 ("F18")
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL copy-headings    h2#routes-title "Three ways to buy from AIMS"  [1440]
+       "Three ways to buy from AIMS" names no product, part, place or section (2 headings like it; at most one brand line per page) (and 1 more like it: "Software that runs them")
+       fix: name the thing in every heading: the product, a part, the place or a section noun
+  FAIL heading-scale    h2#closing-title "Send AIMS your model list or site plan"  [1440]
+       h2 headings in 2 sizes, 38px ("Three ways to buy from A") to 52px (x1.37)
+       fix: size headings by level: the h1 largest, one size per level, each level below the one above
+  FAIL heading-scale    div.home-proof > dl > div:nth-of-type(1) > dd.tabular-nums "11+"  [1440, 390]
+       the figure "11+" is set at 56px, larger than the section headings (h2 38px); 3 more like it
+       fix: set figures at the h2 size or under: a stat reads as data, not as the heading
+  FAIL contrast         div.home-section.page-container > div.home-software-block > div.home-section-heading > a.h  [1440]
+       body text over a effect reads at 2.7:1 at its worst tenth (needs 4.5:1), on a busy ground
+       fix: put the text on a calm part of the picture, or on a solid panel
+  FAIL text-contrast    div:nth-of-type(1) > a.flex.min-h-11 > span.text-wordmark.font-extrabold > span.text-lime   [1440, 390]
+       a caption, label or muted line in #78be20 on #f6f8f5 reads 2.14:1 (needs 3:1)
+       fix: body text in the ink at 7:1 or more; grey (4.5:1 or more) only for captions and labels
+  FAIL section-gaps     section#faq / main#main > section.home-night.home-closing  [1440]
+       605px between these sections, +61% against the median 375px of gaps at a change of ground
+       fix: use one gap between sections (all within 25% of each other)
+  FAIL phone-number     ul.home-place-cards > li.home-place-card:nth-of-type(2) > div.home-place-actions > a.home-  [1440]
+       a phone number in international format: "+971 4 252 3253"; a visitor can dial it and reach a stranger (and 4 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span, again here, div
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.home-place-cards > li.home-place-card:nth-of-type(3) > div.home-place-actions > a.home-  [1440]
+       a phone number in international format: "+971 2 546 6047"; a visitor can dial it and reach a stranger (and 3 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span, again here, div
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span "+971 56   [1440]
+       a phone number in international format: "+971 56 524 0495"; a visitor can dial it and reach a stranger (and 3 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink, 
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL empty-area       main#main > section.home-section.home-routes "Three ways to buy from AIMS"  [1440]
+       58% of the section is empty: 176px above its first content, 176px under its last (a.home-route-card), 8% beside content that covers under half the container, in its 704px of rows (WARN over 35%, FAIL over 50%)
+       fix: fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)
+  FAIL empty-area       main#main > section.home-section.home-door "How a controlled door works"  [1440]
+       64% of the section is empty: 1040px above its first content, in its 1604px of rows (WARN over 35%, FAIL over 50%)
+       fix: fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)
+  FAIL empty-area       main#main > section.home-night.home-closing "Send AIMS your model list or site plan"  [1440]
+       84% of the section is empty: 192px above its first content, 192px under its last (a.home-button.home-button-lime), 28% beside content that covers under half the container, in its 684px of rows (WARN over 35%, FAIL over 5
+       fix: fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)
+  FAIL field-label      input#header-search  [1440]
+       a input[type=search] without a label you can see: its <label> is hidden
+       fix: put a <label for> with the field's name above it (references/system.md, Forms); a placeholder is no label
+  FAIL section-height   footer.mt-auto.border-t "AIMS.Authorized ZKTeco Distributor · UAE"  [1440]
+       the section is 776px tall (0.9 screens), 124px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)
+       fix: set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit
+  FAIL section-height   main#main > section.home-hero "Authorized ZKTeco Distributor · UAEZKTec"  [1440]
+       the section starts at 73px, 73px below the screen grid (0 x 900px): sections start on whole screens (SR-2)
+       fix: make every section above it exactly one or two screens tall, so this one starts on a whole screen
+  FAIL section-air      main#main > section.home-section.home-door / main#main > section.home-proof-band  [1440]
+       1322px of air between the content of these two sections: 128-480px (64-600px WARN) (every gap out of the band at 1440px, top to bottom: 544px after "Three ways to buy fr", 1322px after "How a controlled doo", 605px after
+       fix: keep 128-480px of air between the content of neighbouring sections (112-420px on a phone): the sections' padding (--padt, --padb)
+  FAIL section-air      section#faq / main#main > section.home-night.home-closing  [1440]
+       605px of air between the content of these two sections: 128-480px (64-600px WARN) (SR-3)
+       fix: keep 128-480px of air between the content of neighbouring sections (112-420px on a phone): the sections' padding (--padt, --padb)
+  FAIL section-air      main#main > section.home-night.home-closing "Send AIMS your model list or site planSe"  [1440]
+       the content fills 26.8% of the section's height (242 of 900px): 55% or more (40% WARN) (SR-3)
+       fix: fill the section to 55%: more content, a picture or a background layer, or merge it into the section above as its last block
+  FAIL section-air      main#main > section.home-section.home-door "How a controlled door worksA reader chec"  [1440]
+       the content fills 29.6% of the section's height (533 of 1800px): 55% or more (40% WARN) (SR-3)
+       fix: fill the section to 55%: more content, a picture or a background layer, or merge it into the section above as its last block
+  FAIL section-air      main#main > section.home-section.home-routes "Three ways to buy from AIMSBuy for proje"  [1440]
+       the content fills 31.8% of the section's height (287 of 900px): 55% or more (40% WARN) (and 1 more like it: "Questions about buying a") (SR-3)
+       fix: fill the section to 55%: more content, a picture or a background layer, or merge it into the section above as its last block
+  FAIL one-section      main#main > section.home-section.home-routes "Three ways to buy from AIMSBuy for proje"  [1440]
+       the screen at scroll 73px (the top of section 1) shows 73px of section 2 beside section 1: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-heading      div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(1) > h2.text-sm.font-semibold "P  [1440]
+       the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)
+       fix: give each section one h2, first in its .wrap, and the hero only its h1
+  FAIL container-edges  header.sticky.top-0 "AIMS.Security SystemsProductsProductsBro"  [1440]
+       the nav's content runs 80px from the left and 80px from the right (read from its outermost blocks: no .wrap): the page's container starts at 48px (one container, equal margins, 2px either way) (SR-6)
+       fix: use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone
+  FAIL container-edges  main#main > section.home-section.home-routes "Three ways to buy from AIMSBuy for proje"  [1440]
+       the content of section 2 runs 80px from the left and 80px from the right (read from its outermost blocks: no .wrap): the page's container starts at 48px (one container, equal margins, 2px either way) (and 8 more like it:
+       fix: use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone
+  FAIL container-edges  a.sr-only "Skip to content"  [1440]
+       a <a> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (SR-6)
+       fix: build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing
+  FAIL container-edges  main#main > section.home-hero > div.home-hero-art > div.home-wash:nth-of-type(1)  [1440]
+       a box runs 720-1440px, outside the container lines of section 1 at 48-1392px: full width is for background layers and grounds only (SR-6)
+       fix: keep it inside the container lines (.wrap): full width is for background layers and grounds only
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(4) > h2.text-sm.font-semibold "C  [1440]
+       the h2 starts 1130px right of the container's left: every h1 and h2 starts on it, 2px either way (and 15 more like it: "Software", "Solutions", x 651) (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  h2#closing-title "Send AIMS your model list or site plan"  [1440]
+       "Send AIMS your model list or sit" is set centred across 704px, over half the 1344px container: text that wide is set left (SR-6)
+       fix: set the text left (text-align: start)
+  FAIL row-lines        section.home-proof-band > div.home-section.page-container > div.home-proof > dl "years of   [1440]
+       a row of 2 items: its first item starts at 651px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL row-lines        footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 > div.hidden.grid-cols  [1440]
+       a row of 4 items: its first item starts at 560px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL row-lines        section#families > div.home-section.page-container > div.home-family-grid "Time attendance  [1440]
+       a row of 3 items: its first item starts at 80px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (and 2 more like it: "Time attendanceBioTime 9", "Ra
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL split-pair       footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 "AIMS.Authorized ZKTec  [1440]
+       the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)
+       fix: put the text in the left column and the visual in the right, on every split
+  FAIL split-pair       main#main > section.home-proof-band > div.home-section.page-container > div.home-proof "An  [1440]
+       the split's columns are off the page's one pair of lines: its right column starts at x 651, the first split's at 684; its right column starts at x 651, on none of the split lines 618 (k=5), 732 (k=6), 846 (k=7) (SR-8)
+       fix: start every split's right column on one shared line (wrap.left + k x (width + 24) / 12, k 5, 6 or 7; 6 on a place page) and end the left one 24px before it
+  FAIL split-pair       section#showrooms > div.home-section.page-container > div.home-reach-grid "ShowroomDeira s  [1440]
+       the split's columns are off the page's one pair of lines: its right column starts at x 651, the first split's at 684; its right column starts at x 651, on none of the split lines 618 (k=5), 732 (k=6), 846 (k=7) (and 1 mo
+       fix: start every split's right column on one shared line (wrap.left + k x (width + 24) / 12, k 5, 6 or 7; 6 on a place page) and end the left one 24px before it
+  FAIL empty-visual     main#main > section.home-hero > div.home-hero-art > svg.home-signals.home-signals-mobile  [390]
+       the picture shows nothing here: with it hidden the screen looks the same (the picture is there but invisible: faded out, clipped or covered), so the visitor sees only the ground behind it
+       fix: make the visual draw at every width: a picture that loads, an effect that renders, or its still fallback; never an empty frame
+  FAIL card-layout      section#families > div.home-section.page-container > div.home-family-grid "Time attendance  [390]
+       6 of 6 cards drawn one way (one panel, ground, placement and fragment): copies of one card
+       fix: a card layout at most twice on a page: build the other sections another way
+  FAIL heading-scale    h3#software-title "Software that runs them"  [390]
+       h3 headings in 2 sizes, 18px ("Buy for projects & stock") to 24px (x1.33)
+       fix: size headings by level: the h1 largest, one size per level, each level below the one above
+  FAIL off-grid         div:nth-of-type(1) > ol.home-door-parts > li:nth-of-type(2) > span.home-door-index "02"  [390]
+       left edge at 30px, 6px off the page margin at 24px (62 elements, like span.home-door-index); 4 more in this section off the grid too (span.home-door-index at 30px, span.home-door-index at 30px, span.home-door-index at 30
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL off-grid         div.home-proof-reviews > div.home-section-heading > a.home-text-link > span.home-external-  [390]
+       left edge at 227px, 16px off a common edge of its section at 211px (4 elements, like dt)
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL off-grid         div.mt-10.border-t > ul.mt-3.flex > li:nth-of-type(6) > a.inline-flex.h-8 "Hotel lock"  [390]
+       left edge at 201.5px, 7.5px off a common edge of its section at 194px (5 elements)
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL section-gaps     main#main > section.home-night.home-closing / footer.mt-auto.border-t  [390]
+       135px between these sections, +72% against the median 79px of gaps at a change of ground
+       fix: use one gap between sections (all within 25% of each other)
+  FAIL container        page  [1440, 390]
+       no .wrap
+       fix: put the content in one .wrap
+  WAIVED text-contrast div.page-container.flex > a.flex.min-h-11 > span.text-wordmark.font-extrabold > : The lime full stop is part of the approved AIMS wordmark, a decorative mark, not text; the wordmark letters are ink.
+  WAIVED effect-kind main#main > section.home-section.home-door: The two moments are AIMS's approved door-kit and reach prototypes (CLAUDE.md: port them, don't redesign), played once by MomentTrigger, not kit moments.
+  WAIVED phone-number ul.home-place-cards > li.home-place-card.home-place-featured > div.home-place-ac: AIMS's published phone lines are brief-given client facts; CLAUDE.md requires the real contacts, never .example stand-ins.
+  WAIVED nav-covers main#main > button.home-floating-contact.motion-fade "Chat on WhatsApp": The floating WhatsApp contact is existing working behaviour the client asked to preserve; it hides on the first screen and opens a dialog.
+  waiver ignored (target matches 2 findings; name one (more of its where)): card-layout "section#families > div.home-section.page-container > div.home-family-grid"
+  32 WARN (not blocking), first: card-visual main#main > section.home-section.home-ro; same-action section.home-hero > div.home-hero-copy.p; same-action section#families > div.home-section.page; copy-headings ul.home-route-grid > li:nth-of-type(1) >; copy-buttons header.sticky.top-0 > div.page-container
+A FAIL you judge false: add {"check": "<id>", "target": "<its where, enough to name that one finding>", "reason": "<why, 12+ characters>"} to .taste-skill/waivers.json (one finding each, 5 at most, never for kit-edited or checker-gaming); it goes in your report. Never edit the kit's files or hide the page from the checker.
+GATE: FAIL 53 (round 1 of 3)

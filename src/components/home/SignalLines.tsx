@@ -38,7 +38,7 @@ export function SignalLines({ mobile = false }: { mobile?: boolean }) {
           fill="none"
           stroke={`url(#${id})`}
           strokeWidth={i % 5 === 0 ? 1.6 : 1.05}
-          opacity={0.5 + 0.5 * Math.sin((i / (count - 1)) * Math.PI)}
+          opacity={(i % 5 === 0 ? 0.65 : 0.22) + 0.35 * Math.sin((i / (count - 1)) * Math.PI)}
         />
       ))}
       {paths

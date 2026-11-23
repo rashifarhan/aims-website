@@ -1,0 +1,461 @@
+[
+  {
+    "number": 1,
+    "check": "scroll-reveal",
+    "target": "main#main > section.t3-section.t3-door > div.door-story-layout > div.home-door-stage \"Reader KR602 E/M Controller InBio Pro 16\"",
+    "widths": [1440, 390],
+    "rawMessage": "starts an animation (1.0 s) the moment it is scrolled into view (an IntersectionObserver) on g.door-part.door-controller",
+    "disposition": "approved domain-motion implementation",
+    "decision": "The approved design reuses AIMS domain prototypes through local CSS/WAAPI, not the kit runtime. Scroll is confined to the named moment; reduced/no-JS final states and reversals pass browser tests."
+  },
+  {
+    "number": 2,
+    "check": "pinned",
+    "target": "main#main > section.t3-section.t3-door > div.door-story-layout \"Six parts at every controlled door. Tap \"",
+    "widths": [1440],
+    "rawMessage": "held on screen for 1.1 screens of scroll (position: sticky) while the page moves on",
+    "disposition": "approved domain-motion implementation",
+    "decision": "The approved design reuses AIMS domain prototypes through local CSS/WAAPI, not the kit runtime. Scroll is confined to the named moment; reduced/no-JS final states and reversals pass browser tests."
+  },
+  {
+    "number": 3,
+    "check": "no-visual",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(2) \"Choose how people prove who they are.\"",
+    "widths": [1440, 390],
+    "rawMessage": "no picture, effect or mock in this section; a feature section needs a visual",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 4,
+    "check": "no-visual",
+    "target": "main#main > section.t3-section.t3-band \"From door survey to the first card.\"",
+    "widths": [1440, 390],
+    "rawMessage": "no picture, effect or mock in this section; a feature section needs a visual",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 5,
+    "check": "no-visual",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(5) \"Software that runs the doors.\"",
+    "widths": [1440, 390],
+    "rawMessage": "no picture, effect or mock in this section; a feature section needs a visual",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 6,
+    "check": "text-only",
+    "target": "main#main > section.t3-section.t3-questions \"Access control questions.\"",
+    "widths": [1440, 390],
+    "rawMessage": "the section is only text: no picture, icon, mock or effect in it (2 sections like it at this width)",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 7,
+    "check": "text-only",
+    "target": "main#main > section.t3-cta.page-container \"Plan access for your doors.\"",
+    "widths": [1440, 390],
+    "rawMessage": "the closing section is only text: no picture, icon, mock or effect in it (2 sections like it at this width)",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 8,
+    "check": "card-visual",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(5) > ul.home-software-grid \"On a Windows PC ZKAccess 3.5 Users, door\"",
+    "widths": [1440, 390],
+    "rawMessage": "3 cards hold only text: no picture, icon, UI fragment or effect in any of them",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 9,
+    "check": "card-layout",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(3) > ul.pick-row \"ZKTECO Inbio Pro 160 Verification: Finge\"",
+    "widths": [1440, 390],
+    "rawMessage": "6 of 6 cards drawn one way (one panel, ground, placement and fragment): copies of one card",
+    "disposition": "open in native report",
+    "decision": "These are a consistent list of actual product models for comparison; the existing one-card system is preserved. Native duplicate-composition finding remains visible."
+  },
+  {
+    "number": 10,
+    "check": "button-styles",
+    "target": "(the page)",
+    "widths": [1440, 390],
+    "rawMessage": "3 button styles on the page: pill, outline #0e1512 x1 (\"Quote\"); pill, fill #26703a x8 (\"Get an installation quote\"); pill, fill #ffffff, outline #e3e7e3 x6 (\"F18\")",
+    "disposition": "open in native report",
+    "decision": "The scanner counts existing hero/compact-list sizes, model links and navigation controls together. No new action variant was introduced; preserve the raw template finding."
+  },
+  {
+    "number": 11,
+    "check": "button-styles",
+    "target": "div.t3-hero > div.t3-hero-copy > div.t3-actions.t3-enter > a.home-button \"Get an installation quote\"",
+    "widths": [1440, 390],
+    "rawMessage": "one button style (pill, fill #26703a) in 2 heights: 44, 54px (\"Get an installation quote\" 54px, \"Add to quote\" 44px)",
+    "disposition": "open in native report",
+    "decision": "The scanner counts existing hero/compact-list sizes, model links and navigation controls together. No new action variant was introduced; preserve the raw template finding."
+  },
+  {
+    "number": 12,
+    "check": "copy-headline",
+    "target": "div.t3-intro.aims-hero > div.t3-hero > div.t3-hero-copy > h1.aims-headline-mask \"Decide who opens every door.\"",
+    "widths": [1440],
+    "rawMessage": "\"Decide who opens every door.\" does not name what is sold (zkteco access control and time attendance, zkteco, access, control, from flags); only the line under it does",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 13,
+    "check": "copy-headings",
+    "target": "h2#ac-methods-title \"Choose how people prove who they are.\"",
+    "widths": [1440],
+    "rawMessage": "\"Choose how people prove who they are.\" names no product, part, place or section (6 headings like it; at most one brand line per page) (and 5 more like it: \"Panels and terminals to \", \"From door survey to the \", \"Installation\", \"Software setup\", ...)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 14,
+    "check": "effect-kind",
+    "target": "main#main > section.t3-section.t3-door",
+    "widths": [1440],
+    "rawMessage": "1 [data-moment] mark that never runs: unlock on main#main > section.t3-section.t3-door (assets/moments/unlock/moment.js was never loaded); a moment is judged as one only when it runs",
+    "disposition": "approved domain-motion implementation",
+    "decision": "The approved design reuses AIMS domain prototypes through local CSS/WAAPI, not the kit runtime. Scroll is confined to the named moment; reduced/no-JS final states and reversals pass browser tests."
+  },
+  {
+    "number": 15,
+    "check": "phone-number",
+    "target": "ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span \"+971 4 252 3253\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 4 252 3253\"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink)",
+    "disposition": "required client fact",
+    "decision": "These published AIMS contacts come from site.ts and are expressly required by CLAUDE.md; they cannot be replaced with fictional numbers."
+  },
+  {
+    "number": 16,
+    "check": "phone-number",
+    "target": "ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink > span \"+971 4 880 8445\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 4 880 8445\"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink, div.flex.h-full > div.grid.gap-2 > div.grid.grid-cols-2 > a.flex.h-12:nth-of-type(2))",
+    "disposition": "required client fact",
+    "decision": "These published AIMS contacts come from site.ts and are expressly required by CLAUDE.md; they cannot be replaced with fictional numbers."
+  },
+  {
+    "number": 17,
+    "check": "phone-number",
+    "target": "ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span \"+971 2 546 6047\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 2 546 6047\"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink)",
+    "disposition": "required client fact",
+    "decision": "These published AIMS contacts come from site.ts and are expressly required by CLAUDE.md; they cannot be replaced with fictional numbers."
+  },
+  {
+    "number": 18,
+    "check": "phone-number",
+    "target": "ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span \"+971 56 524 0495\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 56 524 0495\"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink, div.flex.h-full > div.grid.gap-2 > div.grid.grid-cols-2 > a.flex.h-12:nth-of-type(1))",
+    "disposition": "required client fact",
+    "decision": "These published AIMS contacts come from site.ts and are expressly required by CLAUDE.md; they cannot be replaced with fictional numbers."
+  },
+  {
+    "number": 19,
+    "check": "empty-area",
+    "target": "main#main > section.t3-section.t3-door \"Six parts at every controlled door.\"",
+    "widths": [1440],
+    "rawMessage": "59% of the section is empty: 960px under its last (li:nth-of-type(6)), 3% beside content that covers under half the container, in its 1688px of rows (WARN over 35%, FAIL over 50%)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 20,
+    "check": "field-label",
+    "target": "input#header-search",
+    "widths": [1440],
+    "rawMessage": "a input[type=search] without a label you can see: its <label> is hidden",
+    "disposition": "reviewed against W3C",
+    "decision": "Visible magnifying-glass cue plus programmatic search label; W3C SC3.3.2 describes this global-search pattern. Keyboard/axe checks pass."
+  },
+  {
+    "number": 21,
+    "check": "section-height",
+    "target": "main#main > section.t3-cta.page-container \"Plan access for your doors.Tell AIMS how\"",
+    "widths": [1440],
+    "rawMessage": "the section is 364px tall (0.4 screens), 536px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 22,
+    "check": "section-height",
+    "target": "footer.mt-auto.border-t \"AIMS.Authorized ZKTeco Distributor · UAE\"",
+    "widths": [1440],
+    "rawMessage": "the section's content does not fit it: its lowest content ends 744px below its top, past 704px (the section less 72px of bottom padding) (SR-2)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 23,
+    "check": "section-air",
+    "target": "main#main > section.t3-section.t3-door / main#main > section.t3-section.page-container:nth-of-type(2)",
+    "widths": [1440],
+    "rawMessage": "1104px of air between the content of these two sections: 128-480px (64-600px WARN) (every gap out of the band at 1440px, top to bottom: 1104px after \"Six parts at every c\", 110px after \"Choose how people pr\", 110px after \"Software that runs t\") (SR-3)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 24,
+    "check": "section-air",
+    "target": "main#main > section.t3-section.t3-door \"Six parts at every controlled door.Tap a\"",
+    "widths": [1440],
+    "rawMessage": "the content fills 38.6% of the section's height (696 of 1800px): 55% or more (40% WARN) (SR-3)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 25,
+    "check": "one-section",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(5) \"Software that runs the doors.Run doors f\"",
+    "widths": [1440],
+    "rawMessage": "the screen at scroll 5056px (the top of section 6) shows 374px of section 6 and the content of 2 sections, over 24px each beside section 7: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 26,
+    "check": "one-section",
+    "target": "h2#ac-products-title \"Panels and terminals to start with.\"",
+    "widths": [1440],
+    "rawMessage": "the screen at scroll 2700px (stride 3) shows 367px of section 4 and the heading of section 4 whole and the content of 2 sections, over 24px each beside section 3: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 27,
+    "check": "one-section",
+    "target": "h2#ac-cta-title \"Plan access for your doors.\"",
+    "widths": [1440],
+    "rawMessage": "the screen at scroll 5503px (the top of section 7) shows 364px of section 8 and the heading of section 8 whole and the content of 3 sections, over 24px each beside section 7: a screen shows one section (another may peek 8px, 24px WARN) (and 5 more like it: scroll 5400px, scroll 4502px, scroll 4500px) (SR-4)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 28,
+    "check": "one-heading",
+    "target": "div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(1) > h2.text-sm.font-semibold \"Products\"",
+    "widths": [1440],
+    "rawMessage": "the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 29,
+    "check": "one-heading",
+    "target": "h2#ac-products-title \"Panels and terminals to start with.\"",
+    "widths": [1440],
+    "rawMessage": "headings of two sections show whole on one screen at 32 of 124 scroll positions (25.8%; at scroll 2450, 2500, 2550, 2600px), here with \"Choose how people prove who they\": at most 3% on a desktop (SR-5)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 30,
+    "check": "container-edges",
+    "target": "main#main > section.t3-section.t3-band \"From door survey to the first card.Who d\"",
+    "widths": [1440],
+    "rawMessage": "the content of section 5 runs 48px from the left and 48px from the right (read from its outermost blocks: no .wrap): the page's container starts at 80px; the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 31,
+    "check": "container-edges",
+    "target": "footer.mt-auto.border-t \"AIMS.Authorized ZKTeco Distributor · UAE\"",
+    "widths": [1440],
+    "rawMessage": "the content of section 9 runs 48px from the left and 48px from the right (read from its outermost blocks: no .wrap): the page's container starts at 80px; the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 32,
+    "check": "container-edges",
+    "target": "a.sr-only \"Skip to content\"",
+    "widths": [1440],
+    "rawMessage": "a <a> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 33,
+    "check": "container-edges",
+    "target": "header.sticky.top-0 \"AIMS.Security SystemsProductsProductsBro\"",
+    "widths": [1440],
+    "rawMessage": "a <header> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (and 10 more like it: \"AIMS.Authorized ZKTeco D\", \"Home/Solutions/Access co\", \"Six parts at every contr\") (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 34,
+    "check": "container-edges",
+    "target": "div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(4) > h2.text-sm.font-semibold \"Company\"",
+    "widths": [1440],
+    "rawMessage": "the h2 starts 1130px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 35,
+    "check": "container-edges",
+    "target": "div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(3) > h2.text-sm.font-semibold \"Software\"",
+    "widths": [1440],
+    "rawMessage": "the h2 starts 924px right of the container's left: every h1 and h2 starts on it, 2px either way (and 8 more like it: \"Solutions\", \"Products\", x 121) (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 36,
+    "check": "container-edges",
+    "target": "main#main > section.t3-section.t3-questions > div > details:nth-of-type(1) \"Can one panel run more than one door?Yes\"",
+    "widths": [1440],
+    "rawMessage": "a box over half the container wide runs 630-1360px, not on the container's lines at 80-1360px (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 37,
+    "check": "container-edges",
+    "target": "main#main > section.t3-section.t3-questions > div > details:nth-of-type(2) \"Card, fingerprint or face: which is best\"",
+    "widths": [1440],
+    "rawMessage": "a box over half the container wide runs 630-1360px, not on the container's lines at 80-1360px (and 4 more like it: \"Can I keep my existing r\", \"Which lock suits my door\", \"Can a terminal open the \") (SR-6)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 38,
+    "check": "row-lines",
+    "target": "footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 > div.hidden.grid-cols-4 \"ProductsTime attendanceAccess controlEnt\"",
+    "widths": [1440],
+    "rawMessage": "a row of 4 items: its first item starts at 560px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 39,
+    "check": "row-lines",
+    "target": "main#main > section.t3-section.t3-band > div.page-container > ol.process-list \"1Tell us about your doorsDoors, users, d\"",
+    "widths": [1440],
+    "rawMessage": "a row of 5 items: its first item starts at 80px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 40,
+    "check": "split-pair",
+    "target": "main#main > div.t3-intro.aims-hero > div.t3-hero \"SolutionDecide who opens every door.Read\"",
+    "widths": [1440],
+    "rawMessage": "the two columns of the split start 106px apart at the top: a split's columns are top-aligned, 8px either way (SR-8)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 41,
+    "check": "split-pair",
+    "target": "footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 \"AIMS.Authorized ZKTeco Distributor · UAE\"",
+    "widths": [1440],
+    "rawMessage": "the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 42,
+    "check": "empty-visual",
+    "target": "ul.pick-row > li.pick-card:nth-of-type(5) > a.pick-image > img \"image?url=%2Fimages%2Fproducts%2Fproface\"",
+    "widths": [390],
+    "rawMessage": "the picture image?url=%2Fimages%2Fproducts%2Fproface-x-p.webp&w=3840&q=7 never loaded: its frame shows empty",
+    "disposition": "verified lazy loading",
+    "decision": "This card is outside the horizontal viewport. Two real-browser tests brought every card into view and verified 48 photos decoded at 256/640px sources; the native readiness probe ignores horizontal visibility."
+  },
+  {
+    "number": 43,
+    "check": "empty-visual",
+    "target": "ul.pick-row > li.pick-card:nth-of-type(6) > a.pick-image > img \"image?url=%2Fimages%2Fproducts%2Ftf1700.\"",
+    "widths": [390],
+    "rawMessage": "the picture image?url=%2Fimages%2Fproducts%2Ftf1700.webp&w=3840&q=75 never loaded: its frame shows empty",
+    "disposition": "verified lazy loading",
+    "decision": "This card is outside the horizontal viewport. Two real-browser tests brought every card into view and verified 48 photos decoded at 256/640px sources; the native readiness probe ignores horizontal visibility."
+  },
+  {
+    "number": 44,
+    "check": "no-visual",
+    "target": "main#main > section.t3-section.page-container:nth-of-type(3) \"Panels and terminals to start with.\"",
+    "widths": [390],
+    "rawMessage": "pictures, effects and mocks cover 10% of this section; a feature section needs a visual (about 25% or more)",
+    "disposition": "open in native report",
+    "decision": "Existing functional methods/specifications/download/FAQ/data sections are retained. Product facts and tables were not replaced with decorative imagery; the raw composition finding remains."
+  },
+  {
+    "number": 45,
+    "check": "off-grid",
+    "target": "div:nth-of-type(1) > ol.t3-door-parts > li:nth-of-type(2) > span.home-door-index \"02\"",
+    "widths": [390],
+    "rawMessage": "left edge at 30px, 6px off the page margin at 24px (47 elements, like span.home-door-index); 4 more in this section off the grid too (span.home-door-index at 30px, span.home-door-index at 30px, span.home-door-index at 30px, span.home-door-index at 30px)",
+    "disposition": "intentional active-step badge",
+    "decision": "The numeric glyph is centered in its 28px badge; the parent row stays on the page edge. Native glyph-edge alignment differs from container alignment."
+  },
+  {
+    "number": 46,
+    "check": "off-grid",
+    "target": "div.mt-10.border-t > ul.mt-3.flex > li:nth-of-type(6) > a.inline-flex.h-8 \"Hotel lock\"",
+    "widths": [390],
+    "rawMessage": "left edge at 201.5px, 7.5px off a common edge of its section at 194px (5 elements)",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 47,
+    "check": "section-gaps",
+    "target": "main#main > section.t3-section.t3-band / main#main > section.t3-section.page-container:nth-of-type(5)",
+    "widths": [390],
+    "rawMessage": "133px between these sections, +79% against the median 75px",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 48,
+    "check": "section-gaps",
+    "target": "main#main > section.t3-cta.page-container / footer.mt-auto.border-t",
+    "widths": [390],
+    "rawMessage": "122px between these sections, +64% against the median 75px",
+    "disposition": "open in native report",
+    "decision": "Existing template composition retained in this motion batch. The native finding is preserved for review; no PASS is claimed."
+  },
+  {
+    "number": 49,
+    "check": "hero-fill",
+    "target": "main#main > section.t3-section.t3-door \"Six parts at every controlled door.\"",
+    "widths": [768],
+    "rawMessage": "the next section shows on the first screen: it starts at 877px on a 1024px screen (the hero ends at 823px)",
+    "disposition": "open in native report",
+    "decision": "The existing tablet solution intro uses natural content height below 1024px; the next-section peek is retained as an open composition finding. The approved motion batch did not redesign tablet section heights."
+  },
+  {
+    "number": 50,
+    "check": "off-viewport",
+    "target": "(the page)",
+    "widths": [1152],
+    "rawMessage": "the page is 1157px wide on a 1152px screen and scrolls sideways",
+    "disposition": "fixed after native round",
+    "decision": "A controlled probe isolated the new percentage light bleed. Fixed to one spacing unit; 120 configured-width checks now pass across five targets, two languages and both browser projects."
+  },
+  {
+    "number": 51,
+    "check": "container",
+    "target": "page",
+    "widths": [1440, 390],
+    "rawMessage": "no .wrap",
+    "disposition": "existing project system",
+    "decision": "README records the client decision to retain page-container instead of the kit demo .wrap. Shared header/hero edges and actual configured-width bounds pass regression tests."
+  }
+]

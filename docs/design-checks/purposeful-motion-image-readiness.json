@@ -1,0 +1,252 @@
+{
+  "stats": {
+    "startTime": "2026-11-23T07:32:11.036Z",
+    "duration": 4758.086,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "records": [
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-160.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fc3-200.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-460.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fspeedface-v5l-p.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fproface-x-p.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Ftf1700.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-160.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fc3-200.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-460.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fspeedface-v5l-p.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fproface-x-p.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Ftf1700.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fbiopro-mh20.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fsface-lite.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fiface-990.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzk-x990-c.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fua760.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzkteco-horus-h1.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fbiopro-mh20.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fsface-lite.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fiface-990.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzk-x990-c.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fua760.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzkteco-horus-h1.webp&w=256&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-160.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fc3-200.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-460.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fspeedface-v5l-p.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fproface-x-p.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Ftf1700.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-160.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fc3-200.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Finbio-pro-460.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fspeedface-v5l-p.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fproface-x-p.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/access-control",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Ftf1700.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fbiopro-mh20.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fsface-lite.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fiface-990.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzk-x990-c.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fua760.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzkteco-horus-h1.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fbiopro-mh20.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fsface-lite.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fiface-990.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzk-x990-c.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fua760.webp&w=640&q=75",
+      "naturalWidth": 160
+    },
+    {
+      "path": "/ar/solutions/time-attendance",
+      "src": "http://localhost:3100/_next/image?url=%2Fimages%2Fproducts%2Fzkteco-horus-h1.webp&w=640&q=75",
+      "naturalWidth": 160
+    }
+  ]
+}

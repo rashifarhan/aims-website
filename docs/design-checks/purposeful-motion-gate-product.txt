@@ -1,0 +1,157 @@
+gate: checking http://localhost:3200/product/f18 (tech); this takes a few minutes on a CPU Chrome
+gate: rounds used up; 49 FAIL open
+  FAIL flush            main#main > section.mt-14.grid:nth-of-type(5) > a.inline-flex.w-fit "Datasheet F18 · PDF o  [1440, 390]
+       its button sits 0px above the rule on top of the footer
+       fix: give the section its padding at the edge where the ground changes (the closing call keeps a clear gap above the footer)
+  FAIL row-gap          main#main > section.mt-14.grid:nth-of-type(5) > a.inline-flex.w-fit "Datasheet F18 · PDF o  [1440]
+       fills 44% of its grid row and leaves 56% of it empty on the right
+       fix: fill the row at this width: span the columns, or stack the split
+  FAIL scroll-reveal    main#main > section.mt-14.grid:nth-of-type(1) > div.connects.grid "F18 Connects over TCP/I  [1440, 390]
+       starts "connects-draw" (0.9 s) the moment it is scrolled into view (an IntersectionObserver) on path.connects-line:nth-of-type(1)
+       fix: show it at rest: no fade, rise or unmask when it is scrolled into view
+  FAIL no-visual        main#main > section.mt-14.grid:nth-of-type(1) "How it connects"  [1440, 390]
+       pictures, effects and mocks cover 11% of this section; a feature section needs a visual (about 25% or more)
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL no-visual        main#main > section.mt-14.grid:nth-of-type(3) "Specifications"  [1440, 390]
+       no picture, effect or mock in this section; a feature section needs a visual
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL button-styles    (one screen)  [1440, 390]
+       3 button styles on one screen: pill, outline #0e1512 ("Quote"); pill, fill #26703a ("Add to quote"); pill, outline #8a948e ("Ask on WhatsApp"); the odd one out: "Ask on WhatsApp"
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL button-styles    (the page)  [1440, 390]
+       6 button styles on the page: pill, outline #0e1512 x1 ("Quote"); pill, fill #26703a x1 ("Add to quote"); pill, outline #8a948e x1 ("Ask on WhatsApp"); pill, outline #26703a x3 ("Add to quote"); soft, outline #e3e7e3 x1 (
+       fix: one primary and one secondary button: one shape, one height per size, one label size
+  FAIL same-action      div.min-w-0 > div.mt-6:nth-of-type(1) > div.flex.flex-wrap > button.home-button.flex-1 "Ad  [1440, 390]
+       "Add to quote" appears 4 times in different looks: pill, fill #26703a and pill, outline #26703a
+       fix: draw one action the same way everywhere (only the nav copy may be one size smaller)
+  FAIL copy-headings    h2#connects "How it connects"  [1440]
+       "How it connects" names no product, part, place or section (3 headings like it; at most one brand line per page) (and 2 more like it: "Often fitted with", "Overview")
+       fix: name the thing in every heading: the product, a part, the place or a section noun
+  FAIL section-gaps     main#main > section.mt-14.grid:nth-of-type(5) / footer.mt-auto.border-t  [1440, 390]
+       130px between these sections, +124% against the median 58px
+       fix: use one gap between sections (all within 25% of each other)
+  FAIL effect-kind      main#main > section.mt-14.grid:nth-of-type(1) > div.connects.grid  [1440]
+       1 [data-moment] mark that never runs: true on main#main > section.mt-14.grid:nth-of-type(1) > div.connects.grid (assets/moments/true/moment.js was never loaded); a moment is judged as one only when it runs
+       fix: load assets/moments/moments.js (system.js does it for a page with [data-moment]) and keep the dealt id, or take the data-moment mark off the section
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span "+971 4 2  [1440]
+       a phone number in international format: "+971 4 252 3253"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink)
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink > span "+971 4 8  [1440]
+       a phone number in international format: "+971 4 880 8445"; a visitor can dial it and reach a stranger (and 2 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(2) > a.font-medium.text-ink, d
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span "+971 2 5  [1440]
+       a phone number in international format: "+971 2 546 6047"; a visitor can dial it and reach a stranger (and 1 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink)
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL phone-number     ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span "+971 56   [1440]
+       a phone number in international format: "+971 56 524 0495"; a visitor can dial it and reach a stranger (and 3 more like it: div.min-w-0 > div.mt-6:nth-of-type(1) > div.flex.flex-wrap > a.inline-flex.items-center, div:nth
+       fix: drop the number and its tel: link (a "Request a call" form may stand in), unless the brief gives the number
+  FAIL section-tile     main#main > section.mt-14.grid:nth-of-type(1) "How it connects"  [1440, 390]
+       the section is 528px tall (0.59 screens at 1440x900), shorter than the screen: its tile (the screen from its top) shows 455px of it and 206px of the next section, its heading "Often fitted with" on screen
+       fix: set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb
+  FAIL section-tile     main#main > section.mt-14.grid:nth-of-type(3) "Specifications"  [1440]
+       the section is 959px tall (1.07 screens at 1440x900), not one screen or two: the screen one screen on from its top (scroll 2679px) shows none of it and 296px of the next section, its heading "Overview" on screen
+       fix: set every section after the hero to one screen or two (height: calc(var(--h,1) * 100vh)) and fit its content above --padb
+  FAIL field-label      input#header-search  [1440]
+       a input[type=search] without a label you can see: its <label> is hidden
+       fix: put a <label for> with the field's name above it (references/system.md, Forms); a placeholder is no label
+  FAIL field-label      div.mt-6:nth-of-type(1) > div.flex.flex-wrap > div.inline-flex.items-stretch > input.w-12.  [1440]
+       a input[type=text] without a label you can see: only an aria-label names it
+       fix: put a <label for> with the field's name above it (references/system.md, Forms); a placeholder is no label
+  FAIL hero-screen      main#main > nav.text-sm.text-ink-600 "Home/Access control/F18{"@context":"http"  [1440]
+       the hero ends at 141px on a 900px screen, 759px above the fold: it ends at the fold, 1px either way (SR-1)
+       fix: make the hero exactly one screen (height: 100svh, its content fitted inside), never taller or shorter
+  FAIL hero-screen      main#main > div.aims-hero.mt-6 "ZKTeco · Access controlZKTeco F18F18Offe"  [1440]
+       735px of the next section shows on the first screen (from 165px on a 900px screen): nothing below the hero shows at load (SR-1)
+       fix: end the hero at the fold so nothing of the next section shows at load (hero height: 100svh)
+  FAIL section-height   main#main > section.mt-14.grid:nth-of-type(5) "DownloadsDatasheet F18· PDF on aimsuae.m"  [1440]
+       the section is 50px tall (0.1 screens), 850px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)
+       fix: set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit
+  FAIL section-height   footer.mt-auto.border-t "AIMS.Authorized ZKTeco Distributor · UAE"  [1440]
+       the section starts at 3260px, 340px above the screen grid (4 x 900px): sections start on whole screens (SR-2)
+       fix: make every section above it exactly one or two screens tall, so this one starts on a whole screen
+  FAIL section-air      main#main > section.mt-14.grid:nth-of-type(4) / main#main > section.mt-14.grid:nth-of-type  [1440]
+       59px of air between the content of these two sections: 128-480px (64-600px WARN) (every gap out of the band at 1440px, top to bottom: 76px after "ZKTeco · Access cont", 73px after "How it connectsTaken", 74px after "Ofte
+       fix: keep 128-480px of air between the content of neighbouring sections (112-420px on a phone): the sections' padding (--padt, --padb)
+  FAIL one-section      h2#overview "Overview"  [1440]
+       the screen at scroll 2700px (stride 3) shows 296px of section 6 and the heading of section 6 whole and the content of 3 sections, over 24px each beside section 8: a screen shows one section (another may peek 8px, 24px WA
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-section      h2#downloads "Downloads"  [1440]
+       the screen at scroll 2794px (the top of section 6) shows 223px of section 6 and the heading of section 7 whole and the content of 3 sections, over 24px each beside section 8: a screen shows one section (another may peek 
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-section      h2#fitted "Often fitted with"  [1440]
+       the screen at scroll 900px (stride 1) shows 206px of section 4 and the heading of section 4 whole and the content of 2 sections, over 24px each beside section 3: a screen shows one section (another may peek 8px, 24px WAR
+       fix: make each section exactly one screen or two, so a screen shows one section and no neighbour peeks
+  FAIL one-section      main#main > nav.text-sm.text-ink-600 "Home/Access control/F18{"@context":"http"  [1440]
+       a <nav> sits directly in <main>: every part of <main> is a <section> (SR-4)
+       fix: put every block of <main> in a <section>, and give a band its own section instead of a ground inside one
+  FAIL one-heading      div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(1) > h2.text-sm.font-semibold "P  [1440]
+       the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)
+       fix: give each section one h2, first in its .wrap, and the hero only its h1
+  FAIL one-heading      h2#connects "How it connects"  [1440]
+       headings of two sections show whole on one screen at 22 of 63 scroll positions (34.9%; at scroll 100, 650, 700, 750px), here with "ZKTeco F18": at most 3% on a desktop (SR-5)
+       fix: make the sections one screen tall so their headings sit a screen apart and two never share one
+  FAIL container-edges  footer.mt-auto.border-t "AIMS.Authorized ZKTeco Distributor · UAE"  [1440]
+       the content of section 8 runs 48px from the left and 48px from the right (read from its outermost blocks: no .wrap): the page's container starts at 80px; the margin is 64-120px at 1440px (one container, equal margins, 2p
+       fix: use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone
+  FAIL container-edges  a.sr-only "Skip to content"  [1440]
+       a <a> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (SR-6)
+       fix: build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing
+  FAIL container-edges  header.sticky.top-0 "AIMS.Security SystemsProductsProductsBro"  [1440]
+       a <header> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (SR-6)
+       fix: build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(4) > h2.text-sm.font-semibold "C  [1440]
+       the h2 starts 1130px right of the container's left: every h1 and h2 starts on it, 2px either way (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(3) > h2.text-sm.font-semibold "S  [1440]
+       the h2 starts 924px right of the container's left: every h1 and h2 starts on it, 2px either way (and 9 more like it: "Solutions", x 736, "ZKTeco F18") (SR-6)
+       fix: start the text on the container's left, or on the one split line every split shares
+  FAIL container-edges  main#main > div.aims-hero.mt-6 > div.min-w-0 > div.mt-6.rounded-md "Need it installed?AIMS  [1440]
+       a box over half the container wide runs 719-1360px, not on the container's lines at 80-1360px (SR-6)
+       fix: run the picture or box from the container's left line to its right line, or put it in a row or a split
+  FAIL container-edges  div.min-w-0.space-y-8 > table.w-full.table-fixed > tbody > tr.border-b.border-line:nth-of-  [1440]
+       a box over half the container wide runs 352-1360px, not on the container's lines at 80-1360px (and 15 more like it: "Transaction capacityHow ", "SensorThe type of finger", "Algorithm versionThe ver") (SR-6)
+       fix: run the picture or box from the container's left line to its right line, or put it in a row or a split
+  FAIL row-lines        div.aims-hero.mt-6 > div.min-w-0 > section.mt-6 > dl.grid.grid-cols-2 "Fingerprint capacit  [1440]
+       a row of 2 items: its first item starts at 719px, the container's left line at 80px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL row-lines        footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 > div.hidden.grid-cols  [1440]
+       a row of 4 items: its first item starts at 560px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)
+       fix: start the row's first item on the container's left line and end its last on the right line, every item one height
+  FAIL split-pair       footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 "AIMS.Authorized ZKTec  [1440]
+       the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)
+       fix: put the text in the left column and the visual in the right, on every split
+  FAIL collide          main#main > div.aims-hero.mt-6 > div.min-w-0 > div.fixed.inset-x-0 "− + Add to quote"  [390, 320]
+       at the end of the page the fixed bar covers "Privacy": the page cannot scroll further, so it stays under the bar
+       fix: on a phone nothing lies on anything else: let the section grow with its content (min-height for its screens, never a fixed height; --hm: 2 when it needs two) or cut what it holds; keep pictures and cards off the buttons;
+  FAIL no-visual        main#main > section.mt-14:nth-of-type(2) "Often fitted with"  [390]
+       no picture, effect or mock in this section; a feature section needs a visual
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL no-visual        main#main > section.mt-14.grid:nth-of-type(4) "Overview"  [390]
+       no picture, effect or mock in this section; a feature section needs a visual
+       fix: give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits
+  FAIL card-visual      div.aims-hero.mt-6 > div.min-w-0 > section.mt-6 > dl.grid.grid-cols-2 "Fingerprint capacit  [390]
+       4 cards hold only text: no picture, icon, UI fragment or effect in any of them
+       fix: give the cards a visual: an inset panel with a UI fragment, a photograph or real icons
+  FAIL off-grid         section.mt-14.grid:nth-of-type(4) > div.min-w-0.space-y-4 > ul.list-disc.ps-5 > li:nth-of-  [390]
+       left edge at 44px, 19px off the page margin at 25px (39 elements, like h2#downloads); 6 more in this section off the grid too (li:nth-of-type(2) at 44px, li:nth-of-type(3) at 44px, li:nth-of-type(4) at 44px, li:nth-of-ty
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL off-grid         div.mt-10.border-t > ul.mt-3.flex > li:nth-of-type(6) > a.inline-flex.h-8 "Hotel lock"  [390]
+       left edge at 201.5px, 7.5px off a common edge of its section at 194px (5 elements)
+       fix: move it onto the page margin, or the column edge its section uses
+  FAIL fold-action      div.min-w-0 > div.mt-6:nth-of-type(1) > div.flex.flex-wrap > button.home-button.flex-1  [390]
+       the hero's main button "Add to quote" starts 151px below the first screen (844px tall): it is not seen on load
+       fix: bring the hero's buttons onto the first screen: a shorter headline or line, the picture under the buttons
+  FAIL container        page  [1440, 390]
+       no .wrap
+       fix: put the content in one .wrap
+  FAIL copy-slop-word   copy "unparalleled" in "Offering unparalleled performance by using an advan..."
+       old slop words (unparalleled)
+       fix: replace each word with the fact it stands in for: the step count, the figure, the material, the place (a word in the client's own name is not counted when the logo, the title before its ":" or og:site_name writes the nam
+  WAIVED text-contrast div.page-container.flex > a.flex.min-h-11 > span.text-wordmark.font-extrabold > : The lime full stop is part of the approved AIMS wordmark, a decorative mark, not text; the wordmark letters are ink.
+  WAIVED text-contrast div:nth-of-type(1) > a.flex.min-h-11 > span.text-wordmark.font-extrabold > span.: The footer repeats the approved AIMS wordmark. Its lime full stop is a decorative logo mark, not reading text, exactly as in the header. The previous card-layout waiver matched two distinct findings and was ignored; their uniform catalogue-index rationale is preserved in the motion gate report.
+  waiver ignored (matches no open finding): phone-number "ul.home-place-cards > li.home-place-card.home-place-featured > div.home-place-actions"
+  waiver ignored (matches no open finding): nav-covers "main#main > button.home-floating-contact"
+  waiver ignored (matches no open finding): effect-kind "main#main > section.home-section.home-door"
+  14 WARN (not blocking), first: copy-buttons header.sticky.top-0 > div.page-container; copy-buttons main#main > section.mt-14.grid:nth-of-ty; copy-actions (the page); section-gaps main#main > section.mt-14.grid:nth-of-ty; link-styles ul.mt-3.grid > li.col-span-3.grid:nth-of
+Stop fixing: put these open FAILs and the waivers in your report, then finish.
+GATE: OPEN 49 (rounds used up)

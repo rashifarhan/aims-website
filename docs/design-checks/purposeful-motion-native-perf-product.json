@@ -1,0 +1,304 @@
+{
+  "page": "http://localhost:3200/product/f18",
+  "partial": false,
+  "results": [
+    {
+      "w": 1440,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "16/20 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "537.9 KiB",
+          "verdict": "PASS",
+          "note": "html 29.2K  css 39K  js 249.8K  font 77.5K  img 11K  other 131.3K"
+        },
+        {
+          "name": "requests",
+          "value": 72,
+          "verdict": "WARN",
+          "note": "38 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "11 KiB",
+          "verdict": "PASS",
+          "note": "4 files"
+        },
+        {
+          "name": "largest image",
+          "value": "7.4 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fproducts%2Ff18.webp&w=640&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "769.8 KiB",
+          "verdict": "WARN",
+          "note": "16 files, 249.8K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "39 KiB",
+          "verdict": "PASS",
+          "note": "16 files"
+        },
+        {
+          "name": "font families",
+          "value": 3,
+          "verdict": "WARN",
+          "note": "inter, inter Fallback, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 4,
+          "verdict": "FAIL",
+          "note": "image?url=%2Fimages%2Fproducts%2Ff18.webp&w=640&q=75, image?url=%2Fimages%2Fproducts%2Fal-m280.webp&w=96&q=75, image?url=%2Fimages%2Fproducts%2Falf-b21-exit-button.webp&w=96&q=75"
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "runs 1, , max 0ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "0 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 0ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "156 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "156 ms",
+          "verdict": "PASS",
+          "note": "img.object-contain"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "4.5 screens",
+          "verdict": "PASS",
+          "note": "DOM 768 nodes"
+        }
+      ]
+    },
+    {
+      "w": 390,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "16/20 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "420.7 KiB",
+          "verdict": "PASS",
+          "note": "html 29.2K  css 27.3K  js 218.2K  font 77.5K  img 11K  other 57.5K"
+        },
+        {
+          "name": "requests",
+          "value": 40,
+          "verdict": "PASS",
+          "note": "31 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "11 KiB",
+          "verdict": "PASS",
+          "note": "4 files"
+        },
+        {
+          "name": "largest image",
+          "value": "7.4 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fproducts%2Ff18.webp&w=640&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "692.2 KiB",
+          "verdict": "WARN",
+          "note": "12 files, 218.2K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "27.3 KiB",
+          "verdict": "PASS",
+          "note": "10 files"
+        },
+        {
+          "name": "font families",
+          "value": 2,
+          "verdict": "PASS",
+          "note": "inter, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 4,
+          "verdict": "FAIL",
+          "note": "image?url=%2Fimages%2Fproducts%2Ff18.webp&w=640&q=75, image?url=%2Fimages%2Fproducts%2Fal-m280.webp&w=96&q=75, image?url=%2Fimages%2Fproducts%2Falf-b21-exit-button.webp&w=96&q=75"
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "runs 1, , max 0ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "0 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 0ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "48 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "64 ms",
+          "verdict": "PASS",
+          "note": "img.object-contain"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "7.5 screens",
+          "verdict": "PASS",
+          "note": "DOM 758 nodes"
+        }
+      ]
+    }
+  ]
+}

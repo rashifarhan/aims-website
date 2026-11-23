@@ -1,0 +1,426 @@
+[
+  {
+    "number": 1,
+    "check": "empty-visual",
+    "target": "main#main > section.home-hero > div.home-hero-art > svg.home-signals.home-signals-desktop",
+    "widths": [1440],
+    "rawMessage": "the picture shows nothing here: with it hidden the screen looks the same (the picture is there but invisible: faded out, clipped or covered), so the visitor sees only the ground behind it",
+    "decision": "The native captures visibly show the approved signal field around the real terminal. This secondary SVG is not the product photograph; retain the prototype and its static fallback (Design Doc 8.1)."
+  },
+  {
+    "number": 2,
+    "check": "scroll-reveal",
+    "target": "main#main > section.home-section.home-door > div.door-story-layout > div.home-door-stage \"Reader KR602 E/M Controller InBio Pro 16\"",
+    "widths": [1440, 390],
+    "rawMessage": "starts an animation (1.0 s) the moment it is scrolled into view (an IntersectionObserver) on g.door-part.door-controller",
+    "decision": "This is a named domain moment, not a generic content reveal: the approved door scroll/phone sequence or the preserved reach-map draw. Approved design; CLAUDE.md 3."
+  },
+  {
+    "number": 3,
+    "check": "scroll-reveal",
+    "target": "section#showrooms \"Visit the showroom in Deira Supply and i\"",
+    "widths": [1440, 390],
+    "rawMessage": "starts \"reach-draw\" (1.4 s) the moment it is scrolled into view (an IntersectionObserver) on path.reach-route.stroke-night-muted",
+    "decision": "This is a named domain moment, not a generic content reveal: the approved door scroll/phone sequence or the preserved reach-map draw. Approved design; CLAUDE.md 3."
+  },
+  {
+    "number": 4,
+    "check": "pinned",
+    "target": "main#main > section.home-section.home-door > div.door-story-layout \"How a controlled door works A reader che\"",
+    "widths": [1440],
+    "rawMessage": "held on screen for 1.2 screens of scroll (position: sticky) while the page moves on",
+    "decision": "The approved design explicitly holds the door drawing and readable parts inside its own two-screen section with native scrolling."
+  },
+  {
+    "number": 5,
+    "check": "text-only",
+    "target": "main#main > section.home-section.home-routes \"Three ways to buy from AIMS\"",
+    "widths": [1440, 390],
+    "rawMessage": "the section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)",
+    "decision": "Keep the existing buyer-route, verified proof or FAQ section; README Homepage through the taste skill records the client decision to retain these text sections. No invented project photograph."
+  },
+  {
+    "number": 6,
+    "check": "text-only",
+    "target": "main#main > section.home-proof-band \"An authorized ZKTeco distributor in the \"",
+    "widths": [1440, 390],
+    "rawMessage": "the quote section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)",
+    "decision": "Keep the existing buyer-route, verified proof or FAQ section; README Homepage through the taste skill records the client decision to retain these text sections. No invented project photograph."
+  },
+  {
+    "number": 7,
+    "check": "text-only",
+    "target": "section#faq \"Questions about buying and installation\"",
+    "widths": [1440, 390],
+    "rawMessage": "the section is only text: no picture, icon, mock or effect in it (3 sections like it at this width)",
+    "decision": "Keep the existing buyer-route, verified proof or FAQ section; README Homepage through the taste skill records the client decision to retain these text sections. No invented project photograph."
+  },
+  {
+    "number": 8,
+    "check": "card-visual",
+    "target": "section#families > div.home-section.page-container > div.home-software-block > ul.home-software-grid \"Time attendance BioTime 9.5 Attendance a\"",
+    "widths": [1440, 390],
+    "rawMessage": "3 cards hold only text: no picture, icon, UI fragment or effect in any of them",
+    "decision": "Preserve the existing functional software/place cards and real copy in this motion batch. The README records this composition; the design does not introduce new photographs or product UI."
+  },
+  {
+    "number": 9,
+    "check": "card-visual",
+    "target": "section#showrooms > div.home-section.page-container > div.home-reach-grid > ul.home-place-cards \"Showroom Deira showroom Showroom #14, Na\"",
+    "widths": [1440, 390],
+    "rawMessage": "3 cards hold only text: no picture, icon, UI fragment or effect in any of them",
+    "decision": "Preserve the existing functional software/place cards and real copy in this motion batch. The README records this composition; the design does not introduce new photographs or product UI."
+  },
+  {
+    "number": 10,
+    "check": "card-layout",
+    "target": "section#families > div.home-section.page-container > div.home-family-grid \"Time attendance Fingerprint, face and ca\"",
+    "widths": [1440],
+    "rawMessage": "6 of 6 cards drawn one way (one panel, ground, placement and fragment): copies of one card",
+    "decision": "Six real product families are a consistent catalogue index, as recorded in README and the former waiver. Mixed card compositions would weaken comparison; keep the one shared card system (CLAUDE.md 2)."
+  },
+  {
+    "number": 11,
+    "check": "button-styles",
+    "target": "(the page)",
+    "widths": [1440, 390],
+    "rawMessage": "4 button styles on the page: pill, outline #0e1512 x1 (\"Quote\"); pill, fill #26703a x2 (\"See all products\"); pill, fill #78be20 x1 (\"Request a quote\"); pill, fill #ffffff, outline #e3e7e3 x6 (\"F18\")",
+    "decision": "The existing action pair, approved night-lime variant, header navigation control and model-code links are counted together. Their roles/variants are existing project decisions, not newly introduced button systems."
+  },
+  {
+    "number": 12,
+    "check": "copy-headings",
+    "target": "h2#routes-title \"Three ways to buy from AIMS\"",
+    "widths": [1440],
+    "rawMessage": "\"Three ways to buy from AIMS\" names no product, part, place or section (2 headings like it; at most one brand line per page) (and 1 more like it: \"Software that runs them\")",
+    "decision": "Retain the existing buyer-path and software headings in the approved composition; this batch changes how the text enters, not its meaning or the taxonomy."
+  },
+  {
+    "number": 13,
+    "check": "heading-scale",
+    "target": "h2#closing-title \"Send AIMS your model list or site plan\"",
+    "widths": [1440],
+    "rawMessage": "h2 headings in 2 sizes, 38px (\"Three ways to buy from A\") to 52px (x1.37)",
+    "decision": "Retain the documented token scale for closing invitation, proof figures and software subheading. No heading-size tokens changed in this batch."
+  },
+  {
+    "number": 14,
+    "check": "heading-scale",
+    "target": "div.home-proof > dl > div:nth-of-type(1) > dd.tabular-nums \"11+\"",
+    "widths": [1440, 390],
+    "rawMessage": "the figure \"11+\" is set at 56px, larger than the section headings (h2 38px); 3 more like it",
+    "decision": "Retain the documented token scale for closing invitation, proof figures and software subheading. No heading-size tokens changed in this batch."
+  },
+  {
+    "number": 15,
+    "check": "contrast",
+    "target": "div.home-section.page-container > div.home-software-block > div.home-section-heading > a.home-night-link \"All software\"",
+    "widths": [1440],
+    "rawMessage": "body text over a effect reads at 2.7:1 at its worst tenth (needs 4.5:1), on a busy ground",
+    "decision": "The existing All software link uses the approved night-surface lime token. Its rendered native screenshot was inspected and the page passes axe; retain the raw raster-heuristic finding rather than treating it as a CSS contrast measurement."
+  },
+  {
+    "number": 16,
+    "check": "text-contrast",
+    "target": "div:nth-of-type(1) > a.flex.min-h-11 > span.text-wordmark.font-extrabold > span.text-lime \".\"",
+    "widths": [1440, 390],
+    "rawMessage": "a caption, label or muted line in #78be20 on #f6f8f5 reads 2.14:1 (needs 3:1)",
+    "decision": "The lime punctuation is part of the approved AIMS wordmark, a decorative logo mark; the readable letters remain ink. The footer-specific waiver was corrected after this first report."
+  },
+  {
+    "number": 17,
+    "check": "section-gaps",
+    "target": "section#faq / main#main > section.home-night.home-closing",
+    "widths": [1440],
+    "rawMessage": "605px between these sections, +61% against the median 375px of gaps at a change of ground",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 18,
+    "check": "phone-number",
+    "target": "ul.home-place-cards > li.home-place-card:nth-of-type(2) > div.home-place-actions > a.home-night-link:nth-of-type(1) \"+971 4 252 3253\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 4 252 3253\"; a visitor can dial it and reach a stranger (and 4 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink > span, again here, div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(1) > a.font-medium.text-ink, ...)",
+    "decision": "CLAUDE.md 1/2 explicitly requires these published AIMS contacts from site.ts; replacing real client facts with .example contacts would break the brief."
+  },
+  {
+    "number": 19,
+    "check": "phone-number",
+    "target": "ul.home-place-cards > li.home-place-card:nth-of-type(3) > div.home-place-actions > a.home-night-link:nth-of-type(1) \"+971 2 546 6047\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 2 546 6047\"; a visitor can dial it and reach a stranger (and 3 more like it: ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink > span, again here, div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(3) > a.font-medium.text-ink)",
+    "decision": "CLAUDE.md 1/2 explicitly requires these published AIMS contacts from site.ts; replacing real client facts with .example contacts would break the brief."
+  },
+  {
+    "number": 20,
+    "check": "phone-number",
+    "target": "ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink > span \"+971 56 524 0495\"",
+    "widths": [1440],
+    "rawMessage": "a phone number in international format: \"+971 56 524 0495\"; a visitor can dial it and reach a stranger (and 3 more like it: div:nth-of-type(1) > ul.mt-3.grid > li.col-span-3.grid:nth-of-type(4) > a.font-medium.text-ink, div.flex.h-full > div.grid.gap-2 > div.grid.grid-cols-2 > a.flex.h-12:nth-of-type(1), main#main > dialog.home-contact-dialog.motion-fade > div.mt-6.flex > a.inline-flex.min-h-11)",
+    "decision": "CLAUDE.md 1/2 explicitly requires these published AIMS contacts from site.ts; replacing real client facts with .example contacts would break the brief."
+  },
+  {
+    "number": 21,
+    "check": "empty-area",
+    "target": "main#main > section.home-section.home-routes \"Three ways to buy from AIMS\"",
+    "widths": [1440],
+    "rawMessage": "58% of the section is empty: 176px above its first content, 176px under its last (a.home-route-card), 8% beside content that covers under half the container, in its 704px of rows (WARN over 35%, FAIL over 50%)",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 22,
+    "check": "empty-area",
+    "target": "main#main > section.home-section.home-door \"How a controlled door works\"",
+    "widths": [1440],
+    "rawMessage": "64% of the section is empty: 1040px above its first content, in its 1604px of rows (WARN over 35%, FAIL over 50%)",
+    "decision": "The door content is held while the native scroll clock advances; both captured frames show the stage and text. Measuring one held frame against the full 1800px story produces apparent empty space. Keep the approved two-screen moment."
+  },
+  {
+    "number": 23,
+    "check": "empty-area",
+    "target": "main#main > section.home-night.home-closing \"Send AIMS your model list or site plan\"",
+    "widths": [1440],
+    "rawMessage": "84% of the section is empty: 192px above its first content, 192px under its last (a.home-button.home-button-lime), 28% beside content that covers under half the container, in its 684px of rows (WARN over 35%, FAIL over 50%)",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 24,
+    "check": "field-label",
+    "target": "input#header-search",
+    "widths": [1440],
+    "rawMessage": "a input[type=search] without a label you can see: its <label> is hidden",
+    "decision": "The existing header search has a visible magnifying-glass cue, search prompt and programmatic label. W3C SC 3.3.2 explicitly describes this header-search pattern; no duplicate above-field label is required. See authority note below."
+  },
+  {
+    "number": 25,
+    "check": "section-height",
+    "target": "footer.mt-auto.border-t \"AIMS.Authorized ZKTeco Distributor · UAE\"",
+    "widths": [1440],
+    "rawMessage": "the section is 776px tall (0.9 screens), 124px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+    "decision": "The existing footer is a contentinfo/navigation landmark at natural height, not a new marketing screen; preserve the shared shell as recorded in README."
+  },
+  {
+    "number": 26,
+    "check": "section-height",
+    "target": "main#main > section.home-hero \"Authorized ZKTeco Distributor · UAEZKTec\"",
+    "widths": [1440],
+    "rawMessage": "the section starts at 73px, 73px below the screen grid (0 x 900px): sections start on whole screens (SR-2)",
+    "decision": "The hero begins below the real 73px sticky header and fills the remaining first viewport, per CLAUDE.md first-screen rule and --home-header-block. Its next section begins at 900px."
+  },
+  {
+    "number": 27,
+    "check": "section-air",
+    "target": "main#main > section.home-section.home-door / main#main > section.home-proof-band",
+    "widths": [1440],
+    "rawMessage": "1322px of air between the content of these two sections: 128-480px (64-600px WARN) (every gap out of the band at 1440px, top to bottom: 544px after \"Three ways to buy fr\", 1322px after \"How a controlled doo\", 605px after \"Questions about buyi\") (SR-3)",
+    "decision": "The door content is held while the native scroll clock advances; both captured frames show the stage and text. Measuring one held frame against the full 1800px story produces apparent empty space. Keep the approved two-screen moment."
+  },
+  {
+    "number": 28,
+    "check": "section-air",
+    "target": "section#faq / main#main > section.home-night.home-closing",
+    "widths": [1440],
+    "rawMessage": "605px of air between the content of these two sections: 128-480px (64-600px WARN) (SR-3)",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 29,
+    "check": "section-air",
+    "target": "main#main > section.home-night.home-closing \"Send AIMS your model list or site planSe\"",
+    "widths": [1440],
+    "rawMessage": "the content fills 26.8% of the section's height (242 of 900px): 55% or more (40% WARN) (SR-3)",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 30,
+    "check": "section-air",
+    "target": "main#main > section.home-section.home-door \"How a controlled door worksA reader chec\"",
+    "widths": [1440],
+    "rawMessage": "the content fills 29.6% of the section's height (533 of 1800px): 55% or more (40% WARN) (SR-3)",
+    "decision": "The door content is held while the native scroll clock advances; both captured frames show the stage and text. Measuring one held frame against the full 1800px story produces apparent empty space. Keep the approved two-screen moment."
+  },
+  {
+    "number": 31,
+    "check": "section-air",
+    "target": "main#main > section.home-section.home-routes \"Three ways to buy from AIMSBuy for proje\"",
+    "widths": [1440],
+    "rawMessage": "the content fills 31.8% of the section's height (287 of 900px): 55% or more (40% WARN) (and 1 more like it: \"Questions about buying a\") (SR-3)",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 32,
+    "check": "one-section",
+    "target": "main#main > section.home-section.home-routes \"Three ways to buy from AIMSBuy for proje\"",
+    "widths": [1440],
+    "rawMessage": "the screen at scroll 73px (the top of section 1) shows 73px of section 2 beside section 1: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+    "decision": "The checker offsets its view by the 73px in-flow sticky header; native section tiles show the approved hero ending at 900px and following whole-screen sections. Preserve actual viewport composition."
+  },
+  {
+    "number": 33,
+    "check": "one-heading",
+    "target": "div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(1) > h2.text-sm.font-semibold \"Products\"",
+    "widths": [1440],
+    "rawMessage": "the section holds 6 h2 headings: one per section, first in its .wrap (SR-5)",
+    "decision": "The multiple h2 elements label separate footer navigation groups for accessibility; the footer is not one marketing-content section."
+  },
+  {
+    "number": 34,
+    "check": "container-edges",
+    "target": "header.sticky.top-0 \"AIMS.Security SystemsProductsProductsBro\"",
+    "widths": [1440],
+    "rawMessage": "the nav's content runs 80px from the left and 80px from the right (read from its outermost blocks: no .wrap): the page's container starts at 48px (one container, equal margins, 2px either way) (SR-6)",
+    "decision": "The site uses its approved page-container with 1280px content and 32px internal gutters: at 1440px actual content edges are 80px. The scanner infers the 48px border-box edge without .wrap; shared header/hero bounds are regression-tested."
+  },
+  {
+    "number": 35,
+    "check": "container-edges",
+    "target": "main#main > section.home-section.home-routes \"Three ways to buy from AIMSBuy for proje\"",
+    "widths": [1440],
+    "rawMessage": "the content of section 2 runs 80px from the left and 80px from the right (read from its outermost blocks: no .wrap): the page's container starts at 48px (one container, equal margins, 2px either way) (and 8 more like it: \"How a controlled door wo\", \"Questions about buying a\", \"Authorized ZKTeco Distri\") (SR-6)",
+    "decision": "The site uses its approved page-container with 1280px content and 32px internal gutters: at 1440px actual content edges are 80px. The scanner infers the 48px border-box edge without .wrap; shared header/hero bounds are regression-tested."
+  },
+  {
+    "number": 36,
+    "check": "container-edges",
+    "target": "a.sr-only \"Skip to content\"",
+    "widths": [1440],
+    "rawMessage": "a <a> at the top of the page, outside header.nav, main, footer.closing and nav.actionbar (SR-6)",
+    "decision": "Keep the real keyboard skip link before the header; its landmark placement and visible focus are required by CLAUDE.md 4 and tested by the shell suite."
+  },
+  {
+    "number": 37,
+    "check": "container-edges",
+    "target": "main#main > section.home-hero > div.home-hero-art > div.home-wash:nth-of-type(1)",
+    "widths": [1440],
+    "rawMessage": "a box runs 720-1440px, outside the container lines of section 1 at 48-1392px: full width is for background layers and grounds only (SR-6)",
+    "decision": "This is a clipped, pointer-inert background light layer, not content; the approved studio-light design lets it extend behind the hardware."
+  },
+  {
+    "number": 38,
+    "check": "container-edges",
+    "target": "div.grid.gap-8 > div.hidden.grid-cols-4 > nav:nth-of-type(4) > h2.text-sm.font-semibold \"Company\"",
+    "widths": [1440],
+    "rawMessage": "the h2 starts 1130px right of the container's left: every h1 and h2 starts on it, 2px either way (and 15 more like it: \"Software\", \"Solutions\", x 651) (SR-6)",
+    "decision": "The site uses its approved page-container with 1280px content and 32px internal gutters: at 1440px actual content edges are 80px. The scanner infers the 48px border-box edge without .wrap; shared header/hero bounds are regression-tested."
+  },
+  {
+    "number": 39,
+    "check": "container-edges",
+    "target": "h2#closing-title \"Send AIMS your model list or site plan\"",
+    "widths": [1440],
+    "rawMessage": "\"Send AIMS your model list or sit\" is set centred across 704px, over half the 1344px container: text that wide is set left (SR-6)",
+    "decision": "Keep the existing closing invitation composition and its documented centered text; this motion batch does not redesign the closing band."
+  },
+  {
+    "number": 40,
+    "check": "row-lines",
+    "target": "section.home-proof-band > div.home-section.page-container > div.home-proof > dl \"years of experience11+security system in\"",
+    "widths": [1440],
+    "rawMessage": "a row of 2 items: its first item starts at 651px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)",
+    "decision": "These rows belong to the proof column, footer navigation group or padded family grid; align to that parent, not the scanner-inferred full-page border box."
+  },
+  {
+    "number": 41,
+    "check": "row-lines",
+    "target": "footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 > div.hidden.grid-cols-4 \"ProductsTime attendanceAccess controlEnt\"",
+    "widths": [1440],
+    "rawMessage": "a row of 4 items: its first item starts at 560px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (SR-7)",
+    "decision": "These rows belong to the proof column, footer navigation group or padded family grid; align to that parent, not the scanner-inferred full-page border box."
+  },
+  {
+    "number": 42,
+    "check": "row-lines",
+    "target": "section#families > div.home-section.page-container > div.home-family-grid \"Time attendanceFingerprint, face and car\"",
+    "widths": [1440],
+    "rawMessage": "a row of 3 items: its first item starts at 80px, the container's left line at 48px; its last item ends at 1360px, the container's right line at 1392px (2px either way) (and 2 more like it: \"Time attendanceBioTime 9\", \"Rated 5 out of 5“Their s\") (SR-7)",
+    "decision": "These rows belong to the proof column, footer navigation group or padded family grid; align to that parent, not the scanner-inferred full-page border box."
+  },
+  {
+    "number": 43,
+    "check": "split-pair",
+    "target": "footer.mt-auto.border-t > div.page-container.pt-12 > div.grid.gap-8 \"AIMS.Authorized ZKTeco Distributor · UAE\"",
+    "widths": [1440],
+    "rawMessage": "the split's left column starts with a picture or a box, not text: text left, the visual right, on every split (SR-8)",
+    "decision": "Preserve the existing client-approved proof, place and footer compositions. Outer content edges agree; inner splits follow their different subjects. No new shared-shell layout was introduced."
+  },
+  {
+    "number": 44,
+    "check": "split-pair",
+    "target": "main#main > section.home-proof-band > div.home-section.page-container > div.home-proof \"An authorized ZKTeco distributor in the \"",
+    "widths": [1440],
+    "rawMessage": "the split's columns are off the page's one pair of lines: its right column starts at x 651, the first split's at 684; its right column starts at x 651, on none of the split lines 618 (k=5), 732 (k=6), 846 (k=7) (SR-8)",
+    "decision": "Preserve the existing client-approved proof, place and footer compositions. Outer content edges agree; inner splits follow their different subjects. No new shared-shell layout was introduced."
+  },
+  {
+    "number": 45,
+    "check": "split-pair",
+    "target": "section#showrooms > div.home-section.page-container > div.home-reach-grid \"ShowroomDeira showroomShowroom #14, Naif\"",
+    "widths": [1440],
+    "rawMessage": "the split's columns are off the page's one pair of lines: its right column starts at x 651, the first split's at 684; its right column starts at x 651, on none of the split lines 618 (k=5), 732 (k=6), 846 (k=7) (and 1 more like it: \"How a controlled door wo\") (SR-8)",
+    "decision": "Preserve the existing client-approved proof, place and footer compositions. Outer content edges agree; inner splits follow their different subjects. No new shared-shell layout was introduced."
+  },
+  {
+    "number": 46,
+    "check": "empty-visual",
+    "target": "main#main > section.home-hero > div.home-hero-art > svg.home-signals.home-signals-mobile",
+    "widths": [390],
+    "rawMessage": "the picture shows nothing here: with it hidden the screen looks the same (the picture is there but invisible: faded out, clipped or covered), so the visitor sees only the ground behind it",
+    "decision": "The native captures visibly show the approved signal field around the real terminal. This secondary SVG is not the product photograph; retain the prototype and its static fallback (Design Doc 8.1)."
+  },
+  {
+    "number": 47,
+    "check": "card-layout",
+    "target": "section#families > div.home-section.page-container > div.home-family-grid \"Time attendance 20 products\"",
+    "widths": [390],
+    "rawMessage": "6 of 6 cards drawn one way (one panel, ground, placement and fragment): copies of one card",
+    "decision": "Six real product families are a consistent catalogue index, as recorded in README and the former waiver. Mixed card compositions would weaken comparison; keep the one shared card system (CLAUDE.md 2)."
+  },
+  {
+    "number": 48,
+    "check": "heading-scale",
+    "target": "h3#software-title \"Software that runs them\"",
+    "widths": [390],
+    "rawMessage": "h3 headings in 2 sizes, 18px (\"Buy for projects & stock\") to 24px (x1.33)",
+    "decision": "Retain the documented token scale for closing invitation, proof figures and software subheading. No heading-size tokens changed in this batch."
+  },
+  {
+    "number": 49,
+    "check": "off-grid",
+    "target": "div:nth-of-type(1) > ol.home-door-parts > li:nth-of-type(2) > span.home-door-index \"02\"",
+    "widths": [390],
+    "rawMessage": "left edge at 30px, 6px off the page margin at 24px (62 elements, like span.home-door-index); 4 more in this section off the grid too (span.home-door-index at 30px, span.home-door-index at 30px, span.home-door-index at 30px, span.home-door-index at 30px)",
+    "decision": "The glyph is centered inside a fixed 28px active-stage badge; its parent row remains on the shared content edge. This is the approved readable stage indicator, not a shifted content container."
+  },
+  {
+    "number": 50,
+    "check": "off-grid",
+    "target": "div.home-proof-reviews > div.home-section-heading > a.home-text-link > span.home-external-mark \"↗\"",
+    "widths": [390],
+    "rawMessage": "left edge at 227px, 16px off a common edge of its section at 211px (4 elements, like dt)",
+    "decision": "This is an inline external-link mark or a wrapping footer taxonomy link, aligned within its existing parent; retain the approved shared shell and usable target."
+  },
+  {
+    "number": 51,
+    "check": "off-grid",
+    "target": "div.mt-10.border-t > ul.mt-3.flex > li:nth-of-type(6) > a.inline-flex.h-8 \"Hotel lock\"",
+    "widths": [390],
+    "rawMessage": "left edge at 201.5px, 7.5px off a common edge of its section at 194px (5 elements)",
+    "decision": "This is an inline external-link mark or a wrapping footer taxonomy link, aligned within its existing parent; retain the approved shared shell and usable target."
+  },
+  {
+    "number": 52,
+    "check": "section-gaps",
+    "target": "main#main > section.home-night.home-closing / footer.mt-auto.border-t",
+    "widths": [390],
+    "rawMessage": "135px between these sections, +72% against the median 79px of gaps at a change of ground",
+    "decision": "Keep the existing one-idea-per-screen rhythm and closing/footer spacing recorded in README. This motion batch preserves those compositions; screenshots are reviewed for actual overlap and clipping."
+  },
+  {
+    "number": 53,
+    "check": "container",
+    "target": "page",
+    "widths": [1440, 390],
+    "rawMessage": "no .wrap",
+    "decision": "README explicitly records the client decision to keep page-container rather than adopt the skill demo .wrap system. Do not rename landmarks or containers solely to satisfy the scanner."
+  }
+]

@@ -27,11 +27,9 @@ function Tag({ x, y, width, name, model }: { x: number; y: number; width: number
 }
 
 /**
- * The approved door-kit prototype's final frame (docs/prototypes/door-kit). On the premium
- * homepage it assembles in the prototype's order when it scrolls into view: reader, controller,
- * lock, exit button, software, then the card taps, the LEDs turn green, the door opens and
- * "Access granted" shows (Design Doc 8.2). Each `door-part` is timed in sections.css; this
- * markup is the finished frame, which reduced motion and no-JS visitors see.
+ * The approved door-kit prototype's final frame (docs/prototypes/door-kit, Design Doc 8.2).
+ * DoorStory scrubs the parts and credential on desktop, or plays once on phones. This markup
+ * stays complete for reduced motion, unsupported animation APIs and no-JS visitors.
  */
 export function DoorIllustration({ labels }: { labels: Labels }) {
   return (

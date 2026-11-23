@@ -1,0 +1,304 @@
+{
+  "page": "http://localhost:3200/software/biotime-9-5",
+  "partial": false,
+  "results": [
+    {
+      "w": 1440,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "16/13 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "547.1 KiB",
+          "verdict": "PASS",
+          "note": "html 28.2K  css 39K  js 256.9K  font 77.5K  img 8.9K  other 136.5K"
+        },
+        {
+          "name": "requests",
+          "value": 76,
+          "verdict": "WARN",
+          "note": "39 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "8.9 KiB",
+          "verdict": "PASS",
+          "note": "5 files"
+        },
+        {
+          "name": "largest image",
+          "value": "3.4 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fsoftware%2Fbiotime-9-5.webp&w=640&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "786.8 KiB",
+          "verdict": "WARN",
+          "note": "17 files, 256.9K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "39 KiB",
+          "verdict": "PASS",
+          "note": "16 files"
+        },
+        {
+          "name": "font families",
+          "value": 3,
+          "verdict": "WARN",
+          "note": "inter, inter Fallback, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "runs 1, , max 0ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "0 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 0ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "96 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "96 ms",
+          "verdict": "PASS",
+          "note": "img"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "5.3 screens",
+          "verdict": "PASS",
+          "note": "DOM 676 nodes"
+        }
+      ]
+    },
+    {
+      "w": 390,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "16/13 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "416.8 KiB",
+          "verdict": "PASS",
+          "note": "html 28.2K  css 33.3K  js 213.1K  font 77.5K  img 7.9K  other 56.8K"
+        },
+        {
+          "name": "requests",
+          "value": 44,
+          "verdict": "PASS",
+          "note": "32 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "7.9 KiB",
+          "verdict": "PASS",
+          "note": "5 files"
+        },
+        {
+          "name": "largest image",
+          "value": "2.4 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fsoftware%2Fbiotime-9-5.webp&w=384&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "675 KiB",
+          "verdict": "WARN",
+          "note": "12 files, 213.1K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "33.3 KiB",
+          "verdict": "PASS",
+          "note": "12 files"
+        },
+        {
+          "name": "font families",
+          "value": 2,
+          "verdict": "PASS",
+          "note": "inter, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "runs 1, , max 0ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "0 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 0ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "44 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "60 ms",
+          "verdict": "PASS",
+          "note": "img"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "6.2 screens",
+          "verdict": "PASS",
+          "note": "DOM 667 nodes"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,310 @@
+{
+  "page": "http://localhost:3200/",
+  "partial": false,
+  "results": [
+    {
+      "w": 1440,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "17/4 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "592.5 KiB",
+          "verdict": "PASS",
+          "note": "html 38.4K  css 41.1K  js 270K  font 77.5K  img 19.6K  other 145.8K"
+        },
+        {
+          "name": "requests",
+          "value": 85,
+          "verdict": "WARN",
+          "note": "33 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "19.6 KiB",
+          "verdict": "PASS",
+          "note": "7 files"
+        },
+        {
+          "name": "largest image",
+          "value": "5.9 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fhome%2Fspeedface-cut.png&w=256&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "825.6 KiB",
+          "verdict": "WARN",
+          "note": "18 files, 270K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "41.1 KiB",
+          "verdict": "PASS",
+          "note": "18 files"
+        },
+        {
+          "name": "font families",
+          "value": 3,
+          "verdict": "WARN",
+          "note": "inter, inter Fallback, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "upscaled images (natural < 0.75x shown)",
+          "value": 6,
+          "verdict": "WARN",
+          "note": "image?url=%2Fimages%2Fproducts%2Ff18.webp&w=256&q=75 239px for 353; image?url=%2Fimages%2Fproducts%2Fzkteco-speedface-v5l-qr.webp&w=256&q=75 239px for 353; image?url=%2Fimages%2Fproducts%2Fbarrier-gates-bgm-1045.webp&w=256&q=75 239px for 353"
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 1,
+          "verdict": "PASS",
+          "note": "runs 1, , max 66ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "16 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 16ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "292 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "444 ms",
+          "verdict": "PASS",
+          "note": "img.home-device-photo"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "10.9 screens",
+          "verdict": "PASS",
+          "note": "DOM 1107 nodes"
+        }
+      ]
+    },
+    {
+      "w": 390,
+      "rows": [
+        {
+          "name": "host CPU load (before/after)",
+          "value": "17/4 %",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "total transfer",
+          "value": "517.6 KiB",
+          "verdict": "PASS",
+          "note": "html 38.4K  css 35.4K  js 246.1K  font 77.5K  img 19.6K  other 100.5K"
+        },
+        {
+          "name": "requests",
+          "value": 67,
+          "verdict": "WARN",
+          "note": "34 by load"
+        },
+        {
+          "name": "images bytes",
+          "value": "19.6 KiB",
+          "verdict": "PASS",
+          "note": "7 files"
+        },
+        {
+          "name": "largest image",
+          "value": "5.9 KiB",
+          "verdict": "PASS",
+          "note": "_next/image?url=%2Fimages%2Fhome%2Fspeedface-cut.png&w=256&q=75"
+        },
+        {
+          "name": "JS parsed",
+          "value": "767 KiB",
+          "verdict": "WARN",
+          "note": "15 files, 246.1K gz"
+        },
+        {
+          "name": "CSS",
+          "value": "35.4 KiB",
+          "verdict": "PASS",
+          "note": "14 files"
+        },
+        {
+          "name": "font families",
+          "value": 3,
+          "verdict": "WARN",
+          "note": "inter, inter Fallback, plexMono"
+        },
+        {
+          "name": "font files",
+          "value": 3,
+          "verdict": "PASS",
+          "note": "77.5K"
+        },
+        {
+          "name": "font bytes",
+          "value": "77.5 KiB",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "images without width+height",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "below-fold images not lazy",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "oversized images (natural > 2.2x shown)",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at load",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL live at bottom",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "WebGL peak live",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "0 contexts made in all"
+        },
+        {
+          "name": "long tasks",
+          "value": 0,
+          "verdict": "PASS",
+          "note": "runs 1, , max 0ms"
+        },
+        {
+          "name": "blocking time",
+          "value": "0 ms",
+          "verdict": "PASS",
+          "note": "runs 1,  ms; at load 0ms"
+        },
+        {
+          "name": "FCP (CPU, relative)",
+          "value": "64 ms",
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "LCP (CPU, relative)",
+          "value": "64 ms",
+          "verdict": "PASS",
+          "note": "a.home-button"
+        },
+        {
+          "name": "layout shift",
+          "value": "0.000",
+          "verdict": "PASS",
+          "note": "at load 0.000"
+        },
+        {
+          "name": "modules loaded, never mounted",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "broken requests",
+          "value": 0,
+          "verdict": "PASS",
+          "note": ""
+        },
+        {
+          "name": "page height",
+          "value": "10.8 screens",
+          "verdict": "PASS",
+          "note": "DOM 1100 nodes"
+        }
+      ]
+    }
+  ]
+}
