@@ -8,6 +8,7 @@ import { ChipRadios, Field, inputClass } from "./fields";
 
 type Props = {
   context: QuoteContext;
+  hasSoftware: boolean;
   t: Dictionary["quote"];
   errors: Partial<Record<"need" | "emirate" | "country", string>>;
 };
@@ -65,7 +66,8 @@ const digits = (v: string) => v.replace(/\D/g, "");
  * supply → city, timing · install → emirate, site, doors/users, existing
  * system · export → country, city/port, documents. Saved with the list.
  */
-export function NeedPanel({ context: c, t, errors }: Props) {
+export function NeedPanel({ context: c, t, errors, hasSoftware }: Props) {
+  const needs = hasSoftware || c.need === "software" ? NEEDS : NEEDS.filter((need) => need !== "software");
   const timing = (
     <Field id="quote-timing" label={t.timing}>
       {(a) => (
@@ -85,8 +87,8 @@ export function NeedPanel({ context: c, t, errors }: Props) {
     <div className="space-y-6">
       <fieldset aria-describedby={errors.need ? "need-error" : undefined}>
         <legend className="sr-only">{t.needHeading}</legend>
-        <div className="grid gap-2 sm:grid-cols-3">
-          {NEEDS.map((n, i) => (
+        <div className={needs.length === 4 ? "grid gap-2 sm:grid-cols-2" : "grid gap-2 sm:grid-cols-3"}>
+          {needs.map((n, i) => (
             <label
               key={n}
               className="flex cursor-pointer items-start gap-3 rounded-md border border-line-strong p-3.5 has-checked:border-green-700 has-checked:bg-green-50 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-green-700"
@@ -194,6 +196,12 @@ export function NeedPanel({ context: c, t, errors }: Props) {
           </div>
           {timing}
         </div>
+      )}
+
+      {c.need === "software" && (
+        <Field id="quote-software-existing" label={t.softwareExisting}>
+          {(a) => <TextInput {...a} value={c.existing} max={120} onChange={(existing) => set({ existing })} />}
+        </Field>
       )}
 
       {c.need === "export" && (

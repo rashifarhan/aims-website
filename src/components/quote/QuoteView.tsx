@@ -10,7 +10,7 @@ import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
 import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 import { destinationFromSearch, needFromSearch } from "@/lib/quote/context";
-import { CONTACT, LIVE_CONTACT, whatsappUrl } from "@/lib/site";
+import { CONTACT, LIVE_CONTACT, NEED_CHANNELS, whatsappUrl } from "@/lib/site";
 import { EmptyQuote } from "./EmptyQuote";
 import { MobileReviewBar } from "./MobileReviewBar";
 import type { CatalogEntry } from "./QuoteItems";
@@ -108,9 +108,10 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   const onWhatsApp = () => {
     if (fail("whatsapp")) return;
     const text = buildMessage("whatsapp");
-    const href = whatsappUrl(text);
+    const line = context.need === "software" ? NEED_CHANNELS.software : CONTACT.lines.mobile;
+    const href = whatsappUrl(text, line.tel.replace(/\D/g, ""));
     if (LIVE_CONTACT || !guard) window.open(href, "_blank", "noopener,noreferrer");
-    else guard({ kind: "whatsapp", href, target: CONTACT.lines.mobile.display, message: text });
+    else guard({ kind: "whatsapp", href, target: line.display, message: text });
   };
 
   const onSend = async () => {

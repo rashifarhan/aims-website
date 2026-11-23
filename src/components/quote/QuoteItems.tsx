@@ -7,7 +7,7 @@ import { CloseIcon } from "@/components/icons";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
-import { lineKey, type QuoteLine } from "@/lib/quote/store";
+import { isSoftwareLine, lineKey, type QuoteLine } from "@/lib/quote/store";
 import { dispatchQuote } from "@/lib/quote/useQuote";
 import { DescribeItem } from "./DescribeItem";
 
@@ -61,7 +61,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
                   ) : (
                     <p className="truncate font-semibold text-ink">
                       <span className="me-2 rounded-pill bg-paper-3 px-2 py-0.5 text-xs font-semibold text-ink-700">
-                        {t.customLine}
+                        {isSoftwareLine(l) ? t.needs.software : t.customLine}
                       </span>
                       {name}
                     </p>

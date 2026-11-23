@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { fmt } from "@/i18n/format";
 import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
@@ -7,7 +7,7 @@ import { alternates } from "@/lib/seo";
 import { isBuiltSoftware } from "@/lib/software";
 import { softwareList } from "@/content/catalogue";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ArrowIcon } from "@/components/icons";
+import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButton";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/home/sections.css";
@@ -48,6 +48,17 @@ export default async function SoftwareCentre() {
         <SoftwareCard
           software={software}
           href={isBuiltSoftware(software.slug) ? href(`/software/${software.slug}`) : null}
+          enquiry={
+            !isBuiltSoftware(software.slug) && (
+              <SoftwareEnquiryButton
+                compact
+                slug={software.slug}
+                text={fmt(t.softwarePage.line, { name: software.name })}
+                label={fmt(c.askPlatform, { name: software.name })}
+                quoteHref={href("/quote")}
+              />
+            )
+          }
           labels={{
             types: c.types,
             purpose: c.purpose[software.slug as keyof typeof c.purpose] ?? "",
@@ -78,10 +89,7 @@ export default async function SoftwareCentre() {
         </h1>
         <p className="t3-promise sw-enter">{c.lead}</p>
         <div className="t3-actions sw-enter">
-          <Link href={href("/quote?need=install")} className="home-button">
-            {c.primary}
-            <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
-          </Link>
+          <SoftwareEnquiryButton slug="guidance" text={c.guidanceLine} label={c.primary} quoteHref={href("/quote")} />
         </div>
       </section>
       <section className="sw-centre page-container" aria-labelledby="sw-centre-list">
@@ -102,10 +110,7 @@ export default async function SoftwareCentre() {
             <p className="t3-lead">{c.close.body}</p>
           </div>
           <div className="t3-cta-actions">
-            <Link href={href("/quote?need=install")} className="home-button">
-              {c.primary}
-              <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
-            </Link>
+            <SoftwareEnquiryButton slug="guidance" text={c.guidanceLine} label={c.primary} quoteHref={href("/quote")} />
           </div>
         </div>
       </section>
