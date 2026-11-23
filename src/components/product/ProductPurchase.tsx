@@ -76,8 +76,9 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       size="lg"
     />
   );
-  const addButton = (
-    <button type="button" onClick={add} className="home-button flex-1 sm:flex-none">
+  // nowrap: the label holds one line on a 390px phone in Arabic too; the bar's narrower inset gives it room.
+  const addButton = (extra: string) => (
+    <button type="button" onClick={add} className={`home-button whitespace-nowrap ${extra}`}>
       {labels.add}
     </button>
   );
@@ -87,13 +88,13 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       <div ref={inline} className="mt-6">
         <div className="flex flex-wrap items-center gap-3">
           {stepper}
-          {addButton}
+          {addButton("flex-1 sm:flex-none")}
           <ContactLink
             kind="whatsapp"
             href={whatsappUrl(whatsappMessage)}
             target={CONTACT.lines.mobile.display}
             message={whatsappMessage}
-            className="home-button home-button-outline home-button-whatsapp"
+            className="home-button home-button-outline home-button-whatsapp w-full sm:w-auto"
           >
             <WhatsAppIcon width={18} height={18} />
             {labels.askWhatsapp}
@@ -124,9 +125,9 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
         inert={!showBar}
         className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md transition-transform duration-(--duration-base) ease-(--ease-aims) lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
       >
-        <div className="wrap flex items-center gap-3">
+        <div className="wrap flex items-center gap-2">
           {stepper}
-          {addButton}
+          {addButton("min-w-0 flex-1 px-4")}
         </div>
       </div>
     </>
