@@ -45,8 +45,11 @@ export default async function AccessControlSolution() {
       <SolutionProducts idPrefix="ac" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ac" copy={c.process} />
       <SolutionSoftware idPrefix="ac" copy={c.software} items={software} />
-      <SolutionQuestions idPrefix="ac" copy={c.faq} />
-      <SolutionCta idPrefix="ac" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ac"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ac" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );

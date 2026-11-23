@@ -572,6 +572,11 @@
 .t3-cta {
   padding-block: var(--home-section-space) calc(var(--home-section-space) * 2);
 }
+/* The closing band as the questions screen's last block, across both of its columns. */
+.t3-cta-embedded {
+  grid-column: 1 / -1;
+  padding-block: 0;
+}
 .t3-cta-panel {
   display: flex;
   justify-content: space-between;
@@ -614,6 +619,9 @@
   }
   .t3-page .pick-card > * {
     grid-column: 2;
+  }
+  .t3-page .pick-card {
+    padding-block: 1rem;
   }
   .t3-page .pick-image {
     grid-column: 1;

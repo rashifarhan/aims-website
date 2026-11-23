@@ -37,8 +37,11 @@ export default async function PosSolution() {
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
-      <SolutionQuestions idPrefix="ps" copy={c.faq} />
-      <SolutionCta idPrefix="ps" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ps"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ps" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );

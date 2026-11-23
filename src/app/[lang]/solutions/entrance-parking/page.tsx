@@ -44,8 +44,11 @@ export default async function EntranceParkingSolution() {
       <SolutionProducts idPrefix="ep" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ep" copy={c.process} />
       <SolutionSoftware idPrefix="ep" copy={c.software} items={software} />
-      <SolutionQuestions idPrefix="ep" copy={c.faq} />
-      <SolutionCta idPrefix="ep" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ep"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ep" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );
