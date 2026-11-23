@@ -201,6 +201,31 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
    everything and contact details are entered once, on the quote page. "Delivery abroad" also presets the quote's
    need. All WhatsApp, phone and email links stay behind the preview notice (risk R5).
 
+### Checker fixes (Phase 4 polish, 23 Nov 2026)
+
+1. **One section per screen, built in.** `Section` takes `screens` (1 or 2), the design skill's `--h` contract: on a
+   desktop screen (1024px and wider, landscape, 700px and taller) and on a phone every section is one or two screens
+   tall, content top-aligned under the sticky header (`--section-padt`, `--section-padb`). The home, split and
+   product heroes are exactly the first screen with the sticky header over their top (main is pulled up under it),
+   so later sections start on whole screens; the footer is one screen on a desktop. Portrait tablets keep natural
+   heights, as the skill allows. Sections with data-driven length (product specifications, the blog list) still grow.
+2. **The `.wrap` box is the content line.** Its gutter is margin outside the box, not padding inside it, because the
+   skill's checker reads the container from the `.wrap` box; every section and hero has one in-flow `.wrap`.
+3. **One split line.** The hero, FAQ, reach band and proof splits put their right column seven of twelve columns
+   in, top-aligned (SR-8).
+4. **Deliberate deviation: the closing panel is centred in its screen.** The skill asks for top-aligned content, but a
+   lone closing block on top of an empty lower screen looks broken; centred, it reads as the page's last word. The
+   skill still reports these screens as sparse until the close and the footer share one screen (a layout change for
+   the client to decide).
+5. **Footer popular searches are plain footer links**, like the link columns above them: chips are Design Doc 9
+   filter controls, and a chip look on every page was a third button style.
+6. **Waivers (`.taste-skill/waivers.json`, the gate's limit is five):** the wordmark's lime full stop (decorative
+   brand mark); the floating WhatsApp button (behaviour the client asked to keep); and, for the door-kit and reach
+   prototypes that are the home page's two dealt moments, `effect-kind` once and `scroll-reveal` for each (CLAUDE.md:
+   port the approved prototypes, don't redesign them; reduced motion shows them at rest). Not waived for lack of room,
+   and open in the gate: AIMS's four published phone numbers (`phone-number`, brief-given, they stay) and the
+   six-card families grid (`card-layout`).
+
 ## Content import
 
 ```bash
