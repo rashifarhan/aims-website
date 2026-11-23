@@ -49,7 +49,7 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
       t.common.partner
     );
   return (
-    <main id="main">
+    <main id="main" className="loc-page">
       <LocationIntro
         crumbs={[
           { href: href("/"), label: t.common.home },
