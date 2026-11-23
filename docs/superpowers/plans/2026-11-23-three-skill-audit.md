@@ -45,7 +45,7 @@ Out of scope (the user postponed them): a moment for the `/solutions` hub, and t
 
 ### Agent B: company, legal, blog, footer
 
-- [ ] Taste: gate + copy-lint on each page; findings in `docs/audits/2026-11-23-company.md`
+- [x] Taste: gate + copy-lint on each page; findings in `docs/audits/2026-11-23-company.md`
 - [ ] Impeccable: audit; findings added
 - [ ] Emil: interaction review; findings added
 - [ ] Fixes (P0 and P1 at least), each committed, including the footer (a Blog link is missing)
