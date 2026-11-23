@@ -66,10 +66,16 @@ export async function Footer() {
 
         <div className="mt-10 border-t border-line pt-6 sm:mt-12">
           <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
-          <ul className="mt-3 flex flex-wrap gap-2">
+          {/* Plain footer links like the columns above, not chips: chips are filter controls, and a third button
+              look on every page breaks the one button pair (taste button-styles). */}
+          <ul className="mt-3 flex flex-wrap gap-x-5">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
-                <Link externalLabel={t.home.external} href={href(searchPath(q))} className="ui-chip">
+                <Link
+                  externalLabel={t.home.external}
+                  href={href(searchPath(q))}
+                  className="text-sm text-ink-700 hover:text-green-700"
+                >
                   {q}
                 </Link>
               </li>
