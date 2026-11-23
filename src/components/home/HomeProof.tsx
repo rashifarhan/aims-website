@@ -13,7 +13,7 @@ export async function HomeProof() {
   const { proof, reviews } = t.home;
   return (
     <section className="home-proof-band" aria-labelledby="proof-title">
-      <div className="home-section page-container">
+      <div className="home-section wrap">
         <div className="home-proof">
           <div>
             <h2 id="proof-title" className="home-section-title">

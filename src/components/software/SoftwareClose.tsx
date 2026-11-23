@@ -8,7 +8,7 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareClose({ slug }: { slug: BuiltSoftware }) {
   const { software, c, addLabels, href } = await loadSoftwarePage(slug);
   return (
-    <section className="t3-cta page-container" aria-labelledby="sw-close-title">
+    <section className="t3-cta wrap" aria-labelledby="sw-close-title">
       <div className="t3-cta-panel">
         <div>
           <h2 id="sw-close-title" className="t3-title">

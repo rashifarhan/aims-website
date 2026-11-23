@@ -21,7 +21,7 @@ export async function SolutionCta({
   const locale = await getLocale();
   const secondary = secondaryHref ?? (page.family ? `/products/${page.family}` : "/products");
   return (
-    <section className="t3-cta page-container" aria-labelledby={`${idPrefix}-cta-title`}>
+    <section className="t3-cta wrap" aria-labelledby={`${idPrefix}-cta-title`}>
       <div className="t3-cta-panel">
         <div>
           <h2 id={`${idPrefix}-cta-title`} className="t3-title">

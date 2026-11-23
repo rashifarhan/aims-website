@@ -21,7 +21,7 @@ export async function ServicesCover() {
     },
   ];
   return (
-    <section className="t3-section page-container" aria-labelledby="services-cover-title">
+    <section className="t3-section wrap" aria-labelledby="services-cover-title">
       <h2 id="services-cover-title" className="t3-title">
         {c.heading}
       </h2>

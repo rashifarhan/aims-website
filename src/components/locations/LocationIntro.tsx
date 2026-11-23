@@ -28,7 +28,7 @@ export async function LocationIntro({
 }) {
   const t = await getDictionary();
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro wrap">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">

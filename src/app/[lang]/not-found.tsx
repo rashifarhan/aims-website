@@ -26,7 +26,7 @@ export default async function NotFound() {
   const locale = await getLocale();
   const href = (path: string) => localePath(locale, path);
   return (
-    <main id="main" className="page-container flex-1 py-12 lg:py-20">
+    <main id="main" className="wrap flex-1 py-12 lg:py-20">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16">
         <div>
           {/* No label above the heading (Impeccable craft floor): the h1 says what happened. */}

@@ -14,7 +14,7 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
   const { software, t, c, page, addLabels, href } = await loadSoftwarePage(slug);
   return (
-    <section className="sw-hero page-container" aria-labelledby="sw-title" data-enter>
+    <section className="sw-hero wrap" aria-labelledby="sw-title" data-enter>
       <div className="sw-hero-text">
         <Breadcrumbs
           label={t.common.breadcrumb}

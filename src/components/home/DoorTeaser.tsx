@@ -27,7 +27,7 @@ export async function DoorTeaser() {
   } = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="home-section home-door page-container" data-moment aria-labelledby="door-title">
+    <section className="home-section home-door wrap" data-moment aria-labelledby="door-title">
       <div>
         <h2 id="door-title" className="home-section-title">
           {door.heading}

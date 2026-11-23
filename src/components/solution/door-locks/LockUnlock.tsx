@@ -10,7 +10,7 @@ export async function LockUnlock({ idPrefix }: { idPrefix: string }) {
   const { solutionDoorLocks: t } = await getDictionary();
   const c = t.unlock;
   return (
-    <section className="t3-section lk-unlock page-container" data-moment aria-labelledby={`${idPrefix}-unlock-title`}>
+    <section className="t3-section lk-unlock wrap" data-moment aria-labelledby={`${idPrefix}-unlock-title`}>
       <div>
         <h2 id={`${idPrefix}-unlock-title`} className="t3-title">
           {c.heading}

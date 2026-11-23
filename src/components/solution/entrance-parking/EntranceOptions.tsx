@@ -21,7 +21,7 @@ export async function EntranceOptions({ idPrefix }: { idPrefix: string }) {
   const locale = await getLocale();
   const family = productsInFamily(EP_PAGE.family);
   return (
-    <section className="t3-section page-container" aria-labelledby={`${idPrefix}-methods-title`}>
+    <section className="t3-section wrap" aria-labelledby={`${idPrefix}-methods-title`}>
       <div className="t3-heading">
         <h2 id={`${idPrefix}-methods-title`} className="t3-title">
           {c.heading}

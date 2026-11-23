@@ -25,7 +25,7 @@ export async function SoftwareFeatures({ slug }: { slug: BuiltSoftware }) {
   const system = listAfter(software, /capabilit|requirement/i);
   const data = englishData(await getLocale());
   return (
-    <section className="sw-section sw-screen page-container" aria-labelledby="sw-features-title">
+    <section className="sw-section sw-screen wrap" aria-labelledby="sw-features-title">
       <div className="t3-heading">
         <h2 id="sw-features-title" className="t3-title">
           {fmt(c.features.heading, { name: software.name })}

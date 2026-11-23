@@ -10,7 +10,7 @@ export async function HomeClosing() {
   const locale = await getLocale();
   return (
     <section className="home-night home-closing" aria-labelledby="closing-title">
-      <div className="home-closing-inner page-container">
+      <div className="home-closing-inner wrap">
         <h2 id="closing-title" className="home-closing-title">
           {c.heading}
         </h2>

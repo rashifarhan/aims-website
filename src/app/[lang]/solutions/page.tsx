@@ -24,7 +24,7 @@ export default async function SolutionsHub() {
   const locale = await getLocale();
   return (
     <main id="main" className="solutions-hub">
-      <div className="solution-intro page-container">
+      <div className="solution-intro wrap">
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[
@@ -35,7 +35,7 @@ export default async function SolutionsHub() {
         <h1>{t.solutionsHub.title}</h1>
         <p className="solution-lead">{t.solutionsHub.lead}</p>
       </div>
-      <div className="solution-grid page-container">
+      <div className="solution-grid wrap">
         {SOLUTION_CARDS.map((solution) => (
           <SolutionCard key={solution.slug} solution={solution} />
         ))}

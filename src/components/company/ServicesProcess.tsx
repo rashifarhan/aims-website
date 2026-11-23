@@ -13,7 +13,7 @@ export async function ServicesProcess() {
   const c = services.process;
   return (
     <section className="t3-section t3-band co-process" data-moment aria-labelledby="services-process-title">
-      <div className="page-container">
+      <div className="wrap">
         <div className="co-process-head">
           <div className="t3-heading">
             <h2 id="services-process-title" className="t3-title">

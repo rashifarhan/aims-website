@@ -65,7 +65,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           ) : undefined
         }
       />
-      <div className="ed-layout page-container">
+      <div className="ed-layout wrap">
         {index.length > 3 && (
           <OnThisPage labels={{ wide: t.editorial.onThisPage, narrow: t.editorial.jumpTo }} items={index} lang="en" />
         )}
@@ -87,7 +87,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           <ArticleNext slug={a.slug} />
         </article>
       </div>
-      <section className="ed-more page-container" aria-labelledby="article-more-title">
+      <section className="ed-more wrap" aria-labelledby="article-more-title">
         <div className="ed-more-heading">
           <h2 id="article-more-title" className="ed-more-title">
             {t.blog.moreHeading}

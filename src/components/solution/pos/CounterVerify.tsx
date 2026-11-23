@@ -10,7 +10,7 @@ export async function CounterVerify({ idPrefix }: { idPrefix: string }) {
   const { solutionPos: t } = await getDictionary();
   const c = t.counter;
   return (
-    <section className="t3-section pc-counter page-container" data-moment aria-labelledby={`${idPrefix}-counter-title`}>
+    <section className="t3-section pc-counter wrap" data-moment aria-labelledby={`${idPrefix}-counter-title`}>
       <div>
         <h2 id={`${idPrefix}-counter-title`} className="t3-title">
           {c.heading}

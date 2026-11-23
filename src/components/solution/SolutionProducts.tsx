@@ -36,7 +36,7 @@ export async function SolutionProducts({
   };
   const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <section className="t3-section page-container" aria-labelledby={`${idPrefix}-products-title`}>
+    <section className="t3-section wrap" aria-labelledby={`${idPrefix}-products-title`}>
       <div className="t3-heading t3-heading-row">
         <div>
           <h2 id={`${idPrefix}-products-title`} className="t3-title">

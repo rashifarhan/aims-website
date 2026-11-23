@@ -29,7 +29,7 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
         title={c[slug]}
         lead={locale === "ar" ? c.englishOnly : c.legalLead}
       />
-      <div className="ed-layout page-container">
+      <div className="ed-layout wrap">
         {index.length > 3 && <OnThisPage labels={{ wide: c.onThisPage, narrow: c.jumpTo }} items={index} lang="en" />}
         <article className="ed-column" aria-label={c[slug]}>
           <EditorialBlocks blocks={page.blocks} anchored />

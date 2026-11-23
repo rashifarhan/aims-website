@@ -31,8 +31,8 @@ export default async function ContactPage() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1 bg-paper-2">
-      {/* page-container: the same content edges as the header and footer (taste House rule 4). */}
-      <div className="page-container pt-6 pb-16">
+      {/* wrap: the same content edges as the header and footer (taste House rule 4). */}
+      <div className="wrap pt-6 pb-16">
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[

@@ -11,7 +11,7 @@ export async function EntranceLanes({ idPrefix }: { idPrefix: string }) {
   const { solutionEntranceParking: t } = await getDictionary();
   const c = t.lanes;
   return (
-    <section className="t3-section ep-lanes page-container" data-moment aria-labelledby={`${idPrefix}-lanes-title`}>
+    <section className="t3-section ep-lanes wrap" data-moment aria-labelledby={`${idPrefix}-lanes-title`}>
       <div className="ep-lanes-heading">
         <h2 id={`${idPrefix}-lanes-title`} className="t3-title">
           {c.heading}

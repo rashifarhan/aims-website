@@ -23,7 +23,7 @@ export async function ProductFamilies() {
   return (
     // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
     <section id="families" className="home-night home-families" aria-labelledby="families-title">
-      <div className="home-section page-container">
+      <div className="home-section wrap">
         <div className="home-section-heading">
           <div>
             <h2 id="families-title" className="home-section-title">

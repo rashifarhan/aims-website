@@ -12,7 +12,7 @@ type Props = {
 /** The closing band (ui/sections.css .t3-cta): one action and one link (Design Doc 2, principle 1). */
 export function CompanyClose({ id, heading, body, action, secondary }: Props) {
   return (
-    <section className="t3-cta page-container" aria-labelledby={id}>
+    <section className="t3-cta wrap" aria-labelledby={id}>
       <div className="t3-cta-panel">
         <div>
           <h2 id={id} className="t3-title">

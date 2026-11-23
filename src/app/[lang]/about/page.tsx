@@ -48,7 +48,7 @@ export default async function About() {
       <AboutStory />
       <HomeProof />
       <ContactReach t={t.contactPage} labels={t.home.reach} />
-      <div id="showrooms" className="co-showrooms page-container">
+      <div id="showrooms" className="co-showrooms wrap">
         <LocationCards t={t.contactPage} />
       </div>
       <CompanyClose

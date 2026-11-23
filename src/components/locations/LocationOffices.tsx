@@ -15,7 +15,7 @@ export async function LocationOffices({ id }: { id: string }) {
   const order = ["showroom", "headOffice", "abuDhabi"] as const;
   const places = order.flatMap((key) => LOCATIONS.filter((l) => l.id === key));
   return (
-    <section id={id} className="t3-section page-container" aria-labelledby={`${id}-title`}>
+    <section id={id} className="t3-section wrap" aria-labelledby={`${id}-title`}>
       <div className="t3-heading">
         <h2 id={`${id}-title`} className="t3-title">
           {c.officesHeading}

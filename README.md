@@ -120,7 +120,7 @@ Header suggestions now search a compact local product/software/solution index wi
   `next/image` uses `preload` for the hero; this Next version deprecates `priority` (local Next image guide).
 
 **Shared grid correction (Design Doc ch. 6).** Header, footer, menu panels, homepage sections and catalogue
-containers share `page-container`: 1280px content plus 32px desktop gutters (1344px border box), with 24px mobile
+containers share `wrap`: 1280px content plus 32px desktop gutters (1344px border box), with 24px mobile
 gutters. The hero artwork retains its wider stage, while its copy aligns with the shared grid. Browser checks compare
 both content edges in English and Arabic to prevent the previous header/homepage margin mismatch.
 
@@ -373,7 +373,7 @@ changed on both sides). Follow-ups from combining them:
   not match the visible text (axe `label-content-name-mismatch`, WCAG 2.5.3).
 - `html` has scroll padding equal to the sticky header plus 16px, so fields focused from the quote error summary land
   below the header, not under it (WCAG 2.4.11). This surfaced as an axe target-size failure on the quote page.
-- The quote page uses the shared `page-container` grid.
+- The quote page uses the shared `wrap` grid.
 
 ### Time attendance solution (T3; Master Plan 12 #15, 14; Design Doc 8.3, 10)
 
@@ -486,7 +486,7 @@ content and brand, and no starter template or second design system. It follows t
 - **Gate.** copy-lint: 0 FAIL. One WARN, the per-family counts, which come from the catalogue.
   `gate.mjs` still FAILs, mostly on checks that assume the skill's own page system, which this project does not adopt
   (the client asked to keep the existing one):
-  - `.wrap` and its container lines (this site uses `page-container` and a wider hero stage);
+  - the container lines: the container class is now `.wrap` as the skill expects, but the hero keeps a wider stage;
   - the footer and skip-link layout;
   - split lines on the footer;
   - text-only sections (routes, proof, questions) and text-only cards (software, places): AIMS has supplied no

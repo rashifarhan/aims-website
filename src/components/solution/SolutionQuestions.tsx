@@ -4,7 +4,7 @@ import type { FaqCopy } from "./types";
 /** T3 row 7: questions as native disclosures; answers stay in the DOM for search (Design Doc 9). */
 export function SolutionQuestions({ idPrefix, copy }: { idPrefix: string; copy: FaqCopy }) {
   return (
-    <section className="t3-section t3-questions page-container" aria-labelledby={`${idPrefix}-faq-title`}>
+    <section className="t3-section t3-questions wrap" aria-labelledby={`${idPrefix}-faq-title`}>
       <h2 id={`${idPrefix}-faq-title`} className="t3-title">
         {copy.heading}
       </h2>

@@ -124,7 +124,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
         inert={!showBar}
         className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md transition-transform duration-(--duration-base) ease-(--ease-aims) lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
       >
-        <div className="page-container flex items-center gap-3">
+        <div className="wrap flex items-center gap-3">
           {stepper}
           {addButton}
         </div>

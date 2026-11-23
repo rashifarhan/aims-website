@@ -16,7 +16,7 @@ export async function BuyerRoutes() {
   const locale = await getLocale();
   const routes = [r.supply, r.install, r.export];
   return (
-    <section className="home-section home-routes page-container" aria-labelledby="routes-title">
+    <section className="home-section home-routes wrap" aria-labelledby="routes-title">
       <h2 id="routes-title" className="home-section-title home-routes-title">
         {r.heading}
       </h2>

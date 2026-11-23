@@ -38,7 +38,7 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
       aria-label={labels.compareTray}
       className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 shadow-3 backdrop-blur-md"
     >
-      <div className="page-container flex flex-wrap items-center gap-3 py-3">
+      <div className="wrap flex flex-wrap items-center gap-3 py-3">
         <p className="flex-1 text-sm font-semibold text-ink tabular-nums sm:flex-none">
           {fmt(labels.compareCount, { count: items.length })}
         </p>

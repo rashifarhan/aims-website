@@ -4,7 +4,7 @@ import type { ProcessCopy } from "./types";
 export function SolutionProcess({ idPrefix, copy }: { idPrefix: string; copy: ProcessCopy }) {
   return (
     <section className="t3-section t3-band" aria-labelledby={`${idPrefix}-process-title`}>
-      <div className="page-container">
+      <div className="wrap">
         <div className="t3-heading">
           <h2 id={`${idPrefix}-process-title`} className="t3-title">
             {copy.heading}

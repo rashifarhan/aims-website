@@ -19,7 +19,7 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(page.hero)?.images[0];
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro wrap">
       <Breadcrumbs
         label={t.common.breadcrumb}
         items={[

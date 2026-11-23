@@ -133,8 +133,9 @@
   --page-gutter: 1.5rem;
 }
 
-/* One grid for the shell and every page; mobile gutters are 24px. */
-@utility page-container {
+/* One grid for the shell and every page; mobile gutters are 24px. Named `wrap` because the design-taste-frontend
+   skill's checker measures content edges from that class (its container contract). */
+@utility wrap {
   width: 100%;
   max-width: var(--container-page);
   margin-inline: auto;

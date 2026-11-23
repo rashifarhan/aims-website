@@ -4,7 +4,7 @@ export async function SolutionIndustries() {
   const { industries } = (await getDictionary()).solutionsHub;
   return (
     <section className="solution-industries" aria-labelledby="industries-title">
-      <div className="page-container">
+      <div className="wrap">
         <h2 id="industries-title">{industries.title}</h2>
         <p className="solution-section-lead">{industries.lead}</p>
         <ul>

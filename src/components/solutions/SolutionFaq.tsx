@@ -7,7 +7,7 @@ export async function SolutionFaq() {
   const t = await getDictionary();
   const faq = t.solutionsHub.faq;
   return (
-    <section className="solution-faq page-container" aria-labelledby="solution-faq-title">
+    <section className="solution-faq wrap" aria-labelledby="solution-faq-title">
       <div>
         <h2 id="solution-faq-title">{faq.title}</h2>
         <p className="solution-section-lead">{faq.lead}</p>

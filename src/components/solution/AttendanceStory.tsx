@@ -7,7 +7,7 @@ export async function AttendanceStory() {
   const { solutionTimeAttendance: t } = await getDictionary();
   const s = t.story;
   return (
-    <section className="t3-section page-container" aria-labelledby="ta-story-title">
+    <section className="t3-section wrap" aria-labelledby="ta-story-title">
       <div className="t3-heading">
         <h2 id="ta-story-title" className="t3-title">
           {s.heading}

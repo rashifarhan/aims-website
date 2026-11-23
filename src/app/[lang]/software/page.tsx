@@ -61,7 +61,7 @@ export default async function SoftwareCentre() {
   };
   return (
     <main id="main">
-      <section className="sw-centre-intro page-container" aria-labelledby="sw-centre-title" data-enter>
+      <section className="sw-centre-intro wrap" aria-labelledby="sw-centre-title" data-enter>
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[
@@ -80,7 +80,7 @@ export default async function SoftwareCentre() {
           </Link>
         </div>
       </section>
-      <section className="sw-centre page-container" aria-labelledby="sw-centre-list">
+      <section className="sw-centre wrap" aria-labelledby="sw-centre-list">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
         <h2 id="sw-centre-list" className="sr-only">
           {c.listHeading}
@@ -89,7 +89,7 @@ export default async function SoftwareCentre() {
           <SoftwareFilter {...filter} />
         </Suspense>
       </section>
-      <section className="t3-cta page-container" aria-labelledby="sw-centre-close">
+      <section className="t3-cta wrap" aria-labelledby="sw-centre-close">
         <div className="t3-cta-panel">
           <div>
             <h2 id="sw-centre-close" className="t3-title">

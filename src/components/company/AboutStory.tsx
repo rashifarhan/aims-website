@@ -24,7 +24,7 @@ export async function AboutStory() {
     { term: c.facts.email, value: CONTACT.email, ltr: true },
   ];
   return (
-    <section className="t3-section co-story page-container" aria-labelledby="about-story-title">
+    <section className="t3-section co-story wrap" aria-labelledby="about-story-title">
       <div>
         <h2 id="about-story-title" className="t3-title">
           {c.storyHeading}

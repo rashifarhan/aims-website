@@ -22,7 +22,7 @@ export async function HomeLocations() {
   const order = ["showroom", "headOffice", "abuDhabi"] as const satisfies readonly (typeof LOCATION_LINES)[number][];
   return (
     <section id="showrooms" className="home-night home-reach" data-moment aria-labelledby="locations-title">
-      <div className="home-section page-container">
+      <div className="home-section wrap">
         <div className="home-section-heading">
           <div>
             <h2 id="locations-title" className="home-section-title">

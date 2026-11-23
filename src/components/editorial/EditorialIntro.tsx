@@ -19,7 +19,7 @@ type Props = {
 export async function EditorialIntro({ crumbs, eyebrow, title, titleLang, lead, children }: Props) {
   const t = await getDictionary();
   return (
-    <div className="ed-intro page-container">
+    <div className="ed-intro wrap">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div>
         {eyebrow && <p className="ed-eyebrow ed-enter">{eyebrow}</p>}

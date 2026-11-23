@@ -10,7 +10,7 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
   const { c } = await loadSoftwarePage(slug);
   return (
-    <section className="sw-section sw-screen page-container" aria-labelledby="sw-setup-title">
+    <section className="sw-section sw-screen wrap" aria-labelledby="sw-setup-title">
       <h2 id="sw-setup-title" className="t3-title">
         {c.setup.heading}
       </h2>

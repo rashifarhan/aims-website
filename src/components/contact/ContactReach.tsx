@@ -11,7 +11,7 @@ type Props = { t: Dictionary["contactPage"]; labels: Dictionary["home"]["reach"]
 export function ContactReach({ t, labels }: Props) {
   return (
     <section aria-labelledby="contact-reach-title" className="contact-reach reach-moment" data-moment>
-      <div className="contact-reach-grid page-container">
+      <div className="contact-reach-grid wrap">
         <div>
           <h2 id="contact-reach-title" className="text-2xl font-bold tracking-tight text-night-text sm:text-3xl">
             {t.reachTitle}

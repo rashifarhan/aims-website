@@ -35,7 +35,7 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   const c = t.solutionAccessControl.door;
   const locale = await getLocale();
   return (
-    <section className="t3-section t3-door page-container" data-moment aria-labelledby={`${idPrefix}-door-title`}>
+    <section className="t3-section t3-door wrap" data-moment aria-labelledby={`${idPrefix}-door-title`}>
       <div>
         <h2 id={`${idPrefix}-door-title`} className="t3-title">
           {c.heading}

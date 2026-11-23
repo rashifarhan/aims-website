@@ -17,7 +17,7 @@ export default function GlobalNotFound() {
   return (
     <html lang="en" className={`${inter.variable} ${plexArabic.variable}`}>
       <body>
-        <main id="main" className="page-container py-24">
+        <main id="main" className="wrap py-24">
           <Link
             href="/"
             aria-label="AIMS Security Systems, home"

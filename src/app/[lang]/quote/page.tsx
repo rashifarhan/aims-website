@@ -30,7 +30,7 @@ export default async function QuotePage() {
 
   return (
     <main id="main" className="w-full flex-1 bg-paper-2">
-      <div className="page-container pt-6 pb-16">
+      <div className="wrap pt-6 pb-16">
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[

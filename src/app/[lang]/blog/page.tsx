@@ -38,7 +38,7 @@ export default async function Blog() {
         title={t.blog.title}
         lead={`${fmt(t.blog.lead, { count: list.length })}${locale === "ar" ? ` ${t.editorial.englishOnly}` : ""}`}
       />
-      <div className="page-container pb-(--home-section-space)">
+      <div className="wrap pb-(--home-section-space)">
         <ul className="ed-card-grid">
           {list.map((a) => (
             <li key={a.slug}>

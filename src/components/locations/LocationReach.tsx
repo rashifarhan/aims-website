@@ -26,7 +26,7 @@ export async function LocationReach({
   const { home } = await getDictionary();
   return (
     <section id={id} className="loc-reach reach-moment" data-moment aria-labelledby={`${id}-title`}>
-      <div className="loc-reach-grid page-container">
+      <div className="loc-reach-grid wrap">
         <div>
           <h2 id={`${id}-title`} className="t3-title">
             {heading}

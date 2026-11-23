@@ -61,7 +61,7 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     : terminals.map((p) => terminalCard(p, loaded));
   const names = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
   return (
-    <section id="terminals" className="sw-section sw-screen page-container" aria-labelledby="sw-terminals-title">
+    <section id="terminals" className="sw-section sw-screen wrap" aria-labelledby="sw-terminals-title">
       <div className="sw-split">
         <div>
           <h2 id="sw-terminals-title" className="t3-title">

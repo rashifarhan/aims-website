@@ -25,7 +25,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
   const t = await getDictionary();
   const image = productBySlug(photo)?.images[0];
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro wrap">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">

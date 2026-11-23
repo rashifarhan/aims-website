@@ -52,7 +52,7 @@ export default async function Support() {
           </Link>
         </div>
       </EditorialIntro>
-      <div className="ed-layout page-container">
+      <div className="ed-layout wrap">
         <OnThisPage
           labels={{ wide: t.editorial.onThisPage, narrow: t.editorial.jumpTo }}
           items={SUPPORT_SECTIONS.map((id) => ({ id, text: headings[id] }))}
