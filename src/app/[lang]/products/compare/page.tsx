@@ -10,6 +10,7 @@ import type { Product } from "@/content/schema";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { compareRows } from "@/lib/compare";
+import { destinationFromSearch, withDestination } from "@/lib/quote/context";
 import { MAX_COMPARE } from "@/lib/filters";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -62,6 +63,7 @@ function CompareView({
   const items = requested.map((s) => productBySlug(s)).filter((p): p is Product => !!p);
   const onlyDiff = one(params.diff) === "1";
   const from = safeFrom(one(params.from)) ?? hrefOf("/products");
+  const preset = destinationFromSearch(from.split("?")[1] ?? "");
   const backToResults = (
     <Link
       href={from}
@@ -127,7 +129,7 @@ function CompareView({
                 {p.images[0] && <Image src={p.images[0].src} alt="" fill sizes="56px" className="object-contain p-1" />}
               </div>
               <Link
-                href={hrefOf(`/product/${p.slug}`)}
+                href={withDestination(hrefOf(`/product/${p.slug}`), preset)}
                 className="block text-sm leading-snug font-semibold hover:underline"
               >
                 {p.name}
@@ -169,7 +171,7 @@ function CompareView({
               <p className="mb-2 truncate font-mono text-sm font-medium">
                 <span dir="ltr">{p.model}</span>
               </p>
-              <AddToQuote slug={p.slug} name={p.name} labels={addLabels} />
+              <AddToQuote preset={preset} slug={p.slug} name={p.name} labels={addLabels} />
             </li>
           ))}
         </ul>
@@ -196,13 +198,16 @@ function CompareView({
                       <Image src={p.images[0].src} alt="" fill sizes="128px" className="object-contain p-2" />
                     )}
                   </div>
-                  <Link href={hrefOf(`/product/${p.slug}`)} className="block font-semibold text-ink hover:underline">
+                  <Link
+                    href={withDestination(hrefOf(`/product/${p.slug}`), preset)}
+                    className="block font-semibold text-ink hover:underline"
+                  >
                     {p.name}
                   </Link>
                   <span className="mt-0.5 block font-mono text-xs text-ink-600">
                     <span dir="ltr">{p.model}</span>
                   </span>
-                  <AddToQuote slug={p.slug} name={p.name} labels={addLabels} className="mt-3" />
+                  <AddToQuote preset={preset} slug={p.slug} name={p.name} labels={addLabels} className="mt-3" />
                   {items.length > 2 && (
                     <Link
                       href={`?items=${items

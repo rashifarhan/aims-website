@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MarketLink } from "./MarketLink";
 import type { AddToQuoteLabels } from "@/components/catalogue/AddToQuote";
 import { keyFacts } from "@/content/facts";
 import type { Product } from "@/content/schema";
@@ -81,9 +81,9 @@ export function ProductSummary({ p, name, familyName, href, addLabels, t, data }
             </li>
           )}
           <li>
-            <Link href={href(`/products/${p.family}?cmp=${p.slug}`)} className="home-secondary">
+            <MarketLink href={href(`/products/${p.family}?cmp=${p.slug}`)} className="home-secondary">
               {t.product.compareSimilar}
-            </Link>
+            </MarketLink>
           </li>
         </ul>
 

@@ -18,3 +18,9 @@ describe("destination preset (Design Doc 10.1 T7)", () => {
     expect(presetPatch(undefined, undefined)).toBeUndefined();
   });
 });
+
+it("uses Dubai only on an explicit local installation link", () => {
+  expect(destinationFromSearch("?need=install&emirate=dubai")).toEqual({ need: "install", emirate: "dubai" });
+  expect(destinationFromSearch("?need=install")).toBeUndefined();
+  expect(destinationFromSearch("?need=supply&emirate=dubai")).toBeUndefined();
+});
