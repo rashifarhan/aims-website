@@ -56,8 +56,6 @@
   --tracking-wordmark: 0.04em;
   --tracking-brand: 0.08em;
   /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
-  --text-page-title: 3rem;
-  --text-page-title-mobile: 2.25rem;
   --font-weight-display: 680;
   --font-weight-card: 650;
 
@@ -108,7 +106,7 @@
   --text-door-name: 14px;
   --text-door-model: 12.5px;
   --text-door-screen: 10px;
-  /* T3 solution pages: H1 within Design Doc 5's 44–56 / 30–36 range. */
+  /* Page-title size (T2 and T3): H1 within Design Doc 5's 44–56 / 30–36 range. */
   --text-page-title: 3.25rem;
   --text-page-title-mobile: 2.125rem;
   /* Explainer SVG text in viewBox units (760 wide), as for the door kit. */
