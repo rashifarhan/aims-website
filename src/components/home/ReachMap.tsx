@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 type Labels = Dictionary["home"]["reach"];
@@ -18,6 +19,13 @@ const ROUTES: readonly { to: string; via: string; market?: Destination }[] = [
   { to: "405.9 77.8", via: "452 52" }, // Manama
   { to: "147.9 352.9", via: "330 190", market: "kenya" }, // Nairobi
 ];
+/**
+ * Dubai to Muscat is a short hop on a map drawn for Africa, so the Oman page crops to the Gulf; reach.css
+ * scales its text and strokes back down by the same factor (--reach-zoom) so they read the same size.
+ */
+const ZOOM: Partial<Record<Destination, { viewBox: string; factor: number }>> = {
+  oman: { viewBox: "400 30 240 158", factor: 640 / 240 },
+};
 const GCC_CITIES = [
   [333.1, 93],
   [423.1, 87],
@@ -36,8 +44,18 @@ const GCC_CITIES = [
 export function ReachMap({ labels, destination }: { labels: Labels; destination?: Destination }) {
   const routes = destination ? ROUTES.filter((r) => r.market === destination) : ROUTES;
   const shows = (market: Destination) => !destination || destination === market;
+  const zoom = destination ? ZOOM[destination] : undefined;
+  // A label sits a fixed on-screen distance from its dot, so its offset shrinks with the crop.
+  const near = (at: number, offset: number) => Math.round((at + offset / (zoom?.factor ?? 1)) * 10) / 10;
   return (
-    <svg className="reach-map" viewBox="0 0 640 420" role="img" aria-label={labels.mapLabel} direction="ltr">
+    <svg
+      className={zoom ? "reach-map reach-map-zoomed" : "reach-map"}
+      viewBox={zoom?.viewBox ?? "0 0 640 420"}
+      style={zoom ? ({ "--reach-zoom": zoom.factor } as CSSProperties) : undefined}
+      role="img"
+      aria-label={labels.mapLabel}
+      direction="ltr"
+    >
       <defs>
         <pattern id="reach-dots" width="9" height="9" patternUnits="userSpaceOnUse">
           <circle cx="2" cy="2" r="1.5" className="fill-night-muted" />
@@ -80,18 +98,18 @@ export function ReachMap({ labels, destination }: { labels: Labels; destination?
           return <circle key={r.to} cx={cx} cy={cy} r="11" className="reach-arrive fill-lime" />;
         })}
       <circle cx="493.8" cy="88" r="14" className="reach-ring fill-lime" />
-      <circle cx="493.8" cy="88" r="5.5" className="fill-lime" />
-      <circle cx="476.9" cy="95.5" r="4.5" className="fill-lime" />
+      <circle cx="493.8" cy="88" r="5.5" className="reach-office fill-lime" />
+      <circle cx="476.9" cy="95.5" r="4.5" className="reach-office reach-office-small fill-lime" />
       <g className="reach-labels">
-        <text x="504" y="80" className="reach-label-strong">
+        <text x={near(493.8, 10.2)} y={near(88, -8)} className="reach-label-strong">
           {labels.dubai}
         </text>
-        <text x="468" y="118" textAnchor="end" className="reach-label-strong">
+        <text x={near(476.9, -8.9)} y={near(95.5, 22.5)} textAnchor="end" className="reach-label-strong">
           {labels.abuDhabi}
         </text>
         {/* Centred under its dot so the label never runs past the map's right edge. */}
         {shows("oman") && (
-          <text x="552.5" y="134" textAnchor="middle">
+          <text x="552.5" y={near(104, 30)} textAnchor="middle">
             {labels.muscat}
           </text>
         )}
