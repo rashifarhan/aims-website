@@ -326,13 +326,6 @@
   z-index: 1;
   border-radius: var(--radius-lg);
 }
-.sw-card-link:focus-visible {
-  outline: none;
-}
-.sw-card:has(.sw-card-link:focus-visible) {
-  outline: 2px solid var(--color-green-700);
-  outline-offset: 2px;
-}
 .sw-card-purpose {
   max-width: 46ch;
   margin-block-start: 0.5rem;

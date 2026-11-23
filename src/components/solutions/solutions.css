@@ -116,19 +116,12 @@
 .solution-card-link {
   color: inherit;
 }
-/* Stretched target: the whole card is clickable; focus draws around the card. */
+/* Stretched target: the whole card is clickable; the link keeps the one focus ring (globals.css). */
 .solution-card-link::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-}
-.solution-card-link:focus-visible {
-  outline: none;
-}
-.solution-card:has(:focus-visible) {
-  outline: 2px solid var(--color-green-700);
-  outline-offset: 2px;
 }
 .solution-industries ul {
   display: grid;
