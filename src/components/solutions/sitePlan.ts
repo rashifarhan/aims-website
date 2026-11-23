@@ -24,14 +24,14 @@ export const SITE_POINTS: readonly SitePoint[] = [
     slug: "entrance-parking",
     x: 230,
     y: 420,
-    label: { x: 254, y: 426, anchor: "start" },
+    label: { x: 260, y: 426, anchor: "start" },
     line: "M560 220C430 236 300 300 230 420",
   },
   {
     slug: "access-control",
     x: 475,
     y: 396,
-    label: { x: 499, y: 434, anchor: "start" },
+    label: { x: 505, y: 434, anchor: "start" },
     line: "M560 220C540 290 490 320 475 396",
   },
   {
