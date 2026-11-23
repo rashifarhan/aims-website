@@ -136,3 +136,28 @@ at 390, Oman at 1440), map-label measurement, the 1440/1024/768/390/320 screensh
 - Every market on the hub is a page or a preset export quote, each with a spoken destination (", supply page" /
   ", start an export quote").
 - Reduced motion and no-JS rest on the finished map; the map is one `role="img"` with a place-naming label.
+
+## 3. Emil (`emil-design-eng`: interactions)
+
+Method: a pointer probe at 1440 hovered and pressed every link, button and summary in `<main>` on the hub and Dubai
+(computed colour, underline, transform, shadow, opacity and arrow before, on hover and on press, without clicking);
+a source read of the transitions in `locations.css`, `ui/actions.css`, `signature/reach.css` and the T3 entrance; and
+a scroll probe that records where the map is at the instant `MomentTrigger` sets `data-played`.
+
+Every control answers hover (underline draws, arrow steps 3px, button steps 1px, linked product cards lift 2px with
+the lifted shadow); buttons and links press (scale .985 / opacity .75). Office cards are not links and rightly do not
+lift. Tokens: `--duration-hover`, `--duration-fast`, `--duration-card`, `--ease-aims` throughout; no `transition: all`,
+no `ease-in`, nothing grows from `scale(0)` (the arrival dot starts at .3, `transform-box: fill-box`, origin centre,
+so it grows from its own centre). Hero: copy 800ms with 80/200/320/440ms steps and the photograph 1100ms from 150ms,
+settling by about 1.25s, once. Under reduced motion the market links and arrows have no transition and the map rests
+finished.
+
+| ID  | Sev | Page         | Before                                                                                                                                                                                   | After                                                                                                                              | Why                                                                                                                                     |
+| --- | --- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| E1  | P1  | all          | `data-moment` on the whole band: `MomentTrigger` fires at 35% of the section, when only 136px of the map's top is on screen at 1440 (Oman: its one route at 885–949px of a 900px screen) | `data-moment` and `reach-moment` on the map frame (`.loc-reach-map`), so the draw starts when a third of the map itself is in view | The one dealt moment played mostly below the fold; motion nobody sees is not a moment (choreography: start when the subject is visible) |
+| E2  | P2  | `/locations` | `.loc-market:hover` underline and arrow step on every pointer, touch included                                                                                                            | Arrow step and underline inside `@media (hover: hover) and (pointer: fine)`                                                        | On touch, a tap leaves the hover state stuck on the row the user just left                                                              |
+| E3  | P2  | all          | The reach band's map and text centred on each other (`align-items: center`)                                                                                                              | Top-aligned columns (T6)                                                                                                           | With the moment starting on the map frame, a top-aligned map starts drawing at the same scroll point as its heading                     |
+| E4  | P2  | all (shared) | FAQ `summary` and breadcrumb links have hover but no press state                                                                                                                         | `:active { opacity: .75 }` like the text links                                                                                     | Every pressable thing confirms the press; `solution.css` (Agent C) and `Breadcrumbs` (shared): for the integrator                       |
+
+The reach draw itself (1400ms `--ease-aims`, 120ms between routes, arrival 600ms from 1200ms so the market lights as
+the line lands) is explanatory motion seen once per visit; its timing stays.

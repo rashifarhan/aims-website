@@ -39,7 +39,7 @@ Out of scope (the user postponed them): a moment for the `/solutions` hub, and t
 
 - [x] Taste: gate + copy-lint on each page; findings in `docs/audits/2026-11-23-locations.md`
 - [x] Impeccable: audit; findings added
-- [ ] Emil: interaction review; findings added
+- [x] Emil: interaction review; findings added
 - [ ] Fixes (P0 and P1 at least), each committed
 - [ ] Re-run the gate and specs; results recorded
 
