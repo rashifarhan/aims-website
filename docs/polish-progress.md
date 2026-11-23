@@ -12,17 +12,17 @@ with every push so a new session can resume exactly where work stopped.
 
 ## Phases
 
-| Phase | Scope                                                                                         | Model  | Status     |
-| ----- | --------------------------------------------------------------------------------------------- | ------ | ---------- |
-| Setup | Server, gate armed, before screenshots                                                        | -      | started    |
-| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | done       |
-| 1     | Shared `PageHero`, `Section`, `SectionHeader`, `ClosePanel`, `Faq`, `OfficeCard`, `ReachBand` | Opus   | done (1a)  |
-| 1     | One button set, one card and panel, one link look, type scale (h1 68/52, h2 38, h3 24)        | Opus   | done (1b)  |
-| 2A    | T5 product redesign, T4 listings                                                              | Opus   | done       |
-| 2B    | T2 solutions hub, T3 solutions, T7 locations                                                  | Sonnet | done       |
-| 2C    | T6 software, T10 editorial, T9 contact, T8 quote                                              | Sonnet | done       |
-| 3     | Motion and rule fixes (ta-punch pause, floating contact, pick-card zoom, RTL arrows, targets) | Sonnet | done       |
-| 4     | Gate and checker at 1440/1024/768/390, Arabic, keyboard, perf, README Decisions               | Opus   | fixes done |
+| Phase | Scope                                                                                         | Model  | Status    |
+| ----- | --------------------------------------------------------------------------------------------- | ------ | --------- |
+| Setup | Server, gate armed, before screenshots                                                        | -      | done      |
+| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | done      |
+| 1     | Shared `PageHero`, `Section`, `SectionHeader`, `ClosePanel`, `Faq`, `OfficeCard`, `ReachBand` | Opus   | done (1a) |
+| 1     | One button set, one card and panel, one link look, type scale (h1 68/52, h2 38, h3 24)        | Opus   | done (1b) |
+| 2A    | T5 product redesign, T4 listings                                                              | Opus   | done      |
+| 2B    | T2 solutions hub, T3 solutions, T7 locations                                                  | Sonnet | done      |
+| 2C    | T6 software, T10 editorial, T9 contact, T8 quote                                              | Sonnet | done      |
+| 3     | Motion and rule fixes (ta-punch pause, floating contact, pick-card zoom, RTL arrows, targets) | Sonnet | done      |
+| 4     | Gate and checker at 1440/1024/768/390, Arabic, keyboard, perf, README Decisions               | Opus   | done      |
 
 ## Audit baseline (consistency.mjs --quick, 1440 and 390)
 
@@ -39,3 +39,4 @@ BioTime 9.5 56.
 - 23 Nov 2026: Phases 2B and 2C done (built in parallel worktrees, merged). 2B: paper, band and night alternation on the solution pages, services and locations; the solutions hub gets a split hero with the InBio Pro 160 photo, the access-control door kit as its moment, and a close (strings reused from the services close); the GCC/Africa labels move to the 18px card-title step. 2C: band grounds on the software hub, software terminals, blog grid and blog "more articles"; a close on /blog (existing keys); support and software setup step titles on the 18px step. Contact, quote, about and the legal pages needed no change. Open for the client: /support's three hero actions; the /solutions hero has no actions (adding one needs copy); /software's route title is still in title case in `routes.ts`.
 - 23 Nov 2026: Phase 3 done. The time attendance punch loop (the only infinite CSS loop; the hero loops already paused off-screen with a button) has a 44px aria-pressed pause button (`StoryPause`, i18n en and ar) and rests under reduced motion. The floating contact button and the mobile product bar now appear at once on scroll (no fade or rise). The only scroll observers left are the dealt moments (`MomentTrigger`, the time attendance story) and loop pausing; no card or row reveals on scroll. `ArrowIcon` mirrors itself in RTL and no other directional icon, carousel or pagination exists (breadcrumb separator is a slash, disclosure chevrons point down). Touch targets: a scripted pass of every built route (en and sample ar, 390 and 1440) went from 1201 boxes under 44px (outside running text) to 0 (card name links, picks, fitted-with, desktop facet rows, in-page index, breadcrumb Home, contact email). Every hero and the product summary use `preload`, and listings now preload one image (first card eager) instead of four. NeedPanel, MobileMenu, QuoteView, Footer and Listing were split (NeedFields and needInputs; MobileMenuItems and MobileMenuActions; useQuoteRequest; FooterContact; useListingModel); renders are pixel-identical. ContactRouter (149) and DesktopNav (151) were already at the limit and stay.
 - 23 Nov 2026: Phase 4 checker fixes. `.wrap` keeps its gutter as margin (the checker reads the container from the box); `Section` and `PageHero` always render one in-flow `.wrap`; `Section screens` is the kit's `--h` contract (one or two screens on desktop and phone, content top-aligned under the sticky header); home, split and product heroes are exactly the first screen with the header over them; footer one screen on desktop; shared splits on one 7-of-12 line, top-aligned; reach offices two across; closing panel centred (README Decisions); proof figures at h2 size; footer popular searches as plain links; stretched card links keep the focus ring. Waivers retargeted (five is the gate's cap; phone-number and card-layout stay open). /solutions at 1440+390: 87 to 62 FAIL. Full e2e 477 passed.
+- 23 Nov 2026: Phase 4 done. Gate on home: FAIL 65 (from 84) with five waivers, open findings recorded in README → Decisions; consistency at 1440/1024/768/390 on one page per family; perf on home and product within budget; full e2e green. Client decision: /support keeps its three hero actions.
