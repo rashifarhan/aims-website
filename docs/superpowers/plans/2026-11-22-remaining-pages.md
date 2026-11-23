@@ -43,7 +43,7 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 ### Agent L: locations (`claude/locations-polish`)
 
 - [x] Read the Codex branch; list what is ported and what is left, with reasons (below)
-- [ ] `/locations` hub on our system (replaces `navigationHref`'s `#showrooms` fallback)
+- [x] `/locations` hub on our system (replaces `navigationHref`'s `#showrooms` fallback)
 - [ ] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
 - [ ] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
 - [x] Destination quote flow and its unit tests

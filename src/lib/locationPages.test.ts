@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { localePath } from "@/i18n/config";
 import { counterpartPath } from "@/components/shell/LanguageSwitch";
 import { productBySlug } from "@/content/catalogue";
-import { LOCATION_MODELS, LOCATION_PAGES, marketHref } from "./locationPages";
+import { HUB_HERO, LOCATION_MODELS, LOCATION_PAGES, marketHref } from "./locationPages";
 import { buildRedirects } from "./redirects";
 import { ROUTES } from "./routes";
 import { alternates } from "./seo";
@@ -54,6 +54,7 @@ describe("location page data", () => {
       expect(routes.has(page.path), page.path).toBe(true);
       expect(productBySlug(page.hero)?.images.length, page.hero).toBeGreaterThan(0);
     }
+    expect(productBySlug(HUB_HERO)?.images.length).toBeGreaterThan(0);
     for (const slug of LOCATION_MODELS) expect(productBySlug(slug), slug).toBeDefined();
   });
 

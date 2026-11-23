@@ -10,12 +10,16 @@ export async function SolutionCta({
   idPrefix,
   page,
   copy,
+  secondaryHref,
 }: {
   idPrefix: string;
-  page: Pick<SolutionPageData, "family" | "quote">;
+  page: Pick<SolutionPageData, "quote"> & Partial<Pick<SolutionPageData, "family">>;
   copy: CtaCopy;
+  /** The secondary link when it isn't the page's family listing (the T7 location pages link the hub). */
+  secondaryHref?: string;
 }) {
   const locale = await getLocale();
+  const secondary = secondaryHref ?? (page.family ? `/products/${page.family}` : "/products");
   return (
     <section className="t3-cta page-container" aria-labelledby={`${idPrefix}-cta-title`}>
       <div className="t3-cta-panel">
@@ -30,7 +34,7 @@ export async function SolutionCta({
             {copy.action}
             <ArrowIcon width="18" height="18" className="home-action-arrow" />
           </Link>
-          <Link href={localePath(locale, `/products/${page.family}`)} className="home-text-link">
+          <Link href={localePath(locale, secondary)} className="home-text-link">
             {copy.secondary}
           </Link>
         </div>
