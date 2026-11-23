@@ -123,7 +123,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       <div
         aria-hidden={!showBar}
         inert={!showBar}
-        className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md transition-transform duration-(--duration-base) ease-(--ease-aims) lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
+        className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
       >
         <div className="wrap flex items-center gap-2">
           {stepper}

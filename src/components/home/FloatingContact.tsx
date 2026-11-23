@@ -48,7 +48,7 @@ export function FloatingContact({ href, labels }: Props) {
         ref={trigger}
         type="button"
         hidden={!visible}
-        className="home-button home-button-sm home-floating-contact motion-fade"
+        className="home-button home-button-sm home-floating-contact"
         aria-label={labels.trigger}
         aria-haspopup="dialog"
         onClick={() => dialog.current?.showModal()}

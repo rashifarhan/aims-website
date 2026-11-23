@@ -507,18 +507,10 @@
   box-shadow: var(--shadow-2);
   transition:
     transform var(--duration-fast),
-    background-color var(--duration-hover) var(--ease-aims),
-    opacity var(--duration-base) var(--ease-aims),
-    translate var(--duration-base) var(--ease-aims);
+    background-color var(--duration-hover) var(--ease-aims);
 }
-/* Appearing after the hero: fade in and rise 8px from display:none. Hiding stays instant
-   ([hidden] has no transition), so the exit is faster than the enter. */
-@starting-style {
-  .home-floating-contact {
-    opacity: 0;
-    translate: 0 0.5rem;
-  }
-}
+/* CLAUDE.md §3: scrolling moves nothing, so it appears and disappears at once (no fade or rise). [hidden] also
+   takes it out of the accessibility tree and tab order while the hero is on screen. */
 .home-floating-contact[hidden] {
   display: none;
 }
