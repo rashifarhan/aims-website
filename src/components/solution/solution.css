@@ -620,7 +620,8 @@
  * the solution pages (main.t3-page): the company and location pages borrow these section classes.
  */
 @media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .t3-page > :is(.t3-section, .t3-cta) {
+  /* The door's scroll story sets its own two-screen height (motion/doorStory.css), so it is left out here. */
+  .t3-page > :is(.t3-section:not(.door-story), .t3-cta) {
     align-content: center;
     min-height: 100svh;
   }
