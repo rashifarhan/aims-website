@@ -442,6 +442,10 @@
     "productCountOne": "1 product",
     "productCount": "{count} products",
     "pictured": "Pictured:",
+    "site": {
+      "title": "One site, five systems.",
+      "lead": "Each system has its place, from the gate to the counter. Find yours on the plan, then open its page."
+    },
     "cards": {
       "time-attendance": {
         "outcome": "Record working hours",
@@ -453,25 +457,25 @@
         "outcome": "Manage who can enter",
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
         "includes": ["Readers and controllers", "Face recognition terminals"],
-        "action": "Explore access control products"
+        "action": "See how access control works"
       },
       "entrance-parking": {
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
         "includes": ["Turnstiles and swing barriers", "Parking barriers"],
-        "action": "Explore entrance products"
+        "action": "See how entrances and car parks work"
       },
       "door-locks": {
         "outcome": "Choose access for each room",
         "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
         "includes": ["Smart door locks", "Hotel lock systems"],
-        "action": "Explore door locks"
+        "action": "See which lock fits each door"
       },
       "pos": {
         "outcome": "Equip your point of sale",
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
         "includes": ["Windows and Android terminals", "Biometric POS terminals"],
-        "action": "Explore POS products"
+        "action": "See how POS works at your counter"
       }
     },
     "industries": {
@@ -883,7 +887,8 @@
       "headOffice": "Head office, Dubai",
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
-    }
+    },
+    "showroomPhotoAlt": "The AIMS showroom in Deira, Dubai"
   },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",

@@ -30,7 +30,7 @@
   .aims-headline {
     animation: aims-title-in var(--duration-hero-rise) var(--ease-aims) both;
   }
-  .aims-hero :is(.t3-promise, .sw-hero-text > p, .product-hero-lead) {
+  .aims-hero :is(.t3-promise, .sw-hero-text > p, .product-hero-lead, .solution-lead) {
     animation: aims-support-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
   }
   .aims-hero :is(.t3-eyebrow, .t3-actions, .sw-hero-art, .t3-hero-photo) {

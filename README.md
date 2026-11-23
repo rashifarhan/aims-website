@@ -175,9 +175,10 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 
 ### Solutions hub decisions (Design Doc 10.1 T2; Master Plan ch. 12, 14)
 
-1. **Hub only, as planned** (`docs/superpowers/plans/2026-11-21-solutions-hub.md`): five need cards, an industries
-   strip and an FAQ. The five T3 solution pages are not built yet, so each card links to its family listing and says
-   so ("Explore attendance products"). The P2 finder is deferred.
+1. **Hub as planned** (`docs/superpowers/plans/2026-11-21-solutions-hub.md`): five need cards, the site plan, an
+   industries strip and an FAQ. All five T3 solution pages are built, so every card opens its solution page and its
+   action line names that page ("See how access control works"), not products (23 Nov 2026). The P2 finder is
+   deferred.
 2. **Each card's heading is its link**, stretched over the card with `::after`, so the whole card is clickable and
    the link's name is the title only (WCAG 2.5.3); the action line is visual. The first draft wrapped the whole card
    in one link labelled by part of its text, which failed axe `label-content-name-mismatch`. Built solution pages
@@ -185,7 +186,23 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 3. **"Explore the components" lists only what the linked listing contains** (CLAUDE.md §1). The draft promised
    attendance software, locks, speed gates and POS peripherals, which those listings don't have; they now read
    portable terminals, face recognition terminals, turnstiles and swing barriers, and biometric POS terminals. An e2e
-   test checks each line against the catalogue.
+   test checks each line against the catalogue and, since the cards open them, against the solution pages.
+4. **Hero entrance:** the intro uses the shared AIMS entrance (`motion/entrance.css`): the title rises from its mask
+   and the lead follows, with the T3 tokens. It has no photo, so no studio light. Reduced motion: still.
+5. **Dealt moment, "One site, five systems"** (`SolutionSite`, `SitePlanDrawing`, `site-plan.css`): a top-down plan
+   of one business site in the door kit's line style, with a numbered point for each solution where it sits on a
+   site (barrier and turnstile at the gate, the controlled main door, the terminal at the staff entry, an office
+   door's lock, the shop counter) and one controller node. When a third of the section is in view (MomentTrigger),
+   lines draw from the node to each point in turn and each point lights once with a lime ping (about 2.2 s), then
+   it stands. Transform, opacity and stroke-dashoffset only; reduced motion and no-JS show the finished plan.
+   - **Placement:** its own section between the cards and the industries strip. The cards answer "what", the plan
+     "where on my site", the industries "for which kind of site"; it holds one screen at 1440 × 900.
+   - **Links:** the SVG is decorative (`aria-hidden`, LTR in Arabic like the door and reach map). A numbered HTML
+     list beside it (below on phones) holds the five real links in visit order, gate to counter, with names from
+     `t.solutions[slug].name`, so the section reads the same without the plan. Hovering or focusing a link rings its
+     point. Phones drop the names from the plan and enlarge the markers rather than shrinking them.
+   - **Truth:** an illustration only, with no models, counts or claims. The node is unlabelled and the copy makes
+     no integration claim: it does not say the five systems run on one controller (CLAUDE.md §1).
 
 ### Contact decisions (Design Doc 10.1 T9; Master Plan ch. 12 row 8)
 
@@ -331,7 +348,10 @@ One time-boxed pass over every built template: a shared step first, then four te
 ## Not yet confirmed by AIMS
 
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,
-permission to link datasheets and software files, and an Arabic reviewer. `ar.json` is a first draft and needs that
+permission to link datasheets and software files, a photograph of the Deira showroom, and an Arabic reviewer. The
+showroom photo has a ready slot (`SHOWROOM_PHOTO` in `src/lib/site.ts`): set it and the showroom card on `/contact`
+and `/about` shows it. aimsuae.me publishes no showroom photo (checked 23 Nov 2026: product banners and stock images
+only), and no stand-in is used. `ar.json` is a first draft and needs that
 review.
 
 **Homepage polish audit (Design Doc ch. 2, 7–10, 12–14; Master Plan ch. 14, 18).** Each T1 section was checked

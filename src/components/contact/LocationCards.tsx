@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { MailIcon, PhoneIcon, PinIcon } from "@/components/icons";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { CONTACT, LOCATIONS } from "@/lib/site";
+import { CONTACT, LOCATIONS, SHOWROOM_PHOTO } from "@/lib/site";
 import { ContactLink } from "./ContactLink";
 
 /**
@@ -19,6 +20,17 @@ export function LocationCards({ t }: { t: Dictionary["contactPage"] }) {
           const line = CONTACT.lines[loc.line];
           return (
             <li key={loc.id} className="flex flex-col rounded-lg border border-line bg-paper p-5">
+              {loc.id === "showroom" && SHOWROOM_PHOTO && (
+                // AIMS's own showroom photograph, once supplied (site.ts SHOWROOM_PHOTO); until then, nothing.
+                <Image
+                  src={SHOWROOM_PHOTO.src}
+                  alt={t.showroomPhotoAlt}
+                  width={SHOWROOM_PHOTO.width}
+                  height={SHOWROOM_PHOTO.height}
+                  sizes="(min-width: 768px) 30vw, 100vw"
+                  className="-mx-5 -mt-5 mb-4 aspect-4/3 w-[calc(100%+2.5rem)] max-w-none rounded-t-lg object-cover"
+                />
+              )}
               <h3 className="font-semibold text-ink">{t.locations[loc.id]}</h3>
               <p className="mt-2 flex gap-2 text-sm text-ink-600">
                 <PinIcon width={16} height={16} className="mt-0.5 shrink-0 text-ink-400" />
