@@ -75,3 +75,64 @@ Probe at every width (EN and AR): no horizontal scroll, no control in `<main>` u
   would split one template in two. For the integrator.
 - Arabic `stagger`/`off-grid` on the steps, lead and fact: the checker measures left edges, and right-aligned Arabic is
   ragged on the left by design (CLAUDE.md §7). Judged false.
+
+## 2. Impeccable (`impeccable` audit, critique, then harden/adapt/polish)
+
+`impeccable context` loaded PRODUCT.md and DESIGN.md (North Star "The Trusted Showroom"). `impeccable detect --url`
+on the hub, Dubai, Oman and Arabic Dubai: one finding each, "Primary font: Inter" (overused font), judged false:
+DESIGN.md pins Inter, and the brief wins. Then a keyboard walk (Tab through `<main>` on the hub at 1440, Arabic Dubai
+at 390, Oman at 1440), map-label measurement, the 1440/1024/768/390/320 screenshots, and a source read of
+`src/components/locations/*` and `locations.css`.
+
+**Audit health score**
+
+| #   | Dimension                | Score     | Key finding                                                                                                                                                                                                  |
+| --- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | Accessibility            | 3         | Every stop has a visible ring (green on paper, lime on night green), no stop under the sticky header, 44px targets, axe 0 in `locations.spec.ts`; the hub's market group labels are headings at caption size |
+| 2   | Performance              | 3         | One preloaded hero photograph, lazy product photographs, the map is inline SVG; each page imports the whole homepage `sections.css` for a few classes                                                        |
+| 3   | Theming                  | 4         | Tokens only in `locations.css`; lime only on night green                                                                                                                                                     |
+| 4   | Responsive               | 3         | No horizontal scroll at 320–1440 in either language; desktop sections are not screen-sized (T1); 320 wraps the hero button and the breadcrumb                                                                |
+| 5   | Implementation integrity | 3         | Coherent with the T3 template and the shared card and buttons; the Oman crop reads as a cut rectangle (T3)                                                                                                   |
+|     | **Total**                | **16/20** | **Good**                                                                                                                                                                                                     |
+
+**Findings in this branch's scope** (Taste T1–T3 cover the layout, the hub h1 and the Oman crop)
+
+- I1 · P2 · all, 1440 · critique (hierarchy) · The Dubai fact line, the hero lead and the showroom card all give the
+  showroom address, and on the hub the fact and the first card repeat it: the first screen's one hard fact is
+  correct, but nothing new is learnt on the way down. · Keep (the fact is House rule 5's hard fact; the card holds the
+  map and call actions); noted, not changed.
+- I2 · P2 · `/locations` · harden (semantics) · The market group labels "GCC" and "Africa" are h3s styled as 13px
+  captions under the band's h2, so a screen reader's heading list shows two bare region names beside the office
+  names. · Same fix as T5: a list label (`aria-labelledby`), not a heading.
+- I3 · P2 · all, 1440 · critique (layout) · The reach band centres the text column against the map, so on Oman, where
+  the map is short, the map floats mid-band with empty dark above and below. · Top-align (T6) inside the one-screen
+  band (T1).
+- I4 · P2 · Oman · polish · The Gulf crop's dot field ends in a hard edge at the map's left and top (T3). · Mask the
+  crop's open edges.
+- I5 · P3 · all · optimize · Each location route imports `home/sections.css` (the whole homepage sheet) for the
+  button and text-link classes. · Leave: the shared button classes live there; moving them is the integrator's.
+
+**Outside this branch's files (for the integrator / owners)**
+
+- I6 · P2 · all, 320 · adapt · The breadcrumb wraps with its "/" starting the second line ("/ ZKTeco supply to
+  Oman"). · Shared `Breadcrumbs`: keep each separator with the item after it (`white-space: nowrap` on separator +
+  label) or allow the current page label to truncate.
+- I7 · P2 · Oman, Kenya at 320; AR close everywhere at 320 · adapt · `.home-button` wraps to two lines ("Request an
+  export quote", "ابدأ طلب عرض سعر للتصدير") with the arrow pushed to the far edge. · Shared button: balance the
+  label (`text-wrap: balance`) and keep the arrow beside the text (`justify-content: center` with a gap), or let the
+  close panel drop its inline padding at 320 (solution.css, Agent C).
+- I8 · P2 · all, 320 · adapt · The footer's phone numbers wrap mid-number ("+971 4 252 / 3253"). · Agent B (footer):
+  `white-space: nowrap` on the number.
+- I9 · P1 · Arabic T7 pages · adapt · `ProductCard` spec values run flush to the card's left edge in Arabic (e.g.
+  "4(2 RS-485 Reader, 2 26-bit wiegand reader)"), already on Agent C's checklist. · Agent C.
+- I10 · P2 · T7 pages · a11y · The product card's title link is 20–23px tall in the Tab walk; the card's own Add is
+  44px. · Agent C (`ProductCard`): the title link is the card's stretched link, so the target passes by spacing
+  (WCAG 2.5.8), but its ring is the size of the text.
+
+**Positive**
+
+- Real AIMS contacts, honest "Opening hours aren't published yet", no invented office abroad (Oman and Kenya say
+  "supply to"), English addresses and phone numbers kept LTR inside Arabic.
+- Every market on the hub is a page or a preset export quote, each with a spoken destination (", supply page" /
+  ", start an export quote").
+- Reduced motion and no-JS rest on the finished map; the map is one `role="img"` with a place-naming label.
