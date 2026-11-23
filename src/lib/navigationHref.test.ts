@@ -39,14 +39,19 @@ describe("preview navigation", () => {
 });
 
 describe("prefetch guard", () => {
-  it("turns prefetch off for the solutions hub, the legal pages and filtered listings only", () => {
+  it("turns prefetch off for English one-segment pages, the solutions hub and filtered listings", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
+    // English one-segment paths read as the [lang] page to the router and loop (lib/prefetchSafe.ts),
+    // so /products, which loaded fine before, is now kept off too: the loop picks links at random.
+    expect(prefetchSafe("/products")).toBe(false);
+    expect(prefetchSafe("/support")).toBe(false);
     expect(prefetchSafe("/privacy-policy")).toBe(false);
-    expect(prefetchSafe("/ar/terms-and-conditions")).toBe(false);
+    expect(prefetchSafe("/ar/support")).toBe(true);
+    expect(prefetchSafe("/ar/products")).toBe(true);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
-    expect(prefetchSafe("/products")).toBe(true);
     expect(prefetchSafe("/ar")).toBe(true);
+    expect(prefetchSafe("/")).toBe(true);
   });
 });
