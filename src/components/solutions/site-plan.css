@@ -1,0 +1,225 @@
+/*
+ * The hub's site plan (SolutionSite; /solutions only). Tokens only. The moment follows the door's rules
+ * (access-control/door.css): transform, opacity and stroke-dashoffset only; once; nothing is hidden unless
+ * MomentTrigger set data-effects="on", which it never does under reduced motion or without JS, so the
+ * markup's finished frame always shows.
+ */
+
+/* ---------- Layout: heading, plan, numbered links; desktop sets the plan beside them ---------- */
+.hs-site {
+  display: grid;
+  grid-template-areas:
+    "heading"
+    "stage"
+    "list";
+  row-gap: 2rem;
+  padding-block: 1rem;
+}
+.hs-heading {
+  grid-area: heading;
+}
+.hs-stage {
+  grid-area: stage;
+  border-radius: var(--radius-lg);
+  overflow: clip;
+}
+.hs-list {
+  grid-area: list;
+}
+
+/* ---------- The plan ---------- */
+.hs-plan {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hs-plan :is(path, rect, circle) {
+  vector-effect: non-scaling-stroke;
+}
+.hs-label {
+  font-size: var(--text-plan-label);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.hs-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-plan-index);
+  font-weight: 600;
+}
+.hs-line {
+  stroke-dasharray: 1;
+}
+/* The ping only exists while a point lights; at rest it is gone in every mode. */
+.hs-halo {
+  opacity: 0;
+}
+/* Hovering or focusing a link rings its point on the plan (the hover layer may change opacity). */
+.hs-ring {
+  opacity: 0;
+  transition: opacity var(--duration-hover) ease;
+}
+.hs-site:has(.hs-link[data-point="entrance-parking"]:is(:hover, :focus-visible))
+  [data-point="entrance-parking"]
+  .hs-ring,
+.hs-site:has(.hs-link[data-point="access-control"]:is(:hover, :focus-visible)) [data-point="access-control"] .hs-ring,
+.hs-site:has(.hs-link[data-point="time-attendance"]:is(:hover, :focus-visible)) [data-point="time-attendance"] .hs-ring,
+.hs-site:has(.hs-link[data-point="door-locks"]:is(:hover, :focus-visible)) [data-point="door-locks"] .hs-ring,
+.hs-site:has(.hs-link[data-point="pos"]:is(:hover, :focus-visible)) [data-point="pos"] .hs-ring {
+  opacity: 1;
+}
+
+/* ---------- The numbered links: the section's content, 56px rows ---------- */
+.hs-list li {
+  border-block-start: 1px solid var(--color-line);
+}
+.hs-list li:last-child {
+  border-block-end: 1px solid var(--color-line);
+}
+.hs-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1rem;
+  min-height: 3.5rem;
+  padding-block: 0.75rem;
+  transition: opacity var(--duration-fast) ease;
+}
+.hs-link-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.hs-link-name {
+  display: block;
+  font-weight: 650;
+  /* Underline laid out at rest and coloured on hover, so it draws without shifting (taste motion.md). */
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-hover) ease;
+}
+.hs-link-summary {
+  display: block;
+  margin-block-start: 0.125rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-small);
+}
+.hs-link-arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-green-700);
+}
+.hs-link:hover .hs-link-name {
+  text-decoration-color: currentColor;
+}
+.hs-link:hover .hs-link-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .hs-link:hover .hs-link-arrow {
+  translate: -3px 0;
+}
+.hs-link:active {
+  opacity: 0.75;
+}
+
+/* ---------- Phones: drop the names from the plan and enlarge the markers; the list carries the names ---------- */
+@media (max-width: 639px) {
+  .hs-label {
+    display: none;
+  }
+  .hs-mark {
+    transform: scale(2);
+  }
+}
+/* Tablets and small desktops show the plan at 0.7–0.9 of its size; the markers keep their numbers legible. */
+@media (min-width: 640px) and (max-width: 1279px) {
+  .hs-mark {
+    transform: scale(1.25);
+  }
+}
+@media (min-width: 1024px) {
+  .hs-site {
+    grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "heading stage"
+      "list stage";
+    column-gap: 4rem;
+    row-gap: 0;
+    align-items: start;
+    padding-block: 2rem;
+  }
+  .hs-stage {
+    align-self: center;
+  }
+  .hs-list {
+    margin-block-start: 2rem;
+  }
+}
+
+/* ---------- The moment: lines draw in turn, each point lights once (about 2.2 s), then it stands ---------- */
+:root[data-effects="on"] .hs-site:not([data-played]) .hs-line {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] .hs-site:not([data-played]) :is(.hs-hub, .hs-disc, .hs-led) {
+  opacity: 0;
+  transform: scale(0.8);
+}
+:root[data-effects="on"] .hs-site[data-played] .hs-hub {
+  animation: hs-pop 240ms var(--ease-aims) both;
+}
+:root[data-effects="on"] .hs-site[data-played] .hs-line {
+  animation: hs-draw 400ms calc(160ms + var(--i) * 240ms) var(--ease-aims) both;
+}
+:root[data-effects="on"] .hs-site[data-played] .hs-disc {
+  animation: hs-pop 240ms calc(520ms + var(--i) * 240ms) var(--ease-aims) both;
+}
+:root[data-effects="on"] .hs-site[data-played] .hs-led {
+  animation: hs-pop 240ms calc(640ms + var(--i) * 240ms) var(--ease-aims) both;
+}
+:root[data-effects="on"] .hs-site[data-played] .hs-halo {
+  animation: hs-ping 640ms calc(640ms + var(--i) * 240ms) ease-out both;
+}
+@keyframes hs-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes hs-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Starts and ends unseen, so its fill during the delay hides it; lime rings out once per point. */
+@keyframes hs-ping {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  15% {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hs-ring,
+  .hs-link,
+  .hs-link-name {
+    transition: none;
+  }
+  .hs-link:hover .hs-link-arrow {
+    translate: none;
+  }
+}
