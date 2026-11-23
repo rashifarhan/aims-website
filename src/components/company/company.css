@@ -135,6 +135,7 @@
   border-block-start: 1px solid var(--color-line);
 }
 .co-steps h3 {
+  font-size: var(--text-home-card);
   font-weight: var(--font-weight-card);
 }
 .co-steps p {

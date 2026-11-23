@@ -11,6 +11,7 @@ import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { ArticleNext } from "@/components/editorial/ArticleNext";
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
 import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
 import { articleBySlug, articles } from "@/content/pages";
 import "@/components/editorial/editorial.css";
@@ -88,7 +89,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           <ArticleNext slug={a.slug} />
         </article>
       </div>
-      <section className="ed-more wrap" aria-labelledby="article-more-title">
+      <Section ground="band" labelledBy="article-more-title" className="ed-more">
         <div className="ed-more-heading">
           <h2 id="article-more-title" className="section-title">
             {t.blog.moreHeading}
@@ -104,7 +105,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
     </main>
   );
 }

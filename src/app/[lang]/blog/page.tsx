@@ -5,6 +5,8 @@ import { fmt } from "@/i18n/format";
 import { alternates } from "@/lib/seo";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { articles } from "@/content/pages";
 import "@/components/editorial/editorial.css";
 
@@ -39,7 +41,10 @@ export default async function Blog() {
         title={t.blog.title}
         lead={`${fmt(t.blog.lead, { count: list.length })}${locale === "ar" ? ` ${t.editorial.englishOnly}` : ""}`}
       />
-      <div className="wrap pb-(--section-space)">
+      <Section ground="band" labelledBy="blog-list-title" className="ed-list">
+        <h2 id="blog-list-title" className="sr-only">
+          {t.blog.title}
+        </h2>
         <ul className="ed-card-grid">
           {list.map((a) => (
             <li key={a.slug}>
@@ -47,7 +52,13 @@ export default async function Blog() {
             </li>
           ))}
         </ul>
-      </div>
+      </Section>
+      <ClosePanel
+        id="blog-close-title"
+        heading={t.blog.nextHeading}
+        body={t.blog.nextBody}
+        action={{ href: href("/quote"), label: t.blog.quote }}
+      />
     </main>
   );
 }
