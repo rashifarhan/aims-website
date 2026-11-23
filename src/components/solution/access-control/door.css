@@ -9,7 +9,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 4rem;
-  align-items: center;
+  /* A split's columns are top-aligned (layout-v4.md 2, SR-8): the heading and the drawing start on one line. */
+  align-items: start;
 }
 .t3-door-parts {
   margin-block-start: 1.75rem;
