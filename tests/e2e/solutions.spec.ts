@@ -117,8 +117,8 @@ for (const locale of ["en", "ar"]) {
   });
 }
 
-// Every "Explore the components" line must name something the linked listing actually contains (CLAUDE.md §1).
-test("component lines match the catalogue they link to", async ({ page, isMobile }) => {
+// Every "Explore the components" line must name something its catalogue listing and its solution page contain (CLAUDE.md §1).
+test("component lines match the catalogue and the solution pages", async ({ page, isMobile }) => {
   test.skip(isMobile, "content check, one viewport is enough");
   const expectations: [string, RegExp][] = [
     ["/products/time-attendance?type=portable", /./],
@@ -129,6 +129,18 @@ test("component lines match the catalogue they link to", async ({ page, isMobile
   for (const [url, pattern] of expectations) {
     await page.goto(url);
     await expect(page.getByRole("article").filter({ hasText: pattern }).first()).toBeVisible();
+  }
+  // The cards now open the solution pages, so each line must also be shown on the page it opens.
+  const pages: [string, RegExp[]][] = [
+    ["/solutions/time-attendance", [/Face/, /Fingerprint/, /Card/, /Horus H1/]], // H1: the portable terminal
+    ["/solutions/access-control", [/controller/i, /Face/]],
+    ["/solutions/entrance-parking", [/turnstile/i, /swing barrier/i, /Parking barrier/]],
+    ["/solutions/door-locks", [/Home or office door/, /Hotel room/]],
+    ["/solutions/pos", [/Windows POS/, /Android POS/, /Fingerprint verification/]],
+  ];
+  for (const [url, patterns] of pages) {
+    await page.goto(url);
+    for (const pattern of patterns) await expect(page.locator("main")).toContainText(pattern);
   }
 });
 
@@ -199,8 +211,8 @@ for (const locale of ["en", "ar"]) {
     await page.goto(path);
     const site = page.locator(".hs-site");
     await expect(site.locator("h2")).toHaveCount(1);
-    await expect(site.locator("svg")).toHaveAttribute("aria-hidden", "true");
-    await expect(site.locator("svg")).toHaveAttribute("direction", "ltr");
+    await expect(site.locator(".hs-plan")).toHaveAttribute("aria-hidden", "true");
+    await expect(site.locator(".hs-plan")).toHaveAttribute("direction", "ltr");
     const links = site.locator("ol a");
     await expect(links).toHaveCount(5);
     // The order of a visit, gate to counter, matching the plan's numbers.
