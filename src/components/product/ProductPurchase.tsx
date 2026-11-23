@@ -78,7 +78,9 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
     />
   );
   const addButton = (
-    <button type="button" onClick={add} className="home-button flex-1 sm:flex-none">
+    // Under 360px the stepper and the label cannot share a row (Arabic most of all), so the button takes its own
+    // full-width row instead of wrapping its label onto two or three lines (audit B4).
+    <button type="button" onClick={add} className="home-button flex-1 max-[359px]:basis-full sm:flex-none">
       {labels.add}
     </button>
   );
