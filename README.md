@@ -654,3 +654,31 @@ results before and after are in `docs/audits/2026-11-23-{locations,company,solut
     visible label would crowd the header.
   - **No stand-in Deira photograph:** on AIMS's own location pages it would read as AIMS's street or showroom
     (CLAUDE.md §1). A real showroom photo from AIMS goes in when supplied.
+
+### Purposeful motion (`codex/purposeful-motion`, 23 Nov 2026)
+
+- The client approved `docs/superpowers/specs/2026-11-23-purposeful-motion-design.md`: original domain motion on home,
+  Access Control, Time Attendance, product details and software details. Master Plan ch. 6/9/14/16/18 and Design Doc
+  ch. 3–9/13/14 apply. NUZON's audit is reference evidence, never a source of brand assets or implementation.
+- This supersedes the earlier **timed door trigger** on home and Access Control: the approved illustration now
+  follows native desktop scroll within two screens, reverses on the way back, and shows six real part links.
+  Phones/short windows play once only when the drawing is visible, preserve progress on resize, and pause out of view.
+- Attendance keeps its four stages and labelled sample rows; phone playback advances in visible time, with no pinned
+  drawing over the text. Transport dots finish rather than looping while someone reads.
+- Hero entrances use the existing AIMS tokens and whole text runs. Controls work immediately. Still green studio
+  lighting sits behind the real hardware; homepage verification light shares the existing paused/offscreen-aware clock.
+  Connection diagrams keep their text readable and draw only data-backed paths. Runtime reduced-motion changes finish
+  the diagrams, including with multiple mounted triggers. No library, WebGL, competitor asset or new product claim.
+- Review findings, decisions and verification are recorded in `docs/design-checks/purposeful-motion.md`.
+- **Taken onto `main` through `claude/purposeful-motion`, after review (23 Nov 2026):**
+  - The new hero entrance (title rising from its mask, studio light behind the photo) is shared by every T3-based
+    hero: all five solution pages, the location pages and the company pages. The branch had applied it to two
+    hard-coded solution slugs only.
+  - On phones, the door's parts list now follows the one-shot playback step by step; before, it stayed on "01" until
+    the end.
+  - The access control scroll story is excluded from the audit's one-screen section rule, which otherwise removed its
+    scroll range.
+  - `.taste-skill/waivers.json` is unchanged (the branch had swapped a waiver), the raw gate and performance outputs
+    stay local (CLAUDE.md), and the resting hero glow keeps its original strength (DESIGN.md "Lime Is Light").
+  - Scroll-driven stories are desktop only, on the homepage door, Access Control and Time Attendance. Phones play
+    once; product, software and the other solution pages keep their one-time draws.

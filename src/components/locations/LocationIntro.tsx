@@ -28,12 +28,15 @@ export async function LocationIntro({
 }) {
   const t = await getDictionary();
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro aims-hero page-container">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
           {copy.eyebrow && <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>}
-          <h1 className="t3-enter">{copy.title}</h1>
+          {/* The shared AIMS entrance (motion/entrance.css), as on every T3-based hero. */}
+          <h1 className="aims-headline-mask">
+            <span className="aims-headline">{copy.title}</span>
+          </h1>
           <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">
             <Link href={hrefs.primary} className="home-button">
@@ -47,7 +50,7 @@ export async function LocationIntro({
           <p className="loc-fact t3-enter">{fact}</p>
         </div>
         {photo && (
-          <div className="t3-hero-photo">
+          <div className="t3-hero-photo aims-studio">
             {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
             <Image
               src={photo.src}

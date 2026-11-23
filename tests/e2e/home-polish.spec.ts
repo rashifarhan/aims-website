@@ -66,7 +66,17 @@ test("approved hero entrances and verification tick settle under reduced motion"
   const entrance = await page
     .locator(".home-device")
     .evaluate((element) => element.getAnimations().map((animation) => animation.effect?.getTiming()));
-  expect(entrance.some((timing) => timing?.duration === 1100 && timing.delay === 350)).toBe(true);
+  // Approved redesign: the entire entrance settles within 1.1s, including its overlap delay.
+  expect(entrance.length).toBeGreaterThan(0);
+  expect(
+    entrance.every(
+      (timing) =>
+        timing !== undefined &&
+        typeof timing.duration === "number" &&
+        timing.duration + (timing.delay ?? 0) <= 1100 &&
+        timing.iterations === 1,
+    ),
+  ).toBe(true);
   const tick = page.locator(".home-device-tick path");
   await tick.evaluate((element) => {
     for (const animation of element.getAnimations()) {

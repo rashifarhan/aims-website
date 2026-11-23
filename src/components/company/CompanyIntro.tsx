@@ -25,12 +25,15 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
   const t = await getDictionary();
   const image = productBySlug(photo)?.images[0];
   return (
-    <div className="t3-intro co-intro page-container">
+    <div className="t3-intro aims-hero co-intro page-container">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
           {eyebrow && <p className="t3-eyebrow t3-enter">{eyebrow}</p>}
-          <h1 className="t3-enter">{title}</h1>
+          {/* The shared AIMS entrance (motion/entrance.css), as on every T3-based hero. */}
+          <h1 className="aims-headline-mask">
+            <span className="aims-headline">{title}</span>
+          </h1>
           <p className="t3-promise t3-enter">{lead}</p>
           <div className="t3-actions t3-enter">
             <Link href={primary.href} className="home-button">
@@ -43,7 +46,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
           </div>
         </div>
         {image && (
-          <div className="t3-hero-photo">
+          <div className="t3-hero-photo aims-studio">
             {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
             <Image
               src={image.src}

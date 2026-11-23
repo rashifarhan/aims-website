@@ -100,7 +100,7 @@ export function ConnectsDiagram({ model, connections, connLabels, labels, sectio
                   style={{ "--i": r.n } as CSSProperties}
                   {...(r.english ? data : {})}
                 >
-                  <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-green-700" />
+                  <span aria-hidden="true" className="connects-status size-1.5 shrink-0 rounded-full bg-green-700" />
                   {r.text}
                 </span>
               </dd>

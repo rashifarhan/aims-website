@@ -9,6 +9,7 @@ import { ArrowIcon } from "@/components/icons";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { IntroCopy } from "./types";
+import "@/components/motion/entrance.css";
 
 /**
  * T3 row 1: title, promise and two actions beside AIMS's own product photograph (Master Plan 14;
@@ -20,7 +21,7 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(page.hero)?.images[0];
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro aims-hero page-container">
       <Breadcrumbs
         label={t.common.breadcrumb}
         items={[
@@ -33,7 +34,10 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
         <div className="t3-hero-copy">
           {/* Only a label that states a fact; a category the breadcrumb already names is left out (Impeccable). */}
           {copy.eyebrow && <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>}
-          <h1 className="t3-enter">{copy.title}</h1>
+          {/* The shared AIMS entrance (motion/entrance.css): the title rises from its mask on every T3 page. */}
+          <h1 className="aims-headline-mask">
+            <span className="aims-headline">{copy.title}</span>
+          </h1>
           <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">
             <Link href={href(page.quote)} className="home-button">
@@ -48,7 +52,7 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
         {photo && (
           // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
           // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
-          <div className="t3-hero-photo" style={{ "--photo-width": `${photo.width}px` } as CSSProperties}>
+          <div className="t3-hero-photo aims-studio" style={{ "--photo-width": `${photo.width}px` } as CSSProperties}>
             {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
             <Image
               src={photo.src}
