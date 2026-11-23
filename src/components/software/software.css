@@ -174,6 +174,18 @@
   min-block-size: 3.5rem;
   padding-block: 0.25rem;
 }
+/* BioTime Cloud's four ways in filled a quarter of their screen on a desktop (taste empty-area 64%):
+   taller rows and larger pills. The stretched viewBox still lands each line on its row (SoftwareSignal). */
+@media (min-width: 1024px) {
+  .sw-signal-chip .sw-signal-node {
+    min-block-size: 6.5rem;
+  }
+  .sw-signal-chip .sw-signal-pill {
+    min-height: 3.25rem;
+    padding-inline: 1.5rem;
+    font-size: var(--text-base);
+  }
+}
 /* Where a line lands: a dot on the destination's inline-start edge. */
 .sw-signal-node::after {
   content: "";
@@ -261,6 +273,21 @@
   height: 4.5rem;
   overflow: clip;
   border-radius: var(--radius-md);
+}
+/* At 320–415px the card beside the signal lines is ~250px wide: a smaller thumbnail and tighter padding
+   keep "Add to quote" on one line in Arabic too (audit I-05). */
+@media (width < 26rem) {
+  .sw-terminal {
+    gap: 0.75rem;
+    padding-inline: 0.5rem 0.75rem;
+  }
+  .sw-terminal-image {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+.sw-terminal .home-button {
+  white-space: nowrap;
 }
 .sw-terminal-image img {
   width: 100%;
