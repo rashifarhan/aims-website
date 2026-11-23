@@ -9,6 +9,7 @@ import type { QuoteLine } from "@/lib/quote/store";
 import { DetailsPanel } from "./DetailsPanel";
 import { ErrorSummary } from "./ErrorSummary";
 import { Panel } from "./fields";
+import { isSoftwareLine } from "@/lib/quote/store";
 import { NeedPanel } from "./NeedPanel";
 import { QuoteItems, type CatalogEntry } from "./QuoteItems";
 
@@ -77,6 +78,7 @@ export function QuotePanels({
       </Panel>
       <Panel n={2} id="panel-need" title={t.needHeading}>
         <NeedPanel
+          hasSoftware={lines.some(isSoftwareLine)}
           context={context}
           t={t}
           errors={{ need: errorText("need"), emirate: errorText("emirate"), country: errorText("country") }}

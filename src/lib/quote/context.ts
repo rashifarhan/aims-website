@@ -6,7 +6,7 @@ import { DELIVERY_COUNTRIES } from "@/lib/site";
  * the list for 14 days. Contact details are NOT part of this and are never
  * stored.
  */
-export const NEEDS = ["supply", "install", "export"] as const;
+export const NEEDS = ["supply", "install", "export", "software"] as const;
 export const BUYER_TYPES = ["installer", "end-user", "consultant", "distributor"] as const;
 export const TIMINGS = ["asap", "two-weeks", "month", "planning"] as const;
 export const SITE_TYPES = ["office", "industrial", "retail", "hotel", "residential", "other"] as const;

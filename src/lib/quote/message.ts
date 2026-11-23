@@ -1,5 +1,5 @@
 import type { QuoteContext } from "./context";
-import type { QuoteLine } from "./store";
+import { isSoftwareLine, type QuoteLine } from "./store";
 
 /**
  * Builds the text AIMS receives (WhatsApp draft and enquiry summary). The
@@ -47,27 +47,29 @@ export function buildQuoteMessage(input: {
       const p = products[line.slug];
       out.push(`• ${p ? `${p.name} (${p.model})` : line.slug} × ${line.qty}`);
     } else {
-      out.push(`• ${fill(L.custom, { text: line.text })} × ${line.qty}`);
+      out.push(`• ${isSoftwareLine(line) ? line.text : fill(L.custom, { text: line.text })} × ${line.qty}`);
     }
   }
 
   if (c.need) {
     const place =
-      c.need === "supply"
-        ? c.city?.trim()
-        : c.need === "install"
-          ? join([
-              c.emirate && L.emirates[c.emirate],
-              c.siteType && L.siteTypes[c.siteType],
-              c.doors?.trim() && fill(L.doors, { n: c.doors.trim() }),
-              c.users?.trim() && fill(L.users, { n: c.users.trim() }),
-              c.existing?.trim() && fill(L.existing, { text: c.existing.trim() }),
-            ])
-          : join([
-              c.country?.trim(),
-              c.port?.trim(),
-              c.documents?.trim() && fill(L.documents, { text: c.documents.trim() }),
-            ]);
+      c.need === "software"
+        ? c.existing?.trim() && fill(L.existing, { text: c.existing.trim() })
+        : c.need === "supply"
+          ? c.city?.trim()
+          : c.need === "install"
+            ? join([
+                c.emirate && L.emirates[c.emirate],
+                c.siteType && L.siteTypes[c.siteType],
+                c.doors?.trim() && fill(L.doors, { n: c.doors.trim() }),
+                c.users?.trim() && fill(L.users, { n: c.users.trim() }),
+                c.existing?.trim() && fill(L.existing, { text: c.existing.trim() }),
+              ])
+            : join([
+                c.country?.trim(),
+                c.port?.trim(),
+                c.documents?.trim() && fill(L.documents, { text: c.documents.trim() }),
+              ]);
     out.push(`${L.need}: ${join([L.needs[c.need], place])}`);
   }
   if (c.timing) out.push(`${L.timing}: ${L.timings[c.timing]}`);

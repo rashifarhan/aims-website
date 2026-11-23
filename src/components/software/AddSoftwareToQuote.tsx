@@ -50,7 +50,7 @@ export function AddSoftwareToQuote({ slug, name, quoteHref, labels }: Props) {
           className="home-button"
           onClick={() => {
             justAdded.current = true;
-            dispatchQuote({ type: "addCustom", id, text: fmt(labels.line, { name }), qty: 1 });
+            dispatchQuote({ type: "requestSoftware", slug, text: fmt(labels.line, { name }) });
             setStatus(fmt(labels.added, { name }));
           }}
         >

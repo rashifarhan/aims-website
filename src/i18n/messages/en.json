@@ -550,12 +550,14 @@
     "needs": {
       "supply": "Supply only",
       "install": "Supply and installation",
-      "export": "Delivery abroad"
+      "export": "Delivery abroad",
+      "software": "Software and licences"
     },
     "needHints": {
       "supply": "I'll install it myself",
       "install": "In the UAE",
-      "export": "GCC, Africa or elsewhere"
+      "export": "GCC, Africa or elsewhere",
+      "software": "Platform selection and terminal setup"
     },
     "city": "Delivery city (optional)",
     "timing": "When do you need it? (optional)",
@@ -662,7 +664,8 @@
       "documents": "documents: {text}"
     },
     "presetInstall": "Installation enquiry: describe your site below (for example \"6 doors, 80 staff, Dubai office\"), then add any models you already know.",
-    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know."
+    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know.",
+    "softwareExisting": "Existing terminals or software (optional)"
   },
   "contactGuard": {
     "title": "Preview: this would contact AIMS",
@@ -895,7 +898,7 @@
     "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
     "title": "ZKTeco software for attendance and access control",
     "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
-    "primary": "Request an installation quote",
+    "primary": "Help me choose software",
     "filterLabel": "Software type",
     "all": "All software",
     "types": {
@@ -920,7 +923,9 @@
     "close": {
       "heading": "Software set up on your terminals",
       "body": "Tell AIMS which terminals you run and how many sites you have. The quote covers the software, licences and installation."
-    }
+    },
+    "guidanceLine": "Help me choose software for my terminals.",
+    "askPlatform": "Ask about {name}"
   },
   "softwarePage": {
     "software": "Software",
