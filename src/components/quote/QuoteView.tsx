@@ -9,7 +9,8 @@ import { messageLabels } from "@/lib/quote/labels";
 import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
 import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
-import { destinationFromSearch, needFromSearch } from "@/lib/quote/context";
+import { getQuote } from "@/lib/quote/store";
+import { destinationFromSearch, needFromSearch, presetPatch } from "@/lib/quote/context";
 import { CONTACT, LIVE_CONTACT, NEED_CHANNELS, whatsappUrl } from "@/lib/site";
 import { EmptyQuote } from "./EmptyQuote";
 import { MobileReviewBar } from "./MobileReviewBar";
@@ -66,7 +67,8 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   useEffect(() => {
     const search = window.location.search;
     const need = needFromSearch(search);
-    const patch = destinationFromSearch(search) ?? (need && { need });
+    const destination = destinationFromSearch(search);
+    const patch = destination ? presetPatch(getQuote().context, destination) : need && { need };
     if (patch) dispatchQuote({ type: "setContext", patch });
   }, []);
 

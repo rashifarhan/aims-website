@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MarketLink } from "./MarketLink";
 import { AddToQuote, type AddToQuoteLabels } from "@/components/catalogue/AddToQuote";
 import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
@@ -32,13 +32,13 @@ export function FittedWith({ items, heading, note, href, addLabels, data }: Prop
               {f.images[0] && <Image src={f.images[0].src} alt="" fill sizes="80px" className="object-contain p-1" />}
             </div>
             <div className="min-w-0 flex-1">
-              <Link
+              <MarketLink
                 href={href(`/product/${f.slug}`)}
                 {...data}
                 className="block font-semibold wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
               >
                 {f.name}
-              </Link>
+              </MarketLink>
               <AddToQuote slug={f.slug} name={f.name} labels={addLabels} variant="outline" className="mt-2" />
             </div>
           </li>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { QuoteContextSchema, type QuoteContext } from "./context";
+import { presetPatch, QuoteContextSchema, type QuoteContext } from "./context";
 
 /**
  * The quote list (Plan ch. 13/16): one store, persisted to localStorage
@@ -33,9 +33,9 @@ export type QuoteLine = z.infer<typeof ProductLine> | z.infer<typeof CustomLine>
 export type QuoteState = z.infer<typeof QuoteSchema>;
 
 export type QuoteAction =
-  | { type: "add"; slug: string; qty: number }
+  | { type: "add"; slug: string; qty: number; preset?: Partial<QuoteContext> }
   | { type: "requestSoftware"; slug: string; text: string }
-  | { type: "addCustom"; id: string; text: string; qty: number }
+  | { type: "addCustom"; id: string; text: string; qty: number; preset?: Partial<QuoteContext> }
   | { type: "setQty"; key: string; qty: number }
   | { type: "remove"; key: string }
   /** Undo a removal (Design Doc 9: removed line, undo 5 s). */
@@ -52,7 +52,11 @@ export const lineKey = (l: QuoteLine) => (l.kind === "product" ? l.slug : l.id);
 const clampQty = (n: number) => Math.min(MAX_QTY, Math.max(1, Math.round(Number.isFinite(n) ? n : 1)));
 
 export function quoteReducer(state: QuoteState, action: QuoteAction, now = Date.now()): QuoteState {
-  const next = (lines: QuoteLine[]): QuoteState => ({ ...state, v: 1, updatedAt: now, lines });
+  const next = (lines: QuoteLine[]): QuoteState => {
+    const preset =
+      action.type === "add" || action.type === "addCustom" ? presetPatch(state.context, action.preset) : undefined;
+    return { ...state, ...(preset && { context: { ...state.context, ...preset } }), v: 1, updatedAt: now, lines };
+  };
   switch (action.type) {
     case "add": {
       const existing = state.lines.find((l) => l.kind === "product" && l.slug === action.slug);

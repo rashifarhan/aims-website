@@ -9,7 +9,14 @@ import type { DeliveryMarket } from "./site";
  * adding a model on the page saves as the quote's destination (see presetPatch).
  */
 export const LOCATION_PAGES = {
-  dubai: { path: DUBAI_PATHS.en, hero: "proface-x", quote: "/quote?need=install", preset: undefined },
+  dubai: {
+    path: DUBAI_PATHS.en,
+    hero: "proface-x",
+    quote: "/quote?need=install&emirate=dubai",
+    // No preset on add: a trade buyer adding a model from the showroom page may want supply only, so the
+    // installation need and Dubai emirate come only from the page's installation-quote action above.
+    preset: undefined,
+  },
   oman: {
     path: "/zkteco-distributor-in-oman",
     hero: "speedface-v5l-p",

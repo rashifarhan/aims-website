@@ -6,7 +6,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { LOCATION_MODELS } from "@/lib/locationPages";
-import type { QuoteContext } from "@/lib/quote/context";
+import { withDestination, type QuoteContext } from "@/lib/quote/context";
 
 /**
  * T7 "popular models" (Design Doc 10.1), named "models to start from" because AIMS publishes no sales ranking.
@@ -39,7 +39,7 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
           </h2>
           <p className="t3-lead">{c.modelsLead}</p>
         </div>
-        <Link href={localePath(locale, "/products")} className="home-text-link">
+        <Link href={withDestination(localePath(locale, "/products"), preset)} className="home-text-link">
           {fmt(c.modelsAll, { count: products().length })}
         </Link>
       </div>
@@ -48,7 +48,7 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
           <li key={card.slug} className="flex">
             <ProductCard
               card={card}
-              href={localePath(locale, `/product/${card.slug}`)}
+              href={withDestination(localePath(locale, `/product/${card.slug}`), preset)}
               subtitle={(card.types[0] ? types[card.types[0]] : t.families[card.family].name) ?? ""}
               labels={labels}
               preset={preset}

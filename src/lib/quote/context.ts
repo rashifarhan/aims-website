@@ -57,10 +57,28 @@ export function needFromSearch(search: string): Need | undefined {
  * An export link such as /quote?need=export&country=Oman (Design Doc 10.1 T7 "set destination") arrives with
  * that destination. Only a market AIMS lists is accepted; anything else falls back to needFromSearch.
  */
-export function destinationFromSearch(search: string): Pick<QuoteContext, "need" | "country"> | undefined {
+export function destinationFromSearch(search: string): Pick<QuoteContext, "need" | "country" | "emirate"> | undefined {
   const params = new URLSearchParams(search);
+  if (params.get("need") === "install" && params.get("emirate") === "dubai") {
+    return { need: "install", emirate: "dubai" };
+  }
   const country = z.enum(DELIVERY_COUNTRIES).safeParse(params.get("country"));
   return params.get("need") === "export" && country.success ? { need: "export", country: country.data } : undefined;
+}
+
+/** Carry only the market hint through internal shopping links, alongside the existing catalogue filters. */
+export function withDestination(href: string, preset?: Partial<QuoteContext>): string {
+  const params = new URLSearchParams();
+  if (preset?.need === "export" && preset.country) {
+    params.set("need", "export");
+    params.set("country", preset.country);
+  } else if (preset?.need === "install" && preset.emirate === "dubai") {
+    params.set("need", "install");
+    params.set("emirate", "dubai");
+  }
+  // toString, not .size: URLSearchParams.size is missing before Safari 17, where the market would silently drop.
+  const query = params.toString();
+  return query ? href + (href.includes("?") ? "&" : "?") + query : href;
 }
 
 /**

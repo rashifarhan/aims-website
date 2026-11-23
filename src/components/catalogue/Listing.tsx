@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ProductCard as Card } from "@/content/cards";
 import type { FamilySlug } from "@/content/taxonomy";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -16,6 +16,7 @@ import {
   type FacetGroup,
   type FilterState,
 } from "@/lib/filters";
+import { destinationFromSearch, withDestination, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote } from "@/lib/quote/useQuote";
 import { createIndex, searchSlugs } from "@/lib/search";
 import { CloseIcon, SearchIcon } from "@/components/icons";
@@ -40,7 +41,7 @@ export type ListingProps = {
 export function Listing(props: ListingProps) {
   const params = useSearchParams();
   const urlState = useMemo(() => parseFilters(params), [params]);
-  return <ListingView {...props} urlState={urlState} />;
+  return <ListingView {...props} urlState={urlState} preset={destinationFromSearch(params.toString())} />;
 }
 
 const EMPTY = parseFilters({});
@@ -59,7 +60,8 @@ export function ListingView({
   familyNames,
   hrefs,
   urlState = EMPTY,
-}: ListingProps & { urlState?: FilterState }) {
+  preset,
+}: ListingProps & { urlState?: FilterState; preset?: Partial<QuoteContext> }) {
   const [state, setState] = useState(urlState);
   // Follow the URL only when the URL itself changes (Back, header search);
   // our own debounced writes arrive matching the state already.
@@ -76,17 +78,18 @@ export function ListingView({
   const results = useMemo(() => applyFilters(cards, effective, order), [cards, effective, order]);
 
   const urlTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(urlTimer.current), []);
   const update = (patch: Partial<FilterState>) => {
     const next = { ...state, ...patch };
     if (family) next.family = undefined; // the route already says which family
     setState(next);
-    // Debounced native history update: no server round trip, and typing
-    // doesn't flood the history API.
+    // Only typing needs debouncing. A compare selection must be reflected in
+    // history before the buyer can follow the tray link.
     clearTimeout(urlTimer.current);
-    urlTimer.current = setTimeout(
-      () => window.history.replaceState(null, "", `${window.location.pathname}${serializeFilters(next)}`),
-      150,
-    );
+    const href = withDestination(`${window.location.pathname}${serializeFilters(next)}`, preset);
+    const writeUrl = () => window.history.replaceState(null, "", href);
+    if (patch.q !== undefined) urlTimer.current = setTimeout(writeUrl, 150);
+    else writeUrl();
   };
 
   /* ---------- facets ---------- */
@@ -105,7 +108,10 @@ export function ListingView({
   /* ---------- compare ---------- */
   const bySlug = useMemo(() => new Map(cards.map((c) => [c.slug, c])), [cards]);
   const compareItems = state.cmp.map((s) => bySlug.get(s)).filter((c): c is Card => !!c);
-  const listingUrl = typeof window === "undefined" ? "" : `${window.location.pathname}${serializeFilters(state)}`;
+  const listingUrl =
+    typeof window === "undefined"
+      ? ""
+      : withDestination(`${window.location.pathname}${serializeFilters(state)}`, preset);
   const compareHref = `${hrefs.compare}?items=${compareItems.map((c) => c.slug).join(",")}${listingUrl ? `&from=${encodeURIComponent(listingUrl)}` : ""}`;
 
   /* ---------- zero state: "Ask us about this model" ---------- */
@@ -218,7 +224,8 @@ export function ListingView({
                 <li key={c.slug} className="flex">
                   <ProductCard
                     card={c}
-                    href={`${hrefs.product}/${c.slug}`}
+                    href={withDestination(`${hrefs.product}/${c.slug}`, preset)}
+                    preset={preset}
                     subtitle={subtitle(c)}
                     labels={cardLabels}
                     eager={i < 4}
@@ -241,7 +248,7 @@ export function ListingView({
               onClearSearch={() => update({ q: "" })}
               onClearFilters={clearFilters}
               onAsk={() => {
-                dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1 });
+                dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1, preset });
                 setAsked(state.q);
               }}
             />
