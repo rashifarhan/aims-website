@@ -81,15 +81,15 @@ export const ROUTES: RouteEntry[] = [
     status: "planned",
     replaces: ["/zkteco-warranty-policy", "/faq"],
   },
-  { path: "/privacy-policy", title: "Privacy", template: "T10 Editorial", priority: "P2", status: "planned" },
-  { path: "/terms-and-conditions", title: "Terms", template: "T10 Editorial", priority: "P2", status: "planned" },
-  { path: "/blog", title: "Blog", template: "T10 Editorial", priority: "P2", status: "planned" },
+  { path: "/privacy-policy", title: "Privacy", template: "T10 Editorial", priority: "P2", status: "built" },
+  { path: "/terms-and-conditions", title: "Terms", template: "T10 Editorial", priority: "P2", status: "built" },
+  { path: "/blog", title: "Blog", template: "T10 Editorial", priority: "P2", status: "built" },
   {
     path: "/blog/how-to-choose-an-access-control-system-for-your-business-a-complete-guide-by-aims-security-systems-trading-llc",
     title: "How to choose an access control system",
     template: "T10 Editorial",
     priority: "P2",
-    status: "planned",
+    status: "built",
   },
 
   // Solutions

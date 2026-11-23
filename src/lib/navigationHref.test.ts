@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { navigationHref, prefetchSafe } from "./navigationHref";
+import { navigationHref } from "./navigationHref";
+import { prefetchSafe } from "./prefetchSafe";
 
 describe("preview navigation", () => {
   it("keeps built pages local, including the quote list", () => {
@@ -20,6 +21,11 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
+  it("keeps the built legal pages and blog local", () => {
+    expect(navigationHref("/privacy-policy")).toBe("/privacy-policy");
+    expect(navigationHref("/ar/terms-and-conditions")).toBe("/ar/terms-and-conditions");
+    expect(navigationHref("/ar/blog")).toBe("/ar/blog");
+  });
   it("uses the built showroom section and live destinations for pages not built yet", () => {
     expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
     // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
@@ -32,10 +38,12 @@ describe("preview navigation", () => {
 });
 
 describe("prefetch guard", () => {
-  it("turns prefetch off for the solutions hub and filtered listings only", () => {
+  it("turns prefetch off for the solutions hub, the legal pages and filtered listings only", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
+    expect(prefetchSafe("/privacy-policy")).toBe(false);
+    expect(prefetchSafe("/ar/terms-and-conditions")).toBe(false);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
     expect(prefetchSafe("/products")).toBe(true);
     expect(prefetchSafe("/ar")).toBe(true);

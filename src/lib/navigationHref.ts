@@ -14,20 +14,8 @@ export function navigationHref(href: string): string {
   // Services and support route to the built contact page, which sends each need to the right AIMS line.
   if (["/services", "/support"].includes(path)) return localePath(locale, "/contact");
   if (path === "/software") return LIVE_AIMS.software;
-  if (path.startsWith("/software/") || ["/about", "/privacy-policy", "/terms-and-conditions"].includes(path)) {
+  if (path.startsWith("/software/") || path === "/about") {
     return `${LIVE_AIMS.home.slice(0, -1)}${path}`;
   }
   return href;
-}
-
-/**
- * Links whose automatic prefetch must stay off. In this Next version, prefetching the solutions hub or
- * a filtered listing (`?q=…`) from the homepage requests the homepage's own page segment through the
- * locale rewrite, gets a 404 and then re-fetches the layout segment in an endless loop (~2,400 requests
- * in 5 s, reproduced 22 Nov 2026). These pages still load normally on click.
- */
-export function prefetchSafe(href: string): boolean {
-  const [path, query] = href.split("?");
-  const local = path.replace(/^\/ar(?=\/|$)/, "") || "/";
-  return !query && local !== "/solutions";
 }

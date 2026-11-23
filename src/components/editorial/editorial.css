@@ -145,8 +145,9 @@
 .ed-index a {
   display: flex;
   align-items: center;
-  min-height: 2.75rem;
-  padding-inline: 0.5rem;
+  /* Even rhythm for one- and two-line entries; still above the 24px target minimum (WCAG 2.5.8). */
+  min-height: 2rem;
+  padding: 0.375rem 0.5rem;
   border-radius: var(--radius-sm);
   font-size: var(--text-small);
   line-height: 1.35;
@@ -220,14 +221,15 @@
   overflow: clip;
 }
 .ed-card-photo {
-  aspect-ratio: 16 / 10;
   overflow: clip;
   background: var(--color-paper-2);
 }
+/* The ratio sits on the image itself: a square upload would otherwise stretch its box. */
 .ed-card-photo img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
 }
 .ed-card-body {
@@ -290,7 +292,96 @@
   object-fit: cover;
 }
 
+/* The way forward after an article: the related solution as a linked card, and one quote action. */
+.ed-next {
+  margin-block-start: 3.5rem;
+  padding: 2rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-green-50);
+}
+.ed-next-title {
+  font-size: var(--text-home-subtitle);
+  font-weight: 680;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.ed-next-body {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.ed-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.5rem;
+  margin-block-start: 1.5rem;
+}
+.ed-next-card {
+  flex: 1 1 16rem;
+  padding: 1rem 1.25rem;
+}
+.ed-next-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.ed-next-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-weight: 650;
+  color: var(--color-green-700);
+}
+.ed-next-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.ed-next-card:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .ed-next-card:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.ed-next-summary {
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+
+/* More articles, closing the page. */
+.ed-more {
+  padding-block: var(--home-section-space) calc(var(--home-section-space) * 1.5);
+  border-block-start: 1px solid var(--color-line);
+}
+.ed-more-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin-block-end: 1.5rem;
+}
+.ed-more-heading .home-text-link {
+  margin-block-start: 0;
+}
+.ed-more-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+:lang(ar) .ed-more-title {
+  letter-spacing: 0;
+}
+
 @media (max-width: 639px) {
+  .ed-next {
+    padding: 1.5rem 1.25rem;
+  }
   .ed-intro h1 {
     font-size: var(--text-page-title-mobile);
   }

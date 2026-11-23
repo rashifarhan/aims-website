@@ -10,7 +10,11 @@ import "@/components/editorial/editorial.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
-  return { title: t.blog.metaTitle, description: t.blog.metaDescription, alternates: alternates(await getLocale(), "/blog") };
+  return {
+    title: t.blog.metaTitle,
+    description: t.blog.metaDescription,
+    alternates: alternates(await getLocale(), "/blog"),
+  };
 }
 
 /**

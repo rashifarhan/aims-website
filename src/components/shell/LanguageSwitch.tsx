@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 import type { Locale } from "@/i18n/config";
+import { prefetchSafe } from "@/lib/prefetchSafe";
 
 /** Path of the same page in the other language: /x ↔ /ar/x. */
 export function counterpartPath(browserPath: string, target: Locale): string {
@@ -35,7 +36,14 @@ export function LanguageSwitch({
   );
   const href = browserPath === null ? (target === "ar" ? "/ar" : "/") : counterpartPath(browserPath, target);
   return (
-    <Link href={href} hrefLang={target} lang={target} className={className}>
+    // The same prefetch guard as the header and footer links (lib/navigationHref.ts prefetchSafe).
+    <Link
+      prefetch={prefetchSafe(href) ? undefined : false}
+      href={href}
+      hrefLang={target}
+      lang={target}
+      className={className}
+    >
       {label}
     </Link>
   );

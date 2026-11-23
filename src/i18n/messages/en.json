@@ -446,46 +446,31 @@
       "time-attendance": {
         "outcome": "Record working hours",
         "description": "Explore ways to record staff attendance across your workplace, with terminals and software to review the records.",
-        "includes": [
-          "Face, fingerprint and card terminals",
-          "Portable terminals"
-        ],
+        "includes": ["Face, fingerprint and card terminals", "Portable terminals"],
         "action": "See how time attendance works"
       },
       "access-control": {
         "outcome": "Manage who can enter",
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
-        "includes": [
-          "Readers and controllers",
-          "Face recognition terminals"
-        ],
+        "includes": ["Readers and controllers", "Face recognition terminals"],
         "action": "Explore access control products"
       },
       "entrance-parking": {
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
-        "includes": [
-          "Turnstiles and swing barriers",
-          "Parking barriers"
-        ],
+        "includes": ["Turnstiles and swing barriers", "Parking barriers"],
         "action": "Explore entrance products"
       },
       "door-locks": {
         "outcome": "Choose access for each room",
         "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
-        "includes": [
-          "Smart door locks",
-          "Hotel lock systems"
-        ],
+        "includes": ["Smart door locks", "Hotel lock systems"],
         "action": "Explore door locks"
       },
       "pos": {
         "outcome": "Equip your point of sale",
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
-        "includes": [
-          "Windows and Android terminals",
-          "Biometric POS terminals"
-        ],
+        "includes": ["Windows and Android terminals", "Biometric POS terminals"],
         "action": "Explore POS products"
       }
     },
@@ -726,12 +711,7 @@
       "in": "In",
       "out": "Out",
       "hours": "Hours",
-      "people": [
-        "Staff 01",
-        "Staff 02",
-        "Staff 03",
-        "Staff 04"
-      ],
+      "people": ["Staff 01", "Staff 02", "Staff 03", "Staff 04"],
       "file": "Payroll export",
       "sample": "Illustrative data"
     },
@@ -979,12 +959,7 @@
       "lead": "Their AIMS product pages name {name} as supported software. AIMS confirms the version for your site.",
       "cloudHeading": "Where BioTime Cloud connects",
       "cloudLead": "AIMS lists BioTime Cloud for ZKTeco attendance terminals, reached from a browser or the mobile app. Confirm cloud support for your model before ordering.",
-      "cloudNodes": [
-        "Web browser",
-        "Mobile app",
-        "Branch offices",
-        "Attendance terminals"
-      ],
+      "cloudNodes": ["Web browser", "Mobile app", "Branch offices", "Attendance terminals"],
       "cloudAll": "See attendance terminals",
       "diagram": "{name}, linked to {nodes}"
     },
@@ -1558,5 +1533,22 @@
     "onThisPage": "On this page",
     "jumpTo": "Jump to",
     "previewNote": "This is a preview of the new AIMS website. Its quote and contact forms are a demo: nothing you enter is sent to AIMS."
+  },
+  "blog": {
+    "metaTitle": "Guides from AIMS",
+    "metaDescription": "Articles from AIMS on ZKTeco access control, time attendance, turnstiles and POS systems in the UAE.",
+    "crumb": "Blog",
+    "eyebrow": "Blog",
+    "title": "Guides from AIMS",
+    "lead": "{count} articles from AIMS on access control, time attendance, entrance control and POS in the UAE.",
+    "published": "Published {date}",
+    "nextHeading": "Plan it with AIMS",
+    "nextBody": "See the products and how they fit together, or send AIMS your site details for a quotation.",
+    "solutionLabel": "Related solution",
+    "hub": "All solutions",
+    "hubSummary": "Time attendance, access control, entrance, locks and POS",
+    "quote": "Request a quote",
+    "moreHeading": "More from AIMS",
+    "all": "All articles"
   }
 }
