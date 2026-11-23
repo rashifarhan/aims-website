@@ -12,16 +12,16 @@ with every push so a new session can resume exactly where work stopped.
 
 ## Phases
 
-| Phase | Scope                                                                                         | Model  | Status    |
-| ----- | --------------------------------------------------------------------------------------------- | ------ | --------- |
-| Setup | Server, gate armed, before screenshots                                                        | -      | started   |
-| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | done      |
-| 1     | Shared `PageHero`, `Section`, `SectionHeader`, `ClosePanel`, `Faq`, `OfficeCard`, `ReachBand` | Opus   | done (1a) |
-| 1     | One button set, one card and panel, one link look, type scale (h1 68/52, h2 38, h3 24)        | Opus   | done (1b) |
-| 2A    | T5 product redesign, T4 listings                                                              | Opus   | done      |
-| 2B    | T2 solutions hub, T3 solutions, T7 locations                                                  | Sonnet | done      |
-| 2C    | T6 software, T10 editorial, T9 contact, T8 quote                                              | Sonnet | done      |
-| 3     | Motion and rule fixes (ta-punch pause, floating contact, pick-card zoom, RTL arrows, targets) | Sonnet | done      |
+| Phase | Scope                                                                                         | Model  | Status     |
+| ----- | --------------------------------------------------------------------------------------------- | ------ | ---------- |
+| Setup | Server, gate armed, before screenshots                                                        | -      | started    |
+| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | done       |
+| 1     | Shared `PageHero`, `Section`, `SectionHeader`, `ClosePanel`, `Faq`, `OfficeCard`, `ReachBand` | Opus   | done (1a)  |
+| 1     | One button set, one card and panel, one link look, type scale (h1 68/52, h2 38, h3 24)        | Opus   | done (1b)  |
+| 2A    | T5 product redesign, T4 listings                                                              | Opus   | done       |
+| 2B    | T2 solutions hub, T3 solutions, T7 locations                                                  | Sonnet | done       |
+| 2C    | T6 software, T10 editorial, T9 contact, T8 quote                                              | Sonnet | done       |
+| 3     | Motion and rule fixes (ta-punch pause, floating contact, pick-card zoom, RTL arrows, targets) | Sonnet | done       |
 | 4     | Gate and checker at 1440/1024/768/390, Arabic, keyboard, perf, README Decisions               | Opus   | fixes done |
 
 ## Audit baseline (consistency.mjs --quick, 1440 and 390)
