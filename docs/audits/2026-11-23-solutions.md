@@ -173,3 +173,55 @@ motion):
 - E-06 · OK · Add to quote presses and announces the new quantity (shared `AddToQuote`); software filter chips press
   and the count ticks once per change (`ResultCount`); hover effects are gated by `(hover: hover) and (pointer:
 fine)`.
+
+## 4. Fixes
+
+| Finding                            | Commit                          | Fix                                                                                                                             |
+| ---------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| I-01, I-03, I-04, E-03             | `72f2981`                       | `ProductCard`: Arabic long values align to the end; `splitModel` (unit-tested); 44px model link                                 |
+| T-02, T-05, I-02, I-04, E-01/03/04 | `8e1afe9`                       | Recommended products on `.ui-card`, outline Add, model code + description, one-direction chips                                  |
+| I-06, E-02                         | `b149e4d`                       | Option cards on the shared linked card, icon beside the heading, one per row on phones                                          |
+| T-04, T-08                         | `3d660ab`, `6693ca9`            | Hero pictures capped at their own pixel width; `sizes` matches the shown width                                                  |
+| T-03                               | `4f8ca72`                       | Software cards on solution pages show the platform's picture                                                                    |
+| T-01                               | `d70c8bd`, `2cf4da2`, `e303cb9` | One section per desktop screen on the four solution pages; product row fits one screen; closing band joins the questions screen |
+| I-05, T-06                         | `054017e`                       | Terminal cards keep "Add to quote" on one line at 320 AR; BioTime Cloud diagram fills its screen                                |
+| (test)                             | `2ac12a0`                       | AT-03 spec hard-coded port 3100; it now reuses the page's own URL (same assertion, any PORT)                                    |
+
+Not fixed, with reason: T-07 (portrait-tablet hero, the homepage's decision), T-09/T-14/T-15 (checker artefacts),
+T-10/T-11 (approved copy), T-12 (AIMS's own imported text, CLAUDE.md §1), T-13 (postponed by the user), T-16 and
+the new `section-air` on the process band and methods (template rows; filling them would mean inventing
+content), E-05 (approved prototype).
+
+## 5. Results (after)
+
+Gate on the final build (rounds counted per build; `GATE: OPEN` on door locks means that build's rounds ran out):
+
+| Page                        | Before | After | What moved                                                                                       |
+| --------------------------- | -----: | ----: | ------------------------------------------------------------------------------------------------ |
+| /solutions/access-control   |     47 |    46 | headings sharing a screen 30.5 % → 4.9 % of scroll; moment and close no longer short of a screen |
+| /solutions/entrance-parking |     47 |    46 | as above; no `section-tile`                                                                      |
+| /solutions/door-locks       |     46 |    46 | 32.3 % → 9.3 %; products 1.44 → 1.08 screens                                                     |
+| /solutions/pos              |     43 |    43 | `photo-upscale` cleared; 38.3 % shared headings gone from the moment                             |
+| /software                   |     35 |    35 | unchanged (out of scope: hub entrance and moment)                                                |
+| /software/biotime-9-5       |     44 |    44 | unchanged (AIMS's own copy hits remain, T-12)                                                    |
+| /software/biotimecloud      |     43 |    39 | `photo-upscale`, `empty-area`, `section-air` cleared                                             |
+| /software/zkaccess-3-5      |     40 |    40 | unchanged                                                                                        |
+
+The one-screen rule trades `section-tile`/`one-heading` FAILs for `section-air` on sparse rows (process band 36 %,
+methods 40 %): the same trade the homepage made. About 25 FAILs per page remain the shell's (see §1).
+
+Checks: `pnpm check` (137 unit tests), `pnpm format:check`, `pnpm build`; e2e `solution-*`, `software`,
+`catalogue*`, `locations` (188 passed, after the port fix) and `smoke` filtered to these routes (20 passed).
+Screenshots at 1440/390/320 EN and AR: no horizontal overflow; axe 0 before and after.
+
+## For the integrator
+
+- `Breadcrumbs.tsx` (shared): links are 34–42px wide; give them `min-w-11` (CLAUDE.md §4) — I-07.
+- `FacetPanel` (listing): facet labels measure 36px tall at 1440 despite `min-h-11` — I-08.
+- `.method-card` is shared with the services page (agent B): this branch changed only the solution pages' markup,
+  but `solution.css` now gives `.method-card p` 1rem above (was 0.5rem) and phones one option per row; check
+  `/services` after merging.
+- Eyebrow above the h1 (`t3-eyebrow`, "Solution"): impeccable's craft floor bans eyebrows. It is shared by the
+  solution, location and company heroes, so removing it is one decision for all three (README → Decisions).
+- `.taste-skill/waivers.json`: no waivers added. Candidates if the integrator wants `GATE: OPEN`: `focus-ring` on
+  `.sw-card-link` (the card draws the ring), `copy-slop-word` hits inside AIMS's imported software text.
