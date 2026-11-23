@@ -21,7 +21,9 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
-  it("keeps the built about, legal and blog pages local", () => {
+  it("keeps the built company, legal and blog pages local", () => {
+    expect(navigationHref("/support")).toBe("/support");
+    expect(navigationHref("/ar/services")).toBe("/ar/services");
     expect(navigationHref("/about")).toBe("/about");
     expect(navigationHref("/ar/about")).toBe("/ar/about");
     expect(navigationHref("/privacy-policy")).toBe("/privacy-policy");
@@ -30,10 +32,7 @@ describe("preview navigation", () => {
   });
   it("uses the built showroom section and live destinations for pages not built yet", () => {
     expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
-    // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
     expect(navigationHref("/contact")).toBe("/contact");
-    expect(navigationHref("/support")).toBe("/contact");
-    expect(navigationHref("/ar/services")).toBe("/ar/contact");
     // Software pages AIMS lists but this site hasn't built still open AIMS's own page.
     expect(navigationHref("/ar/software/zkbio-cvaccess")).toBe("https://aimsuae.me/software/zkbio-cvaccess");
   });

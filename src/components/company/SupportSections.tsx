@@ -1,0 +1,68 @@
+import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
+import { ChevronDownIcon } from "@/components/icons";
+import { faqItems, warrantyPage } from "@/content/pages";
+import { getDictionary } from "@/i18n/dictionaries";
+import { publishableQuestions } from "@/lib/editorial";
+
+/** The three parts of /support, with the ids the in-page index and the old URLs' 301s point to. */
+export const SUPPORT_SECTIONS = ["warranty", "process", "faq"] as const;
+
+/**
+ * Support's reading column (Master Plan 12 #10: warranty terms, support process, FAQ; Design Doc 10.1).
+ * The warranty and the answers are AIMS's published text, English on /ar too; the process repeats only
+ * what AIMS and ZKTeco publish (after-sales technical support; the warranty's repair terms).
+ */
+export async function SupportSections() {
+  const { support: c } = await getDictionary();
+  const questions = publishableQuestions(faqItems());
+  return (
+    <div className="ed-column co-support">
+      <section id="warranty" aria-labelledby="warranty-title">
+        <h2 id="warranty-title" className="co-support-title">
+          {c.warrantyHeading}
+        </h2>
+        <p className="co-support-note">{c.warrantyNote}</p>
+        <EditorialBlocks blocks={warrantyPage().blocks} level={3} />
+      </section>
+      <section id="process" aria-labelledby="process-title">
+        <h2 id="process-title" className="co-support-title">
+          {c.processHeading}
+        </h2>
+        <ol className="co-steps">
+          {c.steps.map((step, i) => (
+            <li key={step.title}>
+              <span className="process-index tabular-nums" aria-hidden="true">
+                {i + 1}
+              </span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+                <p className="process-owner">
+                  <span className="sr-only">{c.owner}: </span>
+                  {step.owner}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" className="co-support-title">
+          {c.faqHeading}
+        </h2>
+        <p className="co-support-note">{c.faqNote}</p>
+        <div className="co-faq" lang="en" dir="ltr">
+          {questions.map((q) => (
+            <details key={q.question}>
+              <summary>
+                {q.question}
+                <ChevronDownIcon width={18} height={18} aria-hidden="true" />
+              </summary>
+              <EditorialBlocks blocks={q.answer} level={3} />
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}

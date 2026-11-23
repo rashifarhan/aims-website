@@ -1656,5 +1656,42 @@
     "closeBody": "Send the doors, staff and site. AIMS replies with devices, installation and a quotation.",
     "closeAction": "Request an installation quote",
     "closeSecondary": "Talk to AIMS first"
+  },
+  "support": {
+    "metaTitle": "Support and ZKTeco warranty",
+    "metaDescription": "ZKTeco's warranty policy, how to get help from AIMS after installation, and answers to common ZKTeco setup questions.",
+    "crumb": "Support & warranty",
+    "eyebrow": "Support",
+    "title": "Support and warranty",
+    "lead": "ZKTeco's warranty policy, how to get help from AIMS, and answers to common setup questions.",
+    "whatsapp": "Message AIMS on WhatsApp",
+    "email": "Email AIMS",
+    "warrantyHeading": "ZKTeco warranty policy",
+    "warrantyNote": "ZKTeco's policy, as AIMS publishes it, in English.",
+    "processHeading": "How to get support",
+    "owner": "Who",
+    "steps": [
+      {
+        "title": "Contact AIMS",
+        "body": "Send the model code and what you see, by WhatsApp or email.",
+        "owner": "You"
+      },
+      {
+        "title": "Technical support",
+        "body": "AIMS's after-sales technical support team works through the problem with you.",
+        "owner": "AIMS"
+      },
+      {
+        "title": "Warranty repair",
+        "body": "Under ZKTeco's warranty, failed hardware is shipped to ZKTeco, prepaid, and repaired or replaced within 15 working days of receipt.",
+        "owner": "ZKTeco"
+      }
+    ],
+    "faqHeading": "Common questions",
+    "faqNote": "AIMS's answers, as published, in English.",
+    "closeHeading": "Planning a new system instead?",
+    "closeBody": "Send AIMS the models or describe the site, and AIMS replies with a quotation.",
+    "closeAction": "Request a quote",
+    "closeSecondary": "All ways to contact AIMS"
   }
 }

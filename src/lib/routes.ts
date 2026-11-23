@@ -78,7 +78,7 @@ export const ROUTES: RouteEntry[] = [
     title: "Support & warranty",
     template: "T10 Editorial",
     priority: "P1",
-    status: "planned",
+    status: "built",
     replaces: ["/zkteco-warranty-policy", "/faq"],
   },
   { path: "/privacy-policy", title: "Privacy", template: "T10 Editorial", priority: "P2", status: "built" },
