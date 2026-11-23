@@ -75,6 +75,8 @@ test.describe("without JavaScript", () => {
 test("attendance transport finishes while the visitor reads the active stage", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/solutions/time-attendance");
+  // Scroll only once the story is live: switching it on makes its steps taller, which would move step 2.
+  await expect(page.locator(".story")).toHaveAttribute("data-motion", "on");
   const stage = page.locator('[data-story-step="2"]');
   await stage.evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(page.locator(".story")).toHaveAttribute("data-step", "2");
