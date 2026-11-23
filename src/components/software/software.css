@@ -511,3 +511,11 @@
     width: 5rem;
   }
 }
+
+/* Short phones (audit B4): the hub title took seven lines at 320x480 and hid its action. */
+@media (max-width: 639px) and (max-height: 600px) {
+  .sw-centre-intro h1,
+  .sw-hero h1 {
+    font-size: var(--text-page-title-short);
+  }
+}

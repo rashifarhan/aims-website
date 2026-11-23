@@ -58,6 +58,8 @@
   /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
   --text-page-title: 3rem;
   --text-page-title-mobile: 2.25rem;
+  /* Short phones (audit B4): page titles that leave room for the first action on a 480px-tall screen. */
+  --text-page-title-short: 1.75rem;
   --font-weight-display: 680;
   --font-weight-card: 650;
 
@@ -100,6 +102,8 @@
   --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
   --text-home-display-compact: 3.5rem;
   --text-home-display-mobile: 2.5rem;
+  /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
+  --text-home-display-short: 1.875rem;
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;

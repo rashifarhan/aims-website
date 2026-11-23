@@ -42,3 +42,11 @@
     opacity: 1;
   }
 }
+
+/* Short phones (audit B4): the 4:3 photo frame took most of a 480–700px screen. Capped there, the photo stays whole
+   (object-contain) and the name, model and Add to quote come into view. */
+@media (max-width: 1023px) and (max-height: 760px) {
+  .product-hero-frame {
+    max-height: 30svh;
+  }
+}
