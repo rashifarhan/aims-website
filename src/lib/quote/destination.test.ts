@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { destinationFromSearch, presetPatch } from "./context";
+import { destinationFromSearch, presetPatch, withDestination } from "./context";
 
 describe("destination preset (Design Doc 10.1 T7)", () => {
   it("accepts only an export link to a market AIMS lists", () => {
@@ -23,4 +23,20 @@ it("uses Dubai only on an explicit local installation link", () => {
   expect(destinationFromSearch("?need=install&emirate=dubai")).toEqual({ need: "install", emirate: "dubai" });
   expect(destinationFromSearch("?need=install")).toBeUndefined();
   expect(destinationFromSearch("?need=supply&emirate=dubai")).toBeUndefined();
+});
+
+describe("withDestination (market links)", () => {
+  it("adds only a market preset, after any existing query", () => {
+    expect(withDestination("/product/f18", { need: "export", country: "Kenya" })).toBe(
+      "/product/f18?need=export&country=Kenya",
+    );
+    expect(withDestination("/products/access-control?cmp=f18", { need: "install", emirate: "dubai" })).toBe(
+      "/products/access-control?cmp=f18&need=install&emirate=dubai",
+    );
+  });
+  it("leaves the link alone without a market", () => {
+    expect(withDestination("/product/f18", undefined)).toBe("/product/f18");
+    expect(withDestination("/product/f18", { need: "supply" })).toBe("/product/f18");
+    expect(withDestination("/product/f18", { need: "install", emirate: "sharjah" })).toBe("/product/f18");
+  });
 });

@@ -76,7 +76,9 @@ export function withDestination(href: string, preset?: Partial<QuoteContext>): s
     params.set("need", "install");
     params.set("emirate", "dubai");
   }
-  return params.size ? href + (href.includes("?") ? "&" : "?") + params.toString() : href;
+  // toString, not .size: URLSearchParams.size is missing before Safari 17, where the market would silently drop.
+  const query = params.toString();
+  return query ? href + (href.includes("?") ? "&" : "?") + query : href;
 }
 
 /**

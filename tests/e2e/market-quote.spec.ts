@@ -15,7 +15,6 @@ for (const prefix of ["", "/ar"]) {
       await page.locator("main button.home-button").first().click();
       await page.goto(prefix + "/product/bio-pro-sa20");
       await page.locator("main button.home-button").first().click();
-      await page.goBack();
       await page.goto(prefix + "/quote");
       await expect(page.locator("#quote-country")).toHaveValue(market);
       const count = page.locator('input[inputmode="numeric"]').first();

@@ -51,7 +51,7 @@ export function quoteReducer(state: QuoteState, action: QuoteAction, now = Date.
   const next = (lines: QuoteLine[]): QuoteState => {
     const preset =
       action.type === "add" || action.type === "addCustom" ? presetPatch(state.context, action.preset) : undefined;
-    return { ...state, ...(preset && { context: { ...state.context, ...preset } }), updatedAt: now, lines };
+    return { ...state, ...(preset && { context: { ...state.context, ...preset } }), v: 1, updatedAt: now, lines };
   };
   switch (action.type) {
     case "add": {
