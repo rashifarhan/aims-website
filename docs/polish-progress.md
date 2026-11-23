@@ -15,7 +15,7 @@ with every push so a new session can resume exactly where work stopped.
 | Phase | Scope                                                                                         | Model  | Status  |
 | ----- | --------------------------------------------------------------------------------------------- | ------ | ------- |
 | Setup | Server, gate armed, before screenshots                                                        | -      | started |
-| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | next    |
+| 0     | Duplicate token, shared CSS into `ui/`, `.wrap` alias, waivers                                | Sonnet | done    |
 | 1     | Shared `PageHero`, `Section`, `SectionHeader`, `ClosePanel`, `Faq`, `OfficeCard`, `ReachBand` | Opus   | -       |
 | 1     | One button set, one card and panel, one link look, type scale (h1 68/52, h2 38, h3 24)        | Opus   | -       |
 | 2A    | T5 product redesign, T4 listings                                                              | Opus   | -       |
@@ -32,3 +32,4 @@ BioTime 9.5 56.
 ## Log
 
 - 23 Nov 2026: audit done, plan approved, progress file created.
+- 23 Nov 2026: Phase 0 done. Dropped the shadowed `--text-page-title` pair; moved rules shared by two or more families into `ui/sections.css` (loaded from the layout; `ed-copy-in` replaced by `t3-copy-in`), which let 12 pages drop `home/sections.css` and 9 drop `solution/solution.css`; renamed the `page-container` utility to `wrap` (src, tests, README, waivers). Pages render pixel-identically at 1440 and 390.
