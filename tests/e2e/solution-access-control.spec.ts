@@ -15,15 +15,29 @@ for (const locale of ["en", "ar"] as const) {
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
     // Audit the finished frame (as smoke.spec.ts does): let the entrance and the door sequence end.
-    await page.locator(".t3-door").evaluate((el) => el.scrollIntoView({ block: "center" }));
-    await page.evaluate(() =>
-      Promise.all(
-        document
-          .getAnimations()
-          .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-          .map((a) => a.finished.catch(() => undefined)),
-      ),
-    );
+    // The door runs on WAAPI (motion/DoorStory): desktop scrubs it with scroll, phones play it once. Bring it to
+    // its finished frame either way, then wait until no finite animation (CSS or WAAPI) is still running.
+    const door = page.locator(".t3-door");
+    await door.evaluate((el) => el.scrollIntoView({ block: "center" }));
+    if ((await door.getAttribute("data-mode")) === "scroll") {
+      await door.evaluate((el) => {
+        const box = el.getBoundingClientRect();
+        scrollTo(0, scrollY + box.top + box.height - innerHeight);
+      });
+    }
+    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 8000 });
+    await expect
+      .poll(
+        () =>
+          page.evaluate(
+            () =>
+              document
+                .getAnimations()
+                .filter((a) => a.playState === "running" && Number.isFinite(a.effect?.getTiming().iterations)).length,
+          ),
+        { timeout: 8000 },
+      )
+      .toBe(0);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
