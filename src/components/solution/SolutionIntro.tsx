@@ -54,7 +54,8 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
               alt={photo.alt}
               width={photo.width}
               height={photo.height}
-              sizes="(min-width: 1024px) 30rem, 16rem"
+              // The width it is shown at: its column, never past its own pixels (the cap above).
+              sizes={`(min-width: 1024px) min(36rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
               preload
             />
           </div>

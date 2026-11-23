@@ -44,7 +44,7 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
             alt={software.image.alt}
             width={software.image.width}
             height={software.image.height}
-            sizes="(min-width: 1024px) 420px, 288px"
+            sizes={`(min-width: 1024px) min(28rem, ${software.image.width}px), min(18rem, ${software.image.width}px)`}
             preload
           />
         </div>
