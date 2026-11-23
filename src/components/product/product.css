@@ -52,7 +52,7 @@
     height: 30svh;
   }
 }
-@media (max-width: 1023px) and (max-height: 560px) {
+@media (max-width: 1023px) and (max-height: 600px) {
   .product-hero-grid {
     gap: 1.25rem;
   }
