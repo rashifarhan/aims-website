@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationIntro } from "@/components/locations/LocationIntro";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";

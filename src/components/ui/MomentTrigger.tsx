@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 /**
- * Starts the homepage's dealt moments (taste skill motion.md: "scrolling moves nothing but the dealt
+ * Starts every page's dealt moments (taste skill motion.md: "scrolling moves nothing but the dealt
  * moment"): each `[data-moment]` section gets `data-played` once, when a third of it is on screen, and
  * its CSS sequence runs to the end. Nothing else reacts to scrolling. Without JS, or with reduced
  * motion, the root never gets `data-effects="on"`, so every moment shows its finished frame.

@@ -9,7 +9,7 @@ import { CompanyIntro } from "@/components/company/CompanyIntro";
 import { ContactReach } from "@/components/contact/ContactReach";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/sections.css";
 import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";

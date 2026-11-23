@@ -4,7 +4,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { BUILT_SOFTWARE, isBuiltSoftware } from "@/lib/software";
 import { softwareBySlug } from "@/content/catalogue";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SoftwareHero } from "@/components/software/SoftwareHero";
 import { SoftwareFeatures } from "@/components/software/SoftwareFeatures";
 import { SoftwareTerminals } from "@/components/software/SoftwareTerminals";

@@ -12,7 +12,7 @@ import { HomeProof } from "@/components/home/HomeProof";
 import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { HomeClosing } from "@/components/home/HomeClosing";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";

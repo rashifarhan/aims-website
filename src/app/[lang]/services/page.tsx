@@ -7,7 +7,7 @@ import { CompanyIntro } from "@/components/company/CompanyIntro";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
 import { ServicesProcess } from "@/components/company/ServicesProcess";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/solution/solution.css";
 import "@/components/signature/verify-moment.css";
 import "@/components/company/company.css";

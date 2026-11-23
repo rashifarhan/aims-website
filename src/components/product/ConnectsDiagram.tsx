@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
 import { ModelChip } from "./ModelChip";

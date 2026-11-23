@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SolutionIntro } from "@/components/solution/SolutionIntro";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
