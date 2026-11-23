@@ -38,7 +38,8 @@ export default async function PosSolution() {
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
-      <SolutionQuestions ground="band"
+      <SolutionQuestions
+        ground="band"
         idPrefix="ps"
         copy={c.faq}
         close={

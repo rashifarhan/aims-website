@@ -32,29 +32,29 @@ export function ClosePanel({
 }) {
   const night = tone === "night";
   const panel = (
-      <div className="ui-close-panel">
-        <div className="ui-close-copy">
-          <h2 id={id} className="ui-close-title">
-            {heading}
-          </h2>
-          <p className="ui-close-body">{body}</p>
-        </div>
-        <div className="ui-close-actions">
-          {isValidElement(action) ? (
-            action
-          ) : (
-            <Link href={action.href} className={night ? "home-button home-button-lime" : "home-button"}>
-              {action.label}
-              <ArrowIcon width="18" height="18" className="home-action-arrow" />
-            </Link>
-          )}
-          {secondary && (
-            <Link href={secondary.href} className={night ? "home-night-link" : "home-text-link"}>
-              {secondary.label}
-            </Link>
-          )}
-        </div>
+    <div className="ui-close-panel">
+      <div className="ui-close-copy">
+        <h2 id={id} className="ui-close-title">
+          {heading}
+        </h2>
+        <p className="ui-close-body">{body}</p>
       </div>
+      <div className="ui-close-actions">
+        {isValidElement(action) ? (
+          action
+        ) : (
+          <Link href={action.href} className={night ? "home-button home-button-lime" : "home-button"}>
+            {action.label}
+            <ArrowIcon width="18" height="18" className="home-action-arrow" />
+          </Link>
+        )}
+        {secondary && (
+          <Link href={secondary.href} className={night ? "home-night-link" : "home-text-link"}>
+            {secondary.label}
+          </Link>
+        )}
+      </div>
+    </div>
   );
   if (embedded)
     return (

@@ -150,7 +150,7 @@ export function DoorStory({ children, className, labelledBy, ground = "paper" }:
       data-mode="still"
       aria-labelledby={labelledBy}
     >
-      <div className="wrap door-story-layout">{children}</div>
+      <div className="door-story-layout wrap">{children}</div>
     </section>
   );
 }

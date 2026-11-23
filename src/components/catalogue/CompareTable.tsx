@@ -62,7 +62,14 @@ export function CompareTable({ items, rows, t, addLabels, productHref, preset, r
                   <span className="block font-mono text-xs text-ink-600">
                     <span dir="ltr">{p.model}</span>
                   </span>
-                  <AddToQuote preset={preset} slug={p.slug} name={p.name} labels={addLabels} variant="outline" className="mt-4" />
+                  <AddToQuote
+                    preset={preset}
+                    slug={p.slug}
+                    name={p.name}
+                    labels={addLabels}
+                    variant="outline"
+                    className="mt-4"
+                  />
                   {remove && (
                     <Link href={remove} replace className="home-secondary text-sm">
                       {t.compare.remove}

@@ -10,11 +10,7 @@ import { withDestination, type QuoteContext } from "@/lib/quote/context";
  * shortly after; the URL wins again when it changes from outside (Back/Forward, the header search). The market
  * the buyer arrived with (`preset`) stays in the URL with the filters.
  */
-export function useListingState(
-  urlState: FilterState,
-  family: FamilySlug | undefined,
-  preset?: Partial<QuoteContext>,
-) {
+export function useListingState(urlState: FilterState, family: FamilySlug | undefined, preset?: Partial<QuoteContext>) {
   const [state, setState] = useState(urlState);
   // Follow the URL only when the URL itself changes (Back, header search);
   // our own debounced writes arrive matching the state already.

@@ -38,7 +38,8 @@ export default async function DoorLocksSolution() {
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="dl" copy={c.process} />
-      <SolutionQuestions ground="band"
+      <SolutionQuestions
+        ground="band"
         idPrefix="dl"
         copy={c.faq}
         close={
