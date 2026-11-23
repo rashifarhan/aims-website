@@ -1,22 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense, type ComponentProps } from "react";
+import { usePathname } from "next/navigation";
+import { useSyncExternalStore, type ComponentProps } from "react";
 import { destinationFromSearch, withDestination } from "@/lib/quote/context";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & { href: string };
 
-/** Keep the product page static while its catalogue and accessory links inherit the current market. */
-export function MarketLink(props: Props) {
-  return (
-    <Suspense fallback={<Link {...props} />}>
-      <DestinationLink {...props} />
-    </Suspense>
-  );
-}
+const noop = () => () => {};
 
-function DestinationLink({ href, ...props }: Props) {
-  const params = useSearchParams();
-  return <Link {...props} href={withDestination(href, destinationFromSearch(params.toString()))} />;
+/**
+ * Keep the product page static while its catalogue and accessory links inherit the current market. The server
+ * renders the plain link; after hydration the same element gains the market from the browser URL. No Suspense
+ * swap: replacing the node on hydration dropped focus and broke measurements (as in LanguageSwitch).
+ */
+export function MarketLink({ href, ...props }: Props) {
+  usePathname(); // re-render on client navigation
+  const search = useSyncExternalStore(
+    noop,
+    () => window.location.search,
+    () => "",
+  );
+  return <Link {...props} href={withDestination(href, destinationFromSearch(search))} />;
 }
