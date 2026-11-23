@@ -326,16 +326,16 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
+/* The shared card (actions.css .ui-card) draws the border, plinth shadow, lift, photo zoom and press; this
+   only lays the card out. .ui-card is position: relative, which also contains the screen-reader text. */
 .pick-card {
-  /* Contains its absolutely positioned screen-reader text, so the sideways row clips it. */
-  position: relative;
   display: flex;
   flex-direction: column;
   padding: 1.25rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  transition: box-shadow var(--duration-base) var(--ease-aims);
+}
+/* The card presses only when its links are pressed; Add presses itself (as catalogue.css product-card). */
+.pick-card.ui-card-interactive:active:has(button:active) {
+  transform: none;
 }
 .pick-image {
   display: flex;
@@ -349,7 +349,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform var(--duration-slow) var(--ease-aims);
 }
 .pick-brand {
   margin-block-start: 1rem;
@@ -366,13 +365,31 @@
   font-weight: 500;
   text-align: start;
 }
+/* Block padding on the inline link makes a 44px target without moving the line (CLAUDE.md §4); the
+   underline draws in instead of snapping on (taste House rule 5). */
 .pick-card h3 a {
+  padding-block: 0.75rem;
   color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--duration-hover) ease,
+    text-decoration-color var(--duration-hover) ease;
 }
 .pick-card h3 a:hover {
   color: var(--color-green-700);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-decoration-color: currentColor;
+}
+/* A description imported in the model field ("Tripod Turnstile w/ controller…"): English, under the code. */
+.pick-description {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+/* English facts keep their direction in Arabic but line up with the card's end edge, like its heading. */
+[dir="rtl"] :is(.pick-description, .pick-facts > div) {
+  text-align: end;
 }
 .pick-methods {
   margin-block-start: 0.25rem;
@@ -417,12 +434,6 @@
   }
   :dir(rtl) .method-card:hover .home-action-arrow {
     translate: -3px 0;
-  }
-  .pick-card:hover {
-    box-shadow: var(--shadow-2);
-  }
-  .pick-card:hover img {
-    transform: scale(1.04);
   }
 }
 
@@ -502,7 +513,8 @@
 }
 .t3-questions summary svg {
   flex: none;
-  transition: transform var(--duration-slow) var(--ease-aims);
+  /* A disclosure is opened often: UI motion stays under 300ms (Emil). */
+  transition: transform var(--duration-base) var(--ease-aims);
 }
 .t3-questions summary:hover {
   color: var(--color-green-700);
@@ -680,8 +692,6 @@
   .ta-file,
   .ta-wire,
   .method-card,
-  .pick-card,
-  .pick-image img,
   .t3-questions summary svg {
     transition: none;
   }
