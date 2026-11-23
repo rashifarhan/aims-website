@@ -14,9 +14,9 @@ type Labels = {
 };
 
 const valueClass = `${footerLinkClass} font-medium text-ink`;
-/* A link inside running text keeps its underline at rest (WCAG 1.4.1); on hover it darkens to the action colour. */
+/* A link inside running text keeps its underline at rest (WCAG 1.4.1); on hover the underline darkens. */
 const directionsClass =
-  "font-medium text-ink underline decoration-line-strong underline-offset-4 transition-[color,text-decoration-color] duration-(--duration-hover) ease-[ease] hover:text-green-700 hover:decoration-current active:opacity-75";
+  "font-medium text-ink underline decoration-line-strong underline-offset-4 transition-[text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:decoration-current active:opacity-75";
 
 /**
  * The footer's "Visit or call" list: AIMS's real lines, email and showroom (CLAUDE.md §1, brief-given). The

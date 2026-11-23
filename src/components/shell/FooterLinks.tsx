@@ -4,11 +4,12 @@ import { ChevronDownIcon } from "@/components/icons";
 export type FooterColumn = { title: string; links: { href: string; label: string }[] };
 
 /**
- * The footer's one link look (site audit, 23 Nov 2026; taste House rule 5, Emil): colour and underline fade in
- * together over the hover duration, the underline draws in, and a press dims the link like `.home-text-link`.
+ * The footer's one link look, the site's text-link look (`.home-text-link`; audit 23 Nov 2026, taste House
+ * rule 5, Emil): the underline draws in over the hover duration and a press dims the link. The text colour
+ * stays put, so links sliding under a resting pointer while the page scrolls never flash colour.
  */
 export const footerLinkClass =
-  "inline-flex min-h-11 items-center underline decoration-transparent underline-offset-4 transition-[color,text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:text-green-700 hover:decoration-current active:opacity-75";
+  "inline-flex min-h-11 items-center underline decoration-transparent underline-offset-4 transition-[text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:decoration-current active:opacity-75";
 
 const linkClass = `${footerLinkClass} text-sm text-ink-700`;
 

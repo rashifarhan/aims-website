@@ -189,15 +189,6 @@
   line-height: 1.7;
   overflow-wrap: break-word;
 }
-@media (min-width: 640px) {
-  .editorial-body {
-    font-size: var(--text-lg);
-    line-height: 1.65;
-  }
-  .editorial-body :is(h2, h3, h4) {
-    font-size: var(--text-2xl);
-  }
-}
 .editorial-body > * + * {
   margin-block-start: 1rem;
 }
@@ -210,6 +201,16 @@
   text-wrap: balance;
   /* Anchored headings clear the sticky header when the index jumps to them. */
   scroll-margin-block-start: calc(var(--home-header-block) + 1rem);
+}
+/* After the base heading rule, so the larger sizes win at the same specificity. */
+@media (min-width: 640px) {
+  .editorial-body {
+    font-size: var(--text-lg);
+    line-height: 1.65;
+  }
+  .editorial-body :is(h2, h3, h4) {
+    font-size: var(--text-2xl);
+  }
 }
 .editorial-body ul {
   padding-inline-start: 1.25rem;
