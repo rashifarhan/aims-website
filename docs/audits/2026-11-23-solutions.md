@@ -136,3 +136,40 @@ DESIGN.md, not changed). Software pages: clean apart from the font.
 
 Positive: axe 0 at both widths in both languages; reduced motion leaves every moment on its final frame; product
 data stays LTR in Arabic; "Specs on request" shows where a model has no key facts; no horizontal scroll at 320.
+
+## 3. Emil (`emil-design-eng`)
+
+Method: read every transition and keyframe in `solution.css`, the four moment stylesheets, `software.css` and
+`catalogue.css`; filmed each dealt moment at 1440 (frames at 0–4.2 s after it enters view) and read the contact
+sheets; reduced-motion screenshots for the final frames.
+
+| Before                                                            | After                                                                              | Why                                                                                  |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `.pick-card:hover` shadow only, photo `scale(1.04)`, no `:active` | `.ui-card ui-card-interactive` + `ui-card-photo`: lift 2px, photo 1.03, press 0.99 | One card, one hover and press layer (House rule 5; DESIGN.md Plinth rule)            |
+| `.method-card` no resting shadow, lift on hover, no `:active`     | Same shared card: resting shadow, lift, press                                      | A linked card must answer the press as well as the hover                             |
+| Model-code link: `hover:underline` snaps on                       | Underline colour transitions in `--duration-hover` (draws in)                      | "Underlines draw" (House rule 5); a snap reads as a flicker on a row of cards        |
+| FAQ chevron `transform var(--duration-slow)` (320ms)              | `--duration-base` (200ms)                                                          | A disclosure is opened often; UI motion stays under 300ms                            |
+| Door kit: door opens at 3.0 s, "Access granted" pops at 3.4 s     | Unchanged                                                                          | AIMS's approved prototype (CLAUDE.md §3: port, don't redesign); noted for the client |
+
+Moments (all play once via `MomentTrigger`, `--ease-aims`, transform/opacity/dash only, final frame under reduced
+motion):
+
+- Access control UNLOCK (door kit): 4.1 s, parts arrive in wiring order; fine (see table for the one order note).
+- Entrance and parking SIGNAL: card → swing lane opens → car waits behind the boom → plate read → boom lifts, 2.45 s.
+  The car is drawn behind the boom, so it never drives through it. Good.
+- Door locks UNLOCK: finger → ring → bolt back → leaf opens → line to ZSmart "Opened", 3.15 s. Good.
+- POS VERIFY: touch → lines → check → sale lines → printer → receipt, 2.95 s. Good.
+- Software SIGNAL: lines draw from the platform 90ms apart, then land on each terminal. Good.
+
+### Findings
+
+- E-01 · P1 · solution pages · Emil press/hover · `.pick-card` has no lift or press and zooms its photo 1.04. ·
+  Shared card (same fix as T-02).
+- E-02 · P1 · T3 method/option cards · Emil press · No press state, no resting shadow (DESIGN.md Plinth rule). ·
+  Shared card.
+- E-03 · P2 · pick-card and `ProductCard` · underline snaps on hover · Transition the underline colour.
+- E-04 · P2 · T3 FAQ · chevron at 320ms · `--duration-base`.
+- E-05 · P2 · /solutions/access-control · door opens before "Access granted" · Approved prototype; no change.
+- E-06 · OK · Add to quote presses and announces the new quantity (shared `AddToQuote`); software filter chips press
+  and the count ticks once per change (`ResultCount`); hover effects are gated by `(hover: hover) and (pointer:
+fine)`.
