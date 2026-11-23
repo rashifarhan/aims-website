@@ -604,6 +604,35 @@
   .t3-page > .t3-band {
     margin-block: 0;
   }
+  /* Six stacked product tiles made this section 1.3–1.4 screens. On a desktop each card lays its photo
+     beside the facts, so two rows of three fit one screen; Add sits on the card's last line. */
+  .t3-page .pick-card {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-rows: repeat(5, auto) 1fr;
+    column-gap: 1.25rem;
+  }
+  .t3-page .pick-card > * {
+    grid-column: 2;
+  }
+  .t3-page .pick-image {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: start;
+    height: 6.5rem;
+    padding: 0.25rem;
+  }
+  .t3-page .pick-brand {
+    margin-block-start: 0;
+  }
+  .t3-page .pick-facts {
+    margin-block: 0.75rem;
+  }
+  .t3-page .pick-add {
+    grid-row: 6;
+    align-self: end;
+    justify-self: start;
+  }
 }
 
 /* ---------- Tablet ---------- */
