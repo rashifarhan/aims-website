@@ -41,7 +41,9 @@ export function LanguageSwitch({
   );
   const href = browserPath === null ? (target === "ar" ? "/ar" : "/") : counterpartPath(browserPath, target);
   return (
-    <Link href={href} hrefLang={target} lang={target} className={className}>
+    // No prefetch: prefetching the other language's page through the proxy rewrite loops in this Next version
+    // (~2,000 requests in 5 s on /ar/locations and /ar/contact, reproduced 23 Nov 2026; see prefetchSafe).
+    <Link href={href} hrefLang={target} lang={target} className={className} prefetch={false}>
       {label}
     </Link>
   );
