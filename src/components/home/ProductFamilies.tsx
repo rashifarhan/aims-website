@@ -41,8 +41,12 @@ export async function ProductFamilies() {
           const product = productBySlug(examples[i]);
           const image = product?.images[0];
           return (
-            <Link key={family.slug} href={localePath(locale, `/products/${family.slug}`)} className="home-family-card">
-              <div className="home-family-image">
+            <Link
+              key={family.slug}
+              href={localePath(locale, `/products/${family.slug}`)}
+              className="home-family-card ui-card ui-card-interactive"
+            >
+              <div className="home-family-image ui-card-photo">
                 {image && (
                   <Image
                     src={image.src}

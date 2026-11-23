@@ -472,21 +472,6 @@
     opacity: 1;
   }
 }
-.home-family-image {
-  overflow: clip;
-}
-.home-family-image img {
-  /* Same timing as the card lift (ui/sections.css), so the zoom never trails the card. */
-  transition: transform var(--duration-card) var(--ease-aims);
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-family-card:hover img {
-    transform: scale(1.03);
-  }
-}
-.home-family-card:focus-visible {
-  box-shadow: var(--shadow-2);
-}
 @media (max-width: 1023px), (max-width: 1279px) and (orientation: portrait) {
   .home-wash {
     width: 700px;
@@ -510,9 +495,6 @@
   }
   .home-device-tick path {
     stroke-dashoffset: 0 !important;
-  }
-  .home-family-image img {
-    transition: none;
   }
 }
 

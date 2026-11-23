@@ -163,16 +163,11 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
+/* Picks: the one card (actions.css .ui-card, which also positions it for its screen-reader text). */
 .pick-card {
-  /* Contains its absolutely positioned screen-reader text, so the sideways row clips it. */
-  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  transition: box-shadow var(--duration-base) var(--ease-aims);
+  padding: var(--card-pad);
 }
 .pick-image {
   display: flex;
@@ -186,7 +181,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform var(--duration-slow) var(--ease-aims);
 }
 .pick-brand {
   margin-block-start: 1rem;
@@ -242,14 +236,6 @@
 }
 .pick-add {
   margin-block-start: auto;
-}
-@media (hover: hover) and (pointer: fine) {
-  .pick-card:hover {
-    box-shadow: var(--shadow-2);
-  }
-  .pick-card:hover img {
-    transform: scale(1.04);
-  }
 }
 
 /* ---------- Tablet ---------- */
@@ -318,9 +304,7 @@
   .ta-s4,
   .ta-row,
   .ta-file,
-  .ta-wire,
-  .pick-card,
-  .pick-image img {
+  .ta-wire {
     transition: none;
   }
   .ta-dots circle {

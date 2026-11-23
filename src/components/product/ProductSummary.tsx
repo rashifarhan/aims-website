@@ -90,7 +90,7 @@ export function ProductSummary({ p, name, familyName, href, addLabels, t, data }
           </li>
         </ul>
 
-        <div className="mt-6 rounded-md border border-line p-4">
+        <div className="ui-panel mt-6">
           <p className="font-semibold text-ink">{t.product.needInstall}</p>
           <p className="mt-1 text-sm text-ink-600">{t.product.needInstallBody}</p>
         </div>

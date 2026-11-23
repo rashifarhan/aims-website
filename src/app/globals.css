@@ -248,6 +248,10 @@
   /* The one vertical rhythm of every section (ui/Section.tsx, Phase 1a polish): phones 2rem, tablets
      3.5rem, desktops the same times one multiplier (1.25), so no family keeps its own spacing. */
   --section-space: 3.5rem;
+  /* The one card and panel padding (actions.css .ui-card, .ui-panel; Phase 1b polish): 20px on phones, 24px on
+     tablets, 32px on desktops, so no family keeps its own inset. Dense product tiles use the tight step. */
+  --card-pad: 1.5rem;
+  --card-pad-tight: 1rem;
   /* The sticky header's height with its hairline (h-15 / lg:h-18 + 1px): the hero fills the rest of the
      first screen (taste House rule 3, CLAUDE.md §2 "one section per screen"). */
   --home-header-block: 3.8125rem;
@@ -287,9 +291,15 @@
     --section-space: calc(3.5rem * 1.25);
   }
 }
+@media (min-width: 1280px) {
+  :root {
+    --card-pad: 2rem;
+  }
+}
 @media (max-width: 639px) {
   :root {
     --section-space: 2rem;
+    --card-pad: 1.25rem;
     --text-home-heading: 1.75rem;
     /* The closing panel's night title (ui/ClosePanel), moved here from home so any page can close on night. */
     --text-home-closing: 2.125rem;

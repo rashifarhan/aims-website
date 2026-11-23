@@ -40,7 +40,10 @@ export async function HomeSoftware() {
           if (!software) return null;
           return (
             <li key={slug}>
-              <Link href={localePath(locale, `/software/${slug}`)} className="home-software-card">
+              <Link
+                href={localePath(locale, `/software/${slug}`)}
+                className="home-software-card ui-card ui-card-interactive"
+              >
                 <p className="home-software-kind">{s[kind]}</p>
                 <h4 dir="ltr">{software.name}</h4>
                 <p className="home-software-purpose">{s[purpose]}</p>

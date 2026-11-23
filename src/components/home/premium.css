@@ -21,24 +21,6 @@
   text-wrap: pretty;
 }
 
-/* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */
-.home-families :is(.home-family-card, .home-software-card) {
-  border: 1px solid var(--color-night-line);
-  background: var(--color-night-800);
-  color: var(--color-night-text);
-  box-shadow: none;
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-families :is(.home-family-card, .home-software-card):hover {
-    border-color: var(--color-lime);
-    box-shadow: none;
-  }
-}
-.home-families :is(.home-family-card, .home-software-card):focus-visible {
-  border-color: var(--color-lime);
-  box-shadow: none;
-}
-
 /* ---------- 3 · Families and software on night green ---------- */
 /* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
 .home-families .home-family-image {

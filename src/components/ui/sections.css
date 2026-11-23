@@ -73,36 +73,12 @@
     margin-block-start: 0.5rem;
   }
 }
+/* Software cards: the one card (actions.css .ui-card); this is their inside only. */
 .home-software-card {
-  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 2rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  color: var(--color-ink);
-  box-shadow: var(--shadow-1);
-}
-.home-software-card {
-  /* One timing for the lift and the family photo zoom (home.css), so card and photo move together. */
-  transition:
-    box-shadow var(--duration-card) var(--ease-aims),
-    border-color var(--duration-card) var(--ease-aims),
-    transform var(--duration-card) var(--ease-aims);
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-software-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-2);
-  }
-}
-.home-software-card:active {
-  transform: translateY(0) scale(0.99);
-}
-.home-software-card:focus-visible {
-  box-shadow: var(--shadow-2);
+  padding: var(--card-pad);
 }
 .home-software-card > .home-external-mark {
   position: absolute;
@@ -205,9 +181,6 @@
   .home-software-grid {
     gap: 0.75rem;
   }
-  .home-software-card {
-    padding: 1.5rem;
-  }
   .home-software-card > .home-external-mark {
     inset-block-start: 1.25rem;
     inset-inline-end: 1.25rem;
@@ -218,13 +191,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-software-card,
   .home-text-link .home-action-arrow {
     transition: none;
-  }
-  .home-software-card:hover,
-  .home-software-card:active {
-    transform: none;
   }
 }
 /* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
@@ -381,19 +349,12 @@
 }
 
 /* T3 solution template sections (Master Plan 14; Design Doc 5–10). Tokens only. */
+/* Option cards: the one card (actions.css .ui-card); this is their inside only. */
 .method-card {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.5rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  color: var(--color-ink);
-  transition:
-    box-shadow var(--duration-base) var(--ease-aims),
-    border-color var(--duration-base) var(--ease-aims),
-    transform var(--duration-base) var(--ease-aims);
+  padding: var(--card-pad);
 }
 .method-card h3 {
   margin-block-start: 1.25rem;
@@ -404,19 +365,6 @@
   margin-block: 0.5rem 1.25rem;
   color: var(--color-ink-600);
   line-height: 1.55;
-}
-@media (hover: hover) and (pointer: fine) {
-  .method-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-2);
-    border-color: var(--color-green-100);
-  }
-  .method-card:hover .home-action-arrow {
-    translate: 3px 0;
-  }
-  :dir(rtl) .method-card:hover .home-action-arrow {
-    translate: -3px 0;
-  }
 }
 
 /* ---------- Process with owners ---------- */
@@ -629,7 +577,7 @@
 }
 @media (max-width: 639px) {
   .method-card {
-    padding: 1rem;
+    padding: var(--card-pad-tight);
   }
   .method-card h3 {
     margin-block-start: 0.75rem;
@@ -654,20 +602,11 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .method-card {
-    transition: none;
-  }
-  .method-card:hover {
-    transform: none;
-  }
-}
-
 /* ---------- Office card (ui/OfficeCard.tsx): the one card for an AIMS place ---------- */
 .ui-office {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: var(--card-pad);
 }
 .ui-office-tag {
   display: inline-flex;

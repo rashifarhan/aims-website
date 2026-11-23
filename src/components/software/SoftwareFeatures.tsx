@@ -43,7 +43,7 @@ export async function SoftwareFeatures({ slug }: { slug: BuiltSoftware }) {
           ))}
         </ul>
         {system.length > 0 && (
-          <div className="sw-system ui-card">
+          <div className="sw-system ui-panel">
             <h3>{c.features.system}</h3>
             <ul {...data}>
               {system.map((item) => (

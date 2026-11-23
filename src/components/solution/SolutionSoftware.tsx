@@ -42,11 +42,18 @@ export async function SolutionSoftware({
           return (
             <li key={slug}>
               {isBuiltSoftware(slug) ? (
-                <Link href={localePath(locale, `/software/${slug}`)} className="home-software-card">
+                <Link
+                  href={localePath(locale, `/software/${slug}`)}
+                  className="home-software-card ui-card ui-card-interactive"
+                >
                   {body}
                 </Link>
               ) : (
-                <ExternalLink href={software.sourceUrl} label={t.common.externalSite} className="home-software-card">
+                <ExternalLink
+                  href={software.sourceUrl}
+                  label={t.common.externalSite}
+                  className="home-software-card ui-card ui-card-interactive"
+                >
                   {body}
                 </ExternalLink>
               )}

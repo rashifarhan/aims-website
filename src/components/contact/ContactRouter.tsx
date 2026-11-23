@@ -66,10 +66,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
         </div>
       </fieldset>
 
-      <section
-        aria-labelledby="contact-channel-title"
-        className="@container rounded-lg border border-line bg-paper p-5 sm:p-6"
-      >
+      <section aria-labelledby="contact-channel-title" className="ui-panel @container">
         <h2 id="contact-channel-title" className="text-xl font-semibold text-ink">
           {t.needs[need].label}
         </h2>

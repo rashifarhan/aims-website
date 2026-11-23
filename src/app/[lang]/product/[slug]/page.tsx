@@ -136,7 +136,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             href={p.datasheetUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 rounded-md border border-line px-4 py-3 font-semibold transition-colors duration-(--duration-hover) hover:border-line-strong active:bg-paper-2"
+            className="home-button home-button-outline max-w-full gap-2"
           >
             {t.product.datasheet}{" "}
             <span className="font-mono text-sm font-normal text-ink-600" dir="ltr">

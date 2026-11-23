@@ -24,7 +24,7 @@ export async function BuyerRoutes() {
       <ul className="home-route-grid">
         {routes.map((route, i) => (
           <li key={route.title}>
-            <Link href={localePath(locale, HREFS[i])} className="home-route-card">
+            <Link href={localePath(locale, HREFS[i])} className="home-route-card ui-card ui-card-interactive">
               <h3>{route.title}</h3>
               <p className="home-route-body">{route.body}</p>
               <p className="home-route-action">

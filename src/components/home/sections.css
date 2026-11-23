@@ -6,52 +6,12 @@
   letter-spacing: -0.015em;
 }
 
-/*
- * One card (DESIGN.md Plinth Rule; taste cards.md "barely there"): white, a hairline, the resting
- * shadow, 32px of padding. A linked card lifts 2px to the hover shadow; pressing settles it.
- */
+/* Route cards: the one card (actions.css .ui-card); this is their inside only. */
 .home-route-card {
-  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 2rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  color: var(--color-ink);
-  box-shadow: var(--shadow-1);
-}
-.home-route-card,
-.home-family-card {
-  /* One timing for the lift and the family photo zoom (home.css), so card and photo move together. */
-  transition:
-    box-shadow var(--duration-card) var(--ease-aims),
-    border-color var(--duration-card) var(--ease-aims),
-    transform var(--duration-card) var(--ease-aims);
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-route-card:hover,
-  .home-family-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-2);
-  }
-}
-.home-route-card:hover .home-action-arrow,
-.home-family-card:hover .home-action-arrow {
-  translate: 3px 0;
-}
-:dir(rtl) .home-route-card:hover .home-action-arrow,
-:dir(rtl) .home-family-card:hover .home-action-arrow {
-  translate: -3px 0;
-}
-.home-route-card:active,
-.home-family-card:active {
-  transform: translateY(0) scale(0.99);
-}
-.home-route-card:focus-visible,
-.home-family-card:focus-visible {
-  box-shadow: var(--shadow-2);
+  padding: var(--card-pad);
 }
 .home-route-card > .home-external-mark {
   position: absolute;
@@ -107,12 +67,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-paper);
-  color: var(--color-ink);
-  box-shadow: var(--shadow-1);
 }
 .home-family-image {
   height: 14rem;
@@ -130,7 +85,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 1.5rem 2rem 1.75rem;
+  padding: var(--card-pad);
   border-block-start: 1px solid var(--color-line);
 }
 .home-family-info h3 {
@@ -249,11 +204,7 @@
   flex: 1;
   flex-direction: column;
   gap: 1.25rem;
-  padding: 2rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  box-shadow: var(--shadow-1);
+  padding: var(--card-pad);
 }
 /* Ink, not green or lime: the rating is information, not an action (One Sign Rule, Lime Is Light Rule). */
 .home-review-stars {
@@ -365,12 +316,6 @@
   .home-review-grid {
     gap: 0.75rem;
   }
-  .home-review-card {
-    padding: 1.5rem;
-  }
-  .home-route-card {
-    padding: 1.5rem;
-  }
   .home-route-body {
     margin-block: 0.5rem 1.25rem;
   }
@@ -386,7 +331,7 @@
     padding: 0.875rem;
   }
   .home-family-info {
-    padding: 1rem 1rem 1.125rem;
+    padding: var(--card-pad-tight);
   }
   .home-family-info h3 {
     font-size: var(--text-base);
@@ -409,18 +354,5 @@
   }
   .home-proof-reviews .section-heading {
     margin-block-end: 1.25rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-route-card,
-  .home-family-card {
-    transition: none;
-  }
-  .home-route-card:hover,
-  .home-family-card:hover,
-  .home-route-card:active,
-  .home-family-card:active {
-    transform: none;
   }
 }

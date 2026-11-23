@@ -24,10 +24,7 @@ export function Receipt({ receipt, message, signals, t, productsHref, onEdit, on
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   return (
-    <section
-      aria-labelledby="receipt-title"
-      className="mx-auto max-w-2xl rounded-lg border border-line bg-paper p-5 sm:p-8"
-    >
+    <section aria-labelledby="receipt-title" className="ui-panel mx-auto max-w-2xl">
       <VerifyMark labels={signals} />
       <h2 id="receipt-title" ref={heading} tabIndex={-1} className="mt-6 text-2xl font-bold tracking-tight">
         {t.receipt.title}

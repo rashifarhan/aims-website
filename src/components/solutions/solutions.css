@@ -6,7 +6,7 @@
   /* Surface, lift and photo zoom come from the shared .ui-card (actions.css); this is layout only. */
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: var(--card-pad);
 }
 .solution-card-heading {
   display: flex;
@@ -168,9 +168,6 @@
   }
 }
 @media (min-width: 1024px) {
-  .solution-card {
-    padding: 2rem;
-  }
   .solution-card h2 {
     font-size: var(--text-xl);
   }

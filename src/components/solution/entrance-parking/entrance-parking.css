@@ -62,7 +62,7 @@
 .ep-option {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: var(--card-pad);
 }
 .ep-option h3 {
   margin-block-start: 1.25rem;
@@ -288,7 +288,7 @@
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 0.875rem;
     align-items: center;
-    padding: 1rem;
+    padding: var(--card-pad-tight);
   }
   .ep-option .method-icon {
     width: 2.75rem;

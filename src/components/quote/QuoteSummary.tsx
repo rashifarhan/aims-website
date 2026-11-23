@@ -22,7 +22,7 @@ type Props = {
  */
 export function QuoteSummary({ t, countText, message, reference, onWhatsApp, onSend, headingRef }: Props) {
   return (
-    <section aria-labelledby="summary-title" className="rounded-lg border border-line bg-paper p-4 sm:p-6">
+    <section aria-labelledby="summary-title" className="ui-panel">
       <h2 id="summary-title" ref={headingRef} tabIndex={-1} className="text-lg font-semibold text-ink">
         {t.summaryHeading}
       </h2>

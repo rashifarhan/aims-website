@@ -17,9 +17,6 @@
 .co-story-text:first-of-type {
   margin-block-start: 1.5rem;
 }
-.co-facts {
-  padding: 1.75rem;
-}
 .co-facts-title {
   font-size: var(--text-home-card);
   font-weight: 650;
@@ -91,7 +88,7 @@
 .co-cover-card {
   display: flex;
   flex-direction: column;
-  padding: 1.75rem;
+  padding: var(--card-pad);
 }
 .co-cover-card h3 {
   font-size: var(--text-home-card);

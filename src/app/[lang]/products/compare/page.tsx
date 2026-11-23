@@ -93,7 +93,7 @@ function CompareView({
 
   if (items.length < 2) {
     return (
-      <div className="rounded-lg border border-line bg-paper-2 p-6">
+      <div className="ui-panel">
         <p className="text-lg font-semibold">{t.compare.empty}</p>
         <div className="mt-3">{backToResults}</div>
       </div>

@@ -20,7 +20,7 @@ export function SolutionOptions({
       <ul className="method-grid">
         {items.map((item) => (
           <li key={item.key}>
-            <Link href={item.href} className="method-card">
+            <Link href={item.href} className="method-card ui-card ui-card-interactive">
               <span className="method-icon" aria-hidden="true">
                 <svg
                   viewBox="0 0 32 32"

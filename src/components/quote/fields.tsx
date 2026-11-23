@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 /** A numbered quote panel (Design Doc 10, T8: Items · What do you need? · Your details). */
 export function Panel({ n, title, id, children }: { n: number; title: string; id: string; children: ReactNode }) {
   return (
-    <section aria-labelledby={id} className="rounded-lg border border-line bg-paper p-4 sm:p-6">
+    <section aria-labelledby={id} className="ui-panel">
       <h2 id={id} className="flex items-center gap-3 text-lg font-semibold text-ink">
         <span
           aria-hidden="true"

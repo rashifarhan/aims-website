@@ -202,19 +202,25 @@
   }
 
   /*
- * The one card (DESIGN.md Plinth Rule), shared beyond the homepage: hairline, resting shadow; a linked
- * or interactive card lifts 2px to the hover shadow and settles when pressed. Photos inside zoom 1.03.
- */
+   * The one card (DESIGN.md Plinth Rule; Design Doc 9 Card): one of a set (products, routes, articles, options).
+   * Radius lg, a hairline, the resting shadow; families inset their content by --card-pad (globals.css). A linked
+   * or interactive card lifts 2px to the hover shadow and settles when pressed; a photo inside zooms 1.03 in its
+   * frame (taste House rule 5).
+   */
   .ui-card {
     position: relative;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: var(--color-paper);
+    color: var(--color-ink);
     box-shadow: var(--shadow-1);
     transition:
       box-shadow var(--duration-card) var(--ease-aims),
       border-color var(--duration-card) var(--ease-aims),
       transform var(--duration-card) var(--ease-aims);
+  }
+  .ui-card-photo {
+    overflow: clip;
   }
   .ui-card-photo img {
     transition: transform var(--duration-card) var(--ease-aims);
@@ -228,11 +234,37 @@
       transform: scale(1.03);
     }
   }
+  .ui-card-interactive:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .ui-card-interactive:hover .home-action-arrow {
+    translate: -3px 0;
+  }
   .ui-card-interactive:active {
     transform: translateY(0) scale(0.99);
   }
+  .ui-card-interactive:focus-visible,
   .ui-card-interactive:has(:focus-visible) {
     box-shadow: var(--shadow-2);
+  }
+  /* On night green (ui/Section night): the same card in night tones. A hairline, no glow; the edge lights lime
+     on hover and focus (DESIGN.md Lime Is Light). */
+  .section-night .ui-card {
+    border-color: var(--color-night-line);
+    background: var(--color-night-800);
+    color: var(--color-night-text);
+    box-shadow: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .section-night .ui-card-interactive:hover {
+      border-color: var(--color-lime);
+      box-shadow: none;
+    }
+  }
+  .section-night .ui-card-interactive:focus-visible,
+  .section-night .ui-card-interactive:has(:focus-visible) {
+    border-color: var(--color-lime);
+    box-shadow: none;
   }
   @media (prefers-reduced-motion: reduce) {
     .ui-card,
@@ -244,6 +276,18 @@
     .ui-card-interactive:hover .ui-card-photo img {
       transform: none;
     }
+  }
+
+  /*
+   * The one panel: a single boxed surface that is neither one of a set nor a link (a form step, a summary, an
+   * empty state, a facts box). Flat: the card's radius and hairline, no shadow, no hover. Boxes inside it are
+   * wells (radius md, paper-2), never another panel: two boxes deep at most (CLAUDE.md §2).
+   */
+  .ui-panel {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-paper);
+    padding: var(--card-pad);
   }
 
   /* Actions on night green (ui/ClosePanel night, home night bands): lime measures 7.8:1 there (globals.css). */

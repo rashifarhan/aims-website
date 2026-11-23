@@ -36,7 +36,7 @@ export async function AboutStory() {
           </p>
         ))}
       </div>
-      <div className="co-facts ui-card">
+      <div className="co-facts ui-panel">
         <h3 className="co-facts-title">{c.factsHeading}</h3>
         <dl>
           {facts.map((f) => (

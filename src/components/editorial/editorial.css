@@ -171,7 +171,7 @@
   flex: 1;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1.25rem;
+  padding: var(--card-pad);
 }
 .ed-card h2,
 .ed-card h3 {
@@ -254,7 +254,7 @@
 }
 .ed-next-card {
   flex: 1 1 16rem;
-  padding: 1rem 1.25rem;
+  padding: var(--card-pad-tight);
 }
 .ed-next-label {
   font-size: var(--text-caption);

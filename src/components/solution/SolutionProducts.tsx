@@ -55,8 +55,8 @@ export async function SolutionProducts({
           const facts = keyFacts(p);
           const href = localePath(locale, `/product/${p.slug}`);
           return (
-            <li key={p.slug} className="pick-card">
-              <Link href={href} tabIndex={-1} aria-hidden="true" className="pick-image">
+            <li key={p.slug} className="pick-card ui-card ui-card-interactive">
+              <Link href={href} tabIndex={-1} aria-hidden="true" className="pick-image ui-card-photo">
                 {image && (
                   <Image
                     src={image.src}
