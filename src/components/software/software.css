@@ -32,7 +32,9 @@
 .sw-hero-art img {
   display: block;
   width: 100%;
+  max-width: var(--art-width, 100%);
   height: auto;
+  margin-inline: auto;
 }
 .sw-centre-intro {
   padding-block: 1.5rem var(--home-section-space);
