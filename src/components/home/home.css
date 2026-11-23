@@ -670,3 +670,15 @@
     transition: none;
   }
 }
+
+/* Short phones (audit B4: 320x480 showed no action on the first screen): a smaller title and tighter spacing, so
+   the hero's two actions are in view. Taller phones and desktop keep the full composition. */
+@media (max-width: 639px) and (max-height: 600px) {
+  .home-hero-copy {
+    padding-block: 1.5rem;
+  }
+  .home-display {
+    margin-block: 0.75rem 1rem;
+    font-size: var(--text-home-display-short);
+  }
+}

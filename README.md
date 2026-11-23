@@ -702,3 +702,19 @@ results before and after are in `docs/audits/2026-11-23-{locations,company,solut
     stay local (CLAUDE.md), and the resting hero glow keeps its original strength (DESIGN.md "Lime Is Light").
   - Scroll-driven stories are desktop only, on the homepage door, Access Control and Time Attendance. Phones play
     once; product, software and the other solution pages keep their one-time draws.
+
+### Short-phone first screens (audit B4, 23 Nov 2026)
+
+At 320×480 the homepage and software hub titles (5 and 7 lines) and the product photo (about 60% of the screen) left
+no action on the first screen. Changes apply only to narrow, short screens; desktop and normal phones keep their
+composition.
+
+- **Homepage and software hub, ≤600px tall:** smaller titles (`--text-home-display-short`, `--text-page-title-short`)
+  and tighter hero spacing. Their main action is in view at 320×480 and 320×568, English and Arabic.
+- **Product pages, phones:** the quantity and Add to quote follow the model chip (CSS order). The summary and spec
+  tiles they move past hold no focusable element, so keyboard order still matches what is seen; desktop keeps the
+  source order. On screens ≤760px tall the photo frame is capped in height but keeps its full width, and the photo stays
+  whole (`object-contain`). Under 360px wide, Add to quote takes its own row rather than wrapping its label.
+- **Measured:** Add to quote is in the first screen at 320×568 (iPhone SE) and 390×664, English and Arabic. At the
+  extreme 320×480 it sits one row below the fold. Squeezing further would shrink the photo to a thumbnail.
+- `tests/e2e/short-phone.spec.ts` checks these first screens and the phone order.
