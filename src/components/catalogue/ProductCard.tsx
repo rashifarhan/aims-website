@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ProductCard as Card } from "@/content/cards";
 import type { QuoteContext } from "@/lib/quote/context";
+import { splitModel } from "@/lib/modelCode";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
 
 export type CardLabels = AddToQuoteLabels & { compare: string; specsOnRequest: string };
@@ -25,8 +26,9 @@ const BRAND_LINE: Record<Card["brand"], string> = { zkteco: "ZKTeco", alpha: "Al
 
 /**
  * The heading is the model code (Design Doc 9 card anatomy: "model (mono)"). Where AIMS's name adds a
- * description after the code ("ALF B21 - Exit Button"), that description replaces the type line, so no
- * words from the name are lost and nothing is said twice.
+ * description after the code ("ALF B21 - Exit Button"), or the imported model field carries one
+ * ("LH4000 Smart Hotel Door Lock", splitModel), that description replaces the type line, so no words are
+ * lost and nothing is said twice.
  */
 function describe(c: Card): string {
   const title = c.name.replace(/^(ZKTeco|Alpha)\s+/i, "");
@@ -40,7 +42,8 @@ function describe(c: Card): string {
  * spec values; missing specs say so.
  */
 export function ProductCard({ card, href, subtitle, labels, compare, preset, eager = false }: Props) {
-  const description = describe(card);
+  const model = splitModel(card.model);
+  const description = model.description || describe(card);
   return (
     <article className="product-card ui-card ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
       <Link
@@ -66,8 +69,14 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
           <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
         )}
         <h3 className="mt-0.5 text-base leading-snug font-medium text-ink sm:text-lg">
-          <Link href={href} dir="ltr" className="font-mono break-words hover:text-green-700 hover:underline">
-            {card.model}
+          {/* Block padding on the inline link gives it a 44px target without moving the line box (CLAUDE.md §4);
+              the underline draws in rather than snapping on (taste House rule 5). */}
+          <Link
+            href={href}
+            dir="ltr"
+            className="py-3 font-mono break-words underline decoration-transparent underline-offset-[0.2em] transition-[color,text-decoration-color] duration-(--duration-hover) hover:text-green-700 hover:decoration-current"
+          >
+            {model.code}
           </Link>
         </h3>
         {/* Product data is English (CLAUDE.md 7); the type label comes from the dictionary. */}
@@ -78,10 +87,11 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
         {card.facts.length > 0 ? (
           <dl className="mt-3 grid gap-1.5 text-sm">
             {card.facts.map((f) => (
-              // Product data is English: keep "label value" order on Arabic pages too.
+              // Product data is English: keep "label value" order on Arabic pages too. A value too long for
+              // the row wraps under its label and, in Arabic, lines up with the card's end edge (Design Doc 13).
               <div key={f.label} dir="ltr" lang="en" className="flex flex-wrap gap-x-1.5 rtl:justify-end">
                 <dt className="text-ink-600">{f.label}</dt>
-                <dd className="font-medium text-ink tabular-nums">{f.value}</dd>
+                <dd className="min-w-0 font-medium text-ink tabular-nums rtl:text-end">{f.value}</dd>
               </div>
             ))}
           </dl>
