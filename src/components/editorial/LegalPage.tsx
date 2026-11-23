@@ -3,7 +3,7 @@ import { localePath } from "@/i18n/config";
 import { legalPage, type LegalSlug } from "@/content/pages";
 import { outline } from "@/lib/editorial";
 import { EditorialBlocks } from "./EditorialBlocks";
-import { EditorialIntro } from "./EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
 import { OnThisPage } from "./OnThisPage";
 import "./editorial.css";
 
@@ -20,7 +20,8 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
   const index = outline(page.blocks);
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, `/${slug}`), label: c[slug] },

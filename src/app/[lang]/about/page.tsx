@@ -5,7 +5,8 @@ import { alternates } from "@/lib/seo";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { CompanyIntro } from "@/components/company/CompanyIntro";
+import { PageHero } from "@/components/ui/PageHero";
+import { productBySlug } from "@/content/catalogue";
 import { ContactReach } from "@/components/contact/ContactReach";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
@@ -33,7 +34,8 @@ export default async function About() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1">
-      <CompanyIntro
+      <PageHero
+        variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/about"), label: c.crumb },
@@ -43,7 +45,7 @@ export default async function About() {
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        photo="proface-x"
+        photo={productBySlug("proface-x")?.images[0]}
       />
       <AboutStory />
       <HomeProof />

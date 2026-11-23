@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
 import { SolutionIndustries } from "@/components/solutions/SolutionIndustries";
@@ -24,17 +24,15 @@ export default async function SolutionsHub() {
   const locale = await getLocale();
   return (
     <main id="main" className="solutions-hub">
-      <div className="solution-intro wrap">
-        <Breadcrumbs
-          label={t.common.breadcrumb}
-          items={[
-            { href: localePath(locale, "/"), label: t.common.home },
-            { href: localePath(locale, "/solutions"), label: t.nav.solutions },
-          ]}
-        />
-        <h1>{t.solutionsHub.title}</h1>
-        <p className="solution-lead">{t.solutionsHub.lead}</p>
-      </div>
+      <PageHero
+        variant="compact"
+        crumbs={[
+          { href: localePath(locale, "/"), label: t.common.home },
+          { href: localePath(locale, "/solutions"), label: t.nav.solutions },
+        ]}
+        title={t.solutionsHub.title}
+        lead={t.solutionsHub.lead}
+      />
       <div className="solution-grid wrap">
         {SOLUTION_CARDS.map((solution) => (
           <SolutionCard key={solution.slug} solution={solution} />

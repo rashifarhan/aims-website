@@ -126,7 +126,7 @@ test("reduced motion: hero and map rest at their final frame, nothing hidden or 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/zkteco-distributors-in-kenya");
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   await expect(page.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px");
   await expect(page.locator(".reach-arrive")).toHaveCSS("opacity", "0.3");

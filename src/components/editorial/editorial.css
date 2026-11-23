@@ -3,67 +3,11 @@
  * parts of About and Support. Tokens only; logical properties only.
  */
 
-/* ---------- Intro: compact, because a policy or an article starts reading at once ---------- */
-.ed-intro {
-  padding-block: 1.5rem 2.5rem;
-}
-.ed-eyebrow {
-  margin-block-start: 2rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
-}
-.ed-intro h1 {
-  max-width: 48rem;
-  margin-block-start: 0.75rem;
-  font-size: var(--text-page-title);
-  font-weight: 680;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-}
-.ed-lead {
-  max-width: 40rem;
-  margin-block-start: 1rem;
-  font-size: var(--text-home-lead);
-  line-height: 1.55;
-  color: var(--color-ink-600);
-  text-wrap: pretty;
-}
+/* The article's published date, in the shared hero's lead slot (ui/PageHero). */
 .ed-meta {
   margin-block-start: 1rem;
   font-size: var(--text-small);
   color: var(--color-ink-600);
-}
-.ed-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem 1.75rem;
-  margin-block-start: 1.75rem;
-}
-:lang(ar) .ed-intro h1 {
-  letter-spacing: 0;
-  line-height: 1.2;
-}
-
-/* The solution template's entrance (ui/sections.css .t3-enter, t3-copy-in), once on load, then it stands. */
-@media (prefers-reduced-motion: no-preference) {
-  .ed-enter {
-    animation: t3-copy-in 800ms var(--ease-aims) both;
-  }
-  .ed-enter:nth-child(2) {
-    animation-delay: 80ms;
-  }
-  .ed-enter:nth-child(3) {
-    animation-delay: 200ms;
-  }
-  .ed-enter:nth-child(4) {
-    animation-delay: 320ms;
-  }
-  .ed-enter:nth-child(n + 5) {
-    animation-delay: 400ms;
-  }
 }
 
 /* ---------- Reading layout: the 680px column, with the index beside it on desktop ---------- */
@@ -371,12 +315,6 @@
 @media (max-width: 639px) {
   .ed-next {
     padding: 1.5rem 1.25rem;
-  }
-  .ed-intro h1 {
-    font-size: var(--text-page-title-mobile);
-  }
-  .ed-lead {
-    font-size: var(--text-base);
   }
   /* Design Doc 9 Card on phones: the excerpt goes; the title and date carry the card. */
   .ed-card-excerpt {

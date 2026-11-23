@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { CompanyIntro } from "@/components/company/CompanyIntro";
+import { PageHero } from "@/components/ui/PageHero";
+import { productBySlug } from "@/content/catalogue";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
 import { ServicesProcess } from "@/components/company/ServicesProcess";
@@ -29,7 +30,8 @@ export default async function Services() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1">
-      <CompanyIntro
+      <PageHero
+        variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/services"), label: c.crumb },
@@ -39,7 +41,7 @@ export default async function Services() {
         lead={c.lead}
         primary={{ href: href("/quote?need=install"), label: c.primary }}
         secondary={{ href: `${href("/support")}#warranty`, label: c.secondary }}
-        photo="inbio-pro-160"
+        photo={productBySlug("inbio-pro-160")?.images[0]}
       />
       <ServicesList />
       <ServicesProcess />

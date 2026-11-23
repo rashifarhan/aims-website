@@ -1,32 +1,6 @@
 .solutions-hub {
   padding-block-end: 3.5rem;
 }
-.solution-intro {
-  padding-block-start: 1.5rem;
-  padding-block-end: 2rem;
-}
-.solution-intro nav a {
-  min-height: 2.75rem;
-  min-width: 2.75rem;
-  display: inline-flex;
-  align-items: center;
-}
-.solution-intro h1 {
-  margin-block-start: 1.5rem;
-  max-width: 17ch;
-  font-size: var(--text-page-title-mobile);
-  line-height: 1.1;
-  font-weight: var(--font-weight-display);
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-.solution-lead {
-  max-width: 42.5rem;
-  margin-block-start: 1rem;
-  color: var(--color-ink-600);
-  font-size: var(--text-base);
-  line-height: 1.6;
-}
 .solution-grid {
   display: grid;
   gap: 1.5rem;
@@ -203,10 +177,6 @@
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
-:dir(rtl) .solution-intro h1 {
-  letter-spacing: 0;
-  line-height: 1.2;
-}
 @media (min-width: 640px) {
   .solution-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -221,17 +191,6 @@
 @media (min-width: 1024px) {
   .solutions-hub {
     padding-block-end: 6rem;
-  }
-  .solution-intro {
-    padding-block-start: 2rem;
-    padding-block-end: 2.5rem;
-  }
-  .solution-intro h1 {
-    font-size: var(--text-page-title);
-    margin-block-start: 2rem;
-  }
-  .solution-lead {
-    font-size: var(--text-lg);
   }
   .solution-card {
     padding: 2rem;

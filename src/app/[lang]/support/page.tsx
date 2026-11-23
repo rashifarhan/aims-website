@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SUPPORT_SECTIONS, SupportSections } from "@/components/company/SupportSections";
-import { EditorialIntro } from "@/components/editorial/EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
@@ -31,7 +31,8 @@ export default async function Support() {
   const headings = { warranty: c.warrantyHeading, process: c.processHeading, faq: c.faqHeading };
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/support"), label: c.crumb },
@@ -39,19 +40,28 @@ export default async function Support() {
         eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
-      >
-        <div className="ed-actions">
+        primary={
           <ContactLink kind="whatsapp" href={whatsappUrl()} target={CONTACT.whatsapp} className="home-button">
             {c.whatsapp}
           </ContactLink>
-          <ContactLink kind="email" href={`mailto:${CONTACT.email}`} target={CONTACT.email} className="home-secondary">
-            {c.email}
-          </ContactLink>
-          <Link href={href("/contact")} className="home-secondary">
-            {c.closeSecondary}
-          </Link>
-        </div>
-      </EditorialIntro>
+        }
+        secondary={
+          // The email and the contact page share the secondary slot, as published before Phase 1 (polish log).
+          <>
+            <ContactLink
+              kind="email"
+              href={`mailto:${CONTACT.email}`}
+              target={CONTACT.email}
+              className="home-secondary"
+            >
+              {c.email}
+            </ContactLink>
+            <Link href={href("/contact")} className="home-secondary">
+              {c.closeSecondary}
+            </Link>
+          </>
+        }
+      />
       <div className="ed-layout wrap">
         <OnThisPage
           labels={{ wide: t.editorial.onThisPage, narrow: t.editorial.jumpTo }}

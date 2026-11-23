@@ -203,61 +203,139 @@
     transform: none;
   }
 }
-/* T3 solution template (Master Plan 14; Design Doc 5–10). Tokens only. */
-.t3-intro {
+/* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
+.page-hero {
   padding-block: 1.5rem var(--home-section-space);
 }
-/* Hero: copy beside the product photograph (audit T12); phones stack the photo under the actions. */
-.t3-hero {
+.page-hero-compact {
+  padding-block-end: 2.5rem;
+}
+/* Split: copy beside the product photograph (audit T12); phones stack the photo under the actions. */
+.page-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 2rem;
 }
-.t3-hero-photo {
+.page-hero-copy {
+  padding-block-start: 2rem;
+}
+.page-hero-eyebrow {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.page-hero h1 {
+  max-width: 48rem;
+  font-size: var(--text-page-title);
+  font-weight: 680;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.page-hero-eyebrow + h1 {
+  margin-block-start: 0.75rem;
+}
+:lang(ar) .page-hero h1 {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.page-hero-lead {
+  max-width: 40rem;
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+.page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+.page-hero-fact {
+  margin-block-start: 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.page-hero-media {
   justify-self: center;
   width: 100%;
   max-width: 16rem;
 }
-.t3-hero-photo img {
+.page-hero-media img {
   display: block;
   width: 100%;
   height: auto;
 }
+.page-hero-framed {
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+}
 @media (min-width: 1024px) {
-  .t3-intro {
+  .page-hero-split {
     display: flex;
     flex-direction: column;
     min-height: calc(100svh - var(--home-header-block));
   }
-  .t3-hero {
+  .page-hero-grid {
     flex: 1;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 4rem;
   }
-  .t3-hero-photo {
+  .page-hero-grid .page-hero-copy {
+    padding-block-start: 0;
+  }
+  .page-hero-media {
     max-width: 30rem;
   }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .t3-enter {
-    animation: t3-copy-in 800ms var(--ease-aims) both;
+  .page-hero-framed {
+    padding: 2rem;
   }
-  .t3-hero-copy > .t3-enter:nth-child(2) {
+}
+@media (max-width: 639px) {
+  .page-hero h1 {
+    font-size: var(--text-page-title-mobile);
+    line-height: 1.1;
+  }
+  .page-hero-lead {
+    font-size: var(--text-base);
+  }
+  .page-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .page-hero-actions .home-secondary {
+    justify-content: center;
+  }
+}
+/* The entrance, once on load (~1.1 s, then it stands): the copy rises in turn, the photograph settles.
+   Reduced motion keeps everything at rest (CLAUDE.md §3). PageHero and the T5 product summary use it. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-copy-in 800ms var(--ease-aims) both;
+  }
+  .hero-enter:nth-child(2) {
     animation-delay: 80ms;
   }
-  .t3-hero-copy > .t3-enter:nth-child(3) {
+  .hero-enter:nth-child(3) {
     animation-delay: 200ms;
   }
-  .t3-hero-copy > .t3-enter:nth-child(4) {
+  .hero-enter:nth-child(4) {
     animation-delay: 320ms;
   }
-  .t3-hero-photo {
-    animation: t3-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
+  .hero-enter:nth-child(n + 5) {
+    animation-delay: 440ms;
+  }
+  .hero-enter-media {
+    animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
   }
 }
-/* Homepage-style entrance, once on load (~1.1s, then it stands); reduced motion keeps it still. */
-@keyframes t3-copy-in {
+@keyframes hero-copy-in {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -267,7 +345,7 @@
     transform: none;
   }
 }
-@keyframes t3-device-in {
+@keyframes hero-device-in {
   from {
     opacity: 0;
     transform: translateY(16px) scale(0.98);
@@ -277,35 +355,8 @@
     transform: none;
   }
 }
-.t3-eyebrow {
-  margin-block-start: 2.5rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
-}
-.t3-intro h1 {
-  max-width: 48rem;
-  margin-block-start: 0.75rem;
-  font-size: var(--text-page-title);
-  font-weight: 680;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-}
-.t3-promise {
-  max-width: 40rem;
-  margin-block-start: 1.25rem;
-  font-size: var(--text-home-lead);
-  line-height: 1.55;
-  color: var(--color-ink-600);
-}
-.t3-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem 1.75rem;
-  margin-block-start: 2rem;
-}
+
+/* T3 solution template sections (Master Plan 14; Design Doc 5–10). Tokens only. */
 .t3-section {
   padding-block: var(--home-section-space);
 }
@@ -335,7 +386,6 @@
   color: var(--color-ink-600);
   line-height: 1.6;
 }
-:lang(ar) .t3-intro h1,
 :lang(ar) .t3-title {
   letter-spacing: 0;
   line-height: 1.2;
@@ -603,20 +653,6 @@
   }
 }
 @media (max-width: 639px) {
-  .t3-intro h1 {
-    font-size: var(--text-page-title-mobile);
-    line-height: 1.1;
-  }
-  .t3-promise {
-    font-size: var(--text-base);
-  }
-  .t3-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .t3-actions .home-secondary {
-    justify-content: center;
-  }
   .t3-heading {
     margin-block-end: 1.5rem;
   }

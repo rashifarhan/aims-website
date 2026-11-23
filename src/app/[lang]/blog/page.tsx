@@ -4,7 +4,7 @@ import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { alternates } from "@/lib/seo";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
-import { EditorialIntro } from "@/components/editorial/EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
 import { articles } from "@/content/pages";
 import "@/components/editorial/editorial.css";
 
@@ -29,7 +29,8 @@ export default async function Blog() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/blog"), label: t.blog.crumb },

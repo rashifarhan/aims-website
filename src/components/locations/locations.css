@@ -4,18 +4,6 @@
  * pages add. Tokens only. Motion: the T3 hero entrance, the SIGNAL map (signature/reach.css), hover and press.
  */
 
-/* The hard fact under the actions enters last, with the rest of the hero copy. */
-.loc-fact {
-  margin-block-start: 1.5rem;
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .t3-hero-copy > .loc-fact.t3-enter {
-    animation-delay: 440ms;
-  }
-}
-
 /* ---------- UAE offices: the one card, showroom first ---------- */
 .loc-offices {
   display: grid;

@@ -84,14 +84,14 @@ test("phones scroll the terminals sideways without widening the page", async ({ 
 // T12: the hero leads with the F18 photograph, preloaded as the LCP image.
 test("the hero shows the F18 photograph beside the copy", async ({ page }) => {
   await page.goto(PATH);
-  const photo = page.locator(".t3-hero-photo img");
+  const photo = page.locator(".page-hero-media img");
   await expect(photo).toBeVisible();
   await expect(photo).toHaveAttribute("src", /f18/);
   // Next 16's `preload` loads the LCP photo early through a preload link (CLAUDE.md §5).
   await expect(page.locator('link[rel="preload"][as="image"][imagesrcset*="f18"]')).toHaveCount(1);
   // The entrance plays once and stands.
   const iterations = await page
-    .locator(".t3-hero")
+    .locator(".page-hero-grid")
     .evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect?.getTiming().iterations));
   expect(iterations.every((n) => n === 1)).toBe(true);
 });
@@ -103,7 +103,7 @@ test("reduced motion: the hero is still and the story steps keep their natural h
   await expect(page.locator(".story")).toHaveAttribute("data-motion", "off");
   for (const step of await page.locator("[data-story-step]").all())
     expect((await step.boundingBox())?.height ?? 0).toBeLessThan(900 * 0.55 - 1);
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
 });
 

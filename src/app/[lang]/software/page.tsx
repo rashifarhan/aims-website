@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { isBuiltSoftware } from "@/lib/software";
 import { softwareList } from "@/content/catalogue";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ArrowIcon } from "@/components/icons";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/catalogue/catalogue.css";
 import "@/components/software/software.css";
@@ -62,25 +60,16 @@ export default async function SoftwareCentre() {
   };
   return (
     <main id="main">
-      <section className="sw-centre-intro wrap" aria-labelledby="sw-centre-title" data-enter>
-        <Breadcrumbs
-          label={t.common.breadcrumb}
-          items={[
-            { href: href("/"), label: t.common.home },
-            { href: href("/software"), label: t.softwarePage.software },
-          ]}
-        />
-        <h1 id="sw-centre-title" className="sw-enter">
-          {c.title}
-        </h1>
-        <p className="t3-promise sw-enter">{c.lead}</p>
-        <div className="t3-actions sw-enter">
-          <Link href={href("/quote?need=install")} className="home-button">
-            {c.primary}
-            <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
-          </Link>
-        </div>
-      </section>
+      <PageHero
+        variant="compact"
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/software"), label: t.softwarePage.software },
+        ]}
+        title={c.title}
+        lead={c.lead}
+        primary={{ href: href("/quote?need=install"), label: c.primary }}
+      />
       <section className="sw-centre wrap" aria-labelledby="sw-centre-list">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
         <h2 id="sw-centre-list" className="sr-only">

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { LocationIntro } from "@/components/locations/LocationIntro";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
 import { LocationReach } from "@/components/locations/LocationReach";
 import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
@@ -37,13 +37,17 @@ export default async function LocationsHub() {
   const photo = productBySlug(HUB_HERO)?.images[0];
   return (
     <main id="main">
-      <LocationIntro
+      <PageHero
+        variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/locations"), label: t.nav.locations },
         ]}
-        copy={c}
-        hrefs={{ primary: "#delivery", secondary: "#uae" }}
+        eyebrow={c.eyebrow}
+        title={c.title}
+        lead={c.lead}
+        primary={{ href: "#delivery", label: c.primary }}
+        secondary={{ href: "#uae", label: c.secondary }}
         fact={
           <span lang="en" dir="ltr">
             {CONTACT.showroomAddress}

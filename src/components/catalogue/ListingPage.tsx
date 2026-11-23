@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { products, productsInFamily } from "@/content/catalogue";
 import { toCard } from "@/content/cards";
 import { FAMILIES, type FamilySlug } from "@/content/taxonomy";
@@ -35,20 +35,22 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
   };
 
   return (
-    <main id="main" className="wrap flex-1 pt-6 pb-16">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
+    <main id="main" className="flex-1">
+      <PageHero
+        variant="compact"
+        crumbs={[
           { href: href("/"), label: t.common.home },
           ...(family ? [{ href: href("/products"), label: t.catalogue.allTitle }] : []),
           { href: href(family ? `/products/${family}` : "/products"), label: title },
         ]}
+        title={title}
+        lead={lead}
       />
-      <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-5xl">{title}</h1>
-      <p className="mt-3 max-w-2xl text-base text-ink-600 sm:text-lg">{lead}</p>
-      <Suspense fallback={<ListingView {...props} />}>
-        <Listing {...props} />
-      </Suspense>
+      <div className="wrap pb-16">
+        <Suspense fallback={<ListingView {...props} />}>
+          <Listing {...props} />
+        </Suspense>
+      </div>
     </main>
   );
 }

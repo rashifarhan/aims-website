@@ -7,7 +7,7 @@
 
 /* Every POS photograph is 350 px wide (content/products.json): never show it larger, or it blurs. */
 @media (min-width: 1024px) {
-  .pc-page .t3-hero-photo {
+  .pc-page .page-hero-media {
     max-width: 21.875rem;
   }
   /* Four terminals in one row, not three and an orphan. */

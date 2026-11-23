@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { QuoteView } from "@/components/quote/QuoteView";
 import type { CatalogEntry } from "@/components/quote/QuoteItems";
 import { products } from "@/content/catalogue";
@@ -30,16 +30,16 @@ export default async function QuotePage() {
 
   return (
     <main id="main" className="w-full flex-1 bg-paper-2">
-      <div className="wrap pt-6 pb-16">
-        <Breadcrumbs
-          label={t.common.breadcrumb}
-          items={[
-            { href: href("/"), label: t.common.home },
-            { href: href("/quote"), label: t.quote.metaTitle },
-          ]}
-        />
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{t.quote.title}</h1>
-        <p className="mt-2 max-w-2xl text-base text-ink-600 sm:text-lg">{t.quote.lead}</p>
+      <PageHero
+        variant="compact"
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/quote"), label: t.quote.metaTitle },
+        ]}
+        title={t.quote.title}
+        lead={t.quote.lead}
+      />
+      <div className="wrap pb-16">
         <QuoteView
           catalog={catalog}
           t={t.quote}

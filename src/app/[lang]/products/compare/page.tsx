@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { ArrowIcon } from "@/components/icons";
 import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { productBySlug } from "@/content/catalogue";
@@ -27,23 +27,40 @@ export default async function ComparePage({ searchParams }: PageProps<"/[lang]/p
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="wrap flex-1 pt-6 pb-16">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
+    <main id="main" className="flex-1">
+      <PageHero
+        variant="compact"
+        crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/products"), label: t.catalogue.allTitle },
           { href: href("/products/compare"), label: t.compare.title },
         ]}
+        title={t.compare.title}
+        lead={
+          // The lead describes the table, so it shows only once two products are selected.
+          <Suspense fallback={t.compare.lead}>
+            {searchParams.then((sp) => (selection(sp).items.length < 2 ? null : t.compare.lead))}
+          </Suspense>
+        }
       />
-      <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{t.compare.title}</h1>
-      <Suspense fallback={<p className="mt-4 text-ink-600">{t.compare.lead}</p>}>
-        {searchParams.then((sp) => (
-          <CompareView t={t} hrefOf={href} params={sp} contentLang={locale === "en" ? undefined : "en"} />
-        ))}
-      </Suspense>
+      <div className="wrap pb-16">
+        <Suspense fallback={null}>
+          {searchParams.then((sp) => (
+            <CompareView t={t} hrefOf={href} params={sp} contentLang={locale === "en" ? undefined : "en"} />
+          ))}
+        </Suspense>
+      </div>
     </main>
   );
+}
+
+type Params = Record<string, string | string[] | undefined>;
+const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+
+/** The products named in the URL that exist, capped at MAX_COMPARE (URL params are untrusted input). */
+function selection(params: Params) {
+  const requested = (one(params.items) ?? "").split(",").filter(Boolean).slice(0, MAX_COMPARE);
+  return { requested, items: requested.map((s) => productBySlug(s)).filter((p): p is Product => !!p) };
 }
 
 function CompareView({
@@ -54,12 +71,10 @@ function CompareView({
 }: {
   t: Dictionary;
   hrefOf: (p: string) => string;
-  params: Record<string, string | string[] | undefined>;
+  params: Params;
   contentLang?: string;
 }) {
-  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
-  const requested = (one(params.items) ?? "").split(",").filter(Boolean).slice(0, MAX_COMPARE);
-  const items = requested.map((s) => productBySlug(s)).filter((p): p is Product => !!p);
+  const { requested, items } = selection(params);
   const onlyDiff = one(params.diff) === "1";
   const from = safeFrom(one(params.from)) ?? hrefOf("/products");
   const backToResults = (
@@ -78,7 +93,7 @@ function CompareView({
 
   if (items.length < 2) {
     return (
-      <div className="mt-6 rounded-lg border border-line bg-paper-2 p-6">
+      <div className="rounded-lg border border-line bg-paper-2 p-6">
         <p className="text-lg font-semibold">{t.compare.empty}</p>
         <div className="mt-3">{backToResults}</div>
       </div>
@@ -101,9 +116,8 @@ function CompareView({
 
   return (
     <>
-      <p className="mt-3 max-w-2xl text-ink-600">{t.compare.lead}</p>
-      {requested.length > items.length && <p className="mt-2 text-sm text-warn">{t.compare.notFound}</p>}
-      <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-1">
+      {requested.length > items.length && <p className="mb-2 text-sm text-warn">{t.compare.notFound}</p>}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
         {backToResults}
         <Link
           href={selfHref(!onlyDiff)}

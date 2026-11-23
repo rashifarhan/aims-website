@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+/** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
+const settle = (page: import("@playwright/test").Page) =>
+  page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
+        .map((a) => a.finished.catch(() => undefined)),
+    ),
+  );
+
 for (const locale of ["en", "ar"]) {
   const path = locale === "en" ? "/solutions" : "/ar/solutions";
   test(`${locale} solutions hub connects five needs to working destinations`, async ({ page, request, isMobile }) => {
@@ -38,6 +49,7 @@ for (const locale of ["en", "ar"]) {
     await firstFaq.focus();
     await page.keyboard.press("Enter");
     await expect(page.locator(".solution-faq details").first()).toHaveAttribute("open", "");
+    await settle(page);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
