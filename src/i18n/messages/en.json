@@ -1536,7 +1536,7 @@
       "call": "Call",
       "directions": "Directions",
       "mapsNewTab": "Google Maps, opens in a new tab",
-      "modelsHeading": "Models to start from",
+      "modelsHeading": "Products to start from",
       "modelsLead": "Two terminals, a door controller and a lock from AIMS's catalogue. Open a model for its full specifications, or add it to your quote.",
       "modelsAll": "Browse all {count} products",
       "stepsLabel": "How it works",
@@ -1546,7 +1546,7 @@
       "metaTitle": "Locations and delivery",
       "metaDescription": "Visit AIMS's Deira showroom, call the Dubai or Abu Dhabi office, or choose a GCC or African destination for an export quote.",
       "eyebrow": "Locations",
-      "title": "Visit in Dubai. Delivered across the GCC and Africa.",
+      "title": "ZKTeco in Dubai, delivered across the GCC and Africa",
       "lead": "AIMS supplies ZKTeco time attendance and access control from a showroom in Deira and offices in Dubai and Abu Dhabi. Choose where you are to see how to buy.",
       "primary": "Choose a destination",
       "secondary": "Find the showroom",
@@ -1590,7 +1590,7 @@
         ]
       },
       "cta": {
-        "heading": "Tell AIMS where it's going",
+        "heading": "Name your delivery destination",
         "body": "Add the models and quantities, choose “Delivery abroad” and name the city or port. AIMS replies with a quotation.",
         "action": "Start an export quote",
         "secondary": "Contact AIMS"
