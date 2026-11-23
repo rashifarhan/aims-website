@@ -78,13 +78,15 @@ export async function Footer() {
             pair" on every page (taste button-styles, audit 23 Nov 2026). */}
         <div className="mt-10 border-t border-line pt-6 sm:mt-12">
           <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
-          <ul className="mt-1 flex flex-wrap gap-x-6">
+          {/* Each link pads 10px a side so a short code (F18) still makes a 44px target with even gaps; the
+              list's negative margin keeps the first word on the column line. */}
+          <ul className="-ms-2.5 mt-1 flex flex-wrap gap-x-1">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
                 <Link
                   externalLabel={t.home.external}
                   href={href(searchPath(q))}
-                  className={`${footerLinkClass} text-sm text-ink-700`}
+                  className={`${footerLinkClass} justify-center px-2.5 text-sm text-ink-700`}
                 >
                   {q}
                 </Link>
