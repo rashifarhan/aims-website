@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
-import { presetPatch, type QuoteContext } from "@/lib/quote/context";
+import { destinationFromSearch, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 
 export type AddToQuoteLabels = {
@@ -75,9 +75,12 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
           type="button"
           onClick={() => {
             justAdded.current = true;
-            const patch = presetPatch(quote.context, preset);
-            if (patch) dispatchQuote({ type: "setContext", patch });
-            dispatchQuote({ type: "add", slug, qty: 1 });
+            dispatchQuote({
+              type: "add",
+              slug,
+              qty: 1,
+              preset: preset ?? destinationFromSearch(window.location.search),
+            });
             setStatus(fmt(labels.addedAnnounce, { name, qty: 1 }));
           }}
           className={button}

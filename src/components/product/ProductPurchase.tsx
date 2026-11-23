@@ -6,6 +6,7 @@ import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
+import { destinationFromSearch } from "@/lib/quote/context";
 import { MAX_QTY } from "@/lib/quote/store";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 import { CONTACT, whatsappUrl } from "@/lib/site";
@@ -56,7 +57,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
   }, []);
 
   const add = () => {
-    dispatchQuote({ type: "add", slug, qty });
+    dispatchQuote({ type: "add", slug, qty, preset: destinationFromSearch(window.location.search) });
     // Adding again raises the line's quantity (store reducer); say the new total, so a repeat add is
     // never silent and never repeats the previous announcement word for word (audit T2).
     setStatus(
