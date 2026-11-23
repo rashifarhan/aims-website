@@ -66,7 +66,11 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
           <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
         )}
         <h3 className="mt-0.5 text-base leading-snug font-medium text-ink sm:text-lg">
-          <Link href={href} dir="ltr" className="font-mono break-words hover:text-green-700 hover:underline">
+          <Link
+            href={href}
+            dir="ltr"
+            className="-my-3 inline-block min-w-11 py-3 font-mono break-words hover:text-green-700 hover:underline"
+          >
             {card.model}
           </Link>
         </h3>

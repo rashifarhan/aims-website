@@ -207,6 +207,11 @@
   text-align: start;
 }
 .pick-card h3 a {
+  /* The negative margin cancels the padding, so the card keeps its height and the link is a 44px target. */
+  display: inline-block;
+  min-inline-size: 2.75rem;
+  margin-block: -0.625rem;
+  padding-block: 0.625rem;
   color: var(--color-ink);
 }
 .pick-card h3 a:hover {

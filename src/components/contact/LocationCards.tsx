@@ -48,7 +48,7 @@ export function LocationCards({ t, id }: { t: Dictionary["contactPage"]; id?: st
           kind="email"
           href={`mailto:${CONTACT.email}`}
           target={CONTACT.email}
-          className="font-semibold text-ink hover:text-green-700"
+          className="inline-flex min-h-11 items-center font-semibold text-ink hover:text-green-700"
         >
           {CONTACT.email}
         </ContactLink>

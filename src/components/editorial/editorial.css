@@ -79,8 +79,8 @@
 .ed-index a {
   display: flex;
   align-items: center;
-  /* Even rhythm for one- and two-line entries; still above the 24px target minimum (WCAG 2.5.8). */
-  min-height: 2rem;
+  /* A 44px target (CLAUDE.md §4) that also gives one- and two-line entries an even rhythm. */
+  min-height: 2.75rem;
   padding: 0.375rem 0.5rem;
   border-radius: var(--radius-sm);
   font-size: var(--text-small);

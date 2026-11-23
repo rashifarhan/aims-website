@@ -48,7 +48,7 @@ export function FittedWith({ items, heading, note, href, addLabels, data, ground
               <Link
                 href={href(`/product/${f.slug}`)}
                 {...data}
-                className="block text-home-card leading-snug font-card wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
+                className="-my-2.5 block py-2.5 text-home-card leading-snug font-card wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
               >
                 {f.name}
               </Link>
