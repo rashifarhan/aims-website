@@ -79,7 +79,7 @@ test.describe("header and menus", () => {
     const footer = page.getByRole("contentinfo");
     await expect(footer.locator('span[dir="ltr"]', { hasText: "AIMS Security Systems Trading LLC" })).toHaveCount(1);
     await expect(footer.locator('span[dir="ltr"]', { hasText: "Naif Bazar Building" })).toHaveCount(1);
-    await expect(footer.locator('a[href="/ar/blog"]')).toHaveCount(1);
+    await expect(footer.locator('a[href="/ar/blog"]:visible')).toHaveCount(1);
   });
 });
 
