@@ -292,8 +292,13 @@ main:has(> .page-hero-split) {
   display: flex;
   flex-direction: column;
 }
-.page-hero-split {
-  min-height: 100svh;
+/* Full first screen on desktop landscape only. On portrait tablets and phones a full-height hero centred its content
+   in a tall screen and left blank bands above and below it (client review, 23 Nov 2026), so there it takes its
+   content's height. */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .page-hero-split {
+    min-height: 100svh;
+  }
 }
 .page-hero-split > .wrap,
 .page-hero-split .page-hero-grid {
