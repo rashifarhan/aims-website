@@ -25,7 +25,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
   const t = await getDictionary();
   const image = productBySlug(photo)?.images[0];
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro co-intro page-container">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
@@ -50,7 +50,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
               alt={image.alt}
               width={image.width}
               height={image.height}
-              sizes="(min-width: 1024px) 30rem, 16rem"
+              sizes="(min-width: 1024px) 30rem, (min-width: 640px) 22rem, 16rem"
               preload
             />
           </div>
