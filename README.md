@@ -264,7 +264,7 @@ The phase-by-phase log is in `docs/polish-progress.md`. Decisions the client mad
    pages that keep a separate close; the solutions hub's dealt moment is main's site plan, not the door kit; the
    location pages start the reach moment on the map frame (`ReachBand trigger="map"`); and the attendance dots are
    finite, so the polish's pause button for them was removed. Main's desktop "one section per screen" rules for the
-   T3, location and company pages were not ported: `Section screens` already holds that contract. The short-phone
+   T3, location and company pages were not ported: section heights belong to the shared `Section`. The short-phone
    page-title size applies to every `PageHero`, not only the software pages.
 
 Results at the end of Phase 4:
