@@ -1900,6 +1900,10 @@
         "owner": "ZKTeco"
       }
     ],
+    "route": {
+      "channels": ["WhatsApp", "Email"],
+      "team": "AIMS support"
+    },
     "faqHeading": "Common questions",
     "faqNote": "AIMS's answers, as published, in English.",
     "closeHeading": "Planning a new system instead?",
