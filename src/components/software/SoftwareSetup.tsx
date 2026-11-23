@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@/components/icons";
+import { Faq } from "@/components/ui/Faq";
 import type { BuiltSoftware } from "@/lib/software";
 import { loadSoftwarePage } from "./softwareCopy";
 
@@ -25,20 +25,7 @@ export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
           </li>
         ))}
       </ol>
-      <div className="t3-questions sw-questions">
-        <h3 className="sw-questions-title">{c.setup.questions}</h3>
-        <div>
-          {c.setup.faq.map((item) => (
-            <details key={item.q}>
-              <summary>
-                {item.q}
-                <ChevronDownIcon />
-              </summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
+      <Faq items={c.setup.faq} intro={<h3 className="sw-questions-title">{c.setup.questions}</h3>} />
     </section>
   );
 }

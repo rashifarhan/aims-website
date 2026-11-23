@@ -1,5 +1,5 @@
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
-import { ChevronDownIcon } from "@/components/icons";
+import { Faq } from "@/components/ui/Faq";
 import { faqItems, warrantyPage } from "@/content/pages";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publishableQuestions } from "@/lib/editorial";
@@ -51,17 +51,11 @@ export async function SupportSections() {
           {c.faqHeading}
         </h2>
         <p className="co-support-note">{c.faqNote}</p>
-        <div className="co-faq" lang="en" dir="ltr">
-          {questions.map((q) => (
-            <details key={q.question}>
-              <summary>
-                {q.question}
-                <ChevronDownIcon width={18} height={18} aria-hidden="true" />
-              </summary>
-              <EditorialBlocks blocks={q.answer} level={3} />
-            </details>
-          ))}
-        </div>
+        <Faq
+          lang="en"
+          dir="ltr"
+          items={questions.map((q) => ({ q: q.question, a: <EditorialBlocks blocks={q.answer} level={3} /> }))}
+        />
       </section>
     </div>
   );

@@ -63,7 +63,6 @@
 /* Polish: body copy never leaves one word alone on its last line, in English or Arabic. */
 .home-route-body,
 .home-family-summary,
-.home-faq details p,
 .home-review-card blockquote {
   text-wrap: pretty;
 }
@@ -307,73 +306,13 @@
   color: var(--color-ink-600);
 }
 
-/* ---------- 8 · FAQ ---------- */
-.home-faq {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: 4rem;
-  align-items: start;
-}
-.home-faq details {
-  border-block-end: 1px solid var(--color-line);
-}
-.home-faq details:first-child {
-  border-block-start: 1px solid var(--color-line);
-}
-.home-faq summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 4rem;
-  padding-block: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-}
-.home-faq summary::-webkit-details-marker {
-  display: none;
-}
-.home-faq summary svg {
-  flex: none;
-  transition: transform var(--duration-base) var(--ease-aims);
-}
-.home-faq details[open] summary svg {
-  transform: rotate(180deg);
-}
-.home-faq details p {
-  color: var(--color-ink-700);
-  line-height: 1.65;
-  padding-block-end: 1.5rem;
-  max-width: 65ch;
-}
-/* Same motion as .motion-disclose (globals.css): the answer fades in and settles 4px each time its
-   question opens, replaying because the selector starts matching again; height never animates. */
-.home-faq details[open] p {
-  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-faq details[open] p {
-    animation-name: aims-fade !important;
-    animation-duration: var(--duration-fast) !important;
-  }
-}
-
-/* ---------- Desktop: more air between sections (taste layout-v4, one section per screen) ---------- */
-@media (min-width: 1024px) {
-  .home-faq-intro {
-    position: sticky;
-    inset-block-start: 6.5rem;
-  }
-}
-
 /*
  * One section per screen (taste House rule 3; CLAUDE.md §2): on a desktop screen each section is one
  * screen tall, the catalogue two, with its content centred in it, so a screen shows one idea and the
  * next heading never peeks in. Short desktop windows and portrait tablets keep the natural height.
  */
 @media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  main > :is(.home-routes, .home-proof-band, .home-reach, .home-closing) {
+  main > :is(.home-routes, .home-proof-band, .home-reach, .home-faq, .home-closing) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -385,7 +324,7 @@
     justify-content: center;
     min-height: 200svh;
   }
-  main > :is(.home-door, .home-faq) {
+  main > .home-door {
     align-content: center;
     min-height: 100svh;
   }
@@ -406,7 +345,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .home-door,
-  .home-faq,
   .home-proof {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
@@ -475,9 +413,6 @@
   }
   .home-proof-reviews .home-section-heading {
     margin-block-end: 1.25rem;
-  }
-  .home-faq {
-    gap: 1.5rem;
   }
 }
 

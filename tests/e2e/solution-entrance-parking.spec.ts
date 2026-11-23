@@ -66,7 +66,7 @@ for (const locale of ["en", "ar"] as const) {
     await expect(software).toHaveCount(2);
     for (const href of await software.evaluateAll((links) => links.map((a) => a.getAttribute("href") ?? "")))
       expect(href.startsWith(`${prefix}/software/`) || href.startsWith("https://aimsuae.me")).toBe(true);
-    await expect(page.locator(".t3-questions details")).toHaveCount(5);
+    await expect(page.locator(".ui-faq details")).toHaveCount(5);
   });
 }
 

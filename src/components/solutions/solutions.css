@@ -190,10 +190,6 @@
   font-size: var(--text-small);
   color: var(--color-ink-600);
 }
-.solution-faq {
-  display: grid;
-  gap: 2rem;
-}
 .solution-advice {
   display: inline-flex;
   flex-direction: column;
@@ -206,43 +202,6 @@
 .solution-advice:hover {
   text-decoration: underline;
   text-underline-offset: 0.25em;
-}
-.solution-faq details {
-  border-block-start: 1px solid var(--color-line);
-}
-.solution-faq details:last-child {
-  border-block-end: 1px solid var(--color-line);
-}
-.solution-faq summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 3.5rem;
-  padding-block: 1rem;
-  list-style: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.solution-faq summary::-webkit-details-marker {
-  display: none;
-}
-.solution-faq summary svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex-shrink: 0;
-  transition: transform var(--duration-slow) var(--ease-aims);
-}
-.solution-faq details[open] summary svg {
-  transform: rotate(180deg);
-}
-.solution-faq summary:hover {
-  color: var(--color-green-700);
-}
-.solution-faq details > p {
-  padding-block-end: 1.5rem;
-  color: var(--color-ink-600);
-  line-height: 1.6;
 }
 :dir(rtl) .solution-intro h1 {
   letter-spacing: 0;
@@ -295,14 +254,5 @@
   .solution-industries ul {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2rem;
-  }
-  .solution-faq {
-    grid-template-columns: 1fr 1.5fr;
-    gap: 4rem;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .solution-faq summary svg {
-    transition: none;
   }
 }

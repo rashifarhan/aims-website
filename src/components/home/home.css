@@ -505,12 +505,6 @@
 .home-family-card:focus-visible {
   box-shadow: var(--shadow-2);
 }
-.home-faq summary svg {
-  transition: transform var(--duration-slow) var(--ease-aims);
-}
-.home-faq summary:hover {
-  color: var(--color-green-700);
-}
 @media (max-width: 1023px), (max-width: 1279px) and (orientation: portrait) {
   .home-wash {
     width: 700px;
@@ -536,7 +530,6 @@
     stroke-dashoffset: 0 !important;
   }
   .home-family-image img,
-  .home-faq summary svg,
   .home-motion-toggle {
     transition: none;
   }

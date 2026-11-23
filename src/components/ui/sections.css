@@ -425,20 +425,20 @@
   color: var(--color-green-700);
 }
 
-/* ---------- Questions ---------- */
-.t3-questions {
+/* ---------- FAQ (ui/Faq.tsx): one look for every family (design-taste-frontend one system) ---------- */
+.ui-faq-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
   gap: 4rem;
   align-items: start;
 }
-.t3-questions details {
+.ui-faq details {
   border-block-end: 1px solid var(--color-line);
 }
-.t3-questions details:first-child {
+.ui-faq details:first-child {
   border-block-start: 1px solid var(--color-line);
 }
-.t3-questions summary {
+.ui-faq summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -448,25 +448,47 @@
   font-weight: 600;
   cursor: pointer;
   list-style: none;
+  transition: color var(--duration-hover) ease;
 }
-.t3-questions summary::-webkit-details-marker {
+.ui-faq summary::-webkit-details-marker {
   display: none;
 }
-.t3-questions summary svg {
+.ui-faq summary svg {
   flex: none;
   transition: transform var(--duration-slow) var(--ease-aims);
 }
-.t3-questions summary:hover {
+.ui-faq summary:hover {
   color: var(--color-green-700);
 }
-.t3-questions details[open] summary svg {
+.ui-faq details[open] summary svg {
   transform: rotate(180deg);
 }
-.t3-questions details p {
+.ui-faq-answer {
   max-width: 65ch;
   padding-block-end: 1.5rem;
+  color: var(--color-ink-700);
   line-height: 1.65;
-  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+/* Same motion as .motion-disclose (globals.css): the answer fades in and settles 4px each time its
+   question opens, replaying because the selector starts matching again; height never animates. */
+.ui-faq details[open] .ui-faq-answer {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
+@media (min-width: 1024px) {
+  .ui-faq-intro {
+    position: sticky;
+    inset-block-start: 6.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-faq summary svg {
+    transition: none;
+  }
+  .ui-faq details[open] .ui-faq-answer {
+    animation-name: aims-fade;
+    animation-duration: var(--duration-fast);
+  }
 }
 
 /* ---------- Closing band ---------- */
@@ -511,7 +533,7 @@
   .process-list .process-owner {
     padding-block-start: 0.5rem;
   }
-  .t3-questions {
+  .ui-faq-split {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
@@ -567,8 +589,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .method-card,
-  .t3-questions summary svg {
+  .method-card {
     transition: none;
   }
   .method-card:hover {
