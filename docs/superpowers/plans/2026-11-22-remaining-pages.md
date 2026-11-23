@@ -47,7 +47,7 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 - [x] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
 - [x] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
 - [x] Destination quote flow and its unit tests
-- [ ] Routes flipped to built; e2e specs; `pnpm check` + build clean
+- [x] Routes flipped to built; e2e specs; `pnpm check` + build clean
 
 #### Agent L: what is ported from `codex/location-pages`
 
@@ -66,6 +66,18 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
   search, the `page-container` rewrite in globals.css and the Wordmark dot as SVG: each changes the shared shell to
   satisfy a checker and needs the user's decision. `whitespace-nowrap` on desktop nav items is left for the integrator
   to judge (no wrap observed on `main` at 1024–1440).
+
+- **Deviations for README → Decisions (integrator):** the Oman and Kenya H1s say "ZKTeco supply to Oman/Kenya",
+  not "distributor in", because AIMS lists no office there (claims policy, Design Doc 3.1); "popular models" is
+  "models to start from" (no sales ranking is published); T7's separate support section is folded into the FAQ; the
+  Dubai page's map shows every route (it is where orders leave from), Oman and Kenya draw only their own.
+- **Shell fix kept:** `LanguageSwitch` no longer prefetches (Arabic pages looped ~2,000 RSC requests in 5 s through
+  the proxy rewrite, also with `main`'s switch on `/ar/locations`).
+- **For the user:** the catalogue card's long spec values (e.g. Inbio Pro 160 "Readers supported") sit flush to the
+  card edge in Arabic at 390 px; it is the shared `ProductCard`, unchanged here.
+- **Specs:** `tests/e2e/locations.spec.ts` (48 pass, desktop + mobile); contact-polish, home-premium, quote,
+  quote-polish, catalogue-polish, shell, solution-pos, solution-access-control and the smoke entries for these routes
+  pass (146). The taste gate was not run on this branch.
 
 ### Agent E: company and editorial (`claude/company-polish`)
 
