@@ -25,8 +25,11 @@ export const cardLabels = (t: Dictionary["catalogue"]): CardLabels => ({
   specsOnRequest: t.specsOnRequest,
 });
 
-/** Above-the-fold cards load eagerly: the first row at every width. */
-const EAGER = 4;
+/**
+ * Only the first card loads eagerly. React preloads every eager image, and CLAUDE.md §5 allows one preloaded image
+ * per page; the rest of the first row is in view at load, so the browser fetches them at once anyway.
+ */
+const EAGER = 1;
 
 /**
  * The results on the one card (Design Doc 10, T4): rows divided by hairlines on a phone, a grid of equal-height
