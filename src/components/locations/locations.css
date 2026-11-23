@@ -227,6 +227,14 @@
  * screen with its content centred, so a screen shows one idea and the next heading never peeks in. Short
  * desktop windows keep the natural height; phones grow with their content.
  */
+/* The night band is the page's moment: at least one screen at every width, so on a phone the next section's
+   heading never shows under the map (taste section-tile at 390; the hub's band was 771px of 844). */
+.loc-page > .loc-reach {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+}
 @media (min-width: 640px) {
   .loc-page > .t3-intro {
     display: flex;
@@ -239,7 +247,7 @@
   }
 }
 @media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .loc-page > :is(.t3-section:not(.t3-questions), .t3-cta, .loc-reach) {
+  .loc-page > :is(.t3-section:not(.t3-questions), .t3-cta) {
     display: flex;
     flex-direction: column;
     justify-content: center;
