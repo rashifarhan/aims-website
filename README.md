@@ -331,7 +331,10 @@ One time-boxed pass over every built template: a shared step first, then four te
 ## Not yet confirmed by AIMS
 
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,
-permission to link datasheets and software files, and an Arabic reviewer. `ar.json` is a first draft and needs that
+permission to link datasheets and software files, a photograph of the Deira showroom, and an Arabic reviewer. The
+showroom photo has a ready slot (`SHOWROOM_PHOTO` in `src/lib/site.ts`): set it and the showroom card on `/contact`
+and `/about` shows it. aimsuae.me publishes no showroom photo (checked 23 Nov 2026: product banners and stock images
+only), and no stand-in is used. `ar.json` is a first draft and needs that
 review.
 
 **Homepage polish audit (Design Doc ch. 2, 7–10, 12–14; Master Plan ch. 14, 18).** Each T1 section was checked

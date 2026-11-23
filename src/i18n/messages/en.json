@@ -883,7 +883,8 @@
       "headOffice": "Head office, Dubai",
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
-    }
+    },
+    "showroomPhotoAlt": "The AIMS showroom in Deira, Dubai"
   },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",

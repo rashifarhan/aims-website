@@ -883,7 +883,8 @@
       "headOffice": "المكتب الرئيسي، دبي",
       "showroom": "صالة العرض في دبي",
       "abuDhabi": "مكتب أبوظبي"
-    }
+    },
+    "showroomPhotoAlt": "صالة عرض AIMS في ديرة، دبي"
   },
   "softwareCentre": {
     "metaTitle": "مركز تنزيل برامج ZKTeco",
