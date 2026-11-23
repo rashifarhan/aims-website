@@ -7,6 +7,7 @@ import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
 import { SolutionIndustries } from "@/components/solutions/SolutionIndustries";
 import { SolutionFaq } from "@/components/solutions/SolutionFaq";
+import "@/components/motion/entrance.css";
 import "@/components/solutions/solutions.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,7 +25,8 @@ export default async function SolutionsHub() {
   const locale = await getLocale();
   return (
     <main id="main" className="solutions-hub">
-      <div className="solution-intro page-container">
+      {/* The shared AIMS entrance (motion/entrance.css), as on every T3 hero. No photo, so no studio light. */}
+      <div className="solution-intro aims-hero page-container">
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[
@@ -32,7 +34,9 @@ export default async function SolutionsHub() {
             { href: localePath(locale, "/solutions"), label: t.nav.solutions },
           ]}
         />
-        <h1>{t.solutionsHub.title}</h1>
+        <h1 className="aims-headline-mask">
+          <span className="aims-headline">{t.solutionsHub.title}</span>
+        </h1>
         <p className="solution-lead">{t.solutionsHub.lead}</p>
       </div>
       <div className="solution-grid page-container">
