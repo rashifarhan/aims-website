@@ -49,6 +49,14 @@ export function DoorStory({ children, className, labelledBy }: Props) {
     const schedule = () => {
       if (root.dataset.mode === "scroll" && !frame && !document.hidden) frame = requestAnimationFrame(update);
     };
+    // Phones play the kit once; the parts list follows the same clock, so the highlighted step is the part
+    // being drawn (as on desktop), not "01" until the very end.
+    const follow = () => {
+      frame = 0;
+      const time = animations[0]?.currentTime;
+      if (typeof time === "number") mark(time / 1000);
+      if (animations.some((animation) => animation.playState === "running")) frame = requestAnimationFrame(follow);
+    };
     const playOnce = () => {
       if (root.dataset.mode !== "once" || played || !stageVisible || document.hidden) return;
       played = true;
@@ -56,6 +64,7 @@ export function DoorStory({ children, className, labelledBy }: Props) {
         animation.playbackRate = 0.25;
         animation.play();
       });
+      if (!frame) frame = requestAnimationFrame(follow);
       void Promise.all(animations.map((animation) => animation.finished))
         .then(() => mark(1))
         .catch(() => {});
@@ -71,6 +80,9 @@ export function DoorStory({ children, className, labelledBy }: Props) {
         if (!stageVisible || document.hidden) animation.pause();
         else animation.play();
       });
+      if (!frame && animations.some((animation) => animation.playState === "running")) {
+        frame = requestAnimationFrame(follow);
+      }
     };
     const setup = () => {
       const fits = layout.offsetHeight < innerHeight - 120;

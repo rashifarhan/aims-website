@@ -123,10 +123,19 @@ for (const path of ["/product/f18", "/ar/product/f18"]) {
   });
 }
 
-test("selected solution heroes keep the shared header edges and whole product photo", async ({ page }) => {
+// Every hero built on the T3 layout shares the entrance, not two hand-picked solution slugs.
+test("T3-based heroes share the AIMS entrance, the header edges and a whole product photo", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const path of ["/solutions/access-control", "/ar/solutions/time-attendance"]) {
+  for (const path of [
+    "/solutions/access-control",
+    "/ar/solutions/time-attendance",
+    "/solutions/entrance-parking",
+    "/solutions/door-locks",
+    "/ar/solutions/pos",
+    "/zkteco-distributor-in-oman",
+    "/about",
+  ]) {
     await page.goto(path);
     const shell = await page.locator("header .page-container").first().boundingBox();
     const hero = await page.locator(".t3-intro").boundingBox();
@@ -134,6 +143,7 @@ test("selected solution heroes keep the shared header edges and whole product ph
     expect(hero.x).toBeCloseTo(shell.x, 0);
     expect(hero.width).toBeCloseTo(shell.width, 0);
     await expect(page.locator(".t3-hero-photo img")).toBeVisible();
+    await expect(page.locator(".t3-intro.aims-hero h1 .aims-headline")).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
@@ -245,4 +255,26 @@ test("the changed buying screens fit every configured viewport", async ({ page }
     }
   }
   await testInfo.attach("responsive-bounds", { body: JSON.stringify(bounds), contentType: "application/json" });
+});
+
+// On phones the parts list follows the one-shot playback: the highlighted step is the part being drawn.
+test("a phone door highlights each part in turn while it plays", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/solutions/access-control");
+  const story = page.locator(".door-story");
+  await expect(story).toHaveAttribute("data-mode", "once");
+  await story.evaluate((el) => {
+    const seen: string[] = [];
+    (window as unknown as { doorSteps: string[] }).doorSteps = seen;
+    new MutationObserver(() => {
+      const step = el.getAttribute("data-step");
+      if (step && seen.at(-1) !== step) seen.push(step);
+    }).observe(el, { attributeFilter: ["data-step"] });
+  });
+  await story.locator(".home-door-drawing").scrollIntoViewIfNeeded();
+  await expect(story.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
+  await expect(story).toHaveAttribute("data-step", "6", { timeout: 2000 });
+  const seen = await page.evaluate(() => (window as unknown as { doorSteps: string[] }).doorSteps);
+  expect(seen).toEqual(["2", "3", "4", "5", "6"]);
+  await expect(story.locator('[data-door-step][aria-current="step"]')).toHaveCount(1);
 });

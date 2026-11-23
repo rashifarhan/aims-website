@@ -38,8 +38,23 @@ test("story steps follow the scroll and the drawing reaches the payroll file", a
   const steps = page.locator("[data-story-step]");
   await expect(steps).toHaveCount(4);
   if ((page.viewportSize()?.width ?? 0) < 1024) {
+    // Phones play the four stages in order while the drawing is in view; every stage is shown, none skipped.
+    await story.evaluate((el) => {
+      const seen: string[] = [];
+      (window as unknown as { storySteps: string[] }).storySteps = seen;
+      new MutationObserver(() => {
+        const step = el.getAttribute("data-step");
+        if (step && seen.at(-1) !== step) seen.push(step);
+      }).observe(el, { attributeFilter: ["data-step"] });
+    });
     await page.locator(".story-stage").scrollIntoViewIfNeeded();
     await expect(story).toHaveAttribute("data-step", "4");
+    expect(await page.evaluate(() => (window as unknown as { storySteps: string[] }).storySteps)).toEqual([
+      "2",
+      "3",
+      "4",
+    ]);
+    await expect(steps.nth(3)).toHaveAttribute("aria-current", "step");
   } else
     for (const n of [1, 2, 3, 4, 3, 2, 1, 4]) {
       await steps.nth(n - 1).evaluate((el) => el.scrollIntoView({ block: "center" }));
