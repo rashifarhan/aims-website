@@ -12,7 +12,7 @@ Decisions: use one shared server-rendered T7 template with distinct Dubai/export
 
 Cold-start navigation: Next 16 segment prefetch can loop through locale-rewritten location hubs and landings (reproduced at 2,423 requests in 3 seconds). The existing prefetch guard now covers those destinations, breadcrumbs and location query links; language-root changes fetch only on deliberate navigation. All links retain their URLs and Next navigation. The request-storm regression keeps its `<80` limit and now covers the hub and T7 pages on fresh production servers. The catalogue outline-colour check retains the exact white value with a retrying locator assertion, because streaming can replace the initial button during measurement.
 
-Verification: production build, formatting, lint and types pass; **89 unit tests, 301 browser tests and 18 isolated mobile performance measurements pass** (15 existing viewport exclusions). Native T7 audit: **GATE: OPEN 29**. Exact findings, four new named waiver reasons and the client-approved T7 extension are in `docs/design-checks/location-pages-decisions.md`; raw output and the gate record are retained alongside it. The client explicitly accepted the documented T7 exceptions on 22 November 2026; CLAUDE.md records their narrow scope. No raw design-gate PASS is claimed.
+Verification after integrating main `bfd27ee` on 23 November 2026: production build, formatting, lint and types pass; **113 unit tests, 409 browser tests and 18 isolated mobile performance measurements pass** (15 existing viewport exclusions). Native T7 audit: **GATE: OPEN 29**. Exact findings, four new named waiver reasons and the client-approved T7 extension are in `docs/design-checks/location-pages-decisions.md`; raw output and the gate record are retained alongside it. The client explicitly accepted the documented T7 exceptions on 22 November 2026; CLAUDE.md records their narrow scope. No raw design-gate PASS is claimed.
 
 ## Locations hub — 22 November 2026
 
@@ -523,3 +523,55 @@ content and brand, and no starter template or second design system. It follows t
   Five FAILs that conflict with CLAUDE.md are waived with reasons in `.taste-skill/waivers.json`: real phone numbers,
   the preserved WhatsApp button, the wordmark's lime dot, the ported prototype moments, and the six-family catalogue
   grid. No stand-in photographs were added.
+
+### Software pages (`claude/software-pages`, 22 Nov 2026)
+
+T6 for `/software` (Download Centre) and `/software/{biotime-9-5, biotimecloud, zkaccess-3-5}` (Master Plan 12 #4, #29–31;
+Design Doc 10.1; skill `layout-v4.md`, `motion.md`).
+
+- **"Add to quote", not "Download".** The Plan's primary CTA is Download, but no installer file is published and AIMS has not
+  given permission to link software files (open question). Every software action adds one described line ("ZKAccess 3.5
+  software: installer, licences and setup") to the quote list, and the page says AIMS sends the installer on request. This
+  deviates from Plan 14 (T6) and Design Doc 12 ("Download + type + size"); revisit when AIMS supplies files.
+- **Terminals come from AIMS's own product text.** A terminal is listed only when its product page names the platform
+  (`namesSoftware`, `src/lib/software.ts`, unit-tested). BioTime Cloud is named by no product page, so its page shows how it
+  is reached, from its own feature list, and asks buyers to confirm cloud support. "Start trial" (Plan #30) is left out: AIMS
+  publishes no trial.
+- **Features and capacity are AIMS's published lists** (English, marked `lang="en"` on Arabic pages); a platform without a
+  capacity list shows none. Version date, file size and requirements tables (Design Doc 10.1) are not shown: the data has none.
+- **One dealt moment per page:** the terminals diagram draws its lines once when it scrolls into view (`stroke-dashoffset`,
+  `MomentTrigger`); the Download Centre has none. It is pinned LTR, because its lines are physical SVG coordinates.
+- **The other five platforms** (Bio Security 3.2, BioTime 8.5, CVAccess, CVSecurity, mobile app) are cards that open AIMS's
+  current pages, marked ↗; their `/software/{slug}` URLs are not built here.
+- **Homepage contrast (resolved):** the lime-on-white `color-contrast` failure this branch found on `/` was fixed on `main`
+  by the site-wide polish; `smoke.spec.ts` passes for `/` and `/ar`.
+
+### Software polish and four solution pages (`claude/pages-polish`, 22 Nov 2026)
+
+Merges `claude/software-pages`, polishes it to the site system, and builds `/solutions/{access-control, entrance-parking,
+door-locks, pos}` on one data-driven T3 template (Master Plan 12 #16–19, 14; Design Doc 8, 10; skill `motion.md`).
+`claude/solution-pages` was **ported, not merged**: it built the same pages from the taste kit's own markup, a second design
+system (CLAUDE.md §2). `claude/homepage-unslop` is superseded by what is on `main` and was left out.
+
+- **Software:** shared `.ui-card` cards, the shared button pair and filter chips with the catalogue's count tick. The
+  terminals diagram (SIGNAL) draws lines only to terminals the platform's own data lists, so BioTime Cloud no longer
+  borrows BioTime 9.5's. The Download Centre deals no moment: the data supports none honestly.
+- **T3 template:** `defineSolutionPage({ slug, family, hero, products, methods?, software?, quote })` in
+  `src/content/solutionPages.ts` (API documented there, unit-tested); each section takes its page data and copy.
+- **One dealt moment per page, each the trade's own:** access control (UNLOCK, the door kit), entrance and parking
+  (SIGNAL, a card opens the swing lane and the plate reader lifts the boom), door locks (UNLOCK, TL800 fingerprint, the
+  bolt draws back, ZSmart logs "Opened"), POS (VERIFY on the ZKBio900 pad, a receipt from the ZKP8001). Each plays once
+  and rests on its last frame under reduced motion. The drawings stay LTR in Arabic, as the door drawing does.
+- **Truth:** counts come from the catalogue and are labelled with the listing's own filter names ("All 22 in
+  Turnstiles & gates" includes non-turnstiles, so no card claims its own count; the hotel-lock filter includes the CR60W
+  reader, so that card names its filter). Barriers without a boom length show "Specs on request". POS shows no prices.
+  `zkbio810` (mistitled as ZKAIO1000 in the import) is excluded. Door locks and POS carry no software section: the
+  software their specs name is not in the software catalogue.
+- **POS photographs are 350 px wide;** the hero caps them at their own width so they never upscale.
+- **Preview navigation:** all five solution slugs are built, so the fallback that sent unbuilt solution slugs to product
+  families was removed.
+- **Spec hardening, no assertion weakened:** axe now audits the settled frame on software pages (it measured the hero
+  mid-fade); keyboard and style reads wait for the streamed listing and hydration.
+- **Arabic copy on all four pages is a draft** for AIMS's reviewer (Design Doc 17).
+- **Template follow-ups (not done):** a type-count helper and the moment step list are repeated in the door locks and POS
+  modules; both could move into the template.

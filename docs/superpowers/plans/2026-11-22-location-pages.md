@@ -74,3 +74,7 @@ Isolated performance: 18/18 passed (three throttled mobile measurements per reta
 Delivery: implementation pushed as `6b401d0` to `codex/location-pages`; PR #5 targets main and documents its dependency on PR #4. The client accepted the exact T7 exceptions in chat. Production preview responds 200 at `http://localhost:3200/zkteco-distributor-in-dubai`; English/Arabic 390/1440 screenshots inspected. CI status is tracked on [PR #5](https://github.com/rashifarhan/aims-website/pull/5) and must be green before final delivery.
 
 23 November follow-up before main integration: cold-server full suite **301 passed, 15 inherited exclusions**, no retries; isolated performance **18/18**, max T7 LCP1.292s/CLS0.0058/transfer472,612 bytes. Guard unit test RED→GREEN; request matrix16/16 fresh-server checks. Main advanced to bfd27ee (software and four solutions); integrate it normally, preserving both branches and rerun final checks.
+
+Integrated validation after main bfd27ee: **113 unit tests, 409 browser tests passed**, 15 inherited exclusions, no retries. Production build passes. Independent conflict review confirms complete dictionaries, built route states, prefetch guard and exact upstream catalogue test. Final integrated performance run and CI remain the delivery gate.
+
+Final integrated performance: **18/18 passed**, maximum T7 LCP1.272s, CLS0.0058, transfer472,445 bytes. All source checks and merge conflict review pass; publish the normal merge commit and wait for PR #5 CI before final handoff. No kit rerun or raw PASS claim.

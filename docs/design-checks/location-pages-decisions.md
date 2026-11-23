@@ -46,8 +46,14 @@ No founding year, opening hours, stock, price, delivery-time promise, warranty d
 
 ## Verification
 
-Production build, lint, typecheck and formatting pass, with 89 unit tests. Full production browser suite: **301 passed, 15 existing viewport exclusions**, including the Arabic export variants and keyboard flow. Isolated throttled mobile performance: **18/18 passed**, three measurements for each of the four retained T7 pages and both homepages. T7 maximum LCP was 1.292s, CLS 0.0058 and transfer 472,612 bytes; every run had zero external requests and page errors. English and Arabic screenshots were visually checked at 390px and 1440px, with additional tablet captures and 320/390/768/1024/1440 reflow assertions. Final CI evidence is attached to PR #5.
+Production build, lint, typecheck and formatting pass, with 113 unit tests. Full production browser suite: **409 passed, 15 existing viewport exclusions**, including the Arabic export variants and keyboard flow. Isolated throttled mobile performance: **18/18 passed**, three measurements for each of the four retained T7 pages and both homepages. T7 maximum LCP was 1.272s, CLS 0.0058 and transfer 472,445 bytes; every run had zero external requests and page errors. English and Arabic screenshots were visually checked at 390px and 1440px, with additional tablet captures and 320/390/768/1024/1440 reflow assertions. Final CI evidence is attached to PR #5.
 
 ## Runtime follow-up
 
 The native measurement above predates the final cold-start prefetch fix; that follow-up changes prefetch policy and test synchronization, with no visual layout changes. CI exposed a genuine location-hub/locale-root segment-prefetch loop that a warm preview had masked. It was reproduced on a fresh server and corrected using the existing scoped guard, guarded breadcrumbs and on-demand language-root navigation. The original `<80` request threshold remains; the expanded 16-case cold-server matrix passed. The exact catalogue button-colour assertion now retries against the live locator during streaming instead of reading a detached node once. No test was skipped or weakened.
+
+## Upstream integration
+
+Main `bfd27ee` (software and the four solution pages) was merged into the feature branch on 23 November 2026 without rewriting history. Both dictionaries retain every value from both branches, and the upstream catalogue test is preserved exactly. An independent integration review found no lost values, routes or guard behaviour. The raw native audit predates this integration and remains an unmodified snapshot, not a fresh integrated PASS; final integrated checks and browser/performance evidence are reported in PR #5.
+
+Final integrated validation on 23 November: **113 unit tests, 409 browser tests passed**, 15 inherited viewport exclusions, no retries; **18/18** isolated performance measurements passed. Maximum T7 LCP1.272s, CLS0.0058, transfer472,445 bytes; all measurements have zero page errors and external requests. Formatting and production build pass.

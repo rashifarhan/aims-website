@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
+import { SOLUTION_PAGES } from "@/content/solutionPages";
 import { SolutionIntro } from "@/components/solution/SolutionIntro";
 import { AttendanceStory } from "@/components/solution/AttendanceStory";
-import { MethodGuide } from "@/components/solution/MethodGuide";
+import { SolutionMethods } from "@/components/solution/SolutionMethods";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
@@ -12,27 +13,35 @@ import { SolutionCta } from "@/components/solution/SolutionCta";
 import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 
+const PAGE = SOLUTION_PAGES["time-attendance"];
+
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionTimeAttendance: t } = await getDictionary();
   return {
     title: t.metaTitle,
     description: t.metaDescription,
-    alternates: alternates(await getLocale(), "/solutions/time-attendance"),
+    alternates: alternates(await getLocale(), `/solutions/${PAGE.slug}`),
   };
 }
 
-/** T3 solution, time attendance (Master Plan 12 #15, 14; Design Doc 8.3, 10). */
-export default function TimeAttendanceSolution() {
+/** T3 solution, time attendance: the template page (Master Plan 12 #15, 14; Design Doc 8.3, 10). */
+export default async function TimeAttendanceSolution() {
+  const { solutionTimeAttendance: c } = await getDictionary();
+  const software = PAGE.software.map(({ slug, kind, purpose }) => ({
+    slug,
+    kind: c.software[kind],
+    purpose: c.software[purpose],
+  }));
   return (
     <main id="main">
-      <SolutionIntro />
+      <SolutionIntro page={PAGE} copy={c} />
       <AttendanceStory />
-      <MethodGuide />
-      <SolutionProducts />
-      <SolutionProcess />
-      <SolutionSoftware />
-      <SolutionQuestions />
-      <SolutionCta />
+      <SolutionMethods idPrefix="ta" page={PAGE} copy={c.methods} />
+      <SolutionProducts idPrefix="ta" page={PAGE} copy={c.products} />
+      <SolutionProcess idPrefix="ta" copy={c.process} />
+      <SolutionSoftware idPrefix="ta" copy={c.software} items={software} />
+      <SolutionQuestions idPrefix="ta" copy={c.faq} />
+      <SolutionCta idPrefix="ta" page={PAGE} copy={c.cta} />
     </main>
   );
 }

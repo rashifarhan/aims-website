@@ -21,8 +21,8 @@ test.describe("listing polish", () => {
     await expect(model).toHaveCSS("font-family", /plex|mono/i);
 
     const add = card.getByRole("button", { name: "Add to quote" });
-    // The streamed listing may replace its initial button during hydration; retry the same exact
-    // colour against the live locator instead of measuring a detached node once (CI returned "").
+    // Outline: a grid of cards never shows a wall of filled green.
+    // Retrying for the same reason as the font: a one-shot read on a phone can land before the listing settles.
     await expect(add).toHaveCSS("background-color", "rgb(255, 255, 255)");
 
     // Layout boxes (offsetHeight/offsetTop), not boundingBox: the click's press and hover transforms
@@ -32,6 +32,8 @@ test.describe("listing polish", () => {
         const compare = el.querySelector('input[type="checkbox"]')?.closest("label") ?? el;
         return { height: (el as HTMLElement).offsetHeight, compareTop: (compare as HTMLElement).offsetTop };
       });
+    // The baseline waits for a laid-out card: mid-stream the swapped-out fallback measures 0.
+    await expect.poll(async () => (await box()).height).toBeGreaterThan(0);
     const before = await box();
     await add.click();
     await expect(card.getByText("In quote")).toBeVisible();
