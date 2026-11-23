@@ -3,7 +3,7 @@ import { localePath } from "@/i18n/config";
 import { legalPage, type LegalSlug } from "@/content/pages";
 import { outline } from "@/lib/editorial";
 import { EditorialBlocks } from "./EditorialBlocks";
-import { EditorialIntro } from "./EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
 import { OnThisPage } from "./OnThisPage";
 import "./editorial.css";
 
@@ -20,7 +20,8 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
   const index = outline(page.blocks);
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, `/${slug}`), label: c[slug] },
@@ -28,7 +29,7 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
         title={c[slug]}
         lead={locale === "ar" ? c.englishOnly : c.legalLead}
       />
-      <div className="ed-layout page-container">
+      <div className="ed-layout wrap">
         {index.length > 3 && <OnThisPage labels={{ wide: c.onThisPage, narrow: c.jumpTo }} items={index} lang="en" />}
         <article className="ed-column" aria-label={c[slug]}>
           <EditorialBlocks blocks={page.blocks} anchored />

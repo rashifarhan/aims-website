@@ -38,7 +38,7 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
       aria-label={labels.compareTray}
       className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 shadow-3 backdrop-blur-md"
     >
-      <div className="page-container flex flex-wrap items-center gap-3 py-3">
+      <div className="wrap flex flex-wrap items-center gap-3 py-3">
         <p className="flex-1 text-sm font-semibold text-ink tabular-nums sm:flex-none">
           {fmt(labels.compareCount, { count: items.length })}
         </p>
@@ -46,10 +46,10 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
           {items.map((i) => (
             <li
               key={i.slug}
-              className="inline-flex h-9 max-w-60 items-center gap-1.5 rounded-pill border border-line bg-paper-2 ps-1 pe-1 text-sm"
+              className="inline-flex min-h-11 max-w-60 items-center gap-1.5 rounded-md border border-line bg-paper-2 ps-1 text-sm"
             >
               {/* The photo helps tell picks apart at a glance; the name beside it is what is read out. */}
-              <span className="relative size-7 shrink-0 overflow-hidden rounded-pill bg-paper">
+              <span className="relative size-7 shrink-0 overflow-hidden rounded-sm bg-paper">
                 {i.image && <Image src={i.image.src} alt="" fill sizes="28px" className="object-contain p-0.5" />}
               </span>
               <span className="truncate">{i.name}</span>
@@ -57,7 +57,7 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
                 type="button"
                 onClick={() => onRemove(i.slug)}
                 aria-label={fmt(labels.compareRemove, { name: i.name })}
-                className="grid size-8 shrink-0 place-items-center rounded-pill text-ink-600 hover:bg-paper-3"
+                className="home-button home-button-quiet home-button-icon"
               >
                 <CloseIcon width={14} height={14} />
               </button>
@@ -68,14 +68,11 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
           <p className="order-last w-full text-xs text-ink-600 sm:order-none sm:w-auto">{labels.compareMax}</p>
         )}
         <div className="flex items-center gap-2">
-          <button type="button" onClick={onClear} className="h-11 px-3 text-sm font-medium text-ink-700 hover:text-ink">
+          <button type="button" onClick={onClear} className="home-button home-button-quiet home-button-sm">
             {labels.compareClear}
           </button>
           {ready ? (
-            <Link
-              href={compareHref}
-              className="inline-flex h-11 items-center rounded-pill bg-ink px-5 text-sm font-semibold text-white hover:bg-ink-700"
-            >
+            <Link href={compareHref} className="home-button home-button-sm">
               {fmt(labels.compareCta, { count: items.length })}
             </Link>
           ) : (

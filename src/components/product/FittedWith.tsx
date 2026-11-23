@@ -3,6 +3,8 @@ import { MarketLink } from "./MarketLink";
 import { AddToQuote, type AddToQuoteLabels } from "@/components/catalogue/AddToQuote";
 import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
+import { Section } from "@/components/ui/Section";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 type Props = {
   items: Product[];
@@ -11,39 +13,56 @@ type Props = {
   href: (path: string) => string;
   addLabels: AddToQuoteLabels;
   data: DataAttrs;
+  ground: "paper" | "band";
 };
 
 /**
- * "Often fitted with" (Design Doc 10, T5): the one card style, each with the outline Add, so the page's
+ * "Often fitted with" (Design Doc 10, T5): the one card style with each product's photograph whole, each with
+ * the outline Add, so the page's
  * filled green stays the product's own "Add to quote" (one main action per screen, audit T2).
  */
-export function FittedWith({ items, heading, note, href, addLabels, data }: Props) {
+export function FittedWith({ items, heading, note, href, addLabels, data, ground }: Props) {
   if (items.length === 0) return null;
   return (
-    <section aria-labelledby="fitted" className="mt-14">
-      <h2 id="fitted" className="text-2xl font-bold tracking-tight">
-        {heading}
-      </h2>
-      <p className="mt-1 text-sm text-ink-600">{note}</p>
-      <ul className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <Section ground={ground} labelledBy="fitted">
+      <SectionHeader id="fitted" title={heading} lead={note} />
+      <ul className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((f) => (
-          <li key={f.slug} className="ui-card ui-card-interactive ui-card-photo flex items-center gap-4 p-4">
-            <div className="relative size-20 shrink-0 overflow-hidden rounded-sm bg-white">
-              {f.images[0] && <Image src={f.images[0].src} alt="" fill sizes="80px" className="object-contain p-1" />}
+          // A row on a phone (photo beside the name), a tile from 640px with the product whole above it.
+          <li
+            key={f.slug}
+            className="ui-card ui-card-interactive grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-4 p-(--card-pad-tight) sm:flex sm:flex-col sm:items-stretch sm:p-(--card-pad)"
+          >
+            <div className="ui-card-photo relative aspect-square overflow-hidden rounded-md bg-paper sm:aspect-4/3">
+              {f.images[0] && (
+                <Image
+                  src={f.images[0].src}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 6rem"
+                  className="object-contain p-2 sm:p-4"
+                />
+              )}
             </div>
-            <div className="min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 flex-col sm:mt-4">
               <MarketLink
                 href={href(`/product/${f.slug}`)}
                 {...data}
-                className="block font-semibold wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
+                className="-my-2.5 block py-2.5 text-home-card leading-snug font-card wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
               >
                 {f.name}
               </MarketLink>
-              <AddToQuote slug={f.slug} name={f.name} labels={addLabels} variant="outline" className="mt-2" />
+              <AddToQuote
+                slug={f.slug}
+                name={f.name}
+                labels={addLabels}
+                variant="outline"
+                className="mt-3 sm:mt-auto sm:pt-4"
+              />
             </div>
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

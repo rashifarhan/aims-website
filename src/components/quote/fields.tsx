@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 /** A numbered quote panel (Design Doc 10, T8: Items · What do you need? · Your details). */
 export function Panel({ n, title, id, children }: { n: number; title: string; id: string; children: ReactNode }) {
   return (
-    <section aria-labelledby={id} className="rounded-lg border border-line bg-paper p-4 sm:p-6">
-      <h2 id={id} className="flex items-center gap-3 text-lg font-semibold text-ink">
+    <section aria-labelledby={id} className="ui-panel">
+      <h2 id={id} className="flex items-center gap-3 text-home-subtitle font-card text-ink">
         <span
           aria-hidden="true"
           className="grid size-7 place-items-center rounded-pill bg-green-50 text-sm text-green-700"
@@ -73,10 +73,7 @@ export function ChipRadios<T extends string>({
       <legend className="mb-2 text-sm font-semibold text-ink">{legend}</legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => (
-          <label
-            key={o.value}
-            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border border-line-strong px-4 text-sm font-medium text-ink-700 has-checked:border-green-700 has-checked:bg-green-50 has-checked:text-green-800 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-green-700"
-          >
+          <label key={o.value} className="ui-chip cursor-pointer">
             <input
               type="radio"
               name={name}

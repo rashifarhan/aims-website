@@ -66,11 +66,8 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
         </div>
       </fieldset>
 
-      <section
-        aria-labelledby="contact-channel-title"
-        className="@container rounded-lg border border-line bg-paper p-5 sm:p-6"
-      >
-        <h2 id="contact-channel-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="contact-channel-title" className="ui-panel @container">
+        <h2 id="contact-channel-title" className="text-home-subtitle font-card text-ink">
           {t.needs[need].label}
         </h2>
         {/* Micro (site polish): name the line that answers this need, from AIMS's own routing; no hours. */}
@@ -109,7 +106,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
           {need === "sales" && (
             <p>
               {t.salesNext}{" "}
-              <Link href={hrefs.products} className="font-semibold text-green-700 underline underline-offset-2">
+              <Link href={hrefs.products} className="ui-link">
                 {t.salesCta}
               </Link>
             </p>
@@ -121,12 +118,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
               <p>
                 <span className="block font-medium text-ink">{showroom.address}</span>
                 {t.visitNext}{" "}
-                <a
-                  href={showroom.map}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-green-700 underline underline-offset-2"
-                >
+                <a href={showroom.map} target="_blank" rel="noopener noreferrer" className="ui-link">
                   {t.directions}
                   <span className="sr-only"> (Google Maps)</span>
                 </a>
@@ -142,7 +134,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
                   dispatchQuote({ type: "setContext", patch: { need: "export" } });
                   router.push(hrefs.products);
                 }}
-                className="font-semibold text-green-700 underline underline-offset-2"
+                className="ui-link"
               >
                 {t.exportCta}
               </button>

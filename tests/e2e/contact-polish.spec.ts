@@ -1,7 +1,18 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+/** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
+const settle = (page: import("@playwright/test").Page) =>
+  page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
+        .map((a) => a.finished.catch(() => undefined)),
+    ),
+  );
 const axeClean = async (page: import("@playwright/test").Page) => {
+  await settle(page);
   const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
   expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 };
@@ -9,7 +20,7 @@ const axeClean = async (page: import("@playwright/test").Page) => {
 for (const path of ["/contact", "/ar/contact"]) {
   test(`T9 ${path}: content edges match the header and footer`, async ({ page }) => {
     await page.goto(path);
-    const edges = await page.locator("header > div, main > div.page-container, footer > div").evaluateAll((boxes) =>
+    const edges = await page.locator("header > div, main > div.wrap, footer > div").evaluateAll((boxes) =>
       boxes.map((box) => {
         const rect = box.getBoundingClientRect();
         const style = getComputedStyle(box);
@@ -66,6 +77,6 @@ test("SIGNAL under reduced motion: the map rests finished, nothing hidden", asyn
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/contact");
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
-  for (const route of await page.locator(".contact-reach .reach-route").all())
+  for (const route of await page.locator(".ui-reach .reach-route").all())
     await expect(route).toHaveCSS("stroke-dashoffset", "0px");
 });

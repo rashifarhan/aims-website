@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
-import { LocationIntro } from "@/components/locations/LocationIntro";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
-import { LocationReach } from "@/components/locations/LocationReach";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
@@ -12,8 +13,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { HUB_HERO } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
-import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
 import "@/components/signature/reach.css";
 import "@/components/locations/locations.css";
 
@@ -38,14 +37,17 @@ export default async function LocationsHub() {
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(HUB_HERO)?.images[0];
   return (
-    <main id="main" className="loc-page">
-      <LocationIntro
+    <main id="main">
+      <PageHero
+        variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/locations"), label: t.nav.locations },
         ]}
-        copy={c}
-        hrefs={{ primary: "#delivery", secondary: "#uae" }}
+        title={c.title}
+        lead={c.lead}
+        primary={{ href: "#delivery", label: c.primary }}
+        secondary={{ href: "#uae", label: c.secondary }}
         fact={
           <span lang="en" dir="ltr">
             {CONTACT.showroomAddress}
@@ -54,19 +56,29 @@ export default async function LocationsHub() {
         photo={photo}
       />
       <LocationOffices id="uae" />
-      <LocationReach id="delivery" heading={c.deliveryHeading} lead={c.deliveryLead}>
+      <ReachBand
+        id="delivery"
+        titleId="delivery-title"
+        heading={c.deliveryHeading}
+        lead={c.deliveryLead}
+        map={<ReachMap labels={t.home.reach} />}
+        trigger="map"
+      >
         <LocationMarkets />
-      </LocationReach>
+      </ReachBand>
+      {/* The close is the questions screen's last block: alone, each was a mostly empty screen (three-skill
+          audit). */}
       <SolutionQuestions
         idPrefix="lh"
         copy={c.faq}
         close={
-          <SolutionCta
-            idPrefix="lh"
-            page={{ quote: "/quote?need=export" }}
-            copy={c.cta}
-            secondaryHref="/contact"
+          <ClosePanel
             embedded
+            id="lh-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: href("/quote?need=export"), label: c.cta.action }}
+            secondary={{ href: href("/contact"), label: c.cta.secondary }}
           />
         }
       />

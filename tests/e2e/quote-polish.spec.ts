@@ -7,7 +7,18 @@ const seed = (page: Page, lines: unknown[], context: Record<string, unknown> = {
     JSON.stringify({ v: 1, updatedAt: Date.now(), lines, context }),
   );
 
+/** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
+const settle = (page: import("@playwright/test").Page) =>
+  page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
+        .map((a) => a.finished.catch(() => undefined)),
+    ),
+  );
 const axe = async (page: Page) => {
+  await settle(page);
   const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
   expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 };

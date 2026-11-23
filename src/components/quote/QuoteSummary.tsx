@@ -22,8 +22,8 @@ type Props = {
  */
 export function QuoteSummary({ t, countText, message, reference, onWhatsApp, onSend, headingRef }: Props) {
   return (
-    <section aria-labelledby="summary-title" className="rounded-lg border border-line bg-paper p-4 sm:p-6">
-      <h2 id="summary-title" ref={headingRef} tabIndex={-1} className="text-lg font-semibold text-ink">
+    <section aria-labelledby="summary-title" className="ui-panel">
+      <h2 id="summary-title" ref={headingRef} tabIndex={-1} className="text-home-subtitle font-card text-ink">
         {t.summaryHeading}
       </h2>
       <p className="mt-1 text-sm text-ink-600 tabular-nums">{countText}</p>

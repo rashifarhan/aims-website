@@ -1,24 +1,7 @@
-/* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on solution.css (T3). Tokens only. */
-
-/* ---------- Hero on tablets (640–1023px): the stacked T3 hero holds the first screen alone and shows
-   AIMS's product big, not at phone size (taste House rule 3 and "the product big"; audit B-T07). ---------- */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .co-intro {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100svh - var(--home-header-block));
-  }
-  .co-intro .t3-hero {
-    flex: 1;
-    align-content: center;
-  }
-  .co-intro .t3-hero-photo {
-    max-width: 22rem;
-  }
-}
+/* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on the shared T3 rules (ui/sections.css). Tokens only. */
 
 /* ---------- About: story beside the fact sheet ---------- */
-.co-story {
+.co-story > .wrap {
   display: grid;
   gap: 2.5rem;
   align-items: start;
@@ -34,12 +17,9 @@
 .co-story-text:first-of-type {
   margin-block-start: 1.5rem;
 }
-.co-facts {
-  padding: 1.75rem;
-}
 .co-facts-title {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
 }
 .co-facts dl {
   margin-block-start: 1rem;
@@ -65,28 +45,10 @@
   unicode-bidi: isolate;
 }
 @media (min-width: 1024px) {
-  .co-story {
+  .co-story > .wrap {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     gap: 4rem;
   }
-}
-
-/* On About the showrooms are a section of their own, so their heading takes the section-heading size of
-   the page's other h2s (the shared LocationCards keeps its smaller size on /contact; audit B-T08). */
-.co-showrooms #locations-title {
-  font-size: var(--text-home-heading);
-  font-weight: 680;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-}
-:lang(ar) .co-showrooms #locations-title {
-  letter-spacing: 0;
-  line-height: 1.2;
-}
-/* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
-.co-showrooms {
-  padding-block-end: var(--home-section-space);
-  scroll-margin-block-start: var(--home-header-block);
 }
 
 /* ---------- Services ---------- */
@@ -96,7 +58,7 @@
   align-items: end;
   margin-block-end: 2.5rem;
 }
-.co-process-head .t3-heading {
+.co-process-head .section-heading {
   margin-block-end: 0;
 }
 .co-process-mark {
@@ -124,11 +86,11 @@
 .co-cover-card {
   display: flex;
   flex-direction: column;
-  padding: 1.75rem;
+  padding: var(--card-pad);
 }
 .co-cover-card h3 {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
 }
 .co-cover-card p {
   margin-block-start: 0.5rem;
@@ -153,17 +115,6 @@
 .co-support > section {
   scroll-margin-block-start: calc(var(--home-header-block) + 1rem);
 }
-.co-support-title {
-  font-size: var(--text-home-heading);
-  font-weight: 680;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-:lang(ar) .co-support-title {
-  letter-spacing: 0;
-  line-height: 1.2;
-}
 .co-support-note {
   margin-block: 0.5rem 1.5rem;
   font-size: var(--text-small);
@@ -182,7 +133,8 @@
   border-block-start: 1px solid var(--color-line);
 }
 .co-steps h3 {
-  font-weight: 650;
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
 }
 .co-steps p {
   margin-block-start: 0.375rem;
@@ -194,57 +146,6 @@
   font-weight: 600;
   color: var(--color-green-700);
 }
-.co-faq details {
-  border-block-end: 1px solid var(--color-line);
-}
-.co-faq details:first-child {
-  border-block-start: 1px solid var(--color-line);
-}
-.co-faq summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 3.5rem;
-  padding-block: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-  transition: color var(--duration-hover) ease;
-}
-.co-faq summary::-webkit-details-marker {
-  display: none;
-}
-.co-faq summary:hover {
-  color: var(--color-green-700);
-}
-.co-faq summary svg {
-  flex: none;
-  /* One timing for every disclosure chevron on the site (audit B-E03). */
-  transition: transform var(--duration-dropdown) var(--ease-aims);
-}
-.co-faq details[open] summary svg {
-  transform: rotate(180deg);
-}
-.co-faq .editorial-body {
-  padding-block-end: 1.25rem;
-}
-/* The homepage FAQ's motion (sections.css .home-faq): the answer fades in and settles 4px each time its
-   question opens, replaying because the selector starts matching again; height never animates (B-E04). */
-.co-faq details[open] .editorial-body {
-  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .co-faq summary svg {
-    transition: none;
-  }
-  /* !important beats the global reduced-motion rule so a short fade remains instead of a jump. */
-  .co-faq details[open] .editorial-body {
-    animation-name: aims-fade !important;
-    animation-duration: var(--duration-fast) !important;
-  }
-}
-
 /*
  * Support's dealt moment (SupportRoute): the channels' lines draw in, the support node appears, the route
  * continues and the check strokes in, once, about 1.7 s. Resting styles are the finished route, so reduced

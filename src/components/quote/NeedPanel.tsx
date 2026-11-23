@@ -1,10 +1,10 @@
 "use client";
 
-import type { InputHTMLAttributes } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { BUYER_TYPES, EMIRATES, NEEDS, SITE_TYPES, TIMINGS, type QuoteContext } from "@/lib/quote/context";
+import { BUYER_TYPES, NEEDS, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote } from "@/lib/quote/useQuote";
-import { ChipRadios, Field, inputClass } from "./fields";
+import { ChipRadios } from "./fields";
+import { ExportFields, InstallFields, SoftwareFields, SupplyFields } from "./NeedFields";
 
 type Props = {
   context: QuoteContext;
@@ -15,74 +15,14 @@ type Props = {
 
 const set = (patch: Partial<QuoteContext>) => dispatchQuote({ type: "setContext", patch });
 
-type SelectProps = {
-  id: string;
-  value: string | undefined;
-  options: readonly string[];
-  labels: Record<string, string>;
-  placeholder: string;
-  onChange: (v: string) => void;
-  "aria-describedby"?: string;
-  "aria-invalid"?: true;
-};
-
-function Select({ value, options, labels, placeholder, onChange, ...a11y }: SelectProps) {
-  return (
-    <select {...a11y} value={value ?? ""} onChange={(e) => onChange(e.target.value)} className={inputClass}>
-      <option value="">{placeholder}</option>
-      {options.map((o) => (
-        <option key={o} value={o}>
-          {labels[o]}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-function TextInput({
-  value,
-  max,
-  onChange,
-  ...rest
-}: { id: string; value?: string; max: number; onChange: (v: string) => void } & Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
->) {
-  return (
-    <input
-      {...rest}
-      value={value ?? ""}
-      maxLength={max}
-      onChange={(e) => onChange(e.target.value)}
-      className={inputClass}
-    />
-  );
-}
-
-const digits = (v: string) => v.replace(/\D/g, "");
-
 /**
  * Panel 2: the need, with fields that adapt to it (Design Doc 10, T8):
  * supply → city, timing · install → emirate, site, doors/users, existing
- * system · export → country, city/port, documents. Saved with the list.
+ * system · software → the existing system · export → country, city/port, documents. Saved with the list.
  */
 export function NeedPanel({ context: c, t, errors, hasSoftware }: Props) {
+  // The software need is offered only when the list holds software (or it is already chosen).
   const needs = hasSoftware || c.need === "software" ? NEEDS : NEEDS.filter((need) => need !== "software");
-  const timing = (
-    <Field id="quote-timing" label={t.timing}>
-      {(a) => (
-        <Select
-          {...a}
-          value={c.timing}
-          options={TIMINGS}
-          labels={t.timings}
-          placeholder={t.choose}
-          onChange={(v) => set({ timing: (v || undefined) as QuoteContext["timing"] })}
-        />
-      )}
-    </Field>
-  );
-
   return (
     <div className="space-y-6">
       <fieldset aria-describedby={errors.need ? "need-error" : undefined}>
@@ -116,118 +56,13 @@ export function NeedPanel({ context: c, t, errors, hasSoftware }: Props) {
         )}
       </fieldset>
 
-      {c.need === "supply" && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="quote-city" label={t.city}>
-            {(a) => (
-              <TextInput
-                {...a}
-                value={c.city}
-                max={80}
-                autoComplete="address-level2"
-                onChange={(city) => set({ city })}
-              />
-            )}
-          </Field>
-          {timing}
-        </div>
-      )}
+      {c.need === "supply" && <SupplyFields context={c} t={t} />}
 
-      {c.need === "install" && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="quote-emirate" label={t.emirate} error={errors.emirate}>
-            {(a) => (
-              <Select
-                {...a}
-                value={c.emirate}
-                options={EMIRATES}
-                labels={t.emirates}
-                placeholder={t.choose}
-                onChange={(v) => set({ emirate: (v || undefined) as QuoteContext["emirate"] })}
-              />
-            )}
-          </Field>
-          <Field id="quote-site" label={t.siteType}>
-            {(a) => (
-              <Select
-                {...a}
-                value={c.siteType}
-                options={SITE_TYPES}
-                labels={t.siteTypes}
-                placeholder={t.choose}
-                onChange={(v) => set({ siteType: (v || undefined) as QuoteContext["siteType"] })}
-              />
-            )}
-          </Field>
-          <Field id="quote-doors" label={t.doors}>
-            {(a) => (
-              <TextInput
-                {...a}
-                inputMode="numeric"
-                value={c.doors}
-                max={6}
-                onChange={(v) => set({ doors: digits(v) })}
-              />
-            )}
-          </Field>
-          <Field id="quote-users" label={t.users}>
-            {(a) => (
-              <TextInput
-                {...a}
-                inputMode="numeric"
-                value={c.users}
-                max={6}
-                onChange={(v) => set({ users: digits(v) })}
-              />
-            )}
-          </Field>
-          <div className="sm:col-span-2">
-            <Field id="quote-existing" label={t.existing}>
-              {(a) => (
-                <TextInput
-                  {...a}
-                  value={c.existing}
-                  max={120}
-                  placeholder={t.existingPlaceholder}
-                  onChange={(existing) => set({ existing })}
-                />
-              )}
-            </Field>
-          </div>
-          {timing}
-        </div>
-      )}
+      {c.need === "install" && <InstallFields context={c} t={t} errors={errors} />}
 
-      {c.need === "software" && (
-        <Field id="quote-software-existing" label={t.softwareExisting}>
-          {(a) => <TextInput {...a} value={c.existing} max={120} onChange={(existing) => set({ existing })} />}
-        </Field>
-      )}
+      {c.need === "software" && <SoftwareFields context={c} t={t} />}
 
-      {c.need === "export" && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field id="quote-country" label={t.country} error={errors.country}>
-            {(a) => (
-              <TextInput
-                {...a}
-                value={c.country}
-                max={60}
-                autoComplete="country-name"
-                onChange={(country) => set({ country })}
-              />
-            )}
-          </Field>
-          <Field id="quote-port" label={t.port}>
-            {(a) => <TextInput {...a} value={c.port} max={80} onChange={(port) => set({ port })} />}
-          </Field>
-          <div className="sm:col-span-2">
-            <Field id="quote-documents" label={t.documents}>
-              {(a) => <TextInput {...a} value={c.documents} max={160} onChange={(documents) => set({ documents })} />}
-            </Field>
-          </div>
-          {timing}
-        </div>
-      )}
+      {c.need === "export" && <ExportFields context={c} t={t} errors={errors} />}
 
       <ChipRadios
         name="buyer"

@@ -1,27 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { JsonLd } from "@/components/JsonLd";
 import { ConnectsDiagram } from "@/components/product/ConnectsDiagram";
 import { FittedWith } from "@/components/product/FittedWith";
-import { Overview } from "@/components/product/Overview";
+import { ProductDetails } from "@/components/product/ProductDetails";
 import { ProductSummary } from "@/components/product/ProductSummary";
 import { SpecsSection } from "@/components/product/SpecsSection";
-import { connections } from "@/components/product/connects";
+import { connections, MIN_CONNECTS_NODES, nodeCount } from "@/components/product/connects";
 import { englishData } from "@/components/product/englishData";
+import { productGrounds } from "@/components/product/grounds";
 import "@/components/product/product.css";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";
 import type { FamilySlug } from "@/content/taxonomy";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { absoluteUrl, alternates, fitTitle } from "@/lib/seo";
-
-/**
- * Heading column beside content from 1024px. minmax(0, …) lets long verbatim spec values and overview
- * text wrap inside their column instead of widening the page at 390px (audit T1).
- */
-const SECTION = "mt-14 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-10";
 
 /** Every live product gets a page from this template (review decision 6). */
 export function generateStaticParams() {
@@ -62,21 +58,23 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
     increase: t.catalogue.increase,
   };
 
-  return (
-    <main id="main" className="page-container flex-1 pt-6 pb-28 lg:pb-16">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
-          { href: href("/"), label: t.common.home },
-          { href: href(`/products/${family}`), label: familyName },
-          { href: href(`/product/${p.slug}`), label: p.model },
-        ]}
-      />
+  const links = connections(p);
+  const hasConnects = nodeCount(links) >= MIN_CONNECTS_NODES;
+  const fitted = fittedWith(p);
+  const grounds = productGrounds({ connects: hasConnects, fitted: fitted.length > 0 });
 
+  return (
+    // pb-20 below 1024px keeps the last section clear of the sticky purchase bar (audit T3).
+    <main id="main" className="flex-1 pb-20 lg:pb-0">
       <ProductSummary
         p={p}
         name={uniqueName(p)}
         familyName={familyName}
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href(`/products/${family}`), label: familyName },
+          { href: href(`/product/${p.slug}`), label: p.model },
+        ]}
         href={href}
         addLabels={addLabels}
         t={t}
@@ -85,20 +83,20 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
       <ConnectsDiagram
         model={p.model}
-        connections={connections(p)}
+        connections={links}
         connLabels={t.catalogue.conn}
         labels={{ ...t.product.connects, lead: fmt(t.product.connects.lead, { model: p.model }) }}
-        sectionClass={SECTION}
         data={data}
       />
 
       <FittedWith
-        items={fittedWith(p)}
+        items={fitted}
         heading={t.product.fittedWith}
         note={t.product.fittedWithNote}
         href={href}
         addLabels={addLabels}
         data={data}
+        ground={grounds.fitted}
       />
 
       <SpecsSection
@@ -110,40 +108,28 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
           ask: t.product.askSpecs,
           message: fmt(t.product.whatsappText, { name: p.name }),
         }}
-        sectionClass={SECTION}
         data={data}
+        ground={grounds.specs}
+        moment={!hasConnects}
       />
 
-      {p.overview.length > 0 && (
-        <section aria-labelledby="overview" className={SECTION}>
-          <h2 id="overview" className="text-2xl font-bold tracking-tight">
-            {t.product.overview}
-          </h2>
-          <Overview blocks={p.overview} data={data} />
-        </section>
-      )}
+      <ProductDetails
+        p={p}
+        compareHref={href(`/products/${p.family}?cmp=${p.slug}`)}
+        t={t.product}
+        data={data}
+        ground={grounds.details}
+      />
 
-      <section aria-labelledby="downloads" className={SECTION}>
-        <h2 id="downloads" className="text-2xl font-bold tracking-tight">
-          {t.product.downloads}
-        </h2>
-        {p.datasheetUrl ? (
-          <a
-            href={p.datasheetUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 rounded-md border border-line px-4 py-3 font-semibold transition-colors duration-(--duration-hover) hover:border-line-strong active:bg-paper-2"
-          >
-            {t.product.datasheet}{" "}
-            <span className="font-mono text-sm font-normal text-ink-600" dir="ltr">
-              {p.model}
-            </span>
-            <span className="text-sm font-normal text-ink-600">· {t.product.datasheetNote}</span>
-          </a>
-        ) : (
-          <p className="text-ink-600">{t.product.noDatasheet}</p>
-        )}
-      </section>
+      {/* The close (taste sections.md: a closing panel where the page sells): the install note, this
+          product's own Add, and the way on to the quote request (Design Doc 10, T5). */}
+      <ClosePanel
+        id="product-close"
+        heading={t.product.needInstall}
+        body={t.product.needInstallBody}
+        action={<AddToQuote slug={p.slug} name={p.name} labels={addLabels} size="md" />}
+        secondary={{ href: href("/quote"), label: t.catalogue.viewQuote }}
+      />
 
       <JsonLd
         data={{

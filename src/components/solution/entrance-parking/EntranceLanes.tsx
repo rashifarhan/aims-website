@@ -1,5 +1,6 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { LaneDrawing } from "./LaneDrawing";
+import { Section } from "@/components/ui/Section";
 
 /**
  * The page's one dealt moment, SIGNAL at a lane (taste motion.md; Design Doc 8): when a third of the
@@ -11,12 +12,12 @@ export async function EntranceLanes({ idPrefix }: { idPrefix: string }) {
   const { solutionEntranceParking: t } = await getDictionary();
   const c = t.lanes;
   return (
-    <section className="t3-section ep-lanes page-container" data-moment aria-labelledby={`${idPrefix}-lanes-title`}>
+    <Section ground="band" labelledBy={`${idPrefix}-lanes-title`} className="ep-lanes" moment>
       <div className="ep-lanes-heading">
-        <h2 id={`${idPrefix}-lanes-title`} className="t3-title">
+        <h2 id={`${idPrefix}-lanes-title`} className="section-title">
           {c.heading}
         </h2>
-        <p className="t3-lead">{c.lead}</p>
+        <p className="section-lead">{c.lead}</p>
       </div>
       {/* Before the steps in the DOM so phones see the drawing as it plays; desktop puts it beside them. */}
       <div className="home-door-stage ep-lanes-stage">
@@ -35,6 +36,6 @@ export async function EntranceLanes({ idPrefix }: { idPrefix: string }) {
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   );
 }

@@ -9,6 +9,8 @@ import { keyFacts } from "@/content/facts";
 import { splitModel } from "@/lib/modelCode";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { ProductsCopy } from "./types";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T3 row 4: recommended products with Add (Plan 14). Facts are verbatim spec rows; a model
@@ -39,18 +41,17 @@ export async function SolutionProducts({
   };
   const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <section className="t3-section page-container" aria-labelledby={`${idPrefix}-products-title`}>
-      <div className="t3-heading t3-heading-row">
-        <div>
-          <h2 id={`${idPrefix}-products-title`} className="t3-title">
-            {c.heading}
-          </h2>
-          <p className="t3-lead">{c.lead}</p>
-        </div>
-        <Link href={localePath(locale, `/products/${page.family}`)} className="home-text-link">
-          {fmt(c.all, { count: productsInFamily(page.family).length })}
-        </Link>
-      </div>
+    <Section ground="band" labelledBy={`${idPrefix}-products-title`}>
+      <SectionHeader
+        id={`${idPrefix}-products-title`}
+        title={c.heading}
+        lead={c.lead}
+        link={
+          <Link href={localePath(locale, `/products/${page.family}`)} className="home-text-link">
+            {fmt(c.all, { count: productsInFamily(page.family).length })}
+          </Link>
+        }
+      />
       <ul className="pick-row">
         {products.map((p) => {
           const image = p.images[0];
@@ -105,6 +106,6 @@ export async function SolutionProducts({
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 }

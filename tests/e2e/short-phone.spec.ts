@@ -20,7 +20,7 @@ for (const prefix of ["", "/ar"]) {
     await page.goto(`${prefix}/`);
     expect(await inView(page, "main .home-hero-actions .home-button")).toBe(true);
     await page.goto(`${prefix}/software`);
-    expect(await inView(page, "main .sw-centre-intro .home-button")).toBe(true);
+    expect(await inView(page, "main .page-hero .home-button")).toBe(true);
     await page.goto(`${prefix}/product/f18`);
     expect(await inView(page, "main button.home-button")).toBe(true);
     // Nothing reflows sideways.

@@ -20,7 +20,7 @@ function initials(name: string) {
  */
 export function ReviewCard({ review, ratingLabel }: { review: CustomerReview; ratingLabel: string }) {
   return (
-    <figure className="home-review-card" lang="en" dir="ltr">
+    <figure className="home-review-card ui-card" lang="en" dir="ltr">
       <p className="home-review-stars">
         {Array.from({ length: review.rating }, (_, i) => (
           <StarIcon key={i} width="16" height="16" />

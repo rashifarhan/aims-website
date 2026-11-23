@@ -1,6 +1,7 @@
-import { ChevronDownIcon } from "@/components/icons";
+import { Faq } from "@/components/ui/Faq";
 import type { BuiltSoftware } from "@/lib/software";
 import { loadSoftwarePage } from "./softwareCopy";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T6 detail, "licences & installation" (Plan 12 #29; Design Doc 11, Download flow). Three steps say
@@ -10,8 +11,8 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
   const { c } = await loadSoftwarePage(slug);
   return (
-    <section className="sw-section sw-screen page-container" aria-labelledby="sw-setup-title">
-      <h2 id="sw-setup-title" className="t3-title">
+    <Section labelledBy="sw-setup-title">
+      <h2 id="sw-setup-title" className="section-title">
         {c.setup.heading}
       </h2>
       <ol className="sw-steps">
@@ -25,20 +26,7 @@ export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
           </li>
         ))}
       </ol>
-      <div className="t3-questions sw-questions">
-        <h3 className="sw-questions-title">{c.setup.questions}</h3>
-        <div>
-          {c.setup.faq.map((item) => (
-            <details key={item.q}>
-              <summary>
-                {item.q}
-                <ChevronDownIcon />
-              </summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+      <Faq items={c.setup.faq} intro={<h3 className="sw-questions-title">{c.setup.questions}</h3>} />
+    </Section>
   );
 }

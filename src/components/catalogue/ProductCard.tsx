@@ -69,12 +69,12 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
           <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
         )}
         <h3 className="mt-0.5 text-base leading-snug font-medium text-ink sm:text-lg">
-          {/* Block padding on the inline link gives it a 44px target without moving the line box (CLAUDE.md §4);
-              the underline draws in rather than snapping on (taste House rule 5). */}
+          {/* The negative margin cancels the padding, so the link is a 44px target without moving the line box
+              (CLAUDE.md §4); the underline draws in rather than snapping on (taste House rule 5). */}
           <Link
             href={href}
             dir="ltr"
-            className="py-3 font-mono break-words underline decoration-transparent underline-offset-[0.2em] transition-[color,text-decoration-color] duration-(--duration-hover) hover:text-green-700 hover:decoration-current"
+            className="-my-3 inline-block min-w-11 py-3 font-mono break-words underline decoration-transparent underline-offset-[0.2em] transition-[color,text-decoration-color] duration-(--duration-hover) hover:text-green-700 hover:decoration-current"
           >
             {model.code}
           </Link>

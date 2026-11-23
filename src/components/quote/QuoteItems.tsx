@@ -72,7 +72,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
                   type="button"
                   onClick={() => remove(l, i)}
                   aria-label={fmt(t.remove, { name })}
-                  className="grid size-11 place-items-center rounded-md text-ink-600 hover:bg-paper-2 hover:text-ink"
+                  className="home-button home-button-quiet home-button-icon"
                 >
                   <CloseIcon width={18} height={18} />
                 </button>

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SolutionIntro } from "@/components/solution/SolutionIntro";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { POS_PAGE as PAGE } from "@/components/solution/pos/posPage";
 import { CounterVerify } from "@/components/solution/pos/CounterVerify";
 import { PosOptions } from "@/components/solution/pos/PosOptions";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/pos/counter.css";
 
@@ -30,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function PosSolution() {
   const { solutionPos: c } = await getDictionary();
+  const locale = await getLocale();
   return (
     <main id="main" className="t3-page pc-page">
       <SolutionIntro page={PAGE} copy={c} />
@@ -38,9 +39,19 @@ export default async function PosSolution() {
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
       <SolutionQuestions
+        ground="band"
         idPrefix="ps"
         copy={c.faq}
-        close={<SolutionCta idPrefix="ps" page={PAGE} copy={c.cta} embedded />}
+        close={
+          <ClosePanel
+            embedded
+            id="ps-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+          />
+        }
       />
       <MomentTrigger />
     </main>

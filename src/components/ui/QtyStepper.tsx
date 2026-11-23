@@ -30,7 +30,7 @@ export function QtyStepper({ value, onChange, label, decreaseLabel, increaseLabe
   const btn = { lg: "w-12", md: "w-11", sm: "w-11" }[size];
 
   return (
-    <div className={`inline-flex ${box} items-stretch overflow-hidden rounded-pill border border-line-strong bg-paper`}>
+    <div className={`inline-flex ${box} items-stretch overflow-hidden rounded-md border border-line-strong bg-paper`}>
       <button
         type="button"
         onClick={() => onChange(Math.max(1, value - 1))}

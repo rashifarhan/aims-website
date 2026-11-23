@@ -3,6 +3,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { navigationHref } from "@/lib/navigationHref";
 import { ArrowIcon } from "@/components/icons";
+import { Section } from "@/components/ui/Section";
 import { SITE_POINTS } from "./sitePlan";
 import { SitePlanDrawing } from "./SitePlanDrawing";
 import "./site-plan.css";
@@ -22,10 +23,12 @@ export async function SolutionSite() {
     string
   >;
   return (
-    <section className="hs-site page-container" data-moment aria-labelledby="site-plan-title">
+    <Section className="hs-site" moment labelledBy="site-plan-title">
       <div className="hs-heading">
-        <h2 id="site-plan-title">{copy.title}</h2>
-        <p className="solution-section-lead">{copy.lead}</p>
+        <h2 id="site-plan-title" className="section-title">
+          {copy.title}
+        </h2>
+        <p className="section-lead">{copy.lead}</p>
       </div>
       {/* Before the list in the DOM so phones see the plan, then its numbered key; desktop sets it beside. */}
       <div className="hs-stage">
@@ -47,6 +50,6 @@ export async function SolutionSite() {
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   );
 }

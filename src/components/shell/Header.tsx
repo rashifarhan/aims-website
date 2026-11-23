@@ -56,7 +56,7 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
-      <div className="page-container flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
+      <div className="wrap flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch

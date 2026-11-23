@@ -4,15 +4,15 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
-import { CompanyClose } from "@/components/company/CompanyClose";
-import { CompanyIntro } from "@/components/company/CompanyIntro";
-import { ContactReach } from "@/components/contact/ContactReach";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
+import { productBySlug } from "@/content/catalogue";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
-import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";
 import "@/components/company/company.css";
 
@@ -34,7 +34,8 @@ export default async function About() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1">
-      <CompanyIntro
+      <PageHero
+        variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/about"), label: c.crumb },
@@ -44,15 +45,18 @@ export default async function About() {
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        photo="proface-x"
+        photo={productBySlug("proface-x")?.images[0]}
       />
       <AboutStory />
       <HomeProof />
-      <ContactReach t={t.contactPage} labels={t.home.reach} />
-      <div id="showrooms" className="co-showrooms page-container">
-        <LocationCards t={t.contactPage} />
-      </div>
-      <CompanyClose
+      <ReachBand
+        titleId="contact-reach-title"
+        heading={t.contactPage.reachTitle}
+        lead={t.contactPage.reachLead}
+        map={<ReachMap labels={t.home.reach} />}
+      />
+      <LocationCards t={t.contactPage} id="showrooms" />
+      <ClosePanel
         id="about-close-title"
         heading={c.closeHeading}
         body={c.closeBody}

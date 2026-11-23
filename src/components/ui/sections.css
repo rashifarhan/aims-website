@@ -1,0 +1,818 @@
+/*
+ * Shared section primitives, loaded once from the root layout (like actions.css). Every rule here is used by
+ * components of two or more families (home, solution, company, locations, software), so no page has to import
+ * another family's stylesheet just to get section spacing, headings, the closing panel or the entrance keyframes.
+ * Family-only rules stay in their family file. Class names are unchanged (Phase 1 consolidates them).
+ */
+
+/* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is the hover and press layer. */
+
+/* ---------- Section (ui/Section.tsx): one rhythm, three grounds ---------- */
+.section {
+  padding-block: var(--section-space);
+  scroll-margin-block-start: var(--home-header-block);
+}
+/*
+ * Sections are as tall as their content plus the one --section-space rhythm. The client overrode the skill's
+ * "one or two screens per section" rule on 23 Nov 2026 (README Decisions): forcing short sections to a full screen
+ * left whole screens empty. Only the heroes fill the first screen.
+ */
+.section-band {
+  border-block: 1px solid var(--color-line);
+  background: var(--color-paper-2);
+}
+/* Night green: text and lime keep their measured contrast here (globals.css: 15.9:1, 8.9:1, 7.8:1). */
+.section-night {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.section-night :focus-visible {
+  outline-color: var(--color-lime);
+}
+.section-night .section-title {
+  color: var(--color-night-text);
+}
+.section-night .section-lead {
+  color: var(--color-night-muted);
+}
+/* Section header (ui/SectionHeader.tsx): one h2, lead and end link for every family (Design Doc 5). */
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem;
+  margin-block-end: 2.5rem;
+}
+.section-heading > :not(:first-child) {
+  flex: none;
+  margin-block-start: 0;
+}
+.section-title {
+  font-size: var(--text-home-heading);
+  font-weight: var(--font-weight-display);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+:lang(ar) .section-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.section-lead {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+@media (max-width: 639px) {
+  .section-heading {
+    display: block;
+    margin-block-end: 1.5rem;
+  }
+  .section-heading > :not(:first-child) {
+    margin-block-start: 0.5rem;
+  }
+}
+/* Software cards: the one card (actions.css .ui-card); this is their inside only. */
+.home-software-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--card-pad);
+}
+.home-software-card > .home-external-mark {
+  position: absolute;
+  inset-block-start: 1.5rem;
+  inset-inline-end: 1.5rem;
+  color: var(--color-ink-400);
+}
+.home-software-purpose {
+  text-wrap: pretty;
+}
+.home-software-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.home-software-card :is(h3, h4) {
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  line-height: 1.3;
+}
+.home-software-kind {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.home-software-card :is(h3, h4) {
+  margin-block: 1.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-align: start;
+}
+.home-software-purpose {
+  color: var(--color-ink-700);
+  line-height: 1.6;
+}
+/* The whole row is the link, so the target is the full 56px row (WCAG 2.5.8). */
+.home-door-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  color: var(--color-ink);
+}
+.home-door-link:hover {
+  color: var(--color-green-700);
+}
+.home-door-link:hover .home-door-code {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.home-door-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-ink-400);
+  line-height: 1.6;
+}
+.home-door-code {
+  display: block;
+  margin-block-start: 0.125rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-ink-600);
+}
+.home-door-link .home-door-code {
+  color: var(--color-green-700);
+}
+.home-door-stage {
+  border-radius: var(--radius-lg);
+  overflow: clip;
+}
+.home-door-name {
+  font-size: var(--text-door-name);
+  font-weight: 600;
+  fill: var(--color-ink);
+}
+.home-door-model {
+  font-size: var(--text-door-model);
+  font-weight: 500;
+  fill: var(--color-ink-400);
+}
+.home-door-screen {
+  font-size: var(--text-door-screen);
+  font-weight: 500;
+  fill: var(--color-ink-600);
+}
+@media (max-width: 1023px) {
+  .home-software-grid {
+    gap: 1rem;
+  }
+  .home-software-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 639px) {
+  .home-software-grid {
+    gap: 0.75rem;
+  }
+  .home-software-card > .home-external-mark {
+    inset-block-start: 1.25rem;
+    inset-inline-end: 1.25rem;
+  }
+  .home-software-card :is(h3, h4) {
+    margin-block: 0.75rem 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-text-link .home-action-arrow {
+    transition: none;
+  }
+}
+/* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
+.page-hero {
+  padding-block: 1.5rem var(--section-space);
+}
+.page-hero-compact {
+  padding-block-end: 2.5rem;
+}
+/* Split: copy beside the product photograph (audit T12); phones stack the photo under the actions. */
+.page-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+}
+.page-hero-copy {
+  padding-block-start: 2rem;
+}
+.page-hero-eyebrow {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.page-hero h1 {
+  max-width: 48rem;
+  font-size: var(--text-page-title);
+  font-weight: var(--font-weight-display);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.page-hero-eyebrow + h1 {
+  margin-block-start: 0.75rem;
+}
+/* AIMS's English title keeps dir="ltr" on an Arabic page; its end edge is the page's start edge, so it lines up
+   with the breadcrumb and lead (Design Doc 13; audit B-I06). */
+:dir(rtl) .page-hero h1[dir="ltr"] {
+  text-align: end;
+}
+:lang(ar) .page-hero h1 {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.page-hero-lead {
+  max-width: 40rem;
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+.page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+.page-hero-fact {
+  margin-block-start: 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.page-hero-media {
+  justify-self: center;
+  width: 100%;
+  /* --photo-width (PageHero): never past the photograph's own pixels (taste photo-upscale). */
+  max-width: min(16rem, var(--photo-width, 100%));
+}
+.page-hero-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.page-hero-framed {
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+}
+/* layout-v4.md 3: the split hero is exactly the first screen, the sticky header over its top (main is pulled up
+   under the header on these pages, below), so the next section starts on a whole screen. */
+main:has(> .page-hero-split) {
+  margin-block-start: calc(-1 * var(--home-header-block));
+}
+.page-hero-split {
+  padding-block-start: var(--home-header-block);
+}
+.page-hero-split,
+.page-hero-split > .wrap {
+  display: flex;
+  flex-direction: column;
+}
+.page-hero-split {
+  min-height: 100svh;
+}
+.page-hero-split > .wrap,
+.page-hero-split .page-hero-grid {
+  flex: 1;
+}
+.page-hero-split .page-hero-grid {
+  align-content: center;
+}
+@media (min-width: 1024px) {
+  .page-hero-grid {
+    align-items: start;
+  }
+  .page-hero-grid .page-hero-copy {
+    padding-block-start: 0;
+  }
+  /* The column runs to the content's right edge (SR-8); the photograph keeps its size, centred in it. */
+  .page-hero-media {
+    justify-self: stretch;
+    max-width: none;
+  }
+  .page-hero-media img {
+    max-width: min(30rem, var(--photo-width, 100%));
+    margin-inline: auto;
+  }
+  .page-hero-framed {
+    padding: 2rem;
+  }
+}
+@media (max-width: 639px) {
+  .page-hero h1 {
+    font-size: var(--text-page-title-mobile);
+    line-height: 1.1;
+  }
+  .page-hero-lead {
+    font-size: var(--text-base);
+  }
+  .page-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .page-hero-actions .home-secondary {
+    justify-content: center;
+  }
+}
+/* Short phones (audit B4): the software hub's title took seven lines at 320x480 and hid its action. One hero, so
+   every page title takes the short size there. */
+@media (max-width: 639px) and (max-height: 600px) {
+  .page-hero h1 {
+    font-size: var(--text-page-title-short);
+  }
+}
+/* The entrance, once on load (~1.1 s, then it stands): the copy rises in turn, the photograph settles.
+   Reduced motion keeps everything at rest (CLAUDE.md §3). PageHero and the T5 product summary use it. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-copy-in 800ms var(--ease-aims) both;
+  }
+  .hero-enter:nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .hero-enter:nth-child(3) {
+    animation-delay: 200ms;
+  }
+  .hero-enter:nth-child(4) {
+    animation-delay: 320ms;
+  }
+  .hero-enter:nth-child(n + 5) {
+    animation-delay: 440ms;
+  }
+  .hero-enter-media {
+    animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
+  }
+}
+@keyframes hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-device-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* T3 solution template sections (Master Plan 14; Design Doc 5–10). Tokens only. */
+/* Option cards: the one card (actions.css .ui-card); this is their inside only. */
+.method-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--card-pad);
+}
+.method-card h3 {
+  margin-block-start: 1.25rem;
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+}
+.method-card p {
+  margin-block: 0.5rem 1.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+}
+
+/* ---------- Process with owners ---------- */
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  counter-reset: none;
+}
+.process-list li {
+  display: flex;
+  flex-direction: column;
+  padding-block-start: 1.25rem;
+  border-block-start: 2px solid var(--color-green-700);
+}
+.process-index {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-green-700);
+  color: var(--color-paper);
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-card);
+}
+.process-list h3 {
+  margin-block-start: 1rem;
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+}
+.process-list p {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+.process-list .process-owner {
+  margin-block-start: auto;
+  padding-block-start: 1rem;
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+
+/* ---------- FAQ (ui/Faq.tsx): one look for every family (design-taste-frontend one system) ---------- */
+.ui-faq-split {
+  display: grid;
+  gap: 4rem;
+  align-items: start;
+}
+.ui-faq details {
+  border-block-end: 1px solid var(--color-line);
+}
+.ui-faq details:first-child {
+  border-block-start: 1px solid var(--color-line);
+}
+.ui-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+  padding-block: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-hover) ease;
+}
+.ui-faq summary::-webkit-details-marker {
+  display: none;
+}
+.ui-faq summary svg {
+  flex: none;
+  transition: transform var(--duration-slow) var(--ease-aims);
+}
+.ui-faq summary:hover {
+  color: var(--color-green-700);
+}
+.ui-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.ui-faq-answer {
+  max-width: 65ch;
+  padding-block-end: 1.5rem;
+  color: var(--color-ink-700);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+/* Same motion as .motion-disclose (globals.css): the answer fades in and settles 4px each time its
+   question opens, replaying because the selector starts matching again; height never animates. */
+.ui-faq details[open] .ui-faq-answer {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
+@media (min-width: 1024px) {
+  .ui-faq-intro {
+    position: sticky;
+    inset-block-start: 6.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-faq summary svg {
+    transition: none;
+  }
+  .ui-faq details[open] .ui-faq-answer {
+    animation-name: aims-fade;
+    animation-duration: var(--duration-fast);
+  }
+}
+
+/* ---------- Closing panel (ui/ClosePanel.tsx): one action, at most one link (Design Doc 2) ---------- */
+.ui-close-mint .ui-close-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-green-50);
+}
+/* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). */
+.ui-close-embedded {
+  margin-block-start: 3rem;
+}
+.ui-close-title {
+  font-size: var(--text-home-heading);
+  font-weight: var(--font-weight-display);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.ui-close-body {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.ui-close-mint .ui-close-actions {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+}
+/* Night: the full-bleed band with two still glows in its ground (a tech CSS ground; nothing moves). */
+.ui-close-night {
+  text-align: center;
+  background:
+    var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
+    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
+    var(--gradient-night);
+}
+.ui-close-night .ui-close-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ui-close-night .ui-close-title {
+  max-width: 44rem;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.ui-close-night .ui-close-body {
+  margin-inline: auto;
+  color: var(--color-night-muted);
+}
+.ui-close-night .ui-close-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+:lang(ar) .ui-close-title {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+@media (max-width: 1023px) {
+  .process-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    padding-block: 1.25rem;
+    border-block-start-width: 1px;
+    border-color: var(--color-line);
+  }
+  .process-list li > :not(.process-index) {
+    grid-column: 2;
+  }
+  .process-list h3 {
+    margin-block-start: 0.25rem;
+  }
+  .process-list .process-owner {
+    padding-block-start: 0.5rem;
+  }
+  .ui-faq-split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  .ui-close-mint .ui-close-panel {
+    flex-direction: column;
+    align-items: start;
+  }
+  .ui-close-mint .ui-close-actions {
+    align-items: start;
+  }
+}
+@media (max-width: 639px) {
+  .method-card {
+    padding: var(--card-pad-tight);
+  }
+  .method-card h3 {
+    margin-block-start: 0.75rem;
+    font-size: var(--text-base);
+  }
+  .method-card p {
+    display: none;
+  }
+  .ui-close-mint .ui-close-panel {
+    padding: 1.5rem;
+  }
+  .ui-close-actions,
+  .ui-close-actions .home-button {
+    width: 100%;
+  }
+  .ui-close-night .ui-close-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ui-close-night .ui-close-actions .home-night-link {
+    justify-content: center;
+  }
+}
+
+/* ---------- Office card (ui/OfficeCard.tsx): the one card for an AIMS place ---------- */
+.ui-office {
+  display: flex;
+  flex-direction: column;
+  padding: var(--card-pad);
+}
+/* AIMS's own photograph of the place, edge to edge at the card's top (OfficeCard media). */
+.ui-office-media {
+  margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 1rem;
+  overflow: clip;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+}
+.ui-office-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.ui-office-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.ui-office h3 {
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+}
+.ui-office-tag + h3 {
+  margin-block-start: 0.5rem;
+}
+.ui-office-address {
+  margin-block-start: 0.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+  text-align: start;
+}
+/* An English address keeps its own direction on an Arabic page, but sits on the page's start edge. */
+:dir(rtl) .ui-office-address[dir="ltr"] {
+  text-align: end;
+}
+.ui-office-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+}
+.ui-office-actions .home-text-link {
+  margin-block-start: 0;
+}
+/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a mint plinth on paper, a lime
+   edge on night green, never a second colour. */
+.ui-office-paper.ui-office-featured {
+  border-color: var(--color-green-100);
+  background: var(--color-green-50);
+}
+.ui-office-paper.ui-office-featured .ui-office-tag {
+  color: var(--color-green-700);
+}
+.ui-office-night {
+  border-color: var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+  box-shadow: none;
+}
+.ui-office-night :is(.ui-office-tag, .ui-office-address) {
+  color: var(--color-night-muted);
+}
+.ui-office-night.ui-office-featured {
+  border-color: var(--color-lime);
+}
+.ui-office-night.ui-office-featured .ui-office-tag {
+  color: var(--color-lime);
+}
+
+/* ---------- Reach band (ui/ReachBand.tsx): SIGNAL on night green (lime carries links: Design Doc 4) ---------- */
+.ui-reach .section-heading {
+  margin-block-end: 0;
+}
+/* Narrow screens: heading, then the map (the moment is seen before the list), then the list. */
+.ui-reach-grid {
+  display: grid;
+  gap: 2rem;
+}
+.ui-reach-copy {
+  display: contents;
+}
+.ui-reach-map {
+  order: 1;
+}
+.ui-reach-body {
+  order: 2;
+}
+@media (min-width: 1024px) {
+  .ui-reach-grid {
+    align-items: start;
+  }
+  .ui-reach-copy {
+    display: block;
+  }
+  .ui-reach-map {
+    order: 0;
+  }
+  .ui-reach-body {
+    margin-block-start: 2rem;
+  }
+}
+@media (max-width: 639px) {
+  /* The map bleeds a little on a phone, so the routes read at a usable size. */
+  .ui-reach-map {
+    margin-inline: calc(var(--page-gutter) * -0.5);
+  }
+}
+/*
+ * Oman's map is the Gulf crop (ReachMap ZOOM): the dot field runs on past its west and north edges, so the
+ * crop showed as a cut rectangle (audit T3). Fade those two open edges; the SVG is always drawn west to east
+ * (direction="ltr"), so the physical "to right" is correct in Arabic too. Ink is only the mask's alpha.
+ */
+.ui-reach-map:has(.reach-map-zoomed) {
+  mask-image:
+    linear-gradient(to right, transparent, var(--color-ink) 14%),
+    linear-gradient(to bottom, transparent, var(--color-ink) 12%);
+  mask-composite: intersect;
+}
+.ui-office-list {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .ui-office-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+/* Beside the reach map on a desktop the places sit two across in the copy column, the featured showroom across
+   both, so the band holds one screen (layout-v4.md 2). */
+@media (min-width: 1024px) {
+  .ui-reach-body .ui-office-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .ui-reach-body .ui-office-featured {
+    grid-column: 1 / -1;
+  }
+}
+/* A compact hero already leaves its own gap below the lead, so the first section does not add another. */
+.page-hero-compact + .section {
+  padding-block-start: 0;
+}
+
+/*
+ * The one split line (layout-v4.md 2, SR-8): every shared split on a desktop puts its right column on the same line,
+ * seven of twelve columns from the content's left edge, and ends the left column one gutter before it, so the hero,
+ * the FAQ and the reach band line up with each other on every page.
+ */
+@media (min-width: 1024px) {
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :first-child {
+    grid-column: span 7;
+  }
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :last-child:not(:first-child) {
+    grid-column: span 5;
+  }
+}

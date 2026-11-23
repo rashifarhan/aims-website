@@ -1,5 +1,5 @@
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
-import { ChevronDownIcon } from "@/components/icons";
+import { Faq } from "@/components/ui/Faq";
 import { faqItems, warrantyPage } from "@/content/pages";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publishableQuestions } from "@/lib/editorial";
@@ -19,7 +19,7 @@ export async function SupportSections() {
   return (
     <div className="ed-column co-support">
       <section id="warranty" aria-labelledby="warranty-title">
-        <h2 id="warranty-title" className="co-support-title">
+        <h2 id="warranty-title" className="section-title">
           {c.warrantyHeading}
         </h2>
         <p className="co-support-note">{c.warrantyNote}</p>
@@ -27,7 +27,7 @@ export async function SupportSections() {
       </section>
       {/* The page's one dealt moment (CLAUDE.md §3): the route draws once this section is in view. */}
       <section id="process" data-moment aria-labelledby="process-title">
-        <h2 id="process-title" className="co-support-title">
+        <h2 id="process-title" className="section-title">
           {c.processHeading}
         </h2>
         <div className="co-support-route">
@@ -52,21 +52,15 @@ export async function SupportSections() {
         </ol>
       </section>
       <section id="faq" aria-labelledby="faq-title">
-        <h2 id="faq-title" className="co-support-title">
+        <h2 id="faq-title" className="section-title">
           {c.faqHeading}
         </h2>
         <p className="co-support-note">{c.faqNote}</p>
-        <div className="co-faq" lang="en" dir="ltr">
-          {questions.map((q) => (
-            <details key={q.question}>
-              <summary>
-                {q.question}
-                <ChevronDownIcon width={18} height={18} aria-hidden="true" />
-              </summary>
-              <EditorialBlocks blocks={q.answer} level={3} />
-            </details>
-          ))}
-        </div>
+        <Faq
+          lang="en"
+          dir="ltr"
+          items={questions.map((q) => ({ q: q.question, a: <EditorialBlocks blocks={q.answer} level={3} /> }))}
+        />
       </section>
     </div>
   );

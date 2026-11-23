@@ -10,7 +10,8 @@ import { articleDate, outline } from "@/lib/editorial";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { ArticleNext } from "@/components/editorial/ArticleNext";
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
-import { EditorialIntro } from "@/components/editorial/EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
 import { articleBySlug, articles } from "@/content/pages";
 import "@/components/editorial/editorial.css";
@@ -47,7 +48,8 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
   const more = [1, 2, 3].map((n) => all[(at + n) % all.length]);
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/blog"), label: t.blog.crumb },
@@ -64,7 +66,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           ) : undefined
         }
       />
-      <div className="ed-layout page-container">
+      <div className="ed-layout wrap">
         {index.length > 3 && (
           <OnThisPage labels={{ wide: t.editorial.onThisPage, narrow: t.editorial.jumpTo }} items={index} lang="en" />
         )}
@@ -86,9 +88,9 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           <ArticleNext slug={a.slug} />
         </article>
       </div>
-      <section className="ed-more page-container" aria-labelledby="article-more-title">
+      <Section ground="band" labelledBy="article-more-title" className="ed-more">
         <div className="ed-more-heading">
-          <h2 id="article-more-title" className="ed-more-title">
+          <h2 id="article-more-title" className="section-title">
             {t.blog.moreHeading}
           </h2>
           <Link href={href("/blog")} className="home-text-link">
@@ -102,7 +104,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
     </main>
   );
 }

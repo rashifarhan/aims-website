@@ -6,6 +6,8 @@ import { softwareBySlug } from "@/content/catalogue";
 import { isBuiltSoftware } from "@/lib/software";
 import { ExternalLink } from "@/components/home/ExternalLink";
 import type { SectionCopy } from "./types";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 type Item = { slug: string; kind: string; purpose: string };
 
@@ -25,13 +27,8 @@ export async function SolutionSoftware({
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="t3-section page-container" aria-labelledby={`${idPrefix}-software-title`}>
-      <div className="t3-heading">
-        <h2 id={`${idPrefix}-software-title`} className="t3-title">
-          {copy.heading}
-        </h2>
-        <p className="t3-lead">{copy.lead}</p>
-      </div>
+    <Section ground="band" labelledBy={`${idPrefix}-software-title`}>
+      <SectionHeader id={`${idPrefix}-software-title`} title={copy.heading} lead={copy.lead} />
       <ul className="home-software-grid">
         {items.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
@@ -58,11 +55,18 @@ export async function SolutionSoftware({
           return (
             <li key={slug}>
               {isBuiltSoftware(slug) ? (
-                <Link href={localePath(locale, `/software/${slug}`)} className="home-software-card">
+                <Link
+                  href={localePath(locale, `/software/${slug}`)}
+                  className="home-software-card ui-card ui-card-interactive"
+                >
                   {body}
                 </Link>
               ) : (
-                <ExternalLink href={software.sourceUrl} label={t.common.externalSite} className="home-software-card">
+                <ExternalLink
+                  href={software.sourceUrl}
+                  label={t.common.externalSite}
+                  className="home-software-card ui-card ui-card-interactive"
+                >
                   {body}
                 </ExternalLink>
               )}
@@ -70,6 +74,6 @@ export async function SolutionSoftware({
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 }

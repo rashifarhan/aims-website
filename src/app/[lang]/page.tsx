@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { COMPANY_NAME, CONTACT, SITE_URL, whatsappUrl } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
@@ -11,8 +12,8 @@ import { DoorTeaser } from "@/components/home/DoorTeaser";
 import { HomeProof } from "@/components/home/HomeProof";
 import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeFaq } from "@/components/home/HomeFaq";
-import { HomeClosing } from "@/components/home/HomeClosing";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";
@@ -30,6 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 /** T1 sequence: Design Doc ch. 10; factual Organization data: Plan AT-12. */
 export default async function Home() {
   const t = await getDictionary();
+  const locale = await getLocale();
+  const close = t.home.closing;
   return (
     <main id="main">
       <JsonLd
@@ -49,7 +52,14 @@ export default async function Home() {
       <HomeProof />
       <HomeLocations />
       <HomeFaq />
-      <HomeClosing />
+      <ClosePanel
+        id="closing-title"
+        tone="night"
+        heading={close.heading}
+        body={close.body}
+        action={{ href: localePath(locale, "/quote"), label: close.action }}
+        secondary={{ href: localePath(locale, "/products"), label: close.secondary }}
+      />
       <MomentTrigger />
       <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
     </main>

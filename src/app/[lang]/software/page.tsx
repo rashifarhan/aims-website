@@ -6,15 +6,14 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { isBuiltSoftware } from "@/lib/software";
 import { softwareList } from "@/content/catalogue";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButton";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
-import "@/components/home/sections.css";
 import "@/components/catalogue/catalogue.css";
-import "@/components/solution/solution.css";
 import "@/components/software/software.css";
-import "@/components/motion/entrance.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { softwareCentre: c } = await getDictionary();
@@ -74,24 +73,17 @@ export default async function SoftwareCentre() {
   };
   return (
     <main id="main">
-      <section className="sw-centre-intro aims-hero page-container" aria-labelledby="sw-centre-title" data-enter>
-        <Breadcrumbs
-          label={t.common.breadcrumb}
-          items={[
-            { href: href("/"), label: t.common.home },
-            { href: href("/software"), label: t.softwarePage.software },
-          ]}
-        />
-        {/* The shared AIMS entrance (motion/entrance.css), as on the software detail and every T3 hero. */}
-        <h1 id="sw-centre-title" className="aims-headline-mask">
-          <span className="aims-headline">{c.title}</span>
-        </h1>
-        <p className="t3-promise sw-enter">{c.lead}</p>
-        <div className="t3-actions sw-enter">
-          <SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />
-        </div>
-      </section>
-      <section className="sw-centre page-container" aria-labelledby="sw-centre-list">
+      <PageHero
+        variant="compact"
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/software"), label: t.softwarePage.software },
+        ]}
+        title={c.title}
+        lead={c.lead}
+        primary={<SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />}
+      />
+      <Section ground="band" labelledBy="sw-centre-list" className="sw-centre">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
         <h2 id="sw-centre-list" className="sr-only">
           {c.listHeading}
@@ -99,20 +91,13 @@ export default async function SoftwareCentre() {
         <Suspense fallback={<SoftwareFilterView {...filter} active={null} />}>
           <SoftwareFilter {...filter} />
         </Suspense>
-      </section>
-      <section className="t3-cta page-container" aria-labelledby="sw-centre-close">
-        <div className="t3-cta-panel">
-          <div>
-            <h2 id="sw-centre-close" className="t3-title">
-              {c.close.heading}
-            </h2>
-            <p className="t3-lead">{c.close.body}</p>
-          </div>
-          <div className="t3-cta-actions">
-            <SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />
-          </div>
-        </div>
-      </section>
+      </Section>
+      <ClosePanel
+        id="sw-centre-close"
+        heading={c.close.heading}
+        body={c.close.body}
+        action={<SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />}
+      />
     </main>
   );
 }

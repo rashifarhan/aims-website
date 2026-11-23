@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SolutionIntro } from "@/components/solution/SolutionIntro";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { EP_PAGE as PAGE } from "@/components/solution/entrance-parking/data";
 import { EntranceLanes } from "@/components/solution/entrance-parking/EntranceLanes";
 import { EntranceOptions } from "@/components/solution/entrance-parking/EntranceOptions";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/entrance-parking/entrance-parking.css";
 
@@ -31,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function EntranceParkingSolution() {
   const { solutionEntranceParking: c } = await getDictionary();
+  const locale = await getLocale();
   const software = PAGE.software.map(({ slug, kind, purpose }) => ({
     slug,
     kind: c.software[kind],
@@ -47,7 +48,16 @@ export default async function EntranceParkingSolution() {
       <SolutionQuestions
         idPrefix="ep"
         copy={c.faq}
-        close={<SolutionCta idPrefix="ep" page={PAGE} copy={c.cta} embedded />}
+        close={
+          <ClosePanel
+            embedded
+            id="ep-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+          />
+        }
       />
       <MomentTrigger />
     </main>

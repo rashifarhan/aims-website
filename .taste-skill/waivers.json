@@ -1,27 +1,27 @@
 [
   {
-    "check": "phone-number",
-    "target": "ul.home-place-cards > li.home-place-card.home-place-featured > div.home-place-actions",
-    "reason": "AIMS's published phone lines are brief-given client facts; CLAUDE.md requires the real contacts, never .example stand-ins."
-  },
-  {
-    "check": "nav-covers",
-    "target": "main#main > button.home-floating-contact",
-    "reason": "The floating WhatsApp contact is existing working behaviour the client asked to preserve; it hides on the first screen and opens a dialog."
-  },
-  {
     "check": "text-contrast",
-    "target": "div.page-container.flex > a.flex.min-h-11 > span.text-wordmark.font-extrabold",
+    "target": "div.wrap.flex > a.flex.min-h-11 > span.text-wordmark.font-extrabold",
     "reason": "The lime full stop is part of the approved AIMS wordmark, a decorative mark, not text; the wordmark letters are ink."
   },
   {
+    "check": "nav-covers",
+    "target": "main#main > button.home-button.home-button-sm",
+    "reason": "The floating WhatsApp contact is existing working behaviour the client asked to preserve; it hides on the first screen and opens a dialog."
+  },
+  {
     "check": "effect-kind",
-    "target": "main#main > section.home-section.home-door",
+    "target": "main#main > section.section.section-paper:nth-of-type(4)",
     "reason": "The two moments are AIMS's approved door-kit and reach prototypes (CLAUDE.md: port them, don't redesign), played once by MomentTrigger, not kit moments."
   },
   {
-    "check": "card-layout",
-    "target": "section#families > div.home-section.page-container > div.home-family-grid",
-    "reason": "Six product families are one catalogue index; each card shows a different real AIMS product photograph and count."
+    "check": "scroll-reveal",
+    "target": "main#main > section.section.section-paper:nth-of-type(4)",
+    "reason": "The door kit assembling once is the page's dealt moment, AIMS's approved prototype played by MomentTrigger; reduced motion shows it at rest."
+  },
+  {
+    "check": "scroll-reveal",
+    "target": "section#showrooms",
+    "reason": "The reach routes drawing once is AIMS's approved reach prototype, the long page's second dealt moment; reduced motion shows it at rest."
   }
 ]

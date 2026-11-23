@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { PageHero } from "@/components/ui/PageHero";
 import { ContactRouter } from "@/components/contact/ContactRouter";
-import { ContactReach } from "@/components/contact/ContactReach";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
-import "@/components/contact/channel-button.css";
-import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,25 +30,30 @@ export default async function ContactPage() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1 bg-paper-2">
-      {/* page-container: the same content edges as the header and footer (taste House rule 4). */}
-      <div className="page-container pt-6 pb-16">
-        <Breadcrumbs
-          label={t.common.breadcrumb}
-          items={[
-            { href: href("/"), label: t.common.home },
-            { href: href("/contact"), label: t.nav.contact },
-          ]}
-        />
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{t.contactPage.title}</h1>
-        <p className="mt-2 mb-8 max-w-2xl text-base text-ink-600 sm:text-lg">{t.contactPage.lead}</p>
+      <PageHero
+        variant="compact"
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/contact"), label: t.nav.contact },
+        ]}
+        title={t.contactPage.title}
+        lead={t.contactPage.lead}
+      />
+      {/* wrap: the same content edges as the header and footer (taste House rule 4). */}
+      <div className="wrap">
         <ContactRouter
           t={t.contactPage}
           hrefs={{ products: href("/products"), quote: href("/quote") }}
           showroom={{ address: CONTACT.showroomAddress, map: CONTACT.showroomMap }}
         />
-        <LocationCards t={t.contactPage} />
       </div>
-      <ContactReach t={t.contactPage} labels={t.home.reach} />
+      <LocationCards t={t.contactPage} />
+      <ReachBand
+        titleId="contact-reach-title"
+        heading={t.contactPage.reachTitle}
+        lead={t.contactPage.reachLead}
+        map={<ReachMap labels={t.home.reach} />}
+      />
       <MomentTrigger />
     </main>
   );

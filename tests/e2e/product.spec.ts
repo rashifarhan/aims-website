@@ -33,7 +33,8 @@ test.describe("product page (T5)", () => {
   test("English product data keeps its order on Arabic pages (G4)", async ({ page }) => {
     await page.goto("/ar/product/f18");
     await expect(page.locator("h1 [lang='en'][dir='ltr']")).toHaveText("ZKTeco F18");
-    const value = page.locator("#specs ~ * td [dir='ltr']").first();
+    // Spec values are a description list since the two-column specs (Phase 2A): dd, formerly td.
+    const value = page.locator("#specs ~ * dd [dir='ltr']").first();
     await expect(value).toHaveAttribute("lang", "en");
     await expect(page.getByRole("region", { name: "المواصفات الرئيسية" }).locator("[dir='ltr']").first()).toBeVisible();
     // Spec hints are translated, not left in English.

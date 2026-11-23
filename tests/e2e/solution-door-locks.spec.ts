@@ -33,7 +33,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} door locks page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's door lock, preloaded as the LCP image.
-    await expect(page.locator(".t3-hero-photo img")).toHaveAttribute("src", /tl800/);
+    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /tl800/);
     // The unlock moment's text equivalent: four steps.
     await expect(page.locator(".lk-steps li")).toHaveCount(4);
     // Door guide: smart and hotel filters, the glass door lock, door hardware; every link answers 200.
@@ -95,7 +95,7 @@ test("reduced motion: the lock rests unlocked, the door open, and nothing moves"
   for (const line of await moment.locator(".lk-ring, .lk-signal").all())
     await expect(line).toHaveCSS("stroke-dashoffset", "0px");
   await expect(moment.locator(".lk-leaf")).toHaveCSS("transform", /^matrix\(0\.74,/);
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   expect(
     await page

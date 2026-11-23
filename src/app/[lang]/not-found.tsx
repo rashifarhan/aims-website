@@ -26,11 +26,11 @@ export default async function NotFound() {
   const locale = await getLocale();
   const href = (path: string) => localePath(locale, path);
   return (
-    <main id="main" className="page-container flex-1 py-12 lg:py-20">
+    <main id="main" className="wrap flex-1 py-12 lg:py-20">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16">
         <div>
           {/* No label above the heading (Impeccable craft floor): the h1 says what happened. */}
-          <h1 className="text-page-title-mobile font-bold tracking-tight lg:text-page-title">{t.notFound.title}</h1>
+          <h1 className="text-page-title-mobile font-display tracking-tight lg:text-page-title">{t.notFound.title}</h1>
           <p className="mt-4 max-w-lg text-ink-600">{t.notFound.body}</p>
           <label htmlFor="notfound-search" className="mt-8 block text-sm font-semibold text-ink">
             {t.notFound.searchLabel}
@@ -53,10 +53,7 @@ export default async function NotFound() {
           <ul className="mt-3 flex flex-wrap gap-2">
             {POPULAR_SEARCHES.map((term) => (
               <li key={term}>
-                <Link
-                  href={href(searchPath(term))}
-                  className={`inline-flex min-h-11 items-center rounded-pill border border-line bg-paper px-4 text-sm text-ink-700 transition-[border-color,color] duration-(--duration-hover) hover:border-green-700 hover:text-green-700 active:opacity-75 ${isModelCode(term) ? "font-mono" : ""}`}
-                >
+                <Link href={href(searchPath(term))} className={`ui-chip ${isModelCode(term) ? "font-mono" : ""}`}>
                   <bdi dir="ltr">{term}</bdi>
                 </Link>
               </li>

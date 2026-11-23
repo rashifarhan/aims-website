@@ -33,7 +33,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} POS page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's POS terminal, preloaded as the LCP image.
-    await expect(page.locator(".t3-hero-photo img")).toHaveAttribute("src", /zkaio1000/);
+    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /zkaio1000/);
     // The counter moment's text equivalent: four steps.
     await expect(page.locator(".pc-steps li")).toHaveCount(4);
     // Counter guide: Windows and Android filters, the handheld and the fingerprint terminal; all answer 200.
@@ -62,7 +62,7 @@ for (const locale of ["en", "ar"] as const) {
 test("desktop: the 350 px POS photograph is never shown larger than it is", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(PATH);
-  const box = await page.locator(".t3-hero-photo img").boundingBox();
+  const box = await page.locator(".page-hero-media img").boundingBox();
   expect(box?.width ?? 0).toBeLessThanOrEqual(350);
 });
 
@@ -99,7 +99,7 @@ test("reduced motion: the counter rests verified with the receipt out, and nothi
   for (const line of await moment.locator(".pc-line, .pc-tick, .pc-wire").all())
     await expect(line).toHaveCSS("stroke-dashoffset", "0px");
   await expect(moment.locator(".pc-receipt")).toHaveCSS("transform", "none");
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   expect(
     await page

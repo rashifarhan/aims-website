@@ -106,7 +106,7 @@ export function DesktopNav({
                      only the fade. */
                   className="motion-fade absolute inset-x-0 top-full border-b border-line bg-paper shadow-2 transition-[opacity,translate] duration-(--duration-dropdown) ease-(--ease-aims) data-instant:transition-none starting:-translate-y-1.5 starting:opacity-0"
                 >
-                  <div className="page-container grid grid-cols-[220px_1fr] gap-10 py-8">
+                  <div className="wrap grid grid-cols-[220px_1fr] gap-10 py-8">
                     <div>
                       <p className="text-lg font-semibold tracking-tight text-ink">{item.label}</p>
                       <p className="mt-2 text-sm text-ink-600">{item.lead}</p>

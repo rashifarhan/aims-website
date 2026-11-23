@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactLink } from "@/components/contact/ContactLink";
-import { CompanyClose } from "@/components/company/CompanyClose";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SUPPORT_SECTIONS, SupportSections } from "@/components/company/SupportSections";
-import { EditorialIntro } from "@/components/editorial/EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { CONTACT, whatsappUrl } from "@/lib/site";
-import "@/components/solution/solution.css";
 import "@/components/editorial/editorial.css";
 import "@/components/signature/verify-moment.css";
 import "@/components/company/company.css";
@@ -34,34 +33,44 @@ export default async function Support() {
   const headings = { warranty: c.warrantyHeading, process: c.processHeading, faq: c.faqHeading };
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/support"), label: c.crumb },
         ]}
         title={c.title}
         lead={c.lead}
-      >
-        <div className="ed-actions">
+        primary={
           <ContactLink kind="whatsapp" href={whatsappUrl()} target={CONTACT.whatsapp} className="home-button">
             {c.whatsapp}
           </ContactLink>
-          <ContactLink kind="email" href={`mailto:${CONTACT.email}`} target={CONTACT.email} className="home-secondary">
-            {c.email}
-          </ContactLink>
-          <Link href={href("/contact")} className="home-secondary">
-            {c.closeSecondary}
-          </Link>
-        </div>
-      </EditorialIntro>
-      <div className="ed-layout page-container">
+        }
+        secondary={
+          // The email and the contact page share the secondary slot, as published before Phase 1 (polish log).
+          <>
+            <ContactLink
+              kind="email"
+              href={`mailto:${CONTACT.email}`}
+              target={CONTACT.email}
+              className="home-secondary"
+            >
+              {c.email}
+            </ContactLink>
+            <Link href={href("/contact")} className="home-secondary">
+              {c.closeSecondary}
+            </Link>
+          </>
+        }
+      />
+      <div className="ed-layout wrap">
         <OnThisPage
           labels={{ wide: t.editorial.onThisPage, narrow: t.editorial.jumpTo }}
           items={SUPPORT_SECTIONS.map((id) => ({ id, text: headings[id] }))}
         />
         <SupportSections />
       </div>
-      <CompanyClose
+      <ClosePanel
         id="support-close-title"
         heading={c.closeHeading}
         body={c.closeBody}

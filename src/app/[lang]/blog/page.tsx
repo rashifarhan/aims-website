@@ -3,11 +3,11 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { alternates } from "@/lib/seo";
-import { CompanyClose } from "@/components/company/CompanyClose";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
-import { EditorialIntro } from "@/components/editorial/EditorialIntro";
+import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { articles } from "@/content/pages";
-import "@/components/solution/solution.css";
 import "@/components/editorial/editorial.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,7 +32,8 @@ export default async function Blog() {
   const href = (p: string) => localePath(locale, p);
   return (
     <main id="main" className="w-full flex-1">
-      <EditorialIntro
+      <PageHero
+        variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/blog"), label: t.blog.crumb },
@@ -40,7 +41,10 @@ export default async function Blog() {
         title={t.blog.title}
         lead={`${fmt(t.blog.lead, { count: list.length })}${locale === "ar" ? ` ${t.editorial.englishOnly}` : ""}`}
       />
-      <div className="page-container pb-(--home-section-space)">
+      <Section ground="band" labelledBy="blog-list-title" className="ed-list">
+        <h2 id="blog-list-title" className="sr-only">
+          {t.blog.title}
+        </h2>
         <ul className="ed-card-grid">
           {list.map((a, i) => (
             <li key={a.slug}>
@@ -48,8 +52,8 @@ export default async function Blog() {
             </li>
           ))}
         </ul>
-      </div>
-      <CompanyClose
+      </Section>
+      <ClosePanel
         id="blog-close-title"
         heading={t.blog.closeHeading}
         body={t.blog.closeBody}

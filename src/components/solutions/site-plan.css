@@ -6,14 +6,14 @@
  */
 
 /* ---------- Layout: heading, plan, numbered links; desktop sets the plan beside them ---------- */
-.hs-site {
+/* The section is the shared ui/Section (its ground and --section-space); the layout sits on its one .wrap. */
+.hs-site > .wrap {
   display: grid;
   grid-template-areas:
     "heading"
     "stage"
     "list";
   row-gap: 2rem;
-  padding-block: 1rem;
 }
 .hs-heading {
   grid-area: heading;
@@ -139,7 +139,7 @@
   }
 }
 @media (min-width: 1024px) {
-  .hs-site {
+  .hs-site > .wrap {
     grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
@@ -148,7 +148,6 @@
     column-gap: 4rem;
     row-gap: 0;
     align-items: start;
-    padding-block: 2rem;
   }
   .hs-stage {
     align-self: center;

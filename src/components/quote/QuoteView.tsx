@@ -1,23 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { useContactGuard } from "@/components/contact/ContactGuard";
+import { useRef, useSyncExternalStore } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { countLabel, fmt } from "@/i18n/format";
-import { DemoAdapter, type QuoteReceipt } from "@/lib/quote/adapter";
-import { messageLabels } from "@/lib/quote/labels";
-import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
-import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
-import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
-import { getQuote } from "@/lib/quote/store";
-import { destinationFromSearch, needFromSearch, presetPatch } from "@/lib/quote/context";
-import { CONTACT, LIVE_CONTACT, NEED_CHANNELS, whatsappUrl } from "@/lib/site";
+import { dispatchQuote } from "@/lib/quote/useQuote";
 import { EmptyQuote } from "./EmptyQuote";
 import { MobileReviewBar } from "./MobileReviewBar";
 import type { CatalogEntry } from "./QuoteItems";
 import { QuotePanels } from "./QuotePanels";
 import { QuoteSummary } from "./QuoteSummary";
 import { Receipt } from "./Receipt";
+import { noopSubscribe, useQuoteRequest } from "./useQuoteRequest";
 
 type Props = {
   catalog: Record<string, CatalogEntry>;
@@ -28,16 +20,9 @@ type Props = {
   hrefs: { products: string; productBase: string };
 };
 
-const noopSubscribe = () => () => {};
-
-/** One reference per page visit, created in the browser only (never during prerender). */
-let visitReference: string | null = null;
-const getReference = () => (visitReference ??= makeReference());
-
 /**
- * T8 quote request (Design Doc 10). Items and the need come from the saved
- * list; contact details live in memory only. Validation runs on send and
- * then live, so fixed errors disappear as the buyer types (AT-05).
+ * T8 quote request (Design Doc 10). The state and handlers live in useQuoteRequest; this view decides
+ * which of the four states to show: loading, receipt, empty, or the form.
  */
 export function QuoteView({ catalog, software, t, stepper, hrefs }: Props) {
   const hydrated = useSyncExternalStore(
@@ -45,99 +30,25 @@ export function QuoteView({ catalog, software, t, stepper, hrefs }: Props) {
     () => true,
     () => false,
   );
-  const quote = useQuote();
-  const context = useMemo(() => quote.context ?? {}, [quote.context]);
-  const guard = useContactGuard();
-
-  const [contact, setContact] = useState<Contact>(EMPTY_CONTACT);
-  const [attempt, setAttempt] = useState<"enquiry" | "whatsapp" | null>(null);
-  const [receipt, setReceipt] = useState<QuoteReceipt | null>(null);
-  const [sent, setSent] = useState("");
-  const reference = useSyncExternalStore(noopSubscribe, getReference, () => "");
-  const summaryRef = useRef<HTMLDivElement>(null);
   const summaryHeading = useRef<HTMLHeadingElement>(null);
-  const [focusErrors, setFocusErrors] = useState(0);
-
-  const errors: FieldError[] = attempt ? validateRequest(quote.lines, context, contact, attempt) : [];
-
-  useEffect(() => {
-    if (focusErrors) summaryRef.current?.focus();
-  }, [focusErrors]);
-
-  // A link such as /quote?need=install arrives with that need chosen (Design Doc 12); an export link from a
-  // location page also carries its country (Design Doc 10.1 T7 "set destination").
-  useEffect(() => {
-    const search = window.location.search;
-    const need = needFromSearch(search);
-    const destination = destinationFromSearch(search);
-    const patch = destination ? presetPatch(getQuote().context, destination) : need && { need };
-    if (patch) dispatchQuote({ type: "setContext", patch });
-    // A software page's link (/quote?software=bio-security-3-2) adds that platform; a known slug only. The
-    // parameter is then dropped, so a reload never re-adds a line the buyer removed.
-    const params = new URLSearchParams(search);
-    const slug = params.get("software");
-    if (slug && Object.hasOwn(software, slug)) {
-      dispatchQuote({ type: "requestSoftware", slug, text: software[slug] });
-      params.delete("software");
-      const rest = params.toString();
-      window.history.replaceState(
-        null,
-        "",
-        `${window.location.pathname}${rest ? `?${rest}` : ""}${window.location.hash}`,
-      );
-    }
-  }, [software]);
-
-  const products = useMemo(
-    () => Object.fromEntries(Object.entries(catalog).map(([k, v]) => [k, { name: v.name, model: v.model }])),
-    [catalog],
-  );
-  // The WhatsApp chat is itself the reply channel; the enquiry states how to reply.
-  const buildMessage = (mode: "enquiry" | "whatsapp") =>
-    buildQuoteMessage({
-      reference,
-      lines: quote.lines,
-      products,
-      context,
-      contact: {
-        name: contact.name,
-        company: contact.company,
-        replyBy: mode === "enquiry" ? contact.replyBy : undefined,
-      },
-      labels: messageLabels(t),
-    });
-  const message = buildMessage("whatsapp");
-
-  const units = quote.lines.reduce((n, l) => n + l.qty, 0);
-  // Each count takes its own singular or plural, so one line of one unit reads "1 item · 1 unit".
-  const countText = fmt(t.itemsSummary, {
-    items: countLabel(quote.lines.length, t.itemOne, t.itemMany),
-    units: countLabel(units, t.unitOne, t.unitMany),
-  });
-  const fail = (mode: "enquiry" | "whatsapp") => {
-    setAttempt(mode);
-    if (validateRequest(quote.lines, context, contact, mode).length) {
-      setFocusErrors((n) => n + 1);
-      return true;
-    }
-    return false;
-  };
-
-  const onWhatsApp = () => {
-    if (fail("whatsapp")) return;
-    const text = buildMessage("whatsapp");
-    const line = context.need === "software" ? NEED_CHANNELS.software : CONTACT.lines.mobile;
-    const href = whatsappUrl(text, line.tel.replace(/\D/g, ""));
-    if (LIVE_CONTACT || !guard) window.open(href, "_blank", "noopener,noreferrer");
-    else guard({ kind: "whatsapp", href, target: line.display, message: text });
-  };
-
-  const onSend = async () => {
-    if (fail("enquiry")) return;
-    const text = buildMessage("enquiry");
-    setSent(text);
-    setReceipt(await DemoAdapter.submit({ reference, lines: quote.lines, context, contact, message: text }));
-  };
+  const {
+    quote,
+    context,
+    contact,
+    setContact,
+    errors,
+    receipt,
+    setReceipt,
+    sent,
+    attempt,
+    setAttempt,
+    summaryRef,
+    reference,
+    message,
+    countText,
+    onWhatsApp,
+    onSend,
+  } = useQuoteRequest(catalog, software, t);
 
   if (!hydrated) return <div className="min-h-96" aria-hidden="true" />;
 

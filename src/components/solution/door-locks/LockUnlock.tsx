@@ -1,5 +1,6 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { LockDrawing } from "./LockDrawing";
+import { Section } from "@/components/ui/Section";
 
 /**
  * The page's one dealt moment, UNLOCK (Design Doc 8.2; taste motion.md): when a third of the section is
@@ -10,12 +11,12 @@ export async function LockUnlock({ idPrefix }: { idPrefix: string }) {
   const { solutionDoorLocks: t } = await getDictionary();
   const c = t.unlock;
   return (
-    <section className="t3-section lk-unlock page-container" data-moment aria-labelledby={`${idPrefix}-unlock-title`}>
+    <Section ground="band" labelledBy={`${idPrefix}-unlock-title`} className="lk-unlock" moment>
       <div>
-        <h2 id={`${idPrefix}-unlock-title`} className="t3-title">
+        <h2 id={`${idPrefix}-unlock-title`} className="section-title">
           {c.heading}
         </h2>
-        <p className="t3-lead">{c.lead}</p>
+        <p className="section-lead">{c.lead}</p>
         <ol className="lk-steps" aria-label={c.label}>
           {c.steps.map((step, i) => (
             <li key={step.title}>
@@ -33,6 +34,6 @@ export async function LockUnlock({ idPrefix }: { idPrefix: string }) {
       <div className="home-door-stage">
         <LockDrawing copy={c} />
       </div>
-    </section>
+    </Section>
   );
 }

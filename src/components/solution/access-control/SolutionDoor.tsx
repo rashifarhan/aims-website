@@ -34,12 +34,12 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   const c = t.solutionAccessControl.door;
   const locale = await getLocale();
   return (
-    <DoorStory className="t3-section t3-door page-container" labelledBy={`${idPrefix}-door-title`}>
+    <DoorStory ground="band" className="t3-door" labelledBy={`${idPrefix}-door-title`}>
       <div>
-        <h2 id={`${idPrefix}-door-title`} className="t3-title">
+        <h2 id={`${idPrefix}-door-title`} className="section-title">
           {c.heading}
         </h2>
-        <p className="t3-lead">{c.lead}</p>
+        <p className="section-lead">{c.lead}</p>
         <ol className="t3-door-parts" aria-label={c.partsLabel}>
           {PARTS.map((part, i) => {
             const path = partPath(PART_PATHS[part]);

@@ -18,8 +18,8 @@ const PAGES = [
 
 /** Let the hero entrance and the map's one-time draw finish, so axe audits the settled frame. */
 async function settle(page: Page) {
-  await page.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(page.locator(".loc-reach-map")).toHaveAttribute("data-played", "true");
+  await page.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(page.locator(".ui-reach-map")).toHaveAttribute("data-played", "true");
   await page.evaluate(() =>
     Promise.all(
       document
@@ -94,8 +94,8 @@ test("hub: every listed market is a page or an export quote with its destination
 test("SIGNAL on the hub: the routes draw once when the map comes into view, then stand", async ({ page }) => {
   await page.goto("/locations");
   await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
-  const band = page.locator(".loc-reach");
-  const map = band.locator(".loc-reach-map");
+  const band = page.locator(".ui-reach");
+  const map = band.locator(".ui-reach-map");
   await expect(map).toHaveAttribute("data-moment");
   await expect(map).not.toHaveAttribute("data-played");
   await expect(band.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "1px");
@@ -113,7 +113,7 @@ test("SIGNAL on the hub: the routes draw once when the map comes into view, then
 
 test("SIGNAL starts only once a third of the map is on screen, never with just its top edge", async ({ page }) => {
   await page.goto("/zkteco-distributor-in-oman");
-  const map = page.locator(".loc-reach-map");
+  const map = page.locator(".ui-reach-map");
   // Scroll down in small steps, as a reader does, and catch the first frame the moment is marked played.
   let visible = 0;
   for (let y = 0; y < 6000 && !visible; y += 40) {
@@ -129,12 +129,12 @@ test("SIGNAL starts only once a third of the map is on screen, never with just i
 
 test("SIGNAL on Oman: one route to Muscat, and the market lights up on arrival", async ({ page }) => {
   await page.goto("/zkteco-distributor-in-oman");
-  const band = page.locator(".loc-reach");
+  const band = page.locator(".ui-reach");
   await expect(band.locator(".reach-route")).toHaveCount(1);
   await expect(band.getByRole("img", { name: /Muscat, Oman/ })).toBeAttached();
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0");
-  await band.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(band.locator(".loc-reach-map")).toHaveAttribute("data-played", "true");
+  await band.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(band.locator(".ui-reach-map")).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0.3", { timeout: 4000 });
 });
@@ -143,7 +143,7 @@ test("reduced motion: hero and map rest at their final frame, nothing hidden or 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/zkteco-distributors-in-kenya");
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   await expect(page.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px");
   await expect(page.locator(".reach-arrive")).toHaveCSS("opacity", "0.3");

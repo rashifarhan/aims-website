@@ -16,7 +16,10 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
                 <bdi>{c.label}</bdi>
               </span>
             ) : (
-              <Link href={c.href} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
+              <Link
+                href={c.href}
+                className="inline-flex min-h-11 min-w-11 items-center justify-center hover:text-ink hover:underline"
+              >
                 <bdi>{c.label}</bdi>
               </Link>
             )}

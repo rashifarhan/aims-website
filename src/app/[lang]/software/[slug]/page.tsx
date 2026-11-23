@@ -4,14 +4,15 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { BUILT_SOFTWARE, isBuiltSoftware } from "@/lib/software";
 import { softwareBySlug } from "@/content/catalogue";
-import { MomentTrigger } from "@/components/home/MomentTrigger";
-import { SoftwareHero } from "@/components/software/SoftwareHero";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SoftwareFeatures } from "@/components/software/SoftwareFeatures";
 import { SoftwareTerminals } from "@/components/software/SoftwareTerminals";
 import { SoftwareSetup } from "@/components/software/SoftwareSetup";
-import { SoftwareClose } from "@/components/software/SoftwareClose";
-import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
+import { AddSoftwareToQuote } from "@/components/software/AddSoftwareToQuote";
+import { loadSoftwarePage } from "@/components/software/softwareCopy";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
+import { fmt } from "@/i18n/format";
 import "@/components/software/software.css";
 
 /** The built software pages (Plan 12 #29–31). URLs are unchanged from aimsuae.me (AT-13). */
@@ -38,13 +39,39 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/software/[
 export default async function SoftwarePage({ params }: PageProps<"/[lang]/software/[slug]">) {
   const { slug } = await params;
   if (!isBuiltSoftware(slug)) notFound();
+  const { software, t, c, page, addLabels, href } = await loadSoftwarePage(slug);
+  const addToQuote = (
+    <AddSoftwareToQuote slug={slug} name={software.name} quoteHref={href("/quote")} labels={addLabels} />
+  );
   return (
     <main id="main">
-      <SoftwareHero slug={slug} />
+      {/* The h1 names the platform and its category, so no label sits above it (impeccable craft floor);
+          the lead says what it does and where AIMS sets it up (the hard fact). */}
+      <PageHero
+        variant="split"
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/software"), label: c.software },
+          { href: href(`/software/${slug}`), label: software.name },
+        ]}
+        title={page.title}
+        lead={page.lead}
+        primary={addToQuote}
+        secondary={{ href: "#terminals", label: page.jump }}
+        photo={software.image}
+        framed
+      />
       <SoftwareFeatures slug={slug} />
       <SoftwareTerminals slug={slug} />
       <SoftwareSetup slug={slug} />
-      <SoftwareClose slug={slug} />
+      {/* The hero's main action again, worded the same, and one link (Design Doc 2). */}
+      <ClosePanel
+        id="sw-close-title"
+        heading={fmt(c.close.heading, { name: software.name })}
+        body={c.close.body}
+        action={addToQuote}
+        secondary={{ href: href("/software"), label: c.close.all }}
+      />
       <MomentTrigger />
     </main>
   );

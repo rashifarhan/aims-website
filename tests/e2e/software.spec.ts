@@ -95,7 +95,7 @@ test("Arabic software pages keep AIMS's English copy left-to-right", async ({ pa
   await expect(list).toHaveAttribute("lang", "en");
   await expect(list).toHaveAttribute("dir", "ltr");
   await expect(page.locator(".sw-terminal-model").first()).toHaveAttribute("dir", "ltr");
-  await expect(page.locator(".t3-eyebrow")).toHaveCount(0);
+  await expect(page.locator(".page-hero-eyebrow")).toHaveCount(0);
 });
 
 test.describe("reduced motion", () => {
@@ -116,10 +116,10 @@ test.describe("reduced motion", () => {
 
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
   await page.goto("/software/zkaccess-3-5");
-  await page.locator(".sw-hero").getByRole("button", { name: "Add to quote" }).click();
-  await expect(page.locator(".sw-hero").getByText("In your quote")).toBeVisible();
+  await page.locator(".page-hero").getByRole("button", { name: "Add to quote" }).click();
+  await expect(page.locator(".page-hero").getByText("In your quote")).toBeVisible();
   // Focus moves to the link that replaced the button (WCAG 2.4.3).
-  await expect(page.locator(".sw-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
+  await expect(page.locator(".page-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
   await page.goto("/quote");
   await expect(page.getByText("ZKAccess 3.5 software", { exact: false }).first()).toBeVisible();
 });
@@ -127,5 +127,5 @@ test("Add to quote puts a software line in the quote list", async ({ page }) => 
 test("an unknown software slug renders no software page", async ({ page }) => {
   // Partial prerendering streams not-found with a 200, as for /product/<unknown>; the page must be empty of software.
   await page.goto("/software/not-a-platform");
-  await expect(page.locator(".sw-hero")).toHaveCount(0);
+  await expect(page.locator(".page-hero")).toHaveCount(0);
 });

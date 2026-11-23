@@ -13,7 +13,7 @@ for (const [lang, labels] of [
       let expected: string;
       if (source === "guidance") {
         expected = labels.softwareCentre.guidanceLine;
-        await page.locator(".sw-centre-intro").getByRole("link", { name: labels.softwareCentre.primary }).click();
+        await page.locator("main .page-hero").getByRole("link", { name: labels.softwareCentre.primary }).click();
       } else if (source === "external platform") {
         expected = "BioTime 8.5";
         const card = page.locator(".sw-card").filter({ has: page.getByRole("heading", { name: /BioTime 8\.5/ }) });
@@ -24,8 +24,8 @@ for (const [lang, labels] of [
       } else {
         expected = "BioTime 9.5";
         await page.locator(`a.sw-card-link[href="${prefix}/software/biotime-9-5"]`).click();
-        await page.locator(".sw-hero").getByRole("button", { name: labels.softwarePage.add }).click();
-        await page.locator(".sw-hero").getByRole("link", { name: labels.softwarePage.viewQuote }).click();
+        await page.locator("main .page-hero").getByRole("button", { name: labels.softwarePage.add }).click();
+        await page.locator("main .page-hero").getByRole("link", { name: labels.softwarePage.viewQuote }).click();
       }
       await expect(page.locator('input[name="need"][value="software"]')).toBeChecked();
       await expect(page.locator("#quote-doors")).toHaveCount(0);
@@ -50,7 +50,7 @@ test("software enquiry links work without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("/software");
-  await page.locator(".sw-centre-intro").getByRole("link", { name: en.softwareCentre.primary }).click();
+  await page.locator("main .page-hero").getByRole("link", { name: en.softwareCentre.primary }).click();
   await expect(page).toHaveURL(/\/quote\?software=guidance$/);
   await context.close();
 });

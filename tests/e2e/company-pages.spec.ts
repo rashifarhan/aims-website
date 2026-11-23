@@ -70,7 +70,7 @@ test("about: company facts from site.ts, no founding year, the showrooms anchor"
   await expect(page.locator(".co-facts")).toContainText("AIMS Security Systems Trading LLC");
   await expect(page.locator("main")).not.toContainText(/established in|founded in|since 20\d\d/i);
   await expect(page.locator(".home-proof-band")).toContainText("Figures stated by AIMS");
-  await page.locator(".t3-actions .home-button").click();
+  await page.locator(".page-hero-actions .home-button").click();
   await expect(page).toHaveURL(/\/about#showrooms$/);
   await expect(page.locator("#showrooms")).toBeInViewport();
 });

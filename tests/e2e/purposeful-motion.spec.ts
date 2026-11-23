@@ -139,13 +139,13 @@ test("T3-based heroes share the AIMS entrance, the header edges and a whole prod
     "/about",
   ]) {
     await page.goto(path);
-    const shell = await page.locator("header .page-container").first().boundingBox();
-    const hero = await page.locator(".t3-intro").boundingBox();
+    const shell = await page.locator("header .wrap").first().boundingBox();
+    const hero = await page.locator(".page-hero > .wrap").boundingBox();
     if (!shell || !hero) throw new Error("The shared header and solution hero must render");
     expect(hero.x).toBeCloseTo(shell.x, 0);
     expect(hero.width).toBeCloseTo(shell.width, 0);
-    await expect(page.locator(".t3-hero-photo img")).toBeVisible();
-    await expect(page.locator(".t3-intro.aims-hero h1 .aims-headline")).toHaveCount(1);
+    await expect(page.locator(".page-hero-media img")).toBeVisible();
+    await expect(page.locator(".page-hero.aims-hero h1 .aims-headline")).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });

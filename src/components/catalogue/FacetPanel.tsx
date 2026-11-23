@@ -27,7 +27,7 @@ export function FacetPanel({ groups, onToggle, idPrefix }: Props) {
                 <li key={o.value}>
                   <label
                     htmlFor={id}
-                    className="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-1 text-menu text-ink-700 hover:bg-paper-2 lg:min-h-9"
+                    className="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-1 text-menu text-ink-700 hover:bg-paper-2"
                   >
                     <input
                       id={id}

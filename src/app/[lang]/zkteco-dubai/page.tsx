@@ -1,6 +1,4 @@
 import { LocationPage, locationMetadata } from "@/components/locations/LocationPage";
-import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
 import "@/components/signature/reach.css";
 import "@/components/locations/locations.css";
 

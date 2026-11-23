@@ -33,7 +33,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} entrance and parking page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's entrance and parking product, preloaded as the LCP image.
-    await expect(page.locator(".t3-hero-photo img")).toHaveAttribute("src", /barrier-gates-bgm-1045/);
+    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /barrier-gates-bgm-1045/);
     // Lanes moment: a labelled drawing and its four steps as the text equivalent.
     await expect(page.locator(".ep-lanes svg[role=img]")).toHaveAttribute("aria-label", /.+/);
     await expect(page.locator(".ep-steps li")).toHaveCount(4);
@@ -66,7 +66,7 @@ for (const locale of ["en", "ar"] as const) {
     await expect(software).toHaveCount(2);
     for (const href of await software.evaluateAll((links) => links.map((a) => a.getAttribute("href") ?? "")))
       expect(href.startsWith(`${prefix}/software/`) || href.startsWith("https://aimsuae.me")).toBe(true);
-    await expect(page.locator(".t3-questions details")).toHaveCount(5);
+    await expect(page.locator(".ui-faq details")).toHaveCount(5);
   });
 }
 
@@ -100,7 +100,7 @@ test("reduced motion: the lanes rest drawn, open and read, and nothing moves", a
   // The boom is up and the panels are open (their final transforms, not the closed state).
   await expect(lanes.locator(".ep-boom")).not.toHaveCSS("transform", "none");
   await expect(lanes.locator(".ep-panel").first()).not.toHaveCSS("transform", "none");
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   expect(
     await page

@@ -22,7 +22,7 @@ type Props = {
  */
 export function EmptyResults({ q, hasFilters, asked, quoteHref, t, onClearSearch, onClearFilters, onAsk }: Props) {
   return (
-    <div className="mt-6 rounded-lg border border-line bg-paper-2 p-6">
+    <div className="ui-panel mt-6">
       <p className="text-lg font-semibold text-ink">{q ? fmt(t.noResultsFor, { q }) : t.noResults}</p>
       <div className="mt-4 flex flex-wrap gap-3">
         {q && (
@@ -45,7 +45,7 @@ export function EmptyResults({ q, hasFilters, asked, quoteHref, t, onClearSearch
         {asked && asked === q && (
           <>
             {t.askAdded}{" "}
-            <Link href={quoteHref} className="font-semibold text-green-700 underline">
+            <Link href={quoteHref} className="ui-link">
               {t.viewQuote}
             </Link>
           </>

@@ -1,71 +1,37 @@
-import type { CSSProperties } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ArrowIcon } from "@/components/icons";
+import { PageHero } from "@/components/ui/PageHero";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { IntroCopy } from "./types";
-import "@/components/motion/entrance.css";
 
 /**
- * T3 row 1: title, promise and two actions beside AIMS's own product photograph (Master Plan 14;
- * taste photos.md "the product leads"). It enters once on load like the homepage hero (solution.css).
+ * T3 row 1: the shared split hero (ui/PageHero) fed from the page's data, so a new solution page never
+ * builds its own crumbs or count: title, promise and two actions beside AIMS's own product photograph
+ * (Master Plan 14; taste photos.md "the product leads").
  */
 export async function SolutionIntro({ page, copy }: { page: SolutionPageData; copy: IntroCopy }) {
   const t = await getDictionary();
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
-  const photo = productBySlug(page.hero)?.images[0];
   return (
-    <div className="t3-intro aims-hero page-container">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
-          { href: href("/"), label: t.common.home },
-          { href: href("/solutions"), label: t.nav.solutions },
-          { href: href(`/solutions/${page.slug}`), label: t.solutions[page.slug].name },
-        ]}
-      />
-      <div className="t3-hero">
-        <div className="t3-hero-copy">
-          {/* Only a label that states a fact; a category the breadcrumb already names is left out (Impeccable). */}
-          {copy.eyebrow && <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>}
-          {/* The shared AIMS entrance (motion/entrance.css): the title rises from its mask on every T3 page. */}
-          <h1 className="aims-headline-mask">
-            <span className="aims-headline">{copy.title}</span>
-          </h1>
-          <p className="t3-promise t3-enter">{copy.lead}</p>
-          <div className="t3-actions t3-enter">
-            <Link href={href(page.quote)} className="home-button">
-              {copy.primary}
-              <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
-            </Link>
-            <Link href={href(`/products/${page.family}`)} className="home-secondary">
-              {fmt(copy.secondary, { count: productsInFamily(page.family).length })}
-            </Link>
-          </div>
-        </div>
-        {photo && (
-          // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
-          // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
-          <div className="t3-hero-photo aims-studio" style={{ "--photo-width": `${photo.width}px` } as CSSProperties}>
-            {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              // The width it is shown at: its column, never past its own pixels (the cap above).
-              sizes={`(min-width: 1024px) min(36rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
-              preload
-            />
-          </div>
-        )}
-      </div>
-    </div>
+    <PageHero
+      variant="split"
+      crumbs={[
+        { href: href("/"), label: t.common.home },
+        { href: href("/solutions"), label: t.nav.solutions },
+        { href: href(`/solutions/${page.slug}`), label: t.solutions[page.slug].name },
+      ]}
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      lead={copy.lead}
+      primary={{ href: href(page.quote), label: copy.primary }}
+      secondary={{
+        href: href(`/products/${page.family}`),
+        label: fmt(copy.secondary, { count: productsInFamily(page.family).length }),
+      }}
+      photo={productBySlug(page.hero)?.images[0]}
+    />
   );
 }

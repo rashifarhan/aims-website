@@ -28,12 +28,12 @@ export async function DoorTeaser() {
   } = await getDictionary();
   const locale = await getLocale();
   return (
-    <DoorStory className="home-section home-door page-container" labelledBy="door-title">
+    <DoorStory className="home-door" labelledBy="door-title">
       <div>
-        <h2 id="door-title" className="home-section-title">
+        <h2 id="door-title" className="section-title">
           {door.heading}
         </h2>
-        <p className="home-section-lead">{door.body}</p>
+        <p className="section-lead">{door.body}</p>
         <ol className="home-door-parts" aria-label={door.partsLabel}>
           {PARTS.map((part, i) => {
             const slug = PART_PRODUCTS[part];
@@ -59,7 +59,7 @@ export async function DoorTeaser() {
             );
           })}
         </ol>
-        <Link href={localePath(locale, "/products/access-control")} className="home-text-link home-text-link-row">
+        <Link href={localePath(locale, "/products/access-control")} className="home-text-link">
           {door.action}
           <ArrowIcon width="16" height="16" className="home-action-arrow" />
         </Link>

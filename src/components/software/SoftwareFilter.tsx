@@ -47,7 +47,7 @@ export function SoftwareFilterView({ items, basePath, labels, active }: ViewProp
                 scroll={false}
                 prefetch={false}
                 aria-current={type === active ? "page" : undefined}
-                className="sw-chip home-button home-button-outline home-button-sm"
+                className="ui-chip"
               >
                 {label}
               </Link>

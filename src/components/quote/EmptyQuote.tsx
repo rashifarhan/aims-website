@@ -8,7 +8,7 @@ import { DescribeItem } from "./DescribeItem";
  */
 export function EmptyQuote({ t, productsHref }: { t: Dictionary["quote"]; productsHref: string }) {
   return (
-    <div className="mt-8 rounded-lg border border-line bg-paper-2 p-6 sm:p-8">
+    <div className="ui-panel mt-8">
       <p className="text-lg font-semibold text-ink">{t.empty}</p>
       <Link href={productsHref} className="home-button mt-4">
         {t.browse}

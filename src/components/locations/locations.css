@@ -1,77 +1,8 @@
 /*
  * Locations hub and T7 location pages (Master Plan 12 #6, #32–35; Design Doc 10.1 T2/T7). They sit on the T3
- * template (solution.css) and the shared card and buttons (ui/actions.css); this file holds only what those
+ * template (ui/sections.css) and the shared card and buttons (ui/actions.css); this file holds only what those
  * pages add. Tokens only. Motion: the T3 hero entrance, the SIGNAL map (signature/reach.css), hover and press.
  */
-
-/* The hard fact under the actions enters last, with the rest of the hero copy. */
-.loc-fact {
-  margin-block-start: 1.5rem;
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .t3-hero-copy > .loc-fact.t3-enter {
-    animation-delay: 440ms;
-  }
-}
-
-/* ---------- UAE offices: the one card, showroom first ---------- */
-.loc-offices {
-  display: grid;
-  gap: 1rem;
-}
-.loc-office {
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-}
-/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a mint plinth, not a second colour. */
-.loc-office-featured {
-  border-color: var(--color-green-100);
-  background: var(--color-green-50);
-}
-.loc-office-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-ink-600);
-}
-.loc-office-featured .loc-office-tag {
-  color: var(--color-green-700);
-}
-.loc-office h3 {
-  margin-block-start: 0.5rem;
-  font-size: var(--text-home-card);
-  font-weight: 650;
-}
-.loc-office-address {
-  margin-block-start: 0.25rem;
-  color: var(--color-ink-600);
-  line-height: 1.55;
-  text-align: start;
-}
-:dir(rtl) .loc-office-address {
-  text-align: end;
-}
-.loc-office-actions {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 1.5rem;
-  margin-block-start: auto;
-  padding-block-start: 0.5rem;
-}
-.loc-office-actions .home-text-link {
-  margin-block-start: 0;
-}
-@media (min-width: 768px) {
-  .loc-offices {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-  }
-}
 
 /* ---------- Models: the catalogue card, rows on a phone, tiles from 640px ---------- */
 .loc-models {
@@ -90,61 +21,6 @@
   }
 }
 
-/* ---------- SIGNAL band on night green (lime carries links here: 5.8–8.5:1, Design Doc 4) ---------- */
-.loc-reach {
-  isolation: isolate;
-  overflow: clip;
-  margin-block: var(--home-section-space);
-  padding-block: calc(var(--home-section-space) * 1.5);
-  background: var(--gradient-night);
-  color: var(--color-night-text);
-}
-.loc-reach :focus-visible {
-  outline-color: var(--color-lime);
-}
-/* Top-aligned columns, as every split (taste SR-8): the heading and the map start on one line (audit T6). */
-.loc-reach-grid {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
-}
-.loc-reach-lead {
-  max-width: 34rem;
-  margin-block-start: 0.875rem;
-  color: var(--color-night-muted);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
-@media (min-width: 1024px) {
-  .loc-reach-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-    gap: 4rem;
-  }
-}
-@media (max-width: 1023px) {
-  /* The map leads on narrow screens, so the moment is seen before the list. */
-  .loc-reach-map {
-    order: -1;
-  }
-}
-@media (max-width: 639px) {
-  /* Same bleed as the homepage and /contact maps on a phone, so the routes read at a usable size. */
-  .loc-reach-map {
-    margin-inline: calc(var(--page-gutter) * -0.5);
-  }
-}
-/*
- * Oman's map is the Gulf crop (ReachMap ZOOM): the dot field runs on past its west and north edges, so the
- * crop showed as a cut rectangle (audit T3). Fade those two open edges; the SVG is always drawn west to east
- * (direction="ltr"), so the physical "to right" is correct in Arabic too. Ink is only the mask's alpha.
- */
-.loc-reach-map:has(.reach-map-zoomed) {
-  mask-image:
-    linear-gradient(to right, transparent, var(--color-ink) 14%),
-    linear-gradient(to bottom, transparent, var(--color-ink) 12%);
-  mask-composite: intersect;
-}
-
 /* Hub destinations: two groups of links, each 44px tall (WCAG 2.5.8). */
 .loc-markets {
   display: grid;
@@ -155,9 +31,10 @@
 .loc-markets-group {
   padding-block-end: 0.5rem;
   border-block-end: 1px solid var(--color-night-line);
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-night-muted);
+  /* Card-title step of the one scale (was 13px, off-scale): the group is a heading in its own right. */
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  color: var(--color-night-text);
 }
 .loc-market {
   display: flex;
@@ -210,55 +87,12 @@
 }
 .loc-steps h3 {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
 }
 .loc-steps p {
   margin-block-start: 0.375rem;
   color: var(--color-night-muted);
   line-height: 1.55;
-}
-.loc-reach .t3-title {
-  color: var(--color-night-text);
-}
-
-/*
- * One section per screen (taste House rule 3; CLAUDE.md §2; audit T1), as the homepage does: the hero holds
- * the first screen alone from a portrait tablet up, and on a landscape desktop each later section is one
- * screen with its content centred, so a screen shows one idea and the next heading never peeks in. Short
- * desktop windows keep the natural height; phones grow with their content.
- */
-/* The night band is the page's moment: at least one screen at every width, so on a phone the next section's
-   heading never shows under the map (taste section-tile at 390; the hub's band was 771px of 844). */
-.loc-page > .loc-reach {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100svh;
-}
-@media (min-width: 640px) {
-  .loc-page > .t3-intro {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100svh - var(--home-header-block));
-  }
-  .loc-page > .t3-intro > .t3-hero {
-    flex: 1;
-    align-content: center;
-  }
-}
-@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .loc-page > .t3-section:not(.t3-questions) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100svh;
-  }
-  /* The last screen (questions plus the close) keeps its natural height: the footer follows, so no heading
-     can peek in, and a stretched screen left most of it empty. */
-  /* Bands abut, so every section starts on a whole screen. */
-  .loc-page > .loc-reach {
-    margin-block: 0;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

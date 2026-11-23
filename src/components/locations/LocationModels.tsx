@@ -7,13 +7,23 @@ import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { LOCATION_MODELS } from "@/lib/locationPages";
 import { withDestination, type QuoteContext } from "@/lib/quote/context";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T7 "popular models" (Design Doc 10.1), named "models to start from" because AIMS publishes no sales ranking.
  * The catalogue's own card (Design Doc 9): verbatim spec facts, model code in mono, an outline Add that carries
  * the page's destination. No compare here: compare lives with the listing's tray.
  */
-export async function LocationModels({ id, preset }: { id: string; preset?: Partial<QuoteContext> }) {
+export async function LocationModels({
+  id,
+  preset,
+  ground = "paper",
+}: {
+  id: string;
+  preset?: Partial<QuoteContext>;
+  ground?: "paper" | "band";
+}) {
   const t = await getDictionary();
   const locale = await getLocale();
   const c = t.locations.common;
@@ -31,18 +41,17 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
   };
   const cards = LOCATION_MODELS.flatMap((slug) => productBySlug(slug) ?? []).map(toCard);
   return (
-    <section id={id} className="t3-section page-container" aria-labelledby={`${id}-title`}>
-      <div className="t3-heading t3-heading-row">
-        <div>
-          <h2 id={`${id}-title`} className="t3-title">
-            {c.modelsHeading}
-          </h2>
-          <p className="t3-lead">{c.modelsLead}</p>
-        </div>
-        <Link href={withDestination(localePath(locale, "/products"), preset)} className="home-text-link">
-          {fmt(c.modelsAll, { count: products().length })}
-        </Link>
-      </div>
+    <Section ground={ground} id={id} labelledBy={`${id}-title`}>
+      <SectionHeader
+        id={`${id}-title`}
+        title={c.modelsHeading}
+        lead={c.modelsLead}
+        link={
+          <Link href={withDestination(localePath(locale, "/products"), preset)} className="home-text-link">
+            {fmt(c.modelsAll, { count: products().length })}
+          </Link>
+        }
+      />
       <ul className="loc-models">
         {cards.map((card) => (
           <li key={card.slug} className="flex">
@@ -56,6 +65,6 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

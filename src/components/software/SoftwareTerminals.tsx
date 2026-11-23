@@ -7,6 +7,7 @@ import type { Product } from "@/content/schema";
 import type { BuiltSoftware } from "@/lib/software";
 import { SoftwareSignal, type SignalNode } from "./SoftwareSignal";
 import { loadSoftwarePage } from "./softwareCopy";
+import { Section } from "@/components/ui/Section";
 
 type Loaded = Awaited<ReturnType<typeof loadSoftwarePage>>;
 
@@ -61,13 +62,15 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     : terminals.map((p) => terminalCard(p, loaded));
   const names = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
   return (
-    <section id="terminals" className="sw-section sw-screen page-container" aria-labelledby="sw-terminals-title">
+    <Section id="terminals" ground="band" labelledBy="sw-terminals-title">
       <div className="sw-split">
         <div>
-          <h2 id="sw-terminals-title" className="t3-title">
+          <h2 id="sw-terminals-title" className="section-title">
             {cloud ? c.terminals.cloudHeading : fmt(c.terminals.heading, { name: software.name })}
           </h2>
-          <p className="t3-lead">{cloud ? c.terminals.cloudLead : fmt(c.terminals.lead, { name: software.name })}</p>
+          <p className="section-lead">
+            {cloud ? c.terminals.cloudLead : fmt(c.terminals.lead, { name: software.name })}
+          </p>
           {cloud && (
             <Link href={href("/products/time-attendance")} className="home-text-link">
               {c.terminals.cloudAll}
@@ -81,6 +84,6 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
           label={fmt(c.terminals.diagram, { name: software.name, nodes: names.join(", ") })}
         />
       </div>
-    </section>
+    </Section>
   );
 }

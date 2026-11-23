@@ -1,4 +1,95 @@
 /*
+ * T5 product page (Design Doc 10, T5; taste sections.md "Every product page"). Loaded by the product page only.
+ */
+
+/* ---------- Hero: the photograph big and whole on a lit ground (no border box) ---------- */
+.product-hero {
+  padding-block: 1.5rem var(--section-space);
+}
+.product-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem 4rem;
+  margin-block-start: 0.5rem;
+}
+/* The light is part of the stage, and the photograph multiplies onto it, so AIMS's white product shots take
+   the lit ground instead of showing a white square. The light fades to the page's paper at the stage's edge,
+   so no box edge shows. Both sit inside the element the entrance animates, so the blend never changes as the
+   entrance runs. */
+.product-stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  isolation: isolate;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-green-100) 45%, var(--color-paper-3)) 0%,
+    color-mix(in srgb, var(--color-green-50) 80%, var(--color-paper)) 55%,
+    var(--color-paper) 100%
+  );
+}
+.product-stage-photo {
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+@media (min-width: 1024px) {
+  /* The hero holds the first screen alone (taste House rule 3). */
+  /* layout-v4.md 3: exactly the first screen, the sticky header over its top (main is pulled up under it). */
+  main:has(> .product-hero) {
+    margin-block-start: calc(-1 * var(--home-header-block));
+  }
+  .product-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding-block-start: calc(var(--home-header-block) + 1.5rem);
+  }
+  .product-hero-grid {
+    flex: 1;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+  .product-stage {
+    aspect-ratio: 1;
+    max-height: calc(100svh - var(--home-header-block) - 7rem);
+    min-height: 28rem;
+  }
+}
+
+/* ---------- How it connects: its own screen on night green, the diagram centred in a frame ---------- */
+.connects-frame {
+  display: grid;
+  justify-items: center;
+  padding: var(--card-pad);
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-night-900);
+}
+@media (min-width: 1024px) {
+  .connects-frame {
+    padding-block: 3rem;
+  }
+}
+.connects {
+  width: 100%;
+  max-width: 44rem;
+}
+/* Lime is decorative only (globals.css): it draws the lines and dots; every word keeps night text. */
+.connects-lines {
+  color: var(--color-lime);
+}
+.connects-head {
+  color: var(--color-night-muted);
+}
+.connects-node {
+  border-color: var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+}
+.connects-dot {
+  background: var(--color-lime);
+}
+
+/*
  * Product page's one dealt moment (taste motion.md; audit signature SIGNAL): the "How it connects" lines
  * draw together from the model code, then their endpoint dots confirm arrival. Node text stays visible.
  * stroke-dashoffset and opacity only. Nothing is hidden unless MomentTrigger set data-effects="on",
@@ -43,11 +134,79 @@
   }
 }
 
-/* Short phones (audit B4): the 4:3 photo frame took most of a 480–700px screen. Capped there, the photo stays whole
-   (object-contain) and the name, model and Add to quote come into view. */
+/* ---------- Specifications: a close-up of the same photograph beside the list ---------- */
+.product-closeup {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-3);
+}
+.product-closeup-photo {
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+/* A crop into the photograph's upper half, where a terminal's screen and keypad or a lock's face sit. `scale`
+   rather than `transform`, so the develop moment's own transform composes with it. */
+.product-closeup-zoom .product-closeup-photo {
+  scale: 1.6;
+  transform-origin: 50% 35%;
+}
+.product-closeup-zoom-soft .product-closeup-photo {
+  scale: 1.3;
+  transform-origin: 50% 35%;
+}
+@media (min-width: 1024px) {
+  .product-closeup {
+    align-self: start;
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
+  }
+}
+
+/*
+ * The dealt moment on a page without the "How it connects" diagram (taste moments.md, picture-develops,
+ * film look, ported to CSS): the close-up comes up once from a pale grey print to the photograph while it
+ * settles from a slight zoom, 1.6 s, when the section enters view (MomentTrigger). Filter and transform only,
+ * as its meta.json names. Without JS or under reduced motion the photograph stands.
+ */
+:root[data-effects="on"] .product-closeup[data-moment]:not([data-played]) .product-closeup-photo {
+  filter: grayscale(1) contrast(0.55) brightness(1.32);
+  transform: scale(1.06);
+}
+:root[data-effects="on"] .product-closeup[data-played] .product-closeup-photo {
+  animation: closeup-develop 1600ms cubic-bezier(0.3, 0.2, 0.3, 1) both;
+}
+@keyframes closeup-develop {
+  0% {
+    filter: grayscale(1) contrast(0.55) brightness(1.32);
+    transform: scale(1.06);
+  }
+  30% {
+    filter: grayscale(0.8) contrast(0.82) brightness(1.14);
+  }
+  62% {
+    filter: grayscale(0.35) contrast(0.95) brightness(1.04);
+  }
+  100% {
+    filter: none;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-closeup .product-closeup-photo {
+    animation: none;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* Short phones (audit B4): the 4:3 stage took most of a 480–700px screen. Capped there, the photo stays whole
+   (object-fit: contain) and the name, model and Add to quote come into view. The stage keeps the column's width;
+   only its height is capped. */
 @media (max-width: 1023px) and (max-height: 760px) {
-  /* Full width, shorter: the frame keeps the column's width and only its height is capped. */
-  .product-hero-frame {
+  .product-stage {
     aspect-ratio: auto;
     height: 30svh;
   }
@@ -56,7 +215,7 @@
   .product-hero-grid {
     gap: 1.25rem;
   }
-  .product-hero-frame {
+  .product-stage {
     height: 24svh;
   }
 }

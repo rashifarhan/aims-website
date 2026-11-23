@@ -30,13 +30,14 @@
   .aims-headline {
     animation: aims-title-in var(--duration-hero-rise) var(--ease-aims) both;
   }
-  .aims-hero :is(.t3-promise, .sw-hero-text > p, .product-hero-lead, .solution-lead) {
+  .aims-hero :is(.t3-promise, .sw-hero-text > p, .solution-lead) {
     animation: aims-support-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
   }
   .aims-hero :is(.t3-eyebrow, .t3-actions, .sw-hero-art, .t3-hero-photo) {
     animation: none;
   }
-  .aims-hero .aims-studio img {
+  /* PageHero settles its media box itself (.hero-enter-media); only other studio photographs rise here. */
+  .aims-hero .aims-studio:not(.hero-enter-media) img {
     animation: aims-media-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
   }
 }

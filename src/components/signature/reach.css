@@ -2,8 +2,8 @@
  * SIGNAL: the reach map (src/components/home/ReachMap.tsx; Design Doc 8.3 "Locations / export"). Moved
  * from home/premium.css unchanged so the homepage and /contact share one map. Its routes draw once when
  * the section enters view: MomentTrigger sets data-played on the [data-moment] section, and data-effects
- * on <html> only without reduced motion, so the resting styles are the finished map. The homepage hooks
- * it with .home-reach, other pages with .reach-moment.
+ * on <html> only without reduced motion, so the resting styles are the finished map. Every page hooks it
+ * with .reach-moment (ui/ReachBand).
  */
 .reach-map {
   display: block;
@@ -42,31 +42,24 @@
   font-weight: 600;
   fill: var(--color-lime);
 }
-:root[data-effects="on"] .home-reach:not([data-played]) .reach-route,
 :root[data-effects="on"] .reach-moment:not([data-played]) .reach-route {
   stroke-dashoffset: 1;
 }
-:root[data-effects="on"] .home-reach[data-played] .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] .reach-route {
   animation: reach-draw 1400ms var(--ease-aims) both;
 }
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(2) .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(2) .reach-route {
   animation-delay: 120ms;
 }
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(3) .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(3) .reach-route {
   animation-delay: 240ms;
 }
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(4) .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(4) .reach-route {
   animation-delay: 360ms;
 }
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(5) .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(5) .reach-route {
   animation-delay: 480ms;
 }
-:root[data-effects="on"] .home-reach[data-played] g > g:nth-child(6) .reach-route,
 :root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(6) .reach-route {
   animation-delay: 600ms;
 }
@@ -81,18 +74,10 @@
   }
 }
 
-@media (max-width: 1023px) {
-  .home-reach-map {
-    order: -1;
-  }
-}
 @media (max-width: 639px) {
   /* The map draws at about half size on a phone; labels scale up to stay near 13px. */
   .reach-labels text {
     font-size: var(--text-map-label-mobile);
-  }
-  .home-reach-map {
-    margin-inline: calc(var(--page-gutter) * -0.5);
   }
 }
 

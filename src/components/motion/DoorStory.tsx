@@ -5,10 +5,14 @@ import { doorTimeline } from "./doorTimeline";
 import { storyProgress, storyStep } from "./storyProgress";
 import "./doorStory.css";
 
-type Props = { children: ReactNode; className: string; labelledBy: string };
+type Props = { children: ReactNode; className: string; labelledBy: string; ground?: "paper" | "band" };
 
-/** Explanation, not decoration: native scroll assembles the approved kit; small screens play once. */
-export function DoorStory({ children, className, labelledBy }: Props) {
+/**
+ * Explanation, not decoration: native scroll assembles the approved kit; small screens play once. The section is
+ * the shared section box (ui/Section's ground classes and its one in-flow `.wrap`, layout-v4.md 2); the wrap is
+ * also the sticky layout, so it travels the whole two-screen section in scroll mode.
+ */
+export function DoorStory({ children, className, labelledBy, ground = "paper" }: Props) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const root = ref.current;
@@ -141,12 +145,12 @@ export function DoorStory({ children, className, labelledBy }: Props) {
   return (
     <section
       ref={ref}
-      className={`${className} door-story`}
+      className={`section section-${ground} ${className} door-story`}
       data-moment="unlock"
       data-mode="still"
       aria-labelledby={labelledBy}
     >
-      <div className="door-story-layout">{children}</div>
+      <div className="door-story-layout wrap">{children}</div>
     </section>
   );
 }

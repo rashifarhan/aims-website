@@ -120,7 +120,7 @@ Header suggestions now search a compact local product/software/solution index wi
   `next/image` uses `preload` for the hero; this Next version deprecates `priority` (local Next image guide).
 
 **Shared grid correction (Design Doc ch. 6).** Header, footer, menu panels, homepage sections and catalogue
-containers share `page-container`: 1280px content plus 32px desktop gutters (1344px border box), with 24px mobile
+containers share `wrap`: 1280px content plus 32px desktop gutters (1344px border box), with 24px mobile
 gutters. The hero artwork retains its wider stage, while its copy aligns with the shared grid. Browser checks compare
 both content edges in English and Arabic to prevent the previous header/homepage margin mismatch.
 
@@ -217,6 +217,70 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 4. **The short message becomes an advice line** in the quote request (Master Plan T9), so there is one place to send
    everything and contact details are entered once, on the quote page. "Delivery abroad" also presets the quote's
    need. All WhatsApp, phone and email links stay behind the preview notice (risk R5).
+
+### Checker fixes (Phase 4 polish, 23 Nov 2026)
+
+1. **Reverted by the client: no forced screen heights.** Phase 4 first gave `Section` the skill's `--h` contract
+   (every section one or two screens tall, the footer one screen). On review the client found whole screens left
+   empty on 57 of 88 page/width views (blank bands up to 1,100px), and asked for the rule to be taken out (23 Nov
+   2026). Sections are now their content plus the one `--section-space` rhythm; only the home, split and product
+   heroes fill the first screen. A full-site audit (every built route in English plus five Arabic routes, at 1440
+   and 390) then found no blank band over 40% of a screen. This overrides CLAUDE.md §2 "one section per screen" by the
+   client's explicit instruction; the gate's `screen-height` and `section-height` checks will report short sections.
+2. **The `.wrap` box is the content line.** Its gutter is margin outside the box, not padding inside it, because the
+   skill's checker reads the container from the `.wrap` box; every section and hero has one in-flow `.wrap`.
+3. **One split line.** The hero, FAQ, reach band and proof splits put their right column seven of twelve columns
+   in, top-aligned (SR-8).
+4. **The closing panel sits in normal flow** now that sections are no longer stretched to a screen.
+5. **Footer popular searches are plain footer links**, like the link columns above them: chips are Design Doc 9
+   filter controls, and a chip look on every page was a third button style.
+6. **Waivers (`.taste-skill/waivers.json`, the gate's limit is five):** the wordmark's lime full stop (decorative
+   brand mark); the floating WhatsApp button (behaviour the client asked to keep); and, for the door-kit and reach
+   prototypes that are the home page's two dealt moments, `effect-kind` once and `scroll-reveal` for each (CLAUDE.md:
+   port the approved prototypes, don't redesign them; reduced motion shows them at rest). Not waived for lack of room,
+   and open in the gate: AIMS's four published phone numbers (`phone-number`, brief-given, they stay) and the
+   six-card families grid (`card-layout`).
+
+### Site-wide polish: decisions and results (branch `claude/blissful-goldberg-rhevpy`, 23 Nov 2026)
+
+The phase-by-phase log is in `docs/polish-progress.md`. Decisions the client made or that stay open:
+
+1. **/support keeps its three hero actions** (WhatsApp, email, contact page). This deliberately goes one over the
+   design rule of two actions per screen; the client chose to keep all three published channels (23 Nov 2026).
+2. **Solutions hub hero has no action.** Adding one needs new wording, which is never invented. The hero uses the
+   InBio Pro 160 photograph so that no card below repeats it. The client can swap the photo or supply a button.
+3. **Product close-up moment.** Only F18 and SA20 have a connection diagram (their dealt moment). The other four
+   product pages use the spec close-up "developing" once as their moment. The skill lists that moment for
+   place/product/service pages rather than tech; kept pending the client's view.
+4. **Design calls for consistency** that the client may reverse: the home closing heading at the shared h2 size
+   (38px, was 52px); the solutions hub industries band on the shared light-grey band (was mint); product section
+   headings at the shared h2 size.
+5. **No stand-in photographs were added.** Every new image slot uses AIMS's own product photographs.
+6. **Merged with `main` (PRs #11–#14 and purposeful motion).** Where the two lines of work disagreed, main's merged
+   behaviour was kept on the polish's components: the solution pages, location pages and locations hub end with the
+   close inside the questions screen (`ClosePanel embedded`), so item 4 of the checker fixes now applies only to the
+   pages that keep a separate close; the solutions hub's dealt moment is main's site plan, not the door kit; the
+   location pages start the reach moment on the map frame (`ReachBand trigger="map"`); and the attendance dots are
+   finite, so the polish's pause button for them was removed. Main's desktop "one section per screen" rules for the
+   T3, location and company pages were not ported: section heights belong to the shared `Section`. The short-phone
+   page-title size applies to every `PageHero`, not only the software pages.
+
+Results at the end of Phase 4:
+
+- `pnpm check`, `pnpm format:check` and `pnpm build` pass; `pnpm e2e` 477 passed, 17 skipped (existing skips), 0
+  failed.
+- **Gate (home): `GATE: FAIL 65`, down from 84, with five waivers.** The gate stays open after its last round; the
+  open findings are recorded here. Most are structural checks that need a client decision or a page redesign:
+  `edge-left` (text inset by card padding in the families grid), `container-edges` (the header and skip link
+  outside the kit's page shell, and the approved full-width hero signal lines), `section-air` and `sparse`/
+  `empty-area` (short sections now one full screen each), `phone-number` (brief-given, stays), `card-layout`
+  (families grid) and `text-only` sections.
+- **Consistency checker (1440 + 390):** /solutions 87 → 62 FAIL after Phase 4; the other families moved little from
+  the first audit (for example product 81 → 74, products 62 → 58, about 76 → 71) because their remaining findings
+  are the same structural checks.
+- **Performance (perf.mjs, 390px):** home transfer 517 KB (limit 1 MB), layout shift 0.000, blocking time 13 ms, no
+  WebGL. The product page reports five images "without width+height": they are `next/image` with `fill` inside a
+  sized parent, which CLAUDE.md §5 allows, and layout shift is 0.000, so no change was made.
 
 ## Content import
 
@@ -393,7 +457,7 @@ changed on both sides). Follow-ups from combining them:
   not match the visible text (axe `label-content-name-mismatch`, WCAG 2.5.3).
 - `html` has scroll padding equal to the sticky header plus 16px, so fields focused from the quote error summary land
   below the header, not under it (WCAG 2.4.11). This surfaced as an axe target-size failure on the quote page.
-- The quote page uses the shared `page-container` grid.
+- The quote page uses the shared `wrap` grid.
 
 ### Time attendance solution (T3; Master Plan 12 #15, 14; Design Doc 8.3, 10)
 
@@ -506,7 +570,7 @@ content and brand, and no starter template or second design system. It follows t
 - **Gate.** copy-lint: 0 FAIL. One WARN, the per-family counts, which come from the catalogue.
   `gate.mjs` still FAILs, mostly on checks that assume the skill's own page system, which this project does not adopt
   (the client asked to keep the existing one):
-  - `.wrap` and its container lines (this site uses `page-container` and a wider hero stage);
+  - the container lines: the container class is now `.wrap` as the skill expects, but the hero keeps a wider stage;
   - the footer and skip-link layout;
   - split lines on the footer;
   - text-only sections (routes, proof, questions) and text-only cards (software, places): AIMS has supplied no

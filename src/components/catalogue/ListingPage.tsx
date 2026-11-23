@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { PageHero } from "@/components/ui/PageHero";
 import { products, productsInFamily } from "@/content/catalogue";
 import { toCard } from "@/content/cards";
 import { FAMILIES, type FamilySlug } from "@/content/taxonomy";
@@ -35,20 +36,29 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
   };
 
   return (
-    <main id="main" className="page-container flex-1 pt-6 pb-16">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
+    <main id="main" className="flex-1">
+      <PageHero
+        variant="compact"
+        crumbs={[
           { href: href("/"), label: t.common.home },
           ...(family ? [{ href: href("/products"), label: t.catalogue.allTitle }] : []),
           { href: href(family ? `/products/${family}` : "/products"), label: title },
         ]}
+        title={title}
+        lead={lead}
       />
-      <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-5xl">{title}</h1>
-      <p className="mt-3 max-w-2xl text-base text-ink-600 sm:text-lg">{lead}</p>
-      <Suspense fallback={<ListingView {...props} />}>
-        <Listing {...props} />
-      </Suspense>
+      <div className="wrap">
+        <Suspense fallback={<ListingView {...props} />}>
+          <Listing {...props} />
+        </Suspense>
+      </div>
+      {/* The close where the page sells (taste sections.md): the install note and the way to the quote. */}
+      <ClosePanel
+        id="listing-close"
+        heading={t.product.needInstall}
+        body={t.product.needInstallBody}
+        action={{ href: href("/quote"), label: t.catalogue.viewQuote }}
+      />
     </main>
   );
 }

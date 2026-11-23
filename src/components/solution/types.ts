@@ -18,6 +18,5 @@ export type ProcessCopy = SectionCopy & {
   steps: readonly { title: string; body: string; owner: string }[];
 };
 export type FaqCopy = { heading: string; items: readonly { q: string; a: string }[] };
-export type CtaCopy = { heading: string; body: string; action: string; secondary: string };
 /** One option card: `icon` is a path on the 32px explainer grid (optionIcons.ts), `count` a ready label. */
 export type OptionItem = { key: string; icon: string; title: string; body: string; href: string; count: string };

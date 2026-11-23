@@ -24,7 +24,7 @@
     "productsLead": "Browse by family, or search by model code.",
     "solutionsAll": "All solutions",
     "solutionsLead": "Start from what you need to do.",
-    "downloadCentre": "Software Download Centre",
+    "downloadCentre": "Software download centre",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "searchPlaceholder": "Search all products",
@@ -522,6 +522,12 @@
           "a": "Use the search in the header to find the model, view its published specifications and add it to your quote list."
         }
       ]
+    },
+    "cta": {
+      "heading": "Ask AIMS to quote your site",
+      "body": "Send the doors, staff and site. AIMS replies with devices, installation and a quotation.",
+      "action": "Request a quote",
+      "secondary": "Talk to AIMS first"
     }
   },
   "quote": {

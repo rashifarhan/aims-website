@@ -24,6 +24,10 @@ for (const locale of ["en", "ar"] as const) {
         const box = el.getBoundingClientRect();
         scrollTo(0, scrollY + box.top + box.height - innerHeight);
       });
+    } else {
+      // A phone plays the door once its drawing is a third in view (DoorStory). The drawing sits under the parts
+      // list, so centring the whole section can leave less than that on screen; bring the drawing itself in.
+      await door.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
     }
     await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 8000 });
     await expect
@@ -47,7 +51,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} access control page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's access control product, preloaded as the LCP image.
-    await expect(page.locator(".t3-hero-photo img")).toHaveAttribute("src", /speedface-v5l-qr/);
+    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /speedface-v5l-qr/);
     // Door parts: six, each model code linked to its page; every link answers 200.
     const parts = page.locator(".t3-door-parts li");
     await expect(parts).toHaveCount(6);
@@ -105,7 +109,7 @@ test("reduced motion: the door rests drawn, open and granted, and nothing moves"
   for (const part of await door.locator(".door-part, .door-card, .door-granted, .door-log").all())
     await expect(part).toHaveCSS("opacity", "1");
   await expect(door.locator(".door-wire").first()).toHaveCSS("stroke-dashoffset", "0px");
-  for (const part of await page.locator(".t3-enter, .t3-hero-photo").all())
+  for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   expect(
     await page

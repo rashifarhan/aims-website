@@ -15,7 +15,7 @@ export async function Hero() {
   const locale = await getLocale();
   return (
     <section className="home-hero" aria-labelledby="home-title">
-      <div className="home-hero-copy page-container">
+      <div className="home-hero-copy wrap">
         <p className="home-eyebrow">
           <span aria-hidden="true" />
           {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}

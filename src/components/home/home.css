@@ -1,10 +1,15 @@
 /* Design Doc ch. 4–8 and T1. Geometry is ported from the approved hero prototype. */
+main:has(> .home-hero) {
+  margin-block-start: calc(-1 * var(--home-header-block));
+}
 .home-hero {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  /* The hero alone fills the first screen below the sticky header (taste House rule 3). */
-  min-height: max(var(--home-hero-height), calc(100svh - var(--home-header-block)));
+  /* The hero alone is exactly the first screen, the sticky header over its top (taste House rule 3; layout-v4.md
+     3): main is pulled up under the header, so the next section starts on a whole screen. */
+  min-height: max(calc(var(--home-hero-height) + var(--home-header-block)), 100svh);
+  padding-block-start: var(--home-header-block);
   max-width: var(--container-home-stage);
   margin-inline: auto;
   display: flex;
@@ -36,7 +41,7 @@
 }
 .home-display {
   font-size: var(--text-home-display);
-  font-weight: 680;
+  font-weight: var(--font-weight-display);
   line-height: 1.03;
   letter-spacing: -0.04em;
   margin-block: 1.5rem;
@@ -65,7 +70,8 @@
 }
 .home-hero-art {
   position: absolute;
-  inset: 0;
+  /* The art keeps its stage below the header, as in the approved prototype. */
+  inset: var(--home-header-block) 0 0;
   pointer-events: none;
   z-index: 1;
 }
@@ -263,35 +269,17 @@
 .home-headline-quiet {
   color: var(--color-ink-600);
 }
-/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). */
+/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). Its look is the one
+   icon button (actions.css); this places it. */
 .home-motion-toggle {
   position: absolute;
   inset-block-end: 1.5rem;
   /* On the content's end edge: the art spans the wider hero stage, the copy the page container. */
   inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter));
   z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-line-strong);
-  border-radius: var(--radius-pill);
-  background: var(--color-paper);
-  color: var(--color-ink);
   pointer-events: auto;
-  transition:
-    transform var(--duration-fast) var(--ease-aims),
-    border-color var(--duration-fast) var(--ease-aims);
 }
-.home-motion-toggle:hover {
-  border-color: var(--color-ink-600);
-  transform: translateY(-1px);
-}
-.home-motion-toggle:active {
-  transform: translateY(1px) scale(0.985);
-}
-:lang(ar) .home-display,
-:lang(ar) .home-section-title {
+:lang(ar) .home-display {
   letter-spacing: 0;
   line-height: 1.2;
 }
@@ -321,7 +309,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: calc(100svh - var(--home-header-block));
+    min-height: 100svh;
   }
   .home-hero-copy {
     padding-block: 3.5rem 0;
@@ -383,9 +371,19 @@
   }
 }
 @media (max-width: 639px) {
+  /* layout-v4.md 3: the phone hero ends inside the first screen, the device whole above the fold, so the copy
+     starts closer to the header, the two actions share a line where they fit, and the stage holds the device and
+     its tick and no more (the motion is unchanged). */
+  .home-hero-copy {
+    padding-block-start: 1.5rem;
+  }
   .home-hero-actions {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+  .home-hero-art {
+    height: 21.5rem;
+    margin-block-start: 1rem;
   }
   .home-secondary {
     justify-content: center;
@@ -493,27 +491,6 @@
     opacity: 1;
   }
 }
-.home-family-image {
-  overflow: clip;
-}
-.home-family-image img {
-  /* Same timing as the card lift (sections.css), so the zoom never trails the card. */
-  transition: transform var(--duration-card) var(--ease-aims);
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-family-card:hover img {
-    transform: scale(1.03);
-  }
-}
-.home-family-card:focus-visible {
-  box-shadow: var(--shadow-2);
-}
-.home-faq summary svg {
-  transition: transform var(--duration-slow) var(--ease-aims);
-}
-.home-faq summary:hover {
-  color: var(--color-green-700);
-}
 @media (max-width: 1023px), (max-width: 1279px) and (orientation: portrait) {
   .home-wash {
     width: 700px;
@@ -538,55 +515,23 @@
   .home-device-tick path {
     stroke-dashoffset: 0 !important;
   }
-  .home-family-image img,
-  .home-faq summary svg,
-  .home-motion-toggle {
-    transition: none;
-  }
-  .home-motion-toggle:hover,
-  .home-motion-toggle:active {
-    transform: none;
-  }
 }
 
+/* The one small button (actions.css), fixed at the end edge; it keeps a lifted shadow over the page. */
 .home-floating-contact {
   position: fixed;
   inset-inline-end: var(--page-gutter);
   inset-block-end: 1.5rem;
   z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding-inline: 1.25rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-green-700);
-  color: var(--color-paper);
-  font-weight: 600;
-  font-size: var(--text-small);
   box-shadow: var(--shadow-2);
   transition:
     transform var(--duration-fast),
-    background-color var(--duration-hover) var(--ease-aims),
-    opacity var(--duration-base) var(--ease-aims),
-    translate var(--duration-base) var(--ease-aims);
+    background-color var(--duration-hover) var(--ease-aims);
 }
-/* Appearing after the hero: fade in and rise 8px from display:none. Hiding stays instant
-   ([hidden] has no transition), so the exit is faster than the enter. */
-@starting-style {
-  .home-floating-contact {
-    opacity: 0;
-    translate: 0 0.5rem;
-  }
-}
+/* CLAUDE.md §3: scrolling moves nothing, so it appears and disappears at once (no fade or rise). [hidden] also
+   takes it out of the accessibility tree and tab order while the hero is on screen. */
 .home-floating-contact[hidden] {
   display: none;
-}
-.home-floating-contact:hover {
-  background: var(--color-green-800);
-}
-.home-floating-contact:active {
-  transform: scale(0.98);
 }
 .home-contact-dialog {
   position: fixed;
@@ -641,33 +586,14 @@
   }
 }
 @media (max-width: 639px) {
+  /* On phones the icon-only size of the one button (actions.css .home-button-icon). */
   .home-floating-contact {
-    width: 3rem;
+    width: 2.75rem;
     padding: 0;
     justify-content: center;
   }
   .home-floating-contact span {
     display: none;
-  }
-}
-.home-contact-dialog button,
-.home-contact-dialog a {
-  transition: transform var(--duration-fast) var(--ease-aims);
-}
-.home-contact-dialog button:hover {
-  background: var(--color-paper-2);
-}
-.home-contact-dialog a:hover {
-  background: var(--color-green-800);
-}
-.home-contact-dialog button:active,
-.home-contact-dialog a:active {
-  transform: scale(0.98);
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-contact-dialog button,
-  .home-contact-dialog a {
-    transition: none;
   }
 }
 
