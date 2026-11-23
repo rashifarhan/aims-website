@@ -38,7 +38,7 @@ export default async function LocationsHub() {
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(HUB_HERO)?.images[0];
   return (
-    <main id="main">
+    <main id="main" className="loc-page">
       <LocationIntro
         crumbs={[
           { href: href("/"), label: t.common.home },
