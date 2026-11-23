@@ -6,7 +6,6 @@ export async function SolutionIndustries() {
   const { industries } = (await getDictionary()).solutionsHub;
   return (
     <Section ground="band" labelledBy="industries-title" className="solution-industries">
-      {" "}
       <SectionHeader id="industries-title" title={industries.title} lead={industries.lead} />
       <ul>
         {industries.items.map((item) => (

@@ -15,7 +15,15 @@ import { Section } from "@/components/ui/Section";
  * The catalogue's own card (Design Doc 9): verbatim spec facts, model code in mono, an outline Add that carries
  * the page's destination. No compare here: compare lives with the listing's tray.
  */
-export async function LocationModels({ id, preset }: { id: string; preset?: Partial<QuoteContext> }) {
+export async function LocationModels({
+  id,
+  preset,
+  ground = "paper",
+}: {
+  id: string;
+  preset?: Partial<QuoteContext>;
+  ground?: "paper" | "band";
+}) {
   const t = await getDictionary();
   const locale = await getLocale();
   const c = t.locations.common;
@@ -33,7 +41,7 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
   };
   const cards = LOCATION_MODELS.flatMap((slug) => productBySlug(slug) ?? []).map(toCard);
   return (
-    <Section id={id} labelledBy={`${id}-title`}>
+    <Section ground={ground} id={id} labelledBy={`${id}-title`}>
       <SectionHeader
         id={`${id}-title`}
         title={c.modelsHeading}

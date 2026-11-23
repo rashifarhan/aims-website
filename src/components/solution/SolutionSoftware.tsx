@@ -26,7 +26,7 @@ export async function SolutionSoftware({
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <Section labelledBy={`${idPrefix}-software-title`}>
+    <Section ground="band" labelledBy={`${idPrefix}-software-title`}>
       <SectionHeader id={`${idPrefix}-software-title`} title={copy.heading} lead={copy.lead} />
       <ul className="home-software-grid">
         {items.map(({ slug, kind, purpose }) => {

@@ -31,9 +31,10 @@
 .loc-markets-group {
   padding-block-end: 0.5rem;
   border-block-end: 1px solid var(--color-night-line);
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-night-muted);
+  /* Card-title step of the one scale (was 13px, off-scale): the group is a heading in its own right. */
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  color: var(--color-night-text);
 }
 .loc-market {
   display: flex;

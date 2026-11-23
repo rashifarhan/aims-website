@@ -38,7 +38,7 @@ export async function SolutionProducts({
   };
   const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <Section labelledBy={`${idPrefix}-products-title`}>
+    <Section ground="band" labelledBy={`${idPrefix}-products-title`}>
       <SectionHeader
         id={`${idPrefix}-products-title`}
         title={c.heading}

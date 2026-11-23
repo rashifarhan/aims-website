@@ -67,7 +67,8 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
         photo={photo}
       />
       {market === "dubai" && <LocationOffices id="visit" />}
-      <LocationModels id="models" preset={page.preset} />
+      {/* Dubai's offices take the band above; Oman and Kenya open on the models, so those take it. */}
+      <LocationModels id="models" preset={page.preset} ground={market === "dubai" ? "paper" : "band"} />
       <ReachBand
         id="delivery"
         titleId="delivery-title"

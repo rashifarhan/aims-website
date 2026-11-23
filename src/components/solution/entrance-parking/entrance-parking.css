@@ -6,7 +6,7 @@
  */
 
 /* ---------- Lanes: heading and steps beside the drawing; phones stack heading, drawing, steps ---------- */
-.ep-lanes {
+.ep-lanes > .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   grid-template-areas:
@@ -257,7 +257,7 @@
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1023px) {
-  .ep-lanes {
+  .ep-lanes > .wrap {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "heading"

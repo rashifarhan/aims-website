@@ -38,7 +38,7 @@ export default async function PosSolution() {
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
-      <SolutionQuestions idPrefix="ps" copy={c.faq} />
+      <SolutionQuestions ground="band" idPrefix="ps" copy={c.faq} />
       <ClosePanel
         id="ps-cta-title"
         heading={c.cta.heading}

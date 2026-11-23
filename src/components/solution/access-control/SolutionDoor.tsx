@@ -31,12 +31,12 @@ function partPath({ product, software }: { product?: string; software?: string }
  * taps and the door opens, once (door.css). The parts list is the drawing's text equivalent (Design
  * Doc 14) and links each model code to its page, as the homepage door does.
  */
-export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
+export async function SolutionDoor({ idPrefix, ground = "band" }: { idPrefix: string; ground?: "paper" | "band" }) {
   const t = await getDictionary();
   const c = t.solutionAccessControl.door;
   const locale = await getLocale();
   return (
-    <Section labelledBy={`${idPrefix}-door-title`} className="t3-door" moment>
+    <Section ground={ground} labelledBy={`${idPrefix}-door-title`} className="t3-door" moment>
       <div>
         <h2 id={`${idPrefix}-door-title`} className="section-title">
           {c.heading}
