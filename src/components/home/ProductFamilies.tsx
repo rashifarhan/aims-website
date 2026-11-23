@@ -24,7 +24,7 @@ export async function ProductFamilies() {
   const locale = await getLocale();
   return (
     // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
-    <Section ground="night" id="families" labelledBy="families-title" className="home-families" screens={2}>
+    <Section ground="night" id="families" labelledBy="families-title" className="home-families">
       <SectionHeader
         id="families-title"
         title={fmt(t.home.families.heading, { count: productCount() })}

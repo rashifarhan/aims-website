@@ -263,10 +263,6 @@
   /* The sticky header's height with its hairline (h-15 / lg:h-18 + 1px): the hero fills the rest of the
      first screen (taste House rule 3, CLAUDE.md §2 "one section per screen"). */
   --home-header-block: 3.8125rem;
-  /* layout-v4.md 2, the section box: a section's content starts 48px (36px on a phone) under the sticky header
-     when its top is at the top of the screen, and ends at least 64px (48px) above its foot. */
-  --section-padt: calc(var(--home-header-block) + 2.25rem);
-  --section-padb: 3rem;
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
@@ -316,8 +312,6 @@
   :root {
     --home-header-block: 4.5625rem;
     --section-space: calc(3.5rem * 1.25);
-    --section-padt: calc(var(--home-header-block) + 3rem);
-    --section-padb: 4rem;
   }
 }
 @media (min-width: 1280px) {

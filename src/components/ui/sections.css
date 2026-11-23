@@ -13,32 +13,10 @@
   scroll-margin-block-start: var(--home-header-block);
 }
 /*
- * The --h contract (layout-v4.md 2; CLAUDE.md §2 "one section per screen"): on a desktop screen a section is one
- * or two screens tall (Section `screens`), its content top-aligned under the sticky header, so every section starts
- * on a whole screen and a screen shows one section. A phone section is at least its screens and grows with what it
- * holds. Portrait tablets and short desktop windows keep the natural height (the kit lets them grow).
+ * Sections are as tall as their content plus the one --section-space rhythm. The client overrode the skill's
+ * "one or two screens per section" rule on 23 Nov 2026 (README Decisions): forcing short sections to a full screen
+ * left whole screens empty. Only the heroes fill the first screen.
  */
-@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .section {
-    min-height: calc(var(--h, 1) * 100svh);
-    padding-block: var(--section-padt) var(--section-padb);
-  }
-}
-@media (max-width: 639px) {
-  .section {
-    min-height: calc(var(--hm, var(--h, 1)) * 100lvh);
-    padding-block: var(--section-padt) var(--section-padb);
-  }
-}
-/* Deliberate deviation (README Decisions): the closing panel is one block alone on its screen, so it sits in the
-   middle of the screen under the header rather than on top of an empty lower half. */
-@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape), (max-width: 639px) {
-  .ui-close {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-}
 .section-band {
   border-block: 1px solid var(--color-line);
   background: var(--color-paper-2);
@@ -836,16 +814,5 @@ main:has(> .page-hero-split) {
   }
   :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :last-child:not(:first-child) {
     grid-column: span 5;
-  }
-}
-
-/* The footer is the page's last screen on a desktop (layout-v4.md 2): one screen tall, its content under the sticky
-   header when its top is at the top of the screen. */
-@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .site-footer {
-    min-height: 100svh;
-  }
-  .site-footer > .wrap {
-    padding-block-start: var(--section-padt);
   }
 }
