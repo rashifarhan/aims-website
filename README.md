@@ -258,6 +258,14 @@ The phase-by-phase log is in `docs/polish-progress.md`. Decisions the client mad
    (38px, was 52px); the solutions hub industries band on the shared light-grey band (was mint); product section
    headings at the shared h2 size.
 5. **No stand-in photographs were added.** Every new image slot uses AIMS's own product photographs.
+6. **Merged with `main` (PRs #11–#14 and purposeful motion).** Where the two lines of work disagreed, main's merged
+   behaviour was kept on the polish's components: the solution pages, location pages and locations hub end with the
+   close inside the questions screen (`ClosePanel embedded`), so item 4 of the checker fixes now applies only to the
+   pages that keep a separate close; the solutions hub's dealt moment is main's site plan, not the door kit; the
+   location pages start the reach moment on the map frame (`ReachBand trigger="map"`); and the attendance dots are
+   finite, so the polish's pause button for them was removed. Main's desktop "one section per screen" rules for the
+   T3, location and company pages were not ported: `Section screens` already holds that contract. The short-phone
+   page-title size applies to every `PageHero`, not only the software pages.
 
 Results at the end of Phase 4:
 
