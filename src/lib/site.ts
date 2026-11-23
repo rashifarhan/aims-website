@@ -111,6 +111,14 @@ export const COMPANY_NAME = "AIMS Security Systems Trading LLC";
 export type LocationId = "headOffice" | "showroom" | "abuDhabi";
 
 /**
+ * AIMS's own photograph of its Deira showroom: open question for AIMS (README, Not yet confirmed). Until AIMS
+ * supplies one it stays null and nothing renders. No stand-in: on AIMS's own pages a stock photo would read as its
+ * premises (CLAUDE.md §1). To add it, save the file under public/images/showroom/ and set its path and size here;
+ * the showroom card on /contact and /about then shows it.
+ */
+export const SHOWROOM_PHOTO: { src: string; width: number; height: number } | null = null;
+
+/**
  * The three branches as listed on aimsuae.me/enquiry ("Our Branches"),
  * with the address shown there or in AIMS's own directions link. Map
  * links open Google Maps; the site embeds no map (no third-party requests

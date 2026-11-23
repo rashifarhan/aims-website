@@ -14,6 +14,7 @@ import "@/components/home/sections.css";
 import "@/components/catalogue/catalogue.css";
 import "@/components/solution/solution.css";
 import "@/components/software/software.css";
+import "@/components/motion/entrance.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { softwareCentre: c } = await getDictionary();
@@ -63,7 +64,7 @@ export default async function SoftwareCentre() {
   };
   return (
     <main id="main">
-      <section className="sw-centre-intro page-container" aria-labelledby="sw-centre-title" data-enter>
+      <section className="sw-centre-intro aims-hero page-container" aria-labelledby="sw-centre-title" data-enter>
         <Breadcrumbs
           label={t.common.breadcrumb}
           items={[
@@ -71,8 +72,9 @@ export default async function SoftwareCentre() {
             { href: href("/software"), label: t.softwarePage.software },
           ]}
         />
-        <h1 id="sw-centre-title" className="sw-enter">
-          {c.title}
+        {/* The shared AIMS entrance (motion/entrance.css), as on the software detail and every T3 hero. */}
+        <h1 id="sw-centre-title" className="aims-headline-mask">
+          <span className="aims-headline">{c.title}</span>
         </h1>
         <p className="t3-promise sw-enter">{c.lead}</p>
         <div className="t3-actions sw-enter">
