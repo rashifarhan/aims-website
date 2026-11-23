@@ -24,6 +24,10 @@ for (const locale of ["en", "ar"] as const) {
         const box = el.getBoundingClientRect();
         scrollTo(0, scrollY + box.top + box.height - innerHeight);
       });
+    } else {
+      // A phone plays the door once its drawing is a third in view (DoorStory). The drawing sits under the parts
+      // list, so centring the whole section can leave less than that on screen; bring the drawing itself in.
+      await door.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
     }
     await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 8000 });
     await expect
