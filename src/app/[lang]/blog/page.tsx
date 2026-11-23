@@ -37,7 +37,6 @@ export default async function Blog() {
           { href: href("/"), label: t.common.home },
           { href: href("/blog"), label: t.blog.crumb },
         ]}
-        eyebrow={t.blog.eyebrow}
         title={t.blog.title}
         lead={`${fmt(t.blog.lead, { count: list.length })}${locale === "ar" ? ` ${t.editorial.englishOnly}` : ""}`}
       />

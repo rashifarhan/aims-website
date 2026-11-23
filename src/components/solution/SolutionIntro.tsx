@@ -31,7 +31,8 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
       />
       <div className="t3-hero">
         <div className="t3-hero-copy">
-          <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>
+          {/* Only a label that states a fact; a category the breadcrumb already names is left out (Impeccable). */}
+          {copy.eyebrow && <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>}
           <h1 className="t3-enter">{copy.title}</h1>
           <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">

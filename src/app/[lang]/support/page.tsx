@@ -37,7 +37,6 @@ export default async function Support() {
           { href: href("/"), label: t.common.home },
           { href: href("/support"), label: c.crumb },
         ]}
-        eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
       >

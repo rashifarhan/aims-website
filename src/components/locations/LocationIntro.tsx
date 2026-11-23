@@ -5,7 +5,7 @@ import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { getDictionary } from "@/i18n/dictionaries";
 
-type Copy = { eyebrow: string; title: string; lead: string; primary: string; secondary: string };
+type Copy = { eyebrow?: string; title: string; lead: string; primary: string; secondary: string };
 type Photo = { src: string; alt: string; width: number; height: number };
 
 /**
@@ -32,7 +32,7 @@ export async function LocationIntro({
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
-          <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>
+          {copy.eyebrow && <p className="t3-eyebrow t3-enter">{copy.eyebrow}</p>}
           <h1 className="t3-enter">{copy.title}</h1>
           <p className="t3-promise t3-enter">{copy.lead}</p>
           <div className="t3-actions t3-enter">

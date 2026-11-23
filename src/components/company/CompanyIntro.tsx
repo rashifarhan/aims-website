@@ -8,7 +8,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 type Action = { href: string; label: string };
 type Props = {
   crumbs: Crumb[];
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lead: string;
   primary: Action;
@@ -29,7 +29,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
-          <p className="t3-eyebrow t3-enter">{eyebrow}</p>
+          {eyebrow && <p className="t3-eyebrow t3-enter">{eyebrow}</p>}
           <h1 className="t3-enter">{title}</h1>
           <p className="t3-promise t3-enter">{lead}</p>
           <div className="t3-actions t3-enter">

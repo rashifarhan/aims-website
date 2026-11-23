@@ -4,7 +4,7 @@
  */
 export type SectionCopy = { heading: string; lead: string };
 /** `secondary` takes {count}: the family's product count, the hero's one hard fact. */
-export type IntroCopy = { eyebrow: string; title: string; lead: string; primary: string; secondary: string };
+export type IntroCopy = { eyebrow?: string; title: string; lead: string; primary: string; secondary: string };
 /** `count` takes {count}; `items` holds a title and body per method key. */
 export type MethodsCopy<K extends string> = SectionCopy & {
   count: string;

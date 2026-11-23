@@ -675,7 +675,6 @@
   "solutionTimeAttendance": {
     "metaTitle": "Time attendance systems in the UAE",
     "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
-    "eyebrow": "Solution",
     "title": "Time attendance that feeds payroll.",
     "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
     "primary": "Get an installation quote",
@@ -1000,7 +999,6 @@
   "solutionAccessControl": {
     "metaTitle": "Access control systems in the UAE",
     "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Decide who opens every door.",
     "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
     "primary": "Get an installation quote",
@@ -1124,7 +1122,6 @@
   "solutionEntranceParking": {
     "metaTitle": "Turnstiles & parking barriers, UAE",
     "metaDescription": "Tripod, flap, swing and full-height turnstiles, parking barrier gates and plate recognition from ZKTeco, supplied and installed by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Turnstiles for lobbies, barriers for car parks.",
     "lead": "Turnstiles and swing or flap barriers decide who walks in. Barrier gates, plate recognition and radar sensors manage the cars.",
     "primary": "Get an installation quote",
@@ -1259,7 +1256,6 @@
   "solutionDoorLocks": {
     "metaTitle": "Smart and hotel door locks, UAE",
     "metaDescription": "ZKTeco fingerprint and Wi-Fi smart locks, a glass door lock and RFID hotel card locks, supplied and fitted by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Smart locks for homes, card locks for hotels.",
     "lead": "Fingerprint, PIN, card and app locks for front doors and offices, and RFID card locks for guest rooms. AIMS supplies and fits them.",
     "primary": "Get an installation quote",
@@ -1394,7 +1390,6 @@
   "solutionPos": {
     "metaTitle": "POS terminals for shops, UAE",
     "metaDescription": "ZKTeco Windows, Android and fingerprint POS terminals, a handheld POS and receipt printers, supplied and set up by AIMS for shops and restaurants in the UAE.",
-    "eyebrow": "Solution",
     "title": "POS terminals for shops, cafés and restaurants.",
     "lead": "Windows and Android touchscreen terminals, a handheld with a built-in printer, and a terminal with fingerprint verification. Choose by the software your counter runs.",
     "primary": "Get a quote",
@@ -1545,7 +1540,6 @@
     "hub": {
       "metaTitle": "Locations and delivery",
       "metaDescription": "Visit AIMS's Deira showroom, call the Dubai or Abu Dhabi office, or choose a GCC or African destination for an export quote.",
-      "eyebrow": "Locations",
       "title": "ZKTeco in Dubai, delivered across the GCC and Africa",
       "lead": "AIMS supplies ZKTeco time attendance and access control from a showroom in Deira and offices in Dubai and Abu Dhabi. Choose where you are to see how to buy.",
       "primary": "Choose a destination",
@@ -1745,7 +1739,6 @@
     "terms-and-conditions": "Terms and conditions",
     "privacyDescription": "How AIMS Security Systems Trading LLC collects, uses and protects personal information on its website.",
     "termsDescription": "The terms that govern use of the AIMS Security Systems website and its services.",
-    "legalEyebrow": "Legal",
     "legalLead": "AIMS's own text, as published on aimsuae.me.",
     "englishOnly": "AIMS publishes this text in English.",
     "onThisPage": "On this page",
@@ -1756,7 +1749,6 @@
     "metaTitle": "Guides from AIMS",
     "metaDescription": "Articles from AIMS on ZKTeco access control, time attendance, turnstiles and POS systems in the UAE.",
     "crumb": "Blog",
-    "eyebrow": "Blog",
     "title": "Access control and POS guides from AIMS",
     "lead": "{count} articles from AIMS on access control, time attendance, entrance control and POS in the UAE.",
     "published": "Published {date}",
@@ -1883,7 +1875,6 @@
     "metaTitle": "Support and ZKTeco warranty",
     "metaDescription": "ZKTeco's warranty policy, how to get help from AIMS after installation, and answers to common ZKTeco setup questions.",
     "crumb": "Support & warranty",
-    "eyebrow": "Support",
     "title": "ZKTeco support and warranty",
     "lead": "ZKTeco's warranty policy, how to get help from AIMS, and answers to common setup questions.",
     "whatsapp": "Message AIMS on WhatsApp",

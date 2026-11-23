@@ -53,7 +53,6 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
           { href: href("/blog"), label: t.blog.crumb },
           { href: href(`/blog/${a.slug}`), label: a.title },
         ]}
-        eyebrow={t.blog.eyebrow}
         title={a.title}
         titleLang="en"
         lead={
