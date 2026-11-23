@@ -29,10 +29,10 @@ export async function DoorTeaser() {
   return (
     <section className="home-section home-door wrap" data-moment aria-labelledby="door-title">
       <div>
-        <h2 id="door-title" className="home-section-title">
+        <h2 id="door-title" className="section-title">
           {door.heading}
         </h2>
-        <p className="home-section-lead">{door.body}</p>
+        <p className="section-lead">{door.body}</p>
         <ol className="home-door-parts" aria-label={door.partsLabel}>
           {PARTS.map((part, i) => {
             const slug = PART_PRODUCTS[part];

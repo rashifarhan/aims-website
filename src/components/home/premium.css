@@ -17,8 +17,11 @@
   background: var(--gradient-night);
   color: var(--color-night-text);
 }
-.home-night :is(.home-section-title, .home-subtitle) {
+.home-night :is(.section-title, .home-subtitle) {
   color: var(--color-night-text);
+}
+.home-night .section-lead {
+  color: var(--color-night-muted);
 }
 .home-night-lead {
   max-width: 38rem;
@@ -29,9 +32,6 @@
 }
 .home-night :focus-visible {
   outline-color: var(--color-lime);
-}
-.home-night .home-section-heading > .home-night-link {
-  flex: none;
 }
 
 /* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */

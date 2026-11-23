@@ -11,14 +11,30 @@
 .home-section {
   padding-block: var(--home-section-space);
 }
-.home-section-title {
+/* Section header (ui/SectionHeader.tsx): one h2, lead and end link for every family (Design Doc 5). */
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem;
+  margin-block-end: 2.5rem;
+}
+.section-heading > :not(:first-child) {
+  flex: none;
+  margin-block-start: 0;
+}
+.section-title {
   font-size: var(--text-home-heading);
   font-weight: 680;
   line-height: 1.12;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
-.home-section-lead {
+:lang(ar) .section-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.section-lead {
   max-width: 38rem;
   margin-block-start: 0.875rem;
   color: var(--color-ink-600);
@@ -26,16 +42,14 @@
   line-height: 1.6;
   text-wrap: pretty;
 }
-.home-section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1.5rem;
-  margin-block-end: 2.5rem;
-}
-.home-section-heading > .home-text-link {
-  flex: none;
-  margin-block-start: 0;
+@media (max-width: 639px) {
+  .section-heading {
+    display: block;
+    margin-block-end: 1.5rem;
+  }
+  .section-heading > :not(:first-child) {
+    margin-block-start: 0.5rem;
+  }
 }
 .home-software-card {
   position: relative;
@@ -171,13 +185,6 @@
   }
 }
 @media (max-width: 639px) {
-  .home-section-heading {
-    display: block;
-    margin-block-end: 1.5rem;
-  }
-  .home-section-heading > .home-text-link {
-    margin-block-start: 0.5rem;
-  }
   .home-software-grid {
     gap: 0.75rem;
   }
@@ -359,36 +366,6 @@
 /* T3 solution template sections (Master Plan 14; Design Doc 5–10). Tokens only. */
 .t3-section {
   padding-block: var(--home-section-space);
-}
-.t3-heading {
-  margin-block-end: 2.5rem;
-}
-.t3-heading-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1.5rem;
-}
-.t3-heading-row > .home-text-link {
-  flex: none;
-  margin-block-start: 0;
-}
-.t3-title {
-  font-size: var(--text-home-heading);
-  font-weight: 680;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-.t3-lead {
-  max-width: 38rem;
-  margin-block-start: 0.875rem;
-  color: var(--color-ink-600);
-  line-height: 1.6;
-}
-:lang(ar) .t3-title {
-  letter-spacing: 0;
-  line-height: 1.2;
 }
 .method-card {
   display: flex;
@@ -653,15 +630,6 @@
   }
 }
 @media (max-width: 639px) {
-  .t3-heading {
-    margin-block-end: 1.5rem;
-  }
-  .t3-heading-row {
-    display: block;
-  }
-  .t3-heading-row > .home-text-link {
-    margin-block-start: 0.5rem;
-  }
   .method-card {
     padding: 1rem;
   }

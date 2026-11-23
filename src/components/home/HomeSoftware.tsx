@@ -22,7 +22,7 @@ export async function HomeSoftware() {
   const locale = await getLocale();
   return (
     <div className="home-software-block">
-      <div className="home-section-heading">
+      <div className="section-heading">
         <div>
           <h3 id="software-title" className="home-subtitle">
             {s.heading}

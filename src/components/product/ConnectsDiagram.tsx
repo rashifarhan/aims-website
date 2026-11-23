@@ -52,7 +52,7 @@ export function ConnectsDiagram({ model, connections, connLabels, labels, sectio
   return (
     <section aria-labelledby="connects" className={sectionClass}>
       <div>
-        <h2 id="connects" className="text-2xl font-bold tracking-tight">
+        <h2 id="connects" className="section-title">
           {labels.title}
         </h2>
         <p className="mt-2 text-sm text-ink-600">{labels.lead}</p>

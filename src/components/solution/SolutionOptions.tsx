@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
 import type { OptionItem, SectionCopy } from "./types";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /** T3 row 3: an option guide ("Choose your method"); each card opens a filtered listing (Plan 14). */
 export function SolutionOptions({
@@ -14,12 +15,7 @@ export function SolutionOptions({
 }) {
   return (
     <section className="t3-section wrap" aria-labelledby={`${idPrefix}-methods-title`}>
-      <div className="t3-heading">
-        <h2 id={`${idPrefix}-methods-title`} className="t3-title">
-          {copy.heading}
-        </h2>
-        <p className="t3-lead">{copy.lead}</p>
-      </div>
+      <SectionHeader id={`${idPrefix}-methods-title`} title={copy.heading} lead={copy.lead} />
       <ul className="method-grid">
         {items.map((item) => (
           <li key={item.key}>

@@ -12,8 +12,10 @@ export async function SolutionFaq() {
         items={faq.items}
         intro={
           <>
-            <h2 id="solution-faq-title">{faq.title}</h2>
-            <p className="solution-section-lead">{faq.lead}</p>
+            <h2 id="solution-faq-title" className="section-title">
+              {faq.title}
+            </h2>
+            <p className="section-lead">{faq.lead}</p>
             <Link href={localePath(await getLocale(), "/quote")} className="solution-advice">
               {faq.action}
             </Link>

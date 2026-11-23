@@ -3,6 +3,7 @@ import { CONTACT, LIVE_AIMS, LOCATION_LINES } from "@/lib/site";
 import { PhoneIcon, PinIcon } from "@/components/icons";
 import { ExternalLink } from "./ExternalLink";
 import { ReachMap } from "./ReachMap";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /**
  * T1 row 7 on night green. The Deira showroom leads as the place to visit (DESIGN.md North Star, "The
@@ -23,14 +24,7 @@ export async function HomeLocations() {
   return (
     <section id="showrooms" className="home-night home-reach" data-moment aria-labelledby="locations-title">
       <div className="home-section wrap">
-        <div className="home-section-heading">
-          <div>
-            <h2 id="locations-title" className="home-section-title">
-              {r.heading}
-            </h2>
-            <p className="home-night-lead">{r.lead}</p>
-          </div>
-        </div>
+        <SectionHeader id="locations-title" title={r.heading} lead={r.lead} />
         <div className="home-reach-grid">
           <ul className="home-place-cards">
             {order.map((key) => {

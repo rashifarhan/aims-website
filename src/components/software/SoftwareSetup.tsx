@@ -11,7 +11,7 @@ export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
   const { c } = await loadSoftwarePage(slug);
   return (
     <section className="sw-section sw-screen wrap" aria-labelledby="sw-setup-title">
-      <h2 id="sw-setup-title" className="t3-title">
+      <h2 id="sw-setup-title" className="section-title">
         {c.setup.heading}
       </h2>
       <ol className="sw-steps">

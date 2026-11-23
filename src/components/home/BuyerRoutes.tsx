@@ -17,7 +17,7 @@ export async function BuyerRoutes() {
   const routes = [r.supply, r.install, r.export];
   return (
     <section className="home-section home-routes wrap" aria-labelledby="routes-title">
-      <h2 id="routes-title" className="home-section-title home-routes-title">
+      <h2 id="routes-title" className="section-title home-routes-title">
         {r.heading}
       </h2>
       <ul className="home-route-grid">

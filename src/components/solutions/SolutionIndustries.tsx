@@ -1,12 +1,12 @@
 import { getDictionary } from "@/i18n/dictionaries";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export async function SolutionIndustries() {
   const { industries } = (await getDictionary()).solutionsHub;
   return (
     <section className="solution-industries" aria-labelledby="industries-title">
       <div className="wrap">
-        <h2 id="industries-title">{industries.title}</h2>
-        <p className="solution-section-lead">{industries.lead}</p>
+        <SectionHeader id="industries-title" title={industries.title} lead={industries.lead} />
         <ul>
           {industries.items.map((item) => (
             <li key={item.name}>

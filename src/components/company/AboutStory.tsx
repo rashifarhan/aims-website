@@ -26,7 +26,7 @@ export async function AboutStory() {
   return (
     <section className="t3-section co-story wrap" aria-labelledby="about-story-title">
       <div>
-        <h2 id="about-story-title" className="t3-title">
+        <h2 id="about-story-title" className="section-title">
           {c.storyHeading}
         </h2>
         {c.story.map((paragraph) => (

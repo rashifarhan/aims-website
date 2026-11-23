@@ -21,7 +21,7 @@ export function FittedWith({ items, heading, note, href, addLabels, data }: Prop
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="fitted" className="mt-14">
-      <h2 id="fitted" className="text-2xl font-bold tracking-tight">
+      <h2 id="fitted" className="section-title">
         {heading}
       </h2>
       <p className="mt-1 text-sm text-ink-600">{note}</p>

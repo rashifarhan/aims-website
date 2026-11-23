@@ -18,14 +18,14 @@ export async function SupportSections() {
   return (
     <div className="ed-column co-support">
       <section id="warranty" aria-labelledby="warranty-title">
-        <h2 id="warranty-title" className="co-support-title">
+        <h2 id="warranty-title" className="section-title">
           {c.warrantyHeading}
         </h2>
         <p className="co-support-note">{c.warrantyNote}</p>
         <EditorialBlocks blocks={warrantyPage().blocks} level={3} />
       </section>
       <section id="process" aria-labelledby="process-title">
-        <h2 id="process-title" className="co-support-title">
+        <h2 id="process-title" className="section-title">
           {c.processHeading}
         </h2>
         <ol className="co-steps">
@@ -47,7 +47,7 @@ export async function SupportSections() {
         </ol>
       </section>
       <section id="faq" aria-labelledby="faq-title">
-        <h2 id="faq-title" className="co-support-title">
+        <h2 id="faq-title" className="section-title">
           {c.faqHeading}
         </h2>
         <p className="co-support-note">{c.faqNote}</p>

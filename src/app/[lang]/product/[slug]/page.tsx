@@ -116,7 +116,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
       {p.overview.length > 0 && (
         <section aria-labelledby="overview" className={SECTION}>
-          <h2 id="overview" className="text-2xl font-bold tracking-tight">
+          <h2 id="overview" className="section-title">
             {t.product.overview}
           </h2>
           <Overview blocks={p.overview} data={data} />
@@ -124,7 +124,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
       )}
 
       <section aria-labelledby="downloads" className={SECTION}>
-        <h2 id="downloads" className="text-2xl font-bold tracking-tight">
+        <h2 id="downloads" className="section-title">
           {t.product.downloads}
         </h2>
         {p.datasheetUrl ? (

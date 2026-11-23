@@ -16,10 +16,10 @@ export async function HomeProof() {
       <div className="home-section wrap">
         <div className="home-proof">
           <div>
-            <h2 id="proof-title" className="home-section-title">
+            <h2 id="proof-title" className="section-title">
               {ZKTECO_AUTHORIZATION_CONFIRMED ? proof.heading : proof.headingFallback}
             </h2>
-            <p className="home-section-lead">{proof.body}</p>
+            <p className="section-lead">{proof.body}</p>
           </div>
           <dl>
             {COMPANY_FIGURES.map(({ key, value, suffix }) => (
@@ -36,7 +36,7 @@ export async function HomeProof() {
         {/* Harden: the excerpts are AIMS's published reviews; with none on file the block is left out, not shown empty. */}
         {CUSTOMER_REVIEWS.length > 0 && (
           <div className="home-proof-reviews">
-            <div className="home-section-heading">
+            <div className="section-heading">
               <h3 className="home-subtitle">{proof.reviews}</h3>
               <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-text-link">
                 {reviews.read}

@@ -37,10 +37,10 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   return (
     <section className="t3-section t3-door wrap" data-moment aria-labelledby={`${idPrefix}-door-title`}>
       <div>
-        <h2 id={`${idPrefix}-door-title`} className="t3-title">
+        <h2 id={`${idPrefix}-door-title`} className="section-title">
           {c.heading}
         </h2>
-        <p className="t3-lead">{c.lead}</p>
+        <p className="section-lead">{c.lead}</p>
         <ol className="t3-door-parts" aria-label={c.partsLabel}>
           {PARTS.map((part, i) => {
             const path = partPath(PART_PATHS[part]);

@@ -158,7 +158,7 @@
 .home-software-block {
   margin-block-start: 5rem;
 }
-.home-software-block .home-section-heading {
+.home-software-block .section-heading {
   margin-block-end: 2rem;
 }
 
@@ -235,7 +235,7 @@
 .home-proof-reviews {
   margin-block-start: 5rem;
 }
-.home-proof-reviews .home-section-heading {
+.home-proof-reviews .section-heading {
   align-items: center;
   margin-block-end: 1.75rem;
 }
@@ -411,7 +411,7 @@
   .home-proof dd {
     font-size: var(--text-home-stat-mobile);
   }
-  .home-proof-reviews .home-section-heading {
+  .home-proof-reviews .section-heading {
     margin-block-end: 1.25rem;
   }
 }

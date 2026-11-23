@@ -5,6 +5,7 @@ import { softwareBySlug } from "@/content/catalogue";
 import { isBuiltSoftware } from "@/lib/software";
 import { ExternalLink } from "@/components/home/ExternalLink";
 import type { SectionCopy } from "./types";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 type Item = { slug: string; kind: string; purpose: string };
 
@@ -25,12 +26,7 @@ export async function SolutionSoftware({
   const locale = await getLocale();
   return (
     <section className="t3-section wrap" aria-labelledby={`${idPrefix}-software-title`}>
-      <div className="t3-heading">
-        <h2 id={`${idPrefix}-software-title`} className="t3-title">
-          {copy.heading}
-        </h2>
-        <p className="t3-lead">{copy.lead}</p>
-      </div>
+      <SectionHeader id={`${idPrefix}-software-title`} title={copy.heading} lead={copy.lead} />
       <ul className="home-software-grid">
         {items.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);

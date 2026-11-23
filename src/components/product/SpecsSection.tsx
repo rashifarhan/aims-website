@@ -19,7 +19,7 @@ type Props = {
 export function SpecsSection({ p, heading, hints, empty, sectionClass, data }: Props) {
   return (
     <section aria-labelledby="specs" className={sectionClass}>
-      <h2 id="specs" className="text-2xl font-bold tracking-tight">
+      <h2 id="specs" className="section-title">
         {heading}
       </h2>
       {p.specs.length > 0 ? (

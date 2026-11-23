@@ -12,10 +12,10 @@ export async function LockUnlock({ idPrefix }: { idPrefix: string }) {
   return (
     <section className="t3-section lk-unlock wrap" data-moment aria-labelledby={`${idPrefix}-unlock-title`}>
       <div>
-        <h2 id={`${idPrefix}-unlock-title`} className="t3-title">
+        <h2 id={`${idPrefix}-unlock-title`} className="section-title">
           {c.heading}
         </h2>
-        <p className="t3-lead">{c.lead}</p>
+        <p className="section-lead">{c.lead}</p>
         <ol className="lk-steps" aria-label={c.label}>
           {c.steps.map((step, i) => (
             <li key={step.title}>

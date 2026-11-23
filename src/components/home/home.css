@@ -290,8 +290,7 @@
 .home-motion-toggle:active {
   transform: translateY(1px) scale(0.985);
 }
-:lang(ar) .home-display,
-:lang(ar) .home-section-title {
+:lang(ar) .home-display {
   letter-spacing: 0;
   line-height: 1.2;
 }

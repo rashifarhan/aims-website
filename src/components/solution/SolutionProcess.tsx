@@ -1,16 +1,12 @@
 import type { ProcessCopy } from "./types";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /** T3 row 5: installation and support process with owners (Plan 14). No durations: AIMS hasn't published any. */
 export function SolutionProcess({ idPrefix, copy }: { idPrefix: string; copy: ProcessCopy }) {
   return (
     <section className="t3-section t3-band" aria-labelledby={`${idPrefix}-process-title`}>
       <div className="wrap">
-        <div className="t3-heading">
-          <h2 id={`${idPrefix}-process-title`} className="t3-title">
-            {copy.heading}
-          </h2>
-          <p className="t3-lead">{copy.lead}</p>
-        </div>
+        <SectionHeader id={`${idPrefix}-process-title`} title={copy.heading} lead={copy.lead} />
         <ol className="process-list">
           {copy.steps.map((step, i) => (
             <li key={step.title}>

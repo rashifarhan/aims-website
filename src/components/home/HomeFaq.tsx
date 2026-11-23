@@ -10,7 +10,7 @@ export async function HomeFaq() {
       <Faq
         items={f.items}
         intro={
-          <h2 id="faq-title" className="home-section-title">
+          <h2 id="faq-title" className="section-title">
             {f.heading}
           </h2>
         }

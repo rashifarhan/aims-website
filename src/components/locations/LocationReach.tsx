@@ -28,7 +28,7 @@ export async function LocationReach({
     <section id={id} className="loc-reach reach-moment" data-moment aria-labelledby={`${id}-title`}>
       <div className="loc-reach-grid wrap">
         <div>
-          <h2 id={`${id}-title`} className="t3-title">
+          <h2 id={`${id}-title`} className="section-title">
             {heading}
           </h2>
           <p className="loc-reach-lead">{lead}</p>

@@ -1,5 +1,6 @@
 import { VerifyMark } from "@/components/quote/VerifyMark";
 import { getDictionary } from "@/i18n/dictionaries";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /**
  * Master Plan 12 #5 "process with owners", and the page's one dealt moment, VERIFY (Design Doc 8:
@@ -15,12 +16,7 @@ export async function ServicesProcess() {
     <section className="t3-section t3-band co-process" data-moment aria-labelledby="services-process-title">
       <div className="wrap">
         <div className="co-process-head">
-          <div className="t3-heading">
-            <h2 id="services-process-title" className="t3-title">
-              {c.heading}
-            </h2>
-            <p className="t3-lead">{c.lead}</p>
-          </div>
+          <SectionHeader id="services-process-title" title={c.heading} lead={c.lead} />
           <div className="verify-moment co-process-mark">
             <VerifyMark labels={[c.verify[0], c.verify[1], c.verify[2]]} />
           </div>

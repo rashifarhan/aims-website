@@ -7,6 +7,7 @@ import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { LOCATION_MODELS } from "@/lib/locationPages";
 import type { QuoteContext } from "@/lib/quote/context";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /**
  * T7 "popular models" (Design Doc 10.1), named "models to start from" because AIMS publishes no sales ranking.
@@ -32,17 +33,16 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
   const cards = LOCATION_MODELS.flatMap((slug) => productBySlug(slug) ?? []).map(toCard);
   return (
     <section id={id} className="t3-section wrap" aria-labelledby={`${id}-title`}>
-      <div className="t3-heading t3-heading-row">
-        <div>
-          <h2 id={`${id}-title`} className="t3-title">
-            {c.modelsHeading}
-          </h2>
-          <p className="t3-lead">{c.modelsLead}</p>
-        </div>
-        <Link href={localePath(locale, "/products")} className="home-text-link">
-          {fmt(c.modelsAll, { count: products().length })}
-        </Link>
-      </div>
+      <SectionHeader
+        id={`${id}-title`}
+        title={c.modelsHeading}
+        lead={c.modelsLead}
+        link={
+          <Link href={localePath(locale, "/products")} className="home-text-link">
+            {fmt(c.modelsAll, { count: products().length })}
+          </Link>
+        }
+      />
       <ul className="loc-models">
         {cards.map((card) => (
           <li key={card.slug} className="flex">

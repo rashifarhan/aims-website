@@ -302,15 +302,6 @@
 .ed-more-heading .home-text-link {
   margin-block-start: 0;
 }
-.ed-more-title {
-  font-size: var(--text-home-heading);
-  font-weight: 680;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-}
-:lang(ar) .ed-more-title {
-  letter-spacing: 0;
-}
 
 @media (max-width: 639px) {
   .ed-next {

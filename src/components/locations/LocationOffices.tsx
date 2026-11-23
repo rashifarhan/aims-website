@@ -3,6 +3,7 @@ import { ExternalLink } from "@/components/home/ExternalLink";
 import { PhoneIcon, PinIcon } from "@/components/icons";
 import { getDictionary } from "@/i18n/dictionaries";
 import { CONTACT, LOCATIONS } from "@/lib/site";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /**
  * The three UAE places AIMS publishes (site.ts LOCATIONS), the Deira showroom first: it is the one place AIMS
@@ -16,12 +17,7 @@ export async function LocationOffices({ id }: { id: string }) {
   const places = order.flatMap((key) => LOCATIONS.filter((l) => l.id === key));
   return (
     <section id={id} className="t3-section wrap" aria-labelledby={`${id}-title`}>
-      <div className="t3-heading">
-        <h2 id={`${id}-title`} className="t3-title">
-          {c.officesHeading}
-        </h2>
-        <p className="t3-lead">{c.officesLead}</p>
-      </div>
+      <SectionHeader id={`${id}-title`} title={c.officesHeading} lead={c.officesLead} />
       <ul className="loc-offices">
         {places.map((place) => {
           const line = CONTACT.lines[place.line];

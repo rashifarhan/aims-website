@@ -7,6 +7,7 @@ import { productBySlug, productCount, productsInFamily } from "@/content/catalog
 import { ArrowIcon } from "@/components/icons";
 import { HomeSoftware } from "./HomeSoftware";
 import { fmt } from "@/i18n/format";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const examples = [
   "f18",
@@ -24,17 +25,16 @@ export async function ProductFamilies() {
     // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
     <section id="families" className="home-night home-families" aria-labelledby="families-title">
       <div className="home-section wrap">
-        <div className="home-section-heading">
-          <div>
-            <h2 id="families-title" className="home-section-title">
-              {fmt(t.home.families.heading, { count: productCount() })}
-            </h2>
-            <p className="home-night-lead">{t.home.families.lead}</p>
-          </div>
-          <Link href={localePath(locale, "/products")} className="home-night-link">
-            {t.home.families.all}
-          </Link>
-        </div>
+        <SectionHeader
+          id="families-title"
+          title={fmt(t.home.families.heading, { count: productCount() })}
+          lead={t.home.families.lead}
+          link={
+            <Link href={localePath(locale, "/products")} className="home-night-link">
+              {t.home.families.all}
+            </Link>
+          }
+        />
         <div className="home-family-grid">
           {FAMILIES.map((family, i) => {
             const product = productBySlug(examples[i]);

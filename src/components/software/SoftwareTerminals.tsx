@@ -64,10 +64,12 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     <section id="terminals" className="sw-section sw-screen wrap" aria-labelledby="sw-terminals-title">
       <div className="sw-split">
         <div>
-          <h2 id="sw-terminals-title" className="t3-title">
+          <h2 id="sw-terminals-title" className="section-title">
             {cloud ? c.terminals.cloudHeading : fmt(c.terminals.heading, { name: software.name })}
           </h2>
-          <p className="t3-lead">{cloud ? c.terminals.cloudLead : fmt(c.terminals.lead, { name: software.name })}</p>
+          <p className="section-lead">
+            {cloud ? c.terminals.cloudLead : fmt(c.terminals.lead, { name: software.name })}
+          </p>
           {cloud && (
             <Link href={href("/products/time-attendance")} className="home-text-link">
               {c.terminals.cloudAll}

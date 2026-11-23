@@ -90,7 +90,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
       </div>
       <section className="ed-more wrap" aria-labelledby="article-more-title">
         <div className="ed-more-heading">
-          <h2 id="article-more-title" className="ed-more-title">
+          <h2 id="article-more-title" className="section-title">
             {t.blog.moreHeading}
           </h2>
           <Link href={href("/blog")} className="home-text-link">

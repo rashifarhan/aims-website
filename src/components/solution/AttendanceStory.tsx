@@ -1,6 +1,7 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { AttendanceDrawing } from "./AttendanceDrawing";
 import { StoryProgress } from "./StoryProgress";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /** T3 row 2: the "how it works" explainer; the step list is its text equivalent (Design Doc 14). */
 export async function AttendanceStory() {
@@ -8,12 +9,7 @@ export async function AttendanceStory() {
   const s = t.story;
   return (
     <section className="t3-section wrap" aria-labelledby="ta-story-title">
-      <div className="t3-heading">
-        <h2 id="ta-story-title" className="t3-title">
-          {s.heading}
-        </h2>
-        <p className="t3-lead">{s.lead}</p>
-      </div>
+      <SectionHeader id="ta-story-title" title={s.heading} lead={s.lead} />
       <StoryProgress steps={s.steps.length} label={s.label}>
         <ol className="story-steps">
           {s.steps.map((step, i) => (

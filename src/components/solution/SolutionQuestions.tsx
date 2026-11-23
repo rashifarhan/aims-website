@@ -8,7 +8,7 @@ export function SolutionQuestions({ idPrefix, copy }: { idPrefix: string; copy: 
       <Faq
         items={copy.items}
         intro={
-          <h2 id={`${idPrefix}-faq-title`} className="t3-title">
+          <h2 id={`${idPrefix}-faq-title`} className="section-title">
             {copy.heading}
           </h2>
         }
