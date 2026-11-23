@@ -586,3 +586,31 @@ Ported from `claude/editorial-pages` and `claude/company-pages` onto the site sy
 - **Arabic UI copy on these pages is a draft** for AIMS's reviewer (Design Doc 17). AIMS's text stays English with
   `lang="en" dir="ltr"`.
 - **Not run:** the taste gate and copy-lint (not in this agent's checks).
+
+### Locations hub and T7 location pages (`claude/locations-polish`, 23 Nov 2026)
+
+`/locations` and `/zkteco-distributor-in-dubai` (paired with `/ar/zkteco-dubai`), `/zkteco-distributor-in-oman` and
+`/zkteco-distributors-in-kenya` (Master Plan 12 #6, #32–35; Design Doc 8.3, 10 T2/T7). Ported from
+`codex/location-pages`, not merged; the full ported and left-out list is in
+`docs/superpowers/plans/2026-11-22-remaining-pages.md`.
+
+- **Left out of the Codex branch, for the user to decide:** its CLAUDE.md gate waivers ("client approved"), the
+  `docs/design-checks/*` gate records, the taste-kit class names it added to the shared header, footer and layout
+  (`nav`, `wrap`, `closing`) so the gate's scanner would pass, the skip-link move, the visible floating search label
+  and the narrower header search. Each changes the shared shell or the project rules to satisfy a checker.
+- **Claims:** the Oman and Kenya H1s say "ZKTeco supply to …", not "distributor in", because AIMS lists no office
+  there (Design Doc 3.1). "Popular models" became "Models to start from": no sales ranking is published. Codex's
+  "training" claim was dropped; AIMS publishes installation and setup only.
+- **URLs:** the Dubai page keeps both live URLs as a locale pair; `/zkteco-dubai` and `/ar/zkteco-distributor-in-dubai`
+  301 straight to their partner (no chains; CLAUDE.md §6).
+- **Moment:** the reach map draws once. The hub and Dubai show every route; Oman and Kenya draw their own route and
+  light the market on arrival. Oman's map is cropped to the Gulf (`ReachMap` ZOOM), with text, strokes and dots
+  divided by the crop factor so only the geography grows. The homepage and `/contact` maps render the same markup.
+- **Quote destination:** Add to quote on a location page presets the export destination only while the buyer has
+  chosen no need, so a page never overwrites a choice.
+- **Prefetch:** the language switch never prefetches, and English one-segment links stay off prefetch
+  (`src/lib/prefetchSafe.ts`). Through the locale rewrite, prefetching those pages looped (800–2,000 requests in 5 s).
+  A request count on 19 pages at both viewports finds no loop. A routing-level fix in `src/proxy.ts` would let
+  prefetch back on.
+- **Open for AIMS:** the published Terms name "mssolution.me" and show the date "[30-09-2025]", and the Privacy
+  Policy says "AIMS Security System LLC". They are shown as published.

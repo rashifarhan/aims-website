@@ -89,7 +89,7 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 
 ### Integrator
 
-- [ ] Merge both branches into `claude/remaining-pages`; resolve en/ar with the three-way merge
-- [ ] Visual check at 390 and 1440, EN and AR; route sweep
-- [ ] Targeted e2e, full suite once, performance budget
-- [ ] README decisions; PR to `main`; merge on green CI
+- [x] Merge both branches into `claude/remaining-pages`; resolve en/ar with the three-way merge
+- [x] Visual check at 390 and 1440, EN and AR; route sweep
+- [x] Targeted e2e, full suite once, performance budget
+- [x] README decisions; PR to `main`; merge on green CI
