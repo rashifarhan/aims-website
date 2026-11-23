@@ -9,6 +9,7 @@ import { productBySlug, productsInFamily } from "@/content/catalogue";
 import { typesFor } from "@/content/taxonomy";
 import { EP_OPTIONS, EP_PAGE, EP_TYPES } from "./data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T3 row 3, "Choose the lane" (Plan 14). The shared SolutionOptions makes the whole card one link with
@@ -22,7 +23,7 @@ export async function EntranceOptions({ idPrefix }: { idPrefix: string }) {
   const locale = await getLocale();
   const family = productsInFamily(EP_PAGE.family);
   return (
-    <section className="t3-section wrap" aria-labelledby={`${idPrefix}-methods-title`}>
+    <Section labelledBy={`${idPrefix}-methods-title`}>
       <SectionHeader id={`${idPrefix}-methods-title`} title={c.heading} lead={c.lead} />
       <ul className="ep-options">
         {EP_OPTIONS.map((option) => (
@@ -74,6 +75,6 @@ export async function EntranceOptions({ idPrefix }: { idPrefix: string }) {
           </Link>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

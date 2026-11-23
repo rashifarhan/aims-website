@@ -8,6 +8,7 @@ import { fmt } from "@/i18n/format";
 import { LOCATION_MODELS } from "@/lib/locationPages";
 import type { QuoteContext } from "@/lib/quote/context";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T7 "popular models" (Design Doc 10.1), named "models to start from" because AIMS publishes no sales ranking.
@@ -32,7 +33,7 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
   };
   const cards = LOCATION_MODELS.flatMap((slug) => productBySlug(slug) ?? []).map(toCard);
   return (
-    <section id={id} className="t3-section wrap" aria-labelledby={`${id}-title`}>
+    <Section id={id} labelledBy={`${id}-title`}>
       <SectionHeader
         id={`${id}-title`}
         title={c.modelsHeading}
@@ -56,6 +57,6 @@ export async function LocationModels({ id, preset }: { id: string; preset?: Part
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

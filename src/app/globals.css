@@ -245,7 +245,9 @@
 
 /* Prototype effects use palette tokens; only the approved hero uses these. */
 :root {
-  --home-section-space: 3.5rem;
+  /* The one vertical rhythm of every section (ui/Section.tsx, Phase 1a polish): phones 2rem, tablets
+     3.5rem, desktops the same times one multiplier (1.25), so no family keeps its own spacing. */
+  --section-space: 3.5rem;
   /* The sticky header's height with its hairline (h-15 / lg:h-18 + 1px): the hero fills the rest of the
      first screen (taste House rule 3, CLAUDE.md §2 "one section per screen"). */
   --home-header-block: 3.8125rem;
@@ -282,11 +284,12 @@
 @media (min-width: 1024px) {
   :root {
     --home-header-block: 4.5625rem;
+    --section-space: calc(3.5rem * 1.25);
   }
 }
 @media (max-width: 639px) {
   :root {
-    --home-section-space: 2rem;
+    --section-space: 2rem;
     --text-home-heading: 1.75rem;
     /* The closing panel's night title (ui/ClosePanel), moved here from home so any page can close on night. */
     --text-home-closing: 2.125rem;

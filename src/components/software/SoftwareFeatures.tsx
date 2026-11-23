@@ -6,6 +6,7 @@ import { fmt } from "@/i18n/format";
 import { listAfter, splitFeature, type BuiltSoftware } from "@/lib/software";
 import { loadSoftwarePage } from "./softwareCopy";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /** Six items fill three ruled rows of two; AIMS's longer lists stay whole in the full description below. */
 const MAX_FEATURES = 6;
@@ -26,7 +27,7 @@ export async function SoftwareFeatures({ slug }: { slug: BuiltSoftware }) {
   const system = listAfter(software, /capabilit|requirement/i);
   const data = englishData(await getLocale());
   return (
-    <section className="sw-section sw-screen wrap" aria-labelledby="sw-features-title">
+    <Section labelledBy="sw-features-title" className="sw-screen">
       <SectionHeader
         id="sw-features-title"
         title={fmt(c.features.heading, { name: software.name })}
@@ -61,6 +62,6 @@ export async function SoftwareFeatures({ slug }: { slug: BuiltSoftware }) {
         </summary>
         <Overview blocks={software.overview} data={data} />
       </details>
-    </section>
+    </Section>
   );
 }

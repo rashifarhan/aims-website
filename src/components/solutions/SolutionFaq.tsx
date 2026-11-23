@@ -2,12 +2,13 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import Link from "next/link";
 import { localePath } from "@/i18n/config";
 import { Faq } from "@/components/ui/Faq";
+import { Section } from "@/components/ui/Section";
 
 export async function SolutionFaq() {
   const t = await getDictionary();
   const faq = t.solutionsHub.faq;
   return (
-    <section className="solution-faq wrap" aria-labelledby="solution-faq-title">
+    <Section labelledBy="solution-faq-title" className="solution-faq">
       <Faq
         items={faq.items}
         intro={
@@ -22,6 +23,6 @@ export async function SolutionFaq() {
           </>
         }
       />
-    </section>
+    </Section>
   );
 }

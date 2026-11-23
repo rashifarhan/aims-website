@@ -55,10 +55,6 @@
 }
 
 /* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
-.co-showrooms {
-  padding-block-end: var(--home-section-space);
-  scroll-margin-block-start: var(--home-header-block);
-}
 
 /* ---------- Services ---------- */
 .co-process-head {

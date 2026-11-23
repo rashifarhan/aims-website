@@ -3,6 +3,7 @@ import { FAMILIES } from "@/content/taxonomy";
 import { getDictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { COMPANY_NAME, CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { Section } from "@/components/ui/Section";
 
 /**
  * Who AIMS is (Master Plan 12 #7: "About AIMS, not ZKTeco"; Design Doc 10.1: story and fact sheet). The
@@ -24,7 +25,7 @@ export async function AboutStory() {
     { term: c.facts.email, value: CONTACT.email, ltr: true },
   ];
   return (
-    <section className="t3-section co-story wrap" aria-labelledby="about-story-title">
+    <Section labelledBy="about-story-title" className="co-story">
       <div>
         <h2 id="about-story-title" className="section-title">
           {c.storyHeading}
@@ -48,6 +49,6 @@ export async function AboutStory() {
           ))}
         </dl>
       </div>
-    </section>
+    </Section>
   );
 }

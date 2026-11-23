@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AddToQuote, type AddToQuoteLabels } from "@/components/catalogue/AddToQuote";
 import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
+import { Section } from "@/components/ui/Section";
 
 type Props = {
   items: Product[];
@@ -20,7 +21,7 @@ type Props = {
 export function FittedWith({ items, heading, note, href, addLabels, data }: Props) {
   if (items.length === 0) return null;
   return (
-    <section aria-labelledby="fitted" className="mt-14">
+    <Section labelledBy="fitted">
       <h2 id="fitted" className="section-title">
         {heading}
       </h2>
@@ -44,6 +45,6 @@ export function FittedWith({ items, heading, note, href, addLabels, data }: Prop
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

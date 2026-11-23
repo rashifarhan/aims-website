@@ -9,19 +9,9 @@
  * MomentTrigger set data-effects="on", which it never does under reduced motion.
  */
 
-/* ---------- Night sections ---------- */
-.home-night {
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
-  background: var(--gradient-night);
+/* ---------- Night sections (the ground is ui/Section night) ---------- */
+.section-night .home-subtitle {
   color: var(--color-night-text);
-}
-.home-night :is(.section-title, .home-subtitle) {
-  color: var(--color-night-text);
-}
-.home-night .section-lead {
-  color: var(--color-night-muted);
 }
 .home-night-lead {
   max-width: 38rem;
@@ -29,9 +19,6 @@
   color: var(--color-night-muted);
   line-height: 1.6;
   text-wrap: pretty;
-}
-.home-night :focus-visible {
-  outline-color: var(--color-lime);
 }
 
 /* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */
@@ -53,9 +40,6 @@
 }
 
 /* ---------- 3 · Families and software on night green ---------- */
-.home-families .home-section {
-  padding-block: calc(var(--home-section-space) * 2);
-}
 /* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
 .home-families .home-family-image {
   background: var(--color-paper);
@@ -192,14 +176,5 @@
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-/* ---------- Tablet and phone ---------- */
-@media (max-width: 1023px) {
-}
-@media (max-width: 639px) {
-  .home-families .home-section {
-    padding-block: calc(var(--home-section-space) * 1.5);
   }
 }

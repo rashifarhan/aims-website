@@ -1,6 +1,7 @@
 import { isValidElement, type ReactElement } from "react";
 import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
+import { Section } from "./Section";
 
 type Action = { href: string; label: string };
 
@@ -27,32 +28,34 @@ export function ClosePanel({
 }) {
   const night = tone === "night";
   return (
-    <section className={`ui-close ui-close-${tone}`} aria-labelledby={id}>
-      <div className="wrap">
-        <div className="ui-close-panel">
-          <div className="ui-close-copy">
-            <h2 id={id} className="ui-close-title">
-              {heading}
-            </h2>
-            <p className="ui-close-body">{body}</p>
-          </div>
-          <div className="ui-close-actions">
-            {isValidElement(action) ? (
-              action
-            ) : (
-              <Link href={action.href} className={night ? "home-button home-button-lime" : "home-button"}>
-                {action.label}
-                <ArrowIcon width="18" height="18" className="home-action-arrow" />
-              </Link>
-            )}
-            {secondary && (
-              <Link href={secondary.href} className={night ? "home-night-link" : "home-text-link"}>
-                {secondary.label}
-              </Link>
-            )}
-          </div>
+    <Section
+      ground={night ? "night" : "paper"}
+      labelledBy={id}
+      className={night ? "ui-close ui-close-night" : "ui-close ui-close-mint"}
+    >
+      <div className="ui-close-panel">
+        <div className="ui-close-copy">
+          <h2 id={id} className="ui-close-title">
+            {heading}
+          </h2>
+          <p className="ui-close-body">{body}</p>
+        </div>
+        <div className="ui-close-actions">
+          {isValidElement(action) ? (
+            action
+          ) : (
+            <Link href={action.href} className={night ? "home-button home-button-lime" : "home-button"}>
+              {action.label}
+              <ArrowIcon width="18" height="18" className="home-action-arrow" />
+            </Link>
+          )}
+          {secondary && (
+            <Link href={secondary.href} className={night ? "home-night-link" : "home-text-link"}>
+              {secondary.label}
+            </Link>
+          )}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

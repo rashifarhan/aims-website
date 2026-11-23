@@ -1,6 +1,7 @@
 import { Faq } from "@/components/ui/Faq";
 import type { BuiltSoftware } from "@/lib/software";
 import { loadSoftwarePage } from "./softwareCopy";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T6 detail, "licences & installation" (Plan 12 #29; Design Doc 11, Download flow). Three steps say
@@ -10,7 +11,7 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
   const { c } = await loadSoftwarePage(slug);
   return (
-    <section className="sw-section sw-screen wrap" aria-labelledby="sw-setup-title">
+    <Section labelledBy="sw-setup-title" className="sw-screen">
       <h2 id="sw-setup-title" className="section-title">
         {c.setup.heading}
       </h2>
@@ -26,6 +27,6 @@ export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
         ))}
       </ol>
       <Faq items={c.setup.faq} intro={<h3 className="sw-questions-title">{c.setup.questions}</h3>} />
-    </section>
+    </Section>
   );
 }

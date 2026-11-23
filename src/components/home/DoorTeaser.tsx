@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
 import { DOOR_MODELS, DoorIllustration } from "./DoorIllustration";
 import { productBySlug } from "@/content/catalogue";
+import { Section } from "@/components/ui/Section";
 
 const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
 
@@ -27,7 +28,7 @@ export async function DoorTeaser() {
   } = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="home-section home-door wrap" data-moment aria-labelledby="door-title">
+    <Section labelledBy="door-title" className="home-door" moment>
       <div>
         <h2 id="door-title" className="section-title">
           {door.heading}
@@ -66,6 +67,6 @@ export async function DoorTeaser() {
       <div className="home-door-stage">
         <DoorIllustration labels={door} />
       </div>
-    </section>
+    </Section>
   );
 }

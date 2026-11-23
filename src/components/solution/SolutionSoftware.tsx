@@ -6,6 +6,7 @@ import { isBuiltSoftware } from "@/lib/software";
 import { ExternalLink } from "@/components/home/ExternalLink";
 import type { SectionCopy } from "./types";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 type Item = { slug: string; kind: string; purpose: string };
 
@@ -25,7 +26,7 @@ export async function SolutionSoftware({
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="t3-section wrap" aria-labelledby={`${idPrefix}-software-title`}>
+    <Section labelledBy={`${idPrefix}-software-title`}>
       <SectionHeader id={`${idPrefix}-software-title`} title={copy.heading} lead={copy.lead} />
       <ul className="home-software-grid">
         {items.map(({ slug, kind, purpose }) => {
@@ -53,6 +54,6 @@ export async function SolutionSoftware({
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 }

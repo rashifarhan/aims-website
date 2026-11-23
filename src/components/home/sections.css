@@ -196,11 +196,7 @@
 }
 
 /* ---------- 5 · Proof: company-stated figures, then the published reviews ---------- */
-/* The showroom floor (DESIGN.md): a quiet ground change, not a coloured band. */
-.home-proof-band {
-  background: var(--color-paper-2);
-  border-block: 1px solid var(--color-line);
-}
+/* The showroom floor (DESIGN.md) is ui/Section's band ground: a quiet ground change, not a coloured band. */
 .home-proof {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
@@ -363,7 +359,7 @@
     margin-block-end: 1.5rem;
   }
   .home-hero + .home-routes {
-    padding-block-start: calc(var(--home-section-space) * 2.5);
+    padding-block-start: calc(var(--section-space) * 2.5);
   }
   .home-route-grid,
   .home-review-grid {

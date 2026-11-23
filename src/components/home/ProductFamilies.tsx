@@ -8,6 +8,7 @@ import { ArrowIcon } from "@/components/icons";
 import { HomeSoftware } from "./HomeSoftware";
 import { fmt } from "@/i18n/format";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 const examples = [
   "f18",
@@ -23,56 +24,50 @@ export async function ProductFamilies() {
   const locale = await getLocale();
   return (
     // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
-    <section id="families" className="home-night home-families" aria-labelledby="families-title">
-      <div className="home-section wrap">
-        <SectionHeader
-          id="families-title"
-          title={fmt(t.home.families.heading, { count: productCount() })}
-          lead={t.home.families.lead}
-          link={
-            <Link href={localePath(locale, "/products")} className="home-night-link">
-              {t.home.families.all}
+    <Section ground="night" id="families" labelledBy="families-title" className="home-families">
+      {" "}
+      <SectionHeader
+        id="families-title"
+        title={fmt(t.home.families.heading, { count: productCount() })}
+        lead={t.home.families.lead}
+        link={
+          <Link href={localePath(locale, "/products")} className="home-night-link">
+            {t.home.families.all}
+          </Link>
+        }
+      />
+      <div className="home-family-grid">
+        {FAMILIES.map((family, i) => {
+          const product = productBySlug(examples[i]);
+          const image = product?.images[0];
+          return (
+            <Link key={family.slug} href={localePath(locale, `/products/${family.slug}`)} className="home-family-card">
+              <div className="home-family-image">
+                {image && (
+                  <Image
+                    src={image.src}
+                    alt=""
+                    width={image.width}
+                    height={image.height}
+                    sizes="(min-width: 1024px) 240px, (min-width: 640px) 200px, 130px"
+                  />
+                )}
+              </div>
+              <div className="home-family-info">
+                <h3>{t.families[family.slug].name}</h3>
+                <p className="home-family-summary">{t.families[family.slug].summary}</p>
+                <p className="home-family-count">
+                  <span>
+                    <span className="tabular-nums">{productsInFamily(family.slug).length}</span> {t.home.families.count}
+                  </span>
+                  <ArrowIcon width="16" height="16" className="home-action-arrow" />
+                </p>
+              </div>
             </Link>
-          }
-        />
-        <div className="home-family-grid">
-          {FAMILIES.map((family, i) => {
-            const product = productBySlug(examples[i]);
-            const image = product?.images[0];
-            return (
-              <Link
-                key={family.slug}
-                href={localePath(locale, `/products/${family.slug}`)}
-                className="home-family-card"
-              >
-                <div className="home-family-image">
-                  {image && (
-                    <Image
-                      src={image.src}
-                      alt=""
-                      width={image.width}
-                      height={image.height}
-                      sizes="(min-width: 1024px) 240px, (min-width: 640px) 200px, 130px"
-                    />
-                  )}
-                </div>
-                <div className="home-family-info">
-                  <h3>{t.families[family.slug].name}</h3>
-                  <p className="home-family-summary">{t.families[family.slug].summary}</p>
-                  <p className="home-family-count">
-                    <span>
-                      <span className="tabular-nums">{productsInFamily(family.slug).length}</span>{" "}
-                      {t.home.families.count}
-                    </span>
-                    <ArrowIcon width="16" height="16" className="home-action-arrow" />
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-        <HomeSoftware />
+          );
+        })}
       </div>
-    </section>
+      <HomeSoftware />
+    </Section>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
+import { Section } from "@/components/ui/Section";
 
 /** Catalogue, then the quote list with the need preset (Design Doc 12, "Get an installation quote"). */
 const HREFS = ["/products", "/quote?need=install", "/quote?need=export"] as const;
@@ -16,7 +17,7 @@ export async function BuyerRoutes() {
   const locale = await getLocale();
   const routes = [r.supply, r.install, r.export];
   return (
-    <section className="home-section home-routes wrap" aria-labelledby="routes-title">
+    <Section labelledBy="routes-title" className="home-routes">
       <h2 id="routes-title" className="section-title home-routes-title">
         {r.heading}
       </h2>
@@ -34,6 +35,6 @@ export async function BuyerRoutes() {
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

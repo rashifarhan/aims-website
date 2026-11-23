@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
+import { Section } from "@/components/ui/Section";
 
 /**
  * Master Plan 12 #5 "coverage; warranty": where AIMS supplies and installs (as it publishes on the
@@ -21,7 +22,7 @@ export async function ServicesCover() {
     },
   ];
   return (
-    <section className="t3-section wrap" aria-labelledby="services-cover-title">
+    <Section labelledBy="services-cover-title">
       <h2 id="services-cover-title" className="section-title">
         {c.heading}
       </h2>
@@ -37,6 +38,6 @@ export async function ServicesCover() {
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

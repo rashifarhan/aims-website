@@ -7,9 +7,31 @@
 
 /* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is the hover and press layer. */
 
-/* ---------- Shared section primitives ---------- */
-.home-section {
-  padding-block: var(--home-section-space);
+/* ---------- Section (ui/Section.tsx): one rhythm, three grounds ---------- */
+.section {
+  padding-block: var(--section-space);
+  scroll-margin-block-start: var(--home-header-block);
+}
+.section-band {
+  border-block: 1px solid var(--color-line);
+  background: var(--color-paper-2);
+}
+/* Night green: text and lime keep their measured contrast here (globals.css: 15.9:1, 8.9:1, 7.8:1). */
+.section-night {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.section-night :focus-visible {
+  outline-color: var(--color-lime);
+}
+.section-night .section-title {
+  color: var(--color-night-text);
+}
+.section-night .section-lead {
+  color: var(--color-night-muted);
 }
 /* Section header (ui/SectionHeader.tsx): one h2, lead and end link for every family (Design Doc 5). */
 .section-heading {
@@ -171,11 +193,6 @@
   font-weight: 500;
   fill: var(--color-ink-600);
 }
-@media (min-width: 1024px) {
-  .home-section {
-    padding-block: calc(var(--home-section-space) * 1.75);
-  }
-}
 @media (max-width: 1023px) {
   .home-software-grid {
     gap: 1rem;
@@ -212,7 +229,7 @@
 }
 /* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
 .page-hero {
-  padding-block: 1.5rem var(--home-section-space);
+  padding-block: 1.5rem var(--section-space);
 }
 .page-hero-compact {
   padding-block-end: 2.5rem;
@@ -364,9 +381,6 @@
 }
 
 /* T3 solution template sections (Master Plan 14; Design Doc 5–10). Tokens only. */
-.t3-section {
-  padding-block: var(--home-section-space);
-}
 .method-card {
   display: flex;
   flex-direction: column;
@@ -406,11 +420,6 @@
 }
 
 /* ---------- Process with owners ---------- */
-.t3-band {
-  margin-block: var(--home-section-space);
-  padding-block: calc(var(--home-section-space) * 1.5);
-  background: var(--color-paper-2);
-}
 .process-list {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -519,9 +528,6 @@
 }
 
 /* ---------- Closing panel (ui/ClosePanel.tsx): one action, at most one link (Design Doc 2) ---------- */
-.ui-close-mint {
-  padding-block: var(--home-section-space) calc(var(--home-section-space) * 2);
-}
 .ui-close-mint .ui-close-panel {
   display: flex;
   justify-content: space-between;
@@ -554,19 +560,11 @@
 }
 /* Night: the full-bleed band with two still glows in its ground (a tech CSS ground; nothing moves). */
 .ui-close-night {
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
-  padding-block: calc(var(--home-section-space) * 2.5);
   text-align: center;
-  color: var(--color-night-text);
   background:
     var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
     var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
     var(--gradient-night);
-}
-.ui-close-night :focus-visible {
-  outline-color: var(--color-lime);
 }
 .ui-close-night .ui-close-panel {
   display: flex;
@@ -646,9 +644,6 @@
   .ui-close-actions,
   .ui-close-actions .home-button {
     width: 100%;
-  }
-  .ui-close-night {
-    padding-block: calc(var(--home-section-space) * 2);
   }
   .ui-close-night .ui-close-actions {
     flex-direction: column;
@@ -735,22 +730,6 @@
 }
 
 /* ---------- Reach band (ui/ReachBand.tsx): SIGNAL on night green (lime carries links: Design Doc 4) ---------- */
-.ui-reach {
-  isolation: isolate;
-  overflow: clip;
-  padding-block: calc(var(--home-section-space) * 1.5);
-  background: var(--gradient-night);
-  color: var(--color-night-text);
-}
-.ui-reach :focus-visible {
-  outline-color: var(--color-lime);
-}
-.ui-reach .section-title {
-  color: var(--color-night-text);
-}
-.ui-reach .section-lead {
-  color: var(--color-night-muted);
-}
 .ui-reach .section-heading {
   margin-block-end: 0;
 }
@@ -806,4 +785,8 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
+}
+/* A compact hero already leaves its own gap below the lead, so the first section does not add another. */
+.page-hero-compact + .section {
+  padding-block-start: 0;
 }

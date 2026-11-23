@@ -16,12 +16,13 @@ import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { absoluteUrl, alternates, fitTitle } from "@/lib/seo";
+import { Section } from "@/components/ui/Section";
 
 /**
  * Heading column beside content from 1024px. minmax(0, …) lets long verbatim spec values and overview
  * text wrap inside their column instead of widening the page at 390px (audit T1).
  */
-const SECTION = "mt-14 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-10";
+const SECTION = "grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-10";
 
 /** Every live product gets a page from this template (review decision 6). */
 export function generateStaticParams() {
@@ -63,25 +64,28 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   };
 
   return (
-    <main id="main" className="wrap flex-1 pt-6 pb-28 lg:pb-16">
-      <Breadcrumbs
-        label={t.common.breadcrumb}
-        items={[
-          { href: href("/"), label: t.common.home },
-          { href: href(`/products/${family}`), label: familyName },
-          { href: href(`/product/${p.slug}`), label: p.model },
-        ]}
-      />
+    // pb-20 below 1024px keeps the last section clear of the sticky purchase bar (audit T3).
+    <main id="main" className="flex-1 pb-20 lg:pb-0">
+      <div className="wrap pt-6">
+        <Breadcrumbs
+          label={t.common.breadcrumb}
+          items={[
+            { href: href("/"), label: t.common.home },
+            { href: href(`/products/${family}`), label: familyName },
+            { href: href(`/product/${p.slug}`), label: p.model },
+          ]}
+        />
 
-      <ProductSummary
-        p={p}
-        name={uniqueName(p)}
-        familyName={familyName}
-        href={href}
-        addLabels={addLabels}
-        t={t}
-        data={data}
-      />
+        <ProductSummary
+          p={p}
+          name={uniqueName(p)}
+          familyName={familyName}
+          href={href}
+          addLabels={addLabels}
+          t={t}
+          data={data}
+        />
+      </div>
 
       <ConnectsDiagram
         model={p.model}
@@ -115,15 +119,15 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
       />
 
       {p.overview.length > 0 && (
-        <section aria-labelledby="overview" className={SECTION}>
+        <Section labelledBy="overview" className={SECTION}>
           <h2 id="overview" className="section-title">
             {t.product.overview}
           </h2>
           <Overview blocks={p.overview} data={data} />
-        </section>
+        </Section>
       )}
 
-      <section aria-labelledby="downloads" className={SECTION}>
+      <Section labelledBy="downloads" className={SECTION}>
         <h2 id="downloads" className="section-title">
           {t.product.downloads}
         </h2>
@@ -143,7 +147,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         ) : (
           <p className="text-ink-600">{t.product.noDatasheet}</p>
         )}
-      </section>
+      </Section>
 
       <JsonLd
         data={{

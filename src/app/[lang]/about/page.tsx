@@ -13,7 +13,6 @@ import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/sections.css";
-import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";
 import "@/components/company/company.css";
 
@@ -56,9 +55,7 @@ export default async function About() {
         lead={t.contactPage.reachLead}
         map={<ReachMap labels={t.home.reach} />}
       />
-      <div id="showrooms" className="co-showrooms wrap">
-        <LocationCards t={t.contactPage} />
-      </div>
+      <LocationCards t={t.contactPage} id="showrooms" />
       <ClosePanel
         id="about-close-title"
         heading={c.closeHeading}

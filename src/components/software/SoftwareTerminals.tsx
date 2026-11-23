@@ -7,6 +7,7 @@ import type { Product } from "@/content/schema";
 import type { BuiltSoftware } from "@/lib/software";
 import { SoftwareSignal, type SignalNode } from "./SoftwareSignal";
 import { loadSoftwarePage } from "./softwareCopy";
+import { Section } from "@/components/ui/Section";
 
 type Loaded = Awaited<ReturnType<typeof loadSoftwarePage>>;
 
@@ -61,7 +62,7 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     : terminals.map((p) => terminalCard(p, loaded));
   const names = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
   return (
-    <section id="terminals" className="sw-section sw-screen wrap" aria-labelledby="sw-terminals-title">
+    <Section id="terminals" labelledBy="sw-terminals-title" className="sw-screen">
       <div className="sw-split">
         <div>
           <h2 id="sw-terminals-title" className="section-title">
@@ -83,6 +84,6 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
           label={fmt(c.terminals.diagram, { name: software.name, nodes: names.join(", ") })}
         />
       </div>
-    </section>
+    </Section>
   );
 }

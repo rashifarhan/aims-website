@@ -78,7 +78,7 @@ for (const locale of ["en", "ar"]) {
       await expect(page.locator(".solution-card")).toHaveCount(5);
       await page.evaluate(() => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-      const edges = await page.locator("header > div, .solutions-hub .wrap").evaluateAll((nodes) =>
+      const edges = await page.locator("header > div, main .wrap").evaluateAll((nodes) =>
         nodes.map((node) => {
           const r = node.getBoundingClientRect();
           const s = getComputedStyle(node);

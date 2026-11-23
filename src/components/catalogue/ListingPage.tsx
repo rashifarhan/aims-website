@@ -46,7 +46,7 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
         title={title}
         lead={lead}
       />
-      <div className="wrap pb-16">
+      <div className="wrap pb-(--section-space)">
         <Suspense fallback={<ListingView {...props} />}>
           <Listing {...props} />
         </Suspense>

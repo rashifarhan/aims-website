@@ -39,7 +39,7 @@ export default async function QuotePage() {
         title={t.quote.title}
         lead={t.quote.lead}
       />
-      <div className="wrap pb-16">
+      <div className="wrap pb-(--section-space)">
         <QuoteView
           catalog={catalog}
           t={t.quote}

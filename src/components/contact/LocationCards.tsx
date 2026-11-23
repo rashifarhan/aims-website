@@ -1,5 +1,6 @@
 import { MailIcon, PhoneIcon } from "@/components/icons";
 import { OfficeCard } from "@/components/ui/OfficeCard";
+import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { CONTACT, LOCATIONS } from "@/lib/site";
@@ -9,9 +10,9 @@ import { ContactLink } from "./ContactLink";
  * The three branches (Master Plan T9: "3 location cards") on the shared office card. Map links open
  * Google Maps in a new tab; no embedded map, so the page makes no third-party request.
  */
-export function LocationCards({ t }: { t: Dictionary["contactPage"] }) {
+export function LocationCards({ t, id }: { t: Dictionary["contactPage"]; id?: string }) {
   return (
-    <section aria-labelledby="locations-title" className="contact-locations">
+    <Section id={id} labelledBy="locations-title">
       <SectionHeader id="locations-title" title={t.locationsTitle} />
       <ul className="ui-office-list">
         {LOCATIONS.map((loc) => {
@@ -52,6 +53,6 @@ export function LocationCards({ t }: { t: Dictionary["contactPage"] }) {
           {CONTACT.email}
         </ContactLink>
       </p>
-    </section>
+    </Section>
   );
 }

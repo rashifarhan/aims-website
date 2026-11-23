@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
 /**
@@ -25,8 +26,8 @@ export function ReachBand({
   children?: ReactNode;
 }) {
   return (
-    <section id={id} className="ui-reach reach-moment" data-moment aria-labelledby={titleId}>
-      <div className="ui-reach-grid wrap">
+    <Section ground="night" id={id} labelledBy={titleId} className="ui-reach reach-moment" moment>
+      <div className="ui-reach-grid">
         <div className="ui-reach-copy">
           <div className="ui-reach-head">
             <SectionHeader id={titleId} title={heading} lead={lead} />
@@ -35,6 +36,6 @@ export function ReachBand({
         </div>
         <div className="ui-reach-map">{map}</div>
       </div>
-    </section>
+    </Section>
   );
 }

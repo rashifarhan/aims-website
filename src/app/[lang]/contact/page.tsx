@@ -10,7 +10,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
 import "@/components/contact/channel-button.css";
-import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,14 +41,14 @@ export default async function ContactPage() {
         lead={t.contactPage.lead}
       />
       {/* wrap: the same content edges as the header and footer (taste House rule 4). */}
-      <div className="wrap pb-16">
+      <div className="wrap">
         <ContactRouter
           t={t.contactPage}
           hrefs={{ products: href("/products"), quote: href("/quote") }}
           showroom={{ address: CONTACT.showroomAddress, map: CONTACT.showroomMap }}
         />
-        <LocationCards t={t.contactPage} />
       </div>
+      <LocationCards t={t.contactPage} />
       <ReachBand
         titleId="contact-reach-title"
         heading={t.contactPage.reachTitle}

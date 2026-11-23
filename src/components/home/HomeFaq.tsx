@@ -1,12 +1,13 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { Faq } from "@/components/ui/Faq";
+import { Section } from "@/components/ui/Section";
 
 /** T1 row 9: six answers. The closing band after it carries the page's last action. */
 export async function HomeFaq() {
   const t = await getDictionary();
   const f = t.home.faq;
   return (
-    <section id="faq" className="home-section home-faq wrap" aria-labelledby="faq-title">
+    <Section id="faq" labelledBy="faq-title" className="home-faq">
       <Faq
         items={f.items}
         intro={
@@ -15,6 +16,6 @@ export async function HomeFaq() {
           </h2>
         }
       />
-    </section>
+    </Section>
   );
 }

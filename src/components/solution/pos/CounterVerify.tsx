@@ -1,5 +1,6 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { CounterDrawing } from "./CounterDrawing";
+import { Section } from "@/components/ui/Section";
 
 /**
  * The page's one dealt moment, VERIFY at the counter (Design Doc 8.2; taste motion.md): when a third of
@@ -10,7 +11,7 @@ export async function CounterVerify({ idPrefix }: { idPrefix: string }) {
   const { solutionPos: t } = await getDictionary();
   const c = t.counter;
   return (
-    <section className="t3-section pc-counter wrap" data-moment aria-labelledby={`${idPrefix}-counter-title`}>
+    <Section labelledBy={`${idPrefix}-counter-title`} className="pc-counter" moment>
       <div>
         <h2 id={`${idPrefix}-counter-title`} className="section-title">
           {c.heading}
@@ -33,6 +34,6 @@ export async function CounterVerify({ idPrefix }: { idPrefix: string }) {
       <div className="home-door-stage">
         <CounterDrawing copy={c} />
       </div>
-    </section>
+    </Section>
   );
 }

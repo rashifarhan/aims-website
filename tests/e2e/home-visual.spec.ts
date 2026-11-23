@@ -9,7 +9,7 @@ for (const locale of ["en", "ar"]) {
       await page.evaluate(() => document.fonts.ready);
       await expect(page.locator(".home-device-photo")).toBeVisible();
       const edges = await page
-        .locator("header > div, .home-hero-copy, .home-section, footer > div")
+        .locator("header > div, .home-hero-copy, main .wrap, footer > div")
         .evaluateAll((containers) =>
           containers.map((container) => {
             const rect = container.getBoundingClientRect();

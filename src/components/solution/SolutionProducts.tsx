@@ -9,6 +9,7 @@ import { keyFacts } from "@/content/facts";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { ProductsCopy } from "./types";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 
 /**
  * T3 row 4: recommended products with Add (Plan 14). Facts are verbatim spec rows; a model
@@ -37,7 +38,7 @@ export async function SolutionProducts({
   };
   const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <section className="t3-section wrap" aria-labelledby={`${idPrefix}-products-title`}>
+    <Section labelledBy={`${idPrefix}-products-title`}>
       <SectionHeader
         id={`${idPrefix}-products-title`}
         title={c.heading}
@@ -97,6 +98,6 @@ export async function SolutionProducts({
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 }

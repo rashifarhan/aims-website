@@ -5,6 +5,7 @@ import { OfficeCard } from "@/components/ui/OfficeCard";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getDictionary } from "@/i18n/dictionaries";
 import { CONTACT, LOCATIONS } from "@/lib/site";
+import { Section } from "@/components/ui/Section";
 
 /**
  * The three UAE places AIMS publishes (site.ts LOCATIONS), the Deira showroom first: it is the one place AIMS
@@ -16,7 +17,7 @@ export async function LocationOffices({ id }: { id: string }) {
   const order = ["showroom", "headOffice", "abuDhabi"] as const;
   const places = order.flatMap((key) => LOCATIONS.filter((l) => l.id === key));
   return (
-    <section id={id} className="t3-section wrap" aria-labelledby={`${id}-title`}>
+    <Section id={id} labelledBy={`${id}-title`}>
       <SectionHeader id={`${id}-title`} title={c.officesHeading} lead={c.officesLead} />
       <ul className="ui-office-list">
         {places.map((place) => {
@@ -57,6 +58,6 @@ export async function LocationOffices({ id }: { id: string }) {
           );
         })}
       </ul>
-    </section>
+    </Section>
   );
 }

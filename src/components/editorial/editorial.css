@@ -14,7 +14,7 @@
 .ed-layout {
   display: grid;
   gap: 2rem;
-  padding-block-end: var(--home-section-space);
+  padding-block-end: var(--section-space);
 }
 .ed-column {
   min-width: 0;
@@ -288,7 +288,7 @@
 
 /* More articles, closing the page. */
 .ed-more {
-  padding-block: var(--home-section-space) calc(var(--home-section-space) * 1.5);
+  padding-block: var(--section-space);
   border-block-start: 1px solid var(--color-line);
 }
 .ed-more-heading {

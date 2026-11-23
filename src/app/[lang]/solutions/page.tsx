@@ -3,6 +3,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
 import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
 import { SolutionIndustries } from "@/components/solutions/SolutionIndustries";
@@ -23,7 +24,7 @@ export default async function SolutionsHub() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main" className="solutions-hub">
+    <main id="main">
       <PageHero
         variant="compact"
         crumbs={[
@@ -33,11 +34,12 @@ export default async function SolutionsHub() {
         title={t.solutionsHub.title}
         lead={t.solutionsHub.lead}
       />
-      <div className="solution-grid wrap">
+      {/* Each card's h2 names its need; the grid itself needs no heading. */}
+      <Section className="solution-grid">
         {SOLUTION_CARDS.map((solution) => (
           <SolutionCard key={solution.slug} solution={solution} />
         ))}
-      </div>
+      </Section>
       <SolutionIndustries />
       <SolutionFaq />
     </main>

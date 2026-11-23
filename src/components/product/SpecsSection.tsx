@@ -5,6 +5,7 @@ import type { Product } from "@/content/schema";
 import { CONTACT, whatsappUrl } from "@/lib/site";
 import type { DataAttrs } from "./englishData";
 import { SpecTable } from "./SpecTable";
+import { Section } from "@/components/ui/Section";
 
 type Props = {
   p: Pick<Product, "specs">;
@@ -18,7 +19,7 @@ type Props = {
 
 export function SpecsSection({ p, heading, hints, empty, sectionClass, data }: Props) {
   return (
-    <section aria-labelledby="specs" className={sectionClass}>
+    <Section labelledBy="specs" className={sectionClass}>
       <h2 id="specs" className="section-title">
         {heading}
       </h2>
@@ -39,6 +40,6 @@ export function SpecsSection({ p, heading, hints, empty, sectionClass, data }: P
           </ContactLink>
         </div>
       )}
-    </section>
+    </Section>
   );
 }

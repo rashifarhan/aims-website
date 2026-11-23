@@ -43,7 +43,7 @@ export default async function ComparePage({ searchParams }: PageProps<"/[lang]/p
           </Suspense>
         }
       />
-      <div className="wrap pb-16">
+      <div className="wrap pb-(--section-space)">
         <Suspense fallback={null}>
           {searchParams.then((sp) => (
             <CompareView t={t} hrefOf={href} params={sp} contentLang={locale === "en" ? undefined : "en"} />

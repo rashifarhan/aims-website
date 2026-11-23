@@ -4,6 +4,7 @@ import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
 import { ModelChip } from "./ModelChip";
 import { MIN_CONNECTS_NODES, nodeCount, type Connections } from "./connects";
+import { Section } from "@/components/ui/Section";
 
 type Row = { kind: "head"; text: string } | { kind: "node"; text: string; english: boolean; n: number };
 
@@ -50,7 +51,7 @@ export function ConnectsDiagram({ model, connections, connLabels, labels, sectio
   const svg = "connects-lines h-full w-full overflow-visible text-green-700 rtl:-scale-x-100";
 
   return (
-    <section aria-labelledby="connects" className={sectionClass}>
+    <Section labelledBy="connects" className={sectionClass}>
       <div>
         <h2 id="connects" className="section-title">
           {labels.title}
@@ -109,6 +110,6 @@ export function ConnectsDiagram({ model, connections, connLabels, labels, sectio
         </dl>
         <MomentTrigger />
       </div>
-    </section>
+    </Section>
   );
 }

@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/config";
 import { DOOR_MODELS, DoorIllustration } from "@/components/home/DoorIllustration";
 import { productBySlug, softwareBySlug } from "@/content/catalogue";
 import { isBuiltSoftware } from "@/lib/software";
+import { Section } from "@/components/ui/Section";
 
 const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
 
@@ -35,7 +36,7 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   const c = t.solutionAccessControl.door;
   const locale = await getLocale();
   return (
-    <section className="t3-section t3-door wrap" data-moment aria-labelledby={`${idPrefix}-door-title`}>
+    <Section labelledBy={`${idPrefix}-door-title`} className="t3-door" moment>
       <div>
         <h2 id={`${idPrefix}-door-title`} className="section-title">
           {c.heading}
@@ -73,6 +74,6 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
       <div className="home-door-stage">
         <DoorIllustration labels={t.home.door} />
       </div>
-    </section>
+    </Section>
   );
 }
