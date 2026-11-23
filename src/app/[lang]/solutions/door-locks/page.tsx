@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function DoorLocksSolution() {
   const { solutionDoorLocks: c } = await getDictionary();
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <LockUnlock idPrefix="dl" />
       <LockOptions />

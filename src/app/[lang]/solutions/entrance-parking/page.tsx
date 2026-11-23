@@ -37,7 +37,7 @@ export default async function EntranceParkingSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <EntranceLanes idPrefix="ep" />
       <EntranceOptions idPrefix="ep" />

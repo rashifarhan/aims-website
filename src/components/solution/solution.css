@@ -589,6 +589,23 @@
   align-items: center;
 }
 
+/*
+ * One section per screen on a desktop (taste House rule 3; CLAUDE.md §2), as on the homepage and the
+ * software pages: each T3 section is at least one screen tall with its content centred, so a screen holds
+ * one idea and the next heading never peeks in. Short desktop windows and portrait tablets keep the natural
+ * height (sections.css). The band's outer margin would break the screen grid, so it goes. Scoped to
+ * the solution pages (main.t3-page): the company and location pages borrow these section classes.
+ */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .t3-page > :is(.t3-section, .t3-cta) {
+    align-content: center;
+    min-height: 100svh;
+  }
+  .t3-page > .t3-band {
+    margin-block: 0;
+  }
+}
+
 /* ---------- Tablet ---------- */
 @media (max-width: 1023px) {
   .method-grid {
