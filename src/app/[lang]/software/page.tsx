@@ -9,6 +9,7 @@ import { softwareList } from "@/content/catalogue";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/catalogue/catalogue.css";
 import "@/components/software/software.css";
@@ -89,22 +90,12 @@ export default async function SoftwareCentre() {
           <SoftwareFilter {...filter} />
         </Suspense>
       </section>
-      <section className="t3-cta wrap" aria-labelledby="sw-centre-close">
-        <div className="t3-cta-panel">
-          <div>
-            <h2 id="sw-centre-close" className="t3-title">
-              {c.close.heading}
-            </h2>
-            <p className="t3-lead">{c.close.body}</p>
-          </div>
-          <div className="t3-cta-actions">
-            <Link href={href("/quote?need=install")} className="home-button">
-              {c.primary}
-              <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <ClosePanel
+        id="sw-centre-close"
+        heading={c.close.heading}
+        body={c.close.body}
+        action={{ href: href("/quote?need=install"), label: c.primary }}
+      />
     </main>
   );
 }

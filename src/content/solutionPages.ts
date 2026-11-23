@@ -22,14 +22,14 @@ import { TA_METHODS, TA_PRODUCTS, TA_SOFTWARE } from "./timeAttendance";
  *   SolutionProcess  {idPrefix, copy: ProcessCopy}                   steps with owners, paper band
  *   SolutionSoftware {idPrefix, copy: SectionCopy, items}            built software → /software/<slug>, else ↗ aimsuae.me
  *   SolutionQuestions{idPrefix, copy: FaqCopy}                       native <details>
- *   SolutionCta      {idPrefix, page, copy: CtaCopy}                 closing band → page.quote + /products/<family>
+ *   ui/ClosePanel    {id, heading, body, action, secondary}          closing panel → page.quote + /products/<family>
  *
  * `idPrefix` (two letters, e.g. "ac") keeps heading ids unique: `${idPrefix}-products-title` etc.
  * Copy: one i18n namespace per page (solutionAccessControl…), en + ar, whose sub-objects match the
  * *Copy types below (src/components/solution/types.ts). Pass the sub-object; extra keys are fine.
  * Page CSS: shared section rules load from the layout (ui/sections.css); import solution.css only for its
  * family-only rules (story, option and pick cards).
- * A page with a `[data-moment]` section also renders <MomentTrigger /> (src/components/home).
+ * A page with a `[data-moment]` section also renders <MomentTrigger /> (src/components/ui).
  * Data: define the page with `defineSolutionPage({...})`, here or in the page's own folder.
  */
 

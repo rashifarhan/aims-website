@@ -4,7 +4,7 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
-import { CompanyClose } from "@/components/company/CompanyClose";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { CompanyIntro } from "@/components/company/CompanyIntro";
 import { ContactReach } from "@/components/contact/ContactReach";
 import { LocationCards } from "@/components/contact/LocationCards";
@@ -51,7 +51,7 @@ export default async function About() {
       <div id="showrooms" className="co-showrooms wrap">
         <LocationCards t={t.contactPage} />
       </div>
-      <CompanyClose
+      <ClosePanel
         id="about-close-title"
         heading={c.closeHeading}
         body={c.closeBody}

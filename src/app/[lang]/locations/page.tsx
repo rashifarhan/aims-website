@@ -4,7 +4,7 @@ import { LocationIntro } from "@/components/locations/LocationIntro";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
 import { LocationReach } from "@/components/locations/LocationReach";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
@@ -56,7 +56,13 @@ export default async function LocationsHub() {
         <LocationMarkets />
       </LocationReach>
       <SolutionQuestions idPrefix="lh" copy={c.faq} />
-      <SolutionCta idPrefix="lh" page={{ quote: "/quote?need=export" }} copy={c.cta} secondaryHref="/contact" />
+      <ClosePanel
+        id="lh-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: href("/quote?need=export"), label: c.cta.action }}
+        secondary={{ href: href("/contact"), label: c.cta.secondary }}
+      />
       <MomentTrigger />
     </main>
   );

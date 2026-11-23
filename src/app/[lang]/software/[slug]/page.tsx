@@ -9,7 +9,10 @@ import { SoftwareHero } from "@/components/software/SoftwareHero";
 import { SoftwareFeatures } from "@/components/software/SoftwareFeatures";
 import { SoftwareTerminals } from "@/components/software/SoftwareTerminals";
 import { SoftwareSetup } from "@/components/software/SoftwareSetup";
-import { SoftwareClose } from "@/components/software/SoftwareClose";
+import { AddSoftwareToQuote } from "@/components/software/AddSoftwareToQuote";
+import { loadSoftwarePage } from "@/components/software/softwareCopy";
+import { ClosePanel } from "@/components/ui/ClosePanel";
+import { fmt } from "@/i18n/format";
 import "@/components/software/software.css";
 
 /** The built software pages (Plan 12 #29–31). URLs are unchanged from aimsuae.me (AT-13). */
@@ -36,13 +39,21 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/software/[
 export default async function SoftwarePage({ params }: PageProps<"/[lang]/software/[slug]">) {
   const { slug } = await params;
   if (!isBuiltSoftware(slug)) notFound();
+  const { software, c, addLabels, href } = await loadSoftwarePage(slug);
   return (
     <main id="main">
       <SoftwareHero slug={slug} />
       <SoftwareFeatures slug={slug} />
       <SoftwareTerminals slug={slug} />
       <SoftwareSetup slug={slug} />
-      <SoftwareClose slug={slug} />
+      {/* The hero's main action again, worded the same, and one link (Design Doc 2). */}
+      <ClosePanel
+        id="sw-close-title"
+        heading={fmt(c.close.heading, { name: software.name })}
+        body={c.close.body}
+        action={<AddSoftwareToQuote slug={slug} name={software.name} quoteHref={href("/quote")} labels={addLabels} />}
+        secondary={{ href: href("/software"), label: c.close.all }}
+      />
       <MomentTrigger />
     </main>
   );

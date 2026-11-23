@@ -312,7 +312,7 @@
  * next heading never peeks in. Short desktop windows and portrait tablets keep the natural height.
  */
 @media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  main > :is(.home-routes, .home-proof-band, .home-reach, .home-faq, .home-closing) {
+  main > :is(.home-routes, .home-proof-band, .home-reach, .home-faq, .ui-close-night) {
     display: flex;
     flex-direction: column;
     justify-content: center;

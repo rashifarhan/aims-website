@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactLink } from "@/components/contact/ContactLink";
-import { CompanyClose } from "@/components/company/CompanyClose";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SUPPORT_SECTIONS, SupportSections } from "@/components/company/SupportSections";
 import { EditorialIntro } from "@/components/editorial/EditorialIntro";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
@@ -59,7 +59,7 @@ export default async function Support() {
         />
         <SupportSections />
       </div>
-      <CompanyClose
+      <ClosePanel
         id="support-close-title"
         heading={c.closeHeading}
         body={c.closeBody}

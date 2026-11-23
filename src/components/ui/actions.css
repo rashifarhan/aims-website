@@ -193,3 +193,34 @@
     transform: none;
   }
 }
+
+/* Actions on night green (ui/ClosePanel night, home night bands): lime measures 7.8:1 there (globals.css). */
+/* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
+.home-button-lime {
+  background: var(--color-lime);
+  color: var(--color-ink);
+  box-shadow: none;
+}
+.home-button-lime:hover {
+  background: var(--color-lime);
+}
+.home-button-lime::before {
+  background: var(--color-paper);
+}
+.home-button-lime:hover::before,
+.home-button-lime:focus-visible::before {
+  opacity: 0.2;
+}
+.home-night-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  color: var(--color-lime);
+  font-weight: 600;
+  font-size: var(--text-small);
+}
+.home-night-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}

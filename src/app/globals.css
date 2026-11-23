@@ -288,6 +288,8 @@
   :root {
     --home-section-space: 2rem;
     --text-home-heading: 1.75rem;
+    /* The closing panel's night title (ui/ClosePanel), moved here from home so any page can close on night. */
+    --text-home-closing: 2.125rem;
   }
 }
 

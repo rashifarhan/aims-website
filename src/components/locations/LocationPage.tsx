@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
@@ -73,11 +73,12 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
         <LocationSteps label={common.stepsLabel} steps={c.steps} />
       </LocationReach>
       <SolutionQuestions idPrefix={id} copy={c.faq} />
-      <SolutionCta
-        idPrefix={id}
-        page={{ quote: page.quote }}
-        copy={{ ...c.cta, secondary: common.allLocations }}
-        secondaryHref="/locations"
+      <ClosePanel
+        id={`${id}-cta-title`}
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: href(page.quote), label: c.cta.action }}
+        secondary={{ href: href("/locations"), label: common.allLocations }}
       />
       <MomentTrigger />
     </main>

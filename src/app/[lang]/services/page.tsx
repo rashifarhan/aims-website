@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { CompanyClose } from "@/components/company/CompanyClose";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { CompanyIntro } from "@/components/company/CompanyIntro";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
@@ -44,7 +44,7 @@ export default async function Services() {
       <ServicesList />
       <ServicesProcess />
       <ServicesCover />
-      <CompanyClose
+      <ClosePanel
         id="services-close-title"
         heading={c.closeHeading}
         body={c.closeBody}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { SOLUTION_PAGES } from "@/content/solutionPages";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
@@ -10,7 +11,7 @@ import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { SolutionCta } from "@/components/solution/SolutionCta";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/access-control/door.css";
@@ -32,6 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function AccessControlSolution() {
   const { solutionAccessControl: c } = await getDictionary();
+  const locale = await getLocale();
   const software = PAGE.software.map(({ slug, kind, purpose }) => ({
     slug,
     kind: c.software[kind],
@@ -46,7 +48,13 @@ export default async function AccessControlSolution() {
       <SolutionProcess idPrefix="ac" copy={c.process} />
       <SolutionSoftware idPrefix="ac" copy={c.software} items={software} />
       <SolutionQuestions idPrefix="ac" copy={c.faq} />
-      <SolutionCta idPrefix="ac" page={PAGE} copy={c.cta} />
+      <ClosePanel
+        id="ac-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+      />
       <MomentTrigger />
     </main>
   );

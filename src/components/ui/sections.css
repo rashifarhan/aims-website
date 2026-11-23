@@ -491,11 +491,11 @@
   }
 }
 
-/* ---------- Closing band ---------- */
-.t3-cta {
+/* ---------- Closing panel (ui/ClosePanel.tsx): one action, at most one link (Design Doc 2) ---------- */
+.ui-close-mint {
   padding-block: var(--home-section-space) calc(var(--home-section-space) * 2);
 }
-.t3-cta-panel {
+.ui-close-mint .ui-close-panel {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -505,11 +505,68 @@
   border-radius: var(--radius-lg);
   background: var(--color-green-50);
 }
-.t3-cta-actions {
+.ui-close-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.ui-close-body {
+  max-width: 38rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.ui-close-mint .ui-close-actions {
   display: flex;
   flex: none;
   flex-direction: column;
   align-items: center;
+}
+/* Night: the full-bleed band with two still glows in its ground (a tech CSS ground; nothing moves). */
+.ui-close-night {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: calc(var(--home-section-space) * 2.5);
+  text-align: center;
+  color: var(--color-night-text);
+  background:
+    var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
+    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
+    var(--gradient-night);
+}
+.ui-close-night :focus-visible {
+  outline-color: var(--color-lime);
+}
+.ui-close-night .ui-close-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ui-close-night .ui-close-title {
+  max-width: 44rem;
+  font-size: var(--text-home-closing);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.ui-close-night .ui-close-body {
+  margin-inline: auto;
+  color: var(--color-night-muted);
+}
+.ui-close-night .ui-close-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 2rem;
+}
+:lang(ar) .ui-close-title {
+  letter-spacing: 0;
+  line-height: 1.25;
 }
 @media (max-width: 1023px) {
   .process-list {
@@ -537,11 +594,11 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
-  .t3-cta-panel {
+  .ui-close-mint .ui-close-panel {
     flex-direction: column;
     align-items: start;
   }
-  .t3-cta-actions {
+  .ui-close-mint .ui-close-actions {
     align-items: start;
   }
 }
@@ -579,12 +636,22 @@
   .method-card p {
     display: none;
   }
-  .t3-cta-panel {
+  .ui-close-mint .ui-close-panel {
     padding: 1.5rem;
   }
-  .t3-cta-actions,
-  .t3-cta-actions .home-button {
+  .ui-close-actions,
+  .ui-close-actions .home-button {
     width: 100%;
+  }
+  .ui-close-night {
+    padding-block: calc(var(--home-section-space) * 2);
+  }
+  .ui-close-night .ui-close-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ui-close-night .ui-close-actions .home-night-link {
+    justify-content: center;
   }
 }
 
