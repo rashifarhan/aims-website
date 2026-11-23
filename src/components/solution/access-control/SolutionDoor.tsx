@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/config";
 import { DOOR_MODELS, DoorIllustration } from "@/components/home/DoorIllustration";
 import { productBySlug, softwareBySlug } from "@/content/catalogue";
 import { isBuiltSoftware } from "@/lib/software";
+import { DoorStory } from "@/components/motion/DoorStory";
 
 const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
 
@@ -25,17 +26,15 @@ function partPath({ product, software }: { product?: string; software?: string }
 }
 
 /**
- * The page's dealt moment, UNLOCK (Design Doc 8.2; approved prototype docs/prototypes/door-kit): when a
- * third of the section is on screen MomentTrigger sets `data-played` and the door assembles, the card
- * taps and the door opens, once (door.css). The parts list is the drawing's text equivalent (Design
- * Doc 14) and links each model code to its page, as the homepage door does.
+ * UNLOCK (Design Doc 8.2): the approved kit follows native scroll through DoorStory; phones play once.
+ * The parts list is the drawing's text equivalent (Design Doc 14) and links each model to its page.
  */
 export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   const t = await getDictionary();
   const c = t.solutionAccessControl.door;
   const locale = await getLocale();
   return (
-    <section className="t3-section t3-door page-container" data-moment aria-labelledby={`${idPrefix}-door-title`}>
+    <DoorStory className="t3-section t3-door page-container" labelledBy={`${idPrefix}-door-title`}>
       <div>
         <h2 id={`${idPrefix}-door-title`} className="t3-title">
           {c.heading}
@@ -51,7 +50,7 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
               </span>
             );
             return (
-              <li key={part}>
+              <li key={part} data-door-step={i + 1}>
                 <span className="home-door-index" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -73,6 +72,6 @@ export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
       <div className="home-door-stage">
         <DoorIllustration labels={t.home.door} />
       </div>
-    </section>
+    </DoorStory>
   );
 }

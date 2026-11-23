@@ -37,11 +37,15 @@ test("story steps follow the scroll and the drawing reaches the payroll file", a
   await expect(story).toHaveAttribute("data-motion", "on");
   const steps = page.locator("[data-story-step]");
   await expect(steps).toHaveCount(4);
-  for (const n of [1, 2, 3, 4]) {
-    await steps.nth(n - 1).evaluate((el) => el.scrollIntoView({ block: "center" }));
-    await expect(story).toHaveAttribute("data-step", String(n));
-    await expect(steps.nth(n - 1)).toHaveAttribute("aria-current", "step");
-  }
+  if ((page.viewportSize()?.width ?? 0) < 1024) {
+    await page.locator(".story-stage").scrollIntoViewIfNeeded();
+    await expect(story).toHaveAttribute("data-step", "4");
+  } else
+    for (const n of [1, 2, 3, 4, 3, 2, 1, 4]) {
+      await steps.nth(n - 1).evaluate((el) => el.scrollIntoView({ block: "center" }));
+      await expect(story).toHaveAttribute("data-step", String(n));
+      await expect(steps.nth(n - 1)).toHaveAttribute("aria-current", "step");
+    }
   await expect(page.locator(".ta-file")).toHaveCSS("opacity", "1");
 });
 

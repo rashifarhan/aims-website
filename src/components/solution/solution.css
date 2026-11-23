@@ -157,7 +157,7 @@
 /* Tall steps only exist to be scrolled through while the drawing follows. Without JS or under reduced
    motion (data-motion="off") the steps sit at their natural height: no empty screens (audit T12). */
 .story[data-motion="on"] .story-steps li {
-  min-height: 55vh;
+  min-height: 30svh;
 }
 .story-steps h3 {
   font-size: var(--text-home-card);
@@ -181,6 +181,24 @@
 }
 .story-steps li[aria-current] {
   border-block-start-color: var(--color-green-700);
+}
+.story-steps li {
+  transition: border-color var(--duration-base) var(--ease-aims);
+}
+.story-steps li[aria-current] .story-index {
+  color: var(--color-paper);
+  background: var(--color-green-700);
+}
+.story-index {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--duration-base) ease,
+    background-color var(--duration-base) ease;
 }
 .story-stage {
   position: sticky;
@@ -250,7 +268,7 @@
   opacity: 0;
 }
 .story[data-motion="on"][data-inview="true"]:is([data-step="2"], [data-step="3"]) .ta-dots circle {
-  animation: ta-punch 1.6s var(--ease-aims) infinite;
+  animation: ta-punch 1.6s var(--ease-aims) both;
 }
 .story[data-motion="on"] .ta-dots circle:nth-child(2) {
   animation-delay: 530ms;
@@ -685,15 +703,14 @@
   .t3-cta-actions {
     align-items: start;
   }
-  /* Mobile story: the drawing sticks under the header; step text scrolls beneath it. */
+  /* Approved motion update: a finite explanation in ordinary flow on phones/tablets. */
   .story {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
   .story-stage {
     grid-row: 1;
-    inset-block-start: 4.25rem;
-    z-index: 1;
+    position: static;
     padding-block: 0.5rem;
     background: var(--color-paper);
   }
@@ -701,7 +718,7 @@
     max-height: 38vh;
   }
   .story[data-motion="on"] .story-steps li {
-    min-height: 40vh;
+    min-height: 0;
   }
 }
 
@@ -780,6 +797,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .story-index,
+  .story-steps li,
   .ta-s2,
   .ta-s3,
   .ta-s4,

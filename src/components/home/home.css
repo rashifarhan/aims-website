@@ -428,10 +428,13 @@
   animation-delay: 120ms;
 }
 .home-device {
-  animation: home-device-in var(--duration-hero-device) 350ms var(--ease-aims) both;
+  animation: home-device-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
 }
 .home-wash {
-  animation: home-fade var(--duration-hero-wash) 200ms ease-out both;
+  animation: home-fade var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
+}
+.home-wash-verified {
+  background: var(--gradient-verified-light);
 }
 .home-eyebrow,
 .home-lead,
@@ -443,13 +446,13 @@
   animation-delay: 50ms;
 }
 .home-lead {
-  animation-delay: 350ms;
+  animation-delay: 200ms;
 }
 .home-hero-actions {
-  animation-delay: 500ms;
+  animation: none;
 }
 .home-trust {
-  animation-delay: 700ms;
+  animation-delay: 250ms;
 }
 [data-pulse] {
   filter: drop-shadow(var(--drop-shadow-signal));

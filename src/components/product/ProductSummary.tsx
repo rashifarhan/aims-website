@@ -10,6 +10,7 @@ import type { DataAttrs } from "./englishData";
 import { KeySpecs } from "./KeySpecs";
 import { ModelChip } from "./ModelChip";
 import { ProductPurchase } from "./ProductPurchase";
+import "@/components/motion/entrance.css";
 
 type Props = {
   p: Product;
@@ -25,9 +26,9 @@ type Props = {
 export function ProductSummary({ p, name, familyName, href, addLabels, t, data }: Props) {
   const image = p.images[0];
   return (
-    <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
+    <div className="aims-hero mt-6 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
       {/* 4:3 below 1024px so the name and first action reach the first screen sooner (audit T3). */}
-      <div className="relative aspect-4/3 overflow-hidden rounded-lg border border-line bg-white lg:aspect-square">
+      <div className="product-hero-art aims-studio relative aspect-4/3 overflow-hidden rounded-lg border border-line bg-white lg:aspect-square">
         {image && (
           <Image
             src={image.src}
@@ -44,13 +45,15 @@ export function ProductSummary({ p, name, familyName, href, addLabels, t, data }
         <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">
           <span dir="ltr">{p.brand === "alpha" ? "Alpha" : "ZKTeco"}</span> · {familyName}
         </p>
-        <h1 className="mt-2 text-3xl leading-tight font-bold tracking-tight wrap-anywhere text-ink sm:text-4xl lg:text-5xl">
-          <span {...data}>{name}</span>
+        <h1 className="aims-headline-mask mt-2 text-3xl leading-tight font-bold tracking-tight wrap-anywhere text-ink sm:text-4xl lg:text-5xl">
+          <span className="aims-headline" {...data}>
+            {name}
+          </span>
         </h1>
         <p className="mt-3">
           <ModelChip model={p.model} />
         </p>
-        <p className="mt-4 max-w-[60ch] text-lg wrap-anywhere text-ink-600" {...data}>
+        <p className="product-hero-lead mt-4 max-w-[60ch] text-lg wrap-anywhere text-ink-600" {...data}>
           {p.summary}
         </p>
 

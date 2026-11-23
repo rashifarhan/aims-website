@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import type { BuiltSoftware } from "@/lib/software";
 import { AddSoftwareToQuote } from "./AddSoftwareToQuote";
 import { loadSoftwarePage } from "./softwareCopy";
+import "@/components/motion/entrance.css";
 
 /**
  * T6 detail, first screen (Plan 14; taste layout-v4 §3): the h1 names the platform and its category,
@@ -15,7 +16,7 @@ import { loadSoftwarePage } from "./softwareCopy";
 export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
   const { software, t, c, page, addLabels, href } = await loadSoftwarePage(slug);
   return (
-    <section className="sw-hero page-container" aria-labelledby="sw-title" data-enter>
+    <section className="sw-hero aims-hero page-container" aria-labelledby="sw-title" data-enter>
       <div className="sw-hero-text">
         <Breadcrumbs
           label={t.common.breadcrumb}
@@ -25,8 +26,8 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
             { href: href(`/software/${slug}`), label: software.name },
           ]}
         />
-        <h1 id="sw-title" className="sw-enter">
-          {page.title}
+        <h1 id="sw-title" className="aims-headline-mask">
+          <span className="aims-headline">{page.title}</span>
         </h1>
         <p className="t3-promise sw-enter">{page.lead}</p>
         <div className="t3-actions sw-enter">
@@ -38,7 +39,10 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
       </div>
       {/* Capped at the picture's own pixel width, so a small source is never upscaled (taste photo-upscale). */}
       {software.image && (
-        <div className="sw-hero-art" style={{ "--art-width": `${software.image.width}px` } as CSSProperties}>
+        <div
+          className="sw-hero-art aims-studio"
+          style={{ "--art-width": `${software.image.width}px` } as CSSProperties}
+        >
           <Image
             src={software.image.src}
             alt={software.image.alt}

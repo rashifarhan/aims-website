@@ -210,7 +210,7 @@
   font-size: var(--text-small);
   font-weight: 500;
 }
-/* The moment (taste motion.md; MomentTrigger): lines draw once from the platform, 90ms apart, then each
+/* The moment (taste motion.md; MomentTrigger): lines draw together from the platform, then each
    dot lands. stroke-dashoffset, transform and opacity only. Nothing is hidden unless data-effects="on",
    which MomentTrigger never sets under reduced motion, so the drawn diagram is the resting state. */
 .sw-signal-line {
@@ -223,10 +223,10 @@
   opacity: 0;
 }
 :root[data-effects="on"] .sw-signal[data-played] .sw-signal-line {
-  animation: sw-signal-draw 900ms var(--ease-aims) calc(var(--i) * 90ms) both;
+  animation: sw-signal-draw var(--duration-hero-rise) var(--ease-aims) both;
 }
 :root[data-effects="on"] .sw-signal[data-played] .sw-signal-node::after {
-  animation: sw-signal-land var(--duration-slow) var(--ease-aims) calc(var(--i) * 90ms + 750ms) both;
+  animation: sw-signal-land var(--duration-slow) var(--duration-hero-rise) var(--ease-aims) both;
 }
 @keyframes sw-signal-draw {
   from {
@@ -239,7 +239,7 @@
 @keyframes sw-signal-land {
   from {
     opacity: 0;
-    transform: scale(0.4);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;

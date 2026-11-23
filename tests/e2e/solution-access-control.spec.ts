@@ -62,22 +62,23 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-test("the door unlocks once when it comes into view", async ({ page }) => {
+test("the door reaches its unlocked state without an ongoing timed loop", async ({ page }) => {
   await page.goto(PATH);
-  await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
   const door = page.locator(".t3-door");
-  await expect(door).not.toHaveAttribute("data-played");
-  await expect(door.locator(".door-granted")).toHaveCSS("opacity", "0");
-  await door.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(door).toHaveAttribute("data-played", "true");
+  if ((page.viewportSize()?.width ?? 0) >= 1024) {
+    await expect(door).toHaveAttribute("data-mode", "scroll");
+    await door.evaluate((el) => {
+      const box = el.getBoundingClientRect();
+      scrollTo(0, scrollY + box.top + box.height - innerHeight);
+    });
+  } else {
+    await door.locator(".home-door-drawing").scrollIntoViewIfNeeded();
+  }
   await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
-  // It plays once and then stands: nothing in the section keeps running.
   await expect
     .poll(
       () => door.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
-      {
-        timeout: 6000,
-      },
+      { timeout: 6000 },
     )
     .toBe(0);
 });

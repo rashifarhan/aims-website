@@ -4,10 +4,11 @@ import { localePath } from "@/i18n/config";
 import { ArrowIcon } from "@/components/icons";
 import { DOOR_MODELS, DoorIllustration } from "./DoorIllustration";
 import { productBySlug } from "@/content/catalogue";
+import { DoorStory } from "@/components/motion/DoorStory";
 
 const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
 
-/** The product page behind each part's model code; software pages are still planned (routes.ts). */
+/** The product page behind each part's model code. */
 const PART_PRODUCTS: Partial<Record<(typeof PARTS)[number], string>> = {
   reader: "kr602",
   controller: "inbio-pro-160",
@@ -17,7 +18,7 @@ const PART_PRODUCTS: Partial<Record<(typeof PARTS)[number], string>> = {
 };
 
 /**
- * T1 row 4 and the page's dealt moment (`data-moment`): the door assembles once when it comes into view.
+ * T1 row 4 and the page's UNLOCK moment: native scroll assembles the approved door kit.
  * The parts list is the drawing's text equivalent (Design Doc 14) and links each model code to its
  * product page, so a trade buyer never retypes it (PRODUCT.md, "Model-code first").
  */
@@ -27,7 +28,7 @@ export async function DoorTeaser() {
   } = await getDictionary();
   const locale = await getLocale();
   return (
-    <section className="home-section home-door page-container" data-moment aria-labelledby="door-title">
+    <DoorStory className="home-section home-door page-container" labelledBy="door-title">
       <div>
         <h2 id="door-title" className="home-section-title">
           {door.heading}
@@ -43,7 +44,7 @@ export async function DoorTeaser() {
               </span>
             );
             return (
-              <li key={part}>
+              <li key={part} data-door-step={i + 1}>
                 <span className="home-door-index" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -66,6 +67,6 @@ export async function DoorTeaser() {
       <div className="home-door-stage">
         <DoorIllustration labels={door} />
       </div>
-    </section>
+    </DoorStory>
   );
 }

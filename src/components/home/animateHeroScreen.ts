@@ -4,6 +4,13 @@ import { HERO_CYCLE as cycle, type HeroAnimate } from "./heroMotion";
 export function animateHeroScreen(root: HTMLElement, animate: HeroAnimate) {
   const loop = { duration: cycle, delay: 1900, iterations: Infinity };
   const times = [0, 450, 1500, 1950, 4300, 4750, cycle];
+  const light = root.querySelector(".home-wash-verified");
+  if (light)
+    animate(
+      light,
+      [0, 0, 0, 1, 1, 0, 0].map((opacity, i) => ({ opacity, offset: times[i] / cycle })),
+      loop,
+    );
   root.querySelectorAll<HTMLElement>("[data-screen]").forEach((screen) => {
     const values =
       screen.dataset.screen === "idle"

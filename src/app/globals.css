@@ -253,10 +253,25 @@
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
+  /* Resting light at its original strength (DESIGN.md "Lime Is Light", not a glow); the verified layer below adds
+     to it only while the hero shows "Access granted". */
   --gradient-home-glow: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-lime) 10%, transparent),
     transparent
+  );
+  /* Still studio light for real hardware; the hero's verified layer shares its existing clock. */
+  --gradient-studio-light: radial-gradient(
+    ellipse at 50% 55%,
+    color-mix(in srgb, var(--color-lime) 15%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 8%, transparent) 36%,
+    transparent 72%
+  );
+  --gradient-verified-light: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 12%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 6%, transparent) 38%,
+    transparent 76%
   );
   /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
   --gradient-night:
