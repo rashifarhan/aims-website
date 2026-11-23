@@ -54,7 +54,7 @@ export const ROUTES: RouteEntry[] = [
     status: "built",
     replaces: ["/swcategory/*"],
   },
-  { path: "/services", title: "Services", template: "T3 Solution", priority: "P1", status: "planned" },
+  { path: "/services", title: "Services", template: "T3 Solution", priority: "P1", status: "built" },
   { path: "/locations", title: "Locations", template: "T2 Hub", priority: "P2", status: "planned" },
   { path: "/about", title: "About & showrooms", template: "T10 Editorial", priority: "P1", status: "built" },
   {
