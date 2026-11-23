@@ -9,8 +9,9 @@ import { messageLabels } from "@/lib/quote/labels";
 import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
 import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
-import { destinationFromSearch, needFromSearch } from "@/lib/quote/context";
-import { CONTACT, LIVE_CONTACT, whatsappUrl } from "@/lib/site";
+import { getQuote } from "@/lib/quote/store";
+import { destinationFromSearch, needFromSearch, presetPatch } from "@/lib/quote/context";
+import { CONTACT, LIVE_CONTACT, NEED_CHANNELS, whatsappUrl } from "@/lib/site";
 import type { CatalogEntry } from "./QuoteItems";
 
 export const noopSubscribe = () => () => {};
@@ -21,9 +22,14 @@ const getReference = () => (visitReference ??= makeReference());
 
 /**
  * The state and handlers of the quote request (T8): items and the need come from the saved list, contact
- * details live in memory only, and validation runs on send and then live (AT-05).
+ * details live in memory only, and validation runs on send and then live (AT-05). `software` lists the platforms
+ * a link may request (/quote?software=<slug>): slug → the line's text.
  */
-export function useQuoteRequest(catalog: Record<string, CatalogEntry>, t: Dictionary["quote"]) {
+export function useQuoteRequest(
+  catalog: Record<string, CatalogEntry>,
+  software: Record<string, string>,
+  t: Dictionary["quote"],
+) {
   const quote = useQuote();
   const context = useMemo(() => quote.context ?? {}, [quote.context]);
   const guard = useContactGuard();
@@ -47,9 +53,24 @@ export function useQuoteRequest(catalog: Record<string, CatalogEntry>, t: Dictio
   useEffect(() => {
     const search = window.location.search;
     const need = needFromSearch(search);
-    const patch = destinationFromSearch(search) ?? (need && { need });
+    const destination = destinationFromSearch(search);
+    const patch = destination ? presetPatch(getQuote().context, destination) : need && { need };
     if (patch) dispatchQuote({ type: "setContext", patch });
-  }, []);
+    // A software page's link (/quote?software=bio-security-3-2) adds that platform; a known slug only. The
+    // parameter is then dropped, so a reload never re-adds a line the buyer removed.
+    const params = new URLSearchParams(search);
+    const slug = params.get("software");
+    if (slug && Object.hasOwn(software, slug)) {
+      dispatchQuote({ type: "requestSoftware", slug, text: software[slug] });
+      params.delete("software");
+      const rest = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${rest ? `?${rest}` : ""}${window.location.hash}`,
+      );
+    }
+  }, [software]);
 
   const products = useMemo(
     () => Object.fromEntries(Object.entries(catalog).map(([k, v]) => [k, { name: v.name, model: v.model }])),
@@ -89,9 +110,10 @@ export function useQuoteRequest(catalog: Record<string, CatalogEntry>, t: Dictio
   const onWhatsApp = () => {
     if (fail("whatsapp")) return;
     const text = buildMessage("whatsapp");
-    const href = whatsappUrl(text);
+    const line = context.need === "software" ? NEED_CHANNELS.software : CONTACT.lines.mobile;
+    const href = whatsappUrl(text, line.tel.replace(/\D/g, ""));
     if (LIVE_CONTACT || !guard) window.open(href, "_blank", "noopener,noreferrer");
-    else guard({ kind: "whatsapp", href, target: CONTACT.lines.mobile.display, message: text });
+    else guard({ kind: "whatsapp", href, target: line.display, message: text });
   };
 
   const onSend = async () => {

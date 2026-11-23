@@ -9,6 +9,7 @@ import {
   type FacetGroup,
   type FilterState,
 } from "@/lib/filters";
+import { withDestination, type QuoteContext } from "@/lib/quote/context";
 import { createIndex, searchSlugs } from "@/lib/search";
 import { facetGroupViews } from "./facetGroups";
 import { useListingState } from "./useListingState";
@@ -25,8 +26,9 @@ export function useListingModel({
   familyNames,
   hrefs,
   urlState,
-}: ListingProps & { urlState: FilterState }) {
-  const { state, update } = useListingState(urlState, family);
+  preset,
+}: ListingProps & { urlState: FilterState; preset?: Partial<QuoteContext> }) {
+  const { state, update } = useListingState(urlState, family, preset);
 
   const effective = useMemo<FilterState>(() => (family ? { ...state, family } : state), [state, family]);
   const index = useMemo(() => createIndex(cards, familyNames), [cards, familyNames]);
@@ -49,7 +51,10 @@ export function useListingModel({
   /* ---------- compare ---------- */
   const bySlug = useMemo(() => new Map(cards.map((c) => [c.slug, c])), [cards]);
   const compareItems = state.cmp.map((s) => bySlug.get(s)).filter((c): c is Card => !!c);
-  const listingUrl = typeof window === "undefined" ? "" : `${window.location.pathname}${serializeFilters(state)}`;
+  const listingUrl =
+    typeof window === "undefined"
+      ? ""
+      : withDestination(`${window.location.pathname}${serializeFilters(state)}`, preset);
   const compareHref = `${hrefs.compare}?items=${compareItems.map((c) => c.slug).join(",")}${listingUrl ? `&from=${encodeURIComponent(listingUrl)}` : ""}`;
 
   return { state, update, effective, results, groups, onToggle, filterCount, clearFilters, compareItems, compareHref };

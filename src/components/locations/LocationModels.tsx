@@ -6,7 +6,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { LOCATION_MODELS } from "@/lib/locationPages";
-import type { QuoteContext } from "@/lib/quote/context";
+import { withDestination, type QuoteContext } from "@/lib/quote/context";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Section } from "@/components/ui/Section";
 
@@ -47,7 +47,7 @@ export async function LocationModels({
         title={c.modelsHeading}
         lead={c.modelsLead}
         link={
-          <Link href={localePath(locale, "/products")} className="home-text-link">
+          <Link href={withDestination(localePath(locale, "/products"), preset)} className="home-text-link">
             {fmt(c.modelsAll, { count: products().length })}
           </Link>
         }
@@ -57,7 +57,7 @@ export async function LocationModels({
           <li key={card.slug} className="flex">
             <ProductCard
               card={card}
-              href={localePath(locale, `/product/${card.slug}`)}
+              href={withDestination(localePath(locale, `/product/${card.slug}`), preset)}
               subtitle={(card.types[0] ? types[card.types[0]] : t.families[card.family].name) ?? ""}
               labels={labels}
               preset={preset}

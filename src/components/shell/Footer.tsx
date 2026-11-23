@@ -3,8 +3,10 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
 import { POPULAR_SEARCHES, SOFTWARE_LINKS, SOLUTIONS, familyPath, searchPath, solutionPath } from "@/lib/nav";
+import { COMPANY_NAME, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { Wordmark } from "./Wordmark";
 import { FooterContact } from "./FooterContact";
-import { FooterLinks } from "./FooterLinks";
+import { FooterLinks, footerLinkClass } from "./FooterLinks";
 
 /**
  * Footer (Design Doc ch. 6): four link columns, the three locations with
@@ -50,6 +52,7 @@ export async function Footer() {
         { href: href("/about"), label: t.footer.aboutShowrooms },
         { href: href("/services"), label: t.footer.services },
         { href: href("/support"), label: t.footer.support },
+        { href: href("/blog"), label: t.footer.blog },
         { href: href("/locations"), label: t.footer.locationsHub },
         { href: href("/contact"), label: t.nav.contact },
       ],
@@ -60,21 +63,30 @@ export async function Footer() {
     <footer className="site-footer mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
       <div className="wrap pt-12 pb-8 lg:pt-16">
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_2fr]">
-          <FooterContact />
+          <div>
+            <Wordmark href={href("/")} />
+            <p className="mt-3 max-w-xs text-sm text-ink-600">
+              {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
+            </p>
+            <FooterContact t={t.footer} />
+          </div>
+
           <FooterLinks columns={columns} externalLabel={t.home.external} />
         </div>
 
+        {/* Plain links in the footer's one link look, not pills: a third button style broke "one button
+            pair" on every page (taste button-styles, audit 23 Nov 2026). */}
         <div className="mt-10 border-t border-line pt-6 sm:mt-12">
           <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
-          {/* Plain footer links like the columns above, not chips: chips are filter controls, and a third button
-              look on every page breaks the one button pair (taste button-styles). */}
-          <ul className="mt-3 flex flex-wrap gap-x-5">
+          {/* Each link pads 10px a side so a short code (F18) still makes a 44px target with even gaps; the
+              list's negative margin keeps the first word on the column line. */}
+          <ul className="-ms-2.5 mt-1 flex flex-wrap gap-x-1">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
                 <Link
                   externalLabel={t.home.external}
                   href={href(searchPath(q))}
-                  className="text-sm text-ink-700 hover:text-green-700"
+                  className={`${footerLinkClass} justify-center px-2.5 text-sm text-ink-700`}
                 >
                   {q}
                 </Link>
@@ -84,17 +96,21 @@ export async function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 text-sm text-ink-600 sm:flex-row sm:items-center sm:justify-between">
+          {/* The English company line stays one left-to-right run inside Arabic (CLAUDE.md §7). */}
           <p>
-            © {year} AIMS Security Systems Trading LLC. {t.footer.rights}
+            <span dir="ltr">
+              © {year} {COMPANY_NAME}.
+            </span>{" "}
+            {t.footer.rights}
           </p>
           <ul className="flex gap-5">
             <li>
-              <Link externalLabel={t.home.external} href={href("/privacy-policy")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/privacy-policy")} className={footerLinkClass}>
                 {t.footer.privacy}
               </Link>
             </li>
             <li>
-              <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className={footerLinkClass}>
                 {t.footer.terms}
               </Link>
             </li>

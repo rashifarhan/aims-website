@@ -1,0 +1,69 @@
+/* Design Doc 8: title leads, supporting copy overlaps, actions and the light source stay still. */
+.aims-headline-mask {
+  overflow: clip;
+  padding-block: 0.08em;
+  margin-block-end: -0.08em;
+}
+.aims-headline {
+  display: block;
+}
+.aims-studio {
+  position: relative;
+  isolation: isolate;
+}
+.aims-studio::before {
+  content: "";
+  position: absolute;
+  /* Fixed spacing keeps the light inside the 24/32px page gutters at intermediate widths. */
+  inset: calc(var(--spacing) * -4);
+  z-index: -1;
+  background: var(--gradient-studio-light);
+  pointer-events: none;
+}
+.product-hero-art.aims-studio::before {
+  z-index: 0;
+}
+.product-hero-art img {
+  z-index: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .aims-headline {
+    animation: aims-title-in var(--duration-hero-rise) var(--ease-aims) both;
+  }
+  .aims-hero :is(.t3-promise, .sw-hero-text > p, .solution-lead) {
+    animation: aims-support-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
+  }
+  .aims-hero :is(.t3-eyebrow, .t3-actions, .sw-hero-art, .t3-hero-photo) {
+    animation: none;
+  }
+  /* PageHero settles its media box itself (.hero-enter-media); only other studio photographs rise here. */
+  .aims-hero .aims-studio:not(.hero-enter-media) img {
+    animation: aims-media-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
+  }
+}
+@keyframes aims-title-in {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes aims-support-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes aims-media-in {
+  from {
+    transform: translateY(1rem) scale(0.98);
+  }
+  to {
+    transform: none;
+  }
+}

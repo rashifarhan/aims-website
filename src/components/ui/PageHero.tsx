@@ -1,9 +1,10 @@
-import { isValidElement, type ReactElement, type ReactNode } from "react";
+import { isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { getDictionary } from "@/i18n/dictionaries";
+import "@/components/motion/entrance.css";
 
 type Action = { href: string; label: string };
 type Photo = { src: string; alt: string; width: number; height: number };
@@ -31,8 +32,9 @@ type Props = {
 
 /**
  * The one page hero (design-taste-frontend one system; Design Doc 9, 10). It enters once on load and then
- * stands (CLAUDE.md §3; taste motion.md "The hero's entrance"): `data-enter` marks it for the gate, and
- * `.hero-enter` (ui/sections.css) rises the copy in turn while the photograph settles; reduced motion rests.
+ * stands (CLAUDE.md §3; taste motion.md "The hero's entrance"): `data-enter` marks it for the gate, the title
+ * rises from its mask (the shared AIMS entrance, motion/entrance.css), and `.hero-enter` (ui/sections.css) rises
+ * the rest of the copy in turn while the photograph settles; reduced motion rests.
  */
 export async function PageHero(props: Props) {
   const { variant, crumbs, eyebrow, title, titleLang, lead, fact, photo, framed, id = "hero-title" } = props;
@@ -40,8 +42,8 @@ export async function PageHero(props: Props) {
   const copy = (
     <div className="page-hero-copy">
       {eyebrow && <p className="page-hero-eyebrow hero-enter">{eyebrow}</p>}
-      <h1 id={id} className="hero-enter" lang={titleLang} dir={titleLang ? "ltr" : undefined}>
-        {title}
+      <h1 id={id} className="aims-headline-mask" lang={titleLang} dir={titleLang ? "ltr" : undefined}>
+        <span className="aims-headline">{title}</span>
       </h1>
       {typeof lead === "string" ? (
         <p className="page-hero-lead hero-enter">{lead}</p>
@@ -58,7 +60,7 @@ export async function PageHero(props: Props) {
     </div>
   );
   return (
-    <section className={`page-hero page-hero-${variant}`} aria-labelledby={id} data-enter>
+    <section className={`page-hero page-hero-${variant} aims-hero`} aria-labelledby={id} data-enter>
       {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
       <div className="wrap">
         <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
@@ -68,10 +70,17 @@ export async function PageHero(props: Props) {
           <div className="page-hero-grid">
             {copy}
             {photo && (
+              // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
+              // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
               <div
+                // A cut-out product photograph stands in the still studio light (motion/entrance.css); a framed
+                // screen capture keeps its plain white panel.
                 className={
-                  framed ? "page-hero-media hero-enter-media page-hero-framed" : "page-hero-media hero-enter-media"
+                  framed
+                    ? "page-hero-media hero-enter-media page-hero-framed"
+                    : "page-hero-media hero-enter-media aims-studio"
                 }
+                style={{ "--photo-width": `${photo.width}px` } as CSSProperties}
               >
                 {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
                 <Image
@@ -79,7 +88,8 @@ export async function PageHero(props: Props) {
                   alt={photo.alt}
                   width={photo.width}
                   height={photo.height}
-                  sizes="(min-width: 1024px) 30rem, 16rem"
+                  // The width it is shown at: its column, never past its own pixels (the cap above).
+                  sizes={`(min-width: 1024px) min(30rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
                   preload
                 />
               </div>

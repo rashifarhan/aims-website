@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Product } from "@/content/schema";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { CompareRow } from "@/lib/compare";
+import type { QuoteContext } from "@/lib/quote/context";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
 import { DiffersChip } from "./DiffersChip";
 
@@ -12,6 +13,8 @@ type Props = {
   t: Dictionary;
   addLabels: AddToQuoteLabels;
   productHref: (slug: string) => string;
+  /** The market carried from the listing, so Add keeps the buyer's destination (market-quote continuity). */
+  preset?: Partial<QuoteContext>;
   /** The compare URL without one product, or null when removing it would leave fewer than two. */
   removeHref: (p: Product) => string | null;
   contentLang?: string;
@@ -22,7 +25,7 @@ type Props = {
  * and its outline Add. Fixed layout: the label column is 14rem and the products share the rest equally, so a
  * long value in one product never squeezes the others (site polish T6).
  */
-export function CompareTable({ items, rows, t, addLabels, productHref, removeHref, contentLang }: Props) {
+export function CompareTable({ items, rows, t, addLabels, productHref, preset, removeHref, contentLang }: Props) {
   return (
     <div className="mt-6 hidden sm:block">
       <table className="w-full table-fixed border-collapse text-start text-sm" lang={contentLang}>
@@ -59,7 +62,7 @@ export function CompareTable({ items, rows, t, addLabels, productHref, removeHre
                   <span className="block font-mono text-xs text-ink-600">
                     <span dir="ltr">{p.model}</span>
                   </span>
-                  <AddToQuote slug={p.slug} name={p.name} labels={addLabels} variant="outline" className="mt-4" />
+                  <AddToQuote preset={preset} slug={p.slug} name={p.name} labels={addLabels} variant="outline" className="mt-4" />
                   {remove && (
                     <Link href={remove} replace className="home-secondary text-sm">
                       {t.compare.remove}

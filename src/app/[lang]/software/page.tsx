@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { fmt } from "@/i18n/format";
 import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { isBuiltSoftware } from "@/lib/software";
 import { softwareList } from "@/content/catalogue";
+import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButton";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
@@ -45,6 +47,16 @@ export default async function SoftwareCentre() {
         <SoftwareCard
           software={software}
           href={isBuiltSoftware(software.slug) ? href(`/software/${software.slug}`) : null}
+          enquiry={
+            !isBuiltSoftware(software.slug) && (
+              <SoftwareEnquiryButton
+                compact
+                slug={software.slug}
+                label={fmt(c.askPlatform, { name: software.name })}
+                quoteHref={href("/quote")}
+              />
+            )
+          }
           labels={{
             types: c.types,
             purpose: c.purpose[software.slug as keyof typeof c.purpose] ?? "",
@@ -69,7 +81,7 @@ export default async function SoftwareCentre() {
         ]}
         title={c.title}
         lead={c.lead}
-        primary={{ href: href("/quote?need=install"), label: c.primary }}
+        primary={<SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />}
       />
       <Section ground="band" labelledBy="sw-centre-list" className="sw-centre">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
@@ -84,7 +96,7 @@ export default async function SoftwareCentre() {
         id="sw-centre-close"
         heading={c.close.heading}
         body={c.close.body}
-        action={{ href: href("/quote?need=install"), label: c.primary }}
+        action={<SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />}
       />
     </main>
   );

@@ -32,19 +32,25 @@ export default async function DoorLocksSolution() {
   const { solutionDoorLocks: c } = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <LockUnlock idPrefix="dl" />
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="dl" copy={c.process} />
-      <SolutionQuestions ground="band" idPrefix="dl" copy={c.faq} />
-      <ClosePanel
-        id="dl-cta-title"
-        heading={c.cta.heading}
-        body={c.cta.body}
-        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
-        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+      <SolutionQuestions ground="band"
+        idPrefix="dl"
+        copy={c.faq}
+        close={
+          <ClosePanel
+            embedded
+            id="dl-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+          />
+        }
       />
       <MomentTrigger />
     </main>

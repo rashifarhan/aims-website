@@ -1,9 +1,10 @@
+import Image from "next/image";
 import { MailIcon, PhoneIcon } from "@/components/icons";
 import { OfficeCard } from "@/components/ui/OfficeCard";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { CONTACT, LOCATIONS } from "@/lib/site";
+import { CONTACT, LOCATIONS, SHOWROOM_PHOTO } from "@/lib/site";
 import { ContactLink } from "./ContactLink";
 
 /**
@@ -23,6 +24,19 @@ export function LocationCards({ t, id }: { t: Dictionary["contactPage"]; id?: st
               name={t.locations[loc.id]}
               address={loc.address}
               addressLang="en"
+              media={
+                loc.id === "showroom" &&
+                SHOWROOM_PHOTO && (
+                  // AIMS's own showroom photograph, once supplied (site.ts SHOWROOM_PHOTO); until then, nothing.
+                  <Image
+                    src={SHOWROOM_PHOTO.src}
+                    alt={t.showroomPhotoAlt}
+                    width={SHOWROOM_PHOTO.width}
+                    height={SHOWROOM_PHOTO.height}
+                    sizes="(min-width: 768px) 30vw, 100vw"
+                  />
+                )
+              }
               call={
                 <ContactLink kind="phone" href={`tel:${line.tel}`} target={line.display} className="home-text-link">
                   <PhoneIcon width="16" height="16" />

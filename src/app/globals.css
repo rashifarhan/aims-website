@@ -101,6 +101,8 @@
   --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
   --text-home-display-compact: 3.5rem;
   --text-home-display-mobile: 2.5rem;
+  /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
+  --text-home-display-short: 1.875rem;
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
@@ -111,9 +113,15 @@
   /* Page-title size (T2 and T3): H1 within Design Doc 5's 44–56 / 30–36 range. */
   --text-page-title: 3.25rem;
   --text-page-title-mobile: 2.125rem;
+  /* Short phones (audit B4): page titles that leave room for the first action on a 480px-tall screen. */
+  --text-page-title-short: 1.75rem;
   /* Explainer SVG text in viewBox units (760 wide), as for the door kit. */
   --text-map-label: 15px; /* reach map, viewBox units (640 wide) */
   --text-map-label-mobile: 24px;
+  /* Hub site plan, viewBox units (800 wide): names read about 12px at 1024 and 16px at 1440. */
+  --text-plan-label: 17px;
+  /* Its numbered markers, in viewBox units; phones scale the whole marker up instead (solutions/site-plan.css). */
+  --text-plan-index: 13px;
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
@@ -262,10 +270,25 @@
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
+  /* Resting light at its original strength (DESIGN.md "Lime Is Light", not a glow); the verified layer below adds
+     to it only while the hero shows "Access granted". */
   --gradient-home-glow: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-lime) 10%, transparent),
     transparent
+  );
+  /* Still studio light for real hardware; the hero's verified layer shares its existing clock. */
+  --gradient-studio-light: radial-gradient(
+    ellipse at 50% 55%,
+    color-mix(in srgb, var(--color-lime) 15%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 8%, transparent) 36%,
+    transparent 72%
+  );
+  --gradient-verified-light: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-lime) 12%, transparent) 0%,
+    color-mix(in srgb, var(--color-lime) 6%, transparent) 38%,
+    transparent 76%
   );
   /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
   --gradient-night:

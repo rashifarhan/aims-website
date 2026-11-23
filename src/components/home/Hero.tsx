@@ -43,6 +43,7 @@ export async function Hero() {
       </div>
       <HeroAnimation pauseLabel={h.pause}>
         <div className="home-wash" aria-hidden="true" />
+        <div className="home-wash home-wash-verified" aria-hidden="true" />
         <SignalLines />
         <SignalLines mobile />
         <div className="home-device" role="img" aria-label={h.alt}>

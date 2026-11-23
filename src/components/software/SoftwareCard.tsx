@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "@/components/home/ExternalLink";
@@ -21,10 +22,12 @@ export type SoftwareCardLabels = {
  */
 export function SoftwareCard({
   software,
+  enquiry,
   href,
   labels,
 }: {
   software: Software;
+  enquiry?: ReactNode;
   href: string | null;
   labels: SoftwareCardLabels;
 }) {
@@ -61,6 +64,7 @@ export function SoftwareCard({
         </h3>
         <p className="sw-card-purpose">{labels.purpose}</p>
         <p className="sw-card-types">{software.types.map((type) => labels.types[type]).join(" · ")}</p>
+        {enquiry}
         {href && (
           <span className="sw-card-open" aria-hidden="true">
             {labels.open}

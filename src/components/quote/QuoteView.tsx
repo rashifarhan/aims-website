@@ -13,6 +13,8 @@ import { noopSubscribe, useQuoteRequest } from "./useQuoteRequest";
 
 type Props = {
   catalog: Record<string, CatalogEntry>;
+  /** Software a link may request (/quote?software=<slug>): slug → the line's text. */
+  software: Record<string, string>;
   t: Dictionary["quote"];
   stepper: { qty: string; decrease: string; increase: string };
   hrefs: { products: string; productBase: string };
@@ -22,7 +24,7 @@ type Props = {
  * T8 quote request (Design Doc 10). The state and handlers live in useQuoteRequest; this view decides
  * which of the four states to show: loading, receipt, empty, or the form.
  */
-export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
+export function QuoteView({ catalog, software, t, stepper, hrefs }: Props) {
   const hydrated = useSyncExternalStore(
     noopSubscribe,
     () => true,
@@ -46,7 +48,7 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
     countText,
     onWhatsApp,
     onSend,
-  } = useQuoteRequest(catalog, t);
+  } = useQuoteRequest(catalog, software, t);
 
   if (!hydrated) return <div className="min-h-96" aria-hidden="true" />;
 

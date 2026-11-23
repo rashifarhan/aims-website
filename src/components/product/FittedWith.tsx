@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MarketLink } from "./MarketLink";
 import { AddToQuote, type AddToQuoteLabels } from "@/components/catalogue/AddToQuote";
 import type { Product } from "@/content/schema";
 import type { DataAttrs } from "./englishData";
@@ -45,13 +45,13 @@ export function FittedWith({ items, heading, note, href, addLabels, data, ground
               )}
             </div>
             <div className="flex min-w-0 flex-1 flex-col sm:mt-4">
-              <Link
+              <MarketLink
                 href={href(`/product/${f.slug}`)}
                 {...data}
                 className="-my-2.5 block py-2.5 text-home-card leading-snug font-card wrap-anywhere text-ink hover:text-green-700 hover:underline rtl:text-end"
               >
                 {f.name}
-              </Link>
+              </MarketLink>
               <AddToQuote
                 slug={f.slug}
                 name={f.name}

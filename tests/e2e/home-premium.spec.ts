@@ -30,17 +30,24 @@ test("no section fades or rises in on scroll", async ({ page }) => {
   await expect(page.locator(".home-family-card").first()).toHaveCSS("opacity", "1");
 });
 
-test("the door assembles once when it comes into view and finishes if scrolled away", async ({ page }) => {
+// Approved motion redesign: the desktop door is reversible; phones retain a finite one-shot.
+test("the door follows native scroll and has a complete phone fallback", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
   const door = page.locator(".home-door");
-  await expect(door).not.toHaveAttribute("data-played");
-  await expect(page.locator(".door-granted")).toHaveCSS("opacity", "0");
-  await page.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(door).toHaveAttribute("data-played", "true");
-  await page.evaluate(() => scrollTo(0, 0));
-  await expect(page.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
-  await expect(door).toHaveAttribute("data-played", "true");
+  if ((page.viewportSize()?.width ?? 0) >= 1024) {
+    await expect(door).toHaveAttribute("data-mode", "scroll");
+    await door.evaluate((el) => {
+      const box = el.getBoundingClientRect();
+      scrollTo(0, scrollY + box.top + box.height - innerHeight);
+    });
+    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1");
+    await page.evaluate(() => scrollTo(0, 0));
+    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "0");
+  } else {
+    await expect(door).toHaveAttribute("data-mode", "once");
+    await door.locator(".home-door-drawing").scrollIntoViewIfNeeded();
+    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
+  }
 });
 
 test("the reach map draws its routes once and then stands still", async ({ page }) => {

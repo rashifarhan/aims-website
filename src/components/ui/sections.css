@@ -255,6 +255,11 @@
 .page-hero-eyebrow + h1 {
   margin-block-start: 0.75rem;
 }
+/* AIMS's English title keeps dir="ltr" on an Arabic page; its end edge is the page's start edge, so it lines up
+   with the breadcrumb and lead (Design Doc 13; audit B-I06). */
+:dir(rtl) .page-hero h1[dir="ltr"] {
+  text-align: end;
+}
 :lang(ar) .page-hero h1 {
   letter-spacing: 0;
   line-height: 1.2;
@@ -282,7 +287,8 @@
 .page-hero-media {
   justify-self: center;
   width: 100%;
-  max-width: 16rem;
+  /* --photo-width (PageHero): never past the photograph's own pixels (taste photo-upscale). */
+  max-width: min(16rem, var(--photo-width, 100%));
 }
 .page-hero-media img {
   display: block;
@@ -331,7 +337,7 @@ main:has(> .page-hero-split) {
     max-width: none;
   }
   .page-hero-media img {
-    max-width: 30rem;
+    max-width: min(30rem, var(--photo-width, 100%));
     margin-inline: auto;
   }
   .page-hero-framed {
@@ -352,6 +358,13 @@ main:has(> .page-hero-split) {
   }
   .page-hero-actions .home-secondary {
     justify-content: center;
+  }
+}
+/* Short phones (audit B4): the software hub's title took seven lines at 320x480 and hid its action. One hero, so
+   every page title takes the short size there. */
+@media (max-width: 639px) and (max-height: 600px) {
+  .page-hero h1 {
+    font-size: var(--text-page-title-short);
   }
 }
 /* The entrance, once on load (~1.1 s, then it stands): the copy rises in turn, the photograph settles.
@@ -534,6 +547,10 @@ main:has(> .page-hero-split) {
   border-radius: var(--radius-lg);
   background: var(--color-green-50);
 }
+/* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). */
+.ui-close-embedded {
+  margin-block-start: 3rem;
+}
 .ui-close-title {
   font-size: var(--text-home-heading);
   font-weight: var(--font-weight-display);
@@ -655,6 +672,20 @@ main:has(> .page-hero-split) {
   flex-direction: column;
   padding: var(--card-pad);
 }
+/* AIMS's own photograph of the place, edge to edge at the card's top (OfficeCard media). */
+.ui-office-media {
+  margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 1rem;
+  overflow: clip;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+}
+.ui-office-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
 .ui-office-tag {
   display: inline-flex;
   align-items: center;
@@ -752,6 +783,17 @@ main:has(> .page-hero-split) {
   .ui-reach-map {
     margin-inline: calc(var(--page-gutter) * -0.5);
   }
+}
+/*
+ * Oman's map is the Gulf crop (ReachMap ZOOM): the dot field runs on past its west and north edges, so the
+ * crop showed as a cut rectangle (audit T3). Fade those two open edges; the SVG is always drawn west to east
+ * (direction="ltr"), so the physical "to right" is correct in Arabic too. Ink is only the mask's alpha.
+ */
+.ui-reach-map:has(.reach-map-zoomed) {
+  mask-image:
+    linear-gradient(to right, transparent, var(--color-ink) 14%),
+    linear-gradient(to bottom, transparent, var(--color-ink) 12%);
+  mask-composite: intersect;
 }
 .ui-office-list {
   display: grid;

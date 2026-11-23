@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { MarketLink } from "./MarketLink";
 import { Section } from "@/components/ui/Section";
 import type { Product } from "@/content/schema";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -41,9 +41,9 @@ export function ProductDetails({ p, compareHref, t, data, ground }: Props) {
         {p.datasheetUrl && <p className="mt-2 text-sm text-ink-600">{t.datasheetNote}</p>}
       </li>
       <li>
-        <Link href={compareHref} className="home-secondary">
+        <MarketLink href={compareHref} className="home-secondary">
           {t.compareSimilar}
-        </Link>
+        </MarketLink>
       </li>
     </ul>
   );

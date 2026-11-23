@@ -3,7 +3,15 @@ import { ChevronDownIcon } from "@/components/icons";
 
 export type FooterColumn = { title: string; links: { href: string; label: string }[] };
 
-const linkClass = "inline-flex min-h-11 items-center text-sm text-ink-700 hover:text-green-700";
+/**
+ * The footer's one link look, the site's text-link look (`.home-text-link`; audit 23 Nov 2026, taste House
+ * rule 5, Emil): the underline draws in over the hover duration and a press dims the link. The text colour
+ * stays put, so links sliding under a resting pointer while the page scrolls never flash colour.
+ */
+export const footerLinkClass =
+  "inline-flex min-h-11 items-center underline decoration-transparent underline-offset-4 transition-[text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:decoration-current active:opacity-75";
+
+const linkClass = `${footerLinkClass} text-sm text-ink-700`;
 
 /**
  * The footer's four link groups. From 640px they stand as columns. On a phone each group folds into a
@@ -38,7 +46,7 @@ export function FooterLinks({ columns, externalLabel }: { columns: FooterColumn[
                 <ChevronDownIcon
                   width={18}
                   height={18}
-                  className="text-ink-600 transition-transform duration-(--duration-base) ease-(--ease-aims) group-open:rotate-180"
+                  className="text-ink-600 transition-transform duration-(--duration-dropdown) ease-(--ease-aims) group-open:rotate-180"
                 />
               </summary>
               <ul className="motion-disclose hidden pb-3 group-open:block">{list(c)}</ul>

@@ -6,7 +6,8 @@ import { PinIcon } from "@/components/icons";
  * the name, the address and two actions (call, then map or visit). `featured` marks the Deira showroom, the
  * one place AIMS invites visitors to (DESIGN.md "The Trusted Showroom"); `night` sets it on night green. The
  * actions come ready-made because each page keeps its own behaviour (the preview contact notice, external
- * marks). No opening hours: AIMS hasn't published them (CLAUDE.md §1).
+ * marks). No opening hours: AIMS hasn't published them (CLAUDE.md §1). `media` is AIMS's own photograph of
+ * the place, edge to edge at the card's top, once AIMS supplies one (site.ts SHOWROOM_PHOTO).
  */
 export function OfficeCard({
   name,
@@ -15,6 +16,7 @@ export function OfficeCard({
   tag,
   featured = false,
   tone = "paper",
+  media,
   call,
   visit,
 }: {
@@ -25,12 +27,14 @@ export function OfficeCard({
   tag?: string;
   featured?: boolean;
   tone?: "paper" | "night";
+  media?: ReactNode;
   call: ReactNode;
   visit: ReactNode;
 }) {
   const classes = ["ui-card", "ui-office", `ui-office-${tone}`, featured ? "ui-office-featured" : ""];
   return (
     <li className={classes.join(" ").trim()}>
+      {media && <div className="ui-office-media">{media}</div>}
       {tag && (
         <p className="ui-office-tag">
           <PinIcon width="16" height="16" />

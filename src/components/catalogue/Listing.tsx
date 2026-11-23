@@ -7,6 +7,7 @@ import type { FamilySlug } from "@/content/taxonomy";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { countLabel, fmt } from "@/i18n/format";
 import { MAX_COMPARE, parseFilters, serializeFilters, toggle, type FilterState } from "@/lib/filters";
+import { destinationFromSearch, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote } from "@/lib/quote/useQuote";
 import { CompareTray } from "./CompareTray";
 import { EmptyResults } from "./EmptyResults";
@@ -31,7 +32,7 @@ export type ListingProps = {
 export function Listing(props: ListingProps) {
   const params = useSearchParams();
   const urlState = useMemo(() => parseFilters(params), [params]);
-  return <ListingView {...props} urlState={urlState} />;
+  return <ListingView {...props} urlState={urlState} preset={destinationFromSearch(params.toString())} />;
 }
 
 const EMPTY = parseFilters({});
@@ -50,9 +51,10 @@ export function ListingView({
   familyNames,
   hrefs,
   urlState = EMPTY,
-}: ListingProps & { urlState?: FilterState }) {
+  preset,
+}: ListingProps & { urlState?: FilterState; preset?: Partial<QuoteContext> }) {
   const { state, update, effective, results, groups, onToggle, filterCount, clearFilters, compareItems, compareHref } =
-    useListingModel({ cards, family, t, familyNames, hrefs, urlState });
+    useListingModel({ cards, family, t, familyNames, hrefs, urlState, preset });
 
   /* ---------- zero state: "Ask us about this model" ---------- */
   const [asked, setAsked] = useState("");
@@ -101,6 +103,7 @@ export function ListingView({
             <ResultsGrid
               results={results}
               productHref={hrefs.product}
+              preset={preset}
               subtitle={subtitle}
               labels={cardLabels(t)}
               compare={(c) => ({
@@ -119,7 +122,7 @@ export function ListingView({
               onClearSearch={() => update({ q: "" })}
               onClearFilters={clearFilters}
               onAsk={() => {
-                dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1 });
+                dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1, preset });
                 setAsked(state.q);
               }}
             />

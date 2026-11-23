@@ -26,7 +26,6 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, `/${slug}`), label: c[slug] },
         ]}
-        eyebrow={c.legalEyebrow}
         title={c[slug]}
         lead={locale === "ar" ? c.englishOnly : c.legalLead}
       />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Product } from "@/content/schema";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { CompareRow } from "@/lib/compare";
+import type { QuoteContext } from "@/lib/quote/context";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
 import { DiffersChip } from "./DiffersChip";
 
@@ -12,6 +13,8 @@ type Props = {
   t: Dictionary;
   addLabels: AddToQuoteLabels;
   productHref: (slug: string) => string;
+  /** The market carried from the listing, so Add keeps the buyer's destination (market-quote continuity). */
+  preset?: Partial<QuoteContext>;
   contentLang?: string;
 };
 
@@ -20,7 +23,7 @@ type Props = {
  * so nothing scrolls sideways. Each product's Add is the outline button, so three never read as a wall of
  * filled green (CLAUDE.md §2: one main action per screen).
  */
-export function CompareStack({ items, rows, t, addLabels, productHref, contentLang }: Props) {
+export function CompareStack({ items, rows, t, addLabels, productHref, preset, contentLang }: Props) {
   const columns = { gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` };
   return (
     <div className="mt-6 sm:hidden" lang={contentLang}>
@@ -70,7 +73,7 @@ export function CompareStack({ items, rows, t, addLabels, productHref, contentLa
             <p className="mb-2 truncate font-mono text-sm font-medium">
               <span dir="ltr">{p.model}</span>
             </p>
-            <AddToQuote slug={p.slug} name={p.name} labels={addLabels} variant="outline" />
+            <AddToQuote preset={preset} slug={p.slug} name={p.name} labels={addLabels} variant="outline" />
           </li>
         ))}
       </ul>

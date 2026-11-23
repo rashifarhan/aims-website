@@ -3,15 +3,16 @@ import Link from "next/link";
 import type { Article } from "@/content/pages";
 import { articleDate } from "@/lib/editorial";
 
-type Props = { article: Article; href: string; heading?: "h2" | "h3" };
+type Props = { article: Article; href: string; heading?: "h2" | "h3"; lead?: boolean };
 
 /**
  * One AIMS article as the shared card (ui/actions.css .ui-card; Design Doc 9: one card style). The title
  * is the card's one link, stretched over it, so the card is a single tab stop; the card lifts and the
  * photo zooms on hover. The image is AIMS's own, saved by the importer; it is decorative here because the
  * title says the same. The card is the article's own English text, so its date is written in English too.
+ * `lead` marks the first card of a list, whose image is the page's LCP element (CLAUDE.md §5).
  */
-export function ArticleCard({ article, href, heading: Heading = "h2" }: Props) {
+export function ArticleCard({ article, href, heading: Heading = "h2", lead = false }: Props) {
   return (
     <article className="ed-card ui-card ui-card-interactive">
       {article.image && (
@@ -21,7 +22,9 @@ export function ArticleCard({ article, href, heading: Heading = "h2" }: Props) {
             alt=""
             width={article.image.width}
             height={article.image.height}
-            sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw"
+            loading={lead ? "eager" : "lazy"}
+            fetchPriority={lead ? "high" : "auto"}
           />
         </div>
       )}

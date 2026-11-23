@@ -1,6 +1,5 @@
 import { getDictionary } from "@/i18n/dictionaries";
 import { AttendanceDrawing } from "./AttendanceDrawing";
-import { StoryPause } from "./StoryPause";
 import { StoryProgress } from "./StoryProgress";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Section } from "@/components/ui/Section";
@@ -26,7 +25,6 @@ export async function AttendanceStory() {
         </ol>
         <figure className="story-stage">
           <AttendanceDrawing copy={s} />
-          <StoryPause label={s.pause} />
           <figcaption>{s.sample}</figcaption>
         </figure>
       </StoryProgress>

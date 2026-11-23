@@ -442,6 +442,10 @@
     "productCountOne": "1 product",
     "productCount": "{count} products",
     "pictured": "Pictured:",
+    "site": {
+      "title": "One site, five systems.",
+      "lead": "Each system has its place, from the gate to the counter. Find yours on the plan, then open its page."
+    },
     "cards": {
       "time-attendance": {
         "outcome": "Record working hours",
@@ -453,25 +457,25 @@
         "outcome": "Manage who can enter",
         "description": "Choose readers and controllers for your doors. Check the credentials, connections and door hardware each system needs.",
         "includes": ["Readers and controllers", "Face recognition terminals"],
-        "action": "Explore access control products"
+        "action": "See how access control works"
       },
       "entrance-parking": {
         "outcome": "Organise entry and exit",
         "description": "Explore pedestrian entrances and vehicle access, from a building lobby to a car park.",
         "includes": ["Turnstiles and swing barriers", "Parking barriers"],
-        "action": "Explore entrance products"
+        "action": "See how entrances and car parks work"
       },
       "door-locks": {
         "outcome": "Choose access for each room",
         "description": "Browse smart locks for homes and offices, and card-operated locks for hotels. Confirm the fit for your door before choosing.",
         "includes": ["Smart door locks", "Hotel lock systems"],
-        "action": "Explore door locks"
+        "action": "See which lock fits each door"
       },
       "pos": {
         "outcome": "Equip your point of sale",
         "description": "Explore point-of-sale hardware for a shop, café or restaurant. Check the operating system and connections against your software requirements.",
         "includes": ["Windows and Android terminals", "Biometric POS terminals"],
-        "action": "Explore POS products"
+        "action": "See how POS works at your counter"
       }
     },
     "industries": {
@@ -552,12 +556,14 @@
     "needs": {
       "supply": "Supply only",
       "install": "Supply and installation",
-      "export": "Delivery abroad"
+      "export": "Delivery abroad",
+      "software": "Software and licences"
     },
     "needHints": {
       "supply": "I'll install it myself",
       "install": "In the UAE",
-      "export": "GCC, Africa or elsewhere"
+      "export": "GCC, Africa or elsewhere",
+      "software": "Platform selection and terminal setup"
     },
     "city": "Delivery city (optional)",
     "timing": "When do you need it? (optional)",
@@ -664,7 +670,8 @@
       "documents": "documents: {text}"
     },
     "presetInstall": "Installation enquiry: describe your site below (for example \"6 doors, 80 staff, Dubai office\"), then add any models you already know.",
-    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know."
+    "presetExport": "Export enquiry: describe what you need and where it goes (for example \"30 terminals to Nairobi\"), then add any models you already know.",
+    "softwareExisting": "Existing terminals or software (optional)"
   },
   "contactGuard": {
     "title": "Preview: this would contact AIMS",
@@ -681,7 +688,6 @@
   "solutionTimeAttendance": {
     "metaTitle": "Time attendance systems in the UAE",
     "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
-    "eyebrow": "Solution",
     "title": "Time attendance that feeds payroll.",
     "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
     "primary": "Get an installation quote",
@@ -691,7 +697,6 @@
       "lead": "Four steps happen every time someone checks in.",
       "label": "How time attendance works",
       "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
-      "pause": "Pause animation",
       "steps": [
         {
           "title": "Check in at the terminal",
@@ -891,14 +896,15 @@
       "headOffice": "Head office, Dubai",
       "showroom": "Dubai showroom",
       "abuDhabi": "Abu Dhabi office"
-    }
+    },
+    "showroomPhotoAlt": "The AIMS showroom in Deira, Dubai"
   },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",
     "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
     "title": "ZKTeco software for attendance and access control",
     "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
-    "primary": "Request an installation quote",
+    "primary": "Help me choose software",
     "filterLabel": "Software type",
     "all": "All software",
     "types": {
@@ -923,7 +929,9 @@
     "close": {
       "heading": "Software set up on your terminals",
       "body": "Tell AIMS which terminals you run and how many sites you have. The quote covers the software, licences and installation."
-    }
+    },
+    "guidanceLine": "Help me choose software for my terminals.",
+    "askPlatform": "Ask about {name}"
   },
   "softwarePage": {
     "software": "Software",
@@ -1007,7 +1015,6 @@
   "solutionAccessControl": {
     "metaTitle": "Access control systems in the UAE",
     "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Decide who opens every door.",
     "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
     "primary": "Get an installation quote",
@@ -1131,7 +1138,6 @@
   "solutionEntranceParking": {
     "metaTitle": "Turnstiles & parking barriers, UAE",
     "metaDescription": "Tripod, flap, swing and full-height turnstiles, parking barrier gates and plate recognition from ZKTeco, supplied and installed by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Turnstiles for lobbies, barriers for car parks.",
     "lead": "Turnstiles and swing or flap barriers decide who walks in. Barrier gates, plate recognition and radar sensors manage the cars.",
     "primary": "Get an installation quote",
@@ -1266,7 +1272,6 @@
   "solutionDoorLocks": {
     "metaTitle": "Smart and hotel door locks, UAE",
     "metaDescription": "ZKTeco fingerprint and Wi-Fi smart locks, a glass door lock and RFID hotel card locks, supplied and fitted by AIMS in the UAE.",
-    "eyebrow": "Solution",
     "title": "Smart locks for homes, card locks for hotels.",
     "lead": "Fingerprint, PIN, card and app locks for front doors and offices, and RFID card locks for guest rooms. AIMS supplies and fits them.",
     "primary": "Get an installation quote",
@@ -1401,7 +1406,6 @@
   "solutionPos": {
     "metaTitle": "POS terminals for shops, UAE",
     "metaDescription": "ZKTeco Windows, Android and fingerprint POS terminals, a handheld POS and receipt printers, supplied and set up by AIMS for shops and restaurants in the UAE.",
-    "eyebrow": "Solution",
     "title": "POS terminals for shops, cafés and restaurants.",
     "lead": "Windows and Android touchscreen terminals, a handheld with a built-in printer, and a terminal with fingerprint verification. Choose by the software your counter runs.",
     "primary": "Get a quote",
@@ -1543,7 +1547,7 @@
       "call": "Call",
       "directions": "Directions",
       "mapsNewTab": "Google Maps, opens in a new tab",
-      "modelsHeading": "Models to start from",
+      "modelsHeading": "Products to start from",
       "modelsLead": "Two terminals, a door controller and a lock from AIMS's catalogue. Open a model for its full specifications, or add it to your quote.",
       "modelsAll": "Browse all {count} products",
       "stepsLabel": "How it works",
@@ -1552,8 +1556,7 @@
     "hub": {
       "metaTitle": "Locations and delivery",
       "metaDescription": "Visit AIMS's Deira showroom, call the Dubai or Abu Dhabi office, or choose a GCC or African destination for an export quote.",
-      "eyebrow": "Locations",
-      "title": "Visit in Dubai. Delivered across the GCC and Africa.",
+      "title": "ZKTeco in Dubai, delivered across the GCC and Africa",
       "lead": "AIMS supplies ZKTeco time attendance and access control from a showroom in Deira and offices in Dubai and Abu Dhabi. Choose where you are to see how to buy.",
       "primary": "Choose a destination",
       "secondary": "Find the showroom",
@@ -1597,7 +1600,7 @@
         ]
       },
       "cta": {
-        "heading": "Tell AIMS where it's going",
+        "heading": "Name your delivery destination",
         "body": "Add the models and quantities, choose “Delivery abroad” and name the city or port. AIMS replies with a quotation.",
         "action": "Start an export quote",
         "secondary": "Contact AIMS"
@@ -1752,7 +1755,6 @@
     "terms-and-conditions": "Terms and conditions",
     "privacyDescription": "How AIMS Security Systems Trading LLC collects, uses and protects personal information on its website.",
     "termsDescription": "The terms that govern use of the AIMS Security Systems website and its services.",
-    "legalEyebrow": "Legal",
     "legalLead": "AIMS's own text, as published on aimsuae.me.",
     "englishOnly": "AIMS publishes this text in English.",
     "onThisPage": "On this page",
@@ -1763,8 +1765,7 @@
     "metaTitle": "Guides from AIMS",
     "metaDescription": "Articles from AIMS on ZKTeco access control, time attendance, turnstiles and POS systems in the UAE.",
     "crumb": "Blog",
-    "eyebrow": "Blog",
-    "title": "Guides from AIMS",
+    "title": "Access control and POS guides from AIMS",
     "lead": "{count} articles from AIMS on access control, time attendance, entrance control and POS in the UAE.",
     "published": "Published {date}",
     "nextHeading": "Plan it with AIMS",
@@ -1773,14 +1774,18 @@
     "hub": "All solutions",
     "hubSummary": "Time attendance, access control, entrance, locks and POS",
     "quote": "Request a quote",
-    "moreHeading": "More from AIMS",
-    "all": "All articles"
+    "moreHeading": "More articles from AIMS",
+    "all": "All articles",
+    "closeHeading": "Plan a system with AIMS",
+    "closeBody": "Send AIMS the models or describe the site, and AIMS replies with a quotation.",
+    "closeAction": "Request a quote",
+    "closeSecondary": "See the solutions"
   },
   "about": {
     "metaTitle": "About AIMS and the showrooms",
     "metaDescription": "AIMS Security Systems Trading LLC supplies, installs and supports ZKTeco systems from a head office and showroom in Deira, Dubai, and an office in Abu Dhabi.",
     "crumb": "About",
-    "title": "About AIMS Security Systems",
+    "title": "About AIMS, ZKTeco security across the UAE",
     "lead": "AIMS supplies, installs and supports ZKTeco access control, time attendance, entrance control, locks and POS, from Dubai and Abu Dhabi.",
     "primary": "Visit the showroom",
     "secondary": "Request a quote",
@@ -1886,8 +1891,7 @@
     "metaTitle": "Support and ZKTeco warranty",
     "metaDescription": "ZKTeco's warranty policy, how to get help from AIMS after installation, and answers to common ZKTeco setup questions.",
     "crumb": "Support & warranty",
-    "eyebrow": "Support",
-    "title": "Support and warranty",
+    "title": "ZKTeco support and warranty",
     "lead": "ZKTeco's warranty policy, how to get help from AIMS, and answers to common setup questions.",
     "whatsapp": "Message AIMS on WhatsApp",
     "email": "Email AIMS",
@@ -1912,6 +1916,10 @@
         "owner": "ZKTeco"
       }
     ],
+    "route": {
+      "channels": ["WhatsApp", "Email"],
+      "team": "AIMS support"
+    },
     "faqHeading": "Common questions",
     "faqNote": "AIMS's answers, as published, in English.",
     "closeHeading": "Planning a new system instead?",

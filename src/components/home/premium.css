@@ -2,11 +2,9 @@
  * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
  * catalogue, the showroom and the close; the light showroom floor for proof.
  *
- * Motion (taste motion.md, three layers): the hero enters once; the door assembles once and the reach
- * map draws its routes once, each when its section comes into view (MomentTrigger sets data-played);
- * the hover and press layer. Nothing else moves, nothing loops, and scrolling reveals nothing.
- * Moments animate transform, opacity and stroke-dashoffset only. Nothing is hidden unless
- * MomentTrigger set data-effects="on", which it never does under reduced motion.
+ * Motion (taste motion.md, three layers): the hero enters; DoorStory controls the approved door kit;
+ * the reach map draws once through MomentTrigger; shared controls answer hover/press. Other sections
+ * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
@@ -37,126 +35,9 @@
   color: var(--color-lime);
 }
 
-/* ---------- 4 · The door assembles itself once, in the prototype's order (Design Doc 8.2) ---------- */
-.door-wire {
-  stroke-dasharray: 1;
-}
-.door-leaf {
-  transform-box: view-box;
-  transform-origin: 306px 348px;
-  transform: scaleX(0.74);
-}
-.door-granted {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-:root[data-effects="on"]
-  .home-door:not([data-played])
-  :is(.door-part, .door-card, .door-led, .door-granted, .door-log) {
-  opacity: 0;
-}
-:root[data-effects="on"] .home-door:not([data-played]) .door-leaf {
-  transform: scaleX(1);
-}
-:root[data-effects="on"] .home-door:not([data-played]) .door-wire {
-  stroke-dashoffset: 1;
-}
-:root[data-effects="on"] .home-door[data-played] .door-controller {
-  animation: door-in 500ms 200ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-reader {
-  animation: door-in 500ms 450ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-wires {
-  animation: door-fade 1ms 450ms both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-wires .door-wire {
-  animation: door-draw 900ms 500ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-lock {
-  animation: door-in 500ms 800ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-exit {
-  animation: door-in 500ms 1100ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-software {
-  animation: door-in 500ms 1400ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-software .door-wire {
-  animation: door-draw 1000ms 1400ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-card {
-  animation: door-card 800ms 2000ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-led {
-  animation: door-fade 200ms 2800ms both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-leaf {
-  animation: door-open 700ms 3000ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-granted {
-  animation: door-pop 450ms 3400ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .home-door[data-played] .door-log {
-  animation: door-in 400ms 3700ms var(--ease-aims) both;
-}
+/* Door motion is shared with Access Control in motion/doorStory.css and doorTimeline.ts. */
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
 /* ---------- Closing band: night green, still light ---------- */
 /* The two glows are layers of the ground itself, so nothing spills past the band. */
-
-@keyframes door-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes door-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes door-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes door-card {
-  from {
-    opacity: 0;
-    transform: translate(-150px, 70px) rotate(-14deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes door-open {
-  from {
-    transform: scaleX(1);
-  }
-  to {
-    transform: scaleX(0.74);
-  }
-}
-@keyframes door-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}

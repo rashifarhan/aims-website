@@ -82,7 +82,8 @@ test.describe("search", () => {
     await expect(page.getByRole("article").first()).toContainText("SA20");
 
     const fresh = await (await browser.newContext()).newPage();
-    await fresh.goto(page.url().replace(/^.*?\/products/, "http://localhost:3100/products"));
+    // The same URL in a fresh context (its own origin, so the spec runs on any PORT, not only 3100).
+    await fresh.goto(page.url());
     await expect(fresh.getByRole("article").first()).toContainText("SA20");
     await fresh.context().close();
   });

@@ -175,9 +175,10 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 
 ### Solutions hub decisions (Design Doc 10.1 T2; Master Plan ch. 12, 14)
 
-1. **Hub only, as planned** (`docs/superpowers/plans/2026-11-21-solutions-hub.md`): five need cards, an industries
-   strip and an FAQ. The five T3 solution pages are not built yet, so each card links to its family listing and says
-   so ("Explore attendance products"). The P2 finder is deferred.
+1. **Hub as planned** (`docs/superpowers/plans/2026-11-21-solutions-hub.md`): five need cards, the site plan, an
+   industries strip and an FAQ. All five T3 solution pages are built, so every card opens its solution page and its
+   action line names that page ("See how access control works"), not products (23 Nov 2026). The P2 finder is
+   deferred.
 2. **Each card's heading is its link**, stretched over the card with `::after`, so the whole card is clickable and
    the link's name is the title only (WCAG 2.5.3); the action line is visual. The first draft wrapped the whole card
    in one link labelled by part of its text, which failed axe `label-content-name-mismatch`. Built solution pages
@@ -185,7 +186,23 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 3. **"Explore the components" lists only what the linked listing contains** (CLAUDE.md §1). The draft promised
    attendance software, locks, speed gates and POS peripherals, which those listings don't have; they now read
    portable terminals, face recognition terminals, turnstiles and swing barriers, and biometric POS terminals. An e2e
-   test checks each line against the catalogue.
+   test checks each line against the catalogue and, since the cards open them, against the solution pages.
+4. **Hero entrance:** the intro uses the shared AIMS entrance (`motion/entrance.css`): the title rises from its mask
+   and the lead follows, with the T3 tokens. It has no photo, so no studio light. Reduced motion: still.
+5. **Dealt moment, "One site, five systems"** (`SolutionSite`, `SitePlanDrawing`, `site-plan.css`): a top-down plan
+   of one business site in the door kit's line style, with a numbered point for each solution where it sits on a
+   site (barrier and turnstile at the gate, the controlled main door, the terminal at the staff entry, an office
+   door's lock, the shop counter) and one controller node. When a third of the section is in view (MomentTrigger),
+   lines draw from the node to each point in turn and each point lights once with a lime ping (about 2.2 s), then
+   it stands. Transform, opacity and stroke-dashoffset only; reduced motion and no-JS show the finished plan.
+   - **Placement:** its own section between the cards and the industries strip. The cards answer "what", the plan
+     "where on my site", the industries "for which kind of site"; it holds one screen at 1440 × 900.
+   - **Links:** the SVG is decorative (`aria-hidden`, LTR in Arabic like the door and reach map). A numbered HTML
+     list beside it (below on phones) holds the five real links in visit order, gate to counter, with names from
+     `t.solutions[slug].name`, so the section reads the same without the plan. Hovering or focusing a link rings its
+     point. Phones drop the names from the plan and enlarge the markers rather than shrinking them.
+   - **Truth:** an illustration only, with no models, counts or claims. The node is unlabelled and the copy makes
+     no integration claim: it does not say the five systems run on one controller (CLAUDE.md §1).
 
 ### Contact decisions (Design Doc 10.1 T9; Master Plan ch. 12 row 8)
 
@@ -389,7 +406,10 @@ One time-boxed pass over every built template: a shared step first, then four te
 ## Not yet confirmed by AIMS
 
 Logo, ZKTeco authorization wording, founding year (2011 or 2014), opening hours, which phone number serves which need,
-permission to link datasheets and software files, and an Arabic reviewer. `ar.json` is a first draft and needs that
+permission to link datasheets and software files, a photograph of the Deira showroom, and an Arabic reviewer. The
+showroom photo has a ready slot (`SHOWROOM_PHOTO` in `src/lib/site.ts`): set it and the showroom card on `/contact`
+and `/about` shows it. aimsuae.me publishes no showroom photo (checked 23 Nov 2026: product banners and stock images
+only), and no stand-in is used. `ar.json` is a first draft and needs that
 review.
 
 **Homepage polish audit (Design Doc ch. 2, 7–10, 12–14; Master Plan ch. 14, 18).** Each T1 section was checked
@@ -672,3 +692,87 @@ Ported from `claude/editorial-pages` and `claude/company-pages` onto the site sy
   prefetch back on.
 - **Open for AIMS:** the published Terms name "mssolution.me" and show the date "[30-09-2025]", and the Privacy
   Policy says "AIMS Security System LLC". They are shown as published.
+
+### Three-skill audit of the later pages (23 Nov 2026)
+
+The pages built after the site-wide polish (locations, company, legal, blog, the four T3 solution pages, software) and
+the footer had Taste, Impeccable and Emil run on them in turn, by three agents. The findings, fixes and gate
+results before and after are in `docs/audits/2026-11-23-{locations,company,solutions}.md`, and the plan is in
+`docs/superpowers/plans/2026-11-23-three-skill-audit.md`. There were no P0s and axe stayed at 0 violations.
+
+- **Gate status, stated plainly:** no page reaches `GATE: PASS`. About 25 FAILs on every page come from the shared
+  header, the footer and the kit's own markup rules. Others conflict with CLAUDE.md: AIMS's real phone lines, the
+  preview demo note, AIMS's own imported article and software text (§1), and the approved door prototype. These are
+  recorded in the audit files, not waived: the kit allows five waivers and a sixth reopened all of them. copy-lint has
+  0 FAIL on our copy.
+- **One section per screen:** sections hold one desktop screen. The close is now the last block of the questions
+  screen on solution and location pages, and that last screen keeps its natural height, because stretching short
+  sections left mostly empty screens.
+- **Headings:** the Locations, About, Support and Blog h1s now name ZKTeco or what is sold.
+- **Footer:** a Blog link; popular searches as plain links (no third button style); hover underline and press dim;
+  the Arabic copyright and address no longer scramble.
+- **Reading pages:** 18px text from 640px (about 75 characters a line); "Jump to" and FAQ answers fade open; the blog
+  index ends with the shared close.
+- **Catalogue card:** long Arabic spec values align to the card's end edge, long model fields split into the code
+  and a description (`splitModel`, unit-tested), and model links are 44px targets.
+- **Motion:** the reach map starts its draw once the map is in view rather than at its top edge, and the Oman crop
+  fades at its edges.
+- **Shared fixes:** each breadcrumb separator now ends its item, so a wrap never opens a line with "/". The location
+  cards' email link is a 44px target.
+- **Decided with the user after the audit (23 Nov 2026):**
+  - **Support gets a dealt moment:** the support route. AIMS's two published support channels, WhatsApp and
+    email, draw into its support team and end in the check (`SupportRoute`, VERIFY parts). No phone line is drawn,
+    because AIMS names none for support.
+  - **Privacy, Terms, Blog and articles deal no moment,** a deliberate exception to CLAUDE.md §3: they are read, and
+    a moment there would be decoration that delays the text. They keep the hero entrance and the hover layer.
+  - **Eyebrows that repeat the breadcrumb are gone** ("Solution", "Locations", "Legal", "Blog", "Support"). Labels
+    that state a fact stay: About's ZKTeco authorization, "Delivered from Dubai", Dubai's showroom line and Services'
+    scope.
+  - **The header search keeps its hidden label:** the magnifier, placeholder and `/` hint carry it visually, and a
+    visible label would crowd the header.
+  - **No stand-in Deira photograph:** on AIMS's own location pages it would read as AIMS's street or showroom
+    (CLAUDE.md §1). A real showroom photo from AIMS goes in when supplied.
+
+### Purposeful motion (`codex/purposeful-motion`, 23 Nov 2026)
+
+- The client approved `docs/superpowers/specs/2026-11-23-purposeful-motion-design.md`: original domain motion on home,
+  Access Control, Time Attendance, product details and software details. Master Plan ch. 6/9/14/16/18 and Design Doc
+  ch. 3–9/13/14 apply. NUZON's audit is reference evidence, never a source of brand assets or implementation.
+- This supersedes the earlier **timed door trigger** on home and Access Control: the approved illustration now
+  follows native desktop scroll within two screens, reverses on the way back, and shows six real part links.
+  Phones/short windows play once only when the drawing is visible, preserve progress on resize, and pause out of view.
+- Attendance keeps its four stages and labelled sample rows; phone playback advances in visible time, with no pinned
+  drawing over the text. Transport dots finish rather than looping while someone reads.
+- Hero entrances use the existing AIMS tokens and whole text runs. Controls work immediately. Still green studio
+  lighting sits behind the real hardware; homepage verification light shares the existing paused/offscreen-aware clock.
+  Connection diagrams keep their text readable and draw only data-backed paths. Runtime reduced-motion changes finish
+  the diagrams, including with multiple mounted triggers. No library, WebGL, competitor asset or new product claim.
+- Review findings, decisions and verification are recorded in `docs/design-checks/purposeful-motion.md`.
+- **Taken onto `main` through `claude/purposeful-motion`, after review (23 Nov 2026):**
+  - The new hero entrance (title rising from its mask, studio light behind the photo) is shared by every T3-based
+    hero: all five solution pages, the location pages and the company pages. The branch had applied it to two
+    hard-coded solution slugs only.
+  - On phones, the door's parts list now follows the one-shot playback step by step; before, it stayed on "01" until
+    the end.
+  - The access control scroll story is excluded from the audit's one-screen section rule, which otherwise removed its
+    scroll range.
+  - `.taste-skill/waivers.json` is unchanged (the branch had swapped a waiver), the raw gate and performance outputs
+    stay local (CLAUDE.md), and the resting hero glow keeps its original strength (DESIGN.md "Lime Is Light").
+  - Scroll-driven stories are desktop only, on the homepage door, Access Control and Time Attendance. Phones play
+    once; product, software and the other solution pages keep their one-time draws.
+
+### Short-phone first screens (audit B4, 23 Nov 2026)
+
+At 320×480 the homepage and software hub titles (5 and 7 lines) and the product photo (about 60% of the screen) left
+no action on the first screen. Changes apply only to narrow, short screens; desktop and normal phones keep their
+composition.
+
+- **Homepage and software hub, ≤600px tall:** smaller titles (`--text-home-display-short`, `--text-page-title-short`)
+  and tighter hero spacing. Their main action is in view at 320×480 and 320×568, English and Arabic.
+- **Product pages, phones:** the quantity and Add to quote follow the model chip (CSS order). The summary and spec
+  tiles they move past hold no focusable element, so keyboard order still matches what is seen; desktop keeps the
+  source order. On screens ≤760px tall the photo frame is capped in height but keeps its full width, and the photo stays
+  whole (`object-contain`). Under 360px wide, Add to quote takes its own row rather than wrapping its label.
+- **Measured:** Add to quote is in the first screen at 320×568 (iPhone SE) and 390×664, English and Arabic. At the
+  extreme 320×480 it sits one row below the fold. Squeezing further would shrink the photo to a thumbnail.
+- `tests/e2e/short-phone.spec.ts` checks these first screens and the phone order.

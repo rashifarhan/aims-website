@@ -51,8 +51,6 @@
   }
 }
 
-/* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
-
 /* ---------- Services ---------- */
 .co-process-head {
   display: grid;
@@ -147,4 +145,41 @@
   margin-block-start: 0.5rem;
   font-weight: 600;
   color: var(--color-green-700);
+}
+/*
+ * Support's dealt moment (SupportRoute): the channels' lines draw in, the support node appears, the route
+ * continues and the check strokes in, once, about 1.7 s. Resting styles are the finished route, so reduced
+ * motion and no-JS show it whole. Transform, opacity and dashoffset only; keyframes from verify-moment.css.
+ */
+.co-support-route {
+  max-width: 30rem;
+  margin-block: 1.25rem 0.5rem;
+}
+.support-route :is(.sr-in, .sr-out, .sr-tick) {
+  stroke-dasharray: 1;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .support-route :is(.sr-in, .sr-out, .sr-tick) {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .support-route :is(.sr-node, .sr-disc) {
+  opacity: 0;
+  transform: scale(0.85);
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-in {
+  animation: verify-moment-draw 480ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-in:nth-child(2) {
+  animation-delay: 90ms;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-node {
+  animation: verify-moment-disc 280ms 500ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-out {
+  animation: verify-moment-draw 420ms 760ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-disc {
+  animation: verify-moment-disc 320ms 1120ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-tick {
+  animation: verify-moment-draw 360ms 1380ms var(--ease-aims) both;
 }

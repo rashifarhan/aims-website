@@ -426,10 +426,13 @@ main:has(> .home-hero) {
   animation-delay: 120ms;
 }
 .home-device {
-  animation: home-device-in var(--duration-hero-device) 350ms var(--ease-aims) both;
+  animation: home-device-in var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
 }
 .home-wash {
-  animation: home-fade var(--duration-hero-wash) 200ms ease-out both;
+  animation: home-fade var(--duration-hero-rise) var(--duration-fast) var(--ease-aims) both;
+}
+.home-wash-verified {
+  background: var(--gradient-verified-light);
 }
 .home-eyebrow,
 .home-lead,
@@ -441,13 +444,13 @@ main:has(> .home-hero) {
   animation-delay: 50ms;
 }
 .home-lead {
-  animation-delay: 350ms;
+  animation-delay: 200ms;
 }
 .home-hero-actions {
-  animation-delay: 500ms;
+  animation: none;
 }
 .home-trust {
-  animation-delay: 700ms;
+  animation-delay: 250ms;
 }
 [data-pulse] {
   filter: drop-shadow(var(--drop-shadow-signal));
@@ -591,5 +594,17 @@ main:has(> .home-hero) {
   }
   .home-floating-contact span {
     display: none;
+  }
+}
+
+/* Short phones (audit B4: 320x480 showed no action on the first screen): a smaller title and tighter spacing, so
+   the hero's two actions are in view. Taller phones and desktop keep the full composition. */
+@media (max-width: 639px) and (max-height: 600px) {
+  .home-hero-copy {
+    padding-block: 1.5rem;
+  }
+  .home-display {
+    margin-block: 0.75rem 1rem;
+    font-size: var(--text-home-display-short);
   }
 }

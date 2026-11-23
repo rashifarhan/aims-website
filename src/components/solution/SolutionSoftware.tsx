@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
@@ -32,8 +33,20 @@ export async function SolutionSoftware({
         {items.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
+          // AIMS's own picture of the platform gives each card its visual (taste House rule 7).
           const body = (
             <>
+              {software.image && (
+                <span className="t3-software-image">
+                  <Image
+                    src={software.image.src}
+                    alt=""
+                    width={software.image.width}
+                    height={software.image.height}
+                    sizes="4.5rem"
+                  />
+                </span>
+              )}
               <p className="home-software-kind">{kind}</p>
               <h3 dir="ltr">{software.name}</h3>
               <p className="home-software-purpose">{purpose}</p>

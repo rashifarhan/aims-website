@@ -32,19 +32,25 @@ export default async function PosSolution() {
   const { solutionPos: c } = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main" className="pc-page">
+    <main id="main" className="t3-page pc-page">
       <SolutionIntro page={PAGE} copy={c} />
       <CounterVerify idPrefix="ps" />
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
-      <SolutionQuestions ground="band" idPrefix="ps" copy={c.faq} />
-      <ClosePanel
-        id="ps-cta-title"
-        heading={c.cta.heading}
-        body={c.cta.body}
-        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
-        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+      <SolutionQuestions ground="band"
+        idPrefix="ps"
+        copy={c.faq}
+        close={
+          <ClosePanel
+            embedded
+            id="ps-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
+          />
+        }
       />
       <MomentTrigger />
     </main>

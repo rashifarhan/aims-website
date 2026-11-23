@@ -10,6 +10,7 @@ import type { DataAttrs } from "./englishData";
 import { KeySpecs } from "./KeySpecs";
 import { ModelChip } from "./ModelChip";
 import { ProductPurchase } from "./ProductPurchase";
+import "@/components/motion/entrance.css";
 
 type Props = {
   p: Product;
@@ -31,9 +32,10 @@ type Props = {
 export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t, data }: Props) {
   const image = p.images[0];
   return (
-    <section className="product-hero wrap" aria-labelledby="product-title" data-enter>
+    <section className="product-hero aims-hero wrap" aria-labelledby="product-title" data-enter>
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="product-hero-grid">
+        {/* On a short phone the stage is capped too, and the whole photo still shows inside it (audit B4). */}
         <div className="product-stage hero-enter-media">
           {image && (
             // The LCP element: the only preloaded image on the page (CLAUDE.md §5).
@@ -48,23 +50,29 @@ export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t
           )}
         </div>
 
-        <div className="min-w-0">
+        {/* On phones the quantity and Add to quote follow the model chip, so the first action reaches the first
+            screen (audit B4). The summary and spec tiles it passes hold no focusable element, so keyboard order
+            still matches what is seen; desktop keeps the source order. */}
+        <div className="min-w-0 max-lg:flex max-lg:flex-col">
           <p className="hero-enter text-brand font-semibold tracking-brand text-ink-600 uppercase">
             <span dir="ltr">{p.brand === "alpha" ? "Alpha" : "ZKTeco"}</span> · {familyName}
           </p>
+          {/* The shared AIMS entrance (motion/entrance.css): the title rises from its mask. */}
           <h1
             id="product-title"
-            className="hero-enter mt-2 text-page-title-mobile leading-tight font-display tracking-tight wrap-anywhere text-ink lg:text-page-title"
+            className="aims-headline-mask mt-2 text-page-title-mobile leading-tight font-display tracking-tight wrap-anywhere text-ink lg:text-page-title"
           >
-            <span {...data}>{name}</span>
+            <span className="aims-headline" {...data}>
+              {name}
+            </span>
           </h1>
           <p className="hero-enter mt-3">
             <ModelChip model={p.model} />
           </p>
-          <p className="hero-enter mt-4 max-w-[60ch] text-lg wrap-anywhere text-ink-600" {...data}>
-            {p.summary}
-          </p>
-          <div className="hero-enter">
+          <div className="hero-enter max-lg:order-1">
+            <p className="product-hero-lead mt-4 max-w-[60ch] text-lg wrap-anywhere text-ink-600" {...data}>
+              {p.summary}
+            </p>
             <KeySpecs tiles={keyFacts(p, 4)} heading={t.product.keySpecs} data={data} />
           </div>
           <div className="hero-enter">

@@ -6,6 +6,7 @@ import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
+import { destinationFromSearch } from "@/lib/quote/context";
 import { MAX_QTY } from "@/lib/quote/store";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 import { CONTACT, whatsappUrl } from "@/lib/site";
@@ -56,7 +57,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
   }, []);
 
   const add = () => {
-    dispatchQuote({ type: "add", slug, qty });
+    dispatchQuote({ type: "add", slug, qty, preset: destinationFromSearch(window.location.search) });
     // Adding again raises the line's quantity (store reducer); say the new total, so a repeat add is
     // never silent and never repeats the previous announcement word for word (audit T2).
     setStatus(
@@ -77,6 +78,8 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
     />
   );
   // nowrap: the label holds one line on a 390px phone in Arabic too; the bar's narrower inset gives it room.
+  // Under 360px the stepper and the label cannot share a row (Arabic most of all), so the inline button takes its
+  // own full-width row instead (audit B4).
   const addButton = (extra: string) => (
     <button type="button" onClick={add} className={`home-button whitespace-nowrap ${extra}`}>
       {labels.add}
@@ -88,7 +91,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       <div ref={inline} className="mt-6">
         <div className="flex flex-wrap items-center gap-3">
           {stepper}
-          {addButton("flex-1 sm:flex-none")}
+          {addButton("flex-1 max-[359px]:basis-full sm:flex-none")}
           <ContactLink
             kind="whatsapp"
             href={whatsappUrl(whatsappMessage)}

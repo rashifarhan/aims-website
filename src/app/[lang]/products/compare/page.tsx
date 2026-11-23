@@ -11,6 +11,7 @@ import type { Product } from "@/content/schema";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { compareRows } from "@/lib/compare";
+import { destinationFromSearch, withDestination } from "@/lib/quote/context";
 import { MAX_COMPARE } from "@/lib/filters";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -76,6 +77,7 @@ function CompareView({
   const { requested, items } = selection(params);
   const onlyDiff = one(params.diff) === "1";
   const from = safeFrom(one(params.from)) ?? hrefOf("/products");
+  const preset = destinationFromSearch(from.split("?")[1] ?? "");
   const backToResults = (
     <Link href={from} className="home-secondary gap-1.5">
       {/* "Back" points to the inline start: the outer flip turns ArrowIcon (→, mirrored in Arabic by
@@ -112,7 +114,8 @@ function CompareView({
     increase: t.catalogue.increase,
   };
 
-  const productHref = (slug: string) => hrefOf(`/product/${slug}`);
+  // The market the buyer came from (a location page's listing) follows them to each product and into Add.
+  const productHref = (slug: string) => withDestination(hrefOf(`/product/${slug}`), preset);
   const removeHref = (p: Product) =>
     items.length > 2
       ? `?items=${items
@@ -120,7 +123,7 @@ function CompareView({
           .map((x) => x.slug)
           .join(",")}${onlyDiff ? "&diff=1" : ""}&from=${encodeURIComponent(from)}`
       : null;
-  const shared = { items, rows: visible, t, addLabels, productHref, contentLang };
+  const shared = { items, rows: visible, t, addLabels, productHref, preset, contentLang };
 
   return (
     <>

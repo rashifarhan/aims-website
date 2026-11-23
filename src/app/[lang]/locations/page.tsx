@@ -44,7 +44,6 @@ export default async function LocationsHub() {
           { href: href("/"), label: t.common.home },
           { href: href("/locations"), label: t.nav.locations },
         ]}
-        eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
         primary={{ href: "#delivery", label: c.primary }}
@@ -63,16 +62,25 @@ export default async function LocationsHub() {
         heading={c.deliveryHeading}
         lead={c.deliveryLead}
         map={<ReachMap labels={t.home.reach} />}
+        trigger="map"
       >
         <LocationMarkets />
       </ReachBand>
-      <SolutionQuestions idPrefix="lh" copy={c.faq} />
-      <ClosePanel
-        id="lh-cta-title"
-        heading={c.cta.heading}
-        body={c.cta.body}
-        action={{ href: href("/quote?need=export"), label: c.cta.action }}
-        secondary={{ href: href("/contact"), label: c.cta.secondary }}
+      {/* The close is the questions screen's last block: alone, each was a mostly empty screen (three-skill
+          audit). */}
+      <SolutionQuestions
+        idPrefix="lh"
+        copy={c.faq}
+        close={
+          <ClosePanel
+            embedded
+            id="lh-cta-title"
+            heading={c.cta.heading}
+            body={c.cta.body}
+            action={{ href: href("/quote?need=export"), label: c.cta.action }}
+            secondary={{ href: href("/contact"), label: c.cta.secondary }}
+          />
+        }
       />
       <MomentTrigger />
     </main>

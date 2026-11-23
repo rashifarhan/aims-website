@@ -21,8 +21,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * T10 editorial, the blog index (Master Plan 12 #13): every article AIMS has published, newest first,
- * each with AIMS's own image. Entrance and hover only: a dealt moment on a list of articles would be
- * decoration (README → Decisions).
+ * each with AIMS's own image, then the shared closing band, so the index ends on a way forward (taste cta,
+ * audit 23 Nov 2026). Entrance and hover only: a dealt moment on a list of articles would be decoration
+ * (README → Decisions). The first card's image is the LCP element, so only it is preloaded (CLAUDE.md §5).
  */
 export default async function Blog() {
   const t = await getDictionary();
@@ -37,7 +38,6 @@ export default async function Blog() {
           { href: href("/"), label: t.common.home },
           { href: href("/blog"), label: t.blog.crumb },
         ]}
-        eyebrow={t.blog.eyebrow}
         title={t.blog.title}
         lead={`${fmt(t.blog.lead, { count: list.length })}${locale === "ar" ? ` ${t.editorial.englishOnly}` : ""}`}
       />
@@ -46,18 +46,19 @@ export default async function Blog() {
           {t.blog.title}
         </h2>
         <ul className="ed-card-grid">
-          {list.map((a) => (
+          {list.map((a, i) => (
             <li key={a.slug}>
-              <ArticleCard article={a} href={href(`/blog/${a.slug}`)} />
+              <ArticleCard article={a} href={href(`/blog/${a.slug}`)} lead={i === 0} />
             </li>
           ))}
         </ul>
       </Section>
       <ClosePanel
         id="blog-close-title"
-        heading={t.blog.nextHeading}
-        body={t.blog.nextBody}
-        action={{ href: href("/quote"), label: t.blog.quote }}
+        heading={t.blog.closeHeading}
+        body={t.blog.closeBody}
+        action={{ href: href("/quote"), label: t.blog.closeAction }}
+        secondary={{ href: href("/solutions"), label: t.blog.closeSecondary }}
       />
     </main>
   );

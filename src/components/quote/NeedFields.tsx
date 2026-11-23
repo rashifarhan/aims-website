@@ -44,6 +44,15 @@ export function SupplyFields({ context: c, t }: Pick<Props, "context" | "t">) {
   );
 }
 
+/** Software: which terminals or system the platform will run with. */
+export function SoftwareFields({ context: c, t }: Pick<Props, "context" | "t">) {
+  return (
+    <Field id="quote-software-existing" label={t.softwareExisting}>
+      {(a) => <TextInput {...a} value={c.existing} max={120} onChange={(existing) => set({ existing })} />}
+    </Field>
+  );
+}
+
 export function InstallFields({ context: c, t, errors }: Props) {
   return (
     <div className="grid gap-4 sm:grid-cols-2">

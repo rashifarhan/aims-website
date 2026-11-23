@@ -50,14 +50,17 @@
   text-underline-offset: 0.25em;
   transition: text-decoration-color var(--duration-hover) ease;
 }
-.loc-market:hover {
-  text-decoration-color: currentColor;
-}
-.loc-market:hover .home-action-arrow {
-  translate: 3px 0;
-}
-:dir(rtl) .loc-market:hover .home-action-arrow {
-  translate: -3px 0;
+/* Pointer hover only: on touch a tap would leave the row underlined and its arrow stepped (audit E2). */
+@media (hover: hover) and (pointer: fine) {
+  .loc-market:hover {
+    text-decoration-color: currentColor;
+  }
+  .loc-market:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .loc-market:hover .home-action-arrow {
+    translate: -3px 0;
+  }
 }
 .loc-market:active {
   opacity: 0.75;
