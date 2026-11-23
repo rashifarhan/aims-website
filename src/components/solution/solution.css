@@ -448,6 +448,34 @@
   }
 }
 
+/* ---------- Software cards: the platform's picture above its kind and name ---------- */
+.t3-software-image {
+  display: block;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  margin-block-end: 1.25rem;
+  overflow: clip;
+}
+.t3-software-image img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  transition: transform var(--duration-card) var(--ease-aims);
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-software-card:hover .t3-software-image img {
+    transform: scale(1.03);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t3-software-image img {
+    transition: none;
+  }
+  .home-software-card:hover .t3-software-image img {
+    transform: none;
+  }
+}
+
 /* ---------- Process with owners ---------- */
 .t3-band {
   margin-block: var(--home-section-space);
