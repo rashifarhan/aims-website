@@ -144,10 +144,15 @@
 /* One grid for the shell and every page; mobile gutters are 24px. Named `wrap` because the design-taste-frontend
    skill's checker measures content edges from that class (its container contract): the box itself is the content
    line, so the gutter is margin outside it, not padding inside it (layout-v4.md 2, SR-6 "one container"). */
-@utility wrap {
-  width: calc(100% - 2 * var(--page-gutter));
-  max-width: calc(var(--container-page) - 2 * var(--page-gutter));
-  margin-inline: auto;
+/* Plain CSS in the utilities layer, not `@utility`: Tailwind emits a custom utility only for class names its scan
+   finds, and a stale build cache on Vercel kept the old scan (it still emitted `page-container`), so production
+   shipped without `.wrap` and every page lost its margins (23 Nov 2026). A plain rule is always emitted. */
+@layer utilities {
+  .wrap {
+    width: calc(100% - 2 * var(--page-gutter));
+    max-width: calc(var(--container-page) - 2 * var(--page-gutter));
+    margin-inline: auto;
+  }
 }
 
 @media (min-width: 640px) {
