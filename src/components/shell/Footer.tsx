@@ -3,11 +3,10 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
 import { POPULAR_SEARCHES, SOFTWARE_LINKS, SOLUTIONS, familyPath, searchPath, solutionPath } from "@/lib/nav";
-import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED, whatsappUrl } from "@/lib/site";
-import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
-import { ContactLink } from "@/components/contact/ContactLink";
+import { COMPANY_NAME, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { Wordmark } from "./Wordmark";
-import { FooterLinks } from "./FooterLinks";
+import { FooterContact } from "./FooterContact";
+import { FooterLinks, footerLinkClass } from "./FooterLinks";
 
 /**
  * Footer (Design Doc ch. 6): four link columns, the three locations with
@@ -53,16 +52,11 @@ export async function Footer() {
         { href: href("/about"), label: t.footer.aboutShowrooms },
         { href: href("/services"), label: t.footer.services },
         { href: href("/support"), label: t.footer.support },
+        { href: href("/blog"), label: t.footer.blog },
         { href: href("/locations"), label: t.footer.locationsHub },
         { href: href("/contact"), label: t.nav.contact },
       ],
     },
-  ];
-
-  const phones = [
-    { label: t.footer.headOffice, line: CONTACT.lines.headOffice },
-    { label: t.footer.showroom, line: CONTACT.lines.showroom },
-    { label: t.footer.abuDhabi, line: CONTACT.lines.abuDhabi },
   ];
 
   return (
@@ -74,77 +68,23 @@ export async function Footer() {
             <p className="mt-3 max-w-xs text-sm text-ink-600">
               {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
             </p>
-
-            <h2 className="mt-8 text-sm font-semibold text-ink">{t.footer.locations}</h2>
-            <ul className="mt-3 grid grid-cols-[16px_auto_1fr] items-center gap-x-3 gap-y-2.5 text-sm">
-              {phones.map((p) => (
-                <li key={p.line.tel} className="col-span-3 grid grid-cols-subgrid items-center">
-                  <PhoneIcon width={16} height={16} className="shrink-0 text-ink-400" />
-                  <span className="text-ink-600">{p.label}</span>
-                  <ContactLink
-                    kind="phone"
-                    href={`tel:${p.line.tel}`}
-                    target={p.line.display}
-                    className="font-medium text-ink tabular-nums hover:text-green-700"
-                  >
-                    <span dir="ltr">{p.line.display}</span>
-                  </ContactLink>
-                </li>
-              ))}
-              <li className="col-span-3 grid grid-cols-subgrid items-center">
-                <WhatsAppIcon width={16} height={16} className="shrink-0 text-whatsapp" />
-                <span className="text-ink-600">{t.footer.mobile}</span>
-                <ContactLink
-                  kind="whatsapp"
-                  href={whatsappUrl()}
-                  target={CONTACT.lines.mobile.display}
-                  className="font-medium text-ink tabular-nums hover:text-green-700"
-                >
-                  <span dir="ltr">{CONTACT.lines.mobile.display}</span>
-                </ContactLink>
-              </li>
-              <li className="col-span-3 grid grid-cols-subgrid items-center">
-                <MailIcon width={16} height={16} className="shrink-0 text-ink-400" />
-                <span className="text-ink-600">{t.footer.email}</span>
-                <ContactLink
-                  kind="email"
-                  href={`mailto:${CONTACT.email}`}
-                  target={CONTACT.email}
-                  className="font-medium text-ink hover:text-green-700"
-                >
-                  {CONTACT.email}
-                </ContactLink>
-              </li>
-              <li className="col-span-3 grid grid-cols-subgrid items-start">
-                <PinIcon width={16} height={16} className="mt-0.5 shrink-0 text-ink-400" />
-                <span className="col-span-2 text-ink-600">
-                  {CONTACT.showroomAddress} ·{" "}
-                  <a
-                    href={CONTACT.showroomMap}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-ink underline decoration-line-strong underline-offset-2 hover:text-green-700"
-                  >
-                    {t.footer.directions}
-                    <span className="sr-only"> ({t.footer.showroom}, Google Maps)</span>
-                  </a>
-                </span>
-              </li>
-            </ul>
+            <FooterContact t={t.footer} />
           </div>
 
           <FooterLinks columns={columns} externalLabel={t.home.external} />
         </div>
 
+        {/* Plain links in the footer's one link look, not pills: a third button style broke "one button
+            pair" on every page (taste button-styles, audit 23 Nov 2026). */}
         <div className="mt-10 border-t border-line pt-6 sm:mt-12">
           <h2 className="text-sm font-semibold text-ink">{t.footer.popular}</h2>
-          <ul className="mt-3 flex flex-wrap gap-2">
+          <ul className="mt-1 flex flex-wrap gap-x-6">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
                 <Link
                   externalLabel={t.home.external}
                   href={href(searchPath(q))}
-                  className="inline-flex h-8 items-center rounded-pill border border-line bg-paper px-3 text-sm text-ink-700 hover:border-line-strong"
+                  className={`${footerLinkClass} text-sm text-ink-700`}
                 >
                   {q}
                 </Link>
@@ -154,17 +94,21 @@ export async function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 text-sm text-ink-600 sm:flex-row sm:items-center sm:justify-between">
+          {/* The English company line stays one left-to-right run inside Arabic (CLAUDE.md §7). */}
           <p>
-            © {year} AIMS Security Systems Trading LLC. {t.footer.rights}
+            <span dir="ltr">
+              © {year} {COMPANY_NAME}.
+            </span>{" "}
+            {t.footer.rights}
           </p>
           <ul className="flex gap-5">
             <li>
-              <Link externalLabel={t.home.external} href={href("/privacy-policy")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/privacy-policy")} className={footerLinkClass}>
                 {t.footer.privacy}
               </Link>
             </li>
             <li>
-              <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className="hover:text-ink">
+              <Link externalLabel={t.home.external} href={href("/terms-and-conditions")} className={footerLinkClass}>
                 {t.footer.terms}
               </Link>
             </li>
