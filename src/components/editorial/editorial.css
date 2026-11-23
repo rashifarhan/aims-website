@@ -287,10 +287,6 @@
 }
 
 /* More articles, closing the page. */
-.ed-more {
-  padding-block: var(--section-space);
-  border-block-start: 1px solid var(--color-line);
-}
 .ed-more-heading {
   display: flex;
   flex-wrap: wrap;
@@ -322,4 +318,8 @@
 .editorial-body h4 {
   margin-block-start: 1.75rem;
   font-size: var(--text-home-card);
+}
+/* The article list sits on a band, so it keeps the section own top space (the compact hero rule drops it). */
+.page-hero-compact + .ed-list {
+  padding-block-start: var(--section-space);
 }
