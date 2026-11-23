@@ -72,12 +72,20 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
       >
         <LocationSteps label={common.stepsLabel} steps={c.steps} />
       </LocationReach>
-      <SolutionQuestions idPrefix={id} copy={c.faq} />
-      <SolutionCta
+      {/* The close is the questions screen's last block, as on the solution pages: alone, each was a mostly
+          empty screen (three-skill audit). */}
+      <SolutionQuestions
         idPrefix={id}
-        page={{ quote: page.quote }}
-        copy={{ ...c.cta, secondary: common.allLocations }}
-        secondaryHref="/locations"
+        copy={c.faq}
+        close={
+          <SolutionCta
+            idPrefix={id}
+            page={{ quote: page.quote }}
+            copy={{ ...c.cta, secondary: common.allLocations }}
+            secondaryHref="/locations"
+            embedded
+          />
+        }
       />
       <MomentTrigger />
     </main>

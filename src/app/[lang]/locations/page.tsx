@@ -57,8 +57,19 @@ export default async function LocationsHub() {
       <LocationReach id="delivery" heading={c.deliveryHeading} lead={c.deliveryLead}>
         <LocationMarkets />
       </LocationReach>
-      <SolutionQuestions idPrefix="lh" copy={c.faq} />
-      <SolutionCta idPrefix="lh" page={{ quote: "/quote?need=export" }} copy={c.cta} secondaryHref="/contact" />
+      <SolutionQuestions
+        idPrefix="lh"
+        copy={c.faq}
+        close={
+          <SolutionCta
+            idPrefix="lh"
+            page={{ quote: "/quote?need=export" }}
+            copy={c.cta}
+            secondaryHref="/contact"
+            embedded
+          />
+        }
+      />
       <MomentTrigger />
     </main>
   );

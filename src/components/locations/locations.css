@@ -247,16 +247,14 @@
   }
 }
 @media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .loc-page > :is(.t3-section:not(.t3-questions), .t3-cta) {
+  .loc-page > .t3-section:not(.t3-questions) {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100svh;
   }
-  .loc-page > .t3-questions {
-    align-content: center;
-    min-height: 100svh;
-  }
+  /* The last screen (questions plus the close) keeps its natural height: the footer follows, so no heading
+     can peek in, and a stretched screen left most of it empty. */
   /* Bands abut, so every section starts on a whole screen. */
   .loc-page > .loc-reach {
     margin-block: 0;
