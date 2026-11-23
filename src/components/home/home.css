@@ -263,32 +263,15 @@
 .home-headline-quiet {
   color: var(--color-ink-600);
 }
-/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). */
+/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). Its look is the one
+   icon button (actions.css); this places it. */
 .home-motion-toggle {
   position: absolute;
   inset-block-end: 1.5rem;
   /* On the content's end edge: the art spans the wider hero stage, the copy the page container. */
   inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter));
   z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--color-line-strong);
-  border-radius: var(--radius-pill);
-  background: var(--color-paper);
-  color: var(--color-ink);
   pointer-events: auto;
-  transition:
-    transform var(--duration-fast) var(--ease-aims),
-    border-color var(--duration-fast) var(--ease-aims);
-}
-.home-motion-toggle:hover {
-  border-color: var(--color-ink-600);
-  transform: translateY(-1px);
-}
-.home-motion-toggle:active {
-  transform: translateY(1px) scale(0.985);
 }
 :lang(ar) .home-display {
   letter-spacing: 0;
@@ -528,31 +511,17 @@
   .home-device-tick path {
     stroke-dashoffset: 0 !important;
   }
-  .home-family-image img,
-  .home-motion-toggle {
+  .home-family-image img {
     transition: none;
-  }
-  .home-motion-toggle:hover,
-  .home-motion-toggle:active {
-    transform: none;
   }
 }
 
+/* The one small button (actions.css), fixed at the end edge; it keeps a lifted shadow over the page. */
 .home-floating-contact {
   position: fixed;
   inset-inline-end: var(--page-gutter);
   inset-block-end: 1.5rem;
   z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding-inline: 1.25rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-green-700);
-  color: var(--color-paper);
-  font-weight: 600;
-  font-size: var(--text-small);
   box-shadow: var(--shadow-2);
   transition:
     transform var(--duration-fast),
@@ -570,12 +539,6 @@
 }
 .home-floating-contact[hidden] {
   display: none;
-}
-.home-floating-contact:hover {
-  background: var(--color-green-800);
-}
-.home-floating-contact:active {
-  transform: scale(0.98);
 }
 .home-contact-dialog {
   position: fixed;

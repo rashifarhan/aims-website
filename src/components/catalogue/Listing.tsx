@@ -145,7 +145,7 @@ export function ListingView({
           placeholder={t.searchPlaceholder}
           autoComplete="off"
           enterKeyHint="search"
-          className="h-12 w-full rounded-pill border border-line-strong bg-paper ps-12 pe-4 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
+          className="h-12 w-full rounded-md border border-line-strong bg-paper ps-12 pe-4 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
         />
       </form>
 
@@ -174,7 +174,7 @@ export function ListingView({
             <button
               type="button"
               onClick={() => sheet.current?.showModal()}
-              className="inline-flex h-11 items-center rounded-pill border border-line-strong px-4 text-sm font-semibold text-ink lg:hidden"
+              className="home-button home-button-outline home-button-sm lg:hidden"
             >
               {filterCount ? fmt(t.filtersCount, { count: filterCount }) : t.filters}
             </button>
@@ -188,11 +188,7 @@ export function ListingView({
                   .filter((o) => o.checked)
                   .map((o) => (
                     <li key={`${g.id}-${o.value}`}>
-                      <button
-                        type="button"
-                        onClick={() => onToggle(g.id, o.value)}
-                        className="inline-flex h-9 items-center gap-1.5 rounded-pill bg-green-50 ps-3 pe-2 text-sm font-medium text-green-800 hover:bg-green-100"
-                      >
+                      <button type="button" onClick={() => onToggle(g.id, o.value)} className="ui-chip ui-chip-on">
                         {o.label}
                         <CloseIcon width={14} height={14} />
                         <span className="sr-only">({t.clearFilters})</span>
@@ -201,11 +197,7 @@ export function ListingView({
                   )),
               )}
               <li>
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="h-9 px-2 text-sm font-medium text-ink-700 underline"
-                >
+                <button type="button" onClick={clearFilters} className="home-button home-button-quiet home-button-sm">
                   {t.clearAll}
                 </button>
               </li>

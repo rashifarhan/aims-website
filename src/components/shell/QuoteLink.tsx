@@ -56,9 +56,9 @@ export function QuoteLink({ href, label, itemsLabel, externalLabel, className = 
     <Link
       externalLabel={externalLabel}
       href={href}
-      // Colour fades on hover; the press uses the same step-and-scale as .home-button (actions.css)
-      // so every button on the site answers a click the same way, and stays still under reduced motion.
-      className={`inline-flex h-11 items-center gap-2 rounded-pill border border-ink px-4 text-sm font-semibold text-ink [transition:border-color_var(--duration-hover)_ease,color_var(--duration-hover)_ease,transform_var(--duration-fast)_var(--ease-aims)] hover:border-green-700 hover:text-green-700 motion-safe:active:[transform:translateY(1px)_scale(0.985)] ${className}`}
+      // The one button's small outline (actions.css; Design Doc 9 Button): same step, press and focus as every
+      // other button on the site.
+      className={`home-button home-button-outline home-button-sm ${className}`}
     >
       <ListIcon width={18} height={18} className="hidden sm:block" />
       <span>{label}</span>

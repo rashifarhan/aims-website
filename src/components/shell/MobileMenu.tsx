@@ -66,7 +66,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
           dialog.current?.showModal();
           setExpanded(true);
         }}
-        className="grid size-11 place-items-center rounded-md border border-line text-ink lg:hidden"
+        className="home-button home-button-outline home-button-icon lg:hidden"
       >
         <MenuIcon />
       </button>
@@ -95,7 +95,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
               type="button"
               onClick={close}
               aria-label={labels.close}
-              className="grid size-11 place-items-center rounded-md border border-line"
+              className="home-button home-button-outline home-button-icon"
             >
               <CloseIcon />
             </button>
@@ -165,12 +165,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
           </div>
 
           <div className="grid gap-2 border-t border-line p-4">
-            <Link
-              externalLabel={labels.external}
-              href={hrefs.quote}
-              onClick={close}
-              className="flex h-12 items-center justify-center rounded-pill bg-green-700 font-semibold text-white [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] hover:bg-green-800 motion-safe:active:scale-[.98]"
-            >
+            <Link externalLabel={labels.external} href={hrefs.quote} onClick={close} className="home-button w-full">
               {labels.quote}
             </Link>
             <div className="grid grid-cols-2 gap-2">
@@ -178,7 +173,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
                 kind="whatsapp"
                 href={hrefs.whatsapp}
                 target={hrefs.whatsappDisplay}
-                className="flex h-12 items-center justify-center gap-2 rounded-pill bg-whatsapp font-semibold text-white [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] motion-safe:active:scale-[.98]"
+                className="home-button home-button-whatsapp"
               >
                 <WhatsAppIcon width={18} height={18} />
                 {labels.whatsapp}
@@ -187,7 +182,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
                 kind="phone"
                 href={`tel:${hrefs.tel}`}
                 target={hrefs.telDisplay}
-                className="flex h-12 items-center justify-center gap-2 rounded-pill border border-ink font-semibold [transition:scale_var(--duration-fast)_var(--ease-aims),background-color_var(--duration-hover)_var(--ease-aims)] motion-safe:active:scale-[.98]"
+                className="home-button home-button-outline"
               >
                 <PhoneIcon width={18} height={18} />
                 {labels.call}

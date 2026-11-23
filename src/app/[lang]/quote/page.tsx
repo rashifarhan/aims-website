@@ -6,7 +6,6 @@ import { products } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
-import "@/components/contact/channel-button.css";
 import "@/components/quote/quote.css";
 
 export async function generateMetadata(): Promise<Metadata> {

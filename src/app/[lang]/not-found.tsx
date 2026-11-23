@@ -53,10 +53,7 @@ export default async function NotFound() {
           <ul className="mt-3 flex flex-wrap gap-2">
             {POPULAR_SEARCHES.map((term) => (
               <li key={term}>
-                <Link
-                  href={href(searchPath(term))}
-                  className={`inline-flex min-h-11 items-center rounded-pill border border-line bg-paper px-4 text-sm text-ink-700 transition-[border-color,color] duration-(--duration-hover) hover:border-green-700 hover:text-green-700 active:opacity-75 ${isModelCode(term) ? "font-mono" : ""}`}
-                >
+                <Link href={href(searchPath(term))} className={`ui-chip ${isModelCode(term) ? "font-mono" : ""}`}>
                   <bdi dir="ltr">{term}</bdi>
                 </Link>
               </li>

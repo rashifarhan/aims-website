@@ -141,11 +141,7 @@ export async function Footer() {
           <ul className="mt-3 flex flex-wrap gap-2">
             {POPULAR_SEARCHES.map((q) => (
               <li key={q}>
-                <Link
-                  externalLabel={t.home.external}
-                  href={href(searchPath(q))}
-                  className="inline-flex h-8 items-center rounded-pill border border-line bg-paper px-3 text-sm text-ink-700 hover:border-line-strong"
-                >
+                <Link externalLabel={t.home.external} href={href(searchPath(q))} className="ui-chip">
                   {q}
                 </Link>
               </li>

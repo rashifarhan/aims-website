@@ -53,7 +53,7 @@ export function ContactGuardProvider({
                 type="button"
                 onClick={close}
                 aria-label={labels.close}
-                className="-me-2 -mt-2 grid size-11 shrink-0 place-items-center rounded-md"
+                className="home-button home-button-quiet home-button-icon -me-2 -mt-2"
               >
                 <CloseIcon />
               </button>
@@ -93,7 +93,7 @@ export function ContactGuardProvider({
                 target={req.kind === "whatsapp" ? "_blank" : undefined}
                 rel="noopener noreferrer"
                 onClick={close}
-                className="inline-flex h-11 items-center px-2 text-sm font-semibold text-ink-700 underline underline-offset-2"
+                className="home-secondary px-2 text-sm"
               >
                 {labels.openAnyway}
               </a>

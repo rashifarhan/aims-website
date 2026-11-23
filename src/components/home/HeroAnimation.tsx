@@ -73,7 +73,7 @@ export function HeroAnimation({ children, pauseLabel }: Props) {
       {moving && (
         <button
           type="button"
-          className="home-motion-toggle"
+          className="home-button home-button-outline home-button-icon home-motion-toggle"
           aria-pressed={paused}
           onClick={() => {
             userPaused.current = !paused;

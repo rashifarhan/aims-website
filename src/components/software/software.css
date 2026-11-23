@@ -276,15 +276,6 @@
   gap: 0.5rem;
 }
 /* The shared outline button, quieter at rest; the active filter is tinted, never filled. */
-.sw-chip.home-button-outline {
-  border-color: var(--color-line-strong);
-  color: var(--color-ink-700);
-}
-.sw-chip.home-button-outline[aria-current] {
-  border-color: var(--color-green-700);
-  background: var(--color-green-50);
-  color: var(--color-green-800);
-}
 .sw-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

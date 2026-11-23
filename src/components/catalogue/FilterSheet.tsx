@@ -35,7 +35,7 @@ export function FilterSheet({ sheetRef, groups, resultCount, t, onToggle, onClea
             type="button"
             onClick={close}
             aria-label={t.closeFilters}
-            className="grid size-11 place-items-center rounded-md"
+            className="home-button home-button-quiet home-button-icon"
           >
             <CloseIcon />
           </button>
@@ -44,14 +44,10 @@ export function FilterSheet({ sheetRef, groups, resultCount, t, onToggle, onClea
           <FacetPanel groups={groups} onToggle={onToggle} idPrefix="sheet" />
         </div>
         <div className="flex gap-3 border-t border-line p-4">
-          <button type="button" onClick={onClear} className="h-12 px-4 text-sm font-semibold text-ink-700">
+          <button type="button" onClick={onClear} className="home-button home-button-quiet px-4">
             {t.clearAll}
           </button>
-          <button
-            type="button"
-            onClick={close}
-            className="h-12 flex-1 rounded-pill bg-green-700 font-semibold text-white"
-          >
+          <button type="button" onClick={close} className="home-button flex-1">
             {fmt(t.showResults, { count: resultCount })}
           </button>
         </div>

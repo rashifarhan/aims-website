@@ -93,9 +93,9 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
             href={whatsappUrl(whatsappMessage)}
             target={CONTACT.lines.mobile.display}
             message={whatsappMessage}
-            className="inline-flex min-h-(--home-button-height) items-center gap-2 rounded-pill border border-line-strong px-5 text-sm font-semibold text-ink transition-colors duration-(--duration-hover) hover:border-ink active:bg-paper-2"
+            className="home-button home-button-outline home-button-whatsapp"
           >
-            <WhatsAppIcon width={18} height={18} className="text-whatsapp" />
+            <WhatsAppIcon width={18} height={18} />
             {labels.askWhatsapp}
           </ContactLink>
         </div>

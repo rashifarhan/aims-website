@@ -9,7 +9,6 @@ import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
-import "@/components/contact/channel-button.css";
 import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {

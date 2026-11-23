@@ -48,7 +48,7 @@ export function FloatingContact({ href, labels }: Props) {
         ref={trigger}
         type="button"
         hidden={!visible}
-        className="home-floating-contact motion-fade"
+        className="home-button home-button-sm home-floating-contact motion-fade"
         aria-label={labels.trigger}
         aria-haspopup="dialog"
         onClick={() => dialog.current?.showModal()}
@@ -74,7 +74,7 @@ export function FloatingContact({ href, labels }: Props) {
             type="button"
             autoFocus
             onClick={() => dialog.current?.close()}
-            className="min-h-11 rounded-pill border border-line-strong px-5 font-semibold text-green-700"
+            className="home-button home-button-outline home-button-sm"
           >
             {labels.cancel}
           </button>
@@ -83,7 +83,7 @@ export function FloatingContact({ href, labels }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => dialog.current?.close()}
-            className="inline-flex min-h-11 items-center rounded-pill bg-green-700 px-5 font-semibold text-paper"
+            className="home-button home-button-sm"
           >
             {labels.open}
           </a>

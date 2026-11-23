@@ -92,7 +92,7 @@ export function HeaderSearch({
             if (entry) select(entry);
           }
         }}
-        className={`peer h-11 w-full ${shortcut ? "pe-4 xl:pe-10" : "pe-4"} rounded-pill border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
+        className={`peer h-11 w-full ${shortcut ? "pe-4 xl:pe-10" : "pe-4"} rounded-md border border-line-strong bg-paper-2 ps-10 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus:bg-paper focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700`}
       />
       {shortcut && (
         <kbd

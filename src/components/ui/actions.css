@@ -1,226 +1,326 @@
-/* Shared actions (Design Doc 9 Button and Text link; 8.4 microinteractions). Used on every
-   marketing page, so the layout loads them once. Green-700 is the only action colour (Design Doc 4). */
-.home-text-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  min-height: 2.75rem;
-  margin-block-start: 1rem;
-  color: var(--color-green-700);
-  font-weight: 600;
-  font-size: var(--text-small);
-  /* The underline is always laid out and only its colour changes, so it fades in on hover
-     instead of snapping, and the link never shifts (taste motion.md: underlines draw). */
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color var(--duration-hover) ease;
-}
-.home-text-link:hover {
-  text-decoration-color: currentColor;
-}
-.home-text-link:hover .home-action-arrow {
-  translate: 3px 0;
-}
-:dir(rtl) .home-text-link:hover .home-action-arrow {
-  translate: -3px 0;
-}
-.home-external-mark {
-  display: inline-block;
-  margin-inline-start: 0.3em;
-  font-weight: 500;
-  text-decoration: none;
-}
-/* Design Doc 13: directional marks mirror in Arabic. */
-:dir(rtl) .home-external-mark {
-  transform: scaleX(-1);
-}
-.home-button {
-  min-height: var(--home-button-height);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 1.75rem;
-  background: var(--color-green-700);
-  color: var(--color-paper);
-  border-radius: var(--radius-pill);
-  font-weight: 600;
-  box-shadow: var(--shadow-home-action);
-}
-.home-secondary {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  font-weight: 600;
-  color: var(--color-green-700);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-  /* Already underlined at rest, so hover answers by darkening to the primary hover colour. */
-  transition: color var(--duration-hover) ease;
-}
-.home-secondary:hover {
-  color: var(--color-green-800);
-}
-.home-button {
-  position: relative;
-  isolation: isolate;
-  gap: 0.75rem;
-  transition: transform var(--duration-fast) var(--ease-aims);
-}
-.home-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--color-green-800);
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity var(--duration-fast);
-}
-.home-button:hover {
-  background: var(--color-green-700);
-}
-.home-button:hover::before,
-.home-button:focus-visible::before {
-  opacity: 1;
-}
-/* Taste motion.md, hover layer: a button steps up 1px on hover and presses down on click. */
-@media (hover: hover) and (pointer: fine) {
-  .home-button:hover {
-    transform: translateY(-1px);
-  }
-}
-.home-button:active {
-  transform: translateY(1px) scale(0.985);
-}
-.home-action-arrow {
-  transition: translate var(--duration-base) var(--ease-aims);
-}
-.home-button:hover .home-action-arrow {
-  translate: 3px 0;
-}
-:dir(rtl) .home-button:hover .home-action-arrow {
-  translate: -3px 0;
-}
-.home-secondary:active,
-.home-text-link:active {
-  opacity: 0.75;
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-button,
-  .home-button::before,
-  .home-action-arrow {
-    transition: none;
-  }
-  .home-button:hover,
-  .home-button:active {
-    transform: none;
-  }
-}
-
 /*
+ * The one button set, card, chip and link look (Design Doc 9; CLAUDE.md §2 "One system"). In Tailwind's components
+ * layer so a utility on the same element (w-full, lg:hidden, mt-4) still applies, as Tailwind intends; family CSS
+ * stays unlayered and refines these where it must.
+ */
+@layer components {
+  /* Shared actions (Design Doc 9 Button and Text link; 8.4 microinteractions). Used on every
+   marketing page, so the layout loads them once. Green-700 is the only action colour (Design Doc 4). */
+  .home-text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    margin-block-start: 1rem;
+    color: var(--color-green-700);
+    font-weight: 600;
+    font-size: var(--text-small);
+    /* The underline is always laid out and only its colour changes, so it fades in on hover
+     instead of snapping, and the link never shifts (taste motion.md: underlines draw). */
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--duration-hover) ease;
+  }
+  .home-text-link:hover {
+    text-decoration-color: currentColor;
+  }
+  .home-text-link:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .home-text-link:hover .home-action-arrow {
+    translate: -3px 0;
+  }
+  .home-external-mark {
+    display: inline-block;
+    margin-inline-start: 0.3em;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  /* Design Doc 13: directional marks mirror in Arabic. */
+  :dir(rtl) .home-external-mark {
+    transform: scaleX(-1);
+  }
+  .home-button {
+    min-height: var(--home-button-height);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 1.75rem;
+    background: var(--color-green-700);
+    color: var(--color-paper);
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    box-shadow: var(--shadow-home-action);
+  }
+  .home-secondary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-weight: 600;
+    color: var(--color-green-700);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    /* Already underlined at rest, so hover answers by darkening to the primary hover colour. */
+    transition: color var(--duration-hover) ease;
+  }
+  .home-secondary:hover {
+    color: var(--color-green-800);
+  }
+  .home-button {
+    position: relative;
+    isolation: isolate;
+    gap: 0.75rem;
+    transition: transform var(--duration-fast) var(--ease-aims);
+  }
+  .home-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-green-800);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--duration-fast);
+  }
+  .home-button:hover {
+    background: var(--color-green-700);
+  }
+  .home-button:hover::before,
+  .home-button:focus-visible::before {
+    opacity: 1;
+  }
+  /* Taste motion.md, hover layer: a button steps up 1px on hover and presses down on click. */
+  @media (hover: hover) and (pointer: fine) {
+    .home-button:hover {
+      transform: translateY(-1px);
+    }
+  }
+  .home-button:active {
+    transform: translateY(1px) scale(0.985);
+  }
+  .home-action-arrow {
+    transition: translate var(--duration-base) var(--ease-aims);
+  }
+  .home-button:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .home-button:hover .home-action-arrow {
+    translate: -3px 0;
+  }
+  .home-secondary:active,
+  .home-text-link:active {
+    opacity: 0.75;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-button,
+    .home-button::before,
+    .home-action-arrow {
+      transition: none;
+    }
+    .home-button:hover,
+    .home-button:active {
+      transform: none;
+    }
+  }
+
+  /*
  * Outline and small variants of the one button (site polish, 22 Nov 2026). A card's own action uses the
  * outline so a grid never shows a wall of filled green (DESIGN.md: one main action per screen; Design Doc
  * 9 Button). Same radius, weight, step and press as .home-button.
  */
-.home-button-outline {
-  border: 1px solid var(--color-green-700);
-  background: var(--color-paper);
-  color: var(--color-green-700);
-  box-shadow: none;
-}
-.home-button-outline::before {
-  background: var(--color-green-50);
-}
-.home-button-outline:hover {
-  background: var(--color-paper);
-}
-.home-button-sm {
-  min-height: 2.75rem;
-  padding-inline: 1.25rem;
-  gap: 0.5rem;
-  font-size: var(--text-small);
-  box-shadow: none;
-}
-.home-button:disabled,
-.home-button[aria-disabled="true"] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
+  .home-button-outline {
+    border: 1px solid var(--color-green-700);
+    background: var(--color-paper);
+    color: var(--color-green-700);
+    box-shadow: none;
+  }
+  .home-button-outline::before {
+    background: var(--color-green-50);
+  }
+  .home-button-outline:hover {
+    background: var(--color-paper);
+  }
+  .home-button-sm {
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    gap: 0.5rem;
+    font-size: var(--text-small);
+    box-shadow: none;
+  }
+  /* Quiet: a minor action beside a main one (Clear all, Cancel). No fill or border at rest; the same paper wash,
+   step and press as the others on hover (Design Doc 9 Button, tertiary). */
+  .home-button-quiet {
+    background: transparent;
+    color: var(--color-ink-700);
+    box-shadow: none;
+  }
+  .home-button-quiet::before {
+    background: var(--color-paper-2);
+  }
+  .home-button-quiet:hover {
+    background: transparent;
+    color: var(--color-ink);
+  }
+  /* Icon-only: a 44 × 44 target (WCAG 2.5.8, CLAUDE.md §4); the accessible name comes from aria-label. Combine with
+   a look (outline or quiet). */
+  .home-button-icon {
+    width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    gap: 0;
+    flex: none;
+  }
+  /*
+ * The WhatsApp channel button (contact, quote, product, mobile menu). Same shape, step and press as the one
+ * button; only the colour is WhatsApp's own (CLAUDE.md §2: real third-party marks keep their colours).
+ * --color-whatsapp is 5.01:1 with white and on paper.
+ */
+  .home-button.home-button-whatsapp,
+  .home-button.home-button-whatsapp:hover {
+    background: var(--color-whatsapp);
+  }
+  .home-button.home-button-whatsapp::before {
+    /* Hover darkens like the green button's green-800 layer; mixed from tokens, no new raw colour. */
+    background: color-mix(in srgb, var(--color-whatsapp) 82%, var(--color-ink));
+  }
+  /* Outline form where another action is the primary one (quote summary: "Send enquiry" leads). */
+  .home-button-outline.home-button-whatsapp,
+  .home-button-outline.home-button-whatsapp:hover {
+    border-color: var(--color-whatsapp);
+    background: var(--color-paper);
+    color: var(--color-whatsapp);
+  }
+  .home-button-outline.home-button-whatsapp::before {
+    background: var(--color-green-50);
+  }
+  .home-button:disabled,
+  .home-button[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
 
-/*
+  /*
  * The one card (DESIGN.md Plinth Rule), shared beyond the homepage: hairline, resting shadow; a linked
  * or interactive card lifts 2px to the hover shadow and settles when pressed. Photos inside zoom 1.03.
  */
-.ui-card {
-  position: relative;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  box-shadow: var(--shadow-1);
-  transition:
-    box-shadow var(--duration-card) var(--ease-aims),
-    border-color var(--duration-card) var(--ease-aims),
-    transform var(--duration-card) var(--ease-aims);
-}
-.ui-card-photo img {
-  transition: transform var(--duration-card) var(--ease-aims);
-}
-@media (hover: hover) and (pointer: fine) {
-  .ui-card-interactive:hover {
-    transform: translateY(-2px);
+  .ui-card {
+    position: relative;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-1);
+    transition:
+      box-shadow var(--duration-card) var(--ease-aims),
+      border-color var(--duration-card) var(--ease-aims),
+      transform var(--duration-card) var(--ease-aims);
+  }
+  .ui-card-photo img {
+    transition: transform var(--duration-card) var(--ease-aims);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ui-card-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-2);
+    }
+    .ui-card-interactive:hover .ui-card-photo img {
+      transform: scale(1.03);
+    }
+  }
+  .ui-card-interactive:active {
+    transform: translateY(0) scale(0.99);
+  }
+  .ui-card-interactive:has(:focus-visible) {
     box-shadow: var(--shadow-2);
   }
-  .ui-card-interactive:hover .ui-card-photo img {
-    transform: scale(1.03);
+  @media (prefers-reduced-motion: reduce) {
+    .ui-card,
+    .ui-card-photo img {
+      transition: none;
+    }
+    .ui-card-interactive:hover,
+    .ui-card-interactive:active,
+    .ui-card-interactive:hover .ui-card-photo img {
+      transform: none;
+    }
   }
-}
-.ui-card-interactive:active {
-  transform: translateY(0) scale(0.99);
-}
-.ui-card-interactive:has(:focus-visible) {
-  box-shadow: var(--shadow-2);
-}
-@media (prefers-reduced-motion: reduce) {
-  .ui-card,
-  .ui-card-photo img {
-    transition: none;
-  }
-  .ui-card-interactive:hover,
-  .ui-card-interactive:active,
-  .ui-card-interactive:hover .ui-card-photo img {
-    transform: none;
-  }
-}
 
-/* Actions on night green (ui/ClosePanel night, home night bands): lime measures 7.8:1 there (globals.css). */
-/* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
-.home-button-lime {
-  background: var(--color-lime);
-  color: var(--color-ink);
-  box-shadow: none;
-}
-.home-button-lime:hover {
-  background: var(--color-lime);
-}
-.home-button-lime::before {
-  background: var(--color-paper);
-}
-.home-button-lime:hover::before,
-.home-button-lime:focus-visible::before {
-  opacity: 0.2;
-}
-.home-night-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  min-height: 2.75rem;
-  color: var(--color-lime);
-  font-weight: 600;
-  font-size: var(--text-small);
-}
-.home-night-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
+  /* Actions on night green (ui/ClosePanel night, home night bands): lime measures 7.8:1 there (globals.css). */
+  /* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
+  .home-button-lime {
+    background: var(--color-lime);
+    color: var(--color-ink);
+    box-shadow: none;
+  }
+  .home-button-lime:hover {
+    background: var(--color-lime);
+  }
+  .home-button-lime::before {
+    background: var(--color-paper);
+  }
+  .home-button-lime:hover::before,
+  .home-button-lime:focus-visible::before {
+    opacity: 0.2;
+  }
+  .home-night-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    color: var(--color-lime);
+    font-weight: 600;
+    font-size: var(--text-small);
+  }
+  .home-night-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  /*
+ * The one chip (Design Doc 9 Filter chip): a control, so radius md like inputs and selects, never the button's
+ * pill. A 44px target (CLAUDE.md §4). `.ui-chip-on` (or a checked radio inside) is the selected or applied state.
+ */
+  .ui-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    padding-inline: 0.875rem;
+    /* line-strong: a control's boundary measures 3:1 (WCAG 1.4.11; globals.css). */
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-paper);
+    color: var(--color-ink-700);
+    font-size: var(--text-small);
+    font-weight: 500;
+    transition:
+      border-color var(--duration-hover) ease,
+      color var(--duration-hover) ease,
+      background-color var(--duration-hover) ease,
+      transform var(--duration-fast) var(--ease-aims);
+  }
+  .ui-chip:hover {
+    border-color: var(--color-green-700);
+    color: var(--color-green-700);
+  }
+  .ui-chip:active {
+    transform: translateY(1px);
+  }
+  .ui-chip-on,
+  .ui-chip[aria-current],
+  .ui-chip:has(:checked) {
+    border-color: var(--color-green-700);
+    background: var(--color-green-50);
+    color: var(--color-green-800);
+  }
+  .ui-chip:has(:focus-visible) {
+    outline: 2px solid var(--color-green-700);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ui-chip:active {
+      transform: none;
+    }
+  }
 }
