@@ -11,9 +11,14 @@ export function headingId(index: number, text: string): string {
   return slug ? `s${index}-${slug}` : `s${index}`;
 }
 
-/** The in-page index of a T10 page (Design Doc 10.1): each heading with the id it renders with. */
+/** "3.1 Product Information" sits under "3. Products…": it renders one level down (headings in order). */
+export const isSubheading = (text: string) => /^\d+\.\d+\s/.test(text);
+
+/** The in-page index of a T10 page (Design Doc 10.1): each top-level heading with the id it renders with. */
 export function outline(blocks: Block[]): { id: string; text: string }[] {
-  return blocks.flatMap((b, i) => (b.type === "h" ? [{ id: headingId(i, b.text), text: b.text }] : []));
+  return blocks.flatMap((b, i) =>
+    b.type === "h" && !isSubheading(b.text) ? [{ id: headingId(i, b.text), text: b.text }] : [],
+  );
 }
 
 /**

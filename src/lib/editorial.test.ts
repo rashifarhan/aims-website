@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import pages from "../../content/pages.json";
-import { articleDate, articleSolution, headingId, outline, publishableQuestions } from "./editorial";
+import { articleDate, articleSolution, headingId, isSubheading, outline, publishableQuestions } from "./editorial";
 
 describe("editorial outline", () => {
   it("gives each heading a stable, unique anchor", () => {
@@ -12,6 +12,15 @@ describe("editorial outline", () => {
       { type: "h" as const, text: "Scope" },
     ];
     expect(outline(blocks).map((h) => h.id)).toEqual(["s0-scope", "s2-scope"]);
+  });
+  it("keeps numbered subsections out of the index", () => {
+    expect(isSubheading("3.1 Product Information")).toBe(true);
+    expect(isSubheading("3. Products, Services & Orders")).toBe(false);
+    const blocks = [
+      { type: "h" as const, text: "3. Orders" },
+      { type: "h" as const, text: "3.1 Acceptance" },
+    ];
+    expect(outline(blocks)).toEqual([{ id: "s0-3-orders", text: "3. Orders" }]);
   });
 });
 
