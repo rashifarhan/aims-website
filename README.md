@@ -614,3 +614,33 @@ Ported from `claude/editorial-pages` and `claude/company-pages` onto the site sy
   prefetch back on.
 - **Open for AIMS:** the published Terms name "mssolution.me" and show the date "[30-09-2025]", and the Privacy
   Policy says "AIMS Security System LLC". They are shown as published.
+
+### Three-skill audit of the later pages (23 Nov 2026)
+
+The pages built after the site-wide polish (locations, company, legal, blog, the four T3 solution pages, software) and
+the footer had Taste, Impeccable and Emil run on them in turn, by three agents. The findings, fixes and gate
+results before and after are in `docs/audits/2026-11-23-{locations,company,solutions}.md`, and the plan is in
+`docs/superpowers/plans/2026-11-23-three-skill-audit.md`. There were no P0s and axe stayed at 0 violations.
+
+- **Gate status, stated plainly:** no page reaches `GATE: PASS`. About 25 FAILs on every page come from the shared
+  header, the footer and the kit's own markup rules. Others conflict with CLAUDE.md: AIMS's real phone lines, the
+  preview demo note, AIMS's own imported article and software text (§1), and the approved door prototype. These are
+  recorded in the audit files, not waived: the kit allows five waivers and a sixth reopened all of them. copy-lint has
+  0 FAIL on our copy.
+- **One section per screen:** sections hold one desktop screen. The close is now the last block of the questions
+  screen on solution and location pages, and that last screen keeps its natural height, because stretching short
+  sections left mostly empty screens.
+- **Headings:** the Locations, About, Support and Blog h1s now name ZKTeco or what is sold.
+- **Footer:** a Blog link; popular searches as plain links (no third button style); hover underline and press dim;
+  the Arabic copyright and address no longer scramble.
+- **Reading pages:** 18px text from 640px (about 75 characters a line); "Jump to" and FAQ answers fade open; the blog
+  index ends with the shared close.
+- **Catalogue card:** long Arabic spec values align to the card's end edge, long model fields split into the code
+  and a description (`splitModel`, unit-tested), and model links are 44px targets.
+- **Motion:** the reach map starts its draw once the map is in view rather than at its top edge, and the Oman crop
+  fades at its edges.
+- **Shared fixes:** each breadcrumb separator now ends its item, so a wrap never opens a line with "/". The location
+  cards' email link is a 44px target.
+- **Open for the user:** a dealt moment on Support, legal and blog (CLAUDE.md §3 asks for one; a moment there would
+  be decoration); a visible header search label; the "Solution" eyebrow the Impeccable rules ban, shared by three hero
+  types; a stand-in Deira photograph for the location pages (needs the user's go-ahead and a credit line).

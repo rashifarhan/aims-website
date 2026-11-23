@@ -61,7 +61,7 @@ Out of scope (the user postponed them): a moment for the `/solutions` hub, and t
 
 ### Integrator
 
-- [ ] Merge the three branches; apply "for the integrator" fixes to shared files
-- [ ] Visual check at 390 and 1440, EN and AR
-- [ ] Full e2e once, performance budget
-- [ ] README → Decisions; PR to `main`; merge on green CI
+- [x] Merge the three branches; apply "for the integrator" fixes to shared files
+- [x] Visual check at 390 and 1440, EN and AR
+- [x] Full e2e once, performance budget
+- [x] README → Decisions; PR to `main`; merge on green CI
