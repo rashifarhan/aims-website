@@ -47,15 +47,15 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 - [ ] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
 - [ ] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
 - [ ] Destination quote flow and its unit tests
-- [ ] Routes flipped to built; e2e specs; `pnpm check` + build clean
+- [x] Routes flipped to built; e2e specs; `pnpm check` + build clean
 
 ### Agent E: company and editorial (`claude/company-polish`)
 
 - [x] Compare both editorial branches; choose one editorial system and one importer
 - [x] `/privacy-policy`, `/terms-and-conditions`
 - [x] `/blog`, `/blog/[slug]` with AIMS's images
-- [ ] `/about`, `/services`, `/support` (services and support stop falling back to `/contact`)
-- [ ] Routes flipped to built; e2e specs; `pnpm check` + build clean
+- [x] `/about`, `/services`, `/support` (services and support stop falling back to `/contact`)
+- [x] Routes flipped to built; e2e specs; `pnpm check` + build clean
 
 ### Integrator
 
