@@ -26,7 +26,7 @@ type Props = {
 export function ProductSummary({ p, name, familyName, href, addLabels, t, data }: Props) {
   const image = p.images[0];
   return (
-    <div className="aims-hero mt-6 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
+    <div className="aims-hero product-hero-grid mt-6 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
       {/* 4:3 below 1024px so the name and first action reach the first screen sooner (audit T3); on a short phone
           the frame is capped too, and the whole photo still shows inside it (object-contain). */}
       <div className="product-hero-art product-hero-frame aims-studio relative aspect-4/3 overflow-hidden rounded-lg border border-line bg-white lg:aspect-square">

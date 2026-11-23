@@ -46,7 +46,17 @@
 /* Short phones (audit B4): the 4:3 photo frame took most of a 480–700px screen. Capped there, the photo stays whole
    (object-contain) and the name, model and Add to quote come into view. */
 @media (max-width: 1023px) and (max-height: 760px) {
+  /* Full width, shorter: the frame keeps the column's width and only its height is capped. */
   .product-hero-frame {
-    max-height: 30svh;
+    aspect-ratio: auto;
+    height: 30svh;
+  }
+}
+@media (max-width: 1023px) and (max-height: 560px) {
+  .product-hero-grid {
+    gap: 1.25rem;
+  }
+  .product-hero-frame {
+    height: 24svh;
   }
 }
