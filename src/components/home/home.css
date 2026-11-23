@@ -575,32 +575,13 @@
   }
 }
 @media (max-width: 639px) {
+  /* On phones the icon-only size of the one button (actions.css .home-button-icon). */
   .home-floating-contact {
-    width: 3rem;
+    width: 2.75rem;
     padding: 0;
     justify-content: center;
   }
   .home-floating-contact span {
     display: none;
-  }
-}
-.home-contact-dialog button,
-.home-contact-dialog a {
-  transition: transform var(--duration-fast) var(--ease-aims);
-}
-.home-contact-dialog button:hover {
-  background: var(--color-paper-2);
-}
-.home-contact-dialog a:hover {
-  background: var(--color-green-800);
-}
-.home-contact-dialog button:active,
-.home-contact-dialog a:active {
-  transform: scale(0.98);
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-contact-dialog button,
-  .home-contact-dialog a {
-    transition: none;
   }
 }

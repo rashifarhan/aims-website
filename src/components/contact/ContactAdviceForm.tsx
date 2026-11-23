@@ -98,7 +98,7 @@ export function ContactAdviceForm({ t, need, quoteHref }: Props) {
         {added && (
           <>
             {t.added}{" "}
-            <Link href={quoteHref} className="font-semibold text-green-700 underline underline-offset-2">
+            <Link href={quoteHref} className="ui-link">
               {t.review}
             </Link>
           </>

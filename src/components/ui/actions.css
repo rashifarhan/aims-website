@@ -4,9 +4,16 @@
  * stays unlayered and refines these where it must.
  */
 @layer components {
-  /* Shared actions (Design Doc 9 Button and Text link; 8.4 microinteractions). Used on every
-   marketing page, so the layout loads them once. Green-700 is the only action colour (Design Doc 4). */
-  .home-text-link {
+  /*
+   * The one link look, in two places (Design Doc 9 Text link; taste link-styles: one underline, one weight):
+   * - .home-text-link, a standalone link ("See all products →"): no line at rest, the underline draws on hover.
+   *   .home-night-link is the same link on night green, in lime (7.8:1 there).
+   * - .home-secondary, a link set in running copy or beside a button: underlined at rest, darkens on hover.
+   *   .ui-link is the same look inline in a sentence, without the 44px row.
+   * Green-700 is the only action colour on light surfaces (Design Doc 4).
+   */
+  .home-text-link,
+  .home-night-link {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -22,13 +29,18 @@
     text-underline-offset: 0.25em;
     transition: text-decoration-color var(--duration-hover) ease;
   }
-  .home-text-link:hover {
+  .home-text-link:hover,
+  .home-night-link:hover {
     text-decoration-color: currentColor;
   }
-  .home-text-link:hover .home-action-arrow {
+  .home-night-link {
+    margin-block-start: 0;
+    color: var(--color-lime);
+  }
+  :is(.home-text-link, .home-night-link):hover .home-action-arrow {
     translate: 3px 0;
   }
-  :dir(rtl) .home-text-link:hover .home-action-arrow {
+  :dir(rtl) :is(.home-text-link, .home-night-link):hover .home-action-arrow {
     translate: -3px 0;
   }
   .home-external-mark {
@@ -53,10 +65,8 @@
     font-weight: 600;
     box-shadow: var(--shadow-home-action);
   }
-  .home-secondary {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
+  .home-secondary,
+  .ui-link {
     font-weight: 600;
     color: var(--color-green-700);
     text-decoration: underline;
@@ -64,7 +74,13 @@
     /* Already underlined at rest, so hover answers by darkening to the primary hover colour. */
     transition: color var(--duration-hover) ease;
   }
-  .home-secondary:hover {
+  .home-secondary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  .home-secondary:hover,
+  .ui-link:hover {
     color: var(--color-green-800);
   }
   .home-button {
@@ -109,6 +125,8 @@
     translate: -3px 0;
   }
   .home-secondary:active,
+  .ui-link:active,
+  .home-night-link:active,
   .home-text-link:active {
     opacity: 0.75;
   }
@@ -306,19 +324,6 @@
   .home-button-lime:hover::before,
   .home-button-lime:focus-visible::before {
     opacity: 0.2;
-  }
-  .home-night-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    min-height: 2.75rem;
-    color: var(--color-lime);
-    font-weight: 600;
-    font-size: var(--text-small);
-  }
-  .home-night-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
   }
 
   /*

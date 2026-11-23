@@ -17,7 +17,7 @@ export async function SolutionFaq() {
               {faq.title}
             </h2>
             <p className="section-lead">{faq.lead}</p>
-            <Link href={localePath(await getLocale(), "/quote")} className="solution-advice">
+            <Link href={localePath(await getLocale(), "/quote")} className="home-text-link mt-6">
               {faq.action}
             </Link>
           </>

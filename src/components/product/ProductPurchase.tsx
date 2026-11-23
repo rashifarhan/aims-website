@@ -109,7 +109,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
                 </span>{" "}
                 × <span className="tabular-nums">{line.qty}</span>
               </span>{" "}
-              <Link href={quoteHref} className="font-semibold underline underline-offset-2">
+              <Link href={quoteHref} className="ui-link">
                 {labels.viewQuote}
               </Link>
             </>

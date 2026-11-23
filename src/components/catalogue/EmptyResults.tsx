@@ -45,7 +45,7 @@ export function EmptyResults({ q, hasFilters, asked, quoteHref, t, onClearSearch
         {asked && asked === q && (
           <>
             {t.askAdded}{" "}
-            <Link href={quoteHref} className="font-semibold text-green-700 underline">
+            <Link href={quoteHref} className="ui-link">
               {t.viewQuote}
             </Link>
           </>

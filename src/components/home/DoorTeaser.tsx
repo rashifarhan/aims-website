@@ -59,7 +59,7 @@ export async function DoorTeaser() {
             );
           })}
         </ol>
-        <Link href={localePath(locale, "/products/access-control")} className="home-text-link home-text-link-row">
+        <Link href={localePath(locale, "/products/access-control")} className="home-text-link">
           {door.action}
           <ArrowIcon width="16" height="16" className="home-action-arrow" />
         </Link>

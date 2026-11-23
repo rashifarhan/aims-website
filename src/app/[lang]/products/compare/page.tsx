@@ -78,10 +78,7 @@ function CompareView({
   const onlyDiff = one(params.diff) === "1";
   const from = safeFrom(one(params.from)) ?? hrefOf("/products");
   const backToResults = (
-    <Link
-      href={from}
-      className="inline-flex h-11 items-center gap-1.5 font-semibold text-green-700 underline underline-offset-2"
-    >
+    <Link href={from} className="home-secondary gap-1.5">
       {/* "Back" points to the inline start: the outer flip turns ArrowIcon (→, mirrored in Arabic by
           its own rtl:-scale-x-100) into ← in English and → in Arabic (Design Doc 13). */}
       <span className="inline-flex -scale-x-100">
@@ -119,12 +116,7 @@ function CompareView({
       {requested.length > items.length && <p className="mb-2 text-sm text-warn">{t.compare.notFound}</p>}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
         {backToResults}
-        <Link
-          href={selfHref(!onlyDiff)}
-          replace
-          scroll={false}
-          className="inline-flex h-11 items-center text-sm font-semibold text-ink-700 underline underline-offset-2"
-        >
+        <Link href={selfHref(!onlyDiff)} replace scroll={false} className="home-secondary text-sm">
           {onlyDiff ? t.compare.showAll : t.compare.onlyDiff}
         </Link>
       </div>
@@ -224,7 +216,7 @@ function CompareView({
                         .map((x) => x.slug)
                         .join(",")}${onlyDiff ? "&diff=1" : ""}&from=${encodeURIComponent(from)}`}
                       replace
-                      className="mt-2 inline-flex items-center text-xs font-medium text-ink-600 underline"
+                      className="home-secondary text-sm"
                     >
                       {t.compare.remove}
                       <span className="sr-only"> {p.name}</span>
