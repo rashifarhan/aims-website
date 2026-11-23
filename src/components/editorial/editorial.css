@@ -109,8 +109,8 @@
 .editorial-body :is(h2, h3, h4) {
   margin-block-start: 2.5rem;
   color: var(--color-ink);
-  font-size: var(--text-xl);
-  font-weight: 650;
+  font-size: var(--text-home-subtitle);
+  font-weight: var(--font-weight-card);
   line-height: 1.3;
   text-wrap: balance;
   /* Anchored headings clear the sticky header when the index jumps to them. */
@@ -176,7 +176,7 @@
 .ed-card h2,
 .ed-card h3 {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
   line-height: 1.35;
   text-wrap: balance;
 }
@@ -236,7 +236,7 @@
 }
 .ed-next-title {
   font-size: var(--text-home-subtitle);
-  font-weight: 680;
+  font-weight: var(--font-weight-display);
   line-height: 1.2;
   text-wrap: balance;
 }
@@ -266,7 +266,7 @@
   align-items: center;
   gap: 0.5rem;
   min-height: 2.75rem;
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
   color: var(--color-green-700);
 }
 .ed-next-link::after {
@@ -321,5 +321,5 @@
 .editorial-body h2 ~ h3,
 .editorial-body h4 {
   margin-block-start: 1.75rem;
-  font-size: var(--text-lg);
+  font-size: var(--text-home-card);
 }

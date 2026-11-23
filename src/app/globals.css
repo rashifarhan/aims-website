@@ -94,7 +94,10 @@
   --color-device-end: #e4ebe8;
   --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
 
-  /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale. */
+  /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale.
+     The one heading scale (Phase 1b polish): h1 --text-home-display (home, 68px) or --text-page-title (52px);
+     h2 --text-home-heading (38px; 28px on phones); h3 and panel titles --text-home-subtitle (24px); a card's title
+     --text-home-card (18px). Weights: --font-weight-display for h1/h2, --font-weight-card below. */
   --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
   --text-home-display-compact: 3.5rem;
   --text-home-display-mobile: 2.5rem;
@@ -112,7 +115,6 @@
   /* Explainer SVG text in viewBox units (760 wide), as for the door kit. */
   --text-map-label: 15px; /* reach map, viewBox units (640 wide) */
   --text-map-label-mobile: 24px;
-  --text-home-closing: 3.25rem;
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
@@ -301,8 +303,6 @@
     --section-space: 2rem;
     --card-pad: 1.25rem;
     --text-home-heading: 1.75rem;
-    /* The closing panel's night title (ui/ClosePanel), moved here from home so any page can close on night. */
-    --text-home-closing: 2.125rem;
   }
 }
 

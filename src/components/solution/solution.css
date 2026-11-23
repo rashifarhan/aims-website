@@ -20,7 +20,7 @@
 }
 .story-steps h3 {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
 }
 .story-steps p {
   grid-column: 2;

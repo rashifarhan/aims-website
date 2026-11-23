@@ -35,7 +35,8 @@
 }
 .sw-feature h3,
 .sw-system h3 {
-  font-weight: 650;
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
   line-height: 1.35;
 }
 .sw-feature p {
@@ -96,7 +97,7 @@
   border-radius: var(--radius-pill);
   background: var(--color-green-50);
   color: var(--color-green-800);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
   overflow-wrap: anywhere;
 }
 .sw-signal-node {
@@ -246,15 +247,15 @@
 }
 .sw-steps h3 {
   margin-block-start: 1rem;
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
 }
 .sw-steps p {
   margin-block-start: 0.5rem;
   color: var(--color-ink-700);
 }
 .sw-questions-title {
-  font-size: var(--text-home-card);
-  font-weight: 650;
+  font-size: var(--text-home-subtitle);
+  font-weight: var(--font-weight-card);
 }
 
 /* ---------- Download Centre ---------- */
@@ -307,7 +308,7 @@
 }
 .sw-card-name {
   font-size: var(--text-home-card);
-  font-weight: 650;
+  font-weight: var(--font-weight-card);
   line-height: 1.25;
 }
 .sw-card-link {

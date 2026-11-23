@@ -26,7 +26,7 @@ export function Receipt({ receipt, message, signals, t, productsHref, onEdit, on
   return (
     <section aria-labelledby="receipt-title" className="ui-panel mx-auto max-w-2xl">
       <VerifyMark labels={signals} />
-      <h2 id="receipt-title" ref={heading} tabIndex={-1} className="mt-6 text-2xl font-bold tracking-tight">
+      <h2 id="receipt-title" ref={heading} tabIndex={-1} className="mt-6 text-home-subtitle font-card tracking-tight">
         {t.receipt.title}
       </h2>
       {receipt.demo && <p className="mt-3 rounded-md bg-paper-2 p-3 font-semibold text-warn">{t.receipt.demo}</p>}

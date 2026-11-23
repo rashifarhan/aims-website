@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export function Panel({ n, title, id, children }: { n: number; title: string; id: string; children: ReactNode }) {
   return (
     <section aria-labelledby={id} className="ui-panel">
-      <h2 id={id} className="flex items-center gap-3 text-lg font-semibold text-ink">
+      <h2 id={id} className="flex items-center gap-3 text-home-subtitle font-card text-ink">
         <span
           aria-hidden="true"
           className="grid size-7 place-items-center rounded-pill bg-green-50 text-sm text-green-700"

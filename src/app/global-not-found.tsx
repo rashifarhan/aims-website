@@ -27,7 +27,9 @@ export default function GlobalNotFound() {
               AIMS<span className="text-lime">.</span>
             </span>
           </Link>
-          <h1 className="mt-10 text-3xl font-bold tracking-tight">Page not found</h1>
+          <h1 className="mt-10 text-page-title-mobile font-display tracking-tight lg:text-page-title">
+            Page not found
+          </h1>
           <p className="mt-3 max-w-lg text-ink-600">
             The page may have moved. Try searching for a model code, or browse all products.
           </p>

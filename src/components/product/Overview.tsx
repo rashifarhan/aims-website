@@ -10,7 +10,7 @@ export function Overview({ blocks, data }: { blocks: Block[]; data: { lang?: str
     <div className="max-w-[68ch] min-w-0 space-y-4 text-base leading-relaxed wrap-anywhere text-ink-700" {...data}>
       {blocks.map((b, i) =>
         b.type === "h" ? (
-          <h3 key={i} className="pt-2 text-lg font-semibold text-ink">
+          <h3 key={i} className="pt-2 text-home-subtitle font-card text-ink">
             {b.text}
           </h3>
         ) : b.type === "ul" ? (

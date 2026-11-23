@@ -36,7 +36,7 @@
 }
 .home-display {
   font-size: var(--text-home-display);
-  font-weight: 680;
+  font-weight: var(--font-weight-display);
   line-height: 1.03;
   letter-spacing: -0.04em;
   margin-block: 1.5rem;

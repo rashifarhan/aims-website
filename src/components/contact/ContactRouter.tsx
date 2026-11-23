@@ -67,7 +67,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
       </fieldset>
 
       <section aria-labelledby="contact-channel-title" className="ui-panel @container">
-        <h2 id="contact-channel-title" className="text-xl font-semibold text-ink">
+        <h2 id="contact-channel-title" className="text-home-subtitle font-card text-ink">
           {t.needs[need].label}
         </h2>
         {/* Micro (site polish): name the line that answers this need, from AIMS's own routing; no hours. */}

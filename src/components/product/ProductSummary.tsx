@@ -50,7 +50,7 @@ export function ProductSummary({ p, name, familyName, href, addLabels, t, data }
         <p className="hero-enter text-brand font-semibold tracking-brand text-ink-600 uppercase">
           <span dir="ltr">{p.brand === "alpha" ? "Alpha" : "ZKTeco"}</span> · {familyName}
         </p>
-        <h1 className="hero-enter mt-2 text-3xl leading-tight font-bold tracking-tight wrap-anywhere text-ink sm:text-4xl lg:text-5xl">
+        <h1 className="hero-enter mt-2 text-page-title-mobile leading-tight font-display tracking-tight wrap-anywhere text-ink lg:text-page-title">
           <span {...data}>{name}</span>
         </h1>
         <p className="hero-enter mt-3">

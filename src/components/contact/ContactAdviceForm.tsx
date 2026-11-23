@@ -50,7 +50,7 @@ export function ContactAdviceForm({ t, need, quoteHref }: Props) {
       }}
       className="mt-6 border-t border-line pt-5"
     >
-      <h3 className="font-semibold text-ink">{t.formTitle}</h3>
+      <h3 className="text-home-card font-card text-ink">{t.formTitle}</h3>
       <p className="mt-1 text-sm text-ink-600">{t.formLead}</p>
       <label htmlFor="contact-message" className="mt-4 mb-1.5 block text-sm font-semibold text-ink">
         {t.message}
