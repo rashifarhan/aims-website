@@ -10,9 +10,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
-import "@/components/home/sections.css";
 import "@/components/catalogue/catalogue.css";
-import "@/components/solution/solution.css";
 import "@/components/software/software.css";
 
 export async function generateMetadata(): Promise<Metadata> {

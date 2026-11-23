@@ -11,7 +11,7 @@ import type { IntroCopy } from "./types";
 
 /**
  * T3 row 1: title, promise and two actions beside AIMS's own product photograph (Master Plan 14;
- * taste photos.md "the product leads"). It enters once on load like the homepage hero (solution.css).
+ * taste photos.md "the product leads"). It enters once on load like the homepage hero (ui/sections.css).
  */
 export async function SolutionIntro({ page, copy }: { page: SolutionPageData; copy: IntroCopy }) {
   const t = await getDictionary();

@@ -17,7 +17,7 @@ type Props = {
 };
 
 /**
- * The T3 hero for the company pages (Master Plan 14; solution.css): title, promise and two actions
+ * The T3 hero for the company pages (Master Plan 14; ui/sections.css): title, promise and two actions
  * beside one of AIMS's own product photographs, holding the first screen alone on desktop. It enters
  * once on load like the solution hero (.t3-enter) and then stands.
  */

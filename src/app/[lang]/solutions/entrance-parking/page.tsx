@@ -11,7 +11,6 @@ import { SolutionCta } from "@/components/solution/SolutionCta";
 import { EP_PAGE as PAGE } from "@/components/solution/entrance-parking/data";
 import { EntranceLanes } from "@/components/solution/entrance-parking/EntranceLanes";
 import { EntranceOptions } from "@/components/solution/entrance-parking/EntranceOptions";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/entrance-parking/entrance-parking.css";
 

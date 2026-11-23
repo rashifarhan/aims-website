@@ -10,7 +10,6 @@ import { SolutionCta } from "@/components/solution/SolutionCta";
 import { POS_PAGE as PAGE } from "@/components/solution/pos/posPage";
 import { CounterVerify } from "@/components/solution/pos/CounterVerify";
 import { PosOptions } from "@/components/solution/pos/PosOptions";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/pos/counter.css";
 

@@ -11,7 +11,6 @@ import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
 import { MomentTrigger } from "@/components/home/MomentTrigger";
 import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
 import "@/components/contact/contact.css";
 import "@/components/signature/reach.css";
 import "@/components/company/company.css";

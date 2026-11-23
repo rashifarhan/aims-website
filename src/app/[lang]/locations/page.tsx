@@ -12,8 +12,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { HUB_HERO } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
-import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
 import "@/components/signature/reach.css";
 import "@/components/locations/locations.css";
 

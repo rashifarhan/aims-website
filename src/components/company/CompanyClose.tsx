@@ -9,7 +9,7 @@ type Props = {
   secondary: { href: string; label: string };
 };
 
-/** The closing band (solution.css .t3-cta): one action and one link (Design Doc 2, principle 1). */
+/** The closing band (ui/sections.css .t3-cta): one action and one link (Design Doc 2, principle 1). */
 export function CompanyClose({ id, heading, body, action, secondary }: Props) {
   return (
     <section className="t3-cta page-container" aria-labelledby={id}>

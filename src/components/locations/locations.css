@@ -1,6 +1,6 @@
 /*
  * Locations hub and T7 location pages (Master Plan 12 #6, #32–35; Design Doc 10.1 T2/T7). They sit on the T3
- * template (solution.css) and the shared card and buttons (ui/actions.css); this file holds only what those
+ * template (ui/sections.css) and the shared card and buttons (ui/actions.css); this file holds only what those
  * pages add. Tokens only. Motion: the T3 hero entrance, the SIGNAL map (signature/reach.css), hover and press.
  */
 

@@ -37,7 +37,7 @@
 .sw-centre-intro {
   padding-block: 1.5rem var(--home-section-space);
 }
-/* Entrance once on load, the time attendance hero's keyframes (solution.css): copy rises in turn, the
+/* Entrance once on load, the time attendance hero's keyframes (ui/sections.css): copy rises in turn, the
    picture settles; about 1.1s, then it stands. Reduced motion: nothing moves (taste motion.md). */
 @media (prefers-reduced-motion: no-preference) {
   .sw-enter {

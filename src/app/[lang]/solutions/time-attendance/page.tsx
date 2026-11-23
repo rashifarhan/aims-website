@@ -10,7 +10,6 @@ import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { SolutionCta } from "@/components/solution/SolutionCta";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 
 const PAGE = SOLUTION_PAGES["time-attendance"];

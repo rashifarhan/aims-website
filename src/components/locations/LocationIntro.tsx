@@ -9,7 +9,7 @@ type Copy = { eyebrow: string; title: string; lead: string; primary: string; sec
 type Photo = { src: string; alt: string; width: number; height: number };
 
 /**
- * T2/T7 row 1 on the T3 hero (solution.css): place title, fulfilment badge as the eyebrow, two actions and one
+ * T2/T7 row 1 on the T3 hero (ui/sections.css): place title, fulfilment badge as the eyebrow, two actions and one
  * hard fact beside AIMS's own product photograph (Design Doc 10.1 T7). It enters once on load, then stands.
  */
 export async function LocationIntro({

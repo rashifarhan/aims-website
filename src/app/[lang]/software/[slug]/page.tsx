@@ -10,8 +10,6 @@ import { SoftwareFeatures } from "@/components/software/SoftwareFeatures";
 import { SoftwareTerminals } from "@/components/software/SoftwareTerminals";
 import { SoftwareSetup } from "@/components/software/SoftwareSetup";
 import { SoftwareClose } from "@/components/software/SoftwareClose";
-import "@/components/home/sections.css";
-import "@/components/solution/solution.css";
 import "@/components/software/software.css";
 
 /** The built software pages (Plan 12 #29–31). URLs are unchanged from aimsuae.me (AT-13). */

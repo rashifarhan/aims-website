@@ -27,7 +27,8 @@ import { TA_METHODS, TA_PRODUCTS, TA_SOFTWARE } from "./timeAttendance";
  * `idPrefix` (two letters, e.g. "ac") keeps heading ids unique: `${idPrefix}-products-title` etc.
  * Copy: one i18n namespace per page (solutionAccessControl…), en + ar, whose sub-objects match the
  * *Copy types below (src/components/solution/types.ts). Pass the sub-object; extra keys are fine.
- * Page CSS: import "@/components/home/sections.css" and "@/components/solution/solution.css".
+ * Page CSS: shared section rules load from the layout (ui/sections.css); import solution.css only for its
+ * family-only rules (story, option and pick cards).
  * A page with a `[data-moment]` section also renders <MomentTrigger /> (src/components/home).
  * Data: define the page with `defineSolutionPage({...})`, here or in the page's own folder.
  */

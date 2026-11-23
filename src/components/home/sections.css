@@ -1,35 +1,3 @@
-/* T1 sections below the hero (Design Doc ch. 4–10). Tokens only; motion is the hover and press layer. */
-
-/* ---------- Shared section primitives ---------- */
-.home-section {
-  padding-block: var(--home-section-space);
-}
-.home-section-title {
-  font-size: var(--text-home-heading);
-  font-weight: 680;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-.home-section-lead {
-  max-width: 38rem;
-  margin-block-start: 0.875rem;
-  color: var(--color-ink-600);
-  font-size: var(--text-base);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
-.home-section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1.5rem;
-  margin-block-end: 2.5rem;
-}
-.home-section-heading > .home-text-link {
-  flex: none;
-  margin-block-start: 0;
-}
 /* A heading one step below the section title, for a block that shares a section (taste layout-v4). */
 .home-subtitle {
   font-size: var(--text-home-subtitle);
@@ -42,8 +10,7 @@
  * One card (DESIGN.md Plinth Rule; taste cards.md "barely there"): white, a hairline, the resting
  * shadow, 32px of padding. A linked card lifts 2px to the hover shadow; pressing settles it.
  */
-.home-route-card,
-.home-software-card {
+.home-route-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -56,8 +23,7 @@
   box-shadow: var(--shadow-1);
 }
 .home-route-card,
-.home-family-card,
-.home-software-card {
+.home-family-card {
   /* One timing for the lift and the family photo zoom (home.css), so card and photo move together. */
   transition:
     box-shadow var(--duration-card) var(--ease-aims),
@@ -66,8 +32,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .home-route-card:hover,
-  .home-family-card:hover,
-  .home-software-card:hover {
+  .home-family-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-2);
   }
@@ -81,17 +46,14 @@
   translate: -3px 0;
 }
 .home-route-card:active,
-.home-family-card:active,
-.home-software-card:active {
+.home-family-card:active {
   transform: translateY(0) scale(0.99);
 }
 .home-route-card:focus-visible,
-.home-family-card:focus-visible,
-.home-software-card:focus-visible {
+.home-family-card:focus-visible {
   box-shadow: var(--shadow-2);
 }
-.home-route-card > .home-external-mark,
-.home-software-card > .home-external-mark {
+.home-route-card > .home-external-mark {
   position: absolute;
   inset-block-start: 1.5rem;
   inset-inline-end: 1.5rem;
@@ -101,7 +63,6 @@
 /* Polish: body copy never leaves one word alone on its last line, in English or Arabic. */
 .home-route-body,
 .home-family-summary,
-.home-software-purpose,
 .home-faq details p,
 .home-review-card blockquote {
   text-wrap: pretty;
@@ -112,14 +73,12 @@
   max-width: 40rem;
   margin-block-end: 2.5rem;
 }
-.home-route-grid,
-.home-software-grid {
+.home-route-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
-.home-route-card h3,
-.home-software-card :is(h3, h4) {
+.home-route-card h3 {
   font-size: var(--text-home-card);
   font-weight: 650;
   line-height: 1.3;
@@ -203,24 +162,6 @@
 .home-software-block .home-section-heading {
   margin-block-end: 2rem;
 }
-.home-software-kind {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
-}
-.home-software-card :is(h3, h4) {
-  margin-block: 1.25rem 0.5rem;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  text-align: start;
-}
-.home-software-purpose {
-  color: var(--color-ink-700);
-  line-height: 1.6;
-}
 
 /* ---------- 4 · How a door works ---------- */
 .home-door {
@@ -244,62 +185,10 @@
   font-weight: 600;
   font-size: var(--text-small);
 }
-/* The whole row is the link, so the target is the full 56px row (WCAG 2.5.8). */
-.home-door-link {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  align-self: stretch;
-  color: var(--color-ink);
-}
-.home-door-link:hover {
-  color: var(--color-green-700);
-}
-.home-door-link:hover .home-door-code {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-.home-door-index {
-  font-family: var(--font-mono);
-  font-size: var(--text-caption);
-  font-weight: 500;
-  color: var(--color-ink-400);
-  line-height: 1.6;
-}
-.home-door-code {
-  display: block;
-  margin-block-start: 0.125rem;
-  font-family: var(--font-mono);
-  font-size: var(--text-caption);
-  font-weight: 500;
-  color: var(--color-ink-600);
-}
-.home-door-link .home-door-code {
-  color: var(--color-green-700);
-}
-.home-door-stage {
-  border-radius: var(--radius-lg);
-  overflow: clip;
-}
 .home-door-drawing {
   display: block;
   width: 100%;
   height: auto;
-}
-.home-door-name {
-  font-size: var(--text-door-name);
-  font-weight: 600;
-  fill: var(--color-ink);
-}
-.home-door-model {
-  font-size: var(--text-door-model);
-  font-weight: 500;
-  fill: var(--color-ink-400);
-}
-.home-door-screen {
-  font-size: var(--text-door-screen);
-  font-weight: 500;
-  fill: var(--color-ink-600);
 }
 .home-door-granted {
   font-size: var(--text-door-name);
@@ -464,7 +353,6 @@
   animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
 }
 @media (prefers-reduced-motion: reduce) {
-  /* !important beats the global reduced-motion rule so a short fade remains instead of a jump. */
   .home-faq details[open] p {
     animation-name: aims-fade !important;
     animation-duration: var(--duration-fast) !important;
@@ -473,9 +361,6 @@
 
 /* ---------- Desktop: more air between sections (taste layout-v4, one section per screen) ---------- */
 @media (min-width: 1024px) {
-  .home-section {
-    padding-block: calc(var(--home-section-space) * 1.75);
-  }
   .home-faq-intro {
     position: sticky;
     inset-block-start: 6.5rem;
@@ -509,13 +394,11 @@
 /* ---------- Tablet (640–1023): text cards stack; photographs keep two across ---------- */
 @media (max-width: 1023px) {
   .home-route-grid,
-  .home-software-grid,
   .home-family-grid,
   .home-review-grid {
     gap: 1rem;
   }
   .home-route-grid,
-  .home-software-grid,
   .home-review-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -538,13 +421,6 @@
 
 /* ---------- Phone (390 first): fewer, tighter rows; nothing shrunk below the type scale ---------- */
 @media (max-width: 639px) {
-  .home-section-heading {
-    display: block;
-    margin-block-end: 1.5rem;
-  }
-  .home-section-heading > .home-text-link {
-    margin-block-start: 0.5rem;
-  }
   .home-routes-title {
     margin-block-end: 1.5rem;
   }
@@ -552,22 +428,19 @@
     padding-block-start: calc(var(--home-section-space) * 2.5);
   }
   .home-route-grid,
-  .home-software-grid,
   .home-review-grid {
     gap: 0.75rem;
   }
   .home-review-card {
     padding: 1.5rem;
   }
-  .home-route-card,
-  .home-software-card {
+  .home-route-card {
     padding: 1.5rem;
   }
   .home-route-body {
     margin-block: 0.5rem 1.25rem;
   }
-  .home-route-card > .home-external-mark,
-  .home-software-card > .home-external-mark {
+  .home-route-card > .home-external-mark {
     inset-block-start: 1.25rem;
     inset-inline-end: 1.25rem;
   }
@@ -584,21 +457,16 @@
   .home-family-info h3 {
     font-size: var(--text-base);
   }
-  /* The name and count say enough at half width; the summary returns at 640px. */
   .home-family-summary {
     display: none;
   }
   .home-family-count {
     padding-block-start: 0.5rem;
   }
-  .home-software-card :is(h3, h4) {
-    margin-block: 0.75rem 0.25rem;
-  }
   .home-door-parts {
     grid-template-columns: minmax(0, 1fr);
     margin-block-start: 1.5rem;
   }
-  /* The prototype hides the pill tags on phones; the parts list carries the names. */
   .home-door-tag {
     display: none;
   }
@@ -615,17 +483,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .home-route-card,
-  .home-family-card,
-  .home-software-card,
-  .home-text-link .home-action-arrow {
+  .home-family-card {
     transition: none;
   }
   .home-route-card:hover,
   .home-family-card:hover,
-  .home-software-card:hover,
   .home-route-card:active,
-  .home-family-card:active,
-  .home-software-card:active {
+  .home-family-card:active {
     transform: none;
   }
 }

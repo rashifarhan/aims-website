@@ -20,7 +20,7 @@ const SERVICES = [
 
 /**
  * Master Plan 12 #5 "supply, design, install, support": the four services AIMS publishes, each a card
- * that opens where that service starts, on the T3 option card (solution.css .method-card).
+ * that opens where that service starts, on the T3 option card (ui/sections.css .method-card).
  */
 export async function ServicesList() {
   const { services } = await getDictionary();

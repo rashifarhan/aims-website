@@ -9,7 +9,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { CONTACT, whatsappUrl } from "@/lib/site";
-import "@/components/solution/solution.css";
 import "@/components/editorial/editorial.css";
 import "@/components/company/company.css";
 

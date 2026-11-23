@@ -10,7 +10,6 @@ import { SolutionCta } from "@/components/solution/SolutionCta";
 import { DOOR_LOCKS_PAGE as PAGE } from "@/components/solution/door-locks/doorLocksPage";
 import { LockUnlock } from "@/components/solution/door-locks/LockUnlock";
 import { LockOptions } from "@/components/solution/door-locks/LockOptions";
-import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/door-locks/unlock.css";
 
