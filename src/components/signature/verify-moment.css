@@ -1,0 +1,55 @@
+/*
+ * VERIFY as a dealt moment (Design Doc 8 "signal lines converge into ✓"; quote/VerifyMark.tsx). On /quote
+ * the mark plays on mount (quote.css); here it waits for its section: MomentTrigger sets data-played on
+ * the [data-moment] section, and data-effects on <html> only without reduced motion, so the resting
+ * styles are the finished check. Its own keyframes and higher specificity keep quote.css, if it is
+ * already loaded from an earlier page, from playing it on mount. Transform, opacity and dashoffset only.
+ */
+.verify-moment .verify-line,
+.verify-moment .verify-tick {
+  stroke-dasharray: 1;
+  animation: none;
+}
+.verify-moment .verify-disc {
+  animation: none;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .verify-moment :is(.verify-line, .verify-tick) {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .verify-moment .verify-disc {
+  opacity: 0;
+  transform: scale(0.8);
+}
+:root[data-effects="on"] [data-moment][data-played] .verify-moment .verify-line {
+  animation: verify-moment-draw 520ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .verify-moment .verify-line:nth-child(2) {
+  animation-delay: 90ms;
+}
+:root[data-effects="on"] [data-moment][data-played] .verify-moment .verify-line:nth-child(3) {
+  animation-delay: 180ms;
+}
+:root[data-effects="on"] [data-moment][data-played] .verify-moment .verify-disc {
+  animation: verify-moment-disc 320ms 560ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .verify-moment .verify-tick {
+  animation: verify-moment-draw 360ms 820ms var(--ease-aims) both;
+}
+@keyframes verify-moment-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes verify-moment-disc {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

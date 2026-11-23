@@ -19,6 +19,9 @@ export function buildRedirects(): Redirect[] {
     r("/contact.html", "/contact"),
     r("/index.html", "/"),
     r("/getaquote", "/quote"),
+    // The Dubai page's other-language aliases go straight to its pair, so it never exists twice (Plan 12 #32, #35).
+    r("/zkteco-dubai", "/zkteco-distributor-in-dubai"),
+    r("/ar/zkteco-distributor-in-dubai", "/ar/zkteco-dubai"),
     r("/faq", "/support#faq"),
     r("/zkteco-warranty-policy", "/support#warranty"),
 

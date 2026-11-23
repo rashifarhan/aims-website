@@ -1,0 +1,406 @@
+/*
+ * T10 editorial (Master Plan 12 #7, #10–14; Design Doc 5, 10.1): legal pages, the blog and the reading
+ * parts of About and Support. Tokens only; logical properties only.
+ */
+
+/* ---------- Intro: compact, because a policy or an article starts reading at once ---------- */
+.ed-intro {
+  padding-block: 1.5rem 2.5rem;
+}
+.ed-eyebrow {
+  margin-block-start: 2rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.ed-intro h1 {
+  max-width: 48rem;
+  margin-block-start: 0.75rem;
+  font-size: var(--text-page-title);
+  font-weight: 680;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.ed-lead {
+  max-width: 40rem;
+  margin-block-start: 1rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+  text-wrap: pretty;
+}
+.ed-meta {
+  margin-block-start: 1rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.ed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-block-start: 1.75rem;
+}
+:lang(ar) .ed-intro h1 {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* The solution template's entrance (solution.css .t3-enter), once on load, then it stands. */
+@media (prefers-reduced-motion: no-preference) {
+  .ed-enter {
+    animation: ed-copy-in 800ms var(--ease-aims) both;
+  }
+  .ed-enter:nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .ed-enter:nth-child(3) {
+    animation-delay: 200ms;
+  }
+  .ed-enter:nth-child(4) {
+    animation-delay: 320ms;
+  }
+  .ed-enter:nth-child(n + 5) {
+    animation-delay: 400ms;
+  }
+}
+@keyframes ed-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Reading layout: the 680px column, with the index beside it on desktop ---------- */
+.ed-layout {
+  display: grid;
+  gap: 2rem;
+  padding-block-end: var(--home-section-space);
+}
+.ed-column {
+  min-width: 0;
+  max-width: var(--container-reading);
+}
+@media (min-width: 1024px) {
+  .ed-layout:has(> .ed-index-slot) {
+    grid-template-columns: 15rem minmax(0, var(--container-reading));
+    gap: 4rem;
+    align-items: start;
+  }
+  .ed-index-slot {
+    position: sticky;
+    inset-block-start: calc(var(--home-header-block) + 1.5rem);
+    max-height: calc(100svh - var(--home-header-block) - 3rem);
+    overflow-y: auto;
+  }
+  .ed-index-narrow {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .ed-index-wide {
+    display: none;
+  }
+}
+
+/* "On this page" (Design Doc 10.1: the index becomes "Jump to" on phones; a native disclosure there). */
+.ed-index-title {
+  padding: 0.75rem 1rem 0.25rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+.ed-index {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-2);
+}
+.ed-index summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.ed-index summary::-webkit-details-marker {
+  display: none;
+}
+.ed-index summary svg {
+  transition: transform var(--duration-slow) var(--ease-aims);
+}
+.ed-index[open] summary svg {
+  transform: rotate(180deg);
+}
+.ed-index ol {
+  padding: 0 0.5rem 0.75rem;
+}
+.ed-index a {
+  display: flex;
+  align-items: center;
+  /* Even rhythm for one- and two-line entries; still above the 24px target minimum (WCAG 2.5.8). */
+  min-height: 2rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-small);
+  line-height: 1.35;
+  color: var(--color-ink-700);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-hover) ease;
+}
+.ed-index a:hover {
+  color: var(--color-green-700);
+  text-decoration-color: currentColor;
+}
+
+/* ---------- AIMS's own copy (blocks): one reading rhythm ---------- */
+.editorial-body {
+  color: var(--color-ink-700);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+.editorial-body > * + * {
+  margin-block-start: 1rem;
+}
+.editorial-body :is(h2, h3, h4) {
+  margin-block-start: 2.5rem;
+  color: var(--color-ink);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  line-height: 1.3;
+  text-wrap: balance;
+  /* Anchored headings clear the sticky header when the index jumps to them. */
+  scroll-margin-block-start: calc(var(--home-header-block) + 1rem);
+}
+.editorial-body ul {
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+.editorial-body li + li {
+  margin-block-start: 0.5rem;
+}
+.ed-note {
+  margin-block-start: 2.5rem;
+  padding: 1rem 1.25rem;
+  border-inline-start: 3px solid var(--color-green-700);
+  background: var(--color-paper-2);
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+
+/* ---------- Blog cards: the shared .ui-card with AIMS's article image ---------- */
+.ed-card-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .ed-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .ed-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.ed-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: clip;
+}
+.ed-card-photo {
+  overflow: clip;
+  background: var(--color-paper-2);
+}
+/* The ratio sits on the image itself: a square upload would otherwise stretch its box. */
+.ed-card-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.ed-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+.ed-card h2,
+.ed-card h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.ed-card h2 a::after,
+.ed-card h3 a::after {
+  /* The title is the card's one link, stretched over it: a single tab stop (Design Doc 9 Card). */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.ed-card a:focus-visible {
+  outline: none;
+}
+.ed-card:has(a:focus-visible) {
+  outline: 2px solid var(--color-green-700);
+  outline-offset: 2px;
+}
+.ed-card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: var(--text-small);
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+.ed-card-date {
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+  font-size: var(--text-caption);
+  color: var(--color-ink-600);
+}
+
+/* ---------- Article ---------- */
+.ed-article-photo {
+  margin-block: 0 2.5rem;
+  overflow: clip;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper-2);
+}
+.ed-article-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 32rem;
+  object-fit: cover;
+}
+
+/* The way forward after an article: the related solution as a linked card, and one quote action. */
+.ed-next {
+  margin-block-start: 3.5rem;
+  padding: 2rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-lg);
+  background: var(--color-green-50);
+}
+.ed-next-title {
+  font-size: var(--text-home-subtitle);
+  font-weight: 680;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.ed-next-body {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+}
+.ed-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.5rem;
+  margin-block-start: 1.5rem;
+}
+.ed-next-card {
+  flex: 1 1 16rem;
+  padding: 1rem 1.25rem;
+}
+.ed-next-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.ed-next-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-weight: 650;
+  color: var(--color-green-700);
+}
+.ed-next-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.ed-next-card:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .ed-next-card:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.ed-next-summary {
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+
+/* More articles, closing the page. */
+.ed-more {
+  padding-block: var(--home-section-space) calc(var(--home-section-space) * 1.5);
+  border-block-start: 1px solid var(--color-line);
+}
+.ed-more-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin-block-end: 1.5rem;
+}
+.ed-more-heading .home-text-link {
+  margin-block-start: 0;
+}
+.ed-more-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+:lang(ar) .ed-more-title {
+  letter-spacing: 0;
+}
+
+@media (max-width: 639px) {
+  .ed-next {
+    padding: 1.5rem 1.25rem;
+  }
+  .ed-intro h1 {
+    font-size: var(--text-page-title-mobile);
+  }
+  .ed-lead {
+    font-size: var(--text-base);
+  }
+  /* Design Doc 9 Card on phones: the excerpt goes; the title and date carry the card. */
+  .ed-card-excerpt {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-index summary svg {
+    transition: none;
+  }
+}
+/* A numbered subsection under a section heading reads one step smaller. */
+.editorial-body h2 ~ h3,
+.editorial-body h4 {
+  margin-block-start: 1.75rem;
+  font-size: var(--text-lg);
+}

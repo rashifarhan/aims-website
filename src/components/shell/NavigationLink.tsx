@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
-import { navigationHref, prefetchSafe } from "@/lib/navigationHref";
+import { navigationHref } from "@/lib/navigationHref";
+import { prefetchSafe } from "@/lib/prefetchSafe";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & { href: string; externalLabel: string };
 

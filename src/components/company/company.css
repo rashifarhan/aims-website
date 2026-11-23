@@ -1,0 +1,206 @@
+/* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on solution.css (T3). Tokens only. */
+
+/* ---------- About: story beside the fact sheet ---------- */
+.co-story {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+.co-story-text {
+  max-width: 38rem;
+  margin-block-start: 1rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.6;
+  color: var(--color-ink-700);
+  text-wrap: pretty;
+}
+.co-story-text:first-of-type {
+  margin-block-start: 1.5rem;
+}
+.co-facts {
+  padding: 1.75rem;
+}
+.co-facts-title {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.co-facts dl {
+  margin-block-start: 1rem;
+}
+.co-facts dl > div {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.co-facts dt {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.co-facts dd {
+  font-weight: 600;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.co-facts dd[dir="ltr"] {
+  text-align: start;
+  unicode-bidi: isolate;
+}
+@media (min-width: 1024px) {
+  .co-story {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 4rem;
+  }
+}
+
+/* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
+.co-showrooms {
+  padding-block-end: var(--home-section-space);
+  scroll-margin-block-start: var(--home-header-block);
+}
+
+/* ---------- Services ---------- */
+.co-process-head {
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+  margin-block-end: 2.5rem;
+}
+.co-process-head .t3-heading {
+  margin-block-end: 0;
+}
+.co-process-mark {
+  max-width: 26rem;
+}
+@media (min-width: 1024px) {
+  .co-process-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+    gap: 4rem;
+  }
+  .co-process .process-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.co-cover {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 2.5rem;
+}
+@media (min-width: 768px) {
+  .co-cover {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.co-cover-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+}
+.co-cover-card h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.co-cover-card p {
+  margin-block-start: 0.5rem;
+  line-height: 1.6;
+  color: var(--color-ink-600);
+}
+.co-cover-link {
+  align-self: start;
+}
+/* The card's one link covers it, so the whole card answers the hover and press layer. */
+.co-cover-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* ---------- Support: warranty, process and FAQ in the reading column ---------- */
+.co-support > section + section {
+  margin-block-start: 4rem;
+}
+.co-support > section {
+  scroll-margin-block-start: calc(var(--home-header-block) + 1rem);
+}
+.co-support-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+:lang(ar) .co-support-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.co-support-note {
+  margin-block: 0.5rem 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+.co-steps {
+  display: grid;
+  gap: 0;
+  margin-block-start: 1.5rem;
+}
+.co-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1.25rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.co-steps h3 {
+  font-weight: 650;
+}
+.co-steps p {
+  margin-block-start: 0.375rem;
+  line-height: 1.6;
+  color: var(--color-ink-600);
+}
+.co-steps .process-owner {
+  margin-block-start: 0.5rem;
+  font-weight: 600;
+  color: var(--color-green-700);
+}
+.co-faq details {
+  border-block-end: 1px solid var(--color-line);
+}
+.co-faq details:first-child {
+  border-block-start: 1px solid var(--color-line);
+}
+.co-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding-block: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-hover) ease;
+}
+.co-faq summary::-webkit-details-marker {
+  display: none;
+}
+.co-faq summary:hover {
+  color: var(--color-green-700);
+}
+.co-faq summary svg {
+  flex: none;
+  transition: transform var(--duration-slow) var(--ease-aims);
+}
+.co-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.co-faq .editorial-body {
+  padding-block-end: 1.25rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-faq summary svg {
+    transition: none;
+  }
+}

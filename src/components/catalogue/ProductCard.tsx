@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ProductCard as Card } from "@/content/cards";
+import type { QuoteContext } from "@/lib/quote/context";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
 
 export type CardLabels = AddToQuoteLabels & { compare: string; specsOnRequest: string };
@@ -12,7 +13,10 @@ type Props = {
   href: string;
   subtitle: string;
   labels: CardLabels;
-  compare: { checked: boolean; disabled: boolean; onToggle: () => void };
+  /** The listing's compare toggle; a curated row outside the listing (a location page) has no compare tray. */
+  compare?: { checked: boolean; disabled: boolean; onToggle: () => void };
+  /** Passed to AddToQuote: a location page's destination (Design Doc 10.1 T7). */
+  preset?: Partial<QuoteContext>;
   /** Above-the-fold cards load eagerly. */
   eager?: boolean;
 };
@@ -35,7 +39,7 @@ function describe(c: Card): string {
  * .ui-card). Not one big link: the model is the link, actions are separate controls. Facts are verbatim
  * spec values; missing specs say so.
  */
-export function ProductCard({ card, href, subtitle, labels, compare, eager = false }: Props) {
+export function ProductCard({ card, href, subtitle, labels, compare, preset, eager = false }: Props) {
   const description = describe(card);
   return (
     <article className="product-card ui-card ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
@@ -88,20 +92,29 @@ export function ProductCard({ card, href, subtitle, labels, compare, eager = fal
         {/* Two fixed rows, so adding to the quote (stepper + "In quote") never moves Compare or changes
             the card's height. The outline button keeps a grid from becoming a wall of filled green. */}
         <div className="mt-auto grid gap-1 pt-4">
-          <AddToQuote slug={card.slug} name={card.name} labels={labels} variant="outline" className="min-h-11" />
-          <label
-            className={`inline-flex min-h-11 items-center gap-2 justify-self-start text-sm ${compare.disabled ? "text-ink-400" : "cursor-pointer text-ink-700"}`}
-          >
-            <input
-              type="checkbox"
-              checked={compare.checked}
-              disabled={compare.disabled}
-              onChange={compare.onToggle}
-              className="size-4.5 accent-green-700"
-            />
-            {labels.compare}
-            <span className="sr-only">: {card.name}</span>
-          </label>
+          <AddToQuote
+            slug={card.slug}
+            name={card.name}
+            labels={labels}
+            variant="outline"
+            className="min-h-11"
+            preset={preset}
+          />
+          {compare && (
+            <label
+              className={`inline-flex min-h-11 items-center gap-2 justify-self-start text-sm ${compare.disabled ? "text-ink-400" : "cursor-pointer text-ink-700"}`}
+            >
+              <input
+                type="checkbox"
+                checked={compare.checked}
+                disabled={compare.disabled}
+                onChange={compare.onToggle}
+                className="size-4.5 accent-green-700"
+              />
+              {labels.compare}
+              <span className="sr-only">: {card.name}</span>
+            </label>
+          )}
         </div>
       </div>
     </article>

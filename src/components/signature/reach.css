@@ -95,3 +95,56 @@
     margin-inline: calc(var(--page-gutter) * -0.5);
   }
 }
+
+/* T7 location pages (ReachMap `destination`): when the one route arrives, its market lights up and stays lit. */
+.reach-arrive {
+  opacity: 0.3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+:root[data-effects="on"] .reach-moment:not([data-played]) .reach-arrive {
+  opacity: 0;
+  transform: scale(0.3);
+}
+:root[data-effects="on"] .reach-moment[data-played] .reach-arrive {
+  animation: reach-arrive 600ms 1200ms var(--ease-aims) both;
+}
+@keyframes reach-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 0.3;
+    transform: none;
+  }
+}
+
+/* Oman's map is cropped to the Gulf (ReachMap ZOOM): text, lines and dots are divided by the crop factor so
+   they keep the full map's on-screen size; only the geography grows. */
+.reach-map-zoomed .reach-labels text {
+  font-size: calc(var(--text-map-label) / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-route {
+  stroke-width: calc(1.4px / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-city {
+  r: calc(3.5px / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-office {
+  r: calc(5.5px / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-office-small {
+  r: calc(4.5px / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-ring {
+  r: calc(14px / var(--reach-zoom));
+}
+.reach-map-zoomed .reach-arrive {
+  r: calc(11px / var(--reach-zoom));
+}
+@media (max-width: 639px) {
+  .reach-map-zoomed .reach-labels text {
+    font-size: calc(var(--text-map-label-mobile) / var(--reach-zoom));
+  }
+}

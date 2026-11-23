@@ -1,0 +1,214 @@
+/*
+ * Locations hub and T7 location pages (Master Plan 12 #6, #32–35; Design Doc 10.1 T2/T7). They sit on the T3
+ * template (solution.css) and the shared card and buttons (ui/actions.css); this file holds only what those
+ * pages add. Tokens only. Motion: the T3 hero entrance, the SIGNAL map (signature/reach.css), hover and press.
+ */
+
+/* The hard fact under the actions enters last, with the rest of the hero copy. */
+.loc-fact {
+  margin-block-start: 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .t3-hero-copy > .loc-fact.t3-enter {
+    animation-delay: 440ms;
+  }
+}
+
+/* ---------- UAE offices: the one card, showroom first ---------- */
+.loc-offices {
+  display: grid;
+  gap: 1rem;
+}
+.loc-office {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a mint plinth, not a second colour. */
+.loc-office-featured {
+  border-color: var(--color-green-100);
+  background: var(--color-green-50);
+}
+.loc-office-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.loc-office-featured .loc-office-tag {
+  color: var(--color-green-700);
+}
+.loc-office h3 {
+  margin-block-start: 0.5rem;
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.loc-office-address {
+  margin-block-start: 0.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+  text-align: start;
+}
+:dir(rtl) .loc-office-address {
+  text-align: end;
+}
+.loc-office-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+}
+.loc-office-actions .home-text-link {
+  margin-block-start: 0;
+}
+@media (min-width: 768px) {
+  .loc-offices {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* ---------- Models: the catalogue card, rows on a phone, tiles from 640px ---------- */
+.loc-models {
+  display: grid;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) {
+  .loc-models {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .loc-models {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- SIGNAL band on night green (lime carries links here: 5.8–8.5:1, Design Doc 4) ---------- */
+.loc-reach {
+  isolation: isolate;
+  overflow: clip;
+  margin-block: var(--home-section-space);
+  padding-block: calc(var(--home-section-space) * 1.5);
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.loc-reach :focus-visible {
+  outline-color: var(--color-lime);
+}
+.loc-reach-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.loc-reach-lead {
+  max-width: 34rem;
+  margin-block-start: 0.875rem;
+  color: var(--color-night-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+@media (min-width: 1024px) {
+  .loc-reach-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 4rem;
+  }
+}
+@media (max-width: 1023px) {
+  /* The map leads on narrow screens, so the moment is seen before the list. */
+  .loc-reach-map {
+    order: -1;
+  }
+}
+@media (max-width: 639px) {
+  /* Same bleed as the homepage and /contact maps on a phone, so the routes read at a usable size. */
+  .loc-reach-map {
+    margin-inline: calc(var(--page-gutter) * -0.5);
+  }
+}
+
+/* Hub destinations: two groups of links, each 44px tall (WCAG 2.5.8). */
+.loc-markets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-block-start: 2rem;
+}
+.loc-markets-group {
+  padding-block-end: 0.5rem;
+  border-block-end: 1px solid var(--color-night-line);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-night-muted);
+}
+.loc-market {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  border-block-end: 1px solid var(--color-night-line);
+  color: var(--color-lime);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-hover) ease;
+}
+.loc-market:hover {
+  text-decoration-color: currentColor;
+}
+.loc-market:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .loc-market:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.loc-market:active {
+  opacity: 0.75;
+}
+
+/* T7 steps beside the map. */
+.loc-steps {
+  display: grid;
+  gap: 1.25rem;
+  margin-block-start: 2rem;
+}
+.loc-steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--color-night-line);
+}
+.loc-step-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  line-height: 1.9;
+  color: var(--color-lime);
+}
+.loc-steps h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.loc-steps p {
+  margin-block-start: 0.375rem;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.loc-reach .t3-title {
+  color: var(--color-night-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loc-market,
+  .loc-market .home-action-arrow {
+    transition: none;
+  }
+}

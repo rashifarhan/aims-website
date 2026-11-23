@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { navigationHref, prefetchSafe } from "./navigationHref";
+import { navigationHref } from "./navigationHref";
+import { prefetchSafe } from "./prefetchSafe";
 
 describe("preview navigation", () => {
   it("keeps built pages local, including the quote list", () => {
@@ -20,24 +21,38 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
-  it("uses the built showroom section and live destinations for pages not built yet", () => {
-    expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
-    // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
+  it("keeps the built locations, company, legal and blog pages local", () => {
+    expect(navigationHref("/locations")).toBe("/locations");
+    expect(navigationHref("/ar/locations")).toBe("/ar/locations");
+    expect(navigationHref("/support")).toBe("/support");
+    expect(navigationHref("/ar/services")).toBe("/ar/services");
+    expect(navigationHref("/about")).toBe("/about");
+    expect(navigationHref("/ar/about")).toBe("/ar/about");
+    expect(navigationHref("/privacy-policy")).toBe("/privacy-policy");
+    expect(navigationHref("/ar/terms-and-conditions")).toBe("/ar/terms-and-conditions");
+    expect(navigationHref("/ar/blog")).toBe("/ar/blog");
+  });
+  it("uses live destinations only for software pages not built yet", () => {
     expect(navigationHref("/contact")).toBe("/contact");
-    expect(navigationHref("/support")).toBe("/contact");
-    expect(navigationHref("/ar/services")).toBe("/ar/contact");
     // Software pages AIMS lists but this site hasn't built still open AIMS's own page.
     expect(navigationHref("/ar/software/zkbio-cvaccess")).toBe("https://aimsuae.me/software/zkbio-cvaccess");
   });
 });
 
 describe("prefetch guard", () => {
-  it("turns prefetch off for the solutions hub and filtered listings only", () => {
+  it("turns prefetch off for English one-segment pages, the solutions hub and filtered listings", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
+    // English one-segment paths read as the [lang] page to the router and loop (lib/prefetchSafe.ts),
+    // so /products, which loaded fine before, is now kept off too: the loop picks links at random.
+    expect(prefetchSafe("/products")).toBe(false);
+    expect(prefetchSafe("/support")).toBe(false);
+    expect(prefetchSafe("/privacy-policy")).toBe(false);
+    expect(prefetchSafe("/ar/support")).toBe(true);
+    expect(prefetchSafe("/ar/products")).toBe(true);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
-    expect(prefetchSafe("/products")).toBe(true);
     expect(prefetchSafe("/ar")).toBe(true);
+    expect(prefetchSafe("/")).toBe(true);
   });
 });
