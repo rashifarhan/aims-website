@@ -129,7 +129,13 @@
     display: none;
   }
   .hs-mark {
-    transform: scale(1.8);
+    transform: scale(2);
+  }
+}
+/* Tablets and small desktops show the plan at 0.7–0.9 of its size; the markers keep their numbers legible. */
+@media (min-width: 640px) and (max-width: 1279px) {
+  .hs-mark {
+    transform: scale(1.25);
   }
 }
 @media (min-width: 1024px) {

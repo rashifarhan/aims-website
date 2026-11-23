@@ -34,16 +34,16 @@ export function SitePlanDrawing({ names }: { names: Record<SolutionSlug, string>
         <g key={point.slug} className="hs-point" data-point={point.slug} style={step(i)}>
           <g transform={`translate(${point.x} ${point.y})`}>
             <g className="hs-mark">
-              <circle r="19" className="hs-ring stroke-green-700" fill="none" strokeWidth="2" />
-              <circle r="16" className="hs-halo stroke-lime" fill="none" strokeWidth="3" />
+              <circle r="21" className="hs-ring stroke-green-700" fill="none" strokeWidth="2" />
+              <circle r="18" className="hs-halo stroke-lime" fill="none" strokeWidth="3" />
               <g className="hs-disc">
-                <circle r="13" className="fill-green-700" />
+                <circle r="15" className="fill-green-700" />
                 <text y="0.35em" textAnchor="middle" className="hs-index fill-paper">
                   {String(i + 1).padStart(2, "0")}
                 </text>
               </g>
               {/* The live light: lime only here, as a signal on the green disc (DESIGN.md "Lime Is Light"). */}
-              <circle cx="10" cy="-10" r="4" className="hs-led fill-lime stroke-paper" strokeWidth="1.5" />
+              <circle cx="11.5" cy="-11.5" r="4" className="hs-led fill-lime stroke-paper" strokeWidth="1.5" />
             </g>
           </g>
           <text x={point.label.x} y={point.label.y} textAnchor={point.label.anchor} className="hs-label">

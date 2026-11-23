@@ -117,7 +117,7 @@
   /* Hub site plan, viewBox units (800 wide): names read about 12px at 1024 and 16px at 1440. */
   --text-plan-label: 17px;
   /* Its numbered markers, in viewBox units; phones scale the whole marker up instead (solutions/site-plan.css). */
-  --text-plan-index: 12px;
+  --text-plan-index: 13px;
   --text-home-closing: 3.25rem;
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
