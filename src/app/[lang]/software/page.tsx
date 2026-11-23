@@ -8,6 +8,7 @@ import { softwareList } from "@/content/catalogue";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/catalogue/catalogue.css";
 import "@/components/software/software.css";
@@ -70,7 +71,7 @@ export default async function SoftwareCentre() {
         lead={c.lead}
         primary={{ href: href("/quote?need=install"), label: c.primary }}
       />
-      <section className="sw-centre wrap" aria-labelledby="sw-centre-list">
+      <Section ground="band" labelledBy="sw-centre-list" className="sw-centre">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
         <h2 id="sw-centre-list" className="sr-only">
           {c.listHeading}
@@ -78,7 +79,7 @@ export default async function SoftwareCentre() {
         <Suspense fallback={<SoftwareFilterView {...filter} active={null} />}>
           <SoftwareFilter {...filter} />
         </Suspense>
-      </section>
+      </Section>
       <ClosePanel
         id="sw-centre-close"
         heading={c.close.heading}
