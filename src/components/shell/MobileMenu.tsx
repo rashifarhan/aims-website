@@ -1,12 +1,11 @@
 "use client";
 
-import { NavigationLink as Link } from "./NavigationLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { ChevronDownIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "@/components/icons";
-import { ContactLink } from "@/components/contact/ContactLink";
+import { CloseIcon, MenuIcon } from "@/components/icons";
 import { HeaderSearch } from "./HeaderSearch";
-import { LanguageSwitch } from "./LanguageSwitch";
+import { MobileMenuActions } from "./MobileMenuActions";
+import { MobileMenuItems } from "./MobileMenuItems";
 import type { NavItem } from "./DesktopNav";
 import type { Locale } from "@/i18n/config";
 
@@ -111,89 +110,10 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
               submitLabel={labels.searchSubmit}
             />
 
-            <ul className="mt-4 divide-y divide-line border-y border-line">
-              {items.map((item) =>
-                item.kind === "link" ? (
-                  <li key={item.label}>
-                    <Link
-                      externalLabel={labels.external}
-                      href={item.href}
-                      onClick={close}
-                      className="flex h-13 items-center text-base font-semibold"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={item.label}>
-                    <details className="group">
-                      <summary className="flex h-13 cursor-pointer list-none items-center justify-between text-base font-semibold [&::-webkit-details-marker]:hidden">
-                        {item.label}
-                        <ChevronDownIcon className="text-ink-600 transition-transform duration-(--duration-base) ease-(--ease-aims) group-open:rotate-180" />
-                      </summary>
-                      {/* display flips none → block on open, which restarts .motion-disclose every time. */}
-                      <ul className="motion-disclose hidden pb-3 group-open:block">
-                        {item.links.map((l) => (
-                          <li key={l.href}>
-                            <Link
-                              externalLabel={labels.external}
-                              href={l.href}
-                              onClick={close}
-                              className="flex min-h-11 items-center justify-between gap-3 rounded-sm px-2 text-menu text-ink-700 transition-colors duration-(--duration-hover) ease-(--ease-aims) hover:bg-paper-2"
-                            >
-                              {l.label}
-                              {l.meta && <span className="text-xs text-ink-400 tabular-nums">{l.meta}</span>}
-                            </Link>
-                          </li>
-                        ))}
-                        <li>
-                          <Link
-                            externalLabel={labels.external}
-                            href={item.footer.href}
-                            onClick={close}
-                            className="flex min-h-11 items-center px-2 text-menu font-semibold text-green-700"
-                          >
-                            {item.footer.label}
-                          </Link>
-                        </li>
-                      </ul>
-                    </details>
-                  </li>
-                ),
-              )}
-            </ul>
+            <MobileMenuItems items={items} externalLabel={labels.external} onNavigate={close} />
           </div>
 
-          <div className="grid gap-2 border-t border-line p-4">
-            <Link externalLabel={labels.external} href={hrefs.quote} onClick={close} className="home-button w-full">
-              {labels.quote}
-            </Link>
-            <div className="grid grid-cols-2 gap-2">
-              <ContactLink
-                kind="whatsapp"
-                href={hrefs.whatsapp}
-                target={hrefs.whatsappDisplay}
-                className="home-button home-button-whatsapp"
-              >
-                <WhatsAppIcon width={18} height={18} />
-                {labels.whatsapp}
-              </ContactLink>
-              <ContactLink
-                kind="phone"
-                href={`tel:${hrefs.tel}`}
-                target={hrefs.telDisplay}
-                className="home-button home-button-outline"
-              >
-                <PhoneIcon width={18} height={18} />
-                {labels.call}
-              </ContactLink>
-            </div>
-            <LanguageSwitch
-              target={otherLocale}
-              label={labels.language}
-              className="mt-1 flex h-11 items-center justify-center text-sm font-semibold text-ink-700"
-            />
-          </div>
+          <MobileMenuActions labels={labels} hrefs={hrefs} otherLocale={otherLocale} onNavigate={close} />
         </div>
       </dialog>
     </>
