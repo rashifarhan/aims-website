@@ -442,6 +442,10 @@
     "productCountOne": "1 product",
     "productCount": "{count} products",
     "pictured": "Pictured:",
+    "site": {
+      "title": "One site, five systems.",
+      "lead": "Each system has its place, from the gate to the counter. Find yours on the plan, then open its page."
+    },
     "cards": {
       "time-attendance": {
         "outcome": "Record working hours",

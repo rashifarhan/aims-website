@@ -165,7 +165,8 @@
   background: var(--color-green-50);
 }
 .solution-industries h2,
-.solution-faq h2 {
+.solution-faq h2,
+.hs-site h2 {
   font-size: var(--text-2xl);
   line-height: 1.1;
   font-weight: var(--font-weight-display);
@@ -289,7 +290,8 @@
     padding-block: 3.5rem;
   }
   .solution-industries h2,
-  .solution-faq h2 {
+  .solution-faq h2,
+  .hs-site h2 {
     font-size: var(--text-3xl);
   }
   .solution-industries ul {

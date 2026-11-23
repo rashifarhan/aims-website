@@ -3,8 +3,10 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { MomentTrigger } from "@/components/home/MomentTrigger";
 import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
+import { SolutionSite } from "@/components/solutions/SolutionSite";
 import { SolutionIndustries } from "@/components/solutions/SolutionIndustries";
 import { SolutionFaq } from "@/components/solutions/SolutionFaq";
 import "@/components/motion/entrance.css";
@@ -44,8 +46,11 @@ export default async function SolutionsHub() {
           <SolutionCard key={solution.slug} solution={solution} />
         ))}
       </div>
+      {/* The dealt moment sits after the cards: they answer "what", the plan "where on my site". */}
+      <SolutionSite />
       <SolutionIndustries />
       <SolutionFaq />
+      <MomentTrigger />
     </main>
   );
 }
