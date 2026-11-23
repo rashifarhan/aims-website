@@ -691,6 +691,7 @@
       "lead": "Four steps happen every time someone checks in.",
       "label": "How time attendance works",
       "alt": "An attendance terminal sends check-ins to BioTime, which builds a timesheet and exports it for payroll",
+      "pause": "Pause animation",
       "steps": [
         {
           "title": "Check in at the terminal",
