@@ -58,32 +58,35 @@ export async function PageHero(props: Props) {
     </div>
   );
   return (
-    <section className={`page-hero page-hero-${variant} wrap`} aria-labelledby={id} data-enter>
-      <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
-      {variant === "compact" ? (
-        copy
-      ) : (
-        <div className="page-hero-grid">
-          {copy}
-          {photo && (
-            <div
-              className={
-                framed ? "page-hero-media hero-enter-media page-hero-framed" : "page-hero-media hero-enter-media"
-              }
-            >
-              {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                width={photo.width}
-                height={photo.height}
-                sizes="(min-width: 1024px) 30rem, 16rem"
-                preload
-              />
-            </div>
-          )}
-        </div>
-      )}
+    <section className={`page-hero page-hero-${variant}`} aria-labelledby={id} data-enter>
+      {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
+      <div className="wrap">
+        <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
+        {variant === "compact" ? (
+          copy
+        ) : (
+          <div className="page-hero-grid">
+            {copy}
+            {photo && (
+              <div
+                className={
+                  framed ? "page-hero-media hero-enter-media page-hero-framed" : "page-hero-media hero-enter-media"
+                }
+              >
+                {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  sizes="(min-width: 1024px) 30rem, 16rem"
+                  preload
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   );
 }

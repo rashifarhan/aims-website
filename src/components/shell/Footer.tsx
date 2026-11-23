@@ -57,7 +57,7 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
+    <footer className="site-footer mt-auto border-t border-line bg-paper-2 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:min-w-11 [&_a]:items-center">
       <div className="wrap pt-12 pb-8 lg:pt-16">
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_2fr]">
           <FooterContact />

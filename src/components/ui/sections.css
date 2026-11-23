@@ -12,6 +12,33 @@
   padding-block: var(--section-space);
   scroll-margin-block-start: var(--home-header-block);
 }
+/*
+ * The --h contract (layout-v4.md 2; CLAUDE.md §2 "one section per screen"): on a desktop screen a section is one
+ * or two screens tall (Section `screens`), its content top-aligned under the sticky header, so every section starts
+ * on a whole screen and a screen shows one section. A phone section is at least its screens and grows with what it
+ * holds. Portrait tablets and short desktop windows keep the natural height (the kit lets them grow).
+ */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .section {
+    min-height: calc(var(--h, 1) * 100svh);
+    padding-block: var(--section-padt) var(--section-padb);
+  }
+}
+@media (max-width: 639px) {
+  .section {
+    min-height: calc(var(--hm, var(--h, 1)) * 100lvh);
+    padding-block: var(--section-padt) var(--section-padb);
+  }
+}
+/* Deliberate deviation (README Decisions): the closing panel is one block alone on its screen, so it sits in the
+   middle of the screen under the header rather than on top of an empty lower half. */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape), (max-width: 639px) {
+  .ui-close {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 .section-band {
   border-block: 1px solid var(--color-line);
   background: var(--color-paper-2);
@@ -268,22 +295,44 @@
   border-radius: var(--radius-lg);
   background: var(--color-paper);
 }
+/* layout-v4.md 3: the split hero is exactly the first screen, the sticky header over its top (main is pulled up
+   under the header on these pages, below), so the next section starts on a whole screen. */
+main:has(> .page-hero-split) {
+  margin-block-start: calc(-1 * var(--home-header-block));
+}
+.page-hero-split {
+  padding-block-start: var(--home-header-block);
+}
+.page-hero-split,
+.page-hero-split > .wrap {
+  display: flex;
+  flex-direction: column;
+}
+.page-hero-split {
+  min-height: 100svh;
+}
+.page-hero-split > .wrap,
+.page-hero-split .page-hero-grid {
+  flex: 1;
+}
+.page-hero-split .page-hero-grid {
+  align-content: center;
+}
 @media (min-width: 1024px) {
-  .page-hero-split {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100svh - var(--home-header-block));
-  }
   .page-hero-grid {
-    flex: 1;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: 4rem;
+    align-items: start;
   }
   .page-hero-grid .page-hero-copy {
     padding-block-start: 0;
   }
+  /* The column runs to the content's right edge (SR-8); the photograph keeps its size, centred in it. */
   .page-hero-media {
+    justify-self: stretch;
+    max-width: none;
+  }
+  .page-hero-media img {
     max-width: 30rem;
+    margin-inline: auto;
   }
   .page-hero-framed {
     padding: 2rem;
@@ -412,7 +461,6 @@
 /* ---------- FAQ (ui/Faq.tsx): one look for every family (design-taste-frontend one system) ---------- */
 .ui-faq-split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
   gap: 4rem;
   align-items: start;
 }
@@ -687,9 +735,7 @@
 }
 @media (min-width: 1024px) {
   .ui-reach-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-    gap: 4rem;
-    align-items: center;
+    align-items: start;
   }
   .ui-reach-copy {
     display: block;
@@ -717,14 +763,47 @@
     gap: 1.5rem;
   }
 }
-/* Beside the reach map on a desktop the places stack in the copy column. */
+/* Beside the reach map on a desktop the places sit two across in the copy column, the featured showroom across
+   both, so the band holds one screen (layout-v4.md 2). */
 @media (min-width: 1024px) {
   .ui-reach-body .ui-office-list {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
+  }
+  .ui-reach-body .ui-office-featured {
+    grid-column: 1 / -1;
   }
 }
 /* A compact hero already leaves its own gap below the lead, so the first section does not add another. */
 .page-hero-compact + .section {
   padding-block-start: 0;
+}
+
+/*
+ * The one split line (layout-v4.md 2, SR-8): every shared split on a desktop puts its right column on the same line,
+ * seven of twelve columns from the content's left edge, and ends the left column one gutter before it, so the hero,
+ * the FAQ and the reach band line up with each other on every page.
+ */
+@media (min-width: 1024px) {
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :first-child {
+    grid-column: span 7;
+  }
+  :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :last-child:not(:first-child) {
+    grid-column: span 5;
+  }
+}
+
+/* The footer is the page's last screen on a desktop (layout-v4.md 2): one screen tall, its content under the sticky
+   header when its top is at the top of the screen. */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .site-footer {
+    min-height: 100svh;
+  }
+  .site-footer > .wrap {
+    padding-block-start: var(--section-padt);
+  }
 }

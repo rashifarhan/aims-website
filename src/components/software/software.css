@@ -364,15 +364,6 @@
   }
 }
 
-/* One section per screen on a desktop (taste House rule 3), as on the homepage. */
-@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
-  .sw-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100svh;
-  }
-}
 @media (max-width: 1023px) {
   .sw-features-split,
   .sw-split,

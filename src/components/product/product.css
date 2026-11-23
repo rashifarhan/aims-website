@@ -34,10 +34,15 @@
 }
 @media (min-width: 1024px) {
   /* The hero holds the first screen alone (taste House rule 3). */
+  /* layout-v4.md 3: exactly the first screen, the sticky header over its top (main is pulled up under it). */
+  main:has(> .product-hero) {
+    margin-block-start: calc(-1 * var(--home-header-block));
+  }
   .product-hero {
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - var(--home-header-block));
+    min-height: 100svh;
+    padding-block-start: calc(var(--home-header-block) + 1.5rem);
   }
   .product-hero-grid {
     flex: 1;

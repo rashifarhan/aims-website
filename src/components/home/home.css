@@ -1,10 +1,15 @@
 /* Design Doc ch. 4–8 and T1. Geometry is ported from the approved hero prototype. */
+main:has(> .home-hero) {
+  margin-block-start: calc(-1 * var(--home-header-block));
+}
 .home-hero {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  /* The hero alone fills the first screen below the sticky header (taste House rule 3). */
-  min-height: max(var(--home-hero-height), calc(100svh - var(--home-header-block)));
+  /* The hero alone is exactly the first screen, the sticky header over its top (taste House rule 3; layout-v4.md
+     3): main is pulled up under the header, so the next section starts on a whole screen. */
+  min-height: max(calc(var(--home-hero-height) + var(--home-header-block)), 100svh);
+  padding-block-start: var(--home-header-block);
   max-width: var(--container-home-stage);
   margin-inline: auto;
   display: flex;
@@ -65,7 +70,8 @@
 }
 .home-hero-art {
   position: absolute;
-  inset: 0;
+  /* The art keeps its stage below the header, as in the approved prototype. */
+  inset: var(--home-header-block) 0 0;
   pointer-events: none;
   z-index: 1;
 }
@@ -303,7 +309,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: calc(100svh - var(--home-header-block));
+    min-height: 100svh;
   }
   .home-hero-copy {
     padding-block: 3.5rem 0;
@@ -365,9 +371,19 @@
   }
 }
 @media (max-width: 639px) {
+  /* layout-v4.md 3: the phone hero ends inside the first screen, the device whole above the fold, so the copy
+     starts closer to the header, the two actions share a line where they fit, and the stage holds the device and
+     its tick and no more (the motion is unchanged). */
+  .home-hero-copy {
+    padding-block-start: 1.5rem;
+  }
   .home-hero-actions {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+  .home-hero-art {
+    height: 21.5rem;
+    margin-block-start: 1rem;
   }
   .home-secondary {
     justify-content: center;

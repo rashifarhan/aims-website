@@ -1,7 +1,7 @@
 /* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on the shared T3 rules (ui/sections.css). Tokens only. */
 
 /* ---------- About: story beside the fact sheet ---------- */
-.co-story {
+.co-story > .wrap {
   display: grid;
   gap: 2.5rem;
   align-items: start;
@@ -45,7 +45,7 @@
   unicode-bidi: isolate;
 }
 @media (min-width: 1024px) {
-  .co-story {
+  .co-story > .wrap {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     gap: 4rem;
   }

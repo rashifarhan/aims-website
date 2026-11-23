@@ -46,7 +46,7 @@ export default async function SolutionsHub() {
         photo={productBySlug("inbio-pro-160")?.images[0]}
       />
       {/* Each card's h2 names its need; the grid itself needs no heading. */}
-      <Section ground="band" className="solution-grid-section">
+      <Section ground="band" className="solution-grid-section" screens={2}>
         <div className="solution-grid">
           {SOLUTION_CARDS.map((solution) => (
             <SolutionCard key={solution.slug} solution={solution} />

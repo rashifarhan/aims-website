@@ -11,7 +11,7 @@ import { Section } from "@/components/ui/Section";
 export async function SoftwareSetup({ slug }: { slug: BuiltSoftware }) {
   const { c } = await loadSoftwarePage(slug);
   return (
-    <Section labelledBy="sw-setup-title" className="sw-screen">
+    <Section labelledBy="sw-setup-title">
       <h2 id="sw-setup-title" className="section-title">
         {c.setup.heading}
       </h2>

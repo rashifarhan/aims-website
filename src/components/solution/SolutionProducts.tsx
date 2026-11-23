@@ -38,7 +38,12 @@ export async function SolutionProducts({
   };
   const products = page.products.flatMap((slug) => productBySlug(slug) ?? []);
   return (
-    <Section ground="band" labelledBy={`${idPrefix}-products-title`}>
+    <Section
+      ground="band"
+      labelledBy={`${idPrefix}-products-title`}
+      // Three cards sit on a row at 1440: a second row needs the second screen (layout-v4.md 2).
+      screens={products.length > 3 ? 2 : 1}
+    >
       <SectionHeader
         id={`${idPrefix}-products-title`}
         title={c.heading}
