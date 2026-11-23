@@ -220,20 +220,18 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
 
 ### Checker fixes (Phase 4 polish, 23 Nov 2026)
 
-1. **One section per screen, built in.** `Section` takes `screens` (1 or 2), the design skill's `--h` contract: on a
-   desktop screen (1024px and wider, landscape, 700px and taller) and on a phone every section is one or two screens
-   tall, content top-aligned under the sticky header (`--section-padt`, `--section-padb`). The home, split and
-   product heroes are exactly the first screen with the sticky header over their top (main is pulled up under it),
-   so later sections start on whole screens; the footer is one screen on a desktop. Portrait tablets keep natural
-   heights, as the skill allows. Sections with data-driven length (product specifications, the blog list) still grow.
+1. **Reverted by the client: no forced screen heights.** Phase 4 first gave `Section` the skill's `--h` contract
+   (every section one or two screens tall, the footer one screen). On review the client found whole screens left
+   empty on 57 of 88 page/width views (blank bands up to 1,100px), and asked for the rule to be taken out (23 Nov
+   2026). Sections are now their content plus the one `--section-space` rhythm; only the home, split and product
+   heroes fill the first screen. A full-site audit (every built route in English plus five Arabic routes, at 1440
+   and 390) then found no blank band over 40% of a screen. This overrides CLAUDE.md §2 "one section per screen" by the
+   client's explicit instruction; the gate's `screen-height` and `section-height` checks will report short sections.
 2. **The `.wrap` box is the content line.** Its gutter is margin outside the box, not padding inside it, because the
    skill's checker reads the container from the `.wrap` box; every section and hero has one in-flow `.wrap`.
 3. **One split line.** The hero, FAQ, reach band and proof splits put their right column seven of twelve columns
    in, top-aligned (SR-8).
-4. **Deliberate deviation: the closing panel is centred in its screen.** The skill asks for top-aligned content, but a
-   lone closing block on top of an empty lower screen looks broken; centred, it reads as the page's last word. The
-   skill still reports these screens as sparse until the close and the footer share one screen (a layout change for
-   the client to decide).
+4. **The closing panel sits in normal flow** now that sections are no longer stretched to a screen.
 5. **Footer popular searches are plain footer links**, like the link columns above them: chips are Design Doc 9
    filter controls, and a chip look on every page was a third button style.
 6. **Waivers (`.taste-skill/waivers.json`, the gate's limit is five):** the wordmark's lime full stop (decorative
