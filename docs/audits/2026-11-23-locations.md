@@ -161,3 +161,57 @@ finished.
 
 The reach draw itself (1400ms `--ease-aims`, 120ms between routes, arrival 600ms from 1200ms so the market lights as
 the line lands) is explanatory motion seen once per visit; its timing stays.
+
+## 4. Fixes
+
+| Commit    | Findings                             | What                                                                                                                                                                                            |
+| --------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ee1737b` | E1 (P1)                              | The reach moment's trigger moves from the band to the map frame; spec follows it and adds a scroll test that the draw never starts with under a third of the map on screen                      |
+| `8777a28` | T1 (P1), T3 (P1), T6, E2, E3, I3, I4 | One section per screen on a landscape desktop (`.loc-page`), hero fills the first screen from 640px; reach columns top-aligned; Oman crop fades at its open edges; market hover on pointer only |
+| `b71dde8` | T2 (P1), T4, T5, I2                  | Hub h1 "ZKTeco in Dubai, delivered across the GCC and Africa"; "Products to start from"; "Name your delivery destination"; GCC/Africa as list labels (EN and AR drafts)                         |
+| `533f82a` | gate `section-tile` (390)            | The night band is at least one screen at every width                                                                                                                                            |
+
+Kept on purpose: T7 (the map leads its band on phones, as on the homepage and `/contact`; changing one of three map bands
+would split the system), I1 (the address is the first screen's hard fact), I5 (shared stylesheet).
+
+## 5. Re-run (after the fixes)
+
+`pnpm check` (123 unit tests), `pnpm format:check`, `pnpm build`: pass. `PORT=3201 pnpm e2e --trace off --workers=2
+tests/e2e/locations.spec.ts`: 50 passed (desktop and mobile).
+
+| Page                            | Gate before | Gate after               | Gone                                                                                                                | New or still open in this branch's scope                                                                   |
+| ------------------------------- | ----------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `/locations`                    | FAIL 41     | FAIL 40                  | `copy-headline`, `copy-headings`, `heading-scale`, `section-height` ×3, `one-heading` (sections), `hero-fill` (768) | `empty-area`, `section-air` on the offices, FAQ and close screens                                          |
+| `/zkteco-distributor-in-dubai`  | FAIL 41     | FAIL 43                  | `section-height` ×4, `one-heading` (sections), `hero-fill` (768)                                                    | as the hub; `copy-headings` on the step titles                                                             |
+| `/zkteco-distributor-in-oman`   | FAIL 36     | FAIL 38                  | `section-height` ×2, `one-heading` (FAQ), `hero-fill` (768), `copy-headings` (models)                               | `empty-area`, `section-air` (FAQ, close); `copy-headings` on "Destination", "Documents", "Before dispatch" |
+| `/zkteco-distributors-in-kenya` | FAIL 36     | FAIL 38                  | as Oman                                                                                                             | as Oman                                                                                                    |
+| `/ar/zkteco-dubai`              | FAIL 52     | OPEN 53 (rounds used up) | as Dubai                                                                                                            | as Dubai, plus the RTL false positives                                                                     |
+
+The count rises because screen-sized sections trade `section-height`/`one-section`/`one-heading` FAILs for
+`empty-area`/`section-air` on the three short screens (offices 37%, FAQ 19–27%, close 22% of 900px filled), the
+same trade the homepage made (README, "Homepage through the taste skill"). CLAUDE.md §2 requires one section per
+screen, so the screen height stays. The skill's own fix for the short end, "merge it into the section above as its
+last block", would put the close inside the FAQ section with an h3; with three questions that reaches about 50%, still
+under the skill's 55%, and it needs a heading-level option on the shared `SolutionQuestions`/`SolutionCta`, so it is
+left for the integrator to decide across every T3 page.
+
+Remaining FAILs judged false or outside this branch (no waiver added; candidates for `.taste-skill/waivers.json` if the
+integrator wants them): `phone-number` ×4 (brief-given), `scroll-reveal` and `effect-kind` on `.loc-reach-map` (the
+approved prototype port), `copy-headings` on the step titles (they name AIMS's services; "supply", "installation",
+"destination", "documents" and "dispatch" are not in the checker's noun list), `no-visual` on `#models` at 390 (the
+cards hold AIMS photographs), Arabic `stagger`/`off-grid` (ragged-left RTL), and the shell items listed under Taste.
+
+## For the integrator
+
+1. Shared `Breadcrumbs`: keep each "/" with the item after it at 320 (I6).
+2. `.home-button` (`ui/actions.css`): balance a wrapped label and keep the arrow beside it at 320 (I7).
+3. Footer (Agent B): phone numbers `white-space: nowrap` at 320 (I8); the search chips count as a third button style
+   (`button-styles`) and the "Hotel lock" chip is off-grid at 390.
+4. `ProductCard` (Agent C): Arabic spec values flush to the edge (I9); title link 20px tall, 7px from the sticky
+   header's Quote at 320 (`tap-size` on Oman and Kenya; I10).
+5. `solution.css` (Agent C): FAQ `summary` press state (E4); the close's bottom margin above the footer at 390
+   (`section-gaps`, T8); the T3 hero's centred split (`split-pair`, T6 note).
+6. T3 end of page: decide whether the close merges into the FAQ section (see Re-run) on every T3/T7 page.
+7. Map bands (homepage, `/contact`, locations): Taste wants the h2 first on phones; all three lead with the map (T7).
+8. Stand-in photograph for the offices/visit screens (a licensed view of Deira, credited in the footer line, never
+   shown as AIMS's premises) needs the user's go-ahead and the shared footer credit line (T9).
