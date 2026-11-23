@@ -66,7 +66,7 @@ export async function LocationProducts({ market }: { market: LocationMarket }) {
           })}
         </div>
         <div className="locations-actions">
-          <Link href={localePath(locale, LOCATION_PAGES[market].quote)} className="locations-primary">
+          <Link prefetch={false} href={localePath(locale, LOCATION_PAGES[market].quote)} className="locations-primary">
             {t.quoteReview}
           </Link>
           <Link href={localePath(locale, "/products")} className="locations-link">

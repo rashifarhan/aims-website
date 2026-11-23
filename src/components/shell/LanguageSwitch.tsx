@@ -38,7 +38,9 @@ export function LanguageSwitch({
   );
   const href = browserPath === null ? (target === "ar" ? "/ar" : "/") : counterpartPath(browserPath, target);
   return (
-    <Link href={href} hrefLang={target} lang={target} className={className}>
+    // Next 16 segment prefetch can request the current locale's page under the other locale root.
+    // Fetch that root only on deliberate navigation; the language link itself remains a Next Link.
+    <Link href={href} prefetch={false} hrefLang={target} lang={target} className={className}>
       {label}
     </Link>
   );

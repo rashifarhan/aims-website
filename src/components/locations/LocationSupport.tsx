@@ -33,10 +33,14 @@ export async function LocationSupport({ market }: { market: LocationMarket }) {
         <div className="location-final">
           <p>{t.finalTitle}</p>
           <div className="locations-actions">
-            <Link href={localePath(locale, LOCATION_PAGES[market].quote)} className="locations-primary">
+            <Link
+              prefetch={false}
+              href={localePath(locale, LOCATION_PAGES[market].quote)}
+              className="locations-primary"
+            >
               {t[market].primary}
             </Link>
-            <Link href={localePath(locale, "/locations")} className="locations-link">
+            <Link prefetch={false} href={localePath(locale, "/locations")} className="locations-link">
               {t.hub}
             </Link>
           </div>

@@ -27,6 +27,7 @@ export async function LocationMarkets() {
                   {group.countries.map((country) => (
                     <li key={country}>
                       <Link
+                        prefetch={false}
                         className="locations-link"
                         href={localePath(
                           locale,
@@ -47,7 +48,7 @@ export async function LocationMarkets() {
             ))}
             <h3>{t.notes}</h3>
             <p>{t.notesBody}</p>
-            <Link className="locations-primary" href={localePath(locale, "/quote?need=export")}>
+            <Link prefetch={false} className="locations-primary" href={localePath(locale, "/quote?need=export")}>
               {all.home.hero.quote}
             </Link>
           </div>

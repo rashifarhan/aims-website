@@ -26,9 +26,15 @@ describe("preview navigation", () => {
 });
 
 describe("prefetch guard", () => {
-  it("turns prefetch off for the solutions hub and filtered listings only", () => {
+  it("turns prefetch off for affected hubs and filtered listings only", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
+    expect(prefetchSafe("/locations")).toBe(false);
+    expect(prefetchSafe("/ar/locations")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributor-in-dubai")).toBe(false);
+    expect(prefetchSafe("/ar/zkteco-dubai")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributor-in-oman")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributors-in-kenya")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
     expect(prefetchSafe("/products")).toBe(true);

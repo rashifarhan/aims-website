@@ -63,12 +63,14 @@ Files: `tests/e2e/location-pages.spec.ts`, `README.md`, new scoped design-check 
 
 ## Execution evidence
 
-Branch `codex/location-pages` is based on the completed Locations hub (`ab763d8`), which remains PR #4. Routing foundation: `ed0b7c1`. Baseline 84 unit tests; final check 89 tests, lint and types pass; format check and production build pass. Full production browser suite: **295 passed, 15 existing viewport exclusions**. Includes all four retained T7 routes, Arabic export variants, 320/390/768/1024/1440 reflow, canonical/hreflang, both Dubai language switch directions, quote context preservation, guarded contact, no-JS, reduced motion and keyboard focus.
+Branch `codex/location-pages` is based on the completed Locations hub (`ab763d8`), which remains PR #4. Routing foundation: `ed0b7c1`. Baseline 84 unit tests; final check 89 tests, lint and types pass; format check and production build pass. Full production browser suite: **301 passed, 15 existing viewport exclusions**. Includes all four retained T7 routes, Arabic export variants, 320/390/768/1024/1440 reflow, canonical/hreflang, both Dubai language switch directions, quote context preservation, guarded contact, no-JS, reduced motion and keyboard focus.
 
 Independent source review found one Important locale-root query/hash bug, verified RED then GREEN; no deferred minors. UI audit fixes were also verified RED then GREEN for the phone hero and tablet nav. Native audit is **GATE: OPEN 29**, not PASS. Exact scope, raw evidence and new named exceptions explicitly accepted by the client on 22 November 2026 are in `docs/design-checks/location-pages-decisions.md`.
 
 Ruling: reuse the existing AddToQuote client leaf with optional typed context instead of a separate cloned LocationAdd. It retains the working focus transfer and quantity announcements; the full suite verifies shared behaviour.
 
-Isolated performance: 18/18 passed (three throttled mobile measurements per retained T7 page and both homepages). T7 maximum LCP 1.284s, CLS 0.0095, transfer 486,781 bytes; zero external requests or page errors.
+Isolated performance: 18/18 passed (three throttled mobile measurements per retained T7 page and both homepages). T7 maximum LCP 1.292s, CLS 0.0058, transfer 472,612 bytes; zero external requests or page errors.
 
 Delivery: implementation pushed as `6b401d0` to `codex/location-pages`; PR #5 targets main and documents its dependency on PR #4. The client accepted the exact T7 exceptions in chat. Production preview responds 200 at `http://localhost:3200/zkteco-distributor-in-dubai`; English/Arabic 390/1440 screenshots inspected. CI status is tracked on [PR #5](https://github.com/rashifarhan/aims-website/pull/5) and must be green before final delivery.
+
+23 November follow-up before main integration: cold-server full suite **301 passed, 15 inherited exclusions**, no retries; isolated performance **18/18**, max T7 LCP1.292s/CLS0.0058/transfer472,612 bytes. Guard unit test RED→GREEN; request matrix16/16 fresh-server checks. Main advanced to bfd27ee (software and four solutions); integrate it normally, preserving both branches and rerun final checks.

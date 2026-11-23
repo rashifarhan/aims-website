@@ -21,8 +21,9 @@ test.describe("listing polish", () => {
     await expect(model).toHaveCSS("font-family", /plex|mono/i);
 
     const add = card.getByRole("button", { name: "Add to quote" });
-    // Outline: a grid of cards never shows a wall of filled green.
-    expect(await add.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
+    // The streamed listing may replace its initial button during hydration; retry the same exact
+    // colour against the live locator instead of measuring a detached node once (CI returned "").
+    await expect(add).toHaveCSS("background-color", "rgb(255, 255, 255)");
 
     // Layout boxes (offsetHeight/offsetTop), not boundingBox: the click's press and hover transforms
     // (scale .99, 2px lift) are still settling and would skew a transformed box.

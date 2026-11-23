@@ -42,10 +42,10 @@ export async function LocationOffices() {
           })}
         </div>
         <div className="locations-office-actions locations-actions">
-          <Link className="locations-primary" href={localePath(locale, "/quote?need=install")}>
+          <Link prefetch={false} className="locations-primary" href={localePath(locale, "/quote?need=install")}>
             {t.install}
           </Link>
-          <Link className="locations-link" href={localePath(locale, LOCATION_PAGES.dubai.path)}>
+          <Link prefetch={false} className="locations-link" href={localePath(locale, LOCATION_PAGES.dubai.path)}>
             {(await getDictionary()).locationPage.dubai.title}
           </Link>
         </div>

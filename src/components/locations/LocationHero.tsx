@@ -28,7 +28,11 @@ export async function LocationHero({ market }: { market: LocationMarket }) {
               <h1>{t.title}</h1>
               <p className="locations-lead">{t.lead}</p>
               <div className="locations-actions">
-                <Link href={localePath(locale, LOCATION_PAGES[market].quote)} className="locations-primary">
+                <Link
+                  prefetch={false}
+                  href={localePath(locale, LOCATION_PAGES[market].quote)}
+                  className="locations-primary"
+                >
                   {t.primary}
                 </Link>
                 <Link href={market === "dubai" ? "#fulfilment" : "#models"} className="locations-link">
