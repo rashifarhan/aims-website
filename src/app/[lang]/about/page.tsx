@@ -7,7 +7,8 @@ import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { productBySlug } from "@/content/catalogue";
-import { ContactReach } from "@/components/contact/ContactReach";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
@@ -49,7 +50,12 @@ export default async function About() {
       />
       <AboutStory />
       <HomeProof />
-      <ContactReach t={t.contactPage} labels={t.home.reach} />
+      <ReachBand
+        titleId="contact-reach-title"
+        heading={t.contactPage.reachTitle}
+        lead={t.contactPage.reachLead}
+        map={<ReachMap labels={t.home.reach} />}
+      />
       <div id="showrooms" className="co-showrooms wrap">
         <LocationCards t={t.contactPage} />
       </div>

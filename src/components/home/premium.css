@@ -35,8 +35,7 @@
 }
 
 /* Night cards: the same card on the dark ground. A hairline, no glow; hover lifts 2px and the edge lights. */
-.home-families :is(.home-family-card, .home-software-card),
-.home-place-card {
+.home-families :is(.home-family-card, .home-software-card) {
   border: 1px solid var(--color-night-line);
   background: var(--color-night-800);
   color: var(--color-night-text);
@@ -138,55 +137,6 @@
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
-.home-reach .home-section {
-  padding-block: calc(var(--home-section-space) * 1.25);
-}
-.home-reach-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 4rem; /* the proof split's lines: both splits share one column edge (taste layout-v4) */
-  align-items: start;
-}
-.home-place-cards {
-  display: grid;
-  gap: 1rem;
-}
-.home-place-card {
-  padding: 1.5rem 2rem;
-  border-radius: var(--radius-lg);
-}
-/* The showroom is the one place AIMS invites visitors to (DESIGN.md North Star): its edge carries the light. */
-.home-place-featured {
-  border-color: var(--color-lime);
-}
-.home-place-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-night-muted);
-}
-.home-place-featured .home-place-tag {
-  color: var(--color-lime);
-}
-.home-place-card h3 {
-  margin-block-start: 0.5rem;
-  font-size: var(--text-home-card);
-  font-weight: 650;
-}
-.home-place-address {
-  margin-block-start: 0.25rem;
-  color: var(--color-night-muted);
-  line-height: 1.55;
-}
-.home-place-actions {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 1.5rem;
-  margin-block-start: 0.5rem;
-}
-
 /* ---------- Closing band: night green, still light ---------- */
 /* The two glows are layers of the ground itself, so nothing spills past the band. */
 
@@ -247,25 +197,9 @@
 
 /* ---------- Tablet and phone ---------- */
 @media (max-width: 1023px) {
-  .home-reach-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  /* Tablet: the three places sit side by side under the map's width; phones stack them. */
-  .home-place-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (max-width: 767px) {
-  .home-place-cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 @media (max-width: 639px) {
-  .home-families .home-section,
-  .home-reach .home-section {
+  .home-families .home-section {
     padding-block: calc(var(--home-section-space) * 1.5);
-  }
-  .home-place-card {
-    padding: 1.25rem 1.5rem;
   }
 }

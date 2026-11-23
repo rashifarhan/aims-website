@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { ReachBand } from "@/components/ui/ReachBand";
+import { ReachMap } from "@/components/home/ReachMap";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
@@ -11,7 +13,6 @@ import { alternates } from "@/lib/seo";
 import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { LocationModels } from "./LocationModels";
 import { LocationOffices } from "./LocationOffices";
-import { LocationReach } from "./LocationReach";
 import { LocationSteps } from "./LocationSteps";
 
 export async function locationMetadata(market: LocationMarket): Promise<Metadata> {
@@ -67,15 +68,20 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
       />
       {market === "dubai" && <LocationOffices id="visit" />}
       <LocationModels id="models" preset={page.preset} />
-      <LocationReach
+      <ReachBand
         id="delivery"
+        titleId="delivery-title"
         heading={c.reachHeading}
         lead={c.reachLead}
-        destination={market === "dubai" ? undefined : market}
-        mapLabel={"mapLabel" in c ? c.mapLabel : undefined}
+        map={
+          <ReachMap
+            labels={{ ...t.home.reach, mapLabel: "mapLabel" in c ? c.mapLabel : t.home.reach.mapLabel }}
+            destination={market === "dubai" ? undefined : market}
+          />
+        }
       >
         <LocationSteps label={common.stepsLabel} steps={c.steps} />
-      </LocationReach>
+      </ReachBand>
       <SolutionQuestions idPrefix={id} copy={c.faq} />
       <ClosePanel
         id={`${id}-cta-title`}

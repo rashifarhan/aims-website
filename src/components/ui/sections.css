@@ -667,3 +667,143 @@
     transform: none;
   }
 }
+
+/* ---------- Office card (ui/OfficeCard.tsx): the one card for an AIMS place ---------- */
+.ui-office {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+.ui-office-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.ui-office h3 {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.ui-office-tag + h3 {
+  margin-block-start: 0.5rem;
+}
+.ui-office-address {
+  margin-block-start: 0.25rem;
+  color: var(--color-ink-600);
+  line-height: 1.55;
+  text-align: start;
+}
+/* An English address keeps its own direction on an Arabic page, but sits on the page's start edge. */
+:dir(rtl) .ui-office-address[dir="ltr"] {
+  text-align: end;
+}
+.ui-office-actions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+}
+.ui-office-actions .home-text-link {
+  margin-block-start: 0;
+}
+/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a mint plinth on paper, a lime
+   edge on night green, never a second colour. */
+.ui-office-paper.ui-office-featured {
+  border-color: var(--color-green-100);
+  background: var(--color-green-50);
+}
+.ui-office-paper.ui-office-featured .ui-office-tag {
+  color: var(--color-green-700);
+}
+.ui-office-night {
+  border-color: var(--color-night-line);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+  box-shadow: none;
+}
+.ui-office-night :is(.ui-office-tag, .ui-office-address) {
+  color: var(--color-night-muted);
+}
+.ui-office-night.ui-office-featured {
+  border-color: var(--color-lime);
+}
+.ui-office-night.ui-office-featured .ui-office-tag {
+  color: var(--color-lime);
+}
+
+/* ---------- Reach band (ui/ReachBand.tsx): SIGNAL on night green (lime carries links: Design Doc 4) ---------- */
+.ui-reach {
+  isolation: isolate;
+  overflow: clip;
+  padding-block: calc(var(--home-section-space) * 1.5);
+  background: var(--gradient-night);
+  color: var(--color-night-text);
+}
+.ui-reach :focus-visible {
+  outline-color: var(--color-lime);
+}
+.ui-reach .section-title {
+  color: var(--color-night-text);
+}
+.ui-reach .section-lead {
+  color: var(--color-night-muted);
+}
+.ui-reach .section-heading {
+  margin-block-end: 0;
+}
+/* Narrow screens: heading, then the map (the moment is seen before the list), then the list. */
+.ui-reach-grid {
+  display: grid;
+  gap: 2rem;
+}
+.ui-reach-copy {
+  display: contents;
+}
+.ui-reach-map {
+  order: 1;
+}
+.ui-reach-body {
+  order: 2;
+}
+@media (min-width: 1024px) {
+  .ui-reach-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 4rem;
+    align-items: center;
+  }
+  .ui-reach-copy {
+    display: block;
+  }
+  .ui-reach-map {
+    order: 0;
+  }
+  .ui-reach-body {
+    margin-block-start: 2rem;
+  }
+}
+@media (max-width: 639px) {
+  /* The map bleeds a little on a phone, so the routes read at a usable size. */
+  .ui-reach-map {
+    margin-inline: calc(var(--page-gutter) * -0.5);
+  }
+}
+.ui-office-list {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .ui-office-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+/* Beside the reach map on a desktop the places stack in the copy column. */
+@media (min-width: 1024px) {
+  .ui-reach-body .ui-office-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}

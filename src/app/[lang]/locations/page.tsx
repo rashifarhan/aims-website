@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
-import { LocationReach } from "@/components/locations/LocationReach";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
@@ -56,9 +57,15 @@ export default async function LocationsHub() {
         photo={photo}
       />
       <LocationOffices id="uae" />
-      <LocationReach id="delivery" heading={c.deliveryHeading} lead={c.deliveryLead}>
+      <ReachBand
+        id="delivery"
+        titleId="delivery-title"
+        heading={c.deliveryHeading}
+        lead={c.deliveryLead}
+        map={<ReachMap labels={t.home.reach} />}
+      >
         <LocationMarkets />
-      </LocationReach>
+      </ReachBand>
       <SolutionQuestions idPrefix="lh" copy={c.faq} />
       <ClosePanel
         id="lh-cta-title"

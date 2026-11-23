@@ -77,6 +77,6 @@ test("SIGNAL under reduced motion: the map rests finished, nothing hidden", asyn
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/contact");
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
-  for (const route of await page.locator(".contact-reach .reach-route").all())
+  for (const route of await page.locator(".ui-reach .reach-route").all())
     await expect(route).toHaveCSS("stroke-dashoffset", "0px");
 });

@@ -18,8 +18,8 @@ const PAGES = [
 
 /** Let the hero entrance and the map's one-time draw finish, so axe audits the settled frame. */
 async function settle(page: Page) {
-  await page.locator(".loc-reach").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(page.locator(".loc-reach")).toHaveAttribute("data-played", "true");
+  await page.locator(".ui-reach").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(page.locator(".ui-reach")).toHaveAttribute("data-played", "true");
   await page.evaluate(() =>
     Promise.all(
       document
@@ -94,11 +94,11 @@ test("hub: every listed market is a page or an export quote with its destination
 test("SIGNAL on the hub: the routes draw once when the band comes into view, then stand", async ({ page }) => {
   await page.goto("/locations");
   await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
-  const band = page.locator(".loc-reach");
+  const band = page.locator(".ui-reach");
   await expect(band).toHaveAttribute("data-moment");
   await expect(band).not.toHaveAttribute("data-played");
   await expect(band.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "1px");
-  await band.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await band.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(band).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCount(6);
   await expect(band.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
@@ -112,11 +112,11 @@ test("SIGNAL on the hub: the routes draw once when the band comes into view, the
 
 test("SIGNAL on Oman: one route to Muscat, and the market lights up on arrival", async ({ page }) => {
   await page.goto("/zkteco-distributor-in-oman");
-  const band = page.locator(".loc-reach");
+  const band = page.locator(".ui-reach");
   await expect(band.locator(".reach-route")).toHaveCount(1);
   await expect(band.getByRole("img", { name: /Muscat, Oman/ })).toBeAttached();
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0");
-  await band.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await band.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(band).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0.3", { timeout: 4000 });

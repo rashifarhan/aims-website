@@ -45,8 +45,8 @@ test("the door assembles once when it comes into view and finishes if scrolled a
 
 test("the reach map draws its routes once and then stands still", async ({ page }) => {
   await page.goto("/");
-  const reach = page.locator(".home-reach");
-  await page.locator(".home-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  const reach = page.locator(".ui-reach");
+  await page.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(reach).toHaveAttribute("data-played", "true");
   await expect(page.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect.poll(() => runningOutsideHero(page), { timeout: 4000 }).toBe(0);

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { ContactRouter } from "@/components/contact/ContactRouter";
-import { ContactReach } from "@/components/contact/ContactReach";
+import { ReachMap } from "@/components/home/ReachMap";
+import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { localePath } from "@/i18n/config";
@@ -49,7 +50,12 @@ export default async function ContactPage() {
         />
         <LocationCards t={t.contactPage} />
       </div>
-      <ContactReach t={t.contactPage} labels={t.home.reach} />
+      <ReachBand
+        titleId="contact-reach-title"
+        heading={t.contactPage.reachTitle}
+        lead={t.contactPage.reachLead}
+        map={<ReachMap labels={t.home.reach} />}
+      />
       <MomentTrigger />
     </main>
   );
