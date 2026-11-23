@@ -45,11 +45,15 @@
   position: sticky;
   inset-block-start: 6.5rem;
 }
-/* Corner of the stage; the stage is sticky, so it is the positioned parent. */
+/* Corner of the stage; the stage is sticky, so it is the positioned parent. The drawing stays left-to-right
+   in Arabic (terminal on the left), so the button takes the right corner there too. */
 .story-pause {
   position: absolute;
   inset-block-start: 0.5rem;
   inset-inline-end: 0.5rem;
+}
+:dir(rtl) .story-pause {
+  inset-inline: 0.5rem auto;
 }
 .story[data-paused="true"] .ta-dots circle {
   animation-play-state: paused;
