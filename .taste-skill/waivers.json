@@ -23,10 +23,5 @@
     "check": "card-layout",
     "target": "section#families > div.home-section.page-container > div.home-family-grid",
     "reason": "Six product families are one catalogue index; each card shows a different real AIMS product photograph and count."
-  },
-  {
-    "check": "text-contrast",
-    "target": "div:nth-of-type(1) > a.flex.min-h-11 > span.text-wordmark",
-    "reason": "The footer's wordmark: the lime full stop is part of the approved AIMS wordmark, a decorative mark, not text; the letters are ink."
   }
 ]
