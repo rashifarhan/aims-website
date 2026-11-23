@@ -29,7 +29,8 @@ const GCC_CITIES = [
  * light travels along each one. Only places AIMS names are labelled: its two offices, the GCC,
  * and the Oman and Kenya pages on aimsuae.me. Timing lives in sections.css.
  */
-export function ReachMap({ labels }: { labels: Labels }) {
+export function ReachMap({ labels, destination }: { labels: Labels; destination?: "Oman" | "Kenya" }) {
+  const routes = destination ? [ROUTES[destination === "Oman" ? 0 : 5]] : ROUTES;
   return (
     <svg className="reach-map" viewBox="0 0 640 420" role="img" aria-label={labels.mapLabel} direction="ltr">
       <defs>
@@ -50,7 +51,7 @@ export function ReachMap({ labels }: { labels: Labels }) {
         <path d={AFRICA} fill="url(#reach-dots)" />
       </g>
       <g fill="none" strokeWidth="1.4" strokeLinecap="round">
-        {ROUTES.map((r) => (
+        {routes.map((r) => (
           <g key={r.to}>
             <path d={`M${DUBAI}Q${r.via} ${r.to}`} className="reach-route stroke-night-muted" pathLength="1" />
             <path
@@ -62,31 +63,40 @@ export function ReachMap({ labels }: { labels: Labels }) {
           </g>
         ))}
       </g>
-      {GCC_CITIES.map(([x, y]) => (
-        <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" className="reach-city fill-night-text" />
-      ))}
-      <circle cx="552.5" cy="104" r="3.5" className="reach-city fill-night-text" />
-      <circle cx="147.9" cy="352.9" r="3.5" className="reach-city fill-night-text" />
+      {!destination &&
+        GCC_CITIES.map(([x, y]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" className="reach-city fill-night-text" />
+        ))}
+      {destination !== "Kenya" && <circle cx="552.5" cy="104" r="3.5" className="reach-city fill-night-text" />}
+      {destination !== "Oman" && <circle cx="147.9" cy="352.9" r="3.5" className="reach-city fill-night-text" />}
       <circle cx="493.8" cy="88" r="14" className="reach-ring fill-lime" />
       <circle cx="493.8" cy="88" r="5.5" className="fill-lime" />
-      <circle cx="476.9" cy="95.5" r="4.5" className="fill-lime" />
+      {!destination && <circle cx="476.9" cy="95.5" r="4.5" className="fill-lime" />}
       <g className="reach-labels">
         <text x="504" y="80" className="reach-label-strong">
           {labels.dubai}
         </text>
-        <text x="468" y="118" textAnchor="end" className="reach-label-strong">
-          {labels.abuDhabi}
-        </text>
+        {!destination && (
+          <text x="468" y="118" textAnchor="end" className="reach-label-strong">
+            {labels.abuDhabi}
+          </text>
+        )}
         {/* Centred under its dot so the label never runs past the map's right edge. */}
-        <text x="552.5" y="134" textAnchor="middle">
-          {labels.muscat}
-        </text>
-        <text x="160" y="372">
-          {labels.nairobi}
-        </text>
-        <text x="372" y="30" className="reach-label-region">
-          {labels.gcc}
-        </text>
+        {destination !== "Kenya" && (
+          <text x="552.5" y="134" textAnchor="middle">
+            {labels.muscat}
+          </text>
+        )}
+        {destination !== "Oman" && (
+          <text x="160" y="372">
+            {labels.nairobi}
+          </text>
+        )}
+        {!destination && (
+          <text x="372" y="30" className="reach-label-region">
+            {labels.gcc}
+          </text>
+        )}
       </g>
     </svg>
   );

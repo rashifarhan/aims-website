@@ -73,7 +73,16 @@ test("the hero animation has a pause button that stops it", async ({ page }) => 
  * Regression: Next 16 segment prefetch plus the locale rewrite once looped on the homepage segment
  * (~2,400 RSC requests in 5 s, 22 Nov 2026). prefetchSafe() keeps those links off prefetch.
  */
-for (const path of ["/", "/ar", "/products", "/solutions/time-attendance", "/quote"]) {
+for (const path of [
+  "/",
+  "/ar",
+  "/products",
+  "/solutions/time-attendance",
+  "/quote",
+  "/locations",
+  "/zkteco-distributor-in-oman",
+  "/ar/zkteco-dubai",
+]) {
   test(`no prefetch storm on ${path}`, async ({ page }) => {
     let rsc = 0;
     page.on("request", (request) => {

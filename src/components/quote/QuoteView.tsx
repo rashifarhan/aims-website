@@ -9,7 +9,7 @@ import { messageLabels } from "@/lib/quote/labels";
 import { buildQuoteMessage, makeReference } from "@/lib/quote/message";
 import { EMPTY_CONTACT, validateRequest, type Contact, type FieldError } from "@/lib/quote/request";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
-import { needFromSearch } from "@/lib/quote/context";
+import { destinationFromSearch, needFromSearch } from "@/lib/quote/context";
 import { CONTACT, LIVE_CONTACT, whatsappUrl } from "@/lib/site";
 import { EmptyQuote } from "./EmptyQuote";
 import { MobileReviewBar } from "./MobileReviewBar";
@@ -64,7 +64,8 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
   // A link such as /quote?need=install arrives with that need chosen (Design Doc 12).
   useEffect(() => {
     const need = needFromSearch(window.location.search);
-    if (need) dispatchQuote({ type: "setContext", patch: { need } });
+    const destination = destinationFromSearch(window.location.search);
+    if (destination || need) dispatchQuote({ type: "setContext", patch: destination ?? { need } });
   }, []);
 
   const products = useMemo(

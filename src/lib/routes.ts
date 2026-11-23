@@ -55,7 +55,7 @@ export const ROUTES: RouteEntry[] = [
     replaces: ["/swcategory/*"],
   },
   { path: "/services", title: "Services", template: "T3 Solution", priority: "P1", status: "planned" },
-  { path: "/locations", title: "Locations", template: "T2 Hub", priority: "P2", status: "planned" },
+  { path: "/locations", title: "Locations", template: "T2 Hub", priority: "P2", status: "built" },
   { path: "/about", title: "About & showrooms", template: "T10 Editorial", priority: "P1", status: "planned" },
   {
     path: "/contact",
@@ -201,23 +201,23 @@ export const ROUTES: RouteEntry[] = [
     title: "ZKTeco distributor in Dubai",
     template: "T7 Location",
     priority: "P0",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/zkteco-distributor-in-oman",
     title: "ZKTeco distributor in Oman",
     template: "T7 Location",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
   {
     path: "/zkteco-distributors-in-kenya",
     title: "ZKTeco distributors in Kenya",
     template: "T7 Location",
     priority: "P1",
-    status: "planned",
+    status: "built",
   },
-  { path: "/ar/zkteco-dubai", title: "ZKTeco دبي", template: "T7 Location", priority: "P1", status: "planned" },
+  { path: "/ar/zkteco-dubai", title: "ZKTeco دبي", template: "T7 Location", priority: "P1", status: "built" },
 ];
 
 export const builtRoutes = () => ROUTES.filter((r) => r.status === "built");

@@ -135,10 +135,10 @@
 
 /* One grid for the shell and every page; mobile gutters are 24px. */
 @utility page-container {
-  width: 100%;
-  max-width: var(--container-page);
+  width: calc(100% - 2 * var(--page-gutter));
+  max-width: calc(var(--container-page) - 2 * var(--page-gutter));
   margin-inline: auto;
-  padding-inline: var(--page-gutter);
+  padding-inline: 0;
 }
 
 @media (min-width: 640px) {

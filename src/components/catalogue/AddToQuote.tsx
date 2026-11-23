@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
+import type { QuoteContext } from "@/lib/quote/context";
 
 export type AddToQuoteLabels = {
   add: string;
@@ -23,13 +24,15 @@ type Props = {
   /** A card's own action is the outline button, so a grid never shows a wall of filled green (DESIGN.md). */
   variant?: "primary" | "outline";
   className?: string;
+  /** T7: a deliberate add carries the location, without changing a quote merely by visiting a page. */
+  context?: Partial<QuoteContext>;
 };
 
 /**
  * "Add to quote" that becomes a quantity stepper + "✓ In quote" once
  * added (Design Doc 9). Never "Buy" or "Order". Changes are announced.
  */
-export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "" }: Props) {
+export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "", context }: Props) {
   const quote = useQuote();
   const line = quote.lines.find((l) => l.kind === "product" && l.slug === slug);
   const [status, setStatus] = useState("");
@@ -59,6 +62,7 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
             decreaseLabel={labels.decrease}
             increaseLabel={labels.increase}
             onChange={(qty) => {
+              if (context) dispatchQuote({ type: "setContext", patch: context });
               dispatchQuote({ type: "setQty", key: slug, qty });
               setStatus(fmt(labels.qtyAnnounce, { name, qty }));
             }}
@@ -72,6 +76,7 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
           type="button"
           onClick={() => {
             justAdded.current = true;
+            if (context) dispatchQuote({ type: "setContext", patch: context });
             dispatchQuote({ type: "add", slug, qty: 1 });
             setStatus(fmt(labels.addedAnnounce, { name, qty: 1 }));
           }}

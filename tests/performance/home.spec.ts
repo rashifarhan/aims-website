@@ -6,8 +6,16 @@ declare global {
   }
 }
 
-for (const locale of ["en", "ar"]) {
-  test(`${locale} mobile home meets transfer, LCP and CLS budgets`, async ({ page, context }, testInfo) => {
+// Master Plan AT-11: retain the homepage measurements and cover all four T7 entry points.
+for (const path of [
+  "/",
+  "/ar",
+  "/zkteco-distributor-in-dubai",
+  "/zkteco-distributor-in-oman",
+  "/zkteco-distributors-in-kenya",
+  "/ar/zkteco-dubai",
+]) {
+  test(`${path} mobile page meets transfer, LCP and CLS budgets`, async ({ page, context }, testInfo) => {
     await page.setViewportSize({ width: 390, height: 844 });
     const cdp = await context.newCDPSession(page);
     await cdp.send("Network.enable");
@@ -40,7 +48,7 @@ for (const locale of ["en", "ar"]) {
         }
       }).observe({ type: "layout-shift", buffered: true });
     });
-    await page.goto(locale === "en" ? "/" : "/ar");
+    await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
     await page.waitForLoadState("networkidle");
     const metrics = { ...(await page.evaluate(() => window.homeMetrics)), transfer };

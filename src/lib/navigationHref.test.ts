@@ -20,8 +20,8 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
-  it("uses the built showroom section and live destinations for pages not built yet", () => {
-    expect(navigationHref("/ar/locations")).toBe("/ar#showrooms");
+  it("keeps built locations local and resolves the remaining preview destinations", () => {
+    expect(navigationHref("/ar/locations")).toBe("/ar/locations");
     // /contact is built (T9), so it stays local, and unbuilt services and support land on it too.
     expect(navigationHref("/contact")).toBe("/contact");
     expect(navigationHref("/support")).toBe("/contact");
@@ -32,9 +32,15 @@ describe("preview navigation", () => {
 });
 
 describe("prefetch guard", () => {
-  it("turns prefetch off for the solutions hub and filtered listings only", () => {
+  it("turns prefetch off for affected hubs and filtered listings only", () => {
     expect(prefetchSafe("/solutions")).toBe(false);
     expect(prefetchSafe("/ar/solutions")).toBe(false);
+    expect(prefetchSafe("/locations")).toBe(false);
+    expect(prefetchSafe("/ar/locations")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributor-in-dubai")).toBe(false);
+    expect(prefetchSafe("/ar/zkteco-dubai")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributor-in-oman")).toBe(false);
+    expect(prefetchSafe("/zkteco-distributors-in-kenya")).toBe(false);
     expect(prefetchSafe("/products?q=F18")).toBe(false);
     expect(prefetchSafe("/solutions/time-attendance")).toBe(true);
     expect(prefetchSafe("/products")).toBe(true);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { JsonLd } from "./JsonLd";
 import { absoluteUrl } from "@/lib/seo";
+import { prefetchSafe } from "@/lib/navigationHref";
 
 export type Crumb = { href: string; label: string };
 
@@ -21,7 +22,11 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
                 <bdi>{c.label}</bdi>
               </span>
             ) : (
-              <Link href={c.href} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
+              <Link
+                href={c.href}
+                prefetch={prefetchSafe(c.href) ? undefined : false}
+                className="inline-flex min-h-11 items-center hover:text-ink hover:underline"
+              >
                 <bdi>{c.label}</bdi>
               </Link>
             )}

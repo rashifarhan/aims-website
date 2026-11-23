@@ -886,6 +886,193 @@
       "abuDhabi": "Abu Dhabi office"
     }
   },
+  "locationsHub": {
+    "title": "Security systems from Dubai",
+    "metaTitle": "Locations & delivery",
+    "description": "Visit AIMS in Deira, contact the Dubai or Abu Dhabi office, or choose a delivery destination for your security systems quote.",
+    "lead": "Visit our Deira showroom for ZKTeco hardware, discuss installation in the UAE, or request delivery to the GCC and Africa.",
+    "visit": "Find UAE contacts",
+    "export": "Choose a destination",
+    "uaeTitle": "UAE offices and showroom",
+    "uaeLead": "Call before visiting to confirm opening hours and product availability.",
+    "showroom": "Deira showroom",
+    "headOffice": "Dubai head office",
+    "abuDhabi": "Abu Dhabi office",
+    "dubaiArea": "Deira, Dubai",
+    "abuDhabiArea": "Abu Dhabi, UAE",
+    "call": "Call",
+    "directions": "Get showroom directions",
+    "install": "Request installation",
+    "mapExternal": "Google Maps, opens in a new tab",
+    "marketsTitle": "Delivery from Dubai",
+    "marketsLead": "Choose your destination to start an export request. Add models and quantities to your quote list.",
+    "gcc": "GCC destinations",
+    "africa": "African destinations",
+    "destinationAction": "Request delivery to",
+    "countries": {
+      "Oman": "Oman",
+      "Bahrain": "Bahrain",
+      "Kuwait": "Kuwait",
+      "Kenya": "Kenya",
+      "Tanzania": "Tanzania",
+      "Cameroon": "Cameroon",
+      "Nigeria": "Nigeria",
+      "Uganda": "Uganda"
+    },
+    "notes": "Delivery details",
+    "notesBody": "Share your city or port and any document requirements. AIMS confirms delivery arrangements and costs with your quotation.",
+    "faqTitle": "Visits and delivery questions",
+    "faq": [
+      {
+        "q": "Can I visit the showroom?",
+        "a": "The Deira showroom is in Naif Bazar Building. Call the published showroom line before visiting to confirm opening hours and availability."
+      },
+      {
+        "q": "Does a market listing mean there is a local office?",
+        "a": "The GCC and Africa destinations are delivery markets. The offices and showroom listed here are in the UAE."
+      },
+      {
+        "q": "What should I include in an export request?",
+        "a": "Include model names, quantities, destination city or port, and required documents. Your selected country is carried into the quote form."
+      }
+    ]
+  },
+  "locationPage": {
+    "modelsTitle": "Models to consider",
+    "modelsLead": "Choose attendance terminals, a door controller or a lock. Check the product page for specifications, then add the quantities your project needs.",
+    "catalogue": "Browse all products",
+    "quoteReview": "Review your quote",
+    "supportTitle": "Support starts with the right details",
+    "supportLead": "Share the model, software version and a description of the issue. Confirm compatibility, warranty terms and the support arrangement with AIMS before ordering.",
+    "contact": "Contact AIMS",
+    "faqTitle": "Questions before you order",
+    "showroom": "Deira showroom",
+    "call": "Call the showroom",
+    "directions": "Get directions",
+    "authorised": "Authorized ZKTeco Distributor · UAE",
+    "finalTitle": "Build your quote with the right destination",
+    "hub": "View all locations",
+    "dubai": {
+      "metaTitle": "ZKTeco distributor in Dubai",
+      "description": "Visit AIMS’s Deira showroom for ZKTeco attendance and access control. Browse models and request supply or installation in Dubai.",
+      "title": "ZKTeco systems in Dubai",
+      "fulfilment": "Showroom & UAE installation",
+      "lead": "Source attendance terminals and door access hardware from AIMS. Visit Showroom #14 in Deira, or request supply and installation for your UAE site.",
+      "primary": "Get an installation quote",
+      "secondary": "Plan a showroom visit",
+      "sectionTitle": "Visit Deira. Plan your installation.",
+      "sectionLead": "Bring your model list or tell us about the site. AIMS supplies devices, configures software and provides installation and training in the UAE.",
+      "steps": [
+        {
+          "title": "Trade supply",
+          "body": "Specify model codes, quantities and the accessories you need."
+        },
+        {
+          "title": "UAE installation",
+          "body": "Share the emirate, door types, user count and any existing system."
+        },
+        {
+          "title": "Showroom visit",
+          "body": "Call ahead to confirm opening hours and the models you want to see."
+        }
+      ],
+      "mapLabel": "Dubai and Abu Dhabi offices with delivery routes to regional markets",
+      "faq": [
+        {
+          "q": "Where can I visit AIMS in Dubai?",
+          "a": "The Deira showroom is in Naif Bazar Building, Showroom #14. Use the directions link or call the showroom before travelling."
+        },
+        {
+          "q": "Can you supply and install a complete system?",
+          "a": "AIMS provides hardware, software configuration, installation and training in the UAE. Include your site details in the installation quote."
+        },
+        {
+          "q": "Can I confirm stock or prices here?",
+          "a": "Prices and availability are confirmed in your quotation. Add model codes and quantities so AIMS can check your requirements."
+        }
+      ]
+    },
+    "oman": {
+      "metaTitle": "ZKTeco supply to Oman",
+      "description": "Request ZKTeco attendance and access control supply to Oman from Dubai. Add models and quantities, destination and document requirements to your export quote.",
+      "title": "ZKTeco supply to Oman",
+      "fulfilment": "Delivered from Dubai",
+      "lead": "For installers and resellers sourcing attendance and access control in Oman. AIMS supplies this market from Dubai; your quote carries Oman as the destination.",
+      "primary": "Request an export quote",
+      "secondary": "Browse models",
+      "sectionTitle": "From Dubai to your project in Oman",
+      "sectionLead": "Tell us the delivery city or port, model codes and quantities. Confirm freight, documents and warranty arrangements in the quotation before placing an order.",
+      "steps": [
+        {
+          "title": "Destination",
+          "body": "Add the city or port in Oman and your delivery requirements."
+        },
+        {
+          "title": "Documents",
+          "body": "List the commercial invoice, packing list or other documents you require."
+        },
+        {
+          "title": "Before dispatch",
+          "body": "Ask AIMS to confirm availability, freight cost and delivery timing."
+        }
+      ],
+      "mapLabel": "Supply route from Dubai to Oman",
+      "faq": [
+        {
+          "q": "Is there an AIMS showroom in Oman?",
+          "a": "The confirmed showroom is in Deira, Dubai. This page is for delivery to Oman from Dubai."
+        },
+        {
+          "q": "Which documents are supplied with an export order?",
+          "a": "State the documents you require in your quote. AIMS confirms what can be supplied; customs requirements and charges need checking for your shipment."
+        },
+        {
+          "q": "How do I arrange warranty and support?",
+          "a": "Confirm the warranty coverage, return route and support arrangements with AIMS before ordering. No local installation or turnaround time is assumed."
+        }
+      ]
+    },
+    "kenya": {
+      "metaTitle": "ZKTeco supply to Kenya",
+      "description": "Request ZKTeco attendance and access control supply to Kenya from Dubai. Build an export quote with model quantities, delivery destination and document needs.",
+      "title": "ZKTeco supply to Kenya",
+      "fulfilment": "Delivered from Dubai",
+      "lead": "For installers and resellers sourcing attendance and access control in Kenya. AIMS supplies this market from Dubai; your quote carries Kenya as the destination.",
+      "primary": "Request an export quote",
+      "secondary": "Browse models",
+      "sectionTitle": "From Dubai to your project in Kenya",
+      "sectionLead": "Build a mixed-model list for your project or stock. Add your delivery city or port in Kenya so AIMS can confirm the shipment and support arrangements.",
+      "steps": [
+        {
+          "title": "Your model list",
+          "body": "Include quantities, accessories and the software you plan to use."
+        },
+        {
+          "title": "Delivery and documents",
+          "body": "State the city or port and the shipment documents you require."
+        },
+        {
+          "title": "Before dispatch",
+          "body": "Confirm freight, customs responsibilities, warranty and timing in the quote."
+        }
+      ],
+      "mapLabel": "Supply route from Dubai to Kenya",
+      "faq": [
+        {
+          "q": "Does AIMS have a showroom in Kenya?",
+          "a": "The confirmed showroom is in Deira, Dubai. This page is for delivery to Kenya from Dubai."
+        },
+        {
+          "q": "Can I request prices for several models together?",
+          "a": "Yes. Add models and quantities to one quote. Kenya is carried into the delivery details; prices and availability are confirmed by AIMS."
+        },
+        {
+          "q": "Who handles installation and warranty in Kenya?",
+          "a": "Confirm your installer, compatibility, warranty coverage and any return arrangements before ordering. This page does not promise a local installation team or service time."
+        }
+      ]
+    }
+  },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",
     "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",

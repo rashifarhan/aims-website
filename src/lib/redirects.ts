@@ -18,6 +18,9 @@ export function buildRedirects(): Redirect[] {
     r("/enquiry", "/contact"),
     r("/contact.html", "/contact"),
     r("/index.html", "/"),
+    // Locale aliases must not create duplicate T7 Dubai pages (Design Doc 13).
+    r("/ar/zkteco-distributor-in-dubai", "/ar/zkteco-dubai"),
+    r("/zkteco-dubai", "/zkteco-distributor-in-dubai"),
     r("/getaquote", "/quote"),
     r("/faq", "/support#faq"),
     r("/zkteco-warranty-policy", "/support#warranty"),
