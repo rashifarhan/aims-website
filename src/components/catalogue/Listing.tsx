@@ -18,14 +18,16 @@ import {
 } from "@/lib/filters";
 import { dispatchQuote } from "@/lib/quote/useQuote";
 import { createIndex, searchSlugs } from "@/lib/search";
-import { CloseIcon, SearchIcon } from "@/components/icons";
 import { CompareTray } from "./CompareTray";
 import { EmptyResults } from "./EmptyResults";
 import { facetGroupViews } from "./facetGroups";
-import { FacetPanel } from "./FacetPanel";
+import { FacetRail } from "./FacetRail";
 import { FilterSheet } from "./FilterSheet";
-import { ProductCard } from "./ProductCard";
-import { ResultCount } from "./ResultCount";
+import { ListingSearch } from "./ListingSearch";
+import { AppliedFilters } from "./AppliedFilters";
+import { cardLabels, ResultsGrid } from "./ResultsGrid";
+import { useListingState } from "./useListingState";
+import { ResultsBar } from "./ResultsBar";
 
 export type ListingProps = {
   cards: Card[];
@@ -60,34 +62,12 @@ export function ListingView({
   hrefs,
   urlState = EMPTY,
 }: ListingProps & { urlState?: FilterState }) {
-  const [state, setState] = useState(urlState);
-  // Follow the URL only when the URL itself changes (Back, header search);
-  // our own debounced writes arrive matching the state already.
-  const urlKey = serializeFilters(urlState);
-  const [lastUrlKey, setLastUrlKey] = useState(urlKey);
-  if (urlKey !== lastUrlKey) {
-    setLastUrlKey(urlKey);
-    if (urlKey !== serializeFilters(state)) setState(urlState);
-  }
+  const { state, update } = useListingState(urlState, family);
 
   const effective = useMemo<FilterState>(() => (family ? { ...state, family } : state), [state, family]);
   const index = useMemo(() => createIndex(cards, familyNames), [cards, familyNames]);
   const order = useMemo(() => searchSlugs(index, state.q), [index, state.q]);
   const results = useMemo(() => applyFilters(cards, effective, order), [cards, effective, order]);
-
-  const urlTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const update = (patch: Partial<FilterState>) => {
-    const next = { ...state, ...patch };
-    if (family) next.family = undefined; // the route already says which family
-    setState(next);
-    // Debounced native history update: no server round trip, and typing
-    // doesn't flood the history API.
-    clearTimeout(urlTimer.current);
-    urlTimer.current = setTimeout(
-      () => window.history.replaceState(null, "", `${window.location.pathname}${serializeFilters(next)}`),
-      150,
-    );
-  };
 
   /* ---------- facets ---------- */
   const groups = facetGroupViews({ cards, state: effective, searchOrder: order, family, t, familyNames });
@@ -114,115 +94,55 @@ export function ListingView({
   /* ---------- mobile filter sheet ---------- */
   const sheet = useRef<HTMLDialogElement>(null);
 
-  const cardLabels = {
-    add: t.add,
-    inQuote: t.inQuote,
-    addedAnnounce: t.addedAnnounce,
-    qtyAnnounce: t.qtyAnnounce,
-    qty: t.qty,
-    decrease: t.decrease,
-    increase: t.increase,
-    compare: t.compare,
-    specsOnRequest: t.specsOnRequest,
-  };
   const typeLabels = t.types as Record<string, string>;
   const subtitle = (c: Card) => (c.types[0] ? typeLabels[c.types[0]] : familyNames[c.family]) ?? "";
-  const countText = countLabel(results.length, t.resultsOne, t.resultsCount);
 
   return (
     <div className={compareItems.length ? "pb-28" : ""}>
-      {/* Page search */}
-      <form role="search" onSubmit={(e) => e.preventDefault()} className="relative mt-6 max-w-xl">
-        <label htmlFor="listing-search" className="sr-only">
-          {t.searchLabel}
-        </label>
-        <SearchIcon className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-ink-400" />
-        <input
-          id="listing-search"
-          type="search"
-          value={state.q}
-          onChange={(e) => update({ q: e.target.value })}
-          placeholder={t.searchPlaceholder}
-          autoComplete="off"
-          enterKeyHint="search"
-          className="h-12 w-full rounded-md border border-line-strong bg-paper ps-12 pe-4 text-base text-ink placeholder:text-ink-400 focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
-        />
-      </form>
+      <ListingSearch
+        value={state.q}
+        onChange={(q) => update({ q })}
+        label={t.searchLabel}
+        placeholder={t.searchPlaceholder}
+      />
 
       <div className="mt-8 lg:grid lg:grid-cols-[232px_1fr] lg:gap-10">
-        {/* Desktop facet rail. It stays beside a long grid and scrolls on its own when taller than the screen; it stops
-            above the compare tray when one is shown (WCAG 2.4.11). */}
-        <aside
-          aria-label={t.filters}
-          className={`hidden overscroll-contain lg:sticky lg:top-20 lg:-ms-1 lg:block lg:self-start lg:overflow-y-auto lg:py-1 lg:ps-1 lg:pe-2 ${compareItems.length ? "lg:max-h-[calc(100dvh-12rem)]" : "lg:max-h-[calc(100dvh-6.5rem)]"}`}
-        >
-          <h2 className="sr-only">{t.filters}</h2>
-          <FacetPanel groups={groups} onToggle={onToggle} idPrefix="rail" />
-        </aside>
+        <FacetRail groups={groups} onToggle={onToggle} label={t.filters} trayOpen={compareItems.length > 0} />
 
         <section aria-labelledby="results-heading">
           <h2 id="results-heading" className="sr-only">
             {t.resultsHeading}
           </h2>
 
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <ResultCount
-              count={results.length}
-              text={countText}
-              cause={serializeFilters({ ...effective, q: "", cmp: [] })}
-            />
-            <button
-              type="button"
-              onClick={() => sheet.current?.showModal()}
-              className="home-button home-button-outline home-button-sm lg:hidden"
-            >
-              {filterCount ? fmt(t.filtersCount, { count: filterCount }) : t.filters}
-            </button>
-          </div>
+          <ResultsBar
+            count={results.length}
+            countText={countLabel(results.length, t.resultsOne, t.resultsCount)}
+            cause={serializeFilters({ ...effective, q: "", cmp: [] })}
+            filtersLabel={filterCount ? fmt(t.filtersCount, { count: filterCount }) : t.filters}
+            onOpenFilters={() => sheet.current?.showModal()}
+          />
 
-          {/* Applied filters as removable chips */}
           {filterCount > 0 && (
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {groups.flatMap((g) =>
-                g.options
-                  .filter((o) => o.checked)
-                  .map((o) => (
-                    <li key={`${g.id}-${o.value}`}>
-                      <button type="button" onClick={() => onToggle(g.id, o.value)} className="ui-chip ui-chip-on">
-                        {o.label}
-                        <CloseIcon width={14} height={14} />
-                        <span className="sr-only">({t.clearFilters})</span>
-                      </button>
-                    </li>
-                  )),
-              )}
-              <li>
-                <button type="button" onClick={clearFilters} className="home-button home-button-quiet home-button-sm">
-                  {t.clearAll}
-                </button>
-              </li>
-            </ul>
+            <AppliedFilters
+              groups={groups}
+              onToggle={onToggle}
+              onClear={clearFilters}
+              labels={{ clearFilters: t.clearFilters, clearAll: t.clearAll }}
+            />
           )}
 
           {results.length > 0 ? (
-            <ul className="mt-4 grid border-t border-line sm:grid-cols-2 sm:gap-5 sm:border-0 lg:grid-cols-2 xl:grid-cols-3">
-              {results.map((c, i) => (
-                <li key={c.slug} className="flex">
-                  <ProductCard
-                    card={c}
-                    href={`${hrefs.product}/${c.slug}`}
-                    subtitle={subtitle(c)}
-                    labels={cardLabels}
-                    eager={i < 4}
-                    compare={{
-                      checked: state.cmp.includes(c.slug),
-                      disabled: !state.cmp.includes(c.slug) && state.cmp.length >= MAX_COMPARE,
-                      onToggle: () => update({ cmp: toggle(state.cmp, c.slug) }),
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
+            <ResultsGrid
+              results={results}
+              productHref={hrefs.product}
+              subtitle={subtitle}
+              labels={cardLabels(t)}
+              compare={(c) => ({
+                checked: state.cmp.includes(c.slug),
+                disabled: !state.cmp.includes(c.slug) && state.cmp.length >= MAX_COMPARE,
+                onToggle: () => update({ cmp: toggle(state.cmp, c.slug) }),
+              })}
+            />
           ) : (
             <EmptyResults
               q={state.q}

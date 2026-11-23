@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { CompareStack } from "@/components/catalogue/CompareStack";
+import { CompareTable } from "@/components/catalogue/CompareTable";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { ArrowIcon } from "@/components/icons";
-import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { productBySlug } from "@/content/catalogue";
 import type { Product } from "@/content/schema";
 import { localePath } from "@/i18n/config";
@@ -43,13 +44,11 @@ export default async function ComparePage({ searchParams }: PageProps<"/[lang]/p
           </Suspense>
         }
       />
-      <div className="wrap pb-(--section-space)">
-        <Suspense fallback={null}>
-          {searchParams.then((sp) => (
-            <CompareView t={t} hrefOf={href} params={sp} contentLang={locale === "en" ? undefined : "en"} />
-          ))}
-        </Suspense>
-      </div>
+      <Suspense fallback={null}>
+        {searchParams.then((sp) => (
+          <CompareView t={t} hrefOf={href} params={sp} contentLang={locale === "en" ? undefined : "en"} />
+        ))}
+      </Suspense>
     </main>
   );
 }
@@ -90,9 +89,11 @@ function CompareView({
 
   if (items.length < 2) {
     return (
-      <div className="ui-panel">
-        <p className="text-lg font-semibold">{t.compare.empty}</p>
-        <div className="mt-3">{backToResults}</div>
+      <div className="wrap pb-(--section-space)">
+        <div className="ui-panel">
+          <p className="text-lg font-semibold">{t.compare.empty}</p>
+          <div className="mt-3">{backToResults}</div>
+        </div>
       </div>
     );
   }
@@ -111,143 +112,37 @@ function CompareView({
     increase: t.catalogue.increase,
   };
 
+  const productHref = (slug: string) => hrefOf(`/product/${slug}`);
+  const removeHref = (p: Product) =>
+    items.length > 2
+      ? `?items=${items
+          .filter((x) => x !== p)
+          .map((x) => x.slug)
+          .join(",")}${onlyDiff ? "&diff=1" : ""}&from=${encodeURIComponent(from)}`
+      : null;
+  const shared = { items, rows: visible, t, addLabels, productHref, contentLang };
+
   return (
     <>
-      {requested.length > items.length && <p className="mb-2 text-sm text-warn">{t.compare.notFound}</p>}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-        {backToResults}
-        <Link href={selfHref(!onlyDiff)} replace scroll={false} className="home-secondary text-sm">
-          {onlyDiff ? t.compare.showAll : t.compare.onlyDiff}
-        </Link>
+      <div className="wrap">
+        {requested.length > items.length && <p className="mb-2 text-sm text-warn">{t.compare.notFound}</p>}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+          {backToResults}
+          <Link href={selfHref(!onlyDiff)} replace scroll={false} className="home-secondary text-sm">
+            {onlyDiff ? t.compare.showAll : t.compare.onlyDiff}
+          </Link>
+        </div>
+        <CompareStack {...shared} />
+        <CompareTable {...shared} removeHref={removeHref} />
       </div>
 
-      {/* Phones: product names stay pinned; each row shows its label above the values (no sideways scroll). */}
-      <div className="mt-6 sm:hidden" lang={contentLang}>
-        <ul
-          className="sticky top-15 z-10 -mx-4 grid gap-3 border-b border-line bg-paper/96 px-4 py-3 backdrop-blur-md"
-          style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
-        >
-          {items.map((p) => (
-            <li key={p.slug} className="min-w-0">
-              <div className="relative mb-2 aspect-square w-14 overflow-hidden rounded-sm border border-line bg-white">
-                {p.images[0] && <Image src={p.images[0].src} alt="" fill sizes="56px" className="object-contain p-1" />}
-              </div>
-              <Link
-                href={hrefOf(`/product/${p.slug}`)}
-                className="block text-sm leading-snug font-semibold hover:underline"
-              >
-                {p.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <ul>
-          {visible.map((r) => (
-            <li key={r.label} className={`-mx-4 border-b border-line px-4 py-3 ${r.differs ? "bg-green-50" : ""}`}>
-              <p className="text-sm font-semibold text-ink-700">
-                {r.label}
-                {r.differs && (
-                  <span className="ms-2 inline-block rounded-pill bg-green-100 px-2 text-xs font-semibold text-green-800">
-                    {t.compare.differs}
-                  </span>
-                )}
-              </p>
-              {r.hint && <p className="mt-0.5 text-xs leading-snug text-ink-600">{r.hint}</p>}
-              <dl
-                className="mt-2 grid gap-3"
-                style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
-              >
-                {r.values.map((v, i) => (
-                  <div key={items[i].slug} className="min-w-0">
-                    <dt className="sr-only">{items[i].name}</dt>
-                    <dd className="text-sm break-words text-ink">
-                      {v ?? <span className="text-ink-600 italic">{t.product.notListed}</span>}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </li>
-          ))}
-        </ul>
-        <ul className="mt-6 grid gap-4" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
-          {items.map((p) => (
-            <li key={p.slug} className="min-w-0">
-              <p className="mb-2 truncate font-mono text-sm font-medium">
-                <span dir="ltr">{p.model}</span>
-              </p>
-              <AddToQuote slug={p.slug} name={p.name} labels={addLabels} />
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* From 640px: a real table with a header row of products. */}
-      <div className="mt-6 hidden sm:block">
-        {/* Fixed layout: the label column is 14rem and the products share the rest equally, so a long
-            value in one product never squeezes the others (site polish T6). */}
-        <table className="w-full table-fixed border-collapse text-start text-sm" lang={contentLang}>
-          <colgroup>
-            <col className="w-56" />
-            {items.map((p) => (
-              <col key={p.slug} />
-            ))}
-          </colgroup>
-          <thead>
-            <tr className="align-top">
-              <td />
-              {items.map((p) => (
-                <th key={p.slug} scope="col" className="px-3 pb-4 text-start font-normal">
-                  <div className="relative mb-3 aspect-square w-32 overflow-hidden rounded-md border border-line bg-white">
-                    {p.images[0] && (
-                      <Image src={p.images[0].src} alt="" fill sizes="128px" className="object-contain p-2" />
-                    )}
-                  </div>
-                  <Link href={hrefOf(`/product/${p.slug}`)} className="block font-semibold text-ink hover:underline">
-                    {p.name}
-                  </Link>
-                  <span className="mt-0.5 block font-mono text-xs text-ink-600">
-                    <span dir="ltr">{p.model}</span>
-                  </span>
-                  <AddToQuote slug={p.slug} name={p.name} labels={addLabels} className="mt-3" />
-                  {items.length > 2 && (
-                    <Link
-                      href={`?items=${items
-                        .filter((x) => x !== p)
-                        .map((x) => x.slug)
-                        .join(",")}${onlyDiff ? "&diff=1" : ""}&from=${encodeURIComponent(from)}`}
-                      replace
-                      className="home-secondary text-sm"
-                    >
-                      {t.compare.remove}
-                      <span className="sr-only"> {p.name}</span>
-                    </Link>
-                  )}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((r) => (
-              <tr key={r.label} className={`border-t border-line align-top ${r.differs ? "bg-green-50" : ""}`}>
-                <th scope="row" className="py-3 ps-2 pe-3 text-start font-normal">
-                  <span className="font-medium text-ink-700">{r.label}</span>
-                  {r.differs && (
-                    <span className="ms-2 inline-block rounded-pill bg-green-100 px-2 text-xs font-semibold text-green-800">
-                      {t.compare.differs}
-                    </span>
-                  )}
-                  {r.hint && <span className="mt-1 block text-xs leading-snug text-ink-600">{r.hint}</span>}
-                </th>
-                {r.values.map((v, i) => (
-                  <td key={items[i].slug} className="px-3 py-3 break-words">
-                    {v ?? <span className="text-ink-600 italic">{t.product.notListed}</span>}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* The close where the page sells (taste sections.md): the install note and the way to the quote. */}
+      <ClosePanel
+        id="compare-close"
+        heading={t.product.needInstall}
+        body={t.product.needInstallBody}
+        action={{ href: hrefOf("/quote"), label: t.catalogue.viewQuote }}
+      />
     </>
   );
 }

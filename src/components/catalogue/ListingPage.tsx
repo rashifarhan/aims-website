@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { products, productsInFamily } from "@/content/catalogue";
 import { toCard } from "@/content/cards";
@@ -46,11 +47,18 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
         title={title}
         lead={lead}
       />
-      <div className="wrap pb-(--section-space)">
+      <div className="wrap">
         <Suspense fallback={<ListingView {...props} />}>
           <Listing {...props} />
         </Suspense>
       </div>
+      {/* The close where the page sells (taste sections.md): the install note and the way to the quote. */}
+      <ClosePanel
+        id="listing-close"
+        heading={t.product.needInstall}
+        body={t.product.needInstallBody}
+        action={{ href: href("/quote"), label: t.catalogue.viewQuote }}
+      />
     </main>
   );
 }
