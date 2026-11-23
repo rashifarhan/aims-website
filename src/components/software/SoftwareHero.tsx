@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -35,14 +36,15 @@ export async function SoftwareHero({ slug }: { slug: BuiltSoftware }) {
           </Link>
         </div>
       </div>
+      {/* Capped at the picture's own pixel width, so a small source is never upscaled (taste photo-upscale). */}
       {software.image && (
-        <div className="sw-hero-art">
+        <div className="sw-hero-art" style={{ "--art-width": `${software.image.width}px` } as CSSProperties}>
           <Image
             src={software.image.src}
             alt={software.image.alt}
             width={software.image.width}
             height={software.image.height}
-            sizes="(min-width: 1024px) 420px, 288px"
+            sizes={`(min-width: 1024px) min(28rem, ${software.image.width}px), min(18rem, ${software.image.width}px)`}
             preload
           />
         </div>

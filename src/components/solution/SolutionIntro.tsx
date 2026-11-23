@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
@@ -44,14 +45,17 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
           </div>
         </div>
         {photo && (
-          <div className="t3-hero-photo">
+          // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
+          // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
+          <div className="t3-hero-photo" style={{ "--photo-width": `${photo.width}px` } as CSSProperties}>
             {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
             <Image
               src={photo.src}
               alt={photo.alt}
               width={photo.width}
               height={photo.height}
-              sizes="(min-width: 1024px) 30rem, 16rem"
+              // The width it is shown at: its column, never past its own pixels (the cap above).
+              sizes={`(min-width: 1024px) min(36rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
               preload
             />
           </div>

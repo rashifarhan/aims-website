@@ -53,11 +53,11 @@ Out of scope (the user postponed them): a moment for the `/solutions` hub, and t
 
 ### Agent C: solutions and software
 
-- [ ] Taste: gate + copy-lint on each page; findings in `docs/audits/2026-11-23-solutions.md`
-- [ ] Impeccable: audit; findings added
-- [ ] Emil: interaction review; findings added
-- [ ] Fixes (P0 and P1 at least), each committed, including the Arabic `ProductCard` spec values flush to the edge
-- [ ] Re-run the gate and specs; results recorded
+- [x] Taste: gate + copy-lint on each page; findings in `docs/audits/2026-11-23-solutions.md`
+- [x] Impeccable: audit; findings added
+- [x] Emil: interaction review; findings added
+- [x] Fixes (P0 and P1 at least), each committed, including the Arabic `ProductCard` spec values flush to the edge
+- [x] Re-run the gate and specs; results recorded
 
 ### Integrator
 

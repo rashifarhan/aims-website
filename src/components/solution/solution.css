@@ -12,7 +12,7 @@
 .t3-hero-photo {
   justify-self: center;
   width: 100%;
-  max-width: 16rem;
+  max-width: min(16rem, var(--photo-width, 100%));
 }
 .t3-hero-photo img {
   display: block;
@@ -31,8 +31,10 @@
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 4rem;
   }
+  /* AIMS's photographs are square with the device in the middle third: let it fill its column, up to its
+     own pixel width (taste "the product big"). */
   .t3-hero-photo {
-    max-width: 30rem;
+    max-width: min(36rem, var(--photo-width, 100%));
   }
 }
 /* Homepage-style entrance, once on load (~1.1s, then it stands); reduced motion keeps it still. */
@@ -291,7 +293,16 @@
     border-color var(--duration-base) var(--ease-aims),
     transform var(--duration-base) var(--ease-aims);
 }
+.method-head {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+.method-card .method-head h3 {
+  margin-block-start: 0;
+}
 .method-icon {
+  flex: none;
   display: grid;
   place-items: center;
   width: 3.25rem;
@@ -306,7 +317,7 @@
   font-weight: 650;
 }
 .method-card p {
-  margin-block: 0.5rem 1.25rem;
+  margin-block: 1rem 1.25rem;
   color: var(--color-ink-600);
   line-height: 1.55;
 }
@@ -326,16 +337,16 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
 }
+/* The shared card (actions.css .ui-card) draws the border, plinth shadow, lift, photo zoom and press; this
+   only lays the card out. .ui-card is position: relative, which also contains the screen-reader text. */
 .pick-card {
-  /* Contains its absolutely positioned screen-reader text, so the sideways row clips it. */
-  position: relative;
   display: flex;
   flex-direction: column;
   padding: 1.25rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper);
-  transition: box-shadow var(--duration-base) var(--ease-aims);
+}
+/* The card presses only when its links are pressed; Add presses itself (as catalogue.css product-card). */
+.pick-card.ui-card-interactive:active:has(button:active) {
+  transform: none;
 }
 .pick-image {
   display: flex;
@@ -349,7 +360,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform var(--duration-slow) var(--ease-aims);
 }
 .pick-brand {
   margin-block-start: 1rem;
@@ -366,13 +376,31 @@
   font-weight: 500;
   text-align: start;
 }
+/* Block padding on the inline link makes a 44px target without moving the line (CLAUDE.md §4); the
+   underline draws in instead of snapping on (taste House rule 5). */
 .pick-card h3 a {
+  padding-block: 0.75rem;
   color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--duration-hover) ease,
+    text-decoration-color var(--duration-hover) ease;
 }
 .pick-card h3 a:hover {
   color: var(--color-green-700);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-decoration-color: currentColor;
+}
+/* A description imported in the model field ("Tripod Turnstile w/ controller…"): English, under the code. */
+.pick-description {
+  margin-block-start: 0.25rem;
+  font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+/* English facts keep their direction in Arabic but line up with the card's end edge, like its heading. */
+[dir="rtl"] :is(.pick-description, .pick-facts > div) {
+  text-align: end;
 }
 .pick-methods {
   margin-block-start: 0.25rem;
@@ -418,11 +446,33 @@
   :dir(rtl) .method-card:hover .home-action-arrow {
     translate: -3px 0;
   }
-  .pick-card:hover {
-    box-shadow: var(--shadow-2);
+}
+
+/* ---------- Software cards: the platform's picture above its kind and name ---------- */
+.t3-software-image {
+  display: block;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  margin-block-end: 1.25rem;
+  overflow: clip;
+}
+.t3-software-image img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  transition: transform var(--duration-card) var(--ease-aims);
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-software-card:hover .t3-software-image img {
+    transform: scale(1.03);
   }
-  .pick-card:hover img {
-    transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .t3-software-image img {
+    transition: none;
+  }
+  .home-software-card:hover .t3-software-image img {
+    transform: none;
   }
 }
 
@@ -502,7 +552,8 @@
 }
 .t3-questions summary svg {
   flex: none;
-  transition: transform var(--duration-slow) var(--ease-aims);
+  /* A disclosure is opened often: UI motion stays under 300ms (Emil). */
+  transition: transform var(--duration-base) var(--ease-aims);
 }
 .t3-questions summary:hover {
   color: var(--color-green-700);
@@ -521,6 +572,11 @@
 .t3-cta {
   padding-block: var(--home-section-space) calc(var(--home-section-space) * 2);
 }
+/* The closing band as the questions screen's last block, across both of its columns. */
+.t3-cta-embedded {
+  grid-column: 1 / -1;
+  padding-block: 0;
+}
 .t3-cta-panel {
   display: flex;
   justify-content: space-between;
@@ -536,6 +592,55 @@
   flex: none;
   flex-direction: column;
   align-items: center;
+}
+
+/*
+ * One section per screen on a desktop (taste House rule 3; CLAUDE.md §2), as on the homepage and the
+ * software pages: each T3 section is at least one screen tall with its content centred, so a screen holds
+ * one idea and the next heading never peeks in. Short desktop windows and portrait tablets keep the natural
+ * height (sections.css). The band's outer margin would break the screen grid, so it goes. Scoped to
+ * the solution pages (main.t3-page): the company and location pages borrow these section classes.
+ */
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .t3-page > :is(.t3-section, .t3-cta) {
+    align-content: center;
+    min-height: 100svh;
+  }
+  .t3-page > .t3-band {
+    margin-block: 0;
+  }
+  /* Six stacked product tiles made this section 1.3–1.4 screens. On a desktop each card lays its photo
+     beside the facts, so two rows of three fit one screen; Add sits on the card's last line. */
+  .t3-page .pick-card {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-rows: repeat(5, auto) 1fr;
+    column-gap: 1.25rem;
+  }
+  .t3-page .pick-card > * {
+    grid-column: 2;
+  }
+  .t3-page .pick-card {
+    padding-block: 1rem;
+  }
+  .t3-page .pick-image {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: start;
+    height: 6.5rem;
+    padding: 0.25rem;
+  }
+  .t3-page .pick-brand {
+    margin-block-start: 0;
+  }
+  .t3-page .pick-facts {
+    margin-block: 0.75rem;
+  }
+  .t3-page .pick-add {
+    grid-row: 6;
+    align-self: end;
+    justify-self: start;
+  }
 }
 
 /* ---------- Tablet ---------- */
@@ -625,7 +730,9 @@
   .t3-heading-row > .home-text-link {
     margin-block-start: 0.5rem;
   }
+  /* One row per option on a phone: icon, name and count read across, nothing squeezed (CLAUDE.md §2). */
   .method-grid {
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
   }
   .method-card {
@@ -680,8 +787,6 @@
   .ta-file,
   .ta-wire,
   .method-card,
-  .pick-card,
-  .pick-image img,
   .t3-questions summary svg {
     transition: none;
   }

@@ -31,14 +31,17 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function DoorLocksSolution() {
   const { solutionDoorLocks: c } = await getDictionary();
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <LockUnlock idPrefix="dl" />
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="dl" copy={c.process} />
-      <SolutionQuestions idPrefix="dl" copy={c.faq} />
-      <SolutionCta idPrefix="dl" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="dl"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="dl" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );
