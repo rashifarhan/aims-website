@@ -42,12 +42,42 @@ Sources (read with `git show origin/<branch>:<path>`; never merge them wholesale
 
 ### Agent L: locations (`claude/locations-polish`)
 
-- [ ] Read the Codex branch; list what is ported and what is left, with reasons
-- [ ] `/locations` hub on our system (replaces `navigationHref`'s `#showrooms` fallback)
-- [ ] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
-- [ ] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
-- [ ] Destination quote flow and its unit tests
-- [ ] Routes flipped to built; e2e specs; `pnpm check` + build clean
+- [x] Read the Codex branch; list what is ported and what is left, with reasons (below)
+- [x] `/locations` hub on our system (replaces `navigationHref`'s `#showrooms` fallback)
+- [x] `/zkteco-distributor-in-dubai`, `/zkteco-dubai` (keep existing URLs and the locale pair; CLAUDE.md §6)
+- [x] `/zkteco-distributor-in-oman`, `/zkteco-distributors-in-kenya`
+- [x] Destination quote flow and its unit tests
+- [x] Routes flipped to built; e2e specs; `pnpm check` + build clean
+
+#### Agent L: what is ported from `codex/location-pages`
+
+- **Ported:** the page copy (re-checked against `site.ts`, `PRODUCT.md` and the catalogue; "training" dropped, AIMS
+  publishes installation and setup only), `src/lib/locationPages.ts` and its tests, the delivery markets (PRODUCT.md
+  "Markets") as `DELIVERY_MARKETS`, `destinationFromSearch` + `destination.test.ts`, the QuoteView preset, an optional
+  quote context on AddToQuote (applied only while the buyer has chosen no need, so a page never overwrites a choice),
+  `counterpartPath` keeping `?query` and `#hash` (with tests), the Dubai locale pair (`/zkteco-distributor-in-dubai` ↔
+  `/ar/zkteco-dubai`, both alias URLs 301 straight to their pair), and a `destination` prop on `ReachMap` that leaves
+  the homepage and `/contact` output unchanged.
+- **Rebuilt on our system:** every section (T3 hero entrance, `.ui-card`, `actions.css`, Breadcrumbs with
+  BreadcrumbList, catalogue `ProductCard`, `SolutionQuestions`, `SolutionCta`, `MomentTrigger` + `reach.css`). Codex's
+  `locations.css`/`location-page.css` and its own `LocationsMotion` (WAAPI) are not used.
+- **Left out:** CLAUDE.md gate waivers, `docs/design-checks/*`, `.taste-skill/waivers.json`, the kit class names on the
+  shared shell (`nav`, `wrap`, `closing`), moving the skip link, the visible floating search label, the narrower header
+  search, the `page-container` rewrite in globals.css and the Wordmark dot as SVG: each changes the shared shell to
+  satisfy a checker and needs the user's decision. `whitespace-nowrap` on desktop nav items is left for the integrator
+  to judge (no wrap observed on `main` at 1024–1440).
+
+- **Deviations for README → Decisions (integrator):** the Oman and Kenya H1s say "ZKTeco supply to Oman/Kenya",
+  not "distributor in", because AIMS lists no office there (claims policy, Design Doc 3.1); "popular models" is
+  "models to start from" (no sales ranking is published); T7's separate support section is folded into the FAQ; the
+  Dubai page's map shows every route (it is where orders leave from), Oman and Kenya draw only their own.
+- **Shell fix kept:** `LanguageSwitch` no longer prefetches (Arabic pages looped ~2,000 RSC requests in 5 s through
+  the proxy rewrite, also with `main`'s switch on `/ar/locations`).
+- **For the user:** the catalogue card's long spec values (e.g. Inbio Pro 160 "Readers supported") sit flush to the
+  card edge in Arabic at 390 px; it is the shared `ProductCard`, unchanged here.
+- **Specs:** `tests/e2e/locations.spec.ts` (48 pass, desktop + mobile); contact-polish, home-premium, quote,
+  quote-polish, catalogue-polish, shell, solution-pos, solution-access-control and the smoke entries for these routes
+  pass (146). The taste gate was not run on this branch.
 
 ### Agent E: company and editorial (`claude/company-polish`)
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
+import { presetPatch, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote, useQuote } from "@/lib/quote/useQuote";
 
 export type AddToQuoteLabels = {
@@ -23,13 +24,15 @@ type Props = {
   /** A card's own action is the outline button, so a grid never shows a wall of filled green (DESIGN.md). */
   variant?: "primary" | "outline";
   className?: string;
+  /** A location page's destination (Design Doc 10.1 T7): saved with the add unless the buyer already chose a need. */
+  preset?: Partial<QuoteContext>;
 };
 
 /**
  * "Add to quote" that becomes a quantity stepper + "✓ In quote" once
  * added (Design Doc 9). Never "Buy" or "Order". Changes are announced.
  */
-export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "" }: Props) {
+export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "", preset }: Props) {
   const quote = useQuote();
   const line = quote.lines.find((l) => l.kind === "product" && l.slug === slug);
   const [status, setStatus] = useState("");
@@ -72,6 +75,8 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
           type="button"
           onClick={() => {
             justAdded.current = true;
+            const patch = presetPatch(quote.context, preset);
+            if (patch) dispatchQuote({ type: "setContext", patch });
             dispatchQuote({ type: "add", slug, qty: 1 });
             setStatus(fmt(labels.addedAnnounce, { name, qty: 1 }));
           }}

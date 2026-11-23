@@ -95,3 +95,27 @@
     margin-inline: calc(var(--page-gutter) * -0.5);
   }
 }
+
+/* T7 location pages (ReachMap `destination`): when the one route arrives, its market lights up and stays lit. */
+.reach-arrive {
+  opacity: 0.3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+:root[data-effects="on"] .reach-moment:not([data-played]) .reach-arrive {
+  opacity: 0;
+  transform: scale(0.3);
+}
+:root[data-effects="on"] .reach-moment[data-played] .reach-arrive {
+  animation: reach-arrive 600ms 1200ms var(--ease-aims) both;
+}
+@keyframes reach-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 0.3;
+    transform: none;
+  }
+}

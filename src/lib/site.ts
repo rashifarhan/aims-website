@@ -51,6 +51,17 @@ export const CONTACT = {
 /** The three published places to visit or call: head office, Deira showroom, Abu Dhabi office. */
 export const LOCATION_LINES = ["headOffice", "showroom", "abuDhabi"] as const;
 
+/**
+ * Delivery markets as AIMS lists them (PRODUCT.md "Markets", Master Plan ch. 11): places AIMS supplies from Dubai,
+ * not offices. Oman and Kenya have their own pages on aimsuae.me; the others start an export quote.
+ */
+export const DELIVERY_MARKETS = {
+  gcc: ["Oman", "Bahrain", "Kuwait"],
+  africa: ["Kenya", "Tanzania", "Cameroon", "Nigeria", "Uganda"],
+} as const;
+export const DELIVERY_COUNTRIES = [...DELIVERY_MARKETS.gcc, ...DELIVERY_MARKETS.africa] as const;
+export type DeliveryMarket = (typeof DELIVERY_COUNTRIES)[number];
+
 export const whatsappUrl = (text?: string, number: string = CONTACT.whatsapp) =>
   `https://wa.me/${number}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 

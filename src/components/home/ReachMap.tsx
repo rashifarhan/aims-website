@@ -9,13 +9,14 @@ const AFRICA =
 
 /** Dubai to each destination; cities projected from longitude/latitude (equirectangular, 30–62°E). */
 const DUBAI = "493.8 88";
-const ROUTES = [
-  { to: "552.5 104", via: "530 70" }, // Muscat
+type Destination = "oman" | "kenya";
+const ROUTES: readonly { to: string; via: string; market?: Destination }[] = [
+  { to: "552.5 104", via: "530 70", market: "oman" }, // Muscat
   { to: "333.1 93", via: "410 40" }, // Riyadh
   { to: "423.1 87", via: "460 62" }, // Doha
   { to: "357.1 46.3", via: "430 18" }, // Kuwait City
   { to: "405.9 77.8", via: "452 52" }, // Manama
-  { to: "147.9 352.9", via: "330 190" }, // Nairobi
+  { to: "147.9 352.9", via: "330 190", market: "kenya" }, // Nairobi
 ];
 const GCC_CITIES = [
   [333.1, 93],
@@ -27,9 +28,14 @@ const GCC_CITIES = [
 /**
  * Design Doc 8.3 "Locations / export": route lines draw from Dubai to the destinations, then a
  * light travels along each one. Only places AIMS names are labelled: its two offices, the GCC,
- * and the Oman and Kenya pages on aimsuae.me. Timing lives in sections.css.
+ * and the Oman and Kenya pages on aimsuae.me. Timing lives in signature/reach.css.
+ *
+ * `destination` (a T7 location page) keeps the offices and draws the one route to that market, which
+ * lights up on arrival; without it the map is the homepage's and /contact's, unchanged.
  */
-export function ReachMap({ labels }: { labels: Labels }) {
+export function ReachMap({ labels, destination }: { labels: Labels; destination?: Destination }) {
+  const routes = destination ? ROUTES.filter((r) => r.market === destination) : ROUTES;
+  const shows = (market: Destination) => !destination || destination === market;
   return (
     <svg className="reach-map" viewBox="0 0 640 420" role="img" aria-label={labels.mapLabel} direction="ltr">
       <defs>
@@ -50,7 +56,7 @@ export function ReachMap({ labels }: { labels: Labels }) {
         <path d={AFRICA} fill="url(#reach-dots)" />
       </g>
       <g fill="none" strokeWidth="1.4" strokeLinecap="round">
-        {ROUTES.map((r) => (
+        {routes.map((r) => (
           <g key={r.to}>
             <path d={`M${DUBAI}Q${r.via} ${r.to}`} className="reach-route stroke-night-muted" pathLength="1" />
             <path
@@ -62,11 +68,17 @@ export function ReachMap({ labels }: { labels: Labels }) {
           </g>
         ))}
       </g>
-      {GCC_CITIES.map(([x, y]) => (
-        <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" className="reach-city fill-night-text" />
-      ))}
-      <circle cx="552.5" cy="104" r="3.5" className="reach-city fill-night-text" />
-      <circle cx="147.9" cy="352.9" r="3.5" className="reach-city fill-night-text" />
+      {!destination &&
+        GCC_CITIES.map(([x, y]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" className="reach-city fill-night-text" />
+        ))}
+      {shows("oman") && <circle cx="552.5" cy="104" r="3.5" className="reach-city fill-night-text" />}
+      {shows("kenya") && <circle cx="147.9" cy="352.9" r="3.5" className="reach-city fill-night-text" />}
+      {destination &&
+        routes.map((r) => {
+          const [cx, cy] = r.to.split(" ");
+          return <circle key={r.to} cx={cx} cy={cy} r="11" className="reach-arrive fill-lime" />;
+        })}
       <circle cx="493.8" cy="88" r="14" className="reach-ring fill-lime" />
       <circle cx="493.8" cy="88" r="5.5" className="fill-lime" />
       <circle cx="476.9" cy="95.5" r="4.5" className="fill-lime" />
@@ -78,15 +90,21 @@ export function ReachMap({ labels }: { labels: Labels }) {
           {labels.abuDhabi}
         </text>
         {/* Centred under its dot so the label never runs past the map's right edge. */}
-        <text x="552.5" y="134" textAnchor="middle">
-          {labels.muscat}
-        </text>
-        <text x="160" y="372">
-          {labels.nairobi}
-        </text>
-        <text x="372" y="30" className="reach-label-region">
-          {labels.gcc}
-        </text>
+        {shows("oman") && (
+          <text x="552.5" y="134" textAnchor="middle">
+            {labels.muscat}
+          </text>
+        )}
+        {shows("kenya") && (
+          <text x="160" y="372">
+            {labels.nairobi}
+          </text>
+        )}
+        {!destination && (
+          <text x="372" y="30" className="reach-label-region">
+            {labels.gcc}
+          </text>
+        )}
       </g>
     </svg>
   );
