@@ -1739,5 +1739,177 @@
         "action": "Request an export quote"
       }
     }
+  },
+  "editorial": {
+    "privacy-policy": "Privacy policy",
+    "terms-and-conditions": "Terms and conditions",
+    "privacyDescription": "How AIMS Security Systems Trading LLC collects, uses and protects personal information on its website.",
+    "termsDescription": "The terms that govern use of the AIMS Security Systems website and its services.",
+    "legalEyebrow": "Legal",
+    "legalLead": "AIMS's own text, as published on aimsuae.me.",
+    "englishOnly": "AIMS publishes this text in English.",
+    "onThisPage": "On this page",
+    "jumpTo": "Jump to",
+    "previewNote": "This is a preview of the new AIMS website. Its quote and contact forms are a demo: nothing you enter is sent to AIMS."
+  },
+  "blog": {
+    "metaTitle": "Guides from AIMS",
+    "metaDescription": "Articles from AIMS on ZKTeco access control, time attendance, turnstiles and POS systems in the UAE.",
+    "crumb": "Blog",
+    "eyebrow": "Blog",
+    "title": "Guides from AIMS",
+    "lead": "{count} articles from AIMS on access control, time attendance, entrance control and POS in the UAE.",
+    "published": "Published {date}",
+    "nextHeading": "Plan it with AIMS",
+    "nextBody": "See the products and how they fit together, or send AIMS your site details for a quotation.",
+    "solutionLabel": "Related solution",
+    "hub": "All solutions",
+    "hubSummary": "Time attendance, access control, entrance, locks and POS",
+    "quote": "Request a quote",
+    "moreHeading": "More from AIMS",
+    "all": "All articles"
+  },
+  "about": {
+    "metaTitle": "About AIMS and the showrooms",
+    "metaDescription": "AIMS Security Systems Trading LLC supplies, installs and supports ZKTeco systems from a head office and showroom in Deira, Dubai, and an office in Abu Dhabi.",
+    "crumb": "About",
+    "title": "About AIMS Security Systems",
+    "lead": "AIMS supplies, installs and supports ZKTeco access control, time attendance, entrance control, locks and POS, from Dubai and Abu Dhabi.",
+    "primary": "Visit the showroom",
+    "secondary": "Request a quote",
+    "storyHeading": "A ZKTeco distributor that also installs",
+    "story": [
+      "AIMS Security Systems Trading LLC distributes and installs ZKTeco security products across the UAE: attendance terminals, access control readers and panels, turnstiles and barriers, smart and hotel locks, and POS hardware.",
+      "Its team covers sales, sales engineering and after-sales technical support, so the people who quote a system can also install it and look after it.",
+      "AIMS works from a head office and a showroom in Deira, Dubai, and an office in Abu Dhabi, and fills project and export orders for GCC countries and East Africa."
+    ],
+    "factsHeading": "Fact sheet",
+    "facts": {
+      "company": "Company",
+      "partner": "Partner status",
+      "offices": "Offices",
+      "officesValue": "Head office and showroom in Deira, Dubai · office in Abu Dhabi",
+      "catalogue": "Catalogue",
+      "catalogueValue": "{count} products in {families} families",
+      "email": "Email"
+    },
+    "closeHeading": "See the systems in Deira, or send your list",
+    "closeBody": "Visit the showroom to see the terminals and locks, or send AIMS the models you need for a quotation.",
+    "closeAction": "Request a quote",
+    "closeSecondary": "All ways to contact AIMS"
+  },
+  "services": {
+    "metaTitle": "ZKTeco installation and support",
+    "metaDescription": "AIMS supplies ZKTeco hardware, installs it across the UAE and supports it after handover. Ask for an installation quote.",
+    "crumb": "Services",
+    "eyebrow": "Supply · installation · support",
+    "title": "ZKTeco supply, installation and support in the UAE",
+    "lead": "AIMS supplies ZKTeco hardware, installs it and supports it after handover, from Dubai and Abu Dhabi.",
+    "primary": "Request an installation quote",
+    "secondary": "Read the warranty policy",
+    "list": {
+      "heading": "Four services from one team",
+      "lead": "Ask for one of them, or for all four on a whole site."
+    },
+    "items": {
+      "supply": {
+        "title": "Supply",
+        "body": "ZKTeco terminals, readers, locks, turnstiles and POS hardware, quoted by model.",
+        "action": "Browse products"
+      },
+      "design": {
+        "title": "System design",
+        "body": "AIMS's sales engineers suggest the devices and software that fit your doors, staff and shifts.",
+        "action": "Start from a need"
+      },
+      "installation": {
+        "title": "Installation",
+        "body": "AIMS installs and connects the devices across the UAE and sets up the software.",
+        "action": "Ask for installation"
+      },
+      "support": {
+        "title": "After-sales support",
+        "body": "AIMS's technical support team helps after handover, alongside ZKTeco's published warranty.",
+        "action": "Support and warranty"
+      }
+    },
+    "process": {
+      "heading": "From first message to a working system",
+      "lead": "Who does what at each step. AIMS publishes no fixed lead times, so none are shown here.",
+      "owner": "Who",
+      "steps": [
+        {
+          "title": "Tell AIMS about your site",
+          "body": "Doors, staff, shifts and any system you already use.",
+          "owner": "You"
+        },
+        {
+          "title": "Plan and quotation",
+          "body": "AIMS suggests the devices and software and sends a quotation.",
+          "owner": "AIMS"
+        },
+        {
+          "title": "Installation",
+          "body": "Devices are installed and connected, and the software is set up.",
+          "owner": "AIMS engineer"
+        },
+        {
+          "title": "Handover and support",
+          "body": "You get a working system, and AIMS supports it afterwards.",
+          "owner": "AIMS"
+        }
+      ],
+      "verify": ["Your site details", "AIMS's plan and quotation", "Installation"]
+    },
+    "cover": {
+      "heading": "Where AIMS works, and what is covered",
+      "areaTitle": "Coverage",
+      "areaBody": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
+      "areaAction": "Contact the right office",
+      "warrantyTitle": "Warranty",
+      "warrantyBody": "ZKTeco's published policy gives its hardware a one-year limited warranty. AIMS shows the policy in full.",
+      "warrantyAction": "Read the warranty policy"
+    },
+    "closeHeading": "Ask AIMS to quote your site",
+    "closeBody": "Send the doors, staff and site. AIMS replies with devices, installation and a quotation.",
+    "closeAction": "Request an installation quote",
+    "closeSecondary": "Talk to AIMS first"
+  },
+  "support": {
+    "metaTitle": "Support and ZKTeco warranty",
+    "metaDescription": "ZKTeco's warranty policy, how to get help from AIMS after installation, and answers to common ZKTeco setup questions.",
+    "crumb": "Support & warranty",
+    "eyebrow": "Support",
+    "title": "Support and warranty",
+    "lead": "ZKTeco's warranty policy, how to get help from AIMS, and answers to common setup questions.",
+    "whatsapp": "Message AIMS on WhatsApp",
+    "email": "Email AIMS",
+    "warrantyHeading": "ZKTeco warranty policy",
+    "warrantyNote": "ZKTeco's policy, as AIMS publishes it, in English.",
+    "processHeading": "How to get support",
+    "owner": "Who",
+    "steps": [
+      {
+        "title": "Contact AIMS",
+        "body": "Send the model code and what you see, by WhatsApp or email.",
+        "owner": "You"
+      },
+      {
+        "title": "Technical support",
+        "body": "AIMS's after-sales technical support team works through the problem with you.",
+        "owner": "AIMS"
+      },
+      {
+        "title": "Warranty repair",
+        "body": "Under ZKTeco's warranty, failed hardware is shipped to ZKTeco, prepaid, and repaired or replaced within 15 working days of receipt.",
+        "owner": "ZKTeco"
+      }
+    ],
+    "faqHeading": "Common questions",
+    "faqNote": "AIMS's answers, as published, in English.",
+    "closeHeading": "Planning a new system instead?",
+    "closeBody": "Send AIMS the models or describe the site, and AIMS replies with a quotation.",
+    "closeAction": "Request a quote",
+    "closeSecondary": "All ways to contact AIMS"
   }
 }

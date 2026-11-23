@@ -549,3 +549,40 @@ system (CLAUDE.md §2). `claude/homepage-unslop` is superseded by what is on `ma
 - **Arabic copy on all four pages is a draft** for AIMS's reviewer (Design Doc 17).
 - **Template follow-ups (not done):** a type-count helper and the moment step list are repeated in the door locks and POS
   modules; both could move into the template.
+
+### Company and editorial pages (`claude/company-polish`, 23 Nov 2026)
+
+About, Services, Support, privacy, terms and the blog (Master Plan 12 #5, #7, #10–14; Design Doc 10.1 T2/T3/T10, 3.1).
+Ported from `claude/editorial-pages` and `claude/company-pages` onto the site system; neither was merged.
+
+- **One importer, one content file.** `pnpm import:pages` (editorial-pages' importer) now also reads the ZKTeco
+  warranty policy and the FAQ, which `/zkteco-warranty-policy` and `/faq` 301 to. It ran live against aimsuae.me on
+  23 Nov 2026 and reproduced editorial-pages' legal and article content exactly (the h1 is no longer repeated as the
+  first paragraph). company-pages' importer, its About and installation imports and its stopgap `/locations` were left
+  out (agent L builds `/locations`).
+- **About is built from `site.ts`, not AIMS's About text.** That text is mostly about ZKTeco, states the unconfirmed
+  founding year and uses superlatives (Design Doc 3.1, "About AIMS, not ZKTeco"). The story restates only what AIMS
+  publishes; the fact sheet reads `site.ts` and the catalogue; the figures and reviews are the homepage's proof
+  section, unchanged.
+- **FAQ filter** (`publishableQuestions`): item 11 has no answer on the live page, and item 1 calls AIMS a "Strategic
+  Partner", which the claims policy replaces. Both are left out; the rest is verbatim, in English.
+- **Support channels:** WhatsApp and email only. AIMS names no support phone line (open question), so none is picked.
+- **Moments:** About deals SIGNAL (the shared reach map band, reused unchanged); Services deals VERIFY on the process
+  (`signature/verify-moment.css`: the quote's mark, played once when its band enters view). Support, the legal pages
+  and the blog have the entrance and the hover layer only: a moment on a policy, an FAQ or a list of articles would be
+  decoration.
+- **Editorial intros are compact**, not full-screen heroes: a policy or an article starts reading in the first screen.
+  The T10 column is 680px (`--container-reading`) with an "On this page" index (sticky on desktop, a closed "Jump to"
+  on phones).
+- **Blog:** all 19 live article URLs kept, with AIMS's own images. Each article links to the solution its slug names
+  (`articleSolution`, unit-tested) and a quote. No Article JSON-LD: the plan asks for Product, Organization and
+  BreadcrumbList only.
+- **Prefetch:** with these pages local, Next 16's prefetch loop came back (the router reads `/support` as the `[lang]`
+  page). It picks different links on each load, so `prefetchSafe` (now `src/lib/prefetchSafe.ts`) keeps every English
+  one-segment path off prefetch, and the language switch uses the same guard. They still load on click. A proper fix
+  belongs in the routing (proxy or route structure) and needs a decision.
+- **Raise with AIMS:** the Terms name the site "mssolution.me" and `info@mssolution.me` and show the date as
+  "[30-09-2025]"; the privacy policy says "AIMS Security System LLC"; FAQ item 11 has no answer.
+- **Arabic UI copy on these pages is a draft** for AIMS's reviewer (Design Doc 17). AIMS's text stays English with
+  `lang="en" dir="ltr"`.
+- **Not run:** the taste gate and copy-lint (not in this agent's checks).
