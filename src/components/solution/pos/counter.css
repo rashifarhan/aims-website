@@ -5,11 +5,8 @@
  * reduced motion, so the finished frame (verified, sale on screen, receipt out) always shows.
  */
 
-/* Every POS photograph is 350 px wide (content/products.json): never show it larger, or it blurs. */
+/* The hero photo is capped at its own pixel width by the template (SolutionIntro --photo-width). */
 @media (min-width: 1024px) {
-  .pc-page .t3-hero-photo {
-    max-width: 21.875rem;
-  }
   /* Four terminals in one row, not three and an orphan. */
   .pc-page .pick-row {
     grid-template-columns: repeat(4, minmax(0, 1fr));
