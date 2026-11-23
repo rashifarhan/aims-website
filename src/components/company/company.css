@@ -1,5 +1,22 @@
 /* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on solution.css (T3). Tokens only. */
 
+/* ---------- Hero on tablets (640–1023px): the stacked T3 hero holds the first screen alone and shows
+   AIMS's product big, not at phone size (taste House rule 3 and "the product big"; audit B-T07). ---------- */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .co-intro {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--home-header-block));
+  }
+  .co-intro .t3-hero {
+    flex: 1;
+    align-content: center;
+  }
+  .co-intro .t3-hero-photo {
+    max-width: 22rem;
+  }
+}
+
 /* ---------- About: story beside the fact sheet ---------- */
 .co-story {
   display: grid;
@@ -54,6 +71,18 @@
   }
 }
 
+/* On About the showrooms are a section of their own, so their heading takes the section-heading size of
+   the page's other h2s (the shared LocationCards keeps its smaller size on /contact; audit B-T08). */
+.co-showrooms #locations-title {
+  font-size: var(--text-home-heading);
+  font-weight: 680;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+:lang(ar) .co-showrooms #locations-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
 /* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
 .co-showrooms {
   padding-block-end: var(--home-section-space);
@@ -191,7 +220,8 @@
 }
 .co-faq summary svg {
   flex: none;
-  transition: transform var(--duration-slow) var(--ease-aims);
+  /* One timing for every disclosure chevron on the site (audit B-E03). */
+  transition: transform var(--duration-dropdown) var(--ease-aims);
 }
 .co-faq details[open] summary svg {
   transform: rotate(180deg);
@@ -199,8 +229,56 @@
 .co-faq .editorial-body {
   padding-block-end: 1.25rem;
 }
+/* The homepage FAQ's motion (sections.css .home-faq): the answer fades in and settles 4px each time its
+   question opens, replaying because the selector starts matching again; height never animates (B-E04). */
+.co-faq details[open] .editorial-body {
+  animation: aims-disclose var(--duration-dropdown) var(--ease-aims) both;
+}
 @media (prefers-reduced-motion: reduce) {
   .co-faq summary svg {
     transition: none;
   }
+  /* !important beats the global reduced-motion rule so a short fade remains instead of a jump. */
+  .co-faq details[open] .editorial-body {
+    animation-name: aims-fade !important;
+    animation-duration: var(--duration-fast) !important;
+  }
+}
+
+/*
+ * Support's dealt moment (SupportRoute): the channels' lines draw in, the support node appears, the route
+ * continues and the check strokes in, once, about 1.7 s. Resting styles are the finished route, so reduced
+ * motion and no-JS show it whole. Transform, opacity and dashoffset only; keyframes from verify-moment.css.
+ */
+.co-support-route {
+  max-width: 30rem;
+  margin-block: 1.25rem 0.5rem;
+}
+.support-route :is(.sr-in, .sr-out, .sr-tick) {
+  stroke-dasharray: 1;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .support-route :is(.sr-in, .sr-out, .sr-tick) {
+  stroke-dashoffset: 1;
+}
+:root[data-effects="on"] [data-moment]:not([data-played]) .support-route :is(.sr-node, .sr-disc) {
+  opacity: 0;
+  transform: scale(0.85);
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-in {
+  animation: verify-moment-draw 480ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-in:nth-child(2) {
+  animation-delay: 90ms;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-node {
+  animation: verify-moment-disc 280ms 500ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-out {
+  animation: verify-moment-draw 420ms 760ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-disc {
+  animation: verify-moment-disc 320ms 1120ms var(--ease-aims) both;
+}
+:root[data-effects="on"] [data-moment][data-played] .support-route .sr-tick {
+  animation: verify-moment-draw 360ms 1380ms var(--ease-aims) both;
 }

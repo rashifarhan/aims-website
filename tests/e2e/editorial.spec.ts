@@ -110,3 +110,13 @@ for (const slug of ["privacy-policy", "terms-and-conditions"] as const) {
     await expect(page.locator(".editorial-body")).toHaveAttribute("dir", "ltr");
   });
 }
+
+// Audit 23 Nov 2026 (B-I03, CLAUDE.md §5): the first card's image is the blog's LCP element, so it alone
+// loads eagerly at high priority; the rest stay lazy.
+test("blog index: only the first card image loads eagerly", async ({ page }) => {
+  await page.goto("/blog");
+  const images = page.locator(".ed-card-grid img");
+  await expect(images.first()).toHaveAttribute("loading", "eager");
+  await expect(images.first()).toHaveAttribute("fetchpriority", "high");
+  await expect(images.nth(1)).toHaveAttribute("loading", "lazy");
+});

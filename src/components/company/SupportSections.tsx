@@ -3,6 +3,7 @@ import { ChevronDownIcon } from "@/components/icons";
 import { faqItems, warrantyPage } from "@/content/pages";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publishableQuestions } from "@/lib/editorial";
+import { SupportRoute } from "./SupportRoute";
 
 /** The three parts of /support, with the ids the in-page index and the old URLs' 301s point to. */
 export const SUPPORT_SECTIONS = ["warranty", "process", "faq"] as const;
@@ -24,10 +25,14 @@ export async function SupportSections() {
         <p className="co-support-note">{c.warrantyNote}</p>
         <EditorialBlocks blocks={warrantyPage().blocks} level={3} />
       </section>
-      <section id="process" aria-labelledby="process-title">
+      {/* The page's one dealt moment (CLAUDE.md §3): the route draws once this section is in view. */}
+      <section id="process" data-moment aria-labelledby="process-title">
         <h2 id="process-title" className="co-support-title">
           {c.processHeading}
         </h2>
+        <div className="co-support-route">
+          <SupportRoute channels={[c.route.channels[0], c.route.channels[1]]} team={c.route.team} />
+        </div>
         <ol className="co-steps">
           {c.steps.map((step, i) => (
             <li key={step.title}>

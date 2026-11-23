@@ -5,12 +5,14 @@ import { CompanyClose } from "@/components/company/CompanyClose";
 import { SUPPORT_SECTIONS, SupportSections } from "@/components/company/SupportSections";
 import { EditorialIntro } from "@/components/editorial/EditorialIntro";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
+import { MomentTrigger } from "@/components/home/MomentTrigger";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { CONTACT, whatsappUrl } from "@/lib/site";
 import "@/components/solution/solution.css";
 import "@/components/editorial/editorial.css";
+import "@/components/signature/verify-moment.css";
 import "@/components/company/company.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,8 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
 /**
  * Support & warranty (Master Plan 12 #10, T10; Design Doc 10.1): /zkteco-warranty-policy and /faq 301
  * here (#warranty, #faq). The actions are WhatsApp and email, AIMS's published channels; AIMS names no
- * support phone line, so none is chosen for it (CLAUDE.md open questions). Entrance and hover only: no
- * signature fits a warranty policy and an FAQ honestly (README → Decisions).
+ * support phone line, so none is chosen for it (CLAUDE.md open questions). Its dealt moment is the support
+ * route in the process section (SupportRoute): the two published channels draw into AIMS's support team.
  */
 export default async function Support() {
   const t = await getDictionary();
@@ -37,7 +39,6 @@ export default async function Support() {
           { href: href("/"), label: t.common.home },
           { href: href("/support"), label: c.crumb },
         ]}
-        eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
       >
@@ -67,6 +68,7 @@ export default async function Support() {
         action={{ href: href("/quote"), label: c.closeAction }}
         secondary={{ href: href("/contact"), label: c.closeSecondary }}
       />
+      <MomentTrigger />
     </main>
   );
 }

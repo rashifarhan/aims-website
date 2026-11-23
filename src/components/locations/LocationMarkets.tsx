@@ -17,8 +17,11 @@ export async function LocationMarkets() {
     <div className="loc-markets">
       {(Object.keys(DELIVERY_MARKETS) as (keyof typeof DELIVERY_MARKETS)[]).map((group) => (
         <div key={group}>
-          <h3 className="loc-markets-group">{t.groups[group]}</h3>
-          <ul>
+          {/* A label for its list, not a heading: two bare region names in the heading list said nothing (audit I2). */}
+          <p id={`loc-markets-${group}`} className="loc-markets-group">
+            {t.groups[group]}
+          </p>
+          <ul aria-labelledby={`loc-markets-${group}`}>
             {DELIVERY_MARKETS[group].map((country) => {
               const href = marketHref(country);
               return (

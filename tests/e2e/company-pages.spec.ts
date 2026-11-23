@@ -46,7 +46,7 @@ test("header and footer reach the built company pages, not the contact fallback"
   // The desktop bar and the menu both carry them; none falls back to /contact or aimsuae.me.
   await expect(page.getByRole("banner").locator('a[href="/services"]').first()).toBeVisible();
   await expect(page.getByRole("banner").locator('a[href="/about"]').first()).toBeVisible();
-  for (const href of ["/about", "/services", "/support"])
+  for (const href of ["/about", "/services", "/support", "/blog"])
     expect(await page.getByRole("contentinfo").locator(`a[href="${href}"]`).count(), href).toBeGreaterThan(0);
 });
 
@@ -128,3 +128,38 @@ for (const [path, part] of [
     await context.close();
   });
 }
+
+// Support's dealt moment (CLAUDE.md §3): the support route plays once in view and rests drawn.
+test.describe("support route moment", () => {
+  test("waits for its section, plays once, then stands", async ({ page }) => {
+    await page.goto("/support");
+    await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
+    const section = page.locator("#process");
+    await expect(section).not.toHaveAttribute("data-played");
+    await expect(page.locator(".support-route .sr-disc")).toHaveCSS("opacity", "0");
+    await section.locator(".support-route").evaluate((el) => el.scrollIntoView({ block: "center" }));
+    await expect(section).toHaveAttribute("data-played", "true");
+    await expect(page.locator(".support-route .sr-disc")).toHaveCSS("opacity", "1", { timeout: 4000 });
+    await expect
+      .poll(
+        () =>
+          section.evaluate(
+            (el) =>
+              el.getAnimations({ subtree: true }).filter((a) => a instanceof CSSAnimation && a.playState === "running")
+                .length,
+          ),
+        { timeout: 4000 },
+      )
+      .toBe(0);
+  });
+
+  test("reduced motion shows the finished route", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/ar/support");
+    await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
+    for (const part of [".sr-node", ".sr-disc"])
+      await expect(page.locator(`.support-route ${part}`)).toHaveCSS("opacity", "1");
+    // The route is decorative; the steps carry its meaning for screen readers.
+    await expect(page.locator(".support-route")).toHaveAttribute("aria-hidden", "true");
+  });
+});

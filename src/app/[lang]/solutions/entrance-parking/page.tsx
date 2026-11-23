@@ -37,15 +37,18 @@ export default async function EntranceParkingSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <EntranceLanes idPrefix="ep" />
       <EntranceOptions idPrefix="ep" />
       <SolutionProducts idPrefix="ep" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ep" copy={c.process} />
       <SolutionSoftware idPrefix="ep" copy={c.software} items={software} />
-      <SolutionQuestions idPrefix="ep" copy={c.faq} />
-      <SolutionCta idPrefix="ep" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ep"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ep" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );

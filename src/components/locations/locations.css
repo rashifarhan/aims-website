@@ -102,10 +102,11 @@
 .loc-reach :focus-visible {
   outline-color: var(--color-lime);
 }
+/* Top-aligned columns, as every split (taste SR-8): the heading and the map start on one line (audit T6). */
 .loc-reach-grid {
   display: grid;
   gap: 2rem;
-  align-items: center;
+  align-items: start;
 }
 .loc-reach-lead {
   max-width: 34rem;
@@ -131,6 +132,17 @@
   .loc-reach-map {
     margin-inline: calc(var(--page-gutter) * -0.5);
   }
+}
+/*
+ * Oman's map is the Gulf crop (ReachMap ZOOM): the dot field runs on past its west and north edges, so the
+ * crop showed as a cut rectangle (audit T3). Fade those two open edges; the SVG is always drawn west to east
+ * (direction="ltr"), so the physical "to right" is correct in Arabic too. Ink is only the mask's alpha.
+ */
+.loc-reach-map:has(.reach-map-zoomed) {
+  mask-image:
+    linear-gradient(to right, transparent, var(--color-ink) 14%),
+    linear-gradient(to bottom, transparent, var(--color-ink) 12%);
+  mask-composite: intersect;
 }
 
 /* Hub destinations: two groups of links, each 44px tall (WCAG 2.5.8). */
@@ -161,14 +173,17 @@
   text-underline-offset: 0.25em;
   transition: text-decoration-color var(--duration-hover) ease;
 }
-.loc-market:hover {
-  text-decoration-color: currentColor;
-}
-.loc-market:hover .home-action-arrow {
-  translate: 3px 0;
-}
-:dir(rtl) .loc-market:hover .home-action-arrow {
-  translate: -3px 0;
+/* Pointer hover only: on touch a tap would leave the row underlined and its arrow stepped (audit E2). */
+@media (hover: hover) and (pointer: fine) {
+  .loc-market:hover {
+    text-decoration-color: currentColor;
+  }
+  .loc-market:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .loc-market:hover .home-action-arrow {
+    translate: -3px 0;
+  }
 }
 .loc-market:active {
   opacity: 0.75;
@@ -204,6 +219,46 @@
 }
 .loc-reach .t3-title {
   color: var(--color-night-text);
+}
+
+/*
+ * One section per screen (taste House rule 3; CLAUDE.md §2; audit T1), as the homepage does: the hero holds
+ * the first screen alone from a portrait tablet up, and on a landscape desktop each later section is one
+ * screen with its content centred, so a screen shows one idea and the next heading never peeks in. Short
+ * desktop windows keep the natural height; phones grow with their content.
+ */
+/* The night band is the page's moment: at least one screen at every width, so on a phone the next section's
+   heading never shows under the map (taste section-tile at 390; the hub's band was 771px of 844). */
+.loc-page > .loc-reach {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+}
+@media (min-width: 640px) {
+  .loc-page > .t3-intro {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--home-header-block));
+  }
+  .loc-page > .t3-intro > .t3-hero {
+    flex: 1;
+    align-content: center;
+  }
+}
+@media (min-width: 1024px) and (min-height: 700px) and (orientation: landscape) {
+  .loc-page > .t3-section:not(.t3-questions) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+  }
+  /* The last screen (questions plus the close) keeps its natural height: the footer follows, so no heading
+     can peek in, and a stretched screen left most of it empty. */
+  /* Bands abut, so every section starts on a whole screen. */
+  .loc-page > .loc-reach {
+    margin-block: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

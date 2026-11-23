@@ -38,7 +38,7 @@ export default async function LocationsHub() {
   const href = (p: string) => localePath(locale, p);
   const photo = productBySlug(HUB_HERO)?.images[0];
   return (
-    <main id="main">
+    <main id="main" className="loc-page">
       <LocationIntro
         crumbs={[
           { href: href("/"), label: t.common.home },
@@ -57,8 +57,19 @@ export default async function LocationsHub() {
       <LocationReach id="delivery" heading={c.deliveryHeading} lead={c.deliveryLead}>
         <LocationMarkets />
       </LocationReach>
-      <SolutionQuestions idPrefix="lh" copy={c.faq} />
-      <SolutionCta idPrefix="lh" page={{ quote: "/quote?need=export" }} copy={c.cta} secondaryHref="/contact" />
+      <SolutionQuestions
+        idPrefix="lh"
+        copy={c.faq}
+        close={
+          <SolutionCta
+            idPrefix="lh"
+            page={{ quote: "/quote?need=export" }}
+            copy={c.cta}
+            secondaryHref="/contact"
+            embedded
+          />
+        }
+      />
       <MomentTrigger />
     </main>
   );

@@ -8,7 +8,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 type Action = { href: string; label: string };
 type Props = {
   crumbs: Crumb[];
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lead: string;
   primary: Action;
@@ -25,11 +25,11 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
   const t = await getDictionary();
   const image = productBySlug(photo)?.images[0];
   return (
-    <div className="t3-intro page-container">
+    <div className="t3-intro co-intro page-container">
       <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
       <div className="t3-hero">
         <div className="t3-hero-copy">
-          <p className="t3-eyebrow t3-enter">{eyebrow}</p>
+          {eyebrow && <p className="t3-eyebrow t3-enter">{eyebrow}</p>}
           <h1 className="t3-enter">{title}</h1>
           <p className="t3-promise t3-enter">{lead}</p>
           <div className="t3-actions t3-enter">
@@ -50,7 +50,7 @@ export async function CompanyIntro({ crumbs, eyebrow, title, lead, primary, seco
               alt={image.alt}
               width={image.width}
               height={image.height}
-              sizes="(min-width: 1024px) 30rem, 16rem"
+              sizes="(min-width: 1024px) 30rem, (min-width: 640px) 22rem, 16rem"
               preload
             />
           </div>

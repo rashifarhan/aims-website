@@ -18,8 +18,8 @@ const PAGES = [
 
 /** Let the hero entrance and the map's one-time draw finish, so axe audits the settled frame. */
 async function settle(page: Page) {
-  await page.locator(".loc-reach").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(page.locator(".loc-reach")).toHaveAttribute("data-played", "true");
+  await page.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(page.locator(".loc-reach-map")).toHaveAttribute("data-played", "true");
   await page.evaluate(() =>
     Promise.all(
       document
@@ -91,15 +91,16 @@ test("hub: every listed market is a page or an export quote with its destination
   );
 });
 
-test("SIGNAL on the hub: the routes draw once when the band comes into view, then stand", async ({ page }) => {
+test("SIGNAL on the hub: the routes draw once when the map comes into view, then stand", async ({ page }) => {
   await page.goto("/locations");
   await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
   const band = page.locator(".loc-reach");
-  await expect(band).toHaveAttribute("data-moment");
-  await expect(band).not.toHaveAttribute("data-played");
+  const map = band.locator(".loc-reach-map");
+  await expect(map).toHaveAttribute("data-moment");
+  await expect(map).not.toHaveAttribute("data-played");
   await expect(band.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "1px");
-  await band.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(band).toHaveAttribute("data-played", "true");
+  await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(map).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCount(6);
   await expect(band.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect
@@ -110,6 +111,22 @@ test("SIGNAL on the hub: the routes draw once when the band comes into view, the
     .toBe(0);
 });
 
+test("SIGNAL starts only once a third of the map is on screen, never with just its top edge", async ({ page }) => {
+  await page.goto("/zkteco-distributor-in-oman");
+  const map = page.locator(".loc-reach-map");
+  // Scroll down in small steps, as a reader does, and catch the first frame the moment is marked played.
+  let visible = 0;
+  for (let y = 0; y < 6000 && !visible; y += 40) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    visible = await map.evaluate((el) => {
+      if (!el.hasAttribute("data-played")) return 0;
+      const r = el.getBoundingClientRect();
+      return (Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / r.height;
+    });
+  }
+  expect(visible).toBeGreaterThanOrEqual(0.3);
+});
+
 test("SIGNAL on Oman: one route to Muscat, and the market lights up on arrival", async ({ page }) => {
   await page.goto("/zkteco-distributor-in-oman");
   const band = page.locator(".loc-reach");
@@ -117,7 +134,7 @@ test("SIGNAL on Oman: one route to Muscat, and the market lights up on arrival",
   await expect(band.getByRole("img", { name: /Muscat, Oman/ })).toBeAttached();
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0");
   await band.locator(".loc-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(band).toHaveAttribute("data-played", "true");
+  await expect(band.locator(".loc-reach-map")).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0.3", { timeout: 4000 });
 });

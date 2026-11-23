@@ -31,14 +31,17 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PosSolution() {
   const { solutionPos: c } = await getDictionary();
   return (
-    <main id="main" className="pc-page">
+    <main id="main" className="t3-page pc-page">
       <SolutionIntro page={PAGE} copy={c} />
       <CounterVerify idPrefix="ps" />
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ps" copy={c.process} />
-      <SolutionQuestions idPrefix="ps" copy={c.faq} />
-      <SolutionCta idPrefix="ps" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ps"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ps" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );

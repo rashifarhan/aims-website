@@ -11,17 +11,23 @@ export async function SolutionCta({
   page,
   copy,
   secondaryHref,
+  embedded = false,
 }: {
   idPrefix: string;
   page: Pick<SolutionPageData, "quote"> & Partial<Pick<SolutionPageData, "family">>;
   copy: CtaCopy;
   /** The secondary link when it isn't the page's family listing (the T7 location pages link the hub). */
   secondaryHref?: string;
+  /** Inside SolutionQuestions' section (the solution pages): no container or section padding of its own. */
+  embedded?: boolean;
 }) {
   const locale = await getLocale();
   const secondary = secondaryHref ?? (page.family ? `/products/${page.family}` : "/products");
   return (
-    <section className="t3-cta page-container" aria-labelledby={`${idPrefix}-cta-title`}>
+    <section
+      className={embedded ? "t3-cta t3-cta-embedded" : "t3-cta page-container"}
+      aria-labelledby={`${idPrefix}-cta-title`}
+    >
       <div className="t3-cta-panel">
         <div>
           <h2 id={`${idPrefix}-cta-title`} className="t3-title">

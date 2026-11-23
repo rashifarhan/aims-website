@@ -38,15 +38,18 @@ export default async function AccessControlSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main">
+    <main id="main" className="t3-page">
       <SolutionIntro page={PAGE} copy={c} />
       <SolutionDoor idPrefix="ac" />
       <SolutionMethods idPrefix="ac" page={PAGE} copy={c.methods} />
       <SolutionProducts idPrefix="ac" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ac" copy={c.process} />
       <SolutionSoftware idPrefix="ac" copy={c.software} items={software} />
-      <SolutionQuestions idPrefix="ac" copy={c.faq} />
-      <SolutionCta idPrefix="ac" page={PAGE} copy={c.cta} />
+      <SolutionQuestions
+        idPrefix="ac"
+        copy={c.faq}
+        close={<SolutionCta idPrefix="ac" page={PAGE} copy={c.cta} embedded />}
+      />
       <MomentTrigger />
     </main>
   );

@@ -11,11 +11,6 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         {items.map((c, i) => (
           <li key={c.href} className="flex items-center gap-2">
-            {i > 0 && (
-              <span aria-hidden="true" className="text-ink-300">
-                /
-              </span>
-            )}
             {i === items.length - 1 ? (
               <span aria-current="page" className="text-ink-700">
                 <bdi>{c.label}</bdi>
@@ -24,6 +19,13 @@ export function Breadcrumbs({ items, label }: { items: Crumb[]; label: string })
               <Link href={c.href} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
                 <bdi>{c.label}</bdi>
               </Link>
+            )}
+            {/* The separator ends its item rather than starting the next, so a wrap at 320px never opens a line
+                with "/" (three-skill audit, Impeccable adapt). */}
+            {i < items.length - 1 && (
+              <span aria-hidden="true" className="text-ink-300">
+                /
+              </span>
             )}
           </li>
         ))}
