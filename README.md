@@ -641,6 +641,16 @@ results before and after are in `docs/audits/2026-11-23-{locations,company,solut
   fades at its edges.
 - **Shared fixes:** each breadcrumb separator now ends its item, so a wrap never opens a line with "/". The location
   cards' email link is a 44px target.
-- **Open for the user:** a dealt moment on Support, legal and blog (CLAUDE.md §3 asks for one; a moment there would
-  be decoration); a visible header search label; the "Solution" eyebrow the Impeccable rules ban, shared by three hero
-  types; a stand-in Deira photograph for the location pages (needs the user's go-ahead and a credit line).
+- **Decided with the user after the audit (23 Nov 2026):**
+  - **Support gets a dealt moment:** the support route. AIMS's two published support channels, WhatsApp and
+    email, draw into its support team and end in the check (`SupportRoute`, VERIFY parts). No phone line is drawn,
+    because AIMS names none for support.
+  - **Privacy, Terms, Blog and articles deal no moment,** a deliberate exception to CLAUDE.md §3: they are read, and
+    a moment there would be decoration that delays the text. They keep the hero entrance and the hover layer.
+  - **Eyebrows that repeat the breadcrumb are gone** ("Solution", "Locations", "Legal", "Blog", "Support"). Labels
+    that state a fact stay: About's ZKTeco authorization, "Delivered from Dubai", Dubai's showroom line and Services'
+    scope.
+  - **The header search keeps its hidden label:** the magnifier, placeholder and `/` hint carry it visually, and a
+    visible label would crowd the header.
+  - **No stand-in Deira photograph:** on AIMS's own location pages it would read as AIMS's street or showroom
+    (CLAUDE.md §1). A real showroom photo from AIMS goes in when supplied.
