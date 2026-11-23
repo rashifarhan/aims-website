@@ -5,7 +5,7 @@
  * transform, opacity and stroke-dashoffset only; once; nothing hidden unless MomentTrigger set
  * data-effects="on", which it never does under reduced motion, so the final frame always shows.
  */
-.t3-door {
+:is(.t3-door.wrap, .t3-door > .wrap) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 4rem;
@@ -158,7 +158,7 @@
 }
 
 @media (max-width: 1023px) {
-  .t3-door {
+  :is(.t3-door.wrap, .t3-door > .wrap) {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }

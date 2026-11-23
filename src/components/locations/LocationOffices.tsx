@@ -17,7 +17,7 @@ export async function LocationOffices({ id }: { id: string }) {
   const order = ["showroom", "headOffice", "abuDhabi"] as const;
   const places = order.flatMap((key) => LOCATIONS.filter((l) => l.id === key));
   return (
-    <Section id={id} labelledBy={`${id}-title`}>
+    <Section ground="band" id={id} labelledBy={`${id}-title`}>
       <SectionHeader id={`${id}-title`} title={c.officesHeading} lead={c.officesLead} />
       <ul className="ui-office-list">
         {places.map((place) => {

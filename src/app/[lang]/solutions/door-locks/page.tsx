@@ -38,7 +38,7 @@ export default async function DoorLocksSolution() {
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="dl" copy={c.process} />
-      <SolutionQuestions idPrefix="dl" copy={c.faq} />
+      <SolutionQuestions ground="band" idPrefix="dl" copy={c.faq} />
       <ClosePanel
         id="dl-cta-title"
         heading={c.cta.heading}

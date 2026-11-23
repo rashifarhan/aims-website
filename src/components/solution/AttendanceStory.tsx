@@ -9,7 +9,7 @@ export async function AttendanceStory() {
   const { solutionTimeAttendance: t } = await getDictionary();
   const s = t.story;
   return (
-    <Section labelledBy="ta-story-title">
+    <Section ground="band" labelledBy="ta-story-title">
       <SectionHeader id="ta-story-title" title={s.heading} lead={s.lead} />
       <StoryProgress steps={s.steps.length} label={s.label}>
         <ol className="story-steps">

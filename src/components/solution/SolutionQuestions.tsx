@@ -2,10 +2,21 @@ import { Faq } from "@/components/ui/Faq";
 import type { FaqCopy } from "./types";
 import { Section } from "@/components/ui/Section";
 
-/** T3 row 7: the heading beside the shared FAQ list (ui/Faq). */
-export function SolutionQuestions({ idPrefix, copy }: { idPrefix: string; copy: FaqCopy }) {
+/**
+ * T3 row 7: the heading beside the shared FAQ list (ui/Faq). Pages without a software row end on one more
+ * paper section, so they pass `band` to keep the paper/band rhythm into the closing panel.
+ */
+export function SolutionQuestions({
+  idPrefix,
+  copy,
+  ground = "paper",
+}: {
+  idPrefix: string;
+  copy: FaqCopy;
+  ground?: "paper" | "band";
+}) {
   return (
-    <Section labelledBy={`${idPrefix}-faq-title`}>
+    <Section ground={ground} labelledBy={`${idPrefix}-faq-title`}>
       <Faq
         items={copy.items}
         intro={

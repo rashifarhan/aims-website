@@ -11,7 +11,7 @@ export async function CounterVerify({ idPrefix }: { idPrefix: string }) {
   const { solutionPos: t } = await getDictionary();
   const c = t.counter;
   return (
-    <Section labelledBy={`${idPrefix}-counter-title`} className="pc-counter" moment>
+    <Section ground="band" labelledBy={`${idPrefix}-counter-title`} className="pc-counter" moment>
       <div>
         <h2 id={`${idPrefix}-counter-title`} className="section-title">
           {c.heading}

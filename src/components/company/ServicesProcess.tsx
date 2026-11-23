@@ -15,7 +15,6 @@ export async function ServicesProcess() {
   const c = services.process;
   return (
     <Section ground="band" labelledBy="services-process-title" className="co-process" moment>
-      {" "}
       <div className="co-process-head">
         <SectionHeader id="services-process-title" title={c.heading} lead={c.lead} />
         <div className="verify-moment co-process-mark">

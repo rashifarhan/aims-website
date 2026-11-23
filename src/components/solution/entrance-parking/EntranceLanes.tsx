@@ -12,7 +12,7 @@ export async function EntranceLanes({ idPrefix }: { idPrefix: string }) {
   const { solutionEntranceParking: t } = await getDictionary();
   const c = t.lanes;
   return (
-    <Section labelledBy={`${idPrefix}-lanes-title`} className="ep-lanes" moment>
+    <Section ground="band" labelledBy={`${idPrefix}-lanes-title`} className="ep-lanes" moment>
       <div className="ep-lanes-heading">
         <h2 id={`${idPrefix}-lanes-title`} className="section-title">
           {c.heading}

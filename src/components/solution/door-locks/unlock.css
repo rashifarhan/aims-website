@@ -4,7 +4,7 @@
  * hidden unless MomentTrigger set data-effects="on", which it never does under reduced motion, so the
  * finished frame (lock open, door open, record on the phone) always shows.
  */
-.lk-unlock {
+.lk-unlock > .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 4rem;
@@ -150,7 +150,7 @@
 }
 
 @media (max-width: 1023px) {
-  .lk-unlock {
+  .lk-unlock > .wrap {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }

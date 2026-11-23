@@ -5,8 +5,7 @@ import { Section } from "@/components/ui/Section";
 /** T3 row 5: installation and support process with owners (Plan 14). No durations: AIMS hasn't published any. */
 export function SolutionProcess({ idPrefix, copy }: { idPrefix: string; copy: ProcessCopy }) {
   return (
-    <Section ground="band" labelledBy={`${idPrefix}-process-title`}>
-      {" "}
+    <Section labelledBy={`${idPrefix}-process-title`}>
       <SectionHeader id={`${idPrefix}-process-title`} title={copy.heading} lead={copy.lead} />
       <ol className="process-list">
         {copy.steps.map((step, i) => (
