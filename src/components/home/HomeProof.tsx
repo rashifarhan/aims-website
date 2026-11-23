@@ -14,7 +14,6 @@ export async function HomeProof() {
   const { proof, reviews } = t.home;
   return (
     <Section ground="band" labelledBy="proof-title" className="home-proof-band">
-      {" "}
       <div className="home-proof">
         <div>
           <h2 id="proof-title" className="section-title">

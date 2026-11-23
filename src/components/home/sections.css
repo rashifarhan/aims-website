@@ -152,13 +152,22 @@
 
 /* ---------- 5 · Proof: company-stated figures, then the published reviews ---------- */
 /* The showroom floor (DESIGN.md) is ui/Section's band ground: a quiet ground change, not a coloured band. */
+/* The page's one split line (ui/sections.css): words on seven of twelve columns, the figures on the last five. */
 .home-proof {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: start;
-  gap: 4rem;
+  gap: 1.5rem;
 }
-/* Two by two: a four-digit figure at stat size needs more than a quarter of the row. */
+@media (min-width: 1024px) {
+  .home-proof > :first-child {
+    grid-column: span 7;
+  }
+  .home-proof > dl {
+    grid-column: span 5;
+  }
+}
+/* Two by two: a four-digit figure needs more than a quarter of the row. */
 .home-proof dl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -176,7 +185,8 @@
   line-height: 1.4;
 }
 .home-proof dd {
-  font-size: var(--text-home-stat);
+  /* A figure reads as data, not as a heading: set at the h2 size, never above it (taste heading-scale). */
+  font-size: var(--text-home-heading);
   font-weight: var(--font-weight-display);
   letter-spacing: -0.03em;
   color: var(--color-ink);
@@ -321,9 +331,6 @@
   }
   .home-door-tag {
     display: none;
-  }
-  .home-proof dd {
-    font-size: var(--text-home-stat-mobile);
   }
   .home-proof-reviews .section-heading {
     margin-block-end: 1.25rem;

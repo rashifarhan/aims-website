@@ -104,7 +104,6 @@
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
-  --text-home-stat: 3.5rem;
   /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
   --text-door-name: 14px;
   --text-door-model: 12.5px;
@@ -119,7 +118,6 @@
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
   --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */
-  --text-home-stat-mobile: 2.5rem; /* 40px · proof figures in the 2 × 2 phone grid */
   --text-device-bar: 5.2cqw;
   --text-device-clock: 23cqw;
   --text-device-small: 6.5cqw;
