@@ -1550,5 +1550,34 @@
     "quote": "Request a quote",
     "moreHeading": "More from AIMS",
     "all": "All articles"
+  },
+  "about": {
+    "metaTitle": "About AIMS and the showrooms",
+    "metaDescription": "AIMS Security Systems Trading LLC supplies, installs and supports ZKTeco systems from a head office and showroom in Deira, Dubai, and an office in Abu Dhabi.",
+    "crumb": "About",
+    "title": "About AIMS Security Systems",
+    "lead": "AIMS supplies, installs and supports ZKTeco access control, time attendance, entrance control, locks and POS, from Dubai and Abu Dhabi.",
+    "primary": "Visit the showroom",
+    "secondary": "Request a quote",
+    "storyHeading": "A ZKTeco distributor that also installs",
+    "story": [
+      "AIMS Security Systems Trading LLC distributes and installs ZKTeco security products across the UAE: attendance terminals, access control readers and panels, turnstiles and barriers, smart and hotel locks, and POS hardware.",
+      "Its team covers sales, sales engineering and after-sales technical support, so the people who quote a system can also install it and look after it.",
+      "AIMS works from a head office and a showroom in Deira, Dubai, and an office in Abu Dhabi, and fills project and export orders for GCC countries and East Africa."
+    ],
+    "factsHeading": "Fact sheet",
+    "facts": {
+      "company": "Company",
+      "partner": "Partner status",
+      "offices": "Offices",
+      "officesValue": "Head office and showroom in Deira, Dubai · office in Abu Dhabi",
+      "catalogue": "Catalogue",
+      "catalogueValue": "{count} products in {families} families",
+      "email": "Email"
+    },
+    "closeHeading": "See the systems in Deira, or send your list",
+    "closeBody": "Visit the showroom to see the terminals and locks, or send AIMS the models you need for a quotation.",
+    "closeAction": "Request a quote",
+    "closeSecondary": "All ways to contact AIMS"
   }
 }

@@ -56,7 +56,7 @@ export const ROUTES: RouteEntry[] = [
   },
   { path: "/services", title: "Services", template: "T3 Solution", priority: "P1", status: "planned" },
   { path: "/locations", title: "Locations", template: "T2 Hub", priority: "P2", status: "planned" },
-  { path: "/about", title: "About & showrooms", template: "T10 Editorial", priority: "P1", status: "planned" },
+  { path: "/about", title: "About & showrooms", template: "T10 Editorial", priority: "P1", status: "built" },
   {
     path: "/contact",
     title: "Contact",

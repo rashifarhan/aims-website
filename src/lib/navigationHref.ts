@@ -14,8 +14,6 @@ export function navigationHref(href: string): string {
   // Services and support route to the built contact page, which sends each need to the right AIMS line.
   if (["/services", "/support"].includes(path)) return localePath(locale, "/contact");
   if (path === "/software") return LIVE_AIMS.software;
-  if (path.startsWith("/software/") || path === "/about") {
-    return `${LIVE_AIMS.home.slice(0, -1)}${path}`;
-  }
+  if (path.startsWith("/software/")) return `${LIVE_AIMS.home.slice(0, -1)}${path}`;
   return href;
 }

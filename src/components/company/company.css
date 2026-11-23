@@ -1,0 +1,61 @@
+/* Company pages (About, Services, Support; Master Plan 12 #5, #7, #10). Builds on solution.css (T3). Tokens only. */
+
+/* ---------- About: story beside the fact sheet ---------- */
+.co-story {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+.co-story-text {
+  max-width: 38rem;
+  margin-block-start: 1rem;
+  font-size: var(--text-home-lead);
+  line-height: 1.6;
+  color: var(--color-ink-700);
+  text-wrap: pretty;
+}
+.co-story-text:first-of-type {
+  margin-block-start: 1.5rem;
+}
+.co-facts {
+  padding: 1.75rem;
+}
+.co-facts-title {
+  font-size: var(--text-home-card);
+  font-weight: 650;
+}
+.co-facts dl {
+  margin-block-start: 1rem;
+}
+.co-facts dl > div {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 0.875rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.co-facts dt {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+.co-facts dd {
+  font-weight: 600;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.co-facts dd[dir="ltr"] {
+  text-align: start;
+  unicode-bidi: isolate;
+}
+@media (min-width: 1024px) {
+  .co-story {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 4rem;
+  }
+}
+
+/* The showrooms anchor clears the sticky header when the hero's "Visit the showroom" jumps to it. */
+.co-showrooms {
+  padding-block-end: var(--home-section-space);
+  scroll-margin-block-start: var(--home-header-block);
+}

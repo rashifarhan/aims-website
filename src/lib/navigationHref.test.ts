@@ -21,7 +21,9 @@ describe("preview navigation", () => {
     expect(navigationHref("/ar/software?type=access-control")).toBe("/ar/software?type=access-control");
     expect(navigationHref("/ar/software/biotime-9-5")).toBe("/ar/software/biotime-9-5");
   });
-  it("keeps the built legal pages and blog local", () => {
+  it("keeps the built about, legal and blog pages local", () => {
+    expect(navigationHref("/about")).toBe("/about");
+    expect(navigationHref("/ar/about")).toBe("/ar/about");
     expect(navigationHref("/privacy-policy")).toBe("/privacy-policy");
     expect(navigationHref("/ar/terms-and-conditions")).toBe("/ar/terms-and-conditions");
     expect(navigationHref("/ar/blog")).toBe("/ar/blog");
