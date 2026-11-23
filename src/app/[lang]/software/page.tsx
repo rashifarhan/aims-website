@@ -53,7 +53,6 @@ export default async function SoftwareCentre() {
               <SoftwareEnquiryButton
                 compact
                 slug={software.slug}
-                text={fmt(t.softwarePage.line, { name: software.name })}
                 label={fmt(c.askPlatform, { name: software.name })}
                 quoteHref={href("/quote")}
               />
@@ -89,7 +88,7 @@ export default async function SoftwareCentre() {
         </h1>
         <p className="t3-promise sw-enter">{c.lead}</p>
         <div className="t3-actions sw-enter">
-          <SoftwareEnquiryButton slug="guidance" text={c.guidanceLine} label={c.primary} quoteHref={href("/quote")} />
+          <SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />
         </div>
       </section>
       <section className="sw-centre page-container" aria-labelledby="sw-centre-list">
@@ -110,7 +109,7 @@ export default async function SoftwareCentre() {
             <p className="t3-lead">{c.close.body}</p>
           </div>
           <div className="t3-cta-actions">
-            <SoftwareEnquiryButton slug="guidance" text={c.guidanceLine} label={c.primary} quoteHref={href("/quote")} />
+            <SoftwareEnquiryButton slug="guidance" label={c.primary} quoteHref={href("/quote")} />
           </div>
         </div>
       </section>

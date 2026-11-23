@@ -21,6 +21,8 @@ import { Receipt } from "./Receipt";
 
 type Props = {
   catalog: Record<string, CatalogEntry>;
+  /** Software a link may request (/quote?software=<slug>): slug → the line's text. */
+  software: Record<string, string>;
   t: Dictionary["quote"];
   stepper: { qty: string; decrease: string; increase: string };
   hrefs: { products: string; productBase: string };
@@ -37,7 +39,7 @@ const getReference = () => (visitReference ??= makeReference());
  * list; contact details live in memory only. Validation runs on send and
  * then live, so fixed errors disappear as the buyer types (AT-05).
  */
-export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
+export function QuoteView({ catalog, software, t, stepper, hrefs }: Props) {
   const hydrated = useSyncExternalStore(
     noopSubscribe,
     () => true,
@@ -70,7 +72,21 @@ export function QuoteView({ catalog, t, stepper, hrefs }: Props) {
     const destination = destinationFromSearch(search);
     const patch = destination ? presetPatch(getQuote().context, destination) : need && { need };
     if (patch) dispatchQuote({ type: "setContext", patch });
-  }, []);
+    // A software page's link (/quote?software=bio-security-3-2) adds that platform; a known slug only. The
+    // parameter is then dropped, so a reload never re-adds a line the buyer removed.
+    const params = new URLSearchParams(search);
+    const slug = params.get("software");
+    if (slug && Object.hasOwn(software, slug)) {
+      dispatchQuote({ type: "requestSoftware", slug, text: software[slug] });
+      params.delete("software");
+      const rest = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${rest ? `?${rest}` : ""}${window.location.hash}`,
+      );
+    }
+  }, [software]);
 
   const products = useMemo(
     () => Object.fromEntries(Object.entries(catalog).map(([k, v]) => [k, { name: v.name, model: v.model }])),

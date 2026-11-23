@@ -1,24 +1,22 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
-import { dispatchQuote } from "@/lib/quote/useQuote";
 
-type Props = { slug: string; text: string; label: string; quoteHref: string; compact?: boolean };
+type Props = { slug: string; label: string; quoteHref: string; compact?: boolean };
 
-export function SoftwareEnquiryButton({ slug, text, label, quoteHref, compact }: Props) {
-  const router = useRouter();
+/**
+ * A real link to the quote that names the platform (/quote?software=<slug>); the quote page adds the line. It works
+ * without JavaScript and can be opened in a new tab or shared. No prefetch: query-string links loop through the
+ * locale rewrite when prefetched (lib/prefetchSafe.ts).
+ */
+export function SoftwareEnquiryButton({ slug, label, quoteHref, compact }: Props) {
   return (
-    <button
-      type="button"
+    <Link
+      href={`${quoteHref}?software=${encodeURIComponent(slug)}`}
+      prefetch={false}
       className={compact ? "home-text-link relative z-1 mt-3 min-h-11 self-start" : "home-button"}
-      onClick={() => {
-        dispatchQuote({ type: "requestSoftware", slug, text });
-        router.push(quoteHref);
-      }}
     >
       {label}
       {!compact && <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />}
-    </button>
+    </Link>
   );
 }

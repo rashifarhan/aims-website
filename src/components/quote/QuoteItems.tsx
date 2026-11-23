@@ -43,7 +43,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
       {lines.length > 0 && (
         <ul className="divide-y divide-line border-y border-line">
           {lines.map((l, i) => {
-            const p = l.kind === "product" ? catalog[l.slug] : undefined;
+            const p = l.kind === "product" ? catalog[l.slug] : isSoftwareLine(l) ? catalog[l.id] : undefined;
             const name = nameOf(l);
             return (
               <li
@@ -66,7 +66,7 @@ export function QuoteItems({ lines, catalog, t, stepper, productHref, productsHr
                       {name}
                     </p>
                   )}
-                  {p && <p className="truncate font-mono text-sm text-ink-600">{p.model}</p>}
+                  {p?.model && <p className="truncate font-mono text-sm text-ink-600">{p.model}</p>}
                 </div>
                 <button
                   type="button"
