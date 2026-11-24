@@ -121,7 +121,16 @@
     "support": "Support & warranty",
     "blog": "Blog",
     "aboutShowrooms": "About & showrooms",
-    "locationsHub": "Locations"
+    "locationsHub": "Locations",
+    "standIns": {
+      "intro": "Stand-in photographs, showing the kinds of places AIMS equips (not AIMS premises or customers):",
+      "office": "office lobby",
+      "hotel": "hotel corridor",
+      "entrance": "building entrance",
+      "lobby": "reception lobby",
+      "by": "by",
+      "licence": "All CC BY-SA 4.0 via Wikimedia Commons."
+    }
   },
   "catalogue": {
     "allTitle": "All products",
@@ -506,6 +515,30 @@
       "body": "Send the models you need, or describe the site. AIMS replies with a quotation.",
       "action": "Request a quote",
       "secondary": "See all products"
+    },
+    "gate": {
+      "heading": "From the front gate to the last door",
+      "lead": "Entrance control, access control, attendance and hotel locks for the places people pass through every day.",
+      "office": {
+        "title": "Office towers",
+        "text": "Speed gates at the lift lobby",
+        "alt": "Glass speed gates in an office lift lobby"
+      },
+      "hotel": {
+        "title": "Hotels",
+        "text": "RFID hotel locks and smart locks",
+        "alt": "A hotel corridor lined with guest room doors"
+      },
+      "entrance": {
+        "title": "Building entrances",
+        "text": "Readers, controllers and EM locks",
+        "alt": "Glass entrance doors of an office building"
+      },
+      "lobby": {
+        "title": "Reception lobbies",
+        "text": "Optical turnstiles beside the front desk",
+        "alt": "Drop-arm optical turnstiles across a reception lobby"
+      }
     }
   },
   "search": {

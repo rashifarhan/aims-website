@@ -8,6 +8,34 @@ import { Wordmark } from "./Wordmark";
 import { FooterContact } from "./FooterContact";
 import { FooterLinks, footerLinkClass } from "./FooterLinks";
 
+/** The four stand-in photographs on the home page: Commons file page and author (README → Decisions). */
+const STAND_IN_CREDITS = [
+  {
+    key: "office",
+    author: "Hirho",
+    href: "https://commons.wikimedia.org/wiki/File:Fukuoka_Daimy%C5%8D_Garden_City_Tower_the_turnstiles_on_the_3rd_floor_Ch%C5%AB%C5%8D-ku_Fukuoka_20240812_153528.jpg",
+  },
+  {
+    key: "hotel",
+    author: "JIP",
+    href: "https://commons.wikimedia.org/wiki/File:Corridor_at_Sokos_Hotel_Pier_4.jpg",
+  },
+  {
+    key: "entrance",
+    author: "Solomon203",
+    href: "https://commons.wikimedia.org/wiki/File:TPE-DORTS-SDPO_Building_main_entrance_20200726.jpg",
+  },
+  {
+    key: "lobby",
+    author: "Fabtron",
+    href: "https://commons.wikimedia.org/wiki/File:Drop_Arm_Optical_Turnstiles.jpg",
+  },
+] as const;
+
+/** Inline links in a sentence: the footer's 44px flex-link rule does not apply to them (WCAG 2.2 inline exception). */
+const creditLinkClass =
+  "!inline !min-h-0 !min-w-0 underline underline-offset-2 decoration-night-muted/50 transition-[text-decoration-color] duration-(--duration-hover) hover:decoration-current";
+
 /**
  * Footer (Design Doc ch. 6) on night green, AIMS's dark band (client request, 24 Nov 2026): the brand and contact
  * grid, four link columns, popular searches, then the legal line.
@@ -101,7 +129,23 @@ export async function Footer() {
           </ul>
         </div>
 
-        <div className="mt-5 flex flex-col gap-1 border-t border-night-line pt-4 text-sm text-night-muted sm:flex-row sm:items-center sm:justify-between">
+        {/* CLAUDE.md §2: licence credits for the stand-in photographs go in one footer line, never under a photo.
+            The author names are LTR proper nouns, so they stay one left-to-right run inside Arabic (§7). */}
+        <p className="mt-5 border-t border-night-line pt-4 text-xs leading-relaxed text-night-muted">
+          {t.footer.standIns.intro}{" "}
+          {STAND_IN_CREDITS.map((c, i) => (
+            <span key={c.key}>
+              <a href={c.href} rel="noreferrer" className={creditLinkClass}>
+                {t.footer.standIns[c.key]}
+              </a>{" "}
+              {t.footer.standIns.by} <span dir="ltr">{c.author}</span>
+              {i < STAND_IN_CREDITS.length - 1 ? "; " : ". "}
+            </span>
+          ))}
+          {t.footer.standIns.licence}
+        </p>
+
+        <div className="mt-2 flex flex-col gap-1 border-t border-night-line pt-4 text-sm text-night-muted sm:flex-row sm:items-center sm:justify-between">
           {/* The English company line stays one left-to-right run inside Arabic (CLAUDE.md §7). */}
           <p>
             <span dir="ltr">
