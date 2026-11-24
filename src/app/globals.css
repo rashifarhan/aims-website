@@ -299,7 +299,7 @@
     color-mix(in srgb, var(--color-lime) 6%, transparent) 38%,
     transparent 76%
   );
-  /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
+  /* Homepage night surfaces (README → Decisions): night green. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
@@ -316,16 +316,18 @@
     color-mix(in srgb, var(--color-green-50) 90%, transparent),
     transparent 70%
   );
-  --gradient-glow-lime: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-lime) 22%, transparent),
-    transparent
-  );
-  --gradient-glow-green: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-green-700) 55%, transparent),
-    transparent
-  );
+  /* Light washes (client decision, 24 Nov 2026; README Decisions): the families band and the closing panel carry a
+     soft, full-section wash in AIMS's own greens instead of flat paper. Even where both of a wash's layers would
+     stack at full strength, green-700 links keep 4.7:1 or more and ink-600 6:1 or more over it. The wash reaches
+     every edge, so nothing fades into a neighbour. */
+  --gradient-families-wash:
+    radial-gradient(70% 90% at 0% 0%, color-mix(in srgb, var(--color-green-100) 60%, transparent), transparent 70%),
+    radial-gradient(60% 70% at 100% 100%, color-mix(in srgb, var(--color-lime) 8%, transparent), transparent 70%),
+    linear-gradient(170deg, var(--color-green-50), var(--color-paper-2) 55%, var(--color-green-50));
+  --gradient-close-wash:
+    radial-gradient(60% 140% at 100% 0%, color-mix(in srgb, var(--color-lime) 12%, transparent), transparent 70%),
+    radial-gradient(70% 160% at 0% 100%, color-mix(in srgb, var(--color-green-100) 70%, transparent), transparent 70%),
+    var(--color-green-50);
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,

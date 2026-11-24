@@ -796,13 +796,23 @@ composition.
   of the sentence is in view. The server HTML holds the final figures; screen readers read only an sr-only final
   value; reduced motion shows the final numbers with nothing moving. The digits box keeps the final width, so layout
   shift stays 0.
-- **Light and night alternate on the homepage:** hero (paper) · proof (night) · routes (paper) · families (night) ·
-  door (paper) · reach (night) · FAQ (paper) · close (night) · footer (showroom floor). Only the proof's ground and
-  position changed.
+- **Two night bands on the homepage (client decision, 24 Nov 2026):** hero (paper) · proof (night) · routes (paper) ·
+  families (light band with a green wash) · door (paper) · reach (night) · FAQ (paper) · close (mint panel with a
+  wash, on paper) · footer (showroom floor). The client found four dark bands too heavy: the dark share of the page
+  height measured 44% before and 21% after. Only the proof and the reach (whose lime map routes need the dark ground)
+  stay night. The families band now puts its product cut-outs on the white plinth cards with light-surface text and
+  green-700 links, and the close uses the shared mint `ClosePanel` with the green-700 primary button; the night
+  closing tone, the lime button and the closing band's glows were then unused and were removed.
+- **Light gradient sections (client decision, 24 Nov 2026, after NUZON's light washes, in AIMS's own palette):** the
+  families band carries `--gradient-families-wash` (a soft green-100 light from the top start corner, a faint lime
+  tint at the bottom end, over a green-50 to paper-2 base) between its hairlines, and the closing mint panel carries
+  `--gradient-close-wash` (a faint lime light at its top end, green-100 at its bottom start, on green-50). The close's
+  section stays plain paper so it meets the FAQ on a clean edge. Text keeps 4.5:1 or more at every point of both
+  washes (globals.css). No silk-ribbon artwork, no NUZON colours.
 - **A full gradient per band, clean edges (overrides DESIGN.md "no gradients as decoration on light surfaces", by the
   client's instruction):** a first version faded each night band into its light neighbour; the client found those
   fading edges hard on the eyes and asked for each band to carry its own gradient instead, with no shadow at the joins.
   On the homepage (`main.home-bands`) night bands keep the night-green gradient with a soft lime light at their top
-  edge (night-muted keeps 5.4:1 or more over it), and light bands carry a faint mint wash from the top end corner
+  edge (night-muted keeps 5.4:1 or more over it), and paper sections carry a faint mint wash from the top end corner
   (`--gradient-paper-wash`). Bands meet on a clean edge. Where two night bands meet elsewhere (the about page's proof
   and reach) a night hairline parts them.

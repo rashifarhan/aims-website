@@ -1,19 +1,21 @@
 /*
- * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
- * proof, the catalogue, the showroom and the close, alternating with paper.
+ * Homepage surfaces and the two dealt moments (README → Decisions). Two night-green bands, the proof and the
+ * showroom reach, set among light sections.
  *
  * Motion (taste motion.md, three layers): the hero enters; DoorStory controls the approved door kit;
  * the reach map draws once through MomentTrigger; shared controls answer hover/press. Other sections
  * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
 
-/* ---------- Band rhythm: light and night alternate (client instructions, 24 Nov 2026) ---------- */
+/* ---------- Band rhythm: two night bands among light ones (client decision, 24 Nov 2026) ---------- */
 /*
- * Hero (paper) · proof (night) · routes (paper) · families (night) · door (paper) · reach (night) · FAQ (paper) ·
- * close (night) · footer (paper-2). Bands meet on clean edges: the client found fading edges hard on the eyes and
- * asked for each band to carry its own full gradient instead. Night bands keep the night-green gradient with a soft
- * lime light at the top; light bands carry a faint mint wash from one corner (--gradient-paper-wash). This overrides
- * DESIGN.md's "no gradients as decoration on light surfaces" by the client's instruction (README Decisions).
+ * Hero (paper) · proof (night) · routes (paper) · families (light band, green wash) · door (paper) · reach (night) ·
+ * FAQ (paper) · close (mint panel with a wash, on paper) · footer (paper-2). The client found four night bands too
+ * heavy, so only the proof and the reach (whose lime routes need the dark) stay night. Bands meet on clean edges:
+ * each carries its own full gradient and nothing fades into a neighbour. Night bands keep a soft lime light at the
+ * top; paper sections a faint mint corner (--gradient-paper-wash); the families band and the closing panel carry the
+ * stronger light washes (globals.css). This overrides DESIGN.md's "no gradients as decoration on light surfaces" by
+ * the client's instruction (README Decisions).
  */
 .home-bands .section-night {
   --band-edges: var(--gradient-band-glow) no-repeat;
@@ -26,33 +28,23 @@
 .section-night .home-subtitle {
   color: var(--color-night-text);
 }
-.home-night-lead {
-  max-width: 38rem;
-  margin-block-start: 0.875rem;
-  color: var(--color-night-muted);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
 
-/* ---------- 3 · Families and software on night green ---------- */
-/* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
-.home-families .home-family-image {
-  background: var(--color-paper);
-  overflow: clip;
-}
-.home-families .home-family-info {
-  border-color: var(--color-night-line);
-}
-.home-families :is(.home-family-summary, .home-software-purpose) {
-  color: var(--color-night-muted);
-}
-.home-families :is(.home-family-count, .home-software-kind) {
-  color: var(--color-lime);
+/* ---------- 3 · Families and software on a light band with a green wash ---------- */
+/* The band keeps its hairlines (ui/Section band); the wash replaces its flat paper-2. Product cut-outs stand on
+   the white plinth cards (DESIGN.md Plinth rule), so text and links keep the light tokens from home/sections.css. */
+.home-bands .home-families {
+  background: var(--gradient-families-wash);
 }
 
 /* Door motion is shared with Access Control in motion/doorStory.css and doorTimeline.ts. */
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
-/* ---------- Closing band: night green, still light ---------- */
-/* The two glows are layers of the ground itself, so nothing spills past the band. */
+/* ---------- Closing panel: mint with a soft wash (client decision, 24 Nov 2026) ---------- */
+/* The wash lives inside the panel, so the paper around it meets the FAQ on a clean, unbroken edge. */
+.home-bands .ui-close {
+  background: var(--color-paper);
+}
+.home-bands .ui-close-mint .ui-close-panel {
+  background: var(--gradient-close-wash);
+}

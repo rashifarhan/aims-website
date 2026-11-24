@@ -23,14 +23,15 @@ export async function ProductFamilies() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
-    <Section ground="night" id="families" labelledBy="families-title" className="home-families">
+    // Light band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
+    // the band's soft green wash (premium.css), between the paper routes and door sections.
+    <Section ground="band" id="families" labelledBy="families-title" className="home-families">
       <SectionHeader
         id="families-title"
         title={fmt(t.home.families.heading, { count: productCount() })}
         lead={t.home.families.lead}
         link={
-          <Link href={localePath(locale, "/products")} className="home-night-link">
+          <Link href={localePath(locale, "/products")} className="home-text-link">
             {t.home.families.all}
           </Link>
         }

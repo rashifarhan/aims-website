@@ -46,8 +46,8 @@ export default async function Home() {
         }}
       />
       <Hero />
-      {/* Client instruction (24 Nov 2026): the proof is AIMS's strongest trust signal, so it follows the hero, and the
-          bands alternate paper and night top to bottom (premium.css, band rhythm). */}
+      {/* Client instruction (24 Nov 2026): the proof is AIMS's strongest trust signal, so it follows the hero. Only the
+          proof and the reach band stay night green (client decision, 24 Nov 2026; premium.css, band rhythm). */}
       <HomeProof />
       <BuyerRoutes />
       <ProductFamilies />
@@ -56,7 +56,6 @@ export default async function Home() {
       <HomeFaq />
       <ClosePanel
         id="closing-title"
-        tone="night"
         heading={close.heading}
         body={close.body}
         action={{ href: localePath(locale, "/quote"), label: close.action }}

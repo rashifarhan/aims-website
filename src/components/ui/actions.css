@@ -308,24 +308,6 @@
     padding: var(--card-pad);
   }
 
-  /* Actions on night green (ui/ClosePanel night, home night bands): lime measures 7.8:1 there (globals.css). */
-  /* Lime is light, not a glow (DESIGN.md Lime Is Light): the lime button carries no shadow. */
-  .home-button-lime {
-    background: var(--color-lime);
-    color: var(--color-ink);
-    box-shadow: none;
-  }
-  .home-button-lime:hover {
-    background: var(--color-lime);
-  }
-  .home-button-lime::before {
-    background: var(--color-paper);
-  }
-  .home-button-lime:hover::before,
-  .home-button-lime:focus-visible::before {
-    opacity: 0.2;
-  }
-
   /*
  * The one chip (Design Doc 9 Filter chip): a control, so radius md like inputs and selects, never the button's
  * pill. A 44px target (CLAUDE.md §4). `.ui-chip-on` (or a checked radio inside) is the selected or applied state.

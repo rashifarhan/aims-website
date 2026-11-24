@@ -12,7 +12,7 @@ const ENTRIES = [
 ] as const;
 
 /**
- * T1 row 6, set inside the product-families section on night green: the software that runs the hardware
+ * T1 row 6, set inside the product-families band: the software that runs the hardware
  * above it. A strip of its own was under half a screen (taste skill layout-v4: no strip sections).
  * Cards open the built software pages (Plan 12 #29–31).
  */
@@ -27,9 +27,9 @@ export async function HomeSoftware() {
           <h3 id="software-title" className="home-subtitle">
             {s.heading}
           </h3>
-          <p className="home-night-lead">{s.lead}</p>
+          <p className="section-lead">{s.lead}</p>
         </div>
-        <Link href={localePath(locale, "/software")} className="home-night-link">
+        <Link href={localePath(locale, "/software")} className="home-text-link">
           {s.centre}
           <ArrowIcon width="16" height="16" className="home-action-arrow" />
         </Link>
