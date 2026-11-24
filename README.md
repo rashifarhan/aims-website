@@ -327,6 +327,33 @@ is the photo's plinth. The client approved this plan:
 - DESIGN.md's Plinth Rule now raises only product photo cards and sets text as open rows. Its ground colour now reads
   `--color-page` #f7fbf8, mirrored in `.impeccable/design.json`.
 
+### Journey section and one process design (client mockup C, 24 Nov 2026)
+
+- **Home journey.** The client's mockup C section, "From the first call to a working system", sits after the
+  showroom reach band and before the FAQ: hero · proof (night) · routes · families · software · door · reach (night)
+  · **journey** · FAQ · close · footer. It is open on the flat mint, closed by a hairline so it never runs into the
+  FAQ, with no white box. The home page keeps its two dealt moments; the journey moves only on the pill link's hover
+  and press layer.
+- **One component.** `src/components/ui/JourneySteps.tsx` (+ `ui/journey.css`): numbered circles with a line icon,
+  joined by a green-700 line, step one filled green-700; badges green-700 with white numerals (6.07:1) and aria-hidden,
+  because the `<ol>` gives each position; a lime ring only on step one's badge. It follows its container: a vertical
+  timeline on phones and narrow columns, one row once every step keeps about 11rem. It now carries the home journey,
+  `SolutionProcess` on the five T3 solution pages, `ServicesProcess` on /services, the support steps on /support and
+  `SoftwareSetup` on the software pages. The location pages' three "steps" stay as they are: Dubai's are three
+  alternative routes and Oman's and Kenya's a checklist for the quote, not a sequence. The old `.process-*`,
+  `.co-steps` and `.sw-steps` styles are deleted.
+- **Owner labels** ("You", "AIMS engineer") moved from green-700 to ink-600 (DESIGN.md One Sign Rule: green is for
+  actions only).
+- **New copy (English; Arabic as a draft):** heading "From the first call to a working system"; lead "You don't need
+  a model code. Describe the site, and AIMS takes it from there."; "Tell us the job" / "Call, send a WhatsApp, fill in
+  the quote form or visit the showroom in Deira."; "Get a quotation"; "Supply" / "AIMS supplies the ZKTeco hardware in
+  the UAE and delivers project and export orders to the GCC and Africa."; "Install" / "AIMS installs and connects the
+  devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."; "Support" / "After handover, AIMS
+  supports the system. Reach the team by WhatsApp or email."; pill "Start with step one now.". Step two's line and
+  the "Describe your site" link reuse existing strings. Every claim is one the site already states (contacts in
+  `src/lib/site.ts`, the services and support pages); the mockup's "walk into the showroom" became "visit", since
+  opening hours are still unconfirmed, and no training or durations are promised.
+
 ### Software section (client request, 24 Nov 2026)
 
 - **Why it moved.** BioTime 9.5, BioTime Cloud and ZKAccess 3.5 were three text rows at the foot of the families band
@@ -870,7 +897,7 @@ composition.
   value; reduced motion shows the final numbers with nothing moving. The digits box keeps the final width, so layout
   shift stays 0.
 - **Two night bands on the homepage (client decision, 24 Nov 2026):** hero (paper) · proof (night) · routes (paper) ·
-  families (light band with a green wash) · software (paper, added 24 Nov 2026) · door (paper) · reach (night) · FAQ (paper) · close (mint panel with a
+  families (light band with a green wash) · software (paper, added 24 Nov 2026) · door (paper) · reach (night) · journey (paper, added 24 Nov 2026) · FAQ (paper) · close (mint panel with a
   wash, on paper) · footer (showroom floor). The client found four dark bands too heavy: the dark share of the page
   height measured 44% before and 21% after. Only the proof and the reach (whose lime map routes need the dark ground)
   stay night. The families band now puts its product cut-outs on the white plinth cards with light-surface text and
