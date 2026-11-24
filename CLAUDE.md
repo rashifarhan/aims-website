@@ -170,8 +170,7 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
 
 - **Every page moves in three places, and nothing else moves:** (1) the hero enters once on load (about 1.1 s, then
   stands); (2) one dealt moment in a section of its own, two on a long page (eight sections or more), picked with
-  `moments.mjs pick --page tech`; the home page may carry three (the door kit, the reach map and the software flow),
-  by the client's decision of 24 Nov 2026; (3) the hover and press layer on every link, button, linked card and linked photo
+  `moments.mjs pick --page tech`; (3) the hover and press layer on every link, button, linked card and linked photo
   (card lifts 2px, photo zooms 1.02–1.03, button steps 1px and presses, underlines draw). As a tech site AIMS may also
   have loops inside a card's visual, one timed loop in the hero, one count, and the one effect or scene
   `effects-usage.md` deals.
