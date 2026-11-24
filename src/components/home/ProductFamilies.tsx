@@ -49,7 +49,10 @@ export async function ProductFamilies() {
             <Link
               key={family.slug}
               href={localePath(locale, `/products/${family.slug}`)}
-              className={`home-family-card ui-card ui-card-interactive${lead ? "home-family-lead" : ""}`}
+              // An array, not a template literal: Prettier's Tailwind plugin trims the space before a conditional class.
+              className={["home-family-card ui-card ui-card-interactive", lead && "home-family-lead"]
+                .filter(Boolean)
+                .join(" ")}
             >
               <div className="home-family-image ui-card-photo">
                 {image && (
