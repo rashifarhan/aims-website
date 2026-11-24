@@ -20,7 +20,7 @@ const axeClean = async (page: import("@playwright/test").Page) => {
 for (const path of ["/contact", "/ar/contact"]) {
   test(`T9 ${path}: content edges match the header and footer`, async ({ page }) => {
     await page.goto(path);
-    const edges = await page.locator("header > div, main > div.wrap, footer > div").evaluateAll((boxes) =>
+    const edges = await page.locator("header > div, main > section.co-contact > div.wrap, footer > div").evaluateAll((boxes) =>
       boxes.map((box) => {
         const rect = box.getBoundingClientRect();
         const style = getComputedStyle(box);
