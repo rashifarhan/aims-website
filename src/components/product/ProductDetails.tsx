@@ -57,7 +57,7 @@ export function ProductDetails({ p, compareHref, t, data, ground }: Props) {
         <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
           <Overview blocks={p.overview} data={data} />
           <div className="lg:border-s lg:border-line lg:ps-10">
-            <h3 id="downloads" className="mb-4 text-home-subtitle font-card text-ink">
+            <h3 id="downloads" className="ui-display mb-4 text-home-subtitle leading-tight text-ink">
               {t.downloads}
             </h3>
             {downloads}
