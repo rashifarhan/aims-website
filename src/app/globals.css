@@ -132,7 +132,8 @@
   --text-device-hint: 6cqw;
   --text-device-welcome: 12cqw;
   --container-home-stage: 1600px;
-  --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
+  /* DESIGN.md shadow vocabulary has no coloured glow: the primary rests on the card's ink shadow (Impeccable polish). */
+  --shadow-home-action: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
   --container-page: 1344px;
