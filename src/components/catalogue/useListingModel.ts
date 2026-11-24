@@ -83,7 +83,8 @@ export function useListingModel({
   const onPick = (id: string) => {
     const preset = QUICK_PICKS.find((p) => p.id === id)?.preset;
     if (!preset) return;
-    const next = applyPreset(state, preset);
+    // A pressed pick is a toggle: pressing it again clears the filters it set.
+    const next = applyPreset(state, isPresetActive(state, preset) ? {} : preset);
     update({
       family: next.family,
       type: next.type,

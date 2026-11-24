@@ -307,6 +307,21 @@ test.describe("quick picks", () => {
     );
   });
 
+  test("clicking a pressed pick again turns it off", async ({ page }) => {
+    await page.goto("/products?q=f18", { waitUntil: "load" });
+    const pick = page.getByRole("group", { name: "Popular" }).getByRole("button", { name: /^Fingerprint/ });
+    await expect(async () => {
+      await pick.click();
+      await expect(pick).toHaveAttribute("aria-pressed", "true", { timeout: 1000 });
+    }).toPass();
+    await expect(page).toHaveURL(/verify=fingerprint/);
+
+    await pick.click();
+    await expect(pick).toHaveAttribute("aria-pressed", "false");
+    await expect(page).not.toHaveURL(/verify=/);
+    await expect(page).toHaveURL(/q=f18/);
+  });
+
   test("a family page has no quick picks", async ({ page }) => {
     await page.goto("/products/time-attendance", { waitUntil: "load" });
     await expect(page.getByRole("heading", { name: "Results" })).toBeAttached();
