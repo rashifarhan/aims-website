@@ -265,6 +265,20 @@
   .ui-card-interactive:has(:focus-visible) {
     box-shadow: var(--shadow-2);
   }
+  /* A card holding a product photograph is the raised white plinth (DESIGN.md Plinth Rule; client decision after the
+     card review, 24 Nov 2026): the hairline, a very soft green-tinted rest, and the lifted shadow with the 2px rise. */
+  .ui-card-plinth {
+    box-shadow: var(--shadow-plinth);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ui-card-plinth.ui-card-interactive:hover {
+      box-shadow: var(--shadow-plinth-lift);
+    }
+  }
+  .ui-card-plinth.ui-card-interactive:focus-visible,
+  .ui-card-plinth.ui-card-interactive:has(:focus-visible) {
+    box-shadow: var(--shadow-plinth-lift);
+  }
   /* On night green (ui/Section night): the same card in night tones. A hairline, no glow; the edge lights lime
      on hover and focus (DESIGN.md Lime Is Light). */
   .section-night .ui-card {

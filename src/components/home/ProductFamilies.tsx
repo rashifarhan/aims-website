@@ -44,7 +44,7 @@ export async function ProductFamilies() {
             <Link
               key={family.slug}
               href={localePath(locale, `/products/${family.slug}`)}
-              className="home-family-card ui-card ui-card-interactive"
+              className="home-family-card ui-card ui-card-plinth ui-card-interactive"
             >
               <div className="home-family-image ui-card-photo">
                 {image && (
@@ -53,7 +53,7 @@ export async function ProductFamilies() {
                     alt=""
                     width={image.width}
                     height={image.height}
-                    sizes="(min-width: 1024px) 240px, (min-width: 640px) 200px, 130px"
+                    sizes="(min-width: 640px) 260px, 140px"
                   />
                 )}
               </div>

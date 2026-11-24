@@ -78,6 +78,15 @@
   --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
   --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
   --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
+  /* The photo plinth (DESIGN.md Plinth Rule; client decision after the card review, 24 Nov 2026): only a card that
+     holds a product photograph is raised, on a hairline and a very soft, green-tinted rest; it lifts 2px to the
+     second shadow. Mixed from the palette so the tint stays AIMS green. */
+  --shadow-plinth:
+    0 1px 2px color-mix(in srgb, var(--color-night-950) 5%, transparent),
+    0 6px 16px color-mix(in srgb, var(--color-green-700) 6%, transparent);
+  --shadow-plinth-lift:
+    0 2px 6px color-mix(in srgb, var(--color-night-950) 5%, transparent),
+    0 16px 36px color-mix(in srgb, var(--color-green-700) 12%, transparent);
   /* A lit status LED on night green (the proof badge's dot): a lime halo, never on light surfaces (Lime Is Light). */
   --shadow-led:
     0 0 0 3px color-mix(in srgb, var(--color-lime) 18%, transparent),

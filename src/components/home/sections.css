@@ -108,9 +108,11 @@
   height: 100%;
   overflow: hidden;
 }
+/* The photograph fills its plinth (card review, 24 Nov 2026): a 16rem box at most, well under every family photo's
+   own pixel size (350–1000px), so nothing is upscaled; no divider between the photo and the text. */
 .home-family-image {
-  height: 14rem;
-  padding: 1.75rem;
+  height: 17rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,7 +127,7 @@
   flex: 1;
   flex-direction: column;
   padding: var(--card-pad);
-  border-block-start: 1px solid var(--color-line);
+  padding-block-start: 0.5rem;
 }
 .home-family-info h3 {
   font-size: var(--text-home-card);
@@ -383,11 +385,12 @@
     gap: 0.75rem;
   }
   .home-family-image {
-    height: 7.5rem;
-    padding: 0.875rem;
+    height: 9.5rem;
+    padding: 0.375rem;
   }
   .home-family-info {
     padding: var(--card-pad-tight);
+    padding-block-start: 0.25rem;
   }
   .home-family-info h3 {
     font-size: var(--text-base);
