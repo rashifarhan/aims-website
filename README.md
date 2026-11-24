@@ -282,13 +282,14 @@ Results at the end of Phase 4:
   WebGL. The product page reports five images "without width+height": they are `next/image` with `fill` inside a
   sized parent, which CLAUDE.md §5 allows, and layout shift is 0.000, so no change was made.
 
-### Showroom white and forest greens (client decision, 24 Nov 2026)
+### AIMS mint white and forest greens (client decision, 24 Nov 2026)
 
-- **AIMS's own white.** The page ground is `--color-page` (#f6f7f2), a faint warm green-grey drawn from the stone tone
-  of a palette the client chose, so AIMS's light pages read as its own the way a benchmark's tinted white does. Cards,
-  fields, menus and product photo frames stay pure `--color-paper` (#ffffff), so cut-out photographs keep a clean
-  white plinth. The band and footer ground `--color-paper-2` steps to #eff1ea to stay distinct from the page. All text
-  keeps AA on the new grounds (ink-400 4.8:1 on the page, 4.6:1 on bands; green-700 5.6:1).
+- **AIMS's own white.** The page ground is `--color-page` (#f7fbf8), a whisper of AIMS green, so AIMS's light pages
+  read as its own the way a benchmark's tinted white does. A greyish stone tint (#f6f7f2) from a palette the client
+  liked was tried first and rejected as off-brand and dull. Cards, fields, menus and product photo frames stay pure
+  `--color-paper` (#ffffff), so cut-out photographs keep a clean white plinth. The band and footer ground
+  `--color-paper-2` steps to #f0f6f1 to stay distinct from the page. All text keeps AA on the new grounds (ink-400
+  5.0:1 on the page, 4.7:1 on bands; green-700 5.8:1).
 - **Forest greens.** The night bands shift toward the same palette: night-900 #0f1f17, night-700 #1e3a2e. Night text,
   muted text and lime keep AA, including under the softened top glow (lime 9%).
 - One token change reaches every page: the body, the sticky header, the light home bands, the product stage and the

@@ -23,13 +23,13 @@
   /* Lines and surfaces */
   --color-line: #e3e7e3; /* dividers */
   --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
-  /* Showroom white (client decision, 24 Nov 2026; README Decisions): the page ground is a faint warm green-grey,
-     drawn from the stone tone of the client's chosen palette, so AIMS's light pages read as its own. Cards, fields,
-     menus and product photo frames stay pure --color-paper, so cut-out photos keep a clean white plinth.
-     On --color-page: ink 17.9:1, ink-600 7.2:1, ink-400 4.8:1, green-700 5.6:1. */
-  --color-page: #f6f7f2;
+  /* AIMS mint white (client decision, 24 Nov 2026; README Decisions): the page ground is a whisper of AIMS green, so
+     AIMS's light pages read as its own; a greyish stone tint was tried and rejected as off-brand and dull. Cards,
+     fields, menus and product photo frames stay pure --color-paper, so cut-out photos keep a clean white plinth.
+     On --color-page: ink 17.7:1, ink-600 7.4:1, ink-400 5.0:1, green-700 5.8:1. */
+  --color-page: #f7fbf8;
   --color-paper: #ffffff;
-  --color-paper-2: #eff1ea; /* bands and the footer, a step deeper than the page · ink-400 4.6:1 */
+  --color-paper-2: #f0f6f1; /* bands and the footer, a step deeper than the page · ink-400 4.7:1 */
   --color-paper-3: #eef1ee;
 
   /* Status */
