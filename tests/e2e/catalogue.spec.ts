@@ -320,3 +320,38 @@ test.describe("quick picks", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   });
 });
+
+test.describe("facet groups", () => {
+  test("Family starts open and Brand closed; opening Brand shows its options", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toBeVisible();
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeHidden();
+
+    await rail.locator("summary", { hasText: "Brand" }).click();
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeVisible();
+  });
+
+  test("a group with a selected option starts open", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products?brand=alpha", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await expect(rail.getByRole("checkbox", { name: /^Alpha/ })).toBeChecked();
+  });
+
+  test("a group the buyer opened stays open when its last option is cleared", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await rail.locator("summary", { hasText: "Brand" }).click();
+    const alpha = rail.getByRole("checkbox", { name: /^Alpha/ });
+    await expect(async () => {
+      await alpha.check();
+      await expect(page).toHaveURL(/brand=alpha/, { timeout: 1000 });
+    }).toPass();
+    await alpha.uncheck();
+    await expect(page).not.toHaveURL(/brand=/);
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeVisible();
+  });
+});
