@@ -101,3 +101,34 @@
     transition: none;
   }
 }
+
+/* ---------- Premium pass: match the home page's visit lines and rows (client decision 6, 24 Nov 2026) ---------- */
+
+/* Office cards: the phone line reads at a glance, in the display face, as on the home page's visit list. Scoped to
+   the locations pages: OfficeCard is shared with /contact and /about. */
+.loc-offices .ui-office h3,
+.loc-steps h3,
+.loc-markets-group {
+  font-family: var(--font-display);
+}
+.loc-offices .ui-office-actions .home-text-link:first-child {
+  min-height: 2.75rem;
+  font-family: var(--font-display);
+  font-size: var(--text-home-card);
+  font-weight: 560;
+  color: var(--color-ink);
+}
+.loc-offices .ui-office-actions .home-text-link:first-child svg {
+  color: var(--color-green-700);
+}
+
+/* Market rows: names in the display face, a step larger, so the list reads like the home page's lines. */
+.loc-market {
+  font-family: var(--font-display);
+  font-size: var(--text-home-card);
+  font-weight: 560;
+  min-height: 3rem;
+}
+.loc-steps h3 {
+  font-weight: 560;
+}
