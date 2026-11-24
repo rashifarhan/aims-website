@@ -426,48 +426,6 @@ main:has(> .page-hero-split) {
   line-height: 1.55;
 }
 
-/* ---------- Process with owners ---------- */
-.process-list {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1.5rem;
-  counter-reset: none;
-}
-.process-list li {
-  display: flex;
-  flex-direction: column;
-  padding-block-start: 1.25rem;
-  border-block-start: 2px solid var(--color-green-700);
-}
-.process-index {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--color-green-700);
-  color: var(--color-paper);
-  font-size: var(--text-small);
-  font-weight: var(--font-weight-card);
-}
-.process-list h3 {
-  margin-block-start: 1rem;
-  font-size: var(--text-home-card);
-  font-weight: var(--font-weight-card);
-}
-.process-list p {
-  margin-block-start: 0.5rem;
-  font-size: var(--text-small);
-  line-height: 1.55;
-  color: var(--color-ink-600);
-}
-.process-list .process-owner {
-  margin-block-start: auto;
-  padding-block-start: 1rem;
-  font-weight: 600;
-  color: var(--color-green-700);
-}
-
 /* ---------- FAQ (ui/Faq.tsx): one look for every family (design-taste-frontend one system) ---------- */
 .ui-faq-split {
   display: grid;
@@ -583,27 +541,6 @@ main:has(> .page-hero-split) {
   line-height: 1.25;
 }
 @media (max-width: 1023px) {
-  .process-list {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-  .process-list li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 1rem;
-    padding-block: 1.25rem;
-    border-block-start-width: 1px;
-    border-color: var(--color-line);
-  }
-  .process-list li > :not(.process-index) {
-    grid-column: 2;
-  }
-  .process-list h3 {
-    margin-block-start: 0.25rem;
-  }
-  .process-list .process-owner {
-    padding-block-start: 0.5rem;
-  }
   .ui-faq-split {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;

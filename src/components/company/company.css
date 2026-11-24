@@ -69,9 +69,6 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
     gap: 4rem;
   }
-  .co-process .process-list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 .co-cover {
   display: grid;
