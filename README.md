@@ -416,6 +416,22 @@ taken from it. The client asked for AIMS's own motifs, not a copy of the benchma
 - **Contrast with the motifs.** Where a hero line can reach the copy it is at most 8.5%: ink-600 6.3:1 and green-700
   4.9:1 over line and light together. Under a full-strength arc, green-700 links keep 4.9:1 on the band.
 
+**Listing pagination is numbered, and a buyer is never left without a next step (24 Nov 2026).** Design Doc ch. 9
+specifies "Load more + numbered fallback"; the client asked for paginated results, so the products listing shows 12
+a page with numbered links (`?page=` in the URL, real `<a href>`s, Back returns to the previous page). The same
+change adds sort (Relevance, Name A–Z, Family), a "Popular" row of eight one-click filters with live counts (not on a
+family page), collapsible facet groups, an always-present "Can't find your model?" panel (add a free-text line to the
+quote, WhatsApp or call, with the search text carried over), and zero-results recovery ("Closest models", and
+"Remove <filter> (n products)"). The panel promises only that AIMS "will check availability and reply": aimsuae.me
+never says AIMS sources unlisted models (checked 24 Nov), so the page doesn't either. Arabic wording for the new
+strings is a draft for AIMS to review. Design note: `docs/superpowers/specs/2026-11-24-products-listing-findability-design.md`;
+plan: `docs/superpowers/plans/2026-11-24-products-listing-findability.md`.
+
+**The solutions hub opens on its cards (24 Nov 2026).** `/solutions` used the split hero: an unrelated controller
+photograph beside the title and a full screen of blank space before the first card. At the client's request it now
+uses the compact hero (no photograph, no forced screen height), so the five cards start on the first screen. This
+departs on purpose from the design skill's "hero alone on the first screen" rule for this one page.
+
 ## Content import
 
 ```bash

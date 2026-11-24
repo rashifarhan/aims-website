@@ -15,6 +15,9 @@ type Input = {
   familyNames: Record<string, string>;
 };
 
+/** The groups that start open (design note); any group with a selected option starts open too. */
+const OPEN_BY_DEFAULT: string[] = ["family", "type", "verify"];
+
 /**
  * Facet groups with live counts (Design Doc 9 Facet panel). Options with no matches are hidden unless
  * already selected, and a group with a single option is dropped: it filters nothing.
@@ -50,7 +53,10 @@ export function facetGroupViews({ cards, state, searchOrder, family, t, familyNa
           checked: selected.includes(value),
         }))
         .filter((o) => o.count > 0 || o.checked);
-      return options.length > 1 || options.some((o) => o.checked) ? { id: g.id, legend: g.legend, options } : null;
+      const anyChecked = options.some((o) => o.checked);
+      return options.length > 1 || anyChecked
+        ? { id: g.id, legend: g.legend, options, defaultOpen: OPEN_BY_DEFAULT.includes(g.id) || anyChecked }
+        : null;
     })
     .filter((g): g is FacetGroupView => g !== null);
 
@@ -60,6 +66,7 @@ export function facetGroupViews({ cards, state, searchOrder, family, t, familyNa
       id: "outdoor",
       legend: t.facets.outdoor,
       options: [{ value: "1", label: t.facets.outdoor, count: outdoorCount, checked: state.outdoor }],
+      defaultOpen: state.outdoor,
     });
   }
   return groups;

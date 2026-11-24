@@ -14,8 +14,8 @@ import { QuoteLink } from "./QuoteLink";
 import { Wordmark } from "./Wordmark";
 
 /**
- * Site header (Design Doc ch. 6). Desktop 72px: wordmark · Products ·
- * Solutions · Software · Services · About · search · language · Quote.
+ * Site header (Design Doc ch. 6). Desktop 72px: wordmark · Home · Products ·
+ * Solutions · Software · Services · Locations · About · search · language · Quote.
  * Mobile 60px: wordmark · Quote · menu. Nothing sits above it.
  */
 export async function Header() {
@@ -26,6 +26,7 @@ export async function Header() {
   const otherLocale = locale === "ar" ? "en" : "ar";
 
   const items: NavItem[] = [
+    { kind: "link", href: href("/"), label: t.common.home },
     {
       kind: "menu",
       label: t.nav.products,
@@ -51,6 +52,7 @@ export async function Header() {
     },
     { kind: "link", href: href("/software"), label: t.nav.software },
     { kind: "link", href: href("/services"), label: t.nav.services },
+    { kind: "link", href: href("/locations"), label: t.nav.locations },
     { kind: "link", href: href("/about"), label: t.nav.about },
   ];
 

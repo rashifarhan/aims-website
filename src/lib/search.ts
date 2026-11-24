@@ -52,3 +52,16 @@ export function searchSlugs(index: ProductIndex, query: string): string[] | null
   if (!hits.length && compact !== q) hits = index.search(compact);
   return hits.map((r) => String(r.id));
 }
+
+/**
+ * "Closest models" for a search that found nothing: any word may match, and a word of 3+ characters tolerates
+ * one slip ("F19" finds F18). Blank query → none.
+ */
+export function closestSlugs(index: ProductIndex, query: string, limit = 3): string[] {
+  const q = query.trim();
+  if (!q) return [];
+  return index
+    .search(q, { combineWith: "OR", prefix: true, fuzzy: (term) => (term.length >= 3 ? 0.34 : false) })
+    .slice(0, limit)
+    .map((r) => String(r.id));
+}

@@ -256,3 +256,9 @@ for (const locale of ["en", "ar"]) {
     }
   });
 }
+
+test("the solutions hub opens on its cards: no stray hero photo, first card on the first screen", async ({ page }) => {
+  await page.goto("/solutions", { waitUntil: "load" });
+  await expect(page.locator(".page-hero img")).toHaveCount(0);
+  await expect(page.locator(".solution-card").first()).toBeInViewport();
+});

@@ -58,7 +58,8 @@ test.describe("listing polish", () => {
     await page.goto("/products", { waitUntil: "load" });
     const rail = page.getByRole("complementary", { name: "Filters" });
     await expect(rail).toHaveCSS("position", "sticky");
-    await page.mouse.wheel(0, 2400);
+    // A page is 12 cards (pagination), so scroll within the grid rather than past its end, where the rail rightly unsticks.
+    await page.mouse.wheel(0, 1200);
     await expect.poll(async () => (await rail.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
     const box = await rail.boundingBox();
     expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(900);
