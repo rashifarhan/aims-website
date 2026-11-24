@@ -6,22 +6,8 @@
   letter-spacing: -0.015em;
 }
 
-/* Route cards: the one card (actions.css .ui-card); this is their inside only. */
-.home-route-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: var(--card-pad);
-}
-.home-route-card > .home-external-mark {
-  position: absolute;
-  inset-block-start: 1.5rem;
-  inset-inline-end: 1.5rem;
-  color: var(--color-ink-400);
-}
-
 /* Polish: body copy never leaves one word alone on its last line, in English or Arabic. */
-.home-route-body,
+.home-row-body,
 .home-family-summary,
 .home-review-card blockquote {
   text-wrap: pretty;
@@ -32,29 +18,82 @@
   max-width: 40rem;
   margin-block-end: 2.5rem;
 }
-.home-route-grid {
+
+/* ---------- Open rows: buyer routes and software (DESIGN.md Plinth Rule; card review, 24 Nov 2026) ---------- */
+/* Text-only, so no plinth: each row stands on the ground under a hairline, like the proof band's three points.
+   The whole row is one link; hover draws the underline and nudges the arrow, press dims it (the link look,
+   actions.css), and the row is far taller than 44px. */
+.home-row-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: 1.5rem 2rem;
 }
-.home-route-card h3 {
+.home-row {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+.home-row h3,
+.home-row-code {
   font-size: var(--text-home-card);
   font-weight: var(--font-weight-card);
   line-height: 1.3;
 }
-.home-route-body {
-  margin-block: 0.75rem 1.75rem;
+/* A label, not an action: ink, never green (DESIGN.md One Sign Rule). */
+.home-row-label {
+  margin-block-end: 0.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+/* The software name is a model code in Plex Mono (Datasheet Rule); the arrow follows it on the reading side. */
+.home-row-code {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+.home-row-body {
+  max-width: 34ch;
+  margin-block-start: 0.5rem;
   color: var(--color-ink-700);
   line-height: 1.6;
 }
-.home-route-action {
+.home-row-action {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+  min-height: 2.75rem;
   margin-block-start: auto;
+  padding-block-start: 0.75rem;
   color: var(--color-green-700);
   font-size: var(--text-small);
   font-weight: 600;
+}
+.home-row-action,
+.home-row-code > span {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition:
+    text-decoration-color var(--duration-hover) ease,
+    opacity var(--duration-fast) ease;
+}
+.home-row:hover :is(.home-row-action, .home-row-code > span) {
+  text-decoration-color: currentColor;
+}
+.home-row:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .home-row:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.home-row:active :is(.home-row-action, .home-row-code) {
+  opacity: 0.75;
 }
 
 /* ---------- 3 · Product families ---------- */
@@ -300,12 +339,10 @@
 
 /* ---------- Tablet (640–1023): text cards stack; photographs keep two across ---------- */
 @media (max-width: 1023px) {
-  .home-route-grid,
   .home-family-grid,
   .home-review-grid {
     gap: 1rem;
   }
-  .home-route-grid,
   .home-review-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -332,16 +369,15 @@
   .home-routes-title {
     margin-block-end: 1.5rem;
   }
-  .home-route-grid,
   .home-review-grid {
     gap: 0.75rem;
   }
-  .home-route-body {
-    margin-block: 0.5rem 1.25rem;
+  /* 390 first: the rows stack, each under its own hairline. */
+  .home-row-list {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .home-route-card > .home-external-mark {
-    inset-block-start: 1.25rem;
-    inset-inline-end: 1.25rem;
+  .home-row {
+    padding-block-start: 1.25rem;
   }
   .home-family-grid {
     gap: 0.75rem;

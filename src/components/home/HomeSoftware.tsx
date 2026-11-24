@@ -14,7 +14,8 @@ const ENTRIES = [
 /**
  * T1 row 6, set inside the product-families band: the software that runs the hardware
  * above it. A strip of its own was under half a screen (taste skill layout-v4: no strip sections).
- * Cards open the built software pages (Plan 12 #29–31).
+ * Open rows, not cards (DESIGN.md Plinth Rule: text-only content stands on the ground under a hairline); each whole
+ * row opens its built software page (Plan 12 #29–31).
  */
 export async function HomeSoftware() {
   const t = await getDictionary();
@@ -34,19 +35,19 @@ export async function HomeSoftware() {
           <ArrowIcon width="16" height="16" className="home-action-arrow" />
         </Link>
       </div>
-      <ul className="home-software-grid">
+      <ul className="home-row-list">
         {ENTRIES.map(({ slug, kind, purpose }) => {
           const software = softwareBySlug(slug);
           if (!software) return null;
           return (
             <li key={slug}>
-              <Link
-                href={localePath(locale, `/software/${slug}`)}
-                className="home-software-card ui-card ui-card-interactive"
-              >
-                <p className="home-software-kind">{s[kind]}</p>
-                <h4 dir="ltr">{software.name}</h4>
-                <p className="home-software-purpose">{s[purpose]}</p>
+              <Link href={localePath(locale, `/software/${slug}`)} className="home-row">
+                <p className="home-row-label">{s[kind]}</p>
+                <h4 className="home-row-code">
+                  <span dir="ltr">{software.name}</span>
+                  <ArrowIcon width="16" height="16" className="home-action-arrow" />
+                </h4>
+                <p className="home-row-body">{s[purpose]}</p>
               </Link>
             </li>
           );

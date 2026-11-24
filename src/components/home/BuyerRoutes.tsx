@@ -8,8 +8,9 @@ import { Section } from "@/components/ui/Section";
 const HREFS = ["/products", "/quote?need=install", "/quote?need=export"] as const;
 
 /**
- * T1 section 2: one card per buyer route, each card one link (Design Doc 10, Plan 14). The card is
- * "barely there" (taste skill cards.md): no icon tile stacked over the title, text at body size.
+ * T1 section 2: one open row per buyer route, each row one link (Design Doc 10, Plan 14). Text-only, so no plinth
+ * card: a hairline, the title, one line and the arrow link, like the proof band's three points (DESIGN.md Plinth
+ * Rule, card review of 24 Nov 2026).
  */
 export async function BuyerRoutes() {
   const t = await getDictionary();
@@ -21,13 +22,13 @@ export async function BuyerRoutes() {
       <h2 id="routes-title" className="section-title home-routes-title">
         {r.heading}
       </h2>
-      <ul className="home-route-grid">
+      <ul className="home-row-list">
         {routes.map((route, i) => (
           <li key={route.title}>
-            <Link href={localePath(locale, HREFS[i])} className="home-route-card ui-card ui-card-interactive">
+            <Link href={localePath(locale, HREFS[i])} className="home-row">
               <h3>{route.title}</h3>
-              <p className="home-route-body">{route.body}</p>
-              <p className="home-route-action">
+              <p className="home-row-body">{route.body}</p>
+              <p className="home-row-action">
                 {route.action}
                 <ArrowIcon width="16" height="16" className="home-action-arrow" />
               </p>
