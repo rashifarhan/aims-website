@@ -30,6 +30,10 @@
   background: var(--band-edges, none), var(--gradient-night);
   color: var(--color-night-text);
 }
+/* A band followed by the closing band leaves the close's own top hairline to part them, so the join never doubles. */
+.section-band:has(+ .ui-close) {
+  border-block-end: 0;
+}
 /* Two night bands in a row (the about page's proof and reach) are parted by a hairline, so they never read as one. */
 .section-night + .section-night {
   border-block-start: 1px solid var(--color-night-line);

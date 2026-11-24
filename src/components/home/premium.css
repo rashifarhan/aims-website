@@ -7,22 +7,17 @@
  * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
 
-/* ---------- Band rhythm: two night bands among light ones (client decision, 24 Nov 2026) ---------- */
+/* ---------- Band rhythm: white pages, faint bands, two night bands (client decisions, 24 Nov 2026) ---------- */
 /*
- * Hero (paper) · proof (night) · routes (paper) · families (light band) · software (paper, closed by a
- * hairline) · door (paper) · reach (night) · journey (paper, closed by a hairline) · FAQ (paper) · close
- * (full-width band) · footer
- * (paper-2), every light surface on the one flat mint. The client found four night bands too
- * heavy, so only the proof and the reach (whose lime routes need the dark) stay night. Bands meet on clean edges:
- * each carries its own full gradient and nothing fades into a neighbour. Night bands keep a soft lime light at the
- * top; every light section, band and the close share one flat mint ground (the client dropped the light washes
- * for consistency, README Decisions).
+ * Hero (white) · proof (night) · routes (white) · families (faint band) · software (white) · door (white) · reach
+ * (night) · journey (white) · FAQ (faint band) · close (white, its green-100 top hairline) · footer (faint band).
+ * Paper sections stand on the white page and section-band ones take the faint tint with their hairlines, so only
+ * the joins need care: where two white sections meet a hairline parts them, and a band never doubles a neighbour's
+ * hairline. Only the proof and the reach (whose lime routes need the dark) stay night, with a soft lime light at the
+ * top; bands meet on clean edges and nothing fades into a neighbour.
  */
 .home-bands .section-night {
   --band-edges: var(--gradient-band-glow) no-repeat;
-}
-.home-bands .section-paper {
-  background: var(--color-page);
 }
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
@@ -30,15 +25,9 @@
   color: var(--color-night-text);
 }
 
-/* ---------- 3b · Software on paper (client request, 24 Nov 2026) ---------- */
-/* The families band's hairline opens it; this one closes it, so it never runs into the door kit's paper below. */
+/* ---------- 3b · Software on white (client request, 24 Nov 2026) ---------- */
+/* The families band's hairline opens it; this one closes it, so it never runs into the door kit's white below. */
 .home-bands .home-sw {
-  border-block-end: 1px solid var(--color-line);
-}
-
-/* ---------- 7b · Journey on paper (client mockup C, 24 Nov 2026) ---------- */
-/* The reach band's clean night edge opens it; this hairline closes it, so it never runs into the FAQ's paper. */
-.home-bands .home-journey {
   border-block-end: 1px solid var(--color-line);
 }
 
