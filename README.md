@@ -293,6 +293,11 @@ never says AIMS sources unlisted models (checked 24 Nov), so the page doesn't ei
 strings is a draft for AIMS to review. Design note: `docs/superpowers/specs/2026-11-24-products-listing-findability-design.md`;
 plan: `docs/superpowers/plans/2026-11-24-products-listing-findability.md`.
 
+**The solutions hub opens on its cards (24 Nov 2026).** `/solutions` used the split hero: an unrelated controller
+photograph beside the title and a full screen of blank space before the first card. At the client's request it now
+uses the compact hero (no photograph, no forced screen height), so the five cards start on the first screen. This
+departs on purpose from the design skill's "hero alone on the first screen" rule for this one page.
+
 ## Content import
 
 ```bash

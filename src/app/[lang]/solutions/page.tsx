@@ -6,7 +6,6 @@ import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { productBySlug } from "@/content/catalogue";
 import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
 import { SolutionSite } from "@/components/solutions/SolutionSite";
@@ -27,7 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * Design Doc 10.1 T2; Master Plan 12: five needs, industries and FAQs, on paper, band and mint grounds.
  * The one dealt moment is the site plan, "One site, five systems" (SolutionSite; Design Doc 8 SIGNAL), after the
  * cards: they answer "what", the plan "where on my site".
- * The hero photograph is a controller no card below shows, so no picture repeats on the screen.
+ * The hero is the compact one, with no photograph: the old split hero held a controller photo no card shows and a
+ * full screen of blank space; now the five cards, which are the page, begin on the first screen.
  */
 export default async function SolutionsHub() {
   const t = await getDictionary();
@@ -36,14 +36,13 @@ export default async function SolutionsHub() {
   return (
     <main id="main">
       <PageHero
-        variant="split"
+        variant="compact"
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, "/solutions"), label: t.nav.solutions },
         ]}
         title={t.solutionsHub.title}
         lead={t.solutionsHub.lead}
-        photo={productBySlug("inbio-pro-160")?.images[0]}
       />
       {/* Each card's h2 names its need; the grid itself needs no heading. */}
       <Section ground="band" className="solution-grid-section">
