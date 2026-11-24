@@ -156,6 +156,8 @@
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
+  /* The closing band's title (premium pass, 24 Nov 2026): 64px from 1024, 38px on phones. */
+  --text-close-title: clamp(2.375rem, 1.4rem + 3.4vw, 4rem);
   --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */
   --text-device-bar: 5.2cqw;
   --text-device-clock: 23cqw;
@@ -352,19 +354,12 @@
     transparent 76%
   );
   /* AIMS's inner hero signature (client decision, 24 Nov 2026): a soft green light at the top of every PageHero,
-     under its signal lines. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
+     under its ridge motif. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
      green-700 5.5:1. */
   --gradient-hero-glow: radial-gradient(
     60rem 26rem at 50% 0%,
     color-mix(in srgb, var(--color-green-100) 45%, transparent),
     transparent 72%
-  );
-  /* The closing band's light (client request, 24 Nov 2026): a soft green pool behind the centred close, under its
-     signal lines. At its strongest (green-100 at 60% over white) ink-600 keeps 6.8:1 and green-700 5.3:1. */
-  --gradient-close-glow: radial-gradient(
-    46rem 22rem at 50% 58%,
-    color-mix(in srgb, var(--color-green-100) 60%, transparent),
-    transparent 75%
   );
   /* The closing band is the page's last ask, so it stands taller than the section rhythm. */
   --close-space: calc(var(--section-space) * 2);

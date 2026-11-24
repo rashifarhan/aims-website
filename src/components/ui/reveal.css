@@ -1,0 +1,62 @@
+/*
+ * Scroll reveals (client decision 7, 24 Nov 2026; CLAUDE.md §3 as updated by the client): section headings rise word
+ * by word and blocks rise 24px and fade in as they enter, driven by native scroll through CSS scroll timelines. No
+ * script, no scroll-jacking: the browser ties each frame to the scroll position, so scrolling back plays it in
+ * reverse. Transform and opacity only.
+ * - Without `animation-timeline` support (Safari before 26, Firefox) and under reduced motion nothing animates and
+ *   everything stands at its final state; nothing is hidden by default.
+ * - A block fades over the first 12rem of its entry, so anything already on the first screen at load is whole, and
+ *   no block sits half-transparent long enough to matter for reading.
+ */
+.split-word {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  /* Room for descenders inside the clip, given back so line height is unchanged. */
+  padding-block-end: 0.12em;
+  margin-block-end: -0.12em;
+}
+.split-word > span {
+  display: inline-block;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .split-words {
+      view-timeline-name: --split-words;
+    }
+    .split-word > span {
+      animation: reveal-word linear both;
+      animation-timeline: --split-words;
+      animation-range: entry calc(var(--i, 0) * 4%) cover calc(18% + var(--i, 0) * 2.5%);
+    }
+    /* Section blocks (ui/Section.tsx). A dealt moment plays its own motion, and a block holding fixed or sticky UI
+       never takes a transform (a transformed ancestor would capture a fixed bar), so both are left out. */
+    .section-reveal:not([data-moment])
+      > .wrap
+      > :not(.section-heading, .ridges, :has([class*="fixed"], [class*="sticky"])),
+    .section-heading .section-lead,
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 12rem;
+    }
+  }
+}
+@keyframes reveal-word {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

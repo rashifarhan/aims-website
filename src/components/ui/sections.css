@@ -214,8 +214,8 @@ main > .section-band:last-child {
 /* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
 .page-hero {
   /* The hero is its own stacking context on an opaque white ground with the green light at its top (AIMS's hero
-     signature, client decision, 24 Nov 2026): the signal lines (ui/signal-art.css) sit on that ground and the
-     product photograph multiplies onto both, so the lines pass behind the product with no white box around it. */
+     signature, client decision, 24 Nov 2026): the ridge motif (ui/ridges.css) sits on that ground and the
+     product photograph multiplies onto both, so the rings pass behind the product with no white box around it. */
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -296,8 +296,8 @@ main > .section-band:last-child {
   mix-blend-mode: multiply;
 }
 /* The photo blends with the hero's whole ground, not a box of its own: the studio box opens its isolation, so the
-   still light (z-index -1) joins the hero's stacking context above the signal lines and the photo multiplies onto
-   the light, the lines and the white ground together. */
+   still light (z-index -1) joins the hero's stacking context above the ridge motif and the photo multiplies onto
+   the light, the rings and the white ground together. */
 .page-hero-media.aims-studio {
   isolation: auto;
 }
@@ -400,7 +400,7 @@ main:has(> .page-hero-split) {
     animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
   }
   /* A studio photo settles by itself while its light stays still (entrance.css): an animated box would group the
-     photo and show its white as a box over the signal lines while it moved. */
+     photo and show its white as a box over the ridge motif while it moved. */
   .page-hero-media.hero-enter-media.aims-studio {
     animation: none;
   }
@@ -514,28 +514,78 @@ main:has(> .page-hero-split) {
 }
 
 /* ---------- Closing band (ui/ClosePanel.tsx): one action, at most one link (Design Doc 2) ---------- */
-/* Card review (24 Nov 2026): the close is a full-width band, not a box; its content keeps the shared .wrap edges.
-   On the white page (client decision, 24 Nov 2026) a green-100 hairline gives it a clean top edge (the footer's
-   faint band brings its own). */
-/* The closing band (ui/ClosePanel.tsx): the page's last ask, centred, taller than the rhythm, over a soft green light
-   and AIMS's signal lines (ui/CloseSignal.tsx; client request, 24 Nov 2026). The band is the lines' stacking
-   context, so they sit on its ground and under its copy. */
+/* Premium pass (client decisions, 24 Nov 2026): the close is a full-width night-green band (ui/Section night), its
+   copy centred over the ridge motif (ui/ridges.css), taller than the section rhythm because it is the page's last
+   ask. The band is the motif's stacking context, so the rings sit on its ground and under its copy. */
 .ui-close {
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
   padding-block: var(--close-space);
-  border-block-start: 1px solid var(--color-green-100);
-  background: var(--gradient-close-glow), var(--color-page);
 }
-.ui-close-panel {
+.ui-close .ui-close-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.ui-close .ui-close-title {
+  max-width: 13em;
+  margin-inline: auto;
+  font-size: var(--text-close-title);
+  color: var(--color-night-text);
+}
+.ui-close .ui-close-body {
+  max-width: 30rem;
+  margin-inline: auto;
+  margin-block-start: 1.5rem;
+  font-size: var(--text-home-lead);
+  color: var(--color-night-muted);
+}
+.ui-close .ui-close-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem 2rem;
+  margin-block-start: 2.5rem;
+}
+/* The journey as one quiet line of steps under the actions (home page): short hairlines part the steps. */
+.ui-close-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0;
+  margin-block-start: 3.5rem;
+  font-size: var(--text-small);
+  color: var(--color-night-muted);
+}
+.ui-close-steps li {
+  display: flex;
+  align-items: center;
+}
+.ui-close-steps li + li::before {
+  content: "";
+  inline-size: 1.75rem;
+  block-size: 1px;
+  margin-inline: 0.875rem;
+  background: var(--color-night-line);
+}
+@media (max-width: 639px) {
+  .ui-close-steps {
+    margin-block-start: 2.5rem;
+    font-size: var(--text-caption);
+  }
+  .ui-close-steps li + li::before {
+    inline-size: 0.875rem;
+    margin-inline: 0.5rem;
+  }
+}
+/* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). Inside another section
+   it cannot span the page, so there it keeps the mint panel beside its action. */
+.ui-close-embedded .ui-close-panel {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
 }
-/* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). Inside another section
-   it cannot span the page, so there it keeps the mint panel. */
 .ui-close-embedded {
   margin-block-start: 3rem;
 }
@@ -557,7 +607,7 @@ main:has(> .page-hero-split) {
   line-height: 1.6;
   text-wrap: pretty;
 }
-.ui-close-mint .ui-close-actions {
+.ui-close-embedded .ui-close-actions {
   display: flex;
   flex: none;
   flex-direction: column;
@@ -572,11 +622,11 @@ main:has(> .page-hero-split) {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
-  .ui-close-panel {
+  .ui-close-embedded .ui-close-panel {
     flex-direction: column;
     align-items: start;
   }
-  .ui-close-mint .ui-close-actions {
+  .ui-close-embedded .ui-close-actions {
     align-items: start;
   }
 }
@@ -594,8 +644,8 @@ main:has(> .page-hero-split) {
   .ui-close-embedded .ui-close-panel {
     padding: 1.5rem;
   }
-  .ui-close-actions,
-  .ui-close-actions .home-button {
+  .ui-close-embedded .ui-close-actions,
+  .ui-close-embedded .ui-close-actions .home-button {
     width: 100%;
   }
 }

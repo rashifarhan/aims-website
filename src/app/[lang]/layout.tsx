@@ -7,10 +7,13 @@ import { INDEXABLE, SITE_URL } from "@/lib/site";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
+import { RidgeSymbol } from "@/components/ui/RidgeSymbol";
 import "../globals.css";
 import "@/components/ui/actions.css";
 import "@/components/ui/sections.css";
 import "@/components/ui/journey.css";
+import "@/components/ui/reveal.css";
+import "@/components/ui/ridges.css";
 
 export function generateStaticParams() {
   return LOCALES.map((l) => ({ lang: l }));
@@ -51,6 +54,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         >
           {t.nav.skipToContent}
         </a>
+        <RidgeSymbol />
         <ContactGuardProvider labels={t.contactGuard}>
           <Header />
           {children}

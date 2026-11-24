@@ -24,7 +24,8 @@ export function Section({
   moment?: boolean;
   children: ReactNode;
 }) {
-  const classes = ["section", `section-${ground}`, className ?? ""];
+  // Every section's blocks rise and fade in as they scroll into view (ui/reveal.css; client decision, 24 Nov 2026).
+  const classes = ["section", "section-reveal", `section-${ground}`, className ?? ""];
   return (
     <section
       id={id}

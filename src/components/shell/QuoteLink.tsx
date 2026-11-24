@@ -58,7 +58,7 @@ export function QuoteLink({ href, label, itemsLabel, externalLabel, className = 
       href={href}
       // The one button's small outline (actions.css; Design Doc 9 Button): same step, press and focus as every
       // other button on the site.
-      className={`home-button home-button-outline home-button-sm ${className}`}
+      className={`home-button home-button-outline home-button-sm whitespace-nowrap ${className}`}
     >
       <ListIcon width={18} height={18} className="hidden sm:block" />
       <span>{label}</span>

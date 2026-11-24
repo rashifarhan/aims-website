@@ -7,7 +7,6 @@ import { productBySlug, productCount, productsInFamily } from "@/content/catalog
 import { ArrowIcon } from "@/components/icons";
 import { fmt } from "@/i18n/format";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { SectionArcs } from "@/components/ui/SectionArcs";
 import { Section } from "@/components/ui/Section";
 
 const examples = [
@@ -26,7 +25,6 @@ export async function ProductFamilies() {
     // Faint band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
     // the band's faint green tint, parted by hairlines, between the white routes and software sections.
     <Section ground="band" id="families" labelledBy="families-title" className="home-families">
-      <SectionArcs id="families" />
       <SectionHeader
         id="families-title"
         title={fmt(t.home.families.heading, { count: productCount() })}

@@ -68,14 +68,14 @@ export async function Header() {
           action={href("/products")}
           placeholder={t.nav.search}
           submitLabel={t.nav.searchSubmit}
-          className="ms-auto hidden w-56 lg:block xl:w-72"
+          className="ms-auto hidden w-52 lg:block xl:w-56 2xl:w-72"
           shortcut
         />
         <Suspense fallback={null}>
           <LanguageSwitch
             target={otherLocale}
             label={t.nav.switchLanguage}
-            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink lg:inline-flex"
+            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold whitespace-nowrap text-ink-700 hover:text-ink lg:inline-flex"
           />
         </Suspense>
         <QuoteLink
