@@ -160,9 +160,11 @@
   --text-explainer-row: 14px;
   /* The closing band's title (premium pass, 24 Nov 2026): 64px from 1024, 38px on phones. */
   --text-close-title: clamp(2.375rem, 1.4rem + 3.4vw, 4rem);
-  /* Premium pass home (24 Nov 2026): the proof figures (44px on phones, 64px from 1024), the showroom address
-     (24px, 30px from 1024 by the clamp) and a phone line on the desktop showroom list (22px). */
-  --text-figure: clamp(2.75rem, 1.6rem + 3vw, 4rem);
+  /* Premium pass home (24 Nov 2026): the proof figures, sized so "2,200+" (3.2em wide) always fits its column (36px
+     at 320, 44px from 400; 52px at 1024 up to 64px in four columns), the showroom address (24px, 30px from 1024) and
+     a phone line on the desktop showroom list (22px). */
+  --text-figure: clamp(2.25rem, 11vw, 2.75rem);
+  --text-figure-wide: clamp(3.25rem, 5.4vw - 0.5rem, 4rem);
   --text-visit-address: clamp(1.5rem, 1.1rem + 1.2vw, 1.875rem);
   --text-visit-tel: 1.375rem;
   --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */

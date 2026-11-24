@@ -45,13 +45,9 @@ for (const locale of ["en", "ar"] as const) {
     expect(JSON.parse(data ?? "{}")["@type"]).toBe("Organization");
   });
 
-  test(`${locale} door drawing has a text equivalent and external links announce themselves`, async ({ page }) => {
+  test(`${locale} external links announce themselves`, async ({ page }) => {
     await page.goto(home);
     const main = page.getByRole("main");
-    // Design Doc 14: explainers have a text equivalent (the step list).
-    const parts = main.locator(".home-door-parts li");
-    await expect(parts).toHaveCount(6);
-    await expect(parts.nth(2)).toContainText("AL-M280");
     // Every link that leaves the preview says so to screen readers, not only with a ↗ glyph.
     const external = main.locator('section a[href^="https://"]');
     expect(await external.count()).toBeGreaterThan(0);
@@ -60,39 +56,40 @@ for (const locale of ["en", "ar"] as const) {
     }
   });
 
-  test(`${locale} software has its own section with a described records-flow drawing`, async ({ page }) => {
+  test(`${locale} sections follow the premium-pass order and software links its built pages`, async ({ page }) => {
     await page.goto(home);
     const prefix = locale === "ar" ? "/ar" : "";
-    // Client request (24 Nov 2026): software follows the families band as a section of its own, before the door kit.
+    // Client decision 6 (24 Nov 2026): hero, figures, model strip, families, places, software, showroom, close. The
+    // FAQ, buyer routes, reviews, door teaser and reach map left the home page, and the software band lost its
+    // records-flow drawing for a calmer screen, so their checks moved out of this spec.
     const order = await page
       .locator("main > section")
-      .evaluateAll((sections) => sections.map((s) => s.id || s.className));
-    const families = order.findIndex((id) => id === "families");
-    expect(order[families + 1]).toBe("software");
-    expect(order[families + 2]).toContain("home-door");
+      .evaluateAll((sections) => sections.map((s) => s.id || s.className.split(" ").at(-1)));
+    expect(order).toEqual([
+      "home-hero",
+      "home-figures",
+      "model-strip",
+      "families",
+      "places",
+      "software",
+      "showrooms",
+      "ui-close",
+    ]);
+    for (const gone of ["#faq", ".home-door", ".ui-reach", ".home-review-grid", "#journey"])
+      await expect(page.locator(gone)).toHaveCount(0);
     const software = page.locator("#software");
     await expect(software.locator("h2")).toHaveCount(1);
     await expect(page.locator("#families a[href*='/software/']")).toHaveCount(0);
-    // The drawing is one image whose name carries every line as text (CLAUDE.md §4).
-    const flow = software.getByRole("img");
-    await expect(flow).toHaveAttribute("aria-label", /BioTime Cloud.*BioTime 9\.5.*ZKAccess 3\.5/);
-    await expect(flow).toHaveAttribute("aria-label", /IFace 990.*Biopro SA20.*Inbio 260/);
     for (const slug of ["biotimecloud", "biotime-9-5", "zkaccess-3-5"]) {
-      await expect(software.locator(`a.home-row[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
+      await expect(software.locator(`a.home-sw-name[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
     }
     await expect(software.locator(`a[href="${prefix}/software"]`)).toHaveCount(1);
+    // The journey is the one line of steps under the closing button.
+    await expect(page.locator(".ui-close-steps li")).toHaveCount(5);
   });
 
-  test(`${locale} FAQ works by keyboard and narrow layout reflows`, async ({ page }) => {
+  test(`${locale} narrow layout reflows`, async ({ page }) => {
     await page.goto(home);
-    const details = page.locator("#faq details");
-    await expect(details).toHaveCount(6);
-    const summary = details.first().locator("summary");
-    await summary.focus();
-    await page.keyboard.press("Enter");
-    await expect(details.first()).toHaveAttribute("open", "");
-    await page.keyboard.press("Enter");
-    await expect(details.first()).not.toHaveAttribute("open", "");
     for (const width of [390, 320, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -121,7 +118,7 @@ test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
   });
   await expect(hero.locator('[data-screen="idle"]')).toHaveCSS("opacity", "1");
   await expect(hero.locator('[data-screen="verified"]')).toHaveCSS("opacity", "0");
-  await page.locator("#faq").scrollIntoViewIfNeeded();
+  await page.locator("#showrooms").scrollIntoViewIfNeeded();
   await expect
     .poll(() =>
       hero.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
@@ -130,15 +127,29 @@ test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
 });
 
 test("desktop hero artwork stays clear of English and Arabic copy", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  for (const path of ["/", "/ar"]) {
-    await page.goto(path);
-    const title = await page.locator("#home-title").boundingBox();
-    const device = await page.locator(".home-device").boundingBox();
-    expect(title).not.toBeNull();
-    expect(device).not.toBeNull();
-    if (title && device) {
-      expect(path === "/" ? title.x + title.width <= device.x : device.x + device.width <= title.x).toBe(true);
+  for (const width of [1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ["/", "/ar"]) {
+      await page.goto(path);
+      await page.evaluate(() => document.fonts.ready);
+      const title = await page.locator("#home-title").boundingBox();
+      const frame = await page.locator(".home-frame").boundingBox();
+      expect(title).not.toBeNull();
+      expect(frame).not.toBeNull();
+      if (title && frame) {
+        expect(path === "/" ? title.x + title.width <= frame.x : frame.x + frame.width <= title.x).toBe(true);
+      }
+      // Client decision 2 (24 Nov 2026): from 1024px the headline is two lines, neither wrapping nor clipped.
+      const lines = await page.locator("#home-title > span").evaluateAll((spans) =>
+        spans.map((span) => ({
+          fits: span.scrollWidth <= span.clientWidth + 1,
+          oneLine: span.getBoundingClientRect().height < 1.5 * parseFloat(getComputedStyle(span).lineHeight),
+        })),
+      );
+      expect(lines).toEqual([
+        { fits: true, oneLine: true },
+        { fits: true, oneLine: true },
+      ]);
     }
   }
 });

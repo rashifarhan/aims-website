@@ -16,17 +16,28 @@ test.describe("pages", () => {
         /user-scalable=no|maximum-scale=1/,
       );
       // Audit the rendered text after approved entrance fades, not a translucent animation frame.
-      // Infinite domain loops stay active and have separate motion/reduced-motion coverage.
+      // Infinite domain loops stay active and have separate motion/reduced-motion coverage. Scroll-driven reveals
+      // (client decision 7, 24 Nov 2026) follow the scroll position, not the clock, so they never "finish" here.
       await page.evaluate(() =>
         Promise.all(
           document
             .getAnimations()
             .filter(
               (animation) =>
-                animation instanceof CSSAnimation && Number.isFinite(animation.effect?.getTiming().iterations),
+                animation instanceof CSSAnimation &&
+                animation.timeline instanceof DocumentTimeline &&
+                Number.isFinite(animation.effect?.getTiming().iterations),
             )
             .map((animation) => animation.finished.catch(() => undefined)),
         ),
+      );
+      // The scroll reveals rest whole once read; the audit is of that resting text, so they are set to rest here
+      // rather than audited half-faded at the fold (their scroll behaviour is covered in home-premium.spec.ts).
+      await page.evaluate(() =>
+        document
+          .getAnimations()
+          .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+          .forEach((animation) => animation.cancel()),
       );
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

@@ -1,6 +1,7 @@
 import { isValidElement, type ReactElement } from "react";
 import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
+import { Magnetic } from "./Magnetic";
 import { Section } from "./Section";
 import { Ridges } from "./Ridges";
 import { SplitWords } from "./SplitWords";
@@ -45,10 +46,12 @@ export function ClosePanel({
         {isValidElement(action) ? (
           action
         ) : (
-          <Link href={action.href} className="home-button">
-            {action.label}
-            <ArrowIcon width="18" height="18" className="home-action-arrow" />
-          </Link>
+          <Magnetic>
+            <Link href={action.href} className="home-button">
+              {action.label}
+              <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
+            </Link>
+          </Magnetic>
         )}
         {secondary && (
           <Link href={secondary.href} className={embedded ? "home-text-link" : "home-secondary"}>

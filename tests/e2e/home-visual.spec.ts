@@ -9,7 +9,7 @@ for (const locale of ["en", "ar"]) {
       await page.evaluate(() => document.fonts.ready);
       await expect(page.locator(".home-device-photo")).toBeVisible();
       const edges = await page
-        .locator("header > div, .home-hero-copy, main .wrap, footer > div")
+        .locator("header > div, .home-hero-inner, main .wrap, footer > div")
         .evaluateAll((containers) =>
           containers.map((container) => {
             const rect = container.getBoundingClientRect();
@@ -36,6 +36,8 @@ for (const locale of ["en", "ar"]) {
             style.clipPath !== "none"
           )
             return [];
+          // WCAG 2.5.8 exempts a link set inline in a sentence (the footer's one stand-in credit line, CLAUDE.md §2).
+          if (style.display === "inline" && element.closest("p")) return [];
           return rect.width < 44 || rect.height < 44
             ? [`${element.tagName}: ${element.textContent?.trim().slice(0, 40)} (${rect.width}×${rect.height})`]
             : [];

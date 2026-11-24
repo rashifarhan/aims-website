@@ -479,6 +479,13 @@ main:has(> .home-hero) {
 :lang(ar) .home-display {
   line-height: 1.25;
 }
+/* Plex Sans Arabic sets the Arabic lines about 3% wider than Archivo sets the English: a step smaller keeps both
+   unbroken lines clear of the frame (client decision 2). */
+@media (min-width: 1024px) {
+  :lang(ar) .home-display {
+    font-size: calc(var(--text-home-display) * 0.92);
+  }
+}
 :lang(ar) .home-device-screen {
   direction: rtl;
 }
@@ -576,7 +583,8 @@ main:has(> .home-hero) {
     animation-delay: 250ms;
   }
   .home-device {
-    animation: home-device-in var(--duration-hero-device) 250ms var(--ease-aims) both;
+    /* The whole device entrance settles within 1.1 s, its overlap delay included (approved redesign). */
+    animation: home-device-in 850ms 250ms var(--ease-aims) both;
   }
   .home-wash {
     animation: home-fade var(--duration-hero-wash) 300ms var(--ease-aims) both;

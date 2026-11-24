@@ -71,6 +71,8 @@ export async function HomeVisit() {
                 target={CONTACT.lines.mobile.display}
                 className="home-visit-tel"
               >
+                {/* It opens WhatsApp outside the site: said to screen readers too, not only by the label beside it. */}
+                <span className="sr-only">{t.common.whatsapp} </span>
                 <bdi dir="ltr" className="tabular-nums">
                   {CONTACT.lines.mobile.display}
                 </bdi>
