@@ -54,7 +54,8 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
         title={title}
         lead={lead}
       />
-      <div className="wrap">
+      {/* The shared section rhythm under the results, so the can't-find panel never meets the night band. */}
+      <div className="wrap pb-(--section-space)">
         <Suspense fallback={<ListingView {...props} />}>
           <Listing {...props} />
         </Suspense>

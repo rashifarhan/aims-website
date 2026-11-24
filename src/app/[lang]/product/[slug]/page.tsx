@@ -10,6 +10,7 @@ import { SpecsSection } from "@/components/product/SpecsSection";
 import { connections, MIN_CONNECTS_NODES, nodeCount } from "@/components/product/connects";
 import { englishData } from "@/components/product/englishData";
 import { productGrounds } from "@/components/product/grounds";
+import "@/components/catalogue/catalogue.css";
 import "@/components/product/product.css";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";

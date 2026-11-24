@@ -6,6 +6,8 @@ import type { ProductCard as Card } from "@/content/cards";
 import type { QuoteContext } from "@/lib/quote/context";
 import { splitModel } from "@/lib/modelCode";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
+// The card's plinth and phone-row rules travel with it (a location page shows it outside the listing).
+import "./catalogue.css";
 
 export type CardLabels = AddToQuoteLabels & { compare: string; specsOnRequest: string };
 
@@ -45,12 +47,13 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
   const model = splitModel(card.model);
   const description = model.description || describe(card);
   return (
-    <article className="product-card ui-card ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
+    // From 640px the home tile: the photograph full-bleed on its plinth, the facts inset below (catalogue.css).
+    <article className="product-card ui-card ui-card-interactive spotlight-card grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:overflow-clip sm:p-0">
       <Link
         href={href}
         tabIndex={-1}
         aria-hidden="true"
-        className="ui-card-photo relative block aspect-square overflow-hidden rounded-md border border-line bg-paper sm:mb-4 sm:border-0"
+        className="ui-card-photo catalogue-plinth relative block aspect-square overflow-hidden rounded-md sm:aspect-5/4 sm:rounded-none"
       >
         {card.image && (
           <Image
@@ -58,13 +61,13 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
             alt=""
             fill
             sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 88px"
-            className="object-contain p-2 sm:p-4"
+            className="object-contain p-2 sm:px-[14%] sm:py-[10%]"
             loading={eager ? "eager" : "lazy"}
           />
         )}
       </Link>
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col sm:p-(--card-pad)">
         {BRAND_LINE[card.brand] && (
           <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
         )}
