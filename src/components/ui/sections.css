@@ -212,7 +212,16 @@
 }
 /* ---------- Page hero (ui/PageHero.tsx): one hero for every family (Design Doc 9-10) ---------- */
 .page-hero {
+  /* The hero is its own stacking context on an opaque white ground with the green light at its top (AIMS's hero
+     signature, client decision, 24 Nov 2026): the signal lines (ui/signal-art.css) sit on that ground and the
+     product photograph multiplies onto both, so the lines pass behind the product with no white box around it. */
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding-block: 1.5rem var(--section-space);
+  background:
+    var(--gradient-hero-glow) no-repeat,
+    var(--color-page);
 }
 .page-hero-compact {
   padding-block-end: 2.5rem;
@@ -287,10 +296,11 @@
      product.css). */
   mix-blend-mode: multiply;
 }
-/* The studio light sits in an isolated group, so multiply blends with it, not with the page behind: give the light
-   the hero's ground as its base, so the photo's white meets the page white everywhere past the light's falloff. */
-.page-hero-media.aims-studio::before {
-  background: var(--gradient-studio-light), var(--color-page);
+/* The photo blends with the hero's whole ground, not a box of its own: the studio box opens its isolation, so the
+   still light (z-index -1) joins the hero's stacking context above the signal lines and the photo multiplies onto
+   the light, the lines and the white ground together. */
+.page-hero-media.aims-studio {
+  isolation: auto;
 }
 .page-hero-framed {
   padding: 1.5rem;
@@ -388,6 +398,14 @@ main:has(> .page-hero-split) {
     animation-delay: 440ms;
   }
   .hero-enter-media {
+    animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
+  }
+  /* A studio photo settles by itself while its light stays still (entrance.css): an animated box would group the
+     photo and show its white as a box over the signal lines while it moved. */
+  .page-hero-media.hero-enter-media.aims-studio {
+    animation: none;
+  }
+  .page-hero-media.hero-enter-media.aims-studio img {
     animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
   }
 }

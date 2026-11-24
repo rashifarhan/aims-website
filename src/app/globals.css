@@ -308,6 +308,14 @@
     color-mix(in srgb, var(--color-lime) 6%, transparent) 38%,
     transparent 76%
   );
+  /* AIMS's inner hero signature (client decision, 24 Nov 2026): a soft green light at the top of every PageHero,
+     under its signal lines. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
+     green-700 5.5:1. */
+  --gradient-hero-glow: radial-gradient(
+    60rem 26rem at 50% 0%,
+    color-mix(in srgb, var(--color-green-100) 45%, transparent),
+    transparent 72%
+  );
   /* Homepage night surfaces (README → Decisions): night green. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
