@@ -10,3 +10,4 @@ PRODUCT.md, outranks the taste skill and the Design Doc's design rules; CLAUDE.m
 - Families and software: the section link gains its arrow like every standalone link; software cards lead with
   the name and close on kind + arrow, the same anatomy as the family cards above them.
 - Primary button: the green glow under it (not in DESIGN.md's shadow vocabulary) becomes the ink resting shadow.
+- Proof: each company-stated figure stands on a hairline, so the four read as one datasheet table.

@@ -174,11 +174,15 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.5rem 2rem;
 }
+/* Each figure stands on a hairline, the datasheet look of DESIGN.md (tabular figures, hairlines), so the four
+   read as one table of company-stated facts rather than loose big numbers (Impeccable polish). */
 .home-proof dl > div {
   display: flex;
   flex-direction: column-reverse;
   justify-content: start;
   gap: 0.5rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--color-line);
 }
 .home-proof dt {
   font-size: var(--text-small);
