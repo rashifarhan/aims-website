@@ -35,6 +35,8 @@
   --color-error: #b42318;
   --color-warn: #8a5300;
   --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
+  /* WhatsApp's own green for its icon on the night-green footer (icons keep their brand colours): 8.6:1 on night-900. */
+  --color-whatsapp-on-night: #25d366;
   /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
      Shifted toward the client's chosen forest palette (24 Nov 2026: #0F1F17, #1E3A2E).
      Contrast on night-900: text 15.0:1, night-muted 8.6:1, lime 7.5:1, so lime may carry text there;
@@ -220,6 +222,10 @@
     outline: 2px solid var(--color-green-700);
     outline-offset: 2px;
     border-radius: 4px;
+  }
+  /* On the night-green footer the ring turns lime (7.5:1 on night-900), as in the night sections. */
+  .site-footer :focus-visible {
+    outline-color: var(--color-lime);
   }
 
   ::selection {

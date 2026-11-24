@@ -439,6 +439,17 @@ page but shows only on keyboard focus, like the skip link: mouse and touch visit
 screen-reader users can still pause. Reduced-motion visitors get the still hero as before. The e2e test now presses the
 button by keyboard, the way its users reach it.
 
+**Night-green footer (client request, 24 Nov 2026).** The footer moves from the pale paper ground to AIMS's night
+green (`--gradient-night`), closing every page on the brand's dark band, as most professional B2B footers do. It is
+rebuilt on one grid: at 1280px and up the wordmark, partner line and contacts take four of twelve columns and the four
+link groups the other eight, with the column headings on the wordmark's centre line. The contacts become a grid with
+each label over its number (four columns from 640px to 1279px, sharing the link columns' lines below it; two on a
+phone and on wide screens), the address gets its own "Directions" link under it, and the per-row phone icons are gone
+(the labels say it). Popular searches share one line with their label from 640px; the legal line closes under a
+hairline. Text uses night-text (15.0:1) and night-muted (8.6:1); the focus ring turns lime (7.5:1); WhatsApp's own
+green marks its line (`--color-whatsapp-on-night`, 8.6:1). No page ends on a night section, so the footer never
+merges into one; a night-line hairline marks its top edge regardless.
+
 ## Content import
 
 ```bash
