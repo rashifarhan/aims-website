@@ -3,6 +3,7 @@ import { localePath } from "@/i18n/config";
 import { ChatIcon, DocumentIcon, HeadsetIcon, ToolIcon, TruckIcon } from "@/components/icons";
 import { JourneySteps } from "@/components/ui/JourneySteps";
 import { Section } from "@/components/ui/Section";
+import { SectionArcs } from "@/components/ui/SectionArcs";
 
 /**
  * T1 row 8, after the showroom reach (client mockup C, "From the first call to a working system"; README Decisions,
@@ -15,6 +16,7 @@ export async function HomeJourney() {
   const j = t.home.journey;
   return (
     <Section id="journey" labelledBy="journey-title" className="home-journey">
+      <SectionArcs id="journey" />
       <JourneySteps
         heading={{ id: "journey-title", title: j.heading, lead: j.lead }}
         steps={[
