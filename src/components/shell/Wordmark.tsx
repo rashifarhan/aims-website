@@ -11,7 +11,7 @@ export function Wordmark({ href, descriptor, tone = "light" }: Props) {
       aria-label="AIMS Security Systems, home"
     >
       <span
-        className={`text-wordmark font-extrabold tracking-wordmark ${tone === "night" ? "text-night-text" : "text-ink"}`}
+        className={`ui-display text-wordmark font-extrabold tracking-wordmark ${tone === "night" ? "text-night-text" : "text-ink"}`}
         dir="ltr"
       >
         AIMS<span className="text-lime">.</span>

@@ -60,7 +60,7 @@ export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t
           {/* The shared AIMS entrance (motion/entrance.css): the title rises from its mask. */}
           <h1
             id="product-title"
-            className="aims-headline-mask mt-2 text-page-title-mobile leading-tight font-display tracking-tight wrap-anywhere text-ink lg:text-page-title"
+            className="aims-headline-mask ui-display mt-2 text-page-title-mobile leading-tight tracking-tight wrap-anywhere text-ink lg:text-page-title"
           >
             <span className="aims-headline" {...data}>
               {name}

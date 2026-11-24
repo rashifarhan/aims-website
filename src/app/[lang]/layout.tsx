@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { lang } from "next/root-params";
-import { inter, plexArabic, plexMono } from "../fonts";
+import { archivo, inter, plexArabic, plexMono } from "../fonts";
 import { LOCALES, dir, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { INDEXABLE, SITE_URL } from "@/lib/site";
@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
     <html
       lang={locale}
       dir={dir(locale)}
-      className={`${inter.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
+      className={`${inter.variable} ${archivo.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <a

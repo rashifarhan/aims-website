@@ -61,11 +61,10 @@ main > .section-band:last-child {
   flex: none;
   margin-block-start: 0;
 }
+/* Face, weight and tracking: the shared display rule (globals.css). */
 .section-title {
   font-size: var(--text-home-heading);
-  font-weight: var(--font-weight-display);
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 :lang(ar) .section-title {
@@ -246,9 +245,7 @@ main > .section-band:last-child {
 .page-hero h1 {
   max-width: 48rem;
   font-size: var(--text-page-title);
-  font-weight: var(--font-weight-display);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.04;
   text-wrap: balance;
 }
 .page-hero-eyebrow + h1 {
@@ -550,9 +547,7 @@ main:has(> .page-hero-split) {
 }
 .ui-close-title {
   font-size: var(--text-home-heading);
-  font-weight: var(--font-weight-display);
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 .ui-close-body {

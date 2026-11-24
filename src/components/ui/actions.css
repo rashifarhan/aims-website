@@ -8,7 +8,7 @@
    * The one link look, in two places (Design Doc 9 Text link; taste link-styles: one underline, one weight):
    * - .home-text-link, a standalone link ("See all products →"): no line at rest, the underline draws on hover.
    *   .home-night-link is the same link on night green, in lime (7.5:1 there).
-   * - .home-secondary, a link set in running copy or beside a button: underlined at rest, darkens on hover.
+   * - .home-secondary, the link beside a button: a pale line at rest, a green line draws over it on hover.
    *   .ui-link is the same look inline in a sentence, without the 44px row.
    * Green-700 is the only action colour on light surfaces (Design Doc 4).
    */
@@ -53,14 +53,19 @@
   :dir(rtl) .home-external-mark {
     transform: scaleX(-1);
   }
-  /* No coloured glow under the button (card review, 24 Nov 2026): it rests flat, like every other control. */
+  /*
+   * The signature button (client decision, 24 Nov 2026; replaces the green-700 fill): a night-green pill with white
+   * text (15.0:1), and, when it carries the arrow, a lime circle at its end holding a dark arrow. The circle is the
+   * arrow's own SVG box (padding, background, radius), so every existing `<ArrowIcon className="home-action-arrow">`
+   * child becomes the circle with no markup change. On night grounds it inverts (below).
+   */
   .home-button {
     min-height: var(--home-button-height);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding-inline: 1.75rem;
-    background: var(--color-green-700);
+    background: var(--color-night-900);
     color: var(--color-paper);
     border-radius: var(--radius-pill);
     font-weight: 600;
@@ -74,37 +79,96 @@
     /* Already underlined at rest, so hover answers by darkening to the primary hover colour. */
     transition: color var(--duration-hover) ease;
   }
+  .ui-link:hover {
+    color: var(--color-green-800);
+  }
+  /* The signature pair's secondary (client decision, 24 Nov 2026): a pale green-100 line at rest (it still reads as
+     a link without colour alone), and on hover a green line draws over it from the start edge. */
   .home-secondary {
     display: inline-flex;
     align-items: center;
+    gap: 0.5rem;
     min-height: 2.75rem;
+    text-decoration: none;
+    background:
+      linear-gradient(currentColor, currentColor) no-repeat,
+      linear-gradient(var(--color-green-100), var(--color-green-100)) no-repeat;
+    background-position:
+      left calc(100% - 0.5rem),
+      left calc(100% - 0.5rem);
+    background-size:
+      0 1.5px,
+      100% 1.5px;
+    transition:
+      background-size var(--duration-sweep) var(--ease-aims),
+      color var(--duration-hover) ease;
   }
-  .home-secondary:hover,
-  .ui-link:hover {
-    color: var(--color-green-800);
+  :dir(rtl) .home-secondary {
+    background-position:
+      right calc(100% - 0.5rem),
+      right calc(100% - 0.5rem);
+  }
+  .home-secondary:hover {
+    background-size:
+      100% 1.5px,
+      100% 1.5px;
+  }
+  .home-secondary:hover .home-action-arrow {
+    translate: 3px 0;
+  }
+  :dir(rtl) .home-secondary:hover .home-action-arrow {
+    translate: -3px 0;
+  }
+  /* Links on night green take lime (7.5:1 on night-900; green-700 would fail there), and their resting line turns
+     night-line. */
+  .section-night :is(.home-secondary, .home-text-link) {
+    color: var(--color-lime);
+  }
+  .section-night .home-secondary {
+    background-image:
+      linear-gradient(currentColor, currentColor), linear-gradient(var(--color-night-line), var(--color-night-line));
   }
   .home-button {
     position: relative;
     isolation: isolate;
+    overflow: clip;
     gap: 0.75rem;
     transition: transform var(--duration-fast) var(--ease-aims);
   }
+  /* Hover: a deeper night sweeps in from the start edge (transform only), the pill steps 1px, the circle nudges. */
   .home-button::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: var(--color-green-800);
+    background: var(--color-night-700);
     border-radius: inherit;
-    opacity: 0;
-    transition: opacity var(--duration-fast);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--duration-sweep) var(--ease-aims);
   }
-  .home-button:hover {
-    background: var(--color-green-700);
+  :dir(rtl) .home-button::before {
+    transform-origin: right center;
   }
   .home-button:hover::before,
   .home-button:focus-visible::before {
-    opacity: 1;
+    transform: scaleX(1);
+  }
+  /* The arrow circle: lime with a night arrow, at the pill's end edge. Lime here is a fill beside white text on the
+     night pill, not text (Design Doc 4). */
+  .home-button:has(> .home-action-arrow) {
+    padding-inline-end: var(--home-button-inset);
+    gap: 1.125rem;
+  }
+  .home-button > .home-action-arrow {
+    box-sizing: border-box;
+    flex: none;
+    width: var(--home-button-dot);
+    height: var(--home-button-dot);
+    padding: calc(var(--home-button-dot) * 0.29);
+    border-radius: 50%;
+    background: var(--color-lime);
+    color: var(--color-night-900);
   }
   /* Taste motion.md, hover layer: a button steps up 1px on hover and presses down on click. */
   @media (hover: hover) and (pointer: fine) {
@@ -123,6 +187,20 @@
   }
   :dir(rtl) .home-button:hover .home-action-arrow {
     translate: -3px 0;
+  }
+  /* On night green (night sections, the closing band, the footer) the primary inverts: a white pill with green-800
+     text (7.9:1), a night circle and a lime arrow (7.5:1 on night-900). */
+  :is(.section-night, .site-footer) .home-button:not(.home-button-outline, .home-button-quiet, .home-button-whatsapp) {
+    background: var(--color-paper);
+    color: var(--color-green-800);
+  }
+  :is(.section-night, .site-footer)
+    .home-button:not(.home-button-outline, .home-button-quiet, .home-button-whatsapp)::before {
+    background: var(--color-green-50);
+  }
+  :is(.section-night, .site-footer) .home-button > .home-action-arrow {
+    background: var(--color-night-900);
+    color: var(--color-lime);
   }
   .home-secondary:active,
   .ui-link:active,
@@ -159,6 +237,7 @@
     background: var(--color-paper);
   }
   .home-button-sm {
+    --home-button-dot: 2.25rem;
     min-height: 2.75rem;
     padding-inline: 1.25rem;
     gap: 0.5rem;

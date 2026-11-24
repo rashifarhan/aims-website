@@ -53,6 +53,10 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
   --font-arabic: var(--font-plex-arabic), var(--font-inter), sans-serif;
+  /* Display face (client decision, 24 Nov 2026): Archivo for headings, figures and the wordmark. Archivo is Latin
+     only, so Arabic glyphs fall through to IBM Plex Sans Arabic glyph by glyph, and Arabic headings keep the Arabic
+     font. */
+  --font-display: var(--font-archivo), var(--font-plex-arabic), var(--font-inter), ui-sans-serif, sans-serif;
 
   /* Type sizes outside Tailwind's default scale (Design Doc ch. 5) */
   --text-kbd: 0.6875rem; /* 11px · keyboard hints */
@@ -62,10 +66,15 @@
   --text-menu: 0.9375rem; /* 15px · mobile menu links */
   --text-wordmark: 1.375rem; /* 22px · interim wordmark */
   --text-brand: 0.71875rem; /* 11.5px · brand line on cards, the only all-caps label (Design Doc 5) */
-  --tracking-wordmark: 0.04em;
+  --tracking-wordmark: -0.01em; /* Archivo set wide needs no extra tracking */
   --tracking-brand: 0.08em;
   /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
-  --font-weight-display: 680;
+  /* Archivo set wide (client decision, 24 Nov 2026): 650 at 115% width, tight tracking. The home hero is a step
+     narrower so its two lines hold beside the verified frame from 1024px. Width is a font axis, not a size. */
+  --font-weight-display: 650;
+  --font-stretch-display: 115%;
+  --font-stretch-hero: 106%;
+  --tracking-display: -0.035em;
   --font-weight-card: 650;
 
   /* Radius */
@@ -102,6 +111,8 @@
   --duration-card: 240ms;
   --duration-drawer: 300ms;
   --duration-drawer-exit: 200ms;
+  /* The signature button's hover sweep and the secondary link's underline draw (client decision, 24 Nov 2026). */
+  --duration-sweep: 450ms;
   /* Approved hero prototype and Design Doc 8.4. */
   --duration-nav: 250ms;
   --duration-hero-rise: 900ms;
@@ -120,7 +131,7 @@
   --text-home-display-mobile: 2.5rem;
   /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
   --text-home-display-short: 1.875rem;
-  --text-home-heading: 2.375rem;
+  --text-home-heading: 2.75rem; /* 44px: Archivo set wide (client decision, 24 Nov 2026) */
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
   /* The proof statement (client mockup B, 24 Nov 2026): one sentence carrying the four company figures, a step above
@@ -233,6 +244,29 @@
   }
 }
 
+/*
+ * The display face on every shared heading class (client decision, 24 Nov 2026): page and section titles, the
+ * closing title, the home display and figures, the wordmark. In the components layer, so a family rule (size, colour,
+ * a hero's narrower width) still refines it. `.ui-display` gives a one-off heading the same face.
+ */
+@layer components {
+  .ui-display,
+  .home-display,
+  .section-title,
+  .page-hero h1,
+  .ui-close-title,
+  .home-figure {
+    font-family: var(--font-display);
+    font-stretch: var(--font-stretch-display);
+    font-weight: var(--font-weight-display);
+    letter-spacing: var(--tracking-display);
+  }
+  /* Arabic keeps its own font and spacing (Design Doc 13): no negative tracking on joined letters. */
+  :lang(ar) :is(.ui-display, .home-display, .section-title, .page-hero h1, .ui-close-title) {
+    letter-spacing: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -294,6 +328,9 @@
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
+  /* The signature button's arrow circle and the inset round it (client decision, 24 Nov 2026). */
+  --home-button-dot: 2.625rem;
+  --home-button-inset: 0.375rem;
   /* Resting light at its original strength (DESIGN.md "Lime Is Light", not a glow); the verified layer below adds
      to it only while the hero shows "Access granted". */
   --gradient-home-glow: radial-gradient(
@@ -366,7 +403,7 @@
   :root {
     --section-space: 2rem;
     --card-pad: 1.25rem;
-    --text-home-heading: 1.75rem;
+    --text-home-heading: 2rem;
   }
 }
 
