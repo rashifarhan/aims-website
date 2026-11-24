@@ -4,7 +4,7 @@ import { RIDGE_VIEWBOX, ridgePath, ridgePaths } from "./ridgePaths";
 describe("ridgePaths", () => {
   it("draws one closed curve per ring", () => {
     const paths = ridgePaths();
-    expect(paths).toHaveLength(30);
+    expect(paths).toHaveLength(28);
     for (const d of paths) expect(d).toMatch(/^M\d+ \d+(C(\d+ ){5}\d+)+Z$/);
   });
 
@@ -28,11 +28,11 @@ describe("ridgePaths", () => {
       const xs = extent(d).filter((_, i) => i % 2 === 0);
       return Math.max(...xs) - Math.min(...xs);
     };
-    expect(width(paths[28])).toBeGreaterThan(width(paths[3]));
+    expect(width(paths[26])).toBeGreaterThan(width(paths[3]));
   });
 
   it("writes whole units only, so the inline drawing stays small", () => {
     expect(ridgePaths().join("")).not.toMatch(/\./);
-    expect(ridgePaths().join("").length).toBeLessThan(20_000);
+    expect(ridgePaths().join("").length).toBeLessThan(10_000);
   });
 });

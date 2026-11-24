@@ -6,7 +6,7 @@
  */
 export const RIDGE_VIEWBOX = 1000;
 
-export function ridgePath(ring: number, points = 20): string {
+export function ridgePath(ring: number, points = 14): string {
   const r = 11 + 13.2 * ring;
   const cx = 500 + ring * 1.4;
   const cy = 505 - ring * 1.1;
@@ -31,7 +31,11 @@ export function ridgePath(ring: number, points = 20): string {
   return `${d}Z`;
 }
 
-/** Every ring of the motif, innermost first; the outermost (ring 30) nearly reaches the viewBox edge. */
-export function ridgePaths(rings = 30): string[] {
+/**
+ * Every ring of the motif, innermost first; the outermost (ring 28) nearly reaches the viewBox edge. Fourteen points
+ * a ring keep the curves smooth at half the bytes of the mockup's drawing, which every page carries inline (the
+ * symbol is in the root layout).
+ */
+export function ridgePaths(rings = 28): string[] {
   return Array.from({ length: rings }, (_, i) => ridgePath(i + 1));
 }
