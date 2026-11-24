@@ -277,6 +277,14 @@
   display: block;
   width: 100%;
   height: auto;
+  /* AIMS's product shots are photographed on white, not cut out: multiplied onto the ground, their white takes the
+     mint page instead of showing a white box (the product stage does the same, product.css). */
+  mix-blend-mode: multiply;
+}
+/* The studio light sits in an isolated group, so multiply blends with it, not with the page behind: give the light
+   the hero's ground as its base, so the photo's white meets mint everywhere, including past the light's falloff. */
+.page-hero-media.aims-studio::before {
+  background: var(--gradient-studio-light), var(--color-page);
 }
 .page-hero-framed {
   padding: 1.5rem;
