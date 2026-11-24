@@ -42,12 +42,12 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
       <fieldset>
-        <legend className="mb-3 text-lg font-semibold text-ink">{t.needLegend}</legend>
+        <legend className="ui-display mb-3 text-xl text-ink">{t.needLegend}</legend>
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
           {NEEDS.map((n) => (
             <label
               key={n}
-              className="flex cursor-pointer items-start gap-3 rounded-md border border-line-strong bg-paper p-4 has-checked:border-green-700 has-checked:bg-green-50 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-green-700"
+              className="flex cursor-pointer items-start gap-3 rounded-lg border border-line-strong bg-paper p-4 transition-colors has-checked:border-night-900 has-checked:bg-paper-2 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-green-700"
             >
               <input
                 type="radio"
@@ -67,7 +67,7 @@ export function ContactRouter({ t, hrefs, showroom }: Props) {
       </fieldset>
 
       <section aria-labelledby="contact-channel-title" className="ui-panel @container">
-        <h2 id="contact-channel-title" className="text-home-subtitle font-card text-ink">
+        <h2 id="contact-channel-title" className="ui-display text-home-subtitle text-ink">
           {t.needs[need].label}
         </h2>
         {/* Micro (site polish): name the line that answers this need, from AIMS's own routing; no hours. */}

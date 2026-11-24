@@ -13,7 +13,7 @@ import { ContactLink } from "./ContactLink";
  */
 export function LocationCards({ t, id }: { t: Dictionary["contactPage"]; id?: string }) {
   return (
-    <Section id={id} labelledBy="locations-title">
+    <Section ground="band" id={id} labelledBy="locations-title">
       <SectionHeader id="locations-title" title={t.locationsTitle} />
       <ul className="ui-office-list">
         {LOCATIONS.map((loc) => {

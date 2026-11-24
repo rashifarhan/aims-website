@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/PageHero";
 import { ContactRouter } from "@/components/contact/ContactRouter";
 import { ReachMap } from "@/components/home/ReachMap";
@@ -39,14 +40,14 @@ export default async function ContactPage() {
         title={t.contactPage.title}
         lead={t.contactPage.lead}
       />
-      {/* wrap: the same content edges as the header and footer (taste House rule 4). */}
-      <div className="wrap">
+      {/* Section: the shared rhythm and the same content edges as the header and footer (taste House rule 4). */}
+      <Section className="co-contact">
         <ContactRouter
           t={t.contactPage}
           hrefs={{ products: href("/products"), quote: href("/quote") }}
           showroom={{ address: CONTACT.showroomAddress, map: CONTACT.showroomMap }}
         />
-      </div>
+      </Section>
       <LocationCards t={t.contactPage} />
       <ReachBand
         titleId="contact-reach-title"

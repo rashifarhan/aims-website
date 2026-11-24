@@ -1,4 +1,8 @@
-import { SolutionOptions } from "@/components/solution/SolutionOptions";
+import Link from "next/link";
+import { ArrowIcon } from "@/components/icons";
+import { Section } from "@/components/ui/Section";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 
@@ -33,5 +37,42 @@ export async function ServicesList() {
     href: localePath(locale, href),
     count: services.items[key].action,
   }));
-  return <SolutionOptions idPrefix="services" copy={services.list} items={items} />;
+  return (
+    // Premium pass: the same option card as the solution pages (method-card), with the home tiles' spotlight.
+    <Section labelledBy="services-methods-title">
+      <SectionHeader id="services-methods-title" title={services.list.heading} lead={services.list.lead} />
+      <SpotlightGroup>
+        <ul className="method-grid">
+          {items.map((item) => (
+            <li key={item.key}>
+              <Link href={item.href} className="method-card ui-card ui-card-interactive spotlight-card">
+                <div className="method-head">
+                  <span className="method-icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 32 32"
+                      width="28"
+                      height="28"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d={item.icon} />
+                    </svg>
+                  </span>
+                  <h3>{item.title}</h3>
+                </div>
+                <p>{item.body}</p>
+                <span className="method-count">
+                  <span className="tabular-nums">{item.count}</span>
+                  <ArrowIcon width="16" height="16" className="home-action-arrow" />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </SpotlightGroup>
+    </Section>
+  );
 }
