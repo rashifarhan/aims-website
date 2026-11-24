@@ -7,9 +7,12 @@ import type { ProductCard } from "@/content/cards";
  * Listing state lives in the URL (Design Doc 10, T4): shareable, and Back
  * restores it. Unknown values are dropped rather than failing the page.
  *   ?q=f18&family=access-control&type=panel&brand=zkteco&verify=face,card&conn=wifi&outdoor=1&cmp=f18,bio-pro-sa20
+ * `sort=name|family` and `page=2` are omitted when they are the default (relevance, page 1).
  */
 const BRANDS = ["zkteco", "alpha"] as const;
 export const MAX_COMPARE = 3;
+export const SORT_KEYS = ["relevance", "name", "family"] as const;
+export type SortKey = (typeof SORT_KEYS)[number];
 
 const list = <T extends readonly [string, ...string[]]>(values: T) =>
   z
@@ -41,6 +44,12 @@ const FilterSchema = z.object({
     .string()
     .optional()
     .transform((s) => [...new Set((s ?? "").split(",").filter((v) => /^[a-z0-9-]+$/.test(v)))].slice(0, MAX_COMPARE)),
+  sort: z.enum(SORT_KEYS).catch("relevance"),
+  // 1-based; anything that isn't a positive whole number is page 1. The listing clamps the upper end.
+  page: z
+    .string()
+    .optional()
+    .transform((s) => (s && /^[1-9]\d{0,5}$/.test(s) ? Number(s) : 1)),
 });
 
 export type FilterState = z.infer<typeof FilterSchema>;
@@ -63,6 +72,8 @@ export function serializeFilters(state: Partial<FilterState>): string {
     if (v?.length) p.set(k, v.join(","));
   }
   if (state.outdoor) p.set("outdoor", "1");
+  if (state.sort && state.sort !== "relevance") p.set("sort", state.sort);
+  if (state.page && state.page > 1) p.set("page", String(state.page));
   const s = p.toString().replace(/%2C/g, ",");
   return s ? `?${s}` : "";
 }

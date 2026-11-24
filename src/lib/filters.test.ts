@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { ProductCard } from "@/content/cards";
 import { FAMILIES } from "@/content/taxonomy";
-import { applyFilters, defaultOrder, parseFilters } from "./filters";
+import { applyFilters, defaultOrder, parseFilters, serializeFilters } from "./filters";
 
 const card = (slug: string, family: ProductCard["family"], complete: boolean): ProductCard => ({
   slug,
@@ -68,5 +68,24 @@ describe("default listing order (T5)", () => {
   it("ranks every family", () => {
     const one = FAMILIES.map((f) => card(f.slug, f.slug, true)).reverse();
     expect(defaultOrder(one).map((c) => c.family)).toEqual(FAMILIES.map((f) => f.slug));
+  });
+});
+
+describe("sort and page in the URL state", () => {
+  it("parses and serialises sort and page", () => {
+    const s = parseFilters({ sort: "name", page: "3" });
+    expect([s.sort, s.page]).toEqual(["name", 3]);
+    expect(serializeFilters(s)).toBe("?sort=name&page=3");
+  });
+
+  it("falls back to relevance and page 1 on bad values", () => {
+    expect(parseFilters({ sort: "bogus", page: "abc" })).toMatchObject({ sort: "relevance", page: 1 });
+    expect(parseFilters({ page: "0" }).page).toBe(1);
+    expect(parseFilters({ page: "-4" }).page).toBe(1);
+    expect(parseFilters({ page: "2.5" }).page).toBe(1);
+  });
+
+  it("omits the defaults from the URL", () => {
+    expect(serializeFilters(parseFilters({ page: "1", sort: "relevance" }))).toBe("");
   });
 });
