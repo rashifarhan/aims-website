@@ -57,14 +57,14 @@ describe("sortCards", () => {
   ];
 
   it("keeps the given order for relevance and does not mutate the input", () => {
-    expect(names(sortCards(cards, "relevance", {}))).toEqual(["F22", "F18", "f2", "BioPro SA20"]);
+    expect(names(sortCards(cards, "relevance"))).toEqual(["F22", "F18", "f2", "BioPro SA20"]);
   });
 
   it("sorts by name, numerically and ignoring case", () => {
-    expect(names(sortCards(cards, "name", {}))).toEqual(["BioPro SA20", "f2", "F18", "F22"]);
+    expect(names(sortCards(cards, "name"))).toEqual(["BioPro SA20", "f2", "F18", "F22"]);
   });
 
   it("sorts by family order, then by name", () => {
-    expect(names(sortCards(cards, "family", {}))).toEqual(["BioPro SA20", "F18", "F22", "f2"]);
+    expect(names(sortCards(cards, "family"))).toEqual(["BioPro SA20", "F18", "F22", "f2"]);
   });
 });

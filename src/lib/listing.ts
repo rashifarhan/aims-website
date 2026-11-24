@@ -13,7 +13,7 @@ const byName = (a: ProductCard, b: ProductCard) =>
  * Apply the buyer's sort. "relevance" is the order the cards already arrive in (search relevance, or the default
  * order), so it returns them untouched. Never mutates the input.
  */
-export function sortCards(cards: ProductCard[], sort: SortKey, _familyNames: Record<string, string>): ProductCard[] {
+export function sortCards(cards: ProductCard[], sort: SortKey): ProductCard[] {
   if (sort === "name") return [...cards].sort(byName);
   if (sort === "family") {
     return [...cards].sort(
