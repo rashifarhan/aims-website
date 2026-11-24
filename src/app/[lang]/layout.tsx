@@ -10,6 +10,7 @@ import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import "../globals.css";
 import "@/components/ui/actions.css";
 import "@/components/ui/sections.css";
+import "@/components/ui/journey.css";
 
 export function generateStaticParams() {
   return LOCALES.map((l) => ({ lang: l }));

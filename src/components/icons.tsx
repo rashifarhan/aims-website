@@ -81,3 +81,55 @@ export const StarIcon = (p: SVGProps<SVGSVGElement>) => (
     <path d="m12 2.8 2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3-4.57-4.46 6.32-.92L12 2.8Z" />
   </Icon>
 );
+/* Step icons for JourneySteps (ui/JourneySteps.tsx): one per kind of step, on the same 24px line grid. */
+export const ChatIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M4.5 5h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H10l-4.5 3.5V16h-1a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+    <path d="M8 9.5h8M8 12.5h5" />
+  </Icon>
+);
+export const DocumentIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M6.5 3h8l4 4v13a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+    <path d="M14.5 3v4h4M9 12h6.5M9 16h4.5" />
+  </Icon>
+);
+export const TruckIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p} className={`rtl:-scale-x-100 ${p.className ?? ""}`}>
+    <path d="M2.5 6.5h11V16h-11ZM13.5 9.5h4l3 3.2V16h-7" />
+    <circle cx="6.5" cy="17.5" r="1.8" />
+    <circle cx="17" cy="17.5" r="1.8" />
+  </Icon>
+);
+export const ToolIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M14.7 3.6a4.5 4.5 0 0 0-4.4 5.9l-6.7 6.7a1.9 1.9 0 0 0 0 2.7l1.5 1.5a1.9 1.9 0 0 0 2.7 0l6.7-6.7a4.5 4.5 0 0 0 5.9-4.4l-2.8 2.8-3-.8-.8-3Z" />
+  </Icon>
+);
+export const SlidersIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M4 7h9M17 7h3M4 17h3M11 17h9" />
+    <circle cx="15" cy="7" r="2" />
+    <circle cx="9" cy="17" r="2" />
+  </Icon>
+);
+export const HeadsetIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M4.5 14v-2a7.5 7.5 0 0 1 15 0v2" />
+    <rect x="3.5" y="13.5" width="4" height="6.5" rx="1.5" />
+    <rect x="16.5" y="13.5" width="4" height="6.5" rx="1.5" />
+    <path d="M18.5 20c0 1-1.5 1.5-4 1.5" />
+  </Icon>
+);
+export const ShieldIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <path d="M12 3 5 6v5.5c0 4.4 3 8.2 7 9.5 4-1.3 7-5.1 7-9.5V6Z" />
+    <path d="m9 12 2.2 2.2L15.5 10" />
+  </Icon>
+);
+export const KeyIcon = (p: SVGProps<SVGSVGElement>) => (
+  <Icon {...p}>
+    <circle cx="8" cy="15" r="4" />
+    <path d="m10.8 12.2 8.7-8.7M16 7l2.5 2.5M13.5 9.5 15.5 11.5" />
+  </Icon>
+);

@@ -1,0 +1,184 @@
+/*
+ * The one step-by-step process (ui/JourneySteps.tsx; client mockup C, README Decisions 24 Nov 2026). It sits
+ * open on the ground: no box, numbered circles joined by one green line. Tokens only; nothing moves but the pill
+ * link's hover and press layer (CLAUDE.md §3).
+ *
+ * Layout follows the space the steps get, not the viewport, so the same component fits a full section and the
+ * support page's reading column: a vertical timeline (circles on the start side, text beside them) until the
+ * container is wide enough for every step to keep about 11rem, then one row with the line through the circles.
+ * The base rules read the --journey-* switches below with their vertical values as fallbacks; the container
+ * queries only flip the switches. Logical properties throughout, so the line and order mirror in Arabic.
+ */
+.journey {
+  container: journey / inline-size;
+}
+.journey-list {
+  /* The circle: 72px in the timeline, 88px in the row (mockup C: 80–96px). */
+  --journey-node-size: 4.5rem;
+  --journey-line: 2px;
+  display: grid;
+  grid-auto-flow: var(--journey-flow, row);
+  grid-auto-columns: minmax(0, 1fr);
+}
+.journey-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--journey-cols, var(--journey-node-size) minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  justify-items: var(--journey-justify, stretch);
+  column-gap: 1.25rem;
+  padding-block-end: var(--journey-step-gap, 2rem);
+  padding-inline: var(--journey-step-pad, 0);
+  text-align: var(--journey-text, start);
+}
+.journey-step:last-child {
+  padding-block-end: 0;
+}
+/* The line runs from this circle's centre to the next one's, under the circles (they are opaque and above it). */
+.journey-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  inset-block-start: var(--journey-line-top, calc(var(--journey-node-size) / 2));
+  inset-inline-start: var(--journey-line-start, calc(var(--journey-node-size) / 2 - var(--journey-line) / 2));
+  inline-size: var(--journey-line-across, var(--journey-line));
+  block-size: var(--journey-line-down, 100%);
+  background: var(--color-green-700);
+}
+.journey-node {
+  position: relative;
+  z-index: 1;
+  grid-row: var(--journey-node-row, 1 / span 3);
+  display: grid;
+  place-items: center;
+  inline-size: var(--journey-node-size);
+  aspect-ratio: 1;
+  border: 2px solid var(--color-green-700);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-green-700);
+}
+.journey-node > svg {
+  inline-size: 40%;
+  block-size: 40%;
+}
+/* Step one is the one to take now (mockup C): filled green-700, white icon. */
+.journey-step:first-child .journey-node {
+  background: var(--color-green-700);
+  color: var(--color-paper);
+}
+/* White numerals on green-700 measure 6.07:1. The ring in the ground's mint parts the badge from its circle. */
+.journey-badge {
+  position: absolute;
+  inset-block-start: -0.375rem;
+  inset-inline-end: -0.375rem;
+  display: grid;
+  place-items: center;
+  min-inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border: 2px solid var(--color-page);
+  border-radius: var(--radius-pill);
+  background: var(--color-green-700);
+  color: var(--color-paper);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-card);
+  line-height: 1;
+}
+/* Lime only as a small light accent, never as text on light (Design Doc 4). */
+.journey-step:first-child .journey-badge {
+  border-color: var(--color-lime);
+}
+.journey-title {
+  margin-block-start: var(--journey-title-gap, 0.875rem);
+  color: var(--color-ink);
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.journey-body {
+  max-inline-size: var(--journey-measure, 44ch);
+  margin-block-start: 0.375rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-small);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+/* A label, not an action: ink-600 (7.76:1 on white, AA on the mint), never green (DESIGN.md One Sign Rule). */
+.journey-owner {
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-caption);
+  font-weight: 600;
+}
+
+/* The row: every step about 11rem or more. Three steps or fewer fit sooner than four or five. */
+@container journey (min-width: 34rem) {
+  .journey-list[data-fit="few"] {
+    --journey-node-size: 5.5rem;
+    --journey-flow: column;
+    --journey-cols: minmax(0, 1fr);
+    --journey-justify: center;
+    --journey-text: center;
+    --journey-step-gap: 0;
+    --journey-step-pad: 0.75rem;
+    --journey-line-top: calc(var(--journey-node-size) / 2 - var(--journey-line) / 2);
+    --journey-line-start: 50%;
+    --journey-line-across: 100%;
+    --journey-line-down: var(--journey-line);
+    --journey-node-row: auto;
+    --journey-title-gap: 1.25rem;
+    --journey-measure: 26ch;
+  }
+}
+@container journey (min-width: 52rem) {
+  .journey-list {
+    --journey-node-size: 5.5rem;
+    --journey-flow: column;
+    --journey-cols: minmax(0, 1fr);
+    --journey-justify: center;
+    --journey-text: center;
+    --journey-step-gap: 0;
+    --journey-step-pad: 0.75rem;
+    --journey-line-top: calc(var(--journey-node-size) / 2 - var(--journey-line) / 2);
+    --journey-line-start: 50%;
+    --journey-line-across: 100%;
+    --journey-line-down: var(--journey-line);
+    --journey-node-row: auto;
+    --journey-title-gap: 1.25rem;
+    --journey-measure: 26ch;
+  }
+}
+
+/* The closing line: a white pill with a green-100 hairline, so it reads on the mint without a shadow. */
+.journey-pill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 1.25rem;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  margin-block-start: 3rem;
+  margin-inline: auto;
+  padding-block: 0.25rem;
+  padding-inline: 1.5rem;
+  border: 1px solid var(--color-green-100);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+}
+.journey-pill > p {
+  color: var(--color-ink-700);
+  font-weight: 600;
+}
+.journey-pill .home-text-link {
+  margin-block-start: 0;
+}
+@container journey (width < 34rem) {
+  .journey-pill {
+    justify-content: start;
+    margin-block-start: 2rem;
+    margin-inline: 0;
+    padding-block: 0.75rem 0.25rem;
+    border-radius: var(--radius-md);
+  }
+}
