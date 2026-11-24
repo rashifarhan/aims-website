@@ -44,9 +44,14 @@ export async function HomeSoftware() {
                 href={localePath(locale, `/software/${slug}`)}
                 className="home-software-card ui-card ui-card-interactive"
               >
-                <p className="home-software-kind">{s[kind]}</p>
+                {/* The name leads (craft floor: no label above a heading); the kind and the arrow close the
+                    card the way the family cards above close on their count. */}
                 <h4 dir="ltr">{software.name}</h4>
                 <p className="home-software-purpose">{s[purpose]}</p>
+                <p className="home-software-foot">
+                  <span className="home-software-kind">{s[kind]}</span>
+                  <ArrowIcon width="16" height="16" className="home-action-arrow" />
+                </p>
               </Link>
             </li>
           );

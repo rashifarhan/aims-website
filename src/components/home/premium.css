@@ -41,3 +41,22 @@
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
 /* ---------- Closing band: night green, still light ---------- */
 /* The two glows are layers of the ground itself, so nothing spills past the band. */
+
+/* Software cards on the home night band: the name leads, the kind and arrow sit on the card's last line, as
+   the family cards close on their count (Impeccable polish: one linked-card anatomy per section). */
+.home-families .home-software-card h4 {
+  margin-block: 0 0.5rem;
+}
+.home-software-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: auto;
+  padding-block-start: 1.25rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-lime);
+}
+.home-software-foot .home-software-kind {
+  font-size: inherit;
+}

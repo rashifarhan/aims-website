@@ -7,3 +7,5 @@ PRODUCT.md, outranks the taste skill and the Design Doc's design rules; CLAUDE.m
 
 - Hero: the authorization claim leaves the eyebrow slot (craft-floor ban) for a standing line under the actions,
   in ink rather than green (One Sign Rule), beside the offices line behind a hairline.
+- Families and software: the section link gains its arrow like every standalone link; software cards lead with
+  the name and close on kind + arrow, the same anatomy as the family cards above them.

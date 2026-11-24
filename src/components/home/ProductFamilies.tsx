@@ -32,6 +32,7 @@ export async function ProductFamilies() {
         link={
           <Link href={localePath(locale, "/products")} className="home-night-link">
             {t.home.families.all}
+            <ArrowIcon width="16" height="16" className="home-action-arrow" />
           </Link>
         }
       />
