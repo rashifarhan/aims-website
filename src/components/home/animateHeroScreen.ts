@@ -63,21 +63,4 @@ export function animateHeroScreen(root: HTMLElement, animate: HeroAnimate) {
       loop,
     );
   }
-  const chip = root.querySelector("[data-granted]");
-  if (chip) {
-    const hidden = { opacity: 0, transform: "translateY(8px) scale(.96)" };
-    const shown = { opacity: 1, transform: "translateY(0) scale(1)" };
-    animate(
-      chip,
-      [
-        { ...hidden, offset: 0 },
-        { ...hidden, offset: 1500 / cycle, easing: "cubic-bezier(.2,.8,.2,1)" },
-        { ...shown, offset: 1950 / cycle },
-        { ...shown, offset: 4300 / cycle },
-        { ...hidden, offset: 4750 / cycle },
-        { ...hidden },
-      ],
-      loop,
-    );
-  }
 }

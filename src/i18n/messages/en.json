@@ -331,26 +331,9 @@
       "welcome": "Welcome",
       "checked": "Checked in · 08:17",
       "unlocked": "Door unlocked",
-      "granted": "Access granted",
-      "pause": "Pause animation"
-    },
-    "routes": {
-      "heading": "Three ways to buy from AIMS",
-      "supply": {
-        "title": "Buy for projects & stock",
-        "body": "Find models, compare specifications and build your product list.",
-        "action": "See all products"
-      },
-      "install": {
-        "title": "Supply & installation in the UAE",
-        "body": "Discuss the devices, installation and setup your site needs.",
-        "action": "Request an installation quote"
-      },
-      "export": {
-        "title": "Delivery to GCC & Africa",
-        "body": "Share your models, quantities and destination with AIMS.",
-        "action": "Request an export quote"
-      }
+      "pause": "Pause animation",
+      "verified": "Verified",
+      "method": "Face"
     },
     "families": {
       "heading": "{count} models in six product families",
@@ -396,7 +379,8 @@
           "title": "Dubai and Abu Dhabi",
           "body": "A head office and showroom in Dubai and an office in Abu Dhabi."
         }
-      }
+      },
+      "label": "AIMS in figures"
     },
     "software": {
       "heading": "Software that runs them",
@@ -407,26 +391,7 @@
       "purposeAccess": "Access control for standalone devices, C3 and inBIO panels.",
       "runsCloud": "In the cloud, no local server",
       "runsAttendance": "On your own server",
-      "runsAccess": "On a Windows PC",
-      "flow": {
-        "label": "How records flow. {items}",
-        "item": "{name} takes records from {inputs} and gives {outputs}.",
-        "columns": {
-          "terminals": "Terminals",
-          "software": "Software",
-          "outputs": "What you get"
-        },
-        "anyTerminal": "Attendance terminals",
-        "confirm": "Confirm your model with AIMS",
-        "anyTerminalAlt": "ZKTeco attendance terminals (confirm cloud support for your model with AIMS)",
-        "outputs": {
-          "payroll": "Payroll reports",
-          "shifts": "Shifts, leave and overtime",
-          "attendance": "Attendance reports",
-          "doors": "Live door events",
-          "permissions": "Door permissions"
-        }
-      }
+      "runsAccess": "On a Windows PC"
     },
     "locations": {
       "heading": "Let’s talk in person.",
@@ -438,43 +403,14 @@
       "abuDhabiArea": "Abu Dhabi · UAE",
       "call": "Call",
       "map": "Showroom directions",
-      "plan": "Plan a visit",
       "newTab": "opens in a new tab",
-      "office": "Office",
-      "showroomTag": "Showroom"
+      "showroomArea": "Naif Bazar Building",
+      "mobileNote": "Call or message",
+      "emailNote": "Model lists and site plans"
     },
     "reviews": {
       "read": "Read the published reviews",
       "rating": "Rated {count} out of 5"
-    },
-    "faq": {
-      "heading": "Questions about buying and installation",
-      "items": [
-        {
-          "q": "Can I buy products without installation?",
-          "a": "Browse the catalogue and compare specifications. Send AIMS the model codes and quantities you need to request a supply quotation."
-        },
-        {
-          "q": "Can AIMS help with installation?",
-          "a": "AIMS supplies, installs and supports access control and time attendance systems across the UAE. Contact the team with your site location and requirements."
-        },
-        {
-          "q": "Do you supply customers outside the UAE?",
-          "a": "For delivery to the GCC or Africa, share your destination, model codes and quantities. Ask AIMS to confirm delivery arrangements and any required documents."
-        },
-        {
-          "q": "How do I choose a time attendance device?",
-          "a": "Start with your preferred verification method, user capacity and connection requirements. Compare the published specifications and ask AIMS about software compatibility before ordering."
-        },
-        {
-          "q": "Where can I get the software?",
-          "a": "The software links open AIMS’s current pages. Software is supplied on request; confirm licensing, compatibility and setup requirements with the team."
-        },
-        {
-          "q": "Can I visit the showroom?",
-          "a": "The Deira showroom address and directions are listed above. Call before you travel to confirm opening hours and whether the devices you want to see are available."
-        }
-      ]
     },
     "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
@@ -491,27 +427,21 @@
     },
     "journey": {
       "heading": "From the first call to a working system",
-      "lead": "You don't need a model code. Describe the site, and AIMS takes it from there.",
       "tell": {
-        "title": "Tell us the job",
-        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira."
+        "title": "Tell us the job"
       },
       "quote": {
         "title": "Get a quotation"
       },
       "supply": {
-        "title": "Supply",
-        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa."
+        "title": "Supply"
       },
       "install": {
-        "title": "Install",
-        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."
+        "title": "Install"
       },
       "support": {
-        "title": "Support",
-        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email."
-      },
-      "pill": "Start with step one now."
+        "title": "Support"
+      }
     },
     "closing": {
       "heading": "Send AIMS your model list or site plan",

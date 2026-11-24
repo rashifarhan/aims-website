@@ -6,6 +6,7 @@ import { familyPath } from "@/lib/nav";
 import { ArrowIcon } from "@/components/icons";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import "./home-where.css";
 
 /**
@@ -27,7 +28,7 @@ export async function HomeWhereItGoes() {
   return (
     <Section id="places" labelledBy="places-title" className="home-where">
       <SectionHeader id="places-title" title={t.home.gate.heading} lead={t.home.gate.lead} />
-      <div className="home-where-grid">
+      <SpotlightGroup className="home-where-grid">
         {places.map((place) => {
           const copy = t.home.gate[place.key];
           return (
@@ -57,7 +58,7 @@ export async function HomeWhereItGoes() {
             </Link>
           );
         })}
-      </div>
+      </SpotlightGroup>
     </Section>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { animateHeroScreen } from "./animateHeroScreen";
-import { animateHeroSignals } from "./animateHeroSignals";
 
 type Props = { children: ReactNode; pauseLabel: string };
 
@@ -20,7 +19,6 @@ export function HeroAnimation({ children, pauseLabel }: Props) {
     const root = ref.current;
     if (!root) return;
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
-    const viewport = matchMedia("(max-width: 1023px)");
     let visible = false;
     let animations: Animation[] = [];
     const stop = () => {
@@ -37,7 +35,6 @@ export function HeroAnimation({ children, pauseLabel }: Props) {
         const animation = el.animate(frames, { fill: "both", ...options });
         animations.push(animation);
       };
-      animateHeroSignals(root, animate, viewport.matches);
       animateHeroScreen(root, animate);
       animations.forEach((a) => {
         if (!visible || document.hidden || userPaused.current) a.pause();
@@ -57,13 +54,11 @@ export function HeroAnimation({ children, pauseLabel }: Props) {
     resync.current = sync;
     setup();
     preference.addEventListener("change", setup);
-    viewport.addEventListener("change", setup);
     document.addEventListener("visibilitychange", sync);
     return () => {
       stop();
       observer.disconnect();
       preference.removeEventListener("change", setup);
-      viewport.removeEventListener("change", setup);
       document.removeEventListener("visibilitychange", sync);
     };
   }, []);
