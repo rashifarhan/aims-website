@@ -97,3 +97,41 @@
     display: block;
   }
 }
+
+/* ---------- Closing band (ui/CloseSignal.tsx in ui/ClosePanel.tsx) ---------- */
+/* Two fans meet at the band's top centre, above the heading. The wrapper's masks clear an oval round the centred
+   copy and fade the lines in from the corners, so text crosses at most the faint ends: at most 16% green-700 where
+   the fans are strongest, under 6% inside the oval (ink-600 keeps 6.5:1, green-700 links 5.1:1). */
+.close-signal {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.16;
+  mask-image:
+    radial-gradient(40rem 15rem at 50% 56%, transparent 35%, var(--color-ink) 85%),
+    linear-gradient(to top, transparent, var(--color-ink) 18%);
+  mask-composite: intersect;
+}
+.close-signal-half {
+  inset-block: 0;
+  inline-size: 50%;
+  block-size: 100%;
+}
+.close-signal-end {
+  inset-inline-start: 50%;
+}
+.close-signal-start {
+  inset-inline-end: 50%;
+  scale: -1 1;
+}
+/* In Arabic the halves swap sides, so the mirror swaps too: both still meet at the centre (after the RTL rule above). */
+:dir(rtl) .close-signal-start {
+  scale: none;
+}
+/* Phones: fewer lines, so the narrow band stays calm (CLAUDE.md §2: remove, don't shrink). */
+@media (max-width: 639px) {
+  .close-signal .signal-art-minor:nth-of-type(even) {
+    display: none;
+  }
+}

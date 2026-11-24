@@ -520,9 +520,16 @@ main:has(> .page-hero-split) {
 /* Card review (24 Nov 2026): the close is a full-width band, not a box; its content keeps the shared .wrap edges.
    On the white page (client decision, 24 Nov 2026) a green-100 hairline gives it a clean top edge (the footer's
    faint band brings its own). */
+/* The closing band (ui/ClosePanel.tsx): the page's last ask, centred, taller than the rhythm, over a soft green light
+   and AIMS's signal lines (ui/CloseSignal.tsx; client request, 24 Nov 2026). The band is the lines' stacking
+   context, so they sit on its ground and under its copy. */
 .ui-close {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--close-space);
   border-block-start: 1px solid var(--color-green-100);
-  background: var(--color-page);
+  background: var(--gradient-close-glow), var(--color-page);
 }
 .ui-close-panel {
   display: flex;
@@ -765,5 +772,38 @@ main:has(> .page-hero-split) {
   }
   :is(.page-hero-grid, .ui-faq-split, .ui-reach-grid) > :last-child:not(:first-child) {
     grid-column: span 5;
+  }
+}
+
+/* The closing band's centred layout, after the breakpoints above so it holds at every width (the embedded close
+   keeps its boxed row). */
+.ui-close .ui-close-panel {
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.ui-close .ui-close-title {
+  font-size: var(--text-page-title);
+}
+.ui-close .ui-close-body {
+  margin-inline: auto;
+  font-size: var(--text-lg);
+}
+.ui-close.ui-close-mint .ui-close-actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem 1.75rem;
+}
+@media (max-width: 639px) {
+  .ui-close .ui-close-title {
+    font-size: var(--text-page-title-mobile);
+  }
+  .ui-close .ui-close-body {
+    font-size: var(--text-base);
   }
 }

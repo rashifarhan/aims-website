@@ -322,6 +322,15 @@
     color-mix(in srgb, var(--color-green-100) 45%, transparent),
     transparent 72%
   );
+  /* The closing band's light (client request, 24 Nov 2026): a soft green pool behind the centred close, under its
+     signal lines. At its strongest (green-100 at 60% over white) ink-600 keeps 6.8:1 and green-700 5.3:1. */
+  --gradient-close-glow: radial-gradient(
+    46rem 22rem at 50% 58%,
+    color-mix(in srgb, var(--color-green-100) 60%, transparent),
+    transparent 75%
+  );
+  /* The closing band is the page's last ask, so it stands taller than the section rhythm. */
+  --close-space: calc(var(--section-space) * 2);
   /* Homepage night surfaces (README → Decisions): night green. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
