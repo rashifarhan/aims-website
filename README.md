@@ -347,9 +347,9 @@ is the photo's plinth. The client approved this plan:
 - **Choices below it:** three open rows in the drawing's order, each showing where the platform runs (existing copy:
   own server, cloud with no local server, a Windows PC), its name in mono, its purpose and a link to its page. "All
   software" stays. Hovering a row dims the other lines (opacity only).
-- **Static.** CLAUDE.md §3 allows two dealt moments on a long page, and the home page's are the door kit and the reach
-  map, so the drawing does not animate. The client has since asked for a draw-once animation and a third home moment.
-  That needs CLAUDE.md §3 changed first, which waits on the owner's own confirmation.
+- **Static.** The home page's two dealt moments are the door kit and the reach map (CLAUDE.md §3), so the drawing does
+  not animate. A draw-once animation and a third home moment were briefly approved, then dropped by the client as not
+  needed (24 Nov 2026); the CLAUDE.md change was reverted. The drawing keeps the hover highlight only.
 - **Accessibility and layout.** The drawing is one `role="img"` whose name states every line as text. At 768px and up
   it has five columns; under 768px it reads top to bottom (terminals, platforms, outputs) with no per-node lines and
   no horizontal scroll. In Arabic the flow runs right to left and model codes stay LTR.
