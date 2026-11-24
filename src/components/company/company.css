@@ -120,32 +120,6 @@
   font-size: var(--text-small);
   color: var(--color-ink-600);
 }
-.co-steps {
-  display: grid;
-  gap: 0;
-  margin-block-start: 1.5rem;
-}
-.co-steps li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem;
-  padding-block: 1.25rem;
-  border-block-start: 1px solid var(--color-line);
-}
-.co-steps h3 {
-  font-size: var(--text-home-card);
-  font-weight: var(--font-weight-card);
-}
-.co-steps p {
-  margin-block-start: 0.375rem;
-  line-height: 1.6;
-  color: var(--color-ink-600);
-}
-.co-steps .process-owner {
-  margin-block-start: 0.5rem;
-  font-weight: 600;
-  color: var(--color-green-700);
-}
 /*
  * Support's dealt moment (SupportRoute): the channels' lines draw in, the support node appears, the route
  * continues and the check strokes in, once, about 1.7 s. Resting styles are the finished route, so reduced
@@ -154,6 +128,10 @@
 .co-support-route {
   max-width: 30rem;
   margin-block: 1.25rem 0.5rem;
+}
+/* The steps (ui/JourneySteps) under the route: three fit across the reading column on desktop. */
+.co-support-route + .journey {
+  margin-block-start: 2.5rem;
 }
 .support-route :is(.sr-in, .sr-out, .sr-tick) {
   stroke-dasharray: 1;

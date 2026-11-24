@@ -2,11 +2,16 @@ import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
 import { Faq } from "@/components/ui/Faq";
 import { faqItems, warrantyPage } from "@/content/pages";
 import { getDictionary } from "@/i18n/dictionaries";
+import { ChatIcon, HeadsetIcon, ShieldIcon } from "@/components/icons";
+import { JourneySteps } from "@/components/ui/JourneySteps";
 import { publishableQuestions } from "@/lib/editorial";
 import { SupportRoute } from "./SupportRoute";
 
 /** The three parts of /support, with the ids the in-page index and the old URLs' 301s point to. */
 export const SUPPORT_SECTIONS = ["warranty", "process", "faq"] as const;
+
+/** Contact AIMS, technical support, warranty repair. */
+const ICONS = [<ChatIcon key="contact" />, <HeadsetIcon key="support" />, <ShieldIcon key="warranty" />];
 
 /**
  * Support's reading column (Master Plan 12 #10: warranty terms, support process, FAQ; Design Doc 10.1).
@@ -33,23 +38,7 @@ export async function SupportSections() {
         <div className="co-support-route">
           <SupportRoute channels={[c.route.channels[0], c.route.channels[1]]} team={c.route.team} />
         </div>
-        <ol className="co-steps">
-          {c.steps.map((step, i) => (
-            <li key={step.title}>
-              <span className="process-index tabular-nums" aria-hidden="true">
-                {i + 1}
-              </span>
-              <div>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-                <p className="process-owner">
-                  <span className="sr-only">{c.owner}: </span>
-                  {step.owner}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <JourneySteps ownerLabel={c.owner} steps={c.steps.map((step, i) => ({ ...step, icon: ICONS[i] }))} />
       </section>
       <section id="faq" aria-labelledby="faq-title">
         <h2 id="faq-title" className="section-title">
