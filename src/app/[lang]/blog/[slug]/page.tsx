@@ -8,6 +8,7 @@ import { fmt } from "@/i18n/format";
 import { alternates, fitTitle } from "@/lib/seo";
 import { articleDate, outline } from "@/lib/editorial";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { ArticleNext } from "@/components/editorial/ArticleNext";
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
 import { PageHero } from "@/components/ui/PageHero";
@@ -97,13 +98,15 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
             {t.blog.all}
           </Link>
         </div>
-        <ul className="ed-card-grid">
-          {more.map((m) => (
-            <li key={m.slug}>
-              <ArticleCard article={m} href={href(`/blog/${m.slug}`)} heading="h3" />
-            </li>
-          ))}
-        </ul>
+        <SpotlightGroup>
+          <ul className="ed-card-grid">
+            {more.map((m) => (
+              <li key={m.slug}>
+                <ArticleCard article={m} href={href(`/blog/${m.slug}`)} heading="h3" />
+              </li>
+            ))}
+          </ul>
+        </SpotlightGroup>
       </Section>
     </main>
   );
