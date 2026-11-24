@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { getDictionary } from "@/i18n/dictionaries";
-import { COMPANY_FIGURES, CUSTOMER_REVIEWS, LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { COMPANY_FIGURES, CUSTOMER_REVIEWS, LIVE_AIMS } from "@/lib/site";
 import { CountUpFigure } from "./CountUpFigure";
 import { ExternalLink } from "./ExternalLink";
 import { ReviewCard } from "./ReviewCard";
@@ -9,9 +9,10 @@ import { Section } from "@/components/ui/Section";
 const POINTS = ["showroom", "team", "places"] as const;
 
 /**
- * T1 proof on night green, after the client's mockup B (24 Nov 2026): the authorization badge (behind its claims
- * flag, Design Doc 3.1), one sentence carrying AIMS's four figures with the company-stated note under it, three
- * reasons to buy from AIMS, then three published reviews as cards. The sentence is the section's h2; its figures
+ * T1 proof on night green, after the client's mockup B (24 Nov 2026): one sentence carrying AIMS's four figures with
+ * the company-stated note under it, three reasons to buy from AIMS, then three published reviews as cards. The
+ * authorization badge is not repeated here: the hero above (and the about hero) already carries it (card review,
+ * 24 Nov 2026). The sentence is the section's h2; its figures
  * count up once (CountUpFigure) and read as their final values everywhere else.
  */
 export async function HomeProof() {
@@ -19,12 +20,6 @@ export async function HomeProof() {
   const { proof, reviews } = t.home;
   return (
     <Section ground="night" labelledBy="proof-title" className="home-proof-band">
-      {ZKTECO_AUTHORIZATION_CONFIRMED && (
-        <p className="home-proof-badge">
-          <span className="home-proof-led" aria-hidden="true" />
-          {t.common.partnerConfirmed}
-        </p>
-      )}
       <h2 id="proof-title" className="home-proof-statement" data-count-group>
         {COMPANY_FIGURES.map(({ key, value, suffix }, order) => (
           <Fragment key={key}>
