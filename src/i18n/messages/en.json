@@ -274,6 +274,8 @@
       "quote": "Request a quote",
       "trust": "Showroom in Deira, Dubai · Office in Abu Dhabi",
       "alt": "Illustration on a ZKTeco SpeedFace-V5L terminal: a face is verified and the door unlocks",
+      "modelType": "Face and QR code terminal",
+      "viewModel": "View model",
       "entrance": "Entrance A",
       "time": "08:17",
       "day": "Thursday",
