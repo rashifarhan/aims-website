@@ -71,6 +71,10 @@
   --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
   --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
   --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
+  /* A lit status LED on night green (the proof badge's dot): a lime halo, never on light surfaces (Lime Is Light). */
+  --shadow-led:
+    0 0 0 3px color-mix(in srgb, var(--color-lime) 18%, transparent),
+    0 0 12px 1px color-mix(in srgb, var(--color-lime) 70%, transparent);
 
   /* Motion */
   --ease-aims: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -107,6 +111,9 @@
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
+  /* The proof statement (client mockup B, 24 Nov 2026): one sentence carrying the four company figures, a step above
+     the h2 scale because it is the section's heading and its content. 28px at 390, 36px at 768, 42px from 1024. */
+  --text-proof-statement: clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem);
   /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
   --text-door-name: 14px;
   --text-door-model: 12.5px;
@@ -296,6 +303,16 @@
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
+  /* Home band transitions (client instruction, 24 Nov 2026; README Decisions): where a night band meets a light one
+     the edge fades over --band-fade instead of cutting, and each night band has a soft lime glow just under its
+     top fade. Text never sits in the fade: night bands on the home page pad by --section-space plus the fade. Over
+     the glow at its strongest, night-muted measures 7.4:1 on night-900 and 5.4:1 on night-700 (night-text 12.8:1). */
+  --band-fade: 4rem; /* 64px on tablets; 80px from 1024, 40px on phones */
+  --gradient-band-glow: radial-gradient(
+    50% 16rem at 50% var(--band-fade),
+    color-mix(in srgb, var(--color-lime) 12%, transparent),
+    transparent 70%
+  );
   --gradient-glow-lime: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-lime) 22%, transparent),
@@ -318,6 +335,7 @@
   :root {
     --home-header-block: 4.5625rem;
     --section-space: calc(3.5rem * 1.25);
+    --band-fade: 5rem;
   }
 }
 @media (min-width: 1280px) {
@@ -327,6 +345,7 @@
 }
 @media (max-width: 639px) {
   :root {
+    --band-fade: 2.5rem;
     --section-space: 2rem;
     --card-pad: 1.25rem;
     --text-home-heading: 1.75rem;

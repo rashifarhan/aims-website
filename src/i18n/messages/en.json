@@ -330,14 +330,26 @@
       "logRow": "Door 1 · Card"
     },
     "proof": {
-      "heading": "An authorized ZKTeco distributor in the UAE",
       "body": "Figures stated by AIMS, November 2026.",
       "years": "years of experience",
       "installations": "security system installations",
       "clients": "corporate clients",
       "countries": "countries supplied",
       "reviews": "From reviews published by AIMS",
-      "headingFallback": "ZKTeco specialists in Dubai and Abu Dhabi"
+      "points": {
+        "showroom": {
+          "title": "A showroom you can visit",
+          "body": "Visit the Deira showroom in Dubai. Call before you travel to check that the models you want to see are there."
+        },
+        "team": {
+          "title": "One team, start to finish",
+          "body": "AIMS supplies, installs and supports access control and time attendance systems across the UAE."
+        },
+        "places": {
+          "title": "Dubai and Abu Dhabi",
+          "body": "A head office and showroom in Dubai and an office in Abu Dhabi."
+        }
+      }
     },
     "software": {
       "heading": "Software that runs them",

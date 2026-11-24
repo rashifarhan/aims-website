@@ -151,49 +151,81 @@
   fill: var(--color-paper);
 }
 
-/* ---------- 5 · Proof: company-stated figures, then the published reviews ---------- */
-/* The showroom floor (DESIGN.md) is ui/Section's band ground: a quiet ground change, not a coloured band. */
-/* The page's one split line (ui/sections.css): words on seven of twelve columns, the figures on the last five. */
-.home-proof {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: start;
-  gap: 1.5rem;
+/* ---------- 2 · Proof on night green: the badge, the figures sentence, three reasons, then the reviews ---------- */
+/* Client mockup B (24 Nov 2026). The ground is ui/Section night (with the home page's fades and glow, premium.css). */
+.home-proof-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem 1.25rem;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  line-height: 1.3;
 }
-@media (min-width: 1024px) {
-  .home-proof > :first-child {
-    grid-column: span 7;
-  }
-  .home-proof > dl {
-    grid-column: span 5;
-  }
+.home-proof-led {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-lime);
+  box-shadow: var(--shadow-led);
 }
-/* Two by two: a four-digit figure needs more than a quarter of the row. */
-.home-proof dl {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.5rem 2rem;
-}
-.home-proof dl > div {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: start;
-  gap: 0.5rem;
-}
-.home-proof dt {
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-  line-height: 1.4;
-}
-.home-proof dd {
-  /* A figure reads as data, not as a heading: set at the h2 size, never above it (taste heading-scale). */
-  font-size: var(--text-home-heading);
-  font-weight: var(--font-weight-display);
+/* Words in night-muted (9.1:1 on night-900; 5.4:1 at worst under the band glow), figures in night-text (15.9:1). */
+.home-proof-statement {
+  max-width: 30ch;
+  margin-block-start: 2.5rem;
+  font-size: var(--text-proof-statement);
+  font-weight: 500;
+  line-height: 1.14;
   letter-spacing: -0.03em;
-  color: var(--color-ink);
-  line-height: 1;
+  color: var(--color-night-muted);
+  text-wrap: balance;
 }
-/* Parted from the figures by air, not a rule (taste layout-v4, section air). */
+:lang(ar) .home-proof-statement {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+.home-proof-statement b {
+  font-weight: var(--font-weight-display);
+  color: var(--color-night-text);
+}
+/* The count (CountUpFigure): the box keeps the final figure's width, so the sentence never reflows while it counts. */
+.count-up-digits {
+  display: inline-block;
+  text-align: end;
+}
+.count-up-digits::before {
+  content: attr(data-shown);
+}
+.home-proof-note {
+  margin-block-start: 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-night-muted);
+}
+.home-proof-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-block-start: 4.5rem;
+  padding-block-start: 2rem;
+  border-block-start: 1px solid var(--color-night-line);
+}
+.home-proof-points h3 {
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.home-proof-points p {
+  max-width: 34ch;
+  margin-block-start: 0.5rem;
+  color: var(--color-night-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+/* The reviews close the band, parted from the reasons by air (taste layout-v4, section air). */
 .home-proof-reviews {
   margin-block-start: 5rem;
 }
@@ -217,11 +249,12 @@
   gap: 1.25rem;
   padding: var(--card-pad);
 }
-/* Ink, not green or lime: the rating is information, not an action (One Sign Rule, Lime Is Light Rule). */
+/* The cards sit on night green (actions.css .section-night .ui-card, night-800). Night text, not lime: the rating is
+   information, not an action (One Sign Rule, Lime Is Light Rule). */
 .home-review-stars {
   display: flex;
   gap: 0.125rem;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 .home-review-card blockquote {
   flex: 1;
@@ -229,7 +262,7 @@
   font-weight: 500;
   line-height: 1.55;
   letter-spacing: -0.005em;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 .home-review-card figcaption {
   display: flex;
@@ -244,9 +277,9 @@
   height: 2.75rem;
   border-radius: var(--radius-pill);
   object-fit: cover;
-  background: var(--color-paper-2);
-  border: 1px solid var(--color-line);
-  color: var(--color-ink-700);
+  background: var(--color-night-700);
+  border: 1px solid var(--color-night-line);
+  color: var(--color-night-text);
   font-size: var(--text-small);
   font-weight: var(--font-weight-card);
 }
@@ -256,12 +289,13 @@
 }
 .home-review-name {
   font-weight: var(--font-weight-card);
-  color: var(--color-ink);
+  color: var(--color-night-text);
   line-height: 1.35;
 }
+/* Night-muted on night-800: 8.1:1. */
 .home-review-place {
   font-size: var(--text-small);
-  color: var(--color-ink-600);
+  color: var(--color-night-muted);
 }
 
 /* ---------- Tablet (640–1023): text cards stack; photographs keep two across ---------- */
@@ -278,10 +312,12 @@
   .home-family-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .home-door > .wrap,
-  .home-proof {
+  .home-door > .wrap {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
+  }
+  .home-proof-points {
+    margin-block-start: 3.5rem;
   }
   .home-proof-reviews {
     margin-block-start: 3.5rem;
@@ -335,5 +371,21 @@
   }
   .home-proof-reviews .section-heading {
     margin-block-end: 1.25rem;
+  }
+  /* 390 first: the three reasons stack; the badge and sentence keep their size from the type scale. */
+  .home-proof-badge {
+    font-size: var(--text-small);
+  }
+  .home-proof-statement {
+    margin-block-start: 1.75rem;
+  }
+  .home-proof-points {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-block-start: 2.5rem;
+    padding-block-start: 1.5rem;
+  }
+  .home-proof-reviews {
+    margin-block-start: 3rem;
   }
 }

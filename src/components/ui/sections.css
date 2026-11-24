@@ -26,8 +26,14 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background: var(--gradient-night);
+  /* Two slots so a page can add layers without restating the ground: --band-edges (the home page's fades and glow,
+     home/sections.css) over --band-ground (night green, or the closing band's glows on it). */
+  background: var(--band-edges, none), var(--band-ground, var(--gradient-night));
   color: var(--color-night-text);
+}
+/* Two night bands in a row (the about page's proof and reach) are parted by a hairline, so they never read as one. */
+.section-night + .section-night {
+  border-block-start: 1px solid var(--color-night-line);
 }
 .section-night :focus-visible {
   outline-color: var(--color-lime);
@@ -557,10 +563,9 @@ main:has(> .page-hero-split) {
 /* Night: the full-bleed band with two still glows in its ground (a tech CSS ground; nothing moves). */
 .ui-close-night {
   text-align: center;
-  background:
+  --band-ground:
     var(--gradient-glow-green) -15vmax -30vmax / 60vmax 60vmax no-repeat,
-    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat,
-    var(--gradient-night);
+    var(--gradient-glow-lime) calc(100% + 20vmax) calc(100% + 35vmax) / 60vmax 60vmax no-repeat, var(--gradient-night);
 }
 .ui-close-night .ui-close-panel {
   display: flex;
