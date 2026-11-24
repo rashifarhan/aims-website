@@ -23,7 +23,7 @@ export async function ProductFamilies() {
   const locale = await getLocale();
   return (
     // Light band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
-    // the band's soft green wash (premium.css), between the paper routes and door sections.
+    // the band's flat mint, parted by hairlines, between the paper routes and door sections.
     <Section ground="band" id="families" labelledBy="families-title" className="home-families">
       <SectionHeader
         id="families-title"

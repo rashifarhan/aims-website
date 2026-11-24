@@ -538,7 +538,8 @@ main:has(> .page-hero-split) {
    shared .wrap edges. A mint hairline gives the band a clean top edge (the footer brings its own). */
 .ui-close {
   border-block-start: 1px solid var(--color-green-100);
-  background: var(--color-green-50);
+  /* The one light ground (client decision, 24 Nov 2026): the close is parted by its hairline, not a second mint. */
+  background: var(--color-page);
 }
 .ui-close-panel {
   display: flex;

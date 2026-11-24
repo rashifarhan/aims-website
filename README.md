@@ -289,8 +289,8 @@ Results at the end of Phase 4:
 - **AIMS's own ground: one mint everywhere.** Every light surface (page, bands, footer) is `--color-page` (#f0f6f1);
   `--color-paper-2` now points at it, and bands are parted by hairlines. A greyish stone tint (#f6f7f2) was tried and
   rejected as off-brand and dull; a two-step mint (#f7fbf8 page, #f0f6f1 bands) was then dropped because the lighter
-  sections read as white strips between mint ones. The plain sections' corner wash is gone; the families and closing
-  bands keep their soft washes. Cards, fields, menus and product photo frames stay pure `--color-paper` (#ffffff), so
+  sections read as white strips between mint ones. The plain sections' corner wash is gone, and the families and
+  closing bands' washes were then removed too: every light surface is one flat mint. Cards, fields, menus and product photo frames stay pure `--color-paper` (#ffffff), so
   cut-out photographs keep a clean white plinth. Text keeps AA on the mint (ink-400 4.7:1, green-700 5.5:1); input
   borders (`--color-line-strong`) darken to #7c8781 to keep 3:1 against it.
 - **Forest greens.** The night bands shift toward the same palette: night-900 #0f1f17, night-700 #1e3a2e. Night text,
@@ -310,7 +310,7 @@ is the photo's plinth. The client approved this plan:
   1px `--color-line` rule, the title, one line and the arrow link, three across on desktop and stacked on phones,
   after the proof band's three points. Each row is still one link with the underline-draw and press layer. Software
   labels move from green to ink-600 (One Sign Rule), also on the solution pages.
-- **Closing band.** `ClosePanel` is a full-width mint band (green-50; the home keeps its soft wash) with its content
+- **Closing band.** `ClosePanel` is a full-width band on the page mint, parted by a green-100 hairline with its content
   in `.wrap` and no border, radius or box, on every page that closes with it. Embedded closes, inside another
   section, keep the mint panel.
 - **Card edges (client's choice).** Product photo cards keep an outline plus a very soft green-tinted shadow
@@ -881,7 +881,9 @@ composition.
   tint at the bottom end, over a green-50 to paper-2 base) between its hairlines, and the closing mint panel carries
   `--gradient-close-wash` (a faint lime light at its top end, green-100 at its bottom start, on green-50). The close's
   section stays plain paper so it meets the FAQ on a clean edge. Text keeps 4.5:1 or more at every point of both
-  washes (globals.css). No silk-ribbon artwork, no NUZON colours.
+  washes (globals.css). No silk-ribbon artwork, no NUZON colours. **Later removed (24 Nov 2026):** once every light
+  surface shared one mint, the client found the washes added unevenness rather than character; both bands are now
+  flat mint and the gradient tokens are deleted.
 - **A full gradient per band, clean edges (overrides DESIGN.md "no gradients as decoration on light surfaces", by the
   client's instruction):** a first version faded each night band into its light neighbour; the client found those
   fading edges hard on the eyes and asked for each band to carry its own gradient instead, with no shadow at the joins.

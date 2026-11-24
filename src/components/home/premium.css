@@ -9,14 +9,13 @@
 
 /* ---------- Band rhythm: two night bands among light ones (client decision, 24 Nov 2026) ---------- */
 /*
- * Hero (paper) · proof (night) · routes (paper) · families (light band, green wash) · software (paper, closed by a
- * hairline) · door (paper) · reach (night) · FAQ (paper) · close (full-width mint band with a wash) · footer
- * (paper-2). The client found four night bands too
+ * Hero (paper) · proof (night) · routes (paper) · families (light band) · software (paper, closed by a
+ * hairline) · door (paper) · reach (night) · FAQ (paper) · close (full-width band) · footer
+ * (paper-2), every light surface on the one flat mint. The client found four night bands too
  * heavy, so only the proof and the reach (whose lime routes need the dark) stay night. Bands meet on clean edges:
  * each carries its own full gradient and nothing fades into a neighbour. Night bands keep a soft lime light at the
- * top; paper sections the one flat mint ground; the families band and the closing band carry the
- * stronger light washes (globals.css). This overrides DESIGN.md's "no gradients as decoration on light surfaces" by
- * the client's instruction (README Decisions).
+ * top; every light section, band and the close share one flat mint ground (the client dropped the light washes
+ * for consistency, README Decisions).
  */
 .home-bands .section-night {
   --band-edges: var(--gradient-band-glow) no-repeat;
@@ -30,13 +29,6 @@
   color: var(--color-night-text);
 }
 
-/* ---------- 3 · Families on a light band with a green wash ---------- */
-/* The band keeps its hairlines (ui/Section band); the wash replaces its flat paper-2. Product cut-outs stand on
-   the white plinth cards (DESIGN.md Plinth rule), so text and links keep the light tokens from home/sections.css. */
-.home-bands .home-families {
-  background: var(--gradient-families-wash);
-}
-
 /* ---------- 3b · Software on paper (client request, 24 Nov 2026) ---------- */
 /* The families band's hairline opens it; this one closes it, so it never runs into the door kit's paper below. */
 .home-bands .home-sw {
@@ -47,9 +39,3 @@
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
-/* ---------- Closing band: mint with a soft wash (client decisions, 24 Nov 2026) ---------- */
-/* The full-width band (ui/sections.css .ui-close) carries the wash edge to edge, so it meets the FAQ and the footer
-   on clean edges and nothing fades into a neighbour. */
-.home-bands .ui-close {
-  background: var(--gradient-close-wash);
-}
