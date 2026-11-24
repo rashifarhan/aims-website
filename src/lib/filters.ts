@@ -142,3 +142,35 @@ export function facetCounts(
 export function toggle<T extends string>(values: T[], value: T): T[] {
   return values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
 }
+
+export type Relaxation = { group: FacetGroup | "outdoor"; value: string; count: number };
+
+/**
+ * Zero-results recovery: for each selected option, how many products there would be with only that option
+ * removed. Options that still leave nothing are dropped; the rest come back biggest first, up to `limit`.
+ */
+export function relaxations(
+  cards: ProductCard[],
+  s: FilterState,
+  searchOrder: string[] | null,
+  limit = 2,
+): Relaxation[] {
+  const without = (patch: Partial<FilterState>) => applyFilters(cards, { ...s, ...patch }, searchOrder).length;
+  const options: { group: Relaxation["group"]; value: string; patch: Partial<FilterState> }[] = [];
+  if (s.family) options.push({ group: "family", value: s.family, patch: { family: undefined } });
+  for (const g of ["type", "brand", "verify", "conn"] as const) {
+    for (const v of s[g] as string[]) {
+      options.push({
+        group: g,
+        value: v,
+        patch: { [g]: (s[g] as string[]).filter((x) => x !== v) } as Partial<FilterState>,
+      });
+    }
+  }
+  if (s.outdoor) options.push({ group: "outdoor", value: "1", patch: { outdoor: false } });
+  return options
+    .map(({ group, value, patch }) => ({ group, value, count: without(patch) }))
+    .filter((r) => r.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit);
+}
