@@ -218,9 +218,10 @@
 
   /*
    * The one card (DESIGN.md Plinth Rule; Design Doc 9 Card): one of a set (products, routes, articles, options).
-   * Radius lg, a hairline, the resting shadow; families inset their content by --card-pad (globals.css). A linked
-   * or interactive card lifts 2px to the hover shadow and settles when pressed; a photo inside zooms 1.03 in its
-   * frame (taste House rule 5).
+   * White, radius lg, the green-tinted hairline and the soft two-layer plinth shadow that falls only below it (client
+   * decision, 24 Nov 2026); families inset their content by --card-pad (globals.css). A linked or interactive card
+   * lifts 2px to the lifted plinth and settles when pressed; a photo inside zooms 1.03 in its frame (taste House
+   * rule 5).
    */
   .ui-card {
     position: relative;
@@ -228,7 +229,7 @@
     border-radius: var(--radius-lg);
     background: var(--color-paper);
     color: var(--color-ink);
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-plinth);
     transition:
       box-shadow var(--duration-card) var(--ease-aims),
       border-color var(--duration-card) var(--ease-aims),
@@ -243,7 +244,7 @@
   @media (hover: hover) and (pointer: fine) {
     .ui-card-interactive:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-2);
+      box-shadow: var(--shadow-plinth-lift);
     }
     .ui-card-interactive:hover .ui-card-photo img {
       transform: scale(1.03);
@@ -260,20 +261,6 @@
   }
   .ui-card-interactive:focus-visible,
   .ui-card-interactive:has(:focus-visible) {
-    box-shadow: var(--shadow-2);
-  }
-  /* A card holding a product photograph is the raised white plinth (DESIGN.md Plinth Rule; client decision after the
-     card review, 24 Nov 2026): the hairline, a very soft green-tinted rest, and the lifted shadow with the 2px rise. */
-  .ui-card-plinth {
-    box-shadow: var(--shadow-plinth);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .ui-card-plinth.ui-card-interactive:hover {
-      box-shadow: var(--shadow-plinth-lift);
-    }
-  }
-  .ui-card-plinth.ui-card-interactive:focus-visible,
-  .ui-card-plinth.ui-card-interactive:has(:focus-visible) {
     box-shadow: var(--shadow-plinth-lift);
   }
   /* On night green (ui/Section night): the same card in night tones. A hairline, no glow; the edge lights lime

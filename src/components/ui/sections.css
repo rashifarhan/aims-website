@@ -279,11 +279,12 @@
   width: 100%;
   height: auto;
   /* AIMS's product shots are photographed on white, not cut out: multiplied onto the ground, their white takes the
-     mint page instead of showing a white box (the product stage does the same, product.css). */
+     page's white and the studio light instead of showing a white or grey box (the product stage does the same,
+     product.css). */
   mix-blend-mode: multiply;
 }
 /* The studio light sits in an isolated group, so multiply blends with it, not with the page behind: give the light
-   the hero's ground as its base, so the photo's white meets mint everywhere, including past the light's falloff. */
+   the hero's ground as its base, so the photo's white meets the page white everywhere past the light's falloff. */
 .page-hero-media.aims-studio::before {
   background: var(--gradient-studio-light), var(--color-page);
 }
@@ -492,11 +493,11 @@ main:has(> .page-hero-split) {
 }
 
 /* ---------- Closing band (ui/ClosePanel.tsx): one action, at most one link (Design Doc 2) ---------- */
-/* Card review (24 Nov 2026): the close is a full-width mint band, not a box on paper; its content keeps the
-   shared .wrap edges. A mint hairline gives the band a clean top edge (the footer brings its own). */
+/* Card review (24 Nov 2026): the close is a full-width band, not a box; its content keeps the shared .wrap edges.
+   On the white page (client decision, 24 Nov 2026) a green-100 hairline gives it a clean top edge (the footer's
+   faint band brings its own). */
 .ui-close {
   border-block-start: 1px solid var(--color-green-100);
-  /* The one light ground (client decision, 24 Nov 2026): the close is parted by its hairline, not a second mint. */
   background: var(--color-page);
 }
 .ui-close-panel {
@@ -628,7 +629,7 @@ main:has(> .page-hero-split) {
 .ui-office-actions .home-text-link {
   margin-block-start: 0;
 }
-/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a mint plinth on paper; on night green
+/* The showroom is the place AIMS invites visitors to (DESIGN.md North Star): a green-50 plinth on white; on night green
    it keeps the night hairline and only its tag is lit (card review, 24 Nov 2026: no lime edge). */
 .ui-office-paper.ui-office-featured {
   border-color: var(--color-green-100);

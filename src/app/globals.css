@@ -17,19 +17,18 @@
   --color-ink: #0e1512;
   --color-ink-700: #26302b; /* 13.64:1 */
   --color-ink-600: #4a5550; /* 7.76:1 · secondary text */
-  --color-ink-400: #666f6a; /* 5.19:1 · captions, hints */
+  --color-ink-400: #666f6a; /* 5.19:1 on white, 4.94:1 on the band tint · captions, hints */
   --color-ink-300: #7a837e; /* decorative only */
 
   /* Lines and surfaces */
-  --color-line: #e3e7e3; /* dividers */
-  --color-line-strong: #7c8781; /* input borders, UI component boundaries · 3.4:1 on the mint, 3.7:1 on white */
-  /* AIMS mint (client decisions, 24 Nov 2026; README Decisions): one mint ground for every light surface, page and
-     bands alike, so no section reads as a white strip between mint ones; a greyish stone tint and a lighter two-step
-     mint were tried and dropped. Cards, fields, menus and product photo frames stay pure --color-paper, so cut-out
-     photos keep a clean white plinth. On the mint: ink 16.9:1, ink-600 7.1:1, ink-400 4.7:1, green-700 5.5:1. */
-  --color-page: #f0f6f1;
-  --color-paper: #ffffff;
-  --color-paper-2: var(--color-page); /* bands and the footer share the page's mint; hairlines part bands */
+  /* White pages, faint bands (client decision, 24 Nov 2026; README Decisions; supersedes the one-mint ground): the
+     page is pure white, alternate bands and the footer take a barely-there green tint, and a green-tinted hairline
+     parts them. On the band tint: ink 17.6:1, ink-600 7.4:1, ink-400 4.9:1, green-700 5.8:1. */
+  --color-line: #e1e9e3; /* dividers and card borders, a green-tinted hairline · decorative, 1.2:1 */
+  --color-line-strong: #7c8781; /* input borders, UI component boundaries · 3.7:1 on white, 3.5:1 on the band tint */
+  --color-page: #ffffff; /* the page ground: body, header, hero and paper sections */
+  --color-paper: #ffffff; /* cards, fields, menus and product photo plinths */
+  --color-paper-2: #f7faf8; /* the faint band tint: section-band, the footer, wells and hover washes */
   --color-paper-3: #eef1ee;
 
   /* Status */
@@ -75,18 +74,17 @@
   --radius-pill: 999px;
 
   /* Elevation */
-  --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
   --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
   --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
-  /* The photo plinth (DESIGN.md Plinth Rule; client decision after the card review, 24 Nov 2026): only a card that
-     holds a product photograph is raised, on a hairline and a very soft, green-tinted rest; it lifts 2px to the
-     second shadow. Mixed from the palette so the tint stays AIMS green. */
+  /* The one card shadow (client decision, 24 Nov 2026; DESIGN.md Plinth Rule): every white card on its green-tinted
+     hairline rests on a soft two-layer shadow that falls only below it (the negative spread keeps it off the sides
+     and top), tinted with night-800, AIMS's deep green; a linked card lifts 2px to the second shadow. */
   --shadow-plinth:
-    0 1px 2px color-mix(in srgb, var(--color-night-950) 5%, transparent),
-    0 6px 16px color-mix(in srgb, var(--color-green-700) 6%, transparent);
+    0 1px 2px color-mix(in srgb, var(--color-night-800) 4%, transparent),
+    0 12px 32px -20px color-mix(in srgb, var(--color-night-800) 18%, transparent);
   --shadow-plinth-lift:
-    0 2px 6px color-mix(in srgb, var(--color-night-950) 5%, transparent),
-    0 16px 36px color-mix(in srgb, var(--color-green-700) 12%, transparent);
+    0 2px 4px color-mix(in srgb, var(--color-night-800) 5%, transparent),
+    0 22px 44px -22px color-mix(in srgb, var(--color-night-800) 26%, transparent);
 
   /* Motion */
   --ease-aims: cubic-bezier(0.2, 0.8, 0.2, 1);

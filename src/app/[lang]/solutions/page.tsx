@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Design Doc 10.1 T2; Master Plan 12: five needs, industries and FAQs, on paper, band and mint grounds.
+ * Design Doc 10.1 T2; Master Plan 12: five needs, industries and FAQs, on white and band grounds, then the closing band.
  * The one dealt moment is the site plan, "One site, five systems" (SolutionSite; Design Doc 8 SIGNAL), after the
  * cards: they answer "what", the plan "where on my site".
  * The hero photograph is a controller no card below shows, so no picture repeats on the screen.

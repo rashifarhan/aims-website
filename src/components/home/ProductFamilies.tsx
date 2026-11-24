@@ -22,8 +22,8 @@ export async function ProductFamilies() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    // Light band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
-    // the band's flat mint, parted by hairlines, between the paper routes and door sections.
+    // Faint band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
+    // the band's faint green tint, parted by hairlines, between the white routes and software sections.
     <Section ground="band" id="families" labelledBy="families-title" className="home-families">
       <SectionHeader
         id="families-title"
@@ -43,7 +43,7 @@ export async function ProductFamilies() {
             <Link
               key={family.slug}
               href={localePath(locale, `/products/${family.slug}`)}
-              className="home-family-card ui-card ui-card-plinth ui-card-interactive"
+              className="home-family-card ui-card ui-card-interactive"
             >
               <div className="home-family-image ui-card-photo">
                 {image && (

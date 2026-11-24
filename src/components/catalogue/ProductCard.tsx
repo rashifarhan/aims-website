@@ -45,7 +45,7 @@ export function ProductCard({ card, href, subtitle, labels, compare, preset, eag
   const model = splitModel(card.model);
   const description = model.description || describe(card);
   return (
-    <article className="product-card ui-card ui-card-plinth ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
+    <article className="product-card ui-card ui-card-interactive grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:p-4">
       <Link
         href={href}
         tabIndex={-1}
