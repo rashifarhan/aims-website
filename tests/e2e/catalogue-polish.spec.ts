@@ -80,6 +80,9 @@ test.describe("compare polish", () => {
     test.skip(isMobile, "phones get the stacked view");
     await page.goto("/products/compare?items=biopro-mh20,biopro-mh30", { waitUntil: "load" });
     const table = page.locator("table");
+    // The table streams in behind a Suspense boundary that React reveals a moment after load: measuring the first
+    // column while still hidden (no box, width 0) and the second after the reveal made this flake under load.
+    await expect(table).toBeVisible();
     await expect(table).toHaveCSS("table-layout", "fixed");
     const heads = table.locator("thead th");
     const [a, b] = [await heads.nth(0).boundingBox(), await heads.nth(1).boundingBox()];
