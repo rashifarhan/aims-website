@@ -22,11 +22,8 @@ export function QuickPicks({ label, picks, onPick }: Props) {
               type="button"
               aria-pressed={p.pressed}
               onClick={() => onPick(p.id)}
-              className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-menu transition-colors duration-(--duration-hover) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 ${
-                p.pressed
-                  ? "border-green-700 bg-green-50 font-semibold text-green-700"
-                  : "border-line-strong text-ink-700 hover:bg-paper-2"
-              }`}
+              // The one chip (actions.css .ui-chip), like the applied filters and the pagination below it.
+              className={`ui-chip gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 ${p.pressed ? "ui-chip-on font-semibold" : ""}`}
             >
               {p.label}
               <span className="text-xs text-ink-600 tabular-nums">{p.count}</span>
