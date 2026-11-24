@@ -11,3 +11,5 @@ conflict; CLAUDE.md §1, §4–§8 and tokens-only still bind. One line per chan
 - Product families: time attendance and access control lead as two large cards with their products shown big, the
   other four families in one row of four, in place of six same-size cards (phones: the two leads full width).
 - Fix: the lead-family class (Prettier's Tailwind plugin had trimmed its space); buyer routes stack below 1280px.
+- Arabic keeps a 40px title in the stacked hero (below 1024px): at 44px the fallback font wrapped one line more
+  than IBM Plex Sans Arabic and the swap shifted the hero.

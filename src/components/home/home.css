@@ -330,6 +330,9 @@ main:has(> .home-hero) {
     margin-block: 0 1.25rem;
     max-width: 36rem;
   }
+  :lang(ar) .home-display {
+    font-size: var(--text-home-display-mobile-ar);
+  }
   .home-lead {
     font-size: var(--text-base);
     max-width: 32rem;
@@ -635,7 +638,8 @@ main:has(> .home-hero) {
   .home-hero-copy {
     padding-block: 1.5rem;
   }
-  .home-display {
+  .home-display,
+  :lang(ar) .home-display {
     margin-block: 0.75rem 1rem;
     font-size: var(--text-home-display-short);
   }

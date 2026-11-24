@@ -103,7 +103,10 @@
      82px at 1440, 88px from 1600, so "ZKTeco access control" still holds one line beside the larger device. */
   --text-home-display-bold: clamp(4.25rem, 1.75rem + 3.75vw, 5.5rem);
   --text-home-display-compact: 3.5rem;
-  --text-home-display-mobile: 2.75rem; /* 44px (bolder): four lines at 390, Arabic in four too */
+  --text-home-display-mobile: 2.75rem; /* 44px (bolder): four lines at 390 */
+  /* Arabic keeps 40px in the stacked hero: at 44px the fallback font breaks the title into one line more than IBM Plex
+     Sans Arabic does, and the swap shifts the hero (CLS 0.22 measured at 390). */
+  --text-home-display-mobile-ar: 2.5rem;
   /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
   --text-home-display-short: 1.875rem;
   --text-home-heading: 2.375rem;
