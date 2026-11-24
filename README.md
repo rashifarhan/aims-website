@@ -282,6 +282,17 @@ Results at the end of Phase 4:
   WebGL. The product page reports five images "without width+height": they are `next/image` with `fill` inside a
   sized parent, which CLAUDE.md §5 allows, and layout shift is 0.000, so no change was made.
 
+**Listing pagination is numbered, and a buyer is never left without a next step (24 Nov 2026).** Design Doc ch. 9
+specifies "Load more + numbered fallback"; the client asked for paginated results, so the products listing shows 12
+a page with numbered links (`?page=` in the URL, real `<a href>`s, Back returns to the previous page). The same
+change adds sort (Relevance, Name A–Z, Family), a "Popular" row of eight one-click filters with live counts (not on a
+family page), collapsible facet groups, an always-present "Can't find your model?" panel (add a free-text line to the
+quote, WhatsApp or call, with the search text carried over), and zero-results recovery ("Closest models", and
+"Remove <filter> (n products)"). The panel promises only that AIMS "will check availability and reply": aimsuae.me
+never says AIMS sources unlisted models (checked 24 Nov), so the page doesn't either. Arabic wording for the new
+strings is a draft for AIMS to review. Design note: `docs/superpowers/specs/2026-11-24-products-listing-findability-design.md`;
+plan: `docs/superpowers/plans/2026-11-24-products-listing-findability.md`.
+
 ## Content import
 
 ```bash

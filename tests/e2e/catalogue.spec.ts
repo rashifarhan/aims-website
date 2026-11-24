@@ -409,3 +409,17 @@ test.describe("can't find your model", () => {
     await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /products?$/ })).toHaveText("3 products");
   });
 });
+
+test.describe("Arabic listing", () => {
+  test("page 2 in Arabic: RTL, model codes stay LTR, no sideways scroll, axe clean", async ({ page }) => {
+    await page.goto("/ar/products?page=2", { waitUntil: "load" });
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const pagination = page.getByRole("navigation", { name: "التنقل بين الصفحات" });
+    await expect(pagination).toBeVisible();
+    await expect(pagination.locator('[aria-current="page"]')).toHaveText("2");
+    await expect(page.getByRole("article").first().locator("h3 a")).toHaveAttribute("dir", "ltr");
+    await expect(page.getByRole("region", { name: "لم تجد الطراز الذي تبحث عنه؟" })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await axe(page);
+  });
+});
