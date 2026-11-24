@@ -22,14 +22,14 @@
 
   /* Lines and surfaces */
   --color-line: #e3e7e3; /* dividers */
-  --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
-  /* AIMS mint white (client decision, 24 Nov 2026; README Decisions): the page ground is a whisper of AIMS green, so
-     AIMS's light pages read as its own; a greyish stone tint was tried and rejected as off-brand and dull. Cards,
-     fields, menus and product photo frames stay pure --color-paper, so cut-out photos keep a clean white plinth.
-     On --color-page: ink 17.7:1, ink-600 7.4:1, ink-400 5.0:1, green-700 5.8:1. */
-  --color-page: #f7fbf8;
+  --color-line-strong: #7c8781; /* input borders, UI component boundaries · 3.4:1 on the mint, 3.7:1 on white */
+  /* AIMS mint (client decisions, 24 Nov 2026; README Decisions): one mint ground for every light surface, page and
+     bands alike, so no section reads as a white strip between mint ones; a greyish stone tint and a lighter two-step
+     mint were tried and dropped. Cards, fields, menus and product photo frames stay pure --color-paper, so cut-out
+     photos keep a clean white plinth. On the mint: ink 16.9:1, ink-600 7.1:1, ink-400 4.7:1, green-700 5.5:1. */
+  --color-page: #f0f6f1;
   --color-paper: #ffffff;
-  --color-paper-2: #f0f6f1; /* bands and the footer, a step deeper than the page · ink-400 4.7:1 */
+  --color-paper-2: var(--color-page); /* bands and the footer share the page's mint; hairlines part bands */
   --color-paper-3: #eef1ee;
 
   /* Status */
@@ -316,15 +316,10 @@
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
   /* Home bands (client instructions, 24 Nov 2026; README Decisions): clean edges, a full gradient per band. Night
      bands get a soft lime light at their top edge; at its strongest night-muted measures 7.3:1 on night-900 and
-     5.3:1 on night-700, lime 4.6:1 on night-700 (night-text 9.2:1). Light bands get a faint mint wash from the top end corner. */
+     5.3:1 on night-700, lime 4.6:1 on night-700 (night-text 9.2:1). */
   --gradient-band-glow: radial-gradient(
     50% 16rem at 50% 0%,
     color-mix(in srgb, var(--color-lime) 9%, transparent),
-    transparent 70%
-  );
-  --gradient-paper-wash: radial-gradient(
-    80% 70% at 100% 0%,
-    color-mix(in srgb, var(--color-green-50) 90%, transparent),
     transparent 70%
   );
   /* Light washes (client decision, 24 Nov 2026; README Decisions): the families band and the closing band carry a

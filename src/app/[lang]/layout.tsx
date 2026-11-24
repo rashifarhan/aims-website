@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f7fbf8", // --color-page, the AIMS mint white
+  themeColor: "#f0f6f1", // --color-page, the AIMS mint
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {

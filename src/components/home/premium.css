@@ -14,7 +14,7 @@
  * (paper-2). The client found four night bands too
  * heavy, so only the proof and the reach (whose lime routes need the dark) stay night. Bands meet on clean edges:
  * each carries its own full gradient and nothing fades into a neighbour. Night bands keep a soft lime light at the
- * top; paper sections a faint mint corner (--gradient-paper-wash); the families band and the closing band carry the
+ * top; paper sections the one flat mint ground; the families band and the closing band carry the
  * stronger light washes (globals.css). This overrides DESIGN.md's "no gradients as decoration on light surfaces" by
  * the client's instruction (README Decisions).
  */
@@ -22,7 +22,7 @@
   --band-edges: var(--gradient-band-glow) no-repeat;
 }
 .home-bands .section-paper {
-  background: var(--gradient-paper-wash), var(--color-page);
+  background: var(--color-page);
 }
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
