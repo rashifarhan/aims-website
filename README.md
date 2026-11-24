@@ -326,6 +326,34 @@ is the photo's plinth. The client approved this plan:
 - DESIGN.md's Plinth Rule now raises only product photo cards and sets text as open rows. Its ground colour now reads
   `--color-page` #f7fbf8, mirrored in `.impeccable/design.json`.
 
+### Software section (client request, 24 Nov 2026)
+
+- **Why it moved.** BioTime 9.5, BioTime Cloud and ZKAccess 3.5 were three text rows at the foot of the families band
+  and got too little attention. They are now a section of their own (`HomeSoftware`, h2), directly after the families
+  band and before the door kit. Ground: **paper**, closed by a hairline. Families is the light band with a wash, so a
+  second band beside it would read as one; paper alternates with it, and the hairline at its end keeps it apart from
+  the door kit's paper.
+- **The diagram** (`SoftwareFlow`, inline SVG and CSS, no software screenshots) shows how records flow: real AIMS
+  terminal photos with Plex Mono model codes → the three platforms → what the buyer gets. Every line comes from AIMS's
+  data (`src/lib/softwareFlow.ts`, unit-tested against the import). The terminals are iFace 990, Biopro SA20 and inBIO
+  260, because their AIMS product text names BioTime and/or ZKAccess (`namesSoftware`). The F18 and the hero's
+  SpeedFace were not used because no AIMS page names either platform for them. No product page names BioTime Cloud,
+  so it takes a dashed line from attendance terminals in general, marked "Confirm your model with AIMS", as on its own
+  page. The outputs are payroll reports (BioTime 9.5 "Comprehensive Reports", BioTime Cloud "Detailed attendance and
+  payroll reports"), shifts, leave and overtime (BioTime 9.5 "Flexible Shift & Scheduling Management", BioTime Cloud
+  "Leave management and overtime tracking"), attendance reports (both, plus ZKAccess "Integrated time attendance and
+  reporting system"), live door events (ZKAccess "Real-time door monitoring and activity tracking") and door
+  permissions (ZKAccess "User management and access permission control").
+- **Choices below it:** three open rows in the drawing's order, each showing where the platform runs (existing copy:
+  own server, cloud with no local server, a Windows PC), its name in mono, its purpose and a link to its page. "All
+  software" stays. Hovering a row dims the other lines (opacity only).
+- **Static.** CLAUDE.md §3 allows two dealt moments on a long page, and the home page's are the door kit and the reach
+  map, so the drawing does not animate. The client has since asked for a draw-once animation and a third home moment.
+  That needs CLAUDE.md §3 changed first, which waits on the owner's own confirmation.
+- **Accessibility and layout.** The drawing is one `role="img"` whose name states every line as text. At 768px and up
+  it has five columns; under 768px it reads top to bottom (terminals, platforms, outputs) with no per-node lines and
+  no horizontal scroll. In Arabic the flow runs right to left and model codes stay LTR.
+
 ## Content import
 
 ```bash
@@ -841,7 +869,7 @@ composition.
   value; reduced motion shows the final numbers with nothing moving. The digits box keeps the final width, so layout
   shift stays 0.
 - **Two night bands on the homepage (client decision, 24 Nov 2026):** hero (paper) · proof (night) · routes (paper) ·
-  families (light band with a green wash) · door (paper) · reach (night) · FAQ (paper) · close (mint panel with a
+  families (light band with a green wash) · software (paper, added 24 Nov 2026) · door (paper) · reach (night) · FAQ (paper) · close (mint panel with a
   wash, on paper) · footer (showroom floor). The client found four dark bands too heavy: the dark share of the page
   height measured 44% before and 21% after. Only the proof and the reach (whose lime map routes need the dark ground)
   stay night. The families band now puts its product cut-outs on the white plinth cards with light-surface text and
