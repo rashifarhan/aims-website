@@ -450,6 +450,22 @@ hairline. Text uses night-text (15.0:1) and night-muted (8.6:1); the focus ring 
 green marks its line (`--color-whatsapp-on-night`, 8.6:1). No page ends on a night section, so the footer never
 merges into one; a night-line hairline marks its top edge regardless.
 
+### Stand-in photographs (premium pass)
+
+`HomeWhereItGoes` ("From the front gate to the last door") uses four licensed stand-in photographs from Wikimedia
+Commons, all CC BY-SA 4.0. They show the kinds of places AIMS equips, **not AIMS premises, staff or customers**, and
+are stand-ins to replace with AIMS's own installation photographs. Each `<img>` carries `data-source="stand-in"`, has
+no caption, and is credited in the footer's one line (`footer.standIns`). Converted to webp at the 1280 px Commons
+size, under 235 KB each, in `public/images/stand-ins/`. The scan reveal on the tiles is scroll-driven CSS
+(`animation-timeline: view()`, transform and opacity) and absent under reduced motion or without support.
+
+| File                                                                             | Commons page                                                                                                                                                                                               | Author     | Why it fits                                                                                     |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
+| `office-lobby-speed-gates.webp` (Office towers → entrance control)               | [Fukuoka Daimyō Garden City Tower turnstiles](https://commons.wikimedia.org/wiki/File:Fukuoka_Daimy%C5%8D_Garden_City_Tower_the_turnstiles_on_the_3rd_floor_Ch%C5%AB%C5%8D-ku_Fukuoka_20240812_153528.jpg) | Hirho      | Glass speed gates in an office lift lobby; green marble echoes AIMS green.                      |
+| `hotel-corridor.webp` (Hotels → door locks)                                      | [Corridor at Sokos Hotel Pier 4](https://commons.wikimedia.org/wiki/File:Corridor_at_Sokos_Hotel_Pier_4.jpg)                                                                                               | JIP        | A clean guest corridor lined with room doors, where RFID hotel locks go. No brand mark visible. |
+| `office-building-glass-entrance.webp` (Building entrances → access control)      | [TPE-DORTS-SDPO Building main entrance](https://commons.wikimedia.org/wiki/File:TPE-DORTS-SDPO_Building_main_entrance_20200726.jpg)                                                                        | Solomon203 | Glass entrance doors: the classic controlled door (reader, controller, EM lock).                |
+| `reception-lobby-optical-turnstiles.webp` (Reception lobbies → entrance control) | [Drop Arm Optical Turnstiles](https://commons.wikimedia.org/wiki/File:Drop_Arm_Optical_Turnstiles.jpg)                                                                                                     | Fabtron    | Drop-arm optical turnstiles across a reception lobby beside the front desk.                     |
+
 ## Content import
 
 ```bash
