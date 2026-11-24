@@ -34,7 +34,7 @@ export default async function Home() {
   const locale = await getLocale();
   const close = t.home.closing;
   return (
-    <main id="main">
+    <main id="main" className="home-page">
       <JsonLd
         data={{
           "@context": "https://schema.org",

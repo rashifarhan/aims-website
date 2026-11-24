@@ -107,6 +107,11 @@
   /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
   --text-home-display-short: 1.875rem;
   --text-home-heading: 2.375rem;
+  /* Impeccable bolder (docs/impeccable-bolder.md): the home page's section titles a step up from the shared 38px,
+     scoped to .home-page so other pages keep the shared scale; 32px on phones. */
+  --text-home-heading-bold: 3rem;
+  /* A buyer route's title, set as an editorial row (between the 48px h2 and the 18px card title). */
+  --text-home-route: 2rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
   /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
@@ -332,6 +337,8 @@
     --section-space: 2rem;
     --card-pad: 1.25rem;
     --text-home-heading: 1.75rem;
+    --text-home-heading-bold: 2rem;
+    --text-home-route: 1.5rem;
   }
 }
 
