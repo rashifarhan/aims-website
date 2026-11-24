@@ -28,13 +28,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** T1 sequence: Design Doc ch. 10; factual Organization data: Plan AT-12. */
+/** T1 sequence: Design Doc ch. 10, with the proof moved up by the client; factual Organization data: Plan AT-12. */
 export default async function Home() {
   const t = await getDictionary();
   const locale = await getLocale();
   const close = t.home.closing;
   return (
-    <main id="main">
+    <main id="main" className="home-bands">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -46,10 +46,12 @@ export default async function Home() {
         }}
       />
       <Hero />
+      {/* Client instruction (24 Nov 2026): the proof is AIMS's strongest trust signal, so it follows the hero, and the
+          bands alternate paper and night top to bottom (premium.css, band rhythm). */}
+      <HomeProof />
       <BuyerRoutes />
       <ProductFamilies />
       <DoorTeaser />
-      <HomeProof />
       <HomeLocations />
       <HomeFaq />
       <ClosePanel

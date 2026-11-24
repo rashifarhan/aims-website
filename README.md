@@ -782,3 +782,26 @@ composition.
 - **Measured:** Add to quote is in the first screen at 320×568 (iPhone SE) and 390×664, English and Arabic. At the
   extreme 320×480 it sits one row below the fold. Squeezing further would shrink the photo to a thumbnail.
 - `tests/e2e/short-phone.spec.ts` checks these first screens and the phone order.
+
+### Proof band and band rhythm (client mockup B and instructions, 24 Nov 2026)
+
+- **The proof follows the hero** (client instruction: AIMS's strongest trust signal belongs early). It is now night
+  green after mockup B: the authorization badge (behind `ZKTECO_AUTHORIZATION_CONFIRMED`), one sentence carrying the
+  four `COMPANY_FIGURES` as the section's h2, the existing company-stated note, three reasons (showroom, one team,
+  Dubai and Abu Dhabi) and the three published reviews as night cards. The mockup's showroom line ("see terminals,
+  locks and turnstiles working") and "one number to call" were not used: AIMS has not confirmed live demos and lists
+  four numbers. The figure labels stay AIMS's published wording ("years of experience", not the mockup's "years
+  trading", which would date the company before AIMS confirms a founding year).
+- **The one count** (CLAUDE.md §3, tech): the four figures count up once (1.4 s, ease-out, 120 ms stagger) when 40%
+  of the sentence is in view. The server HTML holds the final figures; screen readers read only an sr-only final
+  value; reduced motion shows the final numbers with nothing moving. The digits box keeps the final width, so layout
+  shift stays 0.
+- **Light and night alternate on the homepage:** hero (paper) · proof (night) · routes (paper) · families (night) ·
+  door (paper) · reach (night) · FAQ (paper) · close (night) · footer (showroom floor). Only the proof's ground and
+  position changed.
+- **Soft edges between bands (overrides DESIGN.md "no gradients as decoration on light surfaces", by the client's
+  instruction):** on the homepage (`main.home-bands`) each night band fades into its light neighbour over
+  `--band-fade` (80px desktop, 64px tablet, 40px phone) and carries a soft lime glow under its top fade. The fade lies
+  inside the band's padding (rhythm plus fade), so no text sits in it; night-muted keeps 5.4:1 or more over the glow.
+  Other pages keep hard edges; where two night bands meet (the about page's proof and reach) a night hairline parts
+  them.

@@ -1,11 +1,47 @@
 /*
  * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
- * catalogue, the showroom and the close; the light showroom floor for proof.
+ * proof, the catalogue, the showroom and the close, alternating with paper.
  *
  * Motion (taste motion.md, three layers): the hero enters; DoorStory controls the approved door kit;
  * the reach map draws once through MomentTrigger; shared controls answer hover/press. Other sections
  * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
+
+/* ---------- Band rhythm: light and night alternate, with soft edges (client instruction, 24 Nov 2026) ---------- */
+/*
+ * Hero (paper) · proof (night) · routes (paper) · families (night) · door (paper) · reach (night) · FAQ (paper) ·
+ * close (night) · footer (paper-2). Where a night band meets a light one its edge fades into the neighbour's ground
+ * over --band-fade (64–80px, 40px on phones) instead of cutting, and a soft lime glow sits under its top fade.
+ * This overrides DESIGN.md's "no gradients as decoration on light surfaces" by the client's instruction (README
+ * Decisions). The fade is padding: night bands pad by the rhythm plus the fade, so no text ever sits in it.
+ */
+.home-bands .section-night {
+  --band-above: var(--color-paper);
+  --band-below: var(--color-paper);
+  --band-edges:
+    linear-gradient(
+        to bottom,
+        var(--band-above),
+        color-mix(in oklab, var(--band-above) 55%, transparent) 30%,
+        color-mix(in oklab, var(--band-above) 18%, transparent) 65%,
+        transparent
+      )
+      top / 100% var(--band-fade) no-repeat,
+    linear-gradient(
+        to top,
+        var(--band-below),
+        color-mix(in oklab, var(--band-below) 55%, transparent) 30%,
+        color-mix(in oklab, var(--band-below) 18%, transparent) 65%,
+        transparent
+      )
+      bottom / 100% var(--band-fade) no-repeat,
+    var(--gradient-band-glow) no-repeat;
+  padding-block: calc(var(--section-space) + var(--band-fade));
+}
+/* The closing band ends on the footer's showroom floor. */
+.home-bands .ui-close-night {
+  --band-below: var(--color-paper-2);
+}
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
 .section-night .home-subtitle {
