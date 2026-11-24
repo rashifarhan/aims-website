@@ -23,15 +23,19 @@ export function useListingState(urlState: FilterState, family: FamilySlug | unde
 
   const urlTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => () => clearTimeout(urlTimer.current), []);
-  const update = (patch: Partial<FilterState>) => {
-    const next = { ...state, ...patch };
+  const update = (patch: Partial<FilterState>, opts?: { push?: boolean }) => {
+    // Filters, search and sort start again from page 1; a compare tick or an explicit page keeps the page.
+    const keepsPage = patch.page !== undefined || Object.keys(patch).every((k) => k === "cmp");
+    const next = { ...state, ...patch, ...(keepsPage ? {} : { page: 1 }) };
     if (family) next.family = undefined; // the route already says which family
     setState(next);
     // Native history update, no server round trip. Only typing needs debouncing; a compare selection must be
     // reflected in history before the buyer can follow the tray link.
     clearTimeout(urlTimer.current);
     const href = withDestination(`${window.location.pathname}${serializeFilters(next)}`, preset);
-    const writeUrl = () => window.history.replaceState(null, "", href);
+    // A page change is a step the buyer can go Back from; everything else rewrites the current entry.
+    const writeUrl = () =>
+      opts?.push ? window.history.pushState(null, "", href) : window.history.replaceState(null, "", href);
     if (patch.q !== undefined) urlTimer.current = setTimeout(writeUrl, 150);
     else writeUrl();
   };

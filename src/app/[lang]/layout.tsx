@@ -10,6 +10,7 @@ import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import "../globals.css";
 import "@/components/ui/actions.css";
 import "@/components/ui/sections.css";
+import "@/components/ui/journey.css";
 
 export function generateStaticParams() {
   return LOCALES.map((l) => ({ lang: l }));
@@ -30,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#ffffff", // --color-page, the white page (client decision, 24 Nov 2026)
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {

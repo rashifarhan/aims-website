@@ -1,43 +1,37 @@
 /*
- * Homepage surfaces and the two dealt moments (README → Decisions). Night-green bands for the
- * catalogue, the showroom and the close; the light showroom floor for proof.
+ * Homepage surfaces and the two dealt moments (README → Decisions). Two night-green bands, the proof and the
+ * showroom reach, set among light sections.
  *
  * Motion (taste motion.md, three layers): the hero enters; DoorStory controls the approved door kit;
  * the reach map draws once through MomentTrigger; shared controls answer hover/press. Other sections
  * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
 
+/* ---------- Band rhythm: white pages, faint bands, two night bands (client decisions, 24 Nov 2026) ---------- */
+/*
+ * Hero (white) · proof (night) · routes (white) · families (faint band) · software (white) · door (white) · reach
+ * (night) · journey (white) · FAQ (faint band) · close (white, its green-100 top hairline) · footer (faint band).
+ * Paper sections stand on the white page and section-band ones take the faint tint with their hairlines, so only
+ * the joins need care: where two white sections meet a hairline parts them, and a band never doubles a neighbour's
+ * hairline. Only the proof and the reach (whose lime routes need the dark) stay night, with a soft lime light at the
+ * top; bands meet on clean edges and nothing fades into a neighbour.
+ */
+.home-bands .section-night {
+  --band-edges: var(--gradient-band-glow) no-repeat;
+}
+
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
 .section-night .home-subtitle {
   color: var(--color-night-text);
 }
-.home-night-lead {
-  max-width: 38rem;
-  margin-block-start: 0.875rem;
-  color: var(--color-night-muted);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
 
-/* ---------- 3 · Families and software on night green ---------- */
-/* Products stay on white (Design Doc 7): the photograph sits on paper inside the dark card. */
-.home-families .home-family-image {
-  background: var(--color-paper);
-  overflow: clip;
-}
-.home-families .home-family-info {
-  border-color: var(--color-night-line);
-}
-.home-families :is(.home-family-summary, .home-software-purpose) {
-  color: var(--color-night-muted);
-}
-.home-families :is(.home-family-count, .home-software-kind) {
-  color: var(--color-lime);
+/* ---------- 3b · Software on white (client request, 24 Nov 2026) ---------- */
+/* The families band's hairline opens it; this one closes it, so it never runs into the door kit's white below. */
+.home-bands .home-sw {
+  border-block-end: 1px solid var(--color-line);
 }
 
 /* Door motion is shared with Access Control in motion/doorStory.css and doorTimeline.ts. */
 
 /* ---------- 7 · Showroom and reach on night green; the routes draw once ---------- */
 /* The map itself and its route draw live in src/components/signature/reach.css (shared with /contact). */
-/* ---------- Closing band: night green, still light ---------- */
-/* The two glows are layers of the ground itself, so nothing spills past the band. */

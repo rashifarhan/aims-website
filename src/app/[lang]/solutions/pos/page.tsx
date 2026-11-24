@@ -8,6 +8,7 @@ import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { ClosePanel } from "@/components/ui/ClosePanel";
+import { ChatIcon, DocumentIcon, HeadsetIcon, SlidersIcon, TruckIcon } from "@/components/icons";
 import { POS_PAGE as PAGE } from "@/components/solution/pos/posPage";
 import { CounterVerify } from "@/components/solution/pos/CounterVerify";
 import { PosOptions } from "@/components/solution/pos/PosOptions";
@@ -37,7 +38,18 @@ export default async function PosSolution() {
       <CounterVerify idPrefix="ps" />
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
-      <SolutionProcess idPrefix="ps" copy={c.process} />
+      {/* POS terminals are delivered and connected, not installed: a truck for step three. */}
+      <SolutionProcess
+        idPrefix="ps"
+        copy={c.process}
+        icons={[
+          <ChatIcon key="brief" />,
+          <DocumentIcon key="quote" />,
+          <TruckIcon key="delivery" />,
+          <SlidersIcon key="setup" />,
+          <HeadsetIcon key="support" />,
+        ]}
+      />
       <SolutionQuestions
         ground="band"
         idPrefix="ps"

@@ -17,14 +17,18 @@
   --color-ink: #0e1512;
   --color-ink-700: #26302b; /* 13.64:1 */
   --color-ink-600: #4a5550; /* 7.76:1 · secondary text */
-  --color-ink-400: #666f6a; /* 5.19:1 · captions, hints */
+  --color-ink-400: #666f6a; /* 5.19:1 on white, 4.94:1 on the band tint · captions, hints */
   --color-ink-300: #7a837e; /* decorative only */
 
   /* Lines and surfaces */
-  --color-line: #e3e7e3; /* dividers */
-  --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
-  --color-paper: #ffffff;
-  --color-paper-2: #f6f8f5;
+  /* White pages, faint bands (client decision, 24 Nov 2026; README Decisions; supersedes the one-mint ground): the
+     page is pure white, alternate bands and the footer take a barely-there green tint, and a green-tinted hairline
+     parts them. On the band tint: ink 17.6:1, ink-600 7.4:1, ink-400 4.9:1, green-700 5.8:1. */
+  --color-line: #e1e9e3; /* dividers and card borders, a green-tinted hairline · decorative, 1.2:1 */
+  --color-line-strong: #7c8781; /* input borders, UI component boundaries · 3.7:1 on white, 3.5:1 on the band tint */
+  --color-page: #ffffff; /* the page ground: body, header, hero and paper sections */
+  --color-paper: #ffffff; /* cards, fields, menus and product photo plinths */
+  --color-paper-2: #f7faf8; /* the faint band tint: section-band, the footer, wells and hover washes */
   --color-paper-3: #eef1ee;
 
   /* Status */
@@ -32,11 +36,13 @@
   --color-warn: #8a5300;
   --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
   /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
-     Contrast on night-900: text 15.9:1, night-muted 8.9:1, lime 7.8:1, so lime may carry text there. */
-  --color-night-950: #06100a;
-  --color-night-900: #0a1a10;
+     Shifted toward the client's chosen forest palette (24 Nov 2026: #0F1F17, #1E3A2E).
+     Contrast on night-900: text 15.0:1, night-muted 8.6:1, lime 7.5:1, so lime may carry text there;
+     on night-700: night-muted 6.2:1, lime 5.4:1. */
+  --color-night-950: #08130d;
+  --color-night-900: #0f1f17;
   --color-night-800: #102619;
-  --color-night-700: #18352a;
+  --color-night-700: #1e3a2e;
   --color-night-line: #24432f;
   --color-night-text: #e9f2ec;
   --color-night-muted: #a9bdb0;
@@ -49,6 +55,7 @@
   /* Type sizes outside Tailwind's default scale (Design Doc ch. 5) */
   --text-kbd: 0.6875rem; /* 11px · keyboard hints */
   --text-caption: 0.8125rem; /* 13px · captions, tile labels */
+  --text-model-label: 0.75rem; /* 12px · the hero device's one-line description under its model code */
   --text-small: 0.90625rem; /* 14.5px · nav, labels */
   --text-menu: 0.9375rem; /* 15px · mobile menu links */
   --text-wordmark: 1.375rem; /* 22px · interim wordmark */
@@ -67,9 +74,17 @@
   --radius-pill: 999px;
 
   /* Elevation */
-  --shadow-1: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04);
   --shadow-2: 0 12px 32px rgb(14 21 18 / 0.08);
   --shadow-3: 0 24px 60px rgb(14 21 18 / 0.12);
+  /* The one card shadow (client decision, 24 Nov 2026; DESIGN.md Plinth Rule): every white card on its green-tinted
+     hairline rests on a soft two-layer shadow that falls only below it (the negative spread keeps it off the sides
+     and top), tinted with night-800, AIMS's deep green; a linked card lifts 2px to the second shadow. */
+  --shadow-plinth:
+    0 1px 2px color-mix(in srgb, var(--color-night-800) 4%, transparent),
+    0 12px 32px -20px color-mix(in srgb, var(--color-night-800) 18%, transparent);
+  --shadow-plinth-lift:
+    0 2px 4px color-mix(in srgb, var(--color-night-800) 5%, transparent),
+    0 22px 44px -22px color-mix(in srgb, var(--color-night-800) 26%, transparent);
 
   /* Motion */
   --ease-aims: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -106,6 +121,9 @@
   --text-home-heading: 2.375rem;
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
+  /* The proof statement (client mockup B, 24 Nov 2026): one sentence carrying the four company figures, a step above
+     the h2 scale because it is the section's heading and its content. 28px at 390, 36px at 768, 42px from 1024. */
+  --text-proof-statement: clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem);
   /* Door-kit SVG text in viewBox units (760 wide), not screen font sizes (Design Doc 7 pill tags). */
   --text-door-name: 14px;
   --text-door-model: 12.5px;
@@ -132,7 +150,6 @@
   --text-device-hint: 6cqw;
   --text-device-welcome: 12cqw;
   --container-home-stage: 1600px;
-  --shadow-home-action: 0 10px 24px rgb(38 112 58 / 0.22);
   --drop-shadow-home-device: 0 34px 40px rgb(14 21 18 / 0.22);
   /* Design Doc ch. 6: 1280px content + two 32px desktop gutters. */
   --container-page: 1344px;
@@ -188,7 +205,7 @@
   }
 
   body {
-    background: var(--color-paper);
+    background: var(--color-page);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -291,19 +308,25 @@
     color-mix(in srgb, var(--color-lime) 6%, transparent) 38%,
     transparent 76%
   );
-  /* Homepage night surfaces (README → Decisions): night green and the closing band's still light. */
+  /* AIMS's inner hero signature (client decision, 24 Nov 2026): a soft green light at the top of every PageHero,
+     under its signal lines. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
+     green-700 5.5:1. */
+  --gradient-hero-glow: radial-gradient(
+    60rem 26rem at 50% 0%,
+    color-mix(in srgb, var(--color-green-100) 45%, transparent),
+    transparent 72%
+  );
+  /* Homepage night surfaces (README → Decisions): night green. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
-  --gradient-glow-lime: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-lime) 22%, transparent),
-    transparent
-  );
-  --gradient-glow-green: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-green-700) 55%, transparent),
-    transparent
+  /* Home bands (client instructions, 24 Nov 2026; README Decisions): clean edges, a full gradient per band. Night
+     bands get a soft lime light at their top edge; at its strongest night-muted measures 7.3:1 on night-900 and
+     5.3:1 on night-700, lime 4.6:1 on night-700 (night-text 9.2:1). */
+  --gradient-band-glow: radial-gradient(
+    50% 16rem at 50% 0%,
+    color-mix(in srgb, var(--color-lime) 9%, transparent),
+    transparent 70%
   );
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(

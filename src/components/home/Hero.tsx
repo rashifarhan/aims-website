@@ -7,6 +7,7 @@ import { HeroAnimation } from "./HeroAnimation";
 import { SignalLines } from "./SignalLines";
 
 import { ArrowIcon } from "@/components/icons";
+import { HeroModel } from "./HeroModel";
 import { HeroTick } from "./HeroTick";
 
 export async function Hero() {
@@ -104,6 +105,7 @@ export async function Hero() {
           </div>
         </div>
       </HeroAnimation>
+      <HeroModel />
     </section>
   );
 }

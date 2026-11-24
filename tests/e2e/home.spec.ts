@@ -60,6 +60,29 @@ for (const locale of ["en", "ar"] as const) {
     }
   });
 
+  test(`${locale} software has its own section with a described records-flow drawing`, async ({ page }) => {
+    await page.goto(home);
+    const prefix = locale === "ar" ? "/ar" : "";
+    // Client request (24 Nov 2026): software follows the families band as a section of its own, before the door kit.
+    const order = await page
+      .locator("main > section")
+      .evaluateAll((sections) => sections.map((s) => s.id || s.className));
+    const families = order.findIndex((id) => id === "families");
+    expect(order[families + 1]).toBe("software");
+    expect(order[families + 2]).toContain("home-door");
+    const software = page.locator("#software");
+    await expect(software.locator("h2")).toHaveCount(1);
+    await expect(page.locator("#families a[href*='/software/']")).toHaveCount(0);
+    // The drawing is one image whose name carries every line as text (CLAUDE.md §4).
+    const flow = software.getByRole("img");
+    await expect(flow).toHaveAttribute("aria-label", /BioTime Cloud.*BioTime 9\.5.*ZKAccess 3\.5/);
+    await expect(flow).toHaveAttribute("aria-label", /IFace 990.*Biopro SA20.*Inbio 260/);
+    for (const slug of ["biotimecloud", "biotime-9-5", "zkaccess-3-5"]) {
+      await expect(software.locator(`a.home-row[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
+    }
+    await expect(software.locator(`a[href="${prefix}/software"]`)).toHaveCount(1);
+  });
+
   test(`${locale} FAQ works by keyboard and narrow layout reflows`, async ({ page }) => {
     await page.goto(home);
     const details = page.locator("#faq details");

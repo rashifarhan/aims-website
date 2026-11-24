@@ -217,3 +217,224 @@ test.describe("product pages", () => {
     await expect(page.getByRole("link", { name: /Ask for the specifications/ })).toHaveAttribute("href", /wa\.me/);
   });
 });
+
+test.describe("pagination and sort", () => {
+  const cards = (page: Page) => page.getByRole("article");
+  const pagination = (page: Page) => page.getByRole("navigation", { name: "Pagination" });
+  const slugs = (page: Page, n: number) =>
+    cards(page)
+      .locator("h3 a")
+      .evaluateAll(
+        (els, count) => els.slice(0, count).map((a) => (a.getAttribute("href") ?? "").split("?")[0].split("/").pop()),
+        n,
+      );
+
+  test("12 products a page; Next shows the next 12 and Back returns to page 1", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(cards(page)).toHaveCount(12);
+    await expect(pagination(page).getByText("Showing 1–12 of 159")).toBeVisible();
+    const first = await slugs(page, 12);
+
+    await pagination(page).getByRole("link", { name: "Next" }).click();
+    await expect(page).toHaveURL(/page=2/);
+    await expect(pagination(page).getByText("Showing 13–24 of 159")).toBeVisible();
+    expect(await slugs(page, 12)).not.toEqual(first);
+
+    await page.goBack();
+    await expect(page).not.toHaveURL(/page=/);
+    expect(await slugs(page, 12)).toEqual(first);
+  });
+
+  test("a page past the end clamps to the last page", async ({ page }) => {
+    await page.goto("/products?page=99", { waitUntil: "load" });
+    await expect(pagination(page).getByText("Showing 157–159 of 159")).toBeVisible();
+    await expect(cards(page)).toHaveCount(3);
+    await expect(page).toHaveURL(/page=14/);
+  });
+
+  test("searching from page 3 lands on page 1 with results", async ({ page }) => {
+    await page.goto("/products?page=3", { waitUntil: "load" });
+    // Retry until the page has hydrated and the field's handler is attached.
+    await expect(async () => {
+      await page.locator("#listing-search").fill("f18");
+      await expect(page).not.toHaveURL(/page=/, { timeout: 1000 });
+    }).toPass();
+    await expect(cards(page).first()).toBeVisible();
+  });
+
+  test("ticking a filter from page 3 lands on page 1", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the facet rail is desktop; the mobile sheet shares the same handler");
+    await page.goto("/products?page=3", { waitUntil: "load" });
+    await expect(async () => {
+      await page
+        .getByRole("checkbox", { name: /^Fingerprint/ })
+        .first()
+        .check();
+      await expect(page).not.toHaveURL(/page=/, { timeout: 1000 });
+    }).toPass();
+    await expect(cards(page).first()).toBeVisible();
+  });
+
+  test("sort by name puts the catalogue in A–Z order", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(async () => {
+      await page.getByLabel("Sort").selectOption("name");
+      await expect(page).toHaveURL(/sort=name/, { timeout: 1000 });
+    }).toPass();
+    const expected = (products as { slug: string; name: string; duplicateOf?: string }[])
+      .filter((p) => !p.duplicateOf)
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }))
+      .slice(0, 3)
+      .map((p) => p.slug);
+    expect(await slugs(page, 3)).toEqual(expected);
+  });
+});
+
+test.describe("quick picks", () => {
+  test("a pick applies its filters, shows pressed, and shows as many products as its count", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    const pick = page.getByRole("group", { name: "Popular" }).getByRole("button", { name: /^Turnstiles & gates/ });
+    const count = Number((await pick.textContent())!.match(/(\d+)\s*$/)![1]);
+    expect(count).toBeGreaterThan(0);
+
+    await expect(async () => {
+      await pick.click();
+      await expect(page).toHaveURL(/type=pedestrian/, { timeout: 1000 });
+    }).toPass();
+    await expect(pick).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /products?$/ })).toHaveText(
+      new RegExp(`^${count} products?$`),
+    );
+  });
+
+  test("clicking a pressed pick again turns it off", async ({ page }) => {
+    await page.goto("/products?q=f18", { waitUntil: "load" });
+    const pick = page.getByRole("group", { name: "Popular" }).getByRole("button", { name: /^Fingerprint/ });
+    await expect(async () => {
+      await pick.click();
+      await expect(pick).toHaveAttribute("aria-pressed", "true", { timeout: 1000 });
+    }).toPass();
+    await expect(page).toHaveURL(/verify=fingerprint/);
+
+    await pick.click();
+    await expect(pick).toHaveAttribute("aria-pressed", "false");
+    await expect(page).not.toHaveURL(/verify=/);
+    await expect(page).toHaveURL(/q=f18/);
+  });
+
+  test("a family page has no quick picks", async ({ page }) => {
+    await page.goto("/products/time-attendance", { waitUntil: "load" });
+    await expect(page.getByRole("heading", { name: "Results" })).toBeAttached();
+    await expect(page.getByRole("group", { name: "Popular" })).toHaveCount(0);
+  });
+
+  test("the row scrolls inside itself; the page never scrolls sideways at 320px", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(page.getByRole("group", { name: "Popular" })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  });
+});
+
+test.describe("facet groups", () => {
+  test("Family starts open and Brand closed; opening Brand shows its options", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toBeVisible();
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeHidden();
+
+    await rail.locator("summary", { hasText: "Brand" }).click();
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeVisible();
+  });
+
+  test("a group with a selected option starts open", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products?brand=alpha", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await expect(rail.getByRole("checkbox", { name: /^Alpha/ })).toBeChecked();
+  });
+
+  test("a group the buyer opened stays open when its last option is cleared", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
+    await page.goto("/products", { waitUntil: "load" });
+    const rail = page.getByRole("complementary", { name: "Filters" });
+    await rail.locator("summary", { hasText: "Brand" }).click();
+    const alpha = rail.getByRole("checkbox", { name: /^Alpha/ });
+    await expect(async () => {
+      await alpha.check();
+      await expect(page).toHaveURL(/brand=alpha/, { timeout: 1000 });
+    }).toPass();
+    await alpha.uncheck();
+    await expect(page).not.toHaveURL(/brand=/);
+    await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeVisible();
+  });
+});
+
+test.describe("can't find your model", () => {
+  const panel = (page: Page) => page.getByRole("region", { name: "Can't find your model?" });
+
+  test("the panel is there with results; adding a request puts a custom line in the quote", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(panel(page)).toBeVisible();
+    await expect(async () => {
+      await panel(page).getByLabel("Model or requirement").fill("ZK-9000");
+      await panel(page).getByRole("button", { name: "Add to quote request" }).click();
+      await expect(panel(page).getByRole("status")).toContainText("Added to your quote request.", { timeout: 1000 });
+    }).toPass();
+    expect(await quoteLines(page)).toEqual([expect.objectContaining({ kind: "custom", text: "ZK-9000", qty: 1 })]);
+  });
+
+  test("an empty request adds nothing", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await panel(page).getByRole("button", { name: "Add to quote request" }).click();
+    expect(await quoteLines(page)).toEqual([]);
+  });
+
+  test("it is prefilled with the search and offers WhatsApp, a call and the way to solutions and the showroom", async ({
+    page,
+  }) => {
+    await page.goto("/products?q=XYZ-999", { waitUntil: "load" });
+    await expect(panel(page).getByLabel("Model or requirement")).toHaveValue("XYZ-999");
+    await expect(panel(page).getByRole("link", { name: "Ask on WhatsApp" })).toHaveAttribute(
+      "href",
+      /wa\.me\/\d+\?text=.*XYZ-999/,
+    );
+    await expect(panel(page).getByRole("link", { name: "Call the showroom" })).toHaveAttribute("href", /^tel:\+971/);
+    await expect(panel(page).getByRole("link", { name: /Compare solutions/ })).toHaveAttribute("href", "/solutions");
+    await expect(panel(page).getByRole("link", { name: /Deira showroom/ })).toHaveAttribute("href", "/about#showrooms");
+  });
+
+  test("a near-miss search with no results lists the closest models", async ({ page }) => {
+    await page.goto("/products?q=F19", { waitUntil: "load" });
+    await expect(page.getByText("No products match “F19”.")).toBeVisible();
+    await expect(page.getByText("Closest models")).toBeVisible();
+    await expect(page.getByRole("link", { name: "F18", exact: true })).toBeVisible();
+  });
+
+  test("filters that leave nothing offer a removal that brings products back", async ({ page }) => {
+    await page.goto("/products?verify=palm&conn=4g", { waitUntil: "load" });
+    await expect(page.getByText("No products match.")).toBeVisible();
+    const remove = page.getByRole("button", { name: "Remove Palm (3 products)" });
+    await expect(page.getByRole("button", { name: "Remove 4G (3 products)" })).toBeVisible();
+    await expect(async () => {
+      await remove.click();
+      await expect(page).not.toHaveURL(/verify=palm/, { timeout: 1000 });
+    }).toPass();
+    await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /products?$/ })).toHaveText("3 products");
+  });
+});
+
+test.describe("Arabic listing", () => {
+  test("page 2 in Arabic: RTL, model codes stay LTR, no sideways scroll, axe clean", async ({ page }) => {
+    await page.goto("/ar/products?page=2", { waitUntil: "load" });
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const pagination = page.getByRole("navigation", { name: "التنقل بين الصفحات" });
+    await expect(pagination).toBeVisible();
+    await expect(pagination.locator('[aria-current="page"]')).toHaveText("2");
+    await expect(page.getByRole("article").first().locator("h3 a")).toHaveAttribute("dir", "ltr");
+    await expect(page.getByRole("region", { name: "لم تجد الطراز الذي تبحث عنه؟" })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await axe(page);
+  });
+});

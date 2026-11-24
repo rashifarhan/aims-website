@@ -8,9 +8,11 @@ import { FloatingContact } from "@/components/home/FloatingContact";
 import { Hero } from "@/components/home/Hero";
 import { BuyerRoutes } from "@/components/home/BuyerRoutes";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
+import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { DoorTeaser } from "@/components/home/DoorTeaser";
 import { HomeProof } from "@/components/home/HomeProof";
 import { HomeLocations } from "@/components/home/HomeLocations";
+import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
@@ -28,13 +30,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** T1 sequence: Design Doc ch. 10; factual Organization data: Plan AT-12. */
+/** T1 sequence: Design Doc ch. 10, with the proof moved up by the client; factual Organization data: Plan AT-12. */
 export default async function Home() {
   const t = await getDictionary();
   const locale = await getLocale();
   const close = t.home.closing;
   return (
-    <main id="main">
+    <main id="main" className="home-bands">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -46,15 +48,19 @@ export default async function Home() {
         }}
       />
       <Hero />
+      {/* Client instruction (24 Nov 2026): the proof is AIMS's strongest trust signal, so it follows the hero. Only the
+          proof and the reach band stay night green (client decision, 24 Nov 2026; premium.css, band rhythm). */}
+      <HomeProof />
       <BuyerRoutes />
       <ProductFamilies />
+      <HomeSoftware />
       <DoorTeaser />
-      <HomeProof />
       <HomeLocations />
+      {/* Client mockup C (24 Nov 2026): the five steps follow the showroom, before the questions. */}
+      <HomeJourney />
       <HomeFaq />
       <ClosePanel
         id="closing-title"
-        tone="night"
         heading={close.heading}
         body={close.body}
         action={{ href: localePath(locale, "/quote"), label: close.action }}

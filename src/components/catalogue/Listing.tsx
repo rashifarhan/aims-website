@@ -6,7 +6,15 @@ import type { ProductCard as Card } from "@/content/cards";
 import type { FamilySlug } from "@/content/taxonomy";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { countLabel, fmt } from "@/i18n/format";
-import { MAX_COMPARE, parseFilters, serializeFilters, toggle, type FilterState } from "@/lib/filters";
+import {
+  MAX_COMPARE,
+  SORT_KEYS,
+  parseFilters,
+  serializeFilters,
+  toggle,
+  type FilterState,
+  type SortKey,
+} from "@/lib/filters";
 import { destinationFromSearch, type QuoteContext } from "@/lib/quote/context";
 import { dispatchQuote } from "@/lib/quote/useQuote";
 import { CompareTray } from "./CompareTray";
@@ -15,8 +23,11 @@ import { FacetRail } from "./FacetRail";
 import { FilterSheet } from "./FilterSheet";
 import { ListingSearch } from "./ListingSearch";
 import { AppliedFilters } from "./AppliedFilters";
+import { CantFindPanel } from "./CantFindPanel";
 import { cardLabels, ResultsGrid } from "./ResultsGrid";
 import { useListingModel } from "./useListingModel";
+import { Pagination } from "./Pagination";
+import { QuickPicks } from "./QuickPicks";
 import { ResultsBar } from "./ResultsBar";
 
 export type ListingProps = {
@@ -25,7 +36,7 @@ export type ListingProps = {
   family?: FamilySlug;
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
-  hrefs: { product: string; compare: string; quote: string };
+  hrefs: { listing: string; product: string; compare: string; quote: string; solutions: string; showroom: string };
 };
 
 /** Reads the URL. Rendered inside <Suspense>; the fallback is the unfiltered list. */
@@ -53,8 +64,27 @@ export function ListingView({
   urlState = EMPTY,
   preset,
 }: ListingProps & { urlState?: FilterState; preset?: Partial<QuoteContext> }) {
-  const { state, update, effective, results, groups, onToggle, filterCount, clearFilters, compareItems, compareHref } =
-    useListingModel({ cards, family, t, familyNames, hrefs, urlState, preset });
+  const {
+    state,
+    update,
+    effective,
+    results,
+    picks,
+    onPick,
+    closest,
+    relax,
+    pageResults,
+    paged,
+    onSort,
+    onGoToPage,
+    hrefForPage,
+    groups,
+    onToggle,
+    filterCount,
+    clearFilters,
+    compareItems,
+    compareHref,
+  } = useListingModel({ cards, family, t, familyNames, hrefs, urlState, preset });
 
   /* ---------- zero state: "Ask us about this model" ---------- */
   const [asked, setAsked] = useState("");
@@ -74,20 +104,28 @@ export function ListingView({
         placeholder={t.searchPlaceholder}
       />
 
+      <QuickPicks label={t.quickPicks} picks={picks} onPick={onPick} />
+
       <div className="mt-8 lg:grid lg:grid-cols-[232px_1fr] lg:gap-10">
         <FacetRail groups={groups} onToggle={onToggle} label={t.filters} trayOpen={compareItems.length > 0} />
 
         <section aria-labelledby="results-heading">
-          <h2 id="results-heading" className="sr-only">
+          <h2 id="results-heading" tabIndex={-1} className="sr-only scroll-mt-24">
             {t.resultsHeading}
           </h2>
 
           <ResultsBar
             count={results.length}
             countText={countLabel(results.length, t.resultsOne, t.resultsCount)}
-            cause={serializeFilters({ ...effective, q: "", cmp: [] })}
+            cause={serializeFilters({ ...effective, q: "", cmp: [], page: 1, sort: "relevance" })}
             filtersLabel={filterCount ? fmt(t.filtersCount, { count: filterCount }) : t.filters}
             onOpenFilters={() => sheet.current?.showModal()}
+            sort={{
+              label: t.sortLabel,
+              value: state.sort,
+              options: SORT_KEYS.map((k) => ({ value: k, label: t.sort[k] })),
+              onChange: (v) => onSort(v as SortKey),
+            }}
           />
 
           {filterCount > 0 && (
@@ -101,7 +139,7 @@ export function ListingView({
 
           {results.length > 0 ? (
             <ResultsGrid
-              results={results}
+              results={pageResults}
               productHref={hrefs.product}
               preset={preset}
               subtitle={subtitle}
@@ -121,12 +159,27 @@ export function ListingView({
               t={t}
               onClearSearch={() => update({ q: "" })}
               onClearFilters={clearFilters}
+              closest={closest}
+              relax={relax}
               onAsk={() => {
                 dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1, preset });
                 setAsked(state.q);
               }}
             />
           )}
+
+          <Pagination
+            page={paged.page}
+            pageCount={paged.pageCount}
+            from={paged.from}
+            to={paged.to}
+            total={results.length}
+            hrefFor={hrefForPage}
+            onGo={onGoToPage}
+            labels={{ nav: t.pagination, showing: t.showing, prev: t.prevPage, next: t.nextPage, pageN: t.pageN }}
+          />
+
+          <CantFindPanel initial={state.q} preset={preset} hrefs={hrefs} t={t} />
         </section>
       </div>
 

@@ -262,24 +262,9 @@
 }
 
 /* ---------- Setup ---------- */
-.sw-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-block: 2.5rem;
-}
-.sw-steps li {
-  padding-block-start: 1.25rem;
-  border-block-start: 2px solid var(--color-green-700);
-}
-.sw-steps h3 {
-  margin-block-start: 1rem;
-  font-size: var(--text-home-card);
-  font-weight: var(--font-weight-card);
-}
-.sw-steps p {
-  margin-block-start: 0.5rem;
-  color: var(--color-ink-700);
+/* The steps (ui/JourneySteps) and the two questions under them. */
+.sw-setup .journey {
+  margin-block-end: 3.5rem;
 }
 .sw-questions-title {
   font-size: var(--text-home-subtitle);
@@ -387,7 +372,6 @@
 @media (max-width: 1023px) {
   .sw-features-split,
   .sw-split,
-  .sw-steps,
   .sw-card-grid {
     grid-template-columns: minmax(0, 1fr);
   }

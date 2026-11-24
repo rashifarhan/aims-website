@@ -5,9 +5,9 @@ import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
 import { productBySlug, productCount, productsInFamily } from "@/content/catalogue";
 import { ArrowIcon } from "@/components/icons";
-import { HomeSoftware } from "./HomeSoftware";
 import { fmt } from "@/i18n/format";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { SectionArcs } from "@/components/ui/SectionArcs";
 import { Section } from "@/components/ui/Section";
 
 const examples = [
@@ -23,14 +23,16 @@ export async function ProductFamilies() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    // Night section: products stay on white cards (Design Doc 7), the band around them goes dark.
-    <Section ground="night" id="families" labelledBy="families-title" className="home-families">
+    // Faint band (client decision, 24 Nov 2026): products stand on white plinth cards (DESIGN.md Plinth rule) over
+    // the band's faint green tint, parted by hairlines, between the white routes and software sections.
+    <Section ground="band" id="families" labelledBy="families-title" className="home-families">
+      <SectionArcs id="families" />
       <SectionHeader
         id="families-title"
         title={fmt(t.home.families.heading, { count: productCount() })}
         lead={t.home.families.lead}
         link={
-          <Link href={localePath(locale, "/products")} className="home-night-link">
+          <Link href={localePath(locale, "/products")} className="home-text-link">
             {t.home.families.all}
           </Link>
         }
@@ -52,7 +54,7 @@ export async function ProductFamilies() {
                     alt=""
                     width={image.width}
                     height={image.height}
-                    sizes="(min-width: 1024px) 240px, (min-width: 640px) 200px, 130px"
+                    sizes="(min-width: 640px) 260px, 140px"
                   />
                 )}
               </div>
@@ -70,7 +72,6 @@ export async function ProductFamilies() {
           );
         })}
       </div>
-      <HomeSoftware />
     </Section>
   );
 }

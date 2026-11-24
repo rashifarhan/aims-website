@@ -109,7 +109,9 @@ Header suggestions now search a compact local product/software/solution index wi
 - The proof band shows the **159 imported products and six families**, not unconfirmed company statistics.
   No founding year is displayed; the authorization line and company figures followed AIMS's confirmation (see "Homepage through the taste skill"). Existing approved catalogue taxonomy is retained.
 - Three short review excerpts and reviewer names are sourced from [the live AIMS homepage](https://aimsuae.me/),
-  checked 21 November 2026, and labelled as published by AIMS. No ratings, new endorsements or inferred claims are added.
+  checked 21 November 2026, and labelled as published by AIMS. Each shows the five-star rating it carries there
+  (`rating` in `CUSTOMER_REVIEWS`, `src/lib/site.ts`, checked 22 November 2026); the stars are drawn from that field,
+  never hard-coded. No new ratings, endorsements or inferred claims are added.
 - The homepage-only scope uses clearly marked live AIMS destinations for quote/contact, installation and software
   requests. The local quote page is still planned; the header explicitly explains that the saved preview list is
   not sent to the live site. Solution menu items open matching built catalogue families; locations opens the
@@ -281,6 +283,154 @@ Results at the end of Phase 4:
 - **Performance (perf.mjs, 390px):** home transfer 517 KB (limit 1 MB), layout shift 0.000, blocking time 13 ms, no
   WebGL. The product page reports five images "without width+height": they are `next/image` with `fill` inside a
   sized parent, which CLAUDE.md §5 allows, and layout shift is 0.000, so no change was made.
+
+### AIMS mint white and forest greens (client decision, 24 Nov 2026)
+
+**Superseded (24 Nov 2026)** for the light grounds by "White pages, faint bands, hero signature" below; the forest
+greens stand.
+
+- **AIMS's own ground: one mint everywhere.** Every light surface (page, bands, footer) is `--color-page` (#f0f6f1);
+  `--color-paper-2` now points at it, and bands are parted by hairlines. A greyish stone tint (#f6f7f2) was tried and
+  rejected as off-brand and dull; a two-step mint (#f7fbf8 page, #f0f6f1 bands) was then dropped because the lighter
+  sections read as white strips between mint ones. The plain sections' corner wash is gone, and the families and
+  closing bands' washes were then removed too: every light surface is one flat mint. Cards, fields, menus and product photo frames stay pure `--color-paper` (#ffffff), so
+  cut-out photographs keep a clean white plinth. Text keeps AA on the mint (ink-400 4.7:1, green-700 5.5:1); input
+  borders (`--color-line-strong`) darken to #7c8781 to keep 3:1 against it.
+- **Forest greens.** The night bands shift toward the same palette: night-900 #0f1f17, night-700 #1e3a2e. Night text,
+  muted text and lime keep AA, including under the softened top glow (lime 9%).
+- One token change reaches every page: the body, the sticky header, the light home bands, the product stage and the
+  reach map's fade now use `--color-page`; nothing else was edited page by page. The palette's sage and full-strength
+  stone were not used for text or grounds: they measure 4.3:1 and 1.7:1 on white.
+
+### Card review (Impeccable critique + charles-unslop, 24 Nov 2026)
+
+Two reviews of `claude/hero-model-label` agreed: Impeccable's critique scored it **28/40** (Consistency 2/4,
+Aesthetic 2/4) and charles-unslop flagged the template tells. White cards (#ffffff) on the mint ground (#f7fbf8) step
+only about 1.04:1, so text-only boxes read as template-cheap, while product cards read as premium because the white
+is the photo's plinth. The client approved this plan:
+
+- **Open rows for text.** The home buyer routes ("Three ways to buy") and software are open rows on the ground: a
+  1px `--color-line` rule, the title, one line and the arrow link, three across on desktop and stacked on phones,
+  after the proof band's three points. Each row is still one link with the underline-draw and press layer. Software
+  labels move from green to ink-600 (One Sign Rule), also on the solution pages.
+- **Closing band.** `ClosePanel` is a full-width band on the page mint, parted by a green-100 hairline with its content
+  in `.wrap` and no border, radius or box, on every page that closes with it. Embedded closes, inside another
+  section, keep the mint panel.
+- **Card edges (client's choice).** Product photo cards keep an outline plus a very soft green-tinted shadow
+  (`--shadow-plinth`) and lift 2px to `--shadow-plinth-lift` on hover, through `.ui-card-plinth` on the home family
+  cards and the catalogue product cards. Family photos grow to a 16rem box (9rem on phones), still below every
+  photo's own pixel size, and the photo/text divider goes.
+- **Removed:** the repeated authorization pill in the proof band (hero, about hero and footer keep it), the green
+  glow under primary buttons (`--shadow-home-action` deleted; buttons rest flat), and the lime border on the reach
+  band's showroom card (night hairline now).
+- **Kept, by the sources:** the "ZKTECO" brand line on catalogue cards stays, because Design Doc 9's product card
+  anatomy lists it; dropping it needs a Design Doc change. The review stars stay because each review's `rating`
+  records the five stars shown on the AIMS homepage (checked 22 Nov 2026) and the stars are drawn from it; the small
+  neutral initials stay.
+- DESIGN.md's Plinth Rule now raises only product photo cards and sets text as open rows. Its ground colour now reads
+  `--color-page` #f7fbf8, mirrored in `.impeccable/design.json`.
+
+### Journey section and one process design (client mockup C, 24 Nov 2026)
+
+- **Home journey.** The client's mockup C section, "From the first call to a working system", sits after the
+  showroom reach band and before the FAQ: hero · proof (night) · routes · families · software · door · reach (night)
+  · **journey** · FAQ · close · footer. It is open on the flat mint, closed by a hairline so it never runs into the
+  FAQ, with no white box. The home page keeps its two dealt moments; the journey moves only on the pill link's hover
+  and press layer.
+- **One component.** `src/components/ui/JourneySteps.tsx` (+ `ui/journey.css`): numbered circles with a line icon,
+  joined by a green-700 line, step one filled green-700; badges green-700 with white numerals (6.07:1) and aria-hidden,
+  because the `<ol>` gives each position; a lime ring only on step one's badge. It follows its container: a vertical
+  timeline on phones and narrow columns, one row once every step keeps about 11rem. It now carries the home journey,
+  `SolutionProcess` on the five T3 solution pages, `ServicesProcess` on /services, the support steps on /support and
+  `SoftwareSetup` on the software pages. The location pages' three "steps" stay as they are: Dubai's are three
+  alternative routes and Oman's and Kenya's a checklist for the quote, not a sequence. The old `.process-*`,
+  `.co-steps` and `.sw-steps` styles are deleted.
+- **Owner labels** ("You", "AIMS engineer") moved from green-700 to ink-600 (DESIGN.md One Sign Rule: green is for
+  actions only).
+- **New copy (English; Arabic as a draft):** heading "From the first call to a working system"; lead "You don't need
+  a model code. Describe the site, and AIMS takes it from there."; "Tell us the job" / "Call, send a WhatsApp, fill in
+  the quote form or visit the showroom in Deira."; "Get a quotation"; "Supply" / "AIMS supplies the ZKTeco hardware in
+  the UAE and delivers project and export orders to the GCC and Africa."; "Install" / "AIMS installs and connects the
+  devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."; "Support" / "After handover, AIMS
+  supports the system. Reach the team by WhatsApp or email."; pill "Start with step one now.". Step two's line and
+  the "Describe your site" link reuse existing strings. Every claim is one the site already states (contacts in
+  `src/lib/site.ts`, the services and support pages); the mockup's "walk into the showroom" became "visit", since
+  opening hours are still unconfirmed, and no training or durations are promised.
+
+### Software section (client request, 24 Nov 2026)
+
+- **Why it moved.** BioTime 9.5, BioTime Cloud and ZKAccess 3.5 were three text rows at the foot of the families band
+  and got too little attention. They are now a section of their own (`HomeSoftware`, h2), directly after the families
+  band and before the door kit. Ground: **paper**, closed by a hairline. Families is the light band with a wash, so a
+  second band beside it would read as one; paper alternates with it, and the hairline at its end keeps it apart from
+  the door kit's paper.
+- **The diagram** (`SoftwareFlow`, inline SVG and CSS, no software screenshots) shows how records flow: real AIMS
+  terminal photos with Plex Mono model codes → the three platforms → what the buyer gets. Every line comes from AIMS's
+  data (`src/lib/softwareFlow.ts`, unit-tested against the import). The terminals are iFace 990, Biopro SA20 and inBIO
+  260, because their AIMS product text names BioTime and/or ZKAccess (`namesSoftware`). The F18 and the hero's
+  SpeedFace were not used because no AIMS page names either platform for them. No product page names BioTime Cloud,
+  so it takes a dashed line from attendance terminals in general, marked "Confirm your model with AIMS", as on its own
+  page. The outputs are payroll reports (BioTime 9.5 "Comprehensive Reports", BioTime Cloud "Detailed attendance and
+  payroll reports"), shifts, leave and overtime (BioTime 9.5 "Flexible Shift & Scheduling Management", BioTime Cloud
+  "Leave management and overtime tracking"), attendance reports (both, plus ZKAccess "Integrated time attendance and
+  reporting system"), live door events (ZKAccess "Real-time door monitoring and activity tracking") and door
+  permissions (ZKAccess "User management and access permission control").
+- **Choices below it:** three open rows in the drawing's order, each showing where the platform runs (existing copy:
+  own server, cloud with no local server, a Windows PC), its name in mono, its purpose and a link to its page. "All
+  software" stays. Hovering a row dims the other lines (opacity only).
+- **Static.** The home page's two dealt moments are the door kit and the reach map (CLAUDE.md §3), so the drawing does
+  not animate. A draw-once animation and a third home moment were briefly approved, then dropped by the client as not
+  needed (24 Nov 2026); the CLAUDE.md change was reverted. The drawing keeps the hover highlight only.
+- **Accessibility and layout.** The drawing is one `role="img"` whose name states every line as text. At 768px and up
+  it has five columns; under 768px it reads top to bottom (terminals, platforms, outputs) with no per-node lines and
+  no horizontal scroll. In Arabic the flow runs right to left and model codes stay LTR.
+
+### White pages, faint bands, hero signature (client decision, 24 Nov 2026)
+
+Supersedes "AIMS mint white and forest greens" (the one-mint ground) above; the night greens stay. The client wanted a
+brighter page; a measured benchmark uses pure white pages with barely-tinted alternate bands, and nothing else was
+taken from it. The client asked for AIMS's own motifs, not a copy of the benchmark's ribbon or network pattern.
+
+- **Grounds.** `--color-page` is #ffffff (body, header, heroes, paper sections, `themeColor`); `--color-paper-2` is
+  its own faint green tint #f7faf8 (`section-band`, the footer, wells, hover washes); `--color-line` is the
+  green-tinted hairline #e1e9e3. Measured: ink-400 5.19:1 on white and 4.94:1 on the tint, ink-600 7.4:1 and
+  green-700 5.8:1 on the tint, input borders (`--color-line-strong` #7c8781) 3.7:1 and 3.5:1.
+- **Cards.** Every white `.ui-card` keeps its radius and a 1px `--color-line` border and rests on a soft two-layer
+  shadow that falls only below it (`--shadow-plinth`: `0 1px 2px` and `0 12px 32px -20px`, night-800 at 4% and 18%);
+  linked cards lift 2px to `--shadow-plinth-lift`. The plinth class and `--shadow-1` are gone: one shadow for all.
+- **Home rhythm.** Hero (white) · proof (night) · routes (white) · families (faint band, hairlines) · software
+  (white) · door (white) · reach (night) · journey (white) · FAQ (faint band) · close (white, green-100 top hairline)
+  · footer (faint band). Only grounds changed. Software and door meet on a hairline; a band followed by the close,
+  or ending a page above the footer, drops its bottom hairline so the join has one line. The contact and quote pages
+  lose their tinted `main` (it met the white hero on a bare edge, like a strip) and stand on white like the rest.
+- **Hero signature.** Every `PageHero` carries a still watermark of the home hero's signal lines (`HeroSignature`
+  over `SignalArt`; the curves from `src/lib/signalPaths.ts`, which the animated home hero now shares, unit-tested
+  to keep its geometry) and a soft green-100 light at its top (`--gradient-hero-glow`). On split heroes the fan
+  meets at the photograph's centre and thins out round it; on compact ones it leaves past the top end corner. At
+  most 18% green-700, faded before the copy and at the edges, mirrored in RTL; phones show a small fan behind the
+  photo (split) or the light only (compact). Inline SVG, no images, no layout box, no motion. To keep the photos
+  blending with no box, the hero is its own stacking context on white, the studio box no longer isolates, and the
+  photo (not its box) settles on entry. The product hero takes the light only: its lit stage fills the media column.
+- **Section arcs.** The home families band and journey carry faint arcs of the same fan in their top end corner
+  (`SectionArcs`, 12% green-700), fading before the cards and steps; hidden under 768px.
+- **Contrast with the motifs.** Where a hero line can reach the copy it is at most 8.5%: ink-600 6.3:1 and green-700
+  4.9:1 over line and light together. Under a full-strength arc, green-700 links keep 4.9:1 on the band.
+
+**Listing pagination is numbered, and a buyer is never left without a next step (24 Nov 2026).** Design Doc ch. 9
+specifies "Load more + numbered fallback"; the client asked for paginated results, so the products listing shows 12
+a page with numbered links (`?page=` in the URL, real `<a href>`s, Back returns to the previous page). The same
+change adds sort (Relevance, Name A–Z, Family), a "Popular" row of eight one-click filters with live counts (not on a
+family page), collapsible facet groups, an always-present "Can't find your model?" panel (add a free-text line to the
+quote, WhatsApp or call, with the search text carried over), and zero-results recovery ("Closest models", and
+"Remove <filter> (n products)"). The panel promises only that AIMS "will check availability and reply": aimsuae.me
+never says AIMS sources unlisted models (checked 24 Nov), so the page doesn't either. Arabic wording for the new
+strings is a draft for AIMS to review. Design note: `docs/superpowers/specs/2026-11-24-products-listing-findability-design.md`;
+plan: `docs/superpowers/plans/2026-11-24-products-listing-findability.md`.
+
+**The solutions hub opens on its cards (24 Nov 2026).** `/solutions` used the split hero: an unrelated controller
+photograph beside the title and a full screen of blank space before the first card. At the client's request it now
+uses the compact hero (no photograph, no forced screen height), so the five cards start on the first screen. This
+departs on purpose from the design skill's "hero alone on the first screen" rule for this one page.
 
 ## Content import
 
@@ -782,3 +932,39 @@ composition.
 - **Measured:** Add to quote is in the first screen at 320×568 (iPhone SE) and 390×664, English and Arabic. At the
   extreme 320×480 it sits one row below the fold. Squeezing further would shrink the photo to a thumbnail.
 - `tests/e2e/short-phone.spec.ts` checks these first screens and the phone order.
+
+### Proof band and band rhythm (client mockup B and instructions, 24 Nov 2026)
+
+- **The proof follows the hero** (client instruction: AIMS's strongest trust signal belongs early). It is now night
+  green after mockup B: the authorization badge (behind `ZKTECO_AUTHORIZATION_CONFIRMED`), one sentence carrying the
+  four `COMPANY_FIGURES` as the section's h2, the existing company-stated note, three reasons (showroom, one team,
+  Dubai and Abu Dhabi) and the three published reviews as night cards. The mockup's showroom line ("see terminals,
+  locks and turnstiles working") and "one number to call" were not used: AIMS has not confirmed live demos and lists
+  four numbers. The figure labels stay AIMS's published wording ("years of experience", not the mockup's "years
+  trading", which would date the company before AIMS confirms a founding year).
+- **The one count** (CLAUDE.md §3, tech): the four figures count up once (1.4 s, ease-out, 120 ms stagger) when 40%
+  of the sentence is in view. The server HTML holds the final figures; screen readers read only an sr-only final
+  value; reduced motion shows the final numbers with nothing moving. The digits box keeps the final width, so layout
+  shift stays 0.
+- **Two night bands on the homepage (client decision, 24 Nov 2026):** hero (paper) · proof (night) · routes (paper) ·
+  families (light band with a green wash) · software (paper, added 24 Nov 2026) · door (paper) · reach (night) · journey (paper, added 24 Nov 2026) · FAQ (paper) · close (mint panel with a
+  wash, on paper) · footer (showroom floor). The client found four dark bands too heavy: the dark share of the page
+  height measured 44% before and 21% after. Only the proof and the reach (whose lime map routes need the dark ground)
+  stay night. The families band now puts its product cut-outs on the white plinth cards with light-surface text and
+  green-700 links, and the close uses the shared mint `ClosePanel` with the green-700 primary button; the night
+  closing tone, the lime button and the closing band's glows were then unused and were removed.
+- **Light gradient sections (client decision, 24 Nov 2026, after NUZON's light washes, in AIMS's own palette):** the
+  families band carries `--gradient-families-wash` (a soft green-100 light from the top start corner, a faint lime
+  tint at the bottom end, over a green-50 to paper-2 base) between its hairlines, and the closing mint panel carries
+  `--gradient-close-wash` (a faint lime light at its top end, green-100 at its bottom start, on green-50). The close's
+  section stays plain paper so it meets the FAQ on a clean edge. Text keeps 4.5:1 or more at every point of both
+  washes (globals.css). No silk-ribbon artwork, no NUZON colours. **Later removed (24 Nov 2026):** once every light
+  surface shared one mint, the client found the washes added unevenness rather than character; both bands are now
+  flat mint and the gradient tokens are deleted.
+- **A full gradient per band, clean edges (overrides DESIGN.md "no gradients as decoration on light surfaces", by the
+  client's instruction):** a first version faded each night band into its light neighbour; the client found those
+  fading edges hard on the eyes and asked for each band to carry its own gradient instead, with no shadow at the joins.
+  On the homepage (`main.home-bands`) night bands keep the night-green gradient with a soft lime light at their top
+  edge (night-muted keeps 5.4:1 or more over it), and paper sections carry a faint mint wash from the top end corner
+  (`--gradient-paper-wash`). Bands meet on a clean edge. Where two night bands meet elsewhere (the about page's proof
+  and reach) a night hairline parts them.

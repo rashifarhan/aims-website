@@ -5,6 +5,11 @@
 /* ---------- Hero: the photograph big and whole on a lit ground (no border box) ---------- */
 .product-hero {
   padding-block: 1.5rem var(--section-space);
+  /* AIMS's hero signature (client decision, 24 Nov 2026), the green light only: the lit stage below fills the media
+     column as an opaque square, so the signal lines would show only as cut-off strips beside it. */
+  background:
+    var(--gradient-hero-glow) no-repeat,
+    var(--color-page);
 }
 .product-hero-grid {
   display: grid;
@@ -24,8 +29,8 @@
   background: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-green-100) 45%, var(--color-paper-3)) 0%,
-    color-mix(in srgb, var(--color-green-50) 80%, var(--color-paper)) 55%,
-    var(--color-paper) 100%
+    color-mix(in srgb, var(--color-green-50) 80%, var(--color-page)) 55%,
+    var(--color-page) 100%
   );
 }
 .product-stage-photo {

@@ -14,8 +14,8 @@ import { QuoteLink } from "./QuoteLink";
 import { Wordmark } from "./Wordmark";
 
 /**
- * Site header (Design Doc ch. 6). Desktop 72px: wordmark · Products ·
- * Solutions · Software · Services · About · search · language · Quote.
+ * Site header (Design Doc ch. 6). Desktop 72px: wordmark · Home · Products ·
+ * Solutions · Software · Services · Locations · About · search · language · Quote.
  * Mobile 60px: wordmark · Quote · menu. Nothing sits above it.
  */
 export async function Header() {
@@ -26,6 +26,7 @@ export async function Header() {
   const otherLocale = locale === "ar" ? "en" : "ar";
 
   const items: NavItem[] = [
+    { kind: "link", href: href("/"), label: t.common.home },
     {
       kind: "menu",
       label: t.nav.products,
@@ -51,11 +52,12 @@ export async function Header() {
     },
     { kind: "link", href: href("/software"), label: t.nav.software },
     { kind: "link", href: href("/services"), label: t.nav.services },
+    { kind: "link", href: href("/locations"), label: t.nav.locations },
     { kind: "link", href: href("/about"), label: t.nav.about },
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-paper/94 backdrop-blur-md backdrop-saturate-150">
+    <header className="sticky top-0 z-30 border-b border-line bg-page/94 backdrop-blur-md backdrop-saturate-150">
       <div className="wrap flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />

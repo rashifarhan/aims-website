@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
+import { HeroSignature } from "./HeroSignature";
 import { getDictionary } from "@/i18n/dictionaries";
 import "@/components/motion/entrance.css";
 
@@ -61,6 +62,7 @@ export async function PageHero(props: Props) {
   );
   return (
     <section className={`page-hero page-hero-${variant} aims-hero`} aria-labelledby={id} data-enter>
+      <HeroSignature variant={variant} />
       {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
       <div className="wrap">
         <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />

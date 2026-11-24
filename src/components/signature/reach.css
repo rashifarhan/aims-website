@@ -14,10 +14,10 @@
   opacity: 0.55;
 }
 .reach-stop-near {
-  stop-color: var(--color-paper);
+  stop-color: var(--color-page);
 }
 .reach-stop-far {
-  stop-color: var(--color-paper);
+  stop-color: var(--color-page);
   stop-opacity: 0.08;
 }
 .reach-route {

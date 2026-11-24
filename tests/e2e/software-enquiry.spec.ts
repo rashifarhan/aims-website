@@ -10,6 +10,9 @@ for (const [lang, labels] of [
   for (const source of ["guidance", "external platform", "platform detail"] as const) {
     test(`${lang}: ${source} carries software intent through the editable brief and receipt`, async ({ page }) => {
       await page.goto(prefix + "/software");
+      // The hub's platform list re-renders on hydration (its filters come from the URL), so a click in that instant
+      // can land on the server-rendered link React is replacing and be lost; wait for the page to settle first.
+      await page.waitForLoadState("networkidle");
       let expected: string;
       if (source === "guidance") {
         expected = labels.softwareCentre.guidanceLine;

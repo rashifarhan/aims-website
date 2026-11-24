@@ -29,7 +29,7 @@ export default async function ContactPage() {
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="w-full flex-1 bg-paper-2">
+    <main id="main" className="w-full flex-1">
       <PageHero
         variant="compact"
         crumbs={[

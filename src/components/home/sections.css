@@ -6,22 +6,8 @@
   letter-spacing: -0.015em;
 }
 
-/* Route cards: the one card (actions.css .ui-card); this is their inside only. */
-.home-route-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: var(--card-pad);
-}
-.home-route-card > .home-external-mark {
-  position: absolute;
-  inset-block-start: 1.5rem;
-  inset-inline-end: 1.5rem;
-  color: var(--color-ink-400);
-}
-
 /* Polish: body copy never leaves one word alone on its last line, in English or Arabic. */
-.home-route-body,
+.home-row-body,
 .home-family-summary,
 .home-review-card blockquote {
   text-wrap: pretty;
@@ -32,29 +18,82 @@
   max-width: 40rem;
   margin-block-end: 2.5rem;
 }
-.home-route-grid {
+
+/* ---------- Open rows: buyer routes and software (DESIGN.md Plinth Rule; card review, 24 Nov 2026) ---------- */
+/* Text-only, so no plinth: each row stands on the ground under a hairline, like the proof band's three points.
+   The whole row is one link; hover draws the underline and nudges the arrow, press dims it (the link look,
+   actions.css), and the row is far taller than 44px. */
+.home-row-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: 1.5rem 2rem;
 }
-.home-route-card h3 {
+.home-row {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+.home-row h3,
+.home-row-code {
   font-size: var(--text-home-card);
   font-weight: var(--font-weight-card);
   line-height: 1.3;
 }
-.home-route-body {
-  margin-block: 0.75rem 1.75rem;
+/* A label, not an action: ink, never green (DESIGN.md One Sign Rule). */
+.home-row-label {
+  margin-block-end: 0.5rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-ink-600);
+}
+/* The software name is a model code in Plex Mono (Datasheet Rule); the arrow follows it on the reading side. */
+.home-row-code {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+.home-row-body {
+  max-width: 34ch;
+  margin-block-start: 0.5rem;
   color: var(--color-ink-700);
   line-height: 1.6;
 }
-.home-route-action {
+.home-row-action {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+  min-height: 2.75rem;
   margin-block-start: auto;
+  padding-block-start: 0.75rem;
   color: var(--color-green-700);
   font-size: var(--text-small);
   font-weight: 600;
+}
+.home-row-action,
+.home-row-code > span {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  transition:
+    text-decoration-color var(--duration-hover) ease,
+    opacity var(--duration-fast) ease;
+}
+.home-row:hover :is(.home-row-action, .home-row-code > span) {
+  text-decoration-color: currentColor;
+}
+.home-row:hover .home-action-arrow {
+  translate: 3px 0;
+}
+:dir(rtl) .home-row:hover .home-action-arrow {
+  translate: -3px 0;
+}
+.home-row:active :is(.home-row-action, .home-row-code) {
+  opacity: 0.75;
 }
 
 /* ---------- 3 · Product families ---------- */
@@ -69,9 +108,11 @@
   height: 100%;
   overflow: hidden;
 }
+/* The photograph fills its plinth (card review, 24 Nov 2026): a 16rem box at most, well under every family photo's
+   own pixel size (350–1000px), so nothing is upscaled; no divider between the photo and the text. */
 .home-family-image {
-  height: 14rem;
-  padding: 1.75rem;
+  height: 17rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +127,7 @@
   flex: 1;
   flex-direction: column;
   padding: var(--card-pad);
-  border-block-start: 1px solid var(--color-line);
+  padding-block-start: 0.5rem;
 }
 .home-family-info h3 {
   font-size: var(--text-home-card);
@@ -109,12 +150,235 @@
   color: var(--color-green-700);
 }
 
-/* ---------- 3b · Software, inside the families section ---------- */
-.home-software-block {
-  margin-block-start: 5rem;
+/* ---------- 3b · Software: its own section, the records-flow drawing and three open rows ---------- */
+/*
+ * Client request (24 Nov 2026). The drawing matches the product page's "How it connects": green-700 lines, pill
+ * nodes, model codes in Plex Mono, lime only as the small dot inside a platform node. It is static (CLAUDE.md §3: the
+ * home page's two moments are the door kit and the reach map); hovering a platform or its row dims the other lines.
+ * 768px and up: five columns (terminals, lines, platforms, lines, outputs) of one height with equal rows, so each
+ * line in SoftwareFlow.tsx lands on its node's centre. Under 768px: one column, read top to bottom.
+ */
+.sw-flow {
+  --flow-height: 22rem;
+  display: grid;
+  grid-template-columns:
+    minmax(9.5rem, 13rem) minmax(2.5rem, 1fr) minmax(8.5rem, 12rem) minmax(2.5rem, 1fr)
+    minmax(10rem, 15rem);
+  grid-template-rows: auto var(--flow-height);
 }
-.home-software-block .section-heading {
-  margin-block-end: 2rem;
+.sw-flow-c1 {
+  grid-column: 1;
+}
+.sw-flow-c2 {
+  grid-column: 2;
+}
+.sw-flow-c3 {
+  grid-column: 3;
+}
+.sw-flow-c4 {
+  grid-column: 4;
+}
+.sw-flow-c5 {
+  grid-column: 5;
+}
+.sw-flow-caption {
+  grid-row: 1;
+  margin-block-end: 1rem;
+  color: var(--color-ink-600);
+  font-size: var(--text-caption);
+  font-weight: 600;
+}
+.sw-flow-col,
+.sw-flow-lines {
+  grid-row: 2;
+}
+.sw-flow-col {
+  display: grid;
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+}
+.sw-flow-lines {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+:dir(rtl) .sw-flow-lines {
+  scale: -1 1;
+}
+.sw-flow-line {
+  fill: none;
+  stroke: var(--color-green-700);
+  stroke-width: 1.25;
+}
+/* BioTime Cloud's line from attendance terminals in general: dashed, "confirm your model" (CLAUDE.md §1). */
+.sw-flow-dashed {
+  stroke-dasharray: 4 4;
+}
+.sw-flow-terminal,
+.sw-flow-software,
+.sw-flow-output {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+/* A terminal: its photo on a white plinth, its model code, then a hairline to the column edge where its lines start. */
+.sw-flow-terminal {
+  gap: 0.75rem;
+}
+.sw-flow-terminal::after {
+  content: "";
+  flex: 1 0 0.75rem;
+  border-block-start: 1.25px solid var(--color-green-700);
+}
+.sw-flow-terminal:first-child::after {
+  border-block-start-style: dashed;
+}
+.sw-flow-photo {
+  flex: none;
+  width: 4rem;
+  height: 4rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+}
+.sw-flow-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.sw-flow-code,
+.sw-flow-name {
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.sw-flow-code {
+  color: var(--color-ink);
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+.sw-flow-any {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.875rem;
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: var(--text-small);
+  font-weight: 500;
+  line-height: 1.35;
+}
+.sw-flow-confirm {
+  color: var(--color-ink-600);
+  font-size: var(--text-caption);
+  font-weight: 400;
+}
+/* A platform: the drawing's source node, as on the software pages (software.css .sw-signal-source). */
+.sw-flow-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--color-green-700);
+  border-radius: var(--radius-pill);
+  background: var(--color-green-50);
+  color: var(--color-green-800);
+  font-weight: var(--font-weight-card);
+}
+.sw-flow-name::before {
+  content: "";
+  flex: none;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-lime);
+}
+.sw-flow-output > span {
+  max-width: 100%;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-ink-700);
+  font-size: var(--text-small);
+  font-weight: 500;
+  line-height: 1.35;
+}
+.home-sw-rows {
+  margin-block-start: 3.5rem;
+}
+/* Hover layer: a platform's lines and nodes stay, the rest step back. Opacity only, so nothing moves. */
+.sw-flow [data-sw] {
+  transition: opacity var(--duration-hover) ease;
+}
+.home-sw:has([data-sw-key="biotimecloud"]:is(:hover, :focus-visible)) .sw-flow [data-sw]:not([data-sw~="biotimecloud"]),
+.home-sw:has([data-sw-key="biotime-9-5"]:is(:hover, :focus-visible)) .sw-flow [data-sw]:not([data-sw~="biotime-9-5"]),
+.home-sw:has([data-sw-key="zkaccess-3-5"]:is(:hover, :focus-visible))
+  .sw-flow
+  [data-sw]:not([data-sw~="zkaccess-3-5"]) {
+  opacity: 0.2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sw-flow [data-sw] {
+    transition: none;
+  }
+}
+/* 390 first: terminals, then platforms, then outputs, joined by one short line; the per-node lines go. */
+@media (max-width: 767px) {
+  .sw-flow {
+    display: flex;
+    flex-direction: column;
+  }
+  .sw-flow-lines,
+  .sw-flow-terminal::after {
+    display: none;
+  }
+  .sw-flow-caption {
+    margin-block-end: 0.75rem;
+  }
+  .sw-flow-caption:not(:first-child) {
+    position: relative;
+    margin-block-start: 0.75rem;
+    padding-block-start: 2.5rem;
+  }
+  .sw-flow-caption:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 1.5rem;
+    height: 2rem;
+    border-inline-start: 1.25px solid var(--color-green-700);
+  }
+  .sw-flow-col {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  /* Three terminals across, each photo over its code; the general "attendance terminals" note follows them. */
+  .sw-flow-terminal {
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .sw-flow-terminal:first-child {
+    order: 1;
+    flex-basis: 100%;
+  }
+  .sw-flow-photo {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+  .sw-flow-any {
+    width: 100%;
+  }
+  .sw-flow-name {
+    width: auto;
+  }
+  .home-sw-rows {
+    margin-block-start: 2.5rem;
+  }
 }
 
 /* ---------- 4 · How a door works ---------- */
@@ -151,49 +415,61 @@
   fill: var(--color-paper);
 }
 
-/* ---------- 5 · Proof: company-stated figures, then the published reviews ---------- */
-/* The showroom floor (DESIGN.md) is ui/Section's band ground: a quiet ground change, not a coloured band. */
-/* The page's one split line (ui/sections.css): words on seven of twelve columns, the figures on the last five. */
-.home-proof {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: start;
-  gap: 1.5rem;
-}
-@media (min-width: 1024px) {
-  .home-proof > :first-child {
-    grid-column: span 7;
-  }
-  .home-proof > dl {
-    grid-column: span 5;
-  }
-}
-/* Two by two: a four-digit figure needs more than a quarter of the row. */
-.home-proof dl {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.5rem 2rem;
-}
-.home-proof dl > div {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: start;
-  gap: 0.5rem;
-}
-.home-proof dt {
-  font-size: var(--text-small);
-  color: var(--color-ink-600);
-  line-height: 1.4;
-}
-.home-proof dd {
-  /* A figure reads as data, not as a heading: set at the h2 size, never above it (taste heading-scale). */
-  font-size: var(--text-home-heading);
-  font-weight: var(--font-weight-display);
+/* ---------- 2 · Proof on night green: the badge, the figures sentence, three reasons, then the reviews ---------- */
+/* Client mockup B (24 Nov 2026). The ground is ui/Section night (with the home page's fades and glow, premium.css). */
+/* Words in night-muted (8.6:1 on night-900; 5.3:1 at worst under the band glow), figures in night-text (15.0:1). */
+.home-proof-statement {
+  max-width: 30ch;
+  font-size: var(--text-proof-statement);
+  font-weight: 500;
+  line-height: 1.14;
   letter-spacing: -0.03em;
-  color: var(--color-ink);
-  line-height: 1;
+  color: var(--color-night-muted);
+  text-wrap: balance;
 }
-/* Parted from the figures by air, not a rule (taste layout-v4, section air). */
+:lang(ar) .home-proof-statement {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+.home-proof-statement b {
+  font-weight: var(--font-weight-display);
+  color: var(--color-night-text);
+}
+/* The count (CountUpFigure): the box keeps the final figure's width, so the sentence never reflows while it counts. */
+.count-up-digits {
+  display: inline-block;
+  text-align: end;
+}
+.count-up-digits::before {
+  content: attr(data-shown);
+}
+.home-proof-note {
+  margin-block-start: 1.5rem;
+  font-size: var(--text-small);
+  color: var(--color-night-muted);
+}
+.home-proof-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-block-start: 4.5rem;
+  padding-block-start: 2rem;
+  border-block-start: 1px solid var(--color-night-line);
+}
+.home-proof-points h3 {
+  font-size: var(--text-home-card);
+  font-weight: var(--font-weight-card);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.home-proof-points p {
+  max-width: 34ch;
+  margin-block-start: 0.5rem;
+  color: var(--color-night-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+/* The reviews close the band, parted from the reasons by air (taste layout-v4, section air). */
 .home-proof-reviews {
   margin-block-start: 5rem;
 }
@@ -217,11 +493,12 @@
   gap: 1.25rem;
   padding: var(--card-pad);
 }
-/* Ink, not green or lime: the rating is information, not an action (One Sign Rule, Lime Is Light Rule). */
+/* The cards sit on night green (actions.css .section-night .ui-card, night-800). Night text, not lime: the rating is
+   information, not an action (One Sign Rule, Lime Is Light Rule). */
 .home-review-stars {
   display: flex;
   gap: 0.125rem;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 .home-review-card blockquote {
   flex: 1;
@@ -229,7 +506,7 @@
   font-weight: 500;
   line-height: 1.55;
   letter-spacing: -0.005em;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 .home-review-card figcaption {
   display: flex;
@@ -244,9 +521,9 @@
   height: 2.75rem;
   border-radius: var(--radius-pill);
   object-fit: cover;
-  background: var(--color-paper-2);
-  border: 1px solid var(--color-line);
-  color: var(--color-ink-700);
+  background: var(--color-night-700);
+  border: 1px solid var(--color-night-line);
+  color: var(--color-night-text);
   font-size: var(--text-small);
   font-weight: var(--font-weight-card);
 }
@@ -256,37 +533,35 @@
 }
 .home-review-name {
   font-weight: var(--font-weight-card);
-  color: var(--color-ink);
+  color: var(--color-night-text);
   line-height: 1.35;
 }
+/* Night-muted on night-800: 8.1:1. */
 .home-review-place {
   font-size: var(--text-small);
-  color: var(--color-ink-600);
+  color: var(--color-night-muted);
 }
 
 /* ---------- Tablet (640–1023): text cards stack; photographs keep two across ---------- */
 @media (max-width: 1023px) {
-  .home-route-grid,
   .home-family-grid,
   .home-review-grid {
     gap: 1rem;
   }
-  .home-route-grid,
   .home-review-grid {
     grid-template-columns: minmax(0, 1fr);
   }
   .home-family-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .home-door > .wrap,
-  .home-proof {
+  .home-door > .wrap {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
-  .home-proof-reviews {
+  .home-proof-points {
     margin-block-start: 3.5rem;
   }
-  .home-software-block {
+  .home-proof-reviews {
     margin-block-start: 3.5rem;
   }
 }
@@ -296,26 +571,26 @@
   .home-routes-title {
     margin-block-end: 1.5rem;
   }
-  .home-route-grid,
   .home-review-grid {
     gap: 0.75rem;
   }
-  .home-route-body {
-    margin-block: 0.5rem 1.25rem;
+  /* 390 first: the rows stack, each under its own hairline. */
+  .home-row-list {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .home-route-card > .home-external-mark {
-    inset-block-start: 1.25rem;
-    inset-inline-end: 1.25rem;
+  .home-row {
+    padding-block-start: 1.25rem;
   }
   .home-family-grid {
     gap: 0.75rem;
   }
   .home-family-image {
-    height: 7.5rem;
-    padding: 0.875rem;
+    height: 9.5rem;
+    padding: 0.375rem;
   }
   .home-family-info {
     padding: var(--card-pad-tight);
+    padding-block-start: 0.25rem;
   }
   .home-family-info h3 {
     font-size: var(--text-base);
@@ -335,5 +610,15 @@
   }
   .home-proof-reviews .section-heading {
     margin-block-end: 1.25rem;
+  }
+  /* 390 first: the three reasons stack; the sentence keeps its size from the type scale. */
+  .home-proof-points {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-block-start: 2.5rem;
+    padding-block-start: 1.5rem;
+  }
+  .home-proof-reviews {
+    margin-block-start: 3rem;
   }
 }
