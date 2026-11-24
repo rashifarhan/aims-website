@@ -47,14 +47,10 @@
   /* AIMS's photographs are multiplied onto the hero ground, so the rings would show through a light screen: the
      centre, where the photograph stands, stays clear and the rings ring it. */
   --ridge-ring: radial-gradient(closest-side, transparent 24%, var(--color-ink) 40%, transparent);
-  mask-image:
-    var(--ridge-ring),
-    linear-gradient(to right, transparent 8%, var(--color-ink) 45%);
+  mask-image: var(--ridge-ring), linear-gradient(to right, transparent 8%, var(--color-ink) 45%);
 }
 :dir(rtl) .hero-ridges-split {
-  mask-image:
-    var(--ridge-ring),
-    linear-gradient(to left, transparent 8%, var(--color-ink) 45%);
+  mask-image: var(--ridge-ring), linear-gradient(to left, transparent 8%, var(--color-ink) 45%);
 }
 .hero-ridges-compact {
   inline-size: 44rem;
