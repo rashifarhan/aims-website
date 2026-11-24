@@ -109,7 +109,9 @@ Header suggestions now search a compact local product/software/solution index wi
 - The proof band shows the **159 imported products and six families**, not unconfirmed company statistics.
   No founding year is displayed; the authorization line and company figures followed AIMS's confirmation (see "Homepage through the taste skill"). Existing approved catalogue taxonomy is retained.
 - Three short review excerpts and reviewer names are sourced from [the live AIMS homepage](https://aimsuae.me/),
-  checked 21 November 2026, and labelled as published by AIMS. No ratings, new endorsements or inferred claims are added.
+  checked 21 November 2026, and labelled as published by AIMS. Each shows the five-star rating it carries there
+  (`rating` in `CUSTOMER_REVIEWS`, `src/lib/site.ts`, checked 22 November 2026); the stars are drawn from that field,
+  never hard-coded. No new ratings, endorsements or inferred claims are added.
 - The homepage-only scope uses clearly marked live AIMS destinations for quote/contact, installation and software
   requests. The local quote page is still planned; the header explicitly explains that the saved preview list is
   not sent to the live site. Solution menu items open matching built catalogue families; locations opens the
