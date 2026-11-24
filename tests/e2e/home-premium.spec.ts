@@ -66,7 +66,11 @@ test("the hero animation has a pause button that stops it", async ({ page }) => 
   await page.goto("/");
   const toggle = page.getByRole("button", { name: /pause animation/i });
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
-  await toggle.click();
+  // The client asked for no visible button over the hero (24 Nov 2026): it shows only on keyboard focus, so the
+  // test reaches it the way its users do, by keyboard.
+  await toggle.focus();
+  await expect(toggle).toBeInViewport();
+  await page.keyboard.press("Enter");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
   const running = () =>
     page.evaluate(

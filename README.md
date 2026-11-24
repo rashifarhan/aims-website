@@ -432,6 +432,13 @@ photograph beside the title and a full screen of blank space before the first ca
 uses the compact hero (no photograph, no forced screen height), so the five cards start on the first screen. This
 departs on purpose from the design skill's "hero alone on the first screen" rule for this one page.
 
+**A cleaner hero corner (client decision, 24 Nov 2026).** The divider above the hero's model label is gone; it crossed
+the signal lines and separated nothing. The client also asked for no pause button over the hero while the loop keeps
+running. WCAG 2.2.2 (CLAUDE.md §3) still needs a way to pause motion that runs past 5 s, so the button stays in the
+page but shows only on keyboard focus, like the skip link: mouse and touch visitors never see it, keyboard and
+screen-reader users can still pause. Reduced-motion visitors get the still hero as before. The e2e test now presses the
+button by keyboard, the way its users reach it.
+
 ## Content import
 
 ```bash

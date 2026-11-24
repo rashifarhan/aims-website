@@ -101,7 +101,8 @@ main:has(> .home-hero) {
   aspect-ratio: 362/776;
 }
 /* The hero device's name, model code and product link: a small store label in the stage's lower end corner, on the
-   content's end edge, as in the approved showroom mockup. The pause button sits above it (.home-motion-toggle). */
+   content's end edge, as in the approved showroom mockup. No divider above it: the client found the hairline crossed the
+   signal lines for no reason (24 Nov 2026). The keyboard pause button appears above it on focus (.home-motion-toggle). */
 .home-model {
   position: absolute;
   z-index: 2;
@@ -110,8 +111,6 @@ main:has(> .home-hero) {
   display: grid;
   gap: 0.125rem;
   width: 12rem;
-  padding-block-start: 0.625rem;
-  border-block-start: 1px solid var(--color-line);
 }
 .home-model-code {
   /* Left-to-right inside Arabic, but on the label's start edge like the lines under it. */
@@ -298,8 +297,9 @@ main:has(> .home-hero) {
 .home-headline-quiet {
   color: var(--color-ink-600);
 }
-/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). Its look is the one
-   icon button (actions.css); this places it. */
+/* Taste motion.md: the hero loop runs past 5 s, so it carries a pause button (WCAG 2.2.2). The client asked for no
+   visible button over the hero (24 Nov 2026), so it shows only on keyboard focus, like the skip link; screen readers
+   and keyboard users keep the control. Its look is the one icon button (actions.css); this places it. */
 .home-motion-toggle {
   position: absolute;
   /* Above the model label in the same corner (.home-model: 1.5rem from the foot, about 5.75rem tall). */
@@ -308,6 +308,16 @@ main:has(> .home-hero) {
   inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter));
   z-index: 3;
   pointer-events: auto;
+}
+.home-motion-toggle:not(:focus-visible) {
+  width: 1px;
+  height: 1px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 :lang(ar) .home-display {
   letter-spacing: 0;
