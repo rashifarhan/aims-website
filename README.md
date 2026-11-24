@@ -286,6 +286,9 @@ Results at the end of Phase 4:
 
 ### AIMS mint white and forest greens (client decision, 24 Nov 2026)
 
+**Superseded (24 Nov 2026)** for the light grounds by "White pages, faint bands, hero signature" below; the forest
+greens stand.
+
 - **AIMS's own ground: one mint everywhere.** Every light surface (page, bands, footer) is `--color-page` (#f0f6f1);
   `--color-paper-2` now points at it, and bands are parted by hairlines. A greyish stone tint (#f6f7f2) was tried and
   rejected as off-brand and dull; a two-step mint (#f7fbf8 page, #f0f6f1 bands) was then dropped because the lighter
@@ -381,6 +384,37 @@ is the photo's plinth. The client approved this plan:
 - **Accessibility and layout.** The drawing is one `role="img"` whose name states every line as text. At 768px and up
   it has five columns; under 768px it reads top to bottom (terminals, platforms, outputs) with no per-node lines and
   no horizontal scroll. In Arabic the flow runs right to left and model codes stay LTR.
+
+### White pages, faint bands, hero signature (client decision, 24 Nov 2026)
+
+Supersedes "AIMS mint white and forest greens" (the one-mint ground) above; the night greens stay. The client wanted a
+brighter page; a measured benchmark uses pure white pages with barely-tinted alternate bands, and nothing else was
+taken from it. The client asked for AIMS's own motifs, not a copy of the benchmark's ribbon or network pattern.
+
+- **Grounds.** `--color-page` is #ffffff (body, header, heroes, paper sections, `themeColor`); `--color-paper-2` is
+  its own faint green tint #f7faf8 (`section-band`, the footer, wells, hover washes); `--color-line` is the
+  green-tinted hairline #e1e9e3. Measured: ink-400 5.19:1 on white and 4.94:1 on the tint, ink-600 7.4:1 and
+  green-700 5.8:1 on the tint, input borders (`--color-line-strong` #7c8781) 3.7:1 and 3.5:1.
+- **Cards.** Every white `.ui-card` keeps its radius and a 1px `--color-line` border and rests on a soft two-layer
+  shadow that falls only below it (`--shadow-plinth`: `0 1px 2px` and `0 12px 32px -20px`, night-800 at 4% and 18%);
+  linked cards lift 2px to `--shadow-plinth-lift`. The plinth class and `--shadow-1` are gone: one shadow for all.
+- **Home rhythm.** Hero (white) · proof (night) · routes (white) · families (faint band, hairlines) · software
+  (white) · door (white) · reach (night) · journey (white) · FAQ (faint band) · close (white, green-100 top hairline)
+  · footer (faint band). Only grounds changed. Software and door meet on a hairline; a band followed by the close,
+  or ending a page above the footer, drops its bottom hairline so the join has one line. The contact and quote pages
+  lose their tinted `main` (it met the white hero on a bare edge, like a strip) and stand on white like the rest.
+- **Hero signature.** Every `PageHero` carries a still watermark of the home hero's signal lines (`HeroSignature`
+  over `SignalArt`; the curves from `src/lib/signalPaths.ts`, which the animated home hero now shares, unit-tested
+  to keep its geometry) and a soft green-100 light at its top (`--gradient-hero-glow`). On split heroes the fan
+  meets at the photograph's centre and thins out round it; on compact ones it leaves past the top end corner. At
+  most 18% green-700, faded before the copy and at the edges, mirrored in RTL; phones show a small fan behind the
+  photo (split) or the light only (compact). Inline SVG, no images, no layout box, no motion. To keep the photos
+  blending with no box, the hero is its own stacking context on white, the studio box no longer isolates, and the
+  photo (not its box) settles on entry. The product hero takes the light only: its lit stage fills the media column.
+- **Section arcs.** The home families band and journey carry faint arcs of the same fan in their top end corner
+  (`SectionArcs`, 12% green-700), fading before the cards and steps; hidden under 768px.
+- **Contrast with the motifs.** Where a hero line can reach the copy it is at most 8.5%: ink-600 6.3:1 and green-700
+  4.9:1 over line and light together. Under a full-strength arc, green-700 links keep 4.9:1 on the band.
 
 ## Content import
 
