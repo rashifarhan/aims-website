@@ -35,7 +35,7 @@
         "role": "neutral",
         "displayName": "Ink",
         "canonical": "#0e1512",
-        "tonalRamp": ["#0e1512", "#26302b", "#4a5550", "#666f6a", "#8a948e", "#e3e7e3", "#eef1ee", "#f6f8f5"]
+        "tonalRamp": ["#0e1512", "#26302b", "#4a5550", "#666f6a", "#8a948e", "#e3e7e3", "#eef1ee", "#f7fbf8"]
       },
       "ink-soft": {
         "role": "neutral",
@@ -70,7 +70,7 @@
       "showroom-floor": {
         "role": "neutral",
         "displayName": "Showroom Floor",
-        "canonical": "#f6f8f5"
+        "canonical": "#f7fbf8"
       },
       "showroom-floor-deep": {
         "role": "neutral",
@@ -81,7 +81,7 @@
         "role": "neutral",
         "displayName": "Night",
         "canonical": "#0a1a10",
-        "tonalRamp": ["#06100a", "#0a1a10", "#102619", "#18352a", "#24432f", "#a9bdb0", "#e9f2ec", "#f6f8f5"]
+        "tonalRamp": ["#06100a", "#0a1a10", "#102619", "#18352a", "#24432f", "#a9bdb0", "#e9f2ec", "#f7fbf8"]
       },
       "night-deepest": {
         "role": "neutral",
@@ -173,14 +173,24 @@
     },
     "shadows": [
       {
+        "name": "plinth",
+        "value": "0 1px 2px color-mix(in srgb, #08130d 5%, transparent), 0 6px 16px color-mix(in srgb, #26703a 6%, transparent)",
+        "purpose": "Product photo cards at rest (home family cards, catalogue product cards): the only raised cards."
+      },
+      {
+        "name": "plinth-lifted",
+        "value": "0 2px 6px color-mix(in srgb, #08130d 5%, transparent), 0 16px 36px color-mix(in srgb, #26703a 12%, transparent)",
+        "purpose": "Hover and focus on a product photo card, with the 2px rise."
+      },
+      {
         "name": "resting-card",
         "value": "0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04)",
-        "purpose": "Product, family, route and solution cards at rest."
+        "purpose": "Other cards still in the shared .ui-card at rest; text-only content moves to open rows."
       },
       {
         "name": "lifted-card",
         "value": "0 12px 32px rgb(14 21 18 / 0.08)",
-        "purpose": "Hover and focus-within on linked cards; popovers and suggestions."
+        "purpose": "Hover and focus-within on those cards; popovers and suggestions."
       },
       {
         "name": "floating",
@@ -286,7 +296,7 @@
       "refersTo": "card-product",
       "description": "A product on a lifted white plinth, named by its mono model code.",
       "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-img\"><svg viewBox=\"0 0 60 110\" width=\"48\" height=\"88\" aria-hidden=\"true\"><rect x=\"6\" y=\"4\" width=\"48\" height=\"102\" rx=\"8\" fill=\"#0e1512\"/><rect x=\"12\" y=\"14\" width=\"36\" height=\"46\" rx=\"2\" fill=\"#eef1ee\"/><circle cx=\"30\" cy=\"82\" r=\"7\" fill=\"#26302b\"/></svg></span><span class=\"ds-card-body\"><span class=\"ds-card-brand\">ZKTECO</span><span class=\"ds-card-code\">SpeedFace-V5L</span><span class=\"ds-card-meta\">34 products</span></span></a>",
-      "css": ".ds-card{display:flex;flex-direction:column;width:240px;border:1px solid #e3e7e3;border-radius:18px;overflow:hidden;background:#fff;color:#0e1512;text-decoration:none;box-shadow:0 1px 2px rgb(14 21 18/.06),0 1px 1px rgb(14 21 18/.04);transition:box-shadow 200ms cubic-bezier(.2,.8,.2,1),transform 200ms cubic-bezier(.2,.8,.2,1),border-color 200ms}.ds-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgb(14 21 18/.08);border-color:#d9ecdf}.ds-card:focus-visible{outline:2px solid #26703a;outline-offset:2px}.ds-card-img{display:grid;place-items:center;height:150px}.ds-card-body{display:flex;flex-direction:column;gap:4px;padding:16px 20px 20px;border-top:1px solid #e3e7e3}.ds-card-brand{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.08em;color:#666f6a}.ds-card-code{font:500 18px/1.3 'IBM Plex Mono',ui-monospace,monospace}.ds-card-meta{font:600 14.5px/1.4 Inter,sans-serif;color:#26703a}"
+      "css": ".ds-card{display:flex;flex-direction:column;width:240px;border:1px solid #e3e7e3;border-radius:18px;overflow:hidden;background:#fff;color:#0e1512;text-decoration:none;box-shadow:0 1px 2px rgb(8 19 13/.05),0 6px 16px rgb(38 112 58/.06);transition:box-shadow 200ms cubic-bezier(.2,.8,.2,1),transform 200ms cubic-bezier(.2,.8,.2,1),border-color 200ms}.ds-card:hover{transform:translateY(-2px);box-shadow:0 2px 6px rgb(8 19 13/.05),0 16px 36px rgb(38 112 58/.12);border-color:#d9ecdf}.ds-card:focus-visible{outline:2px solid #26703a;outline-offset:2px}.ds-card-img{display:grid;place-items:center;height:150px}.ds-card-body{display:flex;flex-direction:column;gap:4px;padding:8px 20px 20px}.ds-card-brand{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.08em;color:#666f6a}.ds-card-code{font:500 18px/1.3 'IBM Plex Mono',ui-monospace,monospace}.ds-card-meta{font:600 14.5px/1.4 Inter,sans-serif;color:#26703a}"
     },
     {
       "name": "Night Card",
@@ -359,14 +369,14 @@
       },
       {
         "name": "The Plinth Rule",
-        "body": "A card that holds a product or a link sits on a resting shadow and lifts 2px with the lifted shadow on hover. Bands, tables and text never cast shadows.",
+        "body": "Only a card that holds a product photograph is a raised white plinth: hairline outline, the very soft green-tinted plinth shadow, and a 2px lift with the lifted plinth shadow on hover (its photo zooms 1.02–1.03). Text-only content is never boxed on the mint floor: it sits in open rows, each under a 1px --color-line top rule, with the title, one line and an arrow text link. Bands, tables, text and buttons never cast shadows.",
         "section": "elevation"
       }
     ],
     "dos": [
       "**Do** show real AIMS product cut-outs on white, big and whole, named by their model codes in mono.",
       "**Do** keep AIMS Green (#26703a) for actions and selection only, and lime for light and signal only.",
-      "**Do** lift linked cards: hairline + resting shadow at rest, 2px rise with the lifted shadow on hover.",
+      "**Do** lift product photo cards: hairline + plinth shadow at rest, 2px rise with the lifted plinth shadow on hover; set text-only content as open rows under a hairline.",
       "**Do** switch to night-green surfaces (#0a1a10 family) for a section that tells a story, and back to the showroom floor for the catalogue.",
       "**Do** keep every text pair at 4.5:1 or better, including lime and muted text on night surfaces.",
       "**Do** keep 44px touch targets and the shared container's two content edges on every section."

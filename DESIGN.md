@@ -14,7 +14,7 @@ colors:
   hairline: "#e3e7e3"
   control-border: "#8a948e"
   paper: "#ffffff"
-  showroom-floor: "#f6f8f5"
+  showroom-floor: "#f7fbf8"
   showroom-floor-deep: "#eef1ee"
   night-deepest: "#06100a"
   night: "#0a1a10"
@@ -188,8 +188,8 @@ A green-tinted neutral showroom with one confident green, one spark of lime, and
 - **AIMS Green** (#26703a): every primary action (buttons, text links, selected states, focus rings) on light
   surfaces. White on it measures 6.07:1.
 - **AIMS Green Deep** (#1b5e20): hover and pressed state of the primary; "done" states.
-- **Showroom Mint** (#eef6f0) and **Mint Hairline** (#d9ecdf): selected chips and options, tinted panels (the
-  showroom card, the closing quote panel), their borders.
+- **Showroom Mint** (#eef6f0) and **Mint Hairline** (#d9ecdf): selected chips and options, tinted surfaces (the
+  showroom card, the full-width closing band), their borders.
 
 ### Secondary
 
@@ -201,8 +201,9 @@ A green-tinted neutral showroom with one confident green, one spark of lime, and
 
 - **Ink** (#0e1512): headings and body text (18.5:1). **Ink Soft** (#26302b): strong secondary text.
 - **Ink Secondary** (#4a5550): leads, descriptions (7.76:1). **Ink Muted** (#666f6a): captions, meta, hints (5.19:1).
-- **Paper** (#ffffff): cards and the header. **Showroom Floor** (#f6f8f5) and **Showroom Floor Deep** (#eef1ee): page
-  bands, spec tiles, the door-kit room, the footer.
+- **Paper** (#ffffff): product photo plinths, fields, menus and the header. **Showroom Floor** (`--color-page`,
+  #f7fbf8, AIMS mint white): the page ground. **Showroom Floor Deep** (#eef1ee): spec tiles and the door-kit room;
+  bands and the footer use `--color-paper-2` (#f0f6f1).
 - **Hairline** (#e3e7e3): dividers and card borders. **Control Border** (#8a948e): input and stepper borders (3.13:1,
   WCAG 1.4.11).
 - **Night ramp** (#06100a → #0a1a10 → #102619 → #18352a, hairline #24432f): after-hours sections, from page ground to
@@ -268,28 +269,38 @@ focused field; scroll padding equals the header (60px mobile, 72px desktop) plus
 
 ## Elevation & Depth
 
-Cards are lifted, like products on a showroom plinth: a white card on the showroom floor carries a hairline border and
-a soft resting shadow, and rises on hover. Bands and panels separate by tone (paper, showroom floor, night steps)
-rather than by shadow. Overlays (menus, dialogs, the compare tray) float higher.
+Products are lifted, like products on a showroom plinth: a white card holding a product photograph carries a hairline
+border and a very soft, green-tinted resting shadow, and rises on hover. White against the mint floor is only about
+1.04:1, so a white box around text alone reads as a template box, not a plinth: text-only content (routes, software,
+reasons, steps) stands on the ground as open rows under a hairline. Bands and panels separate by tone (paper, showroom
+floor, night steps) rather than by shadow. Overlays (menus, dialogs, the compare tray) float higher.
 
 ### Shadow Vocabulary
 
-- **Resting card** (`box-shadow: 0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04)`): product, family,
-  route and solution cards at rest.
-- **Lifted card** (`box-shadow: 0 12px 32px rgb(14 21 18 / 0.08)`): hover and focus-within on linked cards, popovers,
+- **Plinth** (`--shadow-plinth`: a 1px night-950 contact shadow at 5% plus `0 6px 16px` green-700 at 6%): product photo
+  cards at rest (the home family cards and catalogue product cards, `.ui-card-plinth`).
+- **Plinth lifted** (`--shadow-plinth-lift`: `0 2px 6px` night-950 at 5% plus `0 16px 36px` green-700 at 12%): hover
+  and focus on a product photo card, with the 2px rise.
+- **Resting card** (`--shadow-1`, `0 1px 2px rgb(14 21 18 / 0.06), 0 1px 1px rgb(14 21 18 / 0.04)`): other cards
+  still in the shared `.ui-card` at rest.
+- **Lifted card** (`--shadow-2`, `0 12px 32px rgb(14 21 18 / 0.08)`): hover and focus-within on those cards, popovers,
   search suggestions.
 - **Floating** (`box-shadow: 0 24px 60px rgb(14 21 18 / 0.12)`): dialogs, the mobile menu sheet, trays.
 - **Night card** (`box-shadow: 0 24px 48px rgb(0 0 0 / 0.35)`): cards on night surfaces; hover adds a lime ring
   (`0 0 0 1px rgb(120 190 32 / 0.55), 0 0 32px rgb(120 190 32 / 0.16)`).
 - **Device** (`filter: drop-shadow(0 34px 40px rgb(14 21 18 / 0.22))`): the hero's dark device cut-out only.
 
-Current code: solution-hub cards and night-section cards already rest on shadows; the homepage's route, light family
-and software cards still rest flat on a hairline and should be brought up to the resting shadow (chosen 21 Nov 2026).
+Current code (card review, 24 Nov 2026): the home family cards and the catalogue product cards stand on the plinth;
+the home buyer routes and software are open rows; buttons carry no shadow or glow. Other text-only cards in the shared
+`.ui-card` (solution options, services cover, office cards) still rest on `--shadow-1` and are to become open rows as
+those pages are reviewed.
 
 ### Named Rules
 
-**The Plinth Rule.** A card that holds a product or a link sits on a resting shadow and lifts 2px with the lifted
-shadow on hover. Bands, tables and text never cast shadows.
+**The Plinth Rule.** Only a card that holds a product photograph is a raised white plinth: hairline outline, the very
+soft green-tinted plinth shadow, and a 2px lift with the lifted plinth shadow on hover (its photo zooms 1.02–1.03).
+Text-only content is never boxed on the mint floor: it sits in open rows, each under a 1px `--color-line` top rule,
+with the title, one line and an arrow text link. Bands, tables, text and buttons never cast shadows.
 
 ## Shapes
 
@@ -322,7 +333,7 @@ line-strong wires, white pill labels with hairline leaders, green for actions an
 
 - **Corner Style:** 18px.
 - **Background:** Paper on light; Night Raised on night sections, with the product image area kept white.
-- **Shadow Strategy:** the Plinth Rule (see Elevation & Depth).
+- **Shadow Strategy:** the Plinth Rule (see Elevation & Depth): product photo cards only.
 - **Border:** 1px Hairline (Night Hairline on night); the border darkens a step or turns Mint Hairline on hover.
 - **Internal Padding:** 24px (20px on phones); image areas 24–28px.
 
@@ -352,7 +363,8 @@ spec facts as small Showroom Floor tiles (label in Ink Muted, value in 600 Ink, 
 
 - **Do** show real AIMS product cut-outs on white, big and whole, named by their model codes in mono.
 - **Do** keep AIMS Green (#26703a) for actions and selection only, and lime for light and signal only.
-- **Do** lift linked cards: hairline + resting shadow at rest, 2px rise with the lifted shadow on hover.
+- **Do** lift product photo cards: hairline + plinth shadow at rest, 2px rise with the lifted plinth shadow on hover;
+  set text-only content as open rows under a hairline.
 - **Do** switch to night-green surfaces (#0a1a10 family) for a section that tells a story, and back to the showroom
   floor for the catalogue.
 - **Do** keep every text pair at 4.5:1 or better, including lime and muted text on night surfaces.

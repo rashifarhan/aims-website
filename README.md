@@ -298,6 +298,34 @@ Results at the end of Phase 4:
   reach map's fade now use `--color-page`; nothing else was edited page by page. The palette's sage and full-strength
   stone were not used for text or grounds: they measure 4.3:1 and 1.7:1 on white.
 
+### Card review (Impeccable critique + charles-unslop, 24 Nov 2026)
+
+Two reviews of `claude/hero-model-label` agreed: Impeccable's critique scored it **28/40** (Consistency 2/4,
+Aesthetic 2/4) and charles-unslop flagged the template tells. White cards (#ffffff) on the mint ground (#f7fbf8) step
+only about 1.04:1, so text-only boxes read as template-cheap, while product cards read as premium because the white
+is the photo's plinth. The client approved this plan:
+
+- **Open rows for text.** The home buyer routes ("Three ways to buy") and software are open rows on the ground: a
+  1px `--color-line` rule, the title, one line and the arrow link, three across on desktop and stacked on phones,
+  after the proof band's three points. Each row is still one link with the underline-draw and press layer. Software
+  labels move from green to ink-600 (One Sign Rule), also on the solution pages.
+- **Closing band.** `ClosePanel` is a full-width mint band (green-50; the home keeps its soft wash) with its content
+  in `.wrap` and no border, radius or box, on every page that closes with it. Embedded closes, inside another
+  section, keep the mint panel.
+- **Card edges (client's choice).** Product photo cards keep an outline plus a very soft green-tinted shadow
+  (`--shadow-plinth`) and lift 2px to `--shadow-plinth-lift` on hover, through `.ui-card-plinth` on the home family
+  cards and the catalogue product cards. Family photos grow to a 16rem box (9rem on phones), still below every
+  photo's own pixel size, and the photo/text divider goes.
+- **Removed:** the repeated authorization pill in the proof band (hero, about hero and footer keep it), the green
+  glow under primary buttons (`--shadow-home-action` deleted; buttons rest flat), and the lime border on the reach
+  band's showroom card (night hairline now).
+- **Kept, by the sources:** the "ZKTECO" brand line on catalogue cards stays, because Design Doc 9's product card
+  anatomy lists it; dropping it needs a Design Doc change. The review stars stay because each review's `rating`
+  records the five stars shown on the AIMS homepage (checked 22 Nov 2026) and the stars are drawn from it; the small
+  neutral initials stay.
+- DESIGN.md's Plinth Rule now raises only product photo cards and sets text as open rows. Its ground colour now reads
+  `--color-page` #f7fbf8, mirrored in `.impeccable/design.json`.
+
 ## Content import
 
 ```bash
