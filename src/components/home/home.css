@@ -24,15 +24,24 @@ main:has(> .home-hero) {
 .home-hero-copy a {
   pointer-events: auto;
 }
-.home-eyebrow {
+/* The standing line: the claim in ink (DESIGN.md One Sign Rule: green is for actions), the lime dot as the
+   reader's light, then the offices behind a hairline. */
+.home-standing {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.625rem;
+  gap: 0.5rem 1rem;
+  margin-block-start: 2.75rem;
   font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--color-green-700);
 }
-.home-eyebrow > span {
+.home-standing-claim {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-ink-700);
+}
+.home-standing-claim > span {
   flex: none;
   width: 0.5rem;
   height: 0.5rem;
@@ -44,7 +53,7 @@ main:has(> .home-hero) {
   font-weight: var(--font-weight-display);
   line-height: 1.03;
   letter-spacing: -0.04em;
-  margin-block: 1.5rem;
+  margin-block: 0 1.5rem;
   max-width: 54rem;
 }
 .home-display > span {
@@ -64,8 +73,8 @@ main:has(> .home-hero) {
   margin-block-start: 2.375rem;
 }
 .home-trust {
-  margin-block-start: 2.75rem;
-  font-size: var(--text-caption);
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid var(--color-line);
   color: var(--color-ink-400);
 }
 .home-hero-art {
@@ -318,7 +327,7 @@ main:has(> .home-hero) {
   .home-display {
     font-size: var(--text-home-display-mobile);
     line-height: 1.08;
-    margin-block: 1.25rem;
+    margin-block: 0 1.25rem;
     max-width: 36rem;
   }
   .home-lead {
@@ -328,6 +337,9 @@ main:has(> .home-hero) {
   .home-hero-actions {
     margin-block-start: 1.75rem;
     gap: 1rem;
+  }
+  .home-standing {
+    margin-block-start: 1.5rem;
   }
   .home-trust {
     display: none;
@@ -389,10 +401,6 @@ main:has(> .home-hero) {
     justify-content: center;
     font-size: var(--text-small);
   }
-  .home-eyebrow {
-    font-size: var(--text-caption);
-    gap: 0.5rem;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   [data-screen="idle"],
@@ -434,14 +442,10 @@ main:has(> .home-hero) {
 .home-wash-verified {
   background: var(--gradient-verified-light);
 }
-.home-eyebrow,
 .home-lead,
 .home-hero-actions,
-.home-trust {
+.home-standing {
   animation: home-copy-in 800ms var(--ease-aims) both;
-}
-.home-eyebrow {
-  animation-delay: 50ms;
 }
 .home-lead {
   animation-delay: 200ms;
@@ -449,7 +453,7 @@ main:has(> .home-hero) {
 .home-hero-actions {
   animation: none;
 }
-.home-trust {
+.home-standing {
   animation-delay: 250ms;
 }
 [data-pulse] {
@@ -504,10 +508,9 @@ main:has(> .home-hero) {
   .home-headline-rise,
   .home-device,
   .home-wash,
-  .home-eyebrow,
   .home-lead,
   .home-hero-actions,
-  .home-trust {
+  .home-standing {
     animation: none;
     transform: none;
     opacity: 1;

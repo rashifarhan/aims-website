@@ -16,10 +16,6 @@ export async function Hero() {
   return (
     <section className="home-hero" aria-labelledby="home-title">
       <div className="home-hero-copy wrap">
-        <p className="home-eyebrow">
-          <span aria-hidden="true" />
-          {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
-        </p>
         <h1 id="home-title" className="home-display">
           <span>
             <span className="home-headline-rise">{h.line1}</span>
@@ -39,7 +35,15 @@ export async function Hero() {
             {h.quote}
           </Link>
         </div>
-        <p className="home-trust">{h.trust}</p>
+        {/* Impeccable craft floor bans the eyebrow above a heading: the claim moves under the actions as the
+            hero's standing line, beside the offices that back it (first screen still carries the hard fact). */}
+        <p className="home-standing">
+          <span className="home-standing-claim">
+            <span aria-hidden="true" />
+            {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
+          </span>
+          <span className="home-trust">{h.trust}</span>
+        </p>
       </div>
       <HeroAnimation pauseLabel={h.pause}>
         <div className="home-wash" aria-hidden="true" />
