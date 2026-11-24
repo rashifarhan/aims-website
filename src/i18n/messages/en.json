@@ -146,6 +146,17 @@
     "prevPage": "Previous",
     "nextPage": "Next",
     "pageN": "Page {n}",
+    "quickPicks": "Popular",
+    "picks": {
+      "face": "Face recognition",
+      "fingerprint": "Fingerprint",
+      "turnstiles": "Turnstiles & gates",
+      "parking": "Parking barriers",
+      "panels": "Control panels",
+      "smart": "Smart locks",
+      "hotel": "Hotel locks",
+      "pos": "POS terminals"
+    },
     "clearAll": "Clear all",
     "closeFilters": "Close filters",
     "facets": {

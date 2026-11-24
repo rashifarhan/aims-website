@@ -11,6 +11,7 @@ import {
 } from "@/lib/filters";
 import { withDestination, type QuoteContext } from "@/lib/quote/context";
 import { paginate, sortCards } from "@/lib/listing";
+import { QUICK_PICKS, applyPreset, isPresetActive, quickPickCounts } from "@/lib/quickPicks";
 import { createIndex, searchSlugs } from "@/lib/search";
 import { facetGroupViews } from "./facetGroups";
 import { useListingState } from "./useListingState";
@@ -68,6 +69,31 @@ export function useListingModel({
   const hrefForPage = (n: number) =>
     withDestination(`${hrefs.listing}${serializeFilters({ ...state, page: n })}`, preset);
 
+  /* ---------- quick picks (not on a family page: its facets are already narrow) ---------- */
+  const pickCounts = useMemo(() => quickPickCounts(cards), [cards]);
+  const picks = family
+    ? []
+    : QUICK_PICKS.filter((p) => (pickCounts.get(p.id) ?? 0) > 0).map((p) => ({
+        id: p.id,
+        label: t.picks[p.id],
+        count: pickCounts.get(p.id) ?? 0,
+        pressed: isPresetActive(state, p.preset),
+      }));
+  const onPick = (id: string) => {
+    const preset = QUICK_PICKS.find((p) => p.id === id)?.preset;
+    if (!preset) return;
+    const next = applyPreset(state, preset);
+    update({
+      family: next.family,
+      type: next.type,
+      brand: next.brand,
+      verify: next.verify,
+      conn: next.conn,
+      outdoor: next.outdoor,
+      page: 1,
+    });
+  };
+
   /* ---------- compare ---------- */
   const bySlug = useMemo(() => new Map(cards.map((c) => [c.slug, c])), [cards]);
   const compareItems = state.cmp.map((s) => bySlug.get(s)).filter((c): c is Card => !!c);
@@ -82,6 +108,8 @@ export function useListingModel({
     update,
     effective,
     results,
+    picks,
+    onPick,
     pageResults: paged.items,
     paged,
     onSort,

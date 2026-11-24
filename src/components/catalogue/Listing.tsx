@@ -26,6 +26,7 @@ import { AppliedFilters } from "./AppliedFilters";
 import { cardLabels, ResultsGrid } from "./ResultsGrid";
 import { useListingModel } from "./useListingModel";
 import { Pagination } from "./Pagination";
+import { QuickPicks } from "./QuickPicks";
 import { ResultsBar } from "./ResultsBar";
 
 export type ListingProps = {
@@ -67,6 +68,8 @@ export function ListingView({
     update,
     effective,
     results,
+    picks,
+    onPick,
     pageResults,
     paged,
     onSort,
@@ -97,6 +100,8 @@ export function ListingView({
         label={t.searchLabel}
         placeholder={t.searchPlaceholder}
       />
+
+      <QuickPicks label={t.quickPicks} picks={picks} onPick={onPick} />
 
       <div className="mt-8 lg:grid lg:grid-cols-[232px_1fr] lg:gap-10">
         <FacetRail groups={groups} onToggle={onToggle} label={t.filters} trayOpen={compareItems.length > 0} />

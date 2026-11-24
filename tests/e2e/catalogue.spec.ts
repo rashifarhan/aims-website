@@ -289,3 +289,34 @@ test.describe("pagination and sort", () => {
     expect(await slugs(page, 3)).toEqual(expected);
   });
 });
+
+test.describe("quick picks", () => {
+  test("a pick applies its filters, shows pressed, and shows as many products as its count", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    const pick = page.getByRole("group", { name: "Popular" }).getByRole("button", { name: /^Turnstiles & gates/ });
+    const count = Number((await pick.textContent())!.match(/(\d+)\s*$/)![1]);
+    expect(count).toBeGreaterThan(0);
+
+    await expect(async () => {
+      await pick.click();
+      await expect(page).toHaveURL(/type=pedestrian/, { timeout: 1000 });
+    }).toPass();
+    await expect(pick).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /products?$/ })).toHaveText(
+      new RegExp(`^${count} products?$`),
+    );
+  });
+
+  test("a family page has no quick picks", async ({ page }) => {
+    await page.goto("/products/time-attendance", { waitUntil: "load" });
+    await expect(page.getByRole("heading", { name: "Results" })).toBeAttached();
+    await expect(page.getByRole("group", { name: "Popular" })).toHaveCount(0);
+  });
+
+  test("the row scrolls inside itself; the page never scrolls sideways at 320px", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(page.getByRole("group", { name: "Popular" })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  });
+});

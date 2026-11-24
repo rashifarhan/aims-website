@@ -146,6 +146,17 @@
     "prevPage": "السابق",
     "nextPage": "التالي",
     "pageN": "صفحة {n}",
+    "quickPicks": "الأكثر طلبًا",
+    "picks": {
+      "face": "التعرف على الوجه",
+      "fingerprint": "البصمة",
+      "turnstiles": "البوابات الدوارة",
+      "parking": "حواجز المواقف",
+      "panels": "لوحات التحكم",
+      "smart": "أقفال ذكية",
+      "hotel": "أقفال فندقية",
+      "pos": "نقاط البيع"
+    },
     "clearAll": "مسح الكل",
     "closeFilters": "إغلاق التصفية",
     "facets": {
