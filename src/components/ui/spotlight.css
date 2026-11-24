@@ -1,0 +1,55 @@
+/*
+ * Spotlight card (ui/SpotlightGroup.tsx; premium pass, client decision 7). ::before is a soft lime light that is
+ * moved with transform to the pointer; ::after is a faint lit edge, a border ring masked to the same spot. Both
+ * are decorative, never take pointer events and appear only for a fine pointer without reduced motion.
+ */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .spotlight-card {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    position: relative;
+    overflow: clip;
+  }
+  .spotlight-card::before,
+  .spotlight-card::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-aims);
+  }
+  .spotlight-card::before {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 28rem;
+    block-size: 28rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--color-lime) 22%, transparent),
+      color-mix(in srgb, var(--color-lime) 8%, transparent) 55%,
+      transparent
+    );
+    transform: translate(calc(var(--spot-x) - 50%), calc(var(--spot-y) - 50%));
+    will-change: transform;
+  }
+  /* Lit edge: the card's own border box, visible only near the pointer (padding-box mask cut-out). */
+  .spotlight-card::after {
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      14rem circle at var(--spot-x) var(--spot-y),
+      color-mix(in srgb, var(--color-lime) 70%, transparent),
+      transparent 70%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+  .spotlight-card:hover::before,
+  .spotlight-card:hover::after {
+    opacity: 1;
+  }
+}

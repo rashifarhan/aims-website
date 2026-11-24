@@ -1,0 +1,80 @@
+/*
+ * Model-code strip (ui/ModelStrip.tsx; premium pass, client decision 7). At rest, and wherever scroll-driven
+ * animation is missing or motion is reduced, the codes wrap as one list. Where it is supported, the track slides by
+ * one list's width while the band crosses the viewport: only transform, driven by scroll, no timer. The
+ * track is always dir="ltr" (model codes stay LTR); RTL pages slide the other way through --strip-dir.
+ */
+.model-strip {
+  --strip-dir: 1;
+  overflow: clip;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-paper);
+}
+:dir(rtl) .model-strip {
+  --strip-dir: -1;
+}
+.model-strip-track {
+  display: flex;
+}
+.model-strip-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.model-strip-list[aria-hidden="true"] {
+  display: none;
+}
+.model-strip-code {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--color-ink-600);
+  transition: color var(--duration-hover) var(--ease-aims);
+}
+.model-strip-code::before {
+  content: "";
+  inline-size: 0.375rem;
+  block-size: 0.375rem;
+  margin-inline-end: 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-lime);
+}
+@media (hover: hover) {
+  .model-strip-code:hover {
+    color: var(--color-green-700);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Keyboard focus rests the band as a wrapped list, so a focused code is never off screen. */
+    .model-strip:not(:has(:focus-visible)) .model-strip-track {
+      inline-size: max-content;
+      animation: model-strip-slide linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .model-strip:not(:has(:focus-visible)) .model-strip-list {
+      flex-wrap: nowrap;
+    }
+    .model-strip:not(:has(:focus-visible)) .model-strip-list[aria-hidden="true"] {
+      display: flex;
+    }
+  }
+}
+@keyframes model-strip-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% * var(--strip-dir)));
+  }
+}

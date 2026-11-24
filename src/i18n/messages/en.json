@@ -299,6 +299,9 @@
     "notFound": "Some products in this link no longer exist and were skipped."
   },
   "home": {
+    "strip": {
+      "label": "Models we supply"
+    },
     "metaTitle": "Access control & time attendance",
     "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",
     "hero": {
