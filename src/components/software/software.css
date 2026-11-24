@@ -401,3 +401,33 @@
     width: 5rem;
   }
 }
+
+/* ---------- Terminals: the page's night band over the ridges (home's software band) ---------- */
+.sw-terminals-ridges {
+  inline-size: 68rem;
+  inset-block-start: 50%;
+  inset-inline-end: -18rem;
+  translate: 0 -50%;
+}
+/* The lines and landing dots turn lime, the platform pill goes night-toned (lime 7.5:1 on night-900). */
+.section-night .sw-signal-lines {
+  color: var(--color-lime);
+}
+.section-night .sw-signal-node::after {
+  background: var(--color-lime);
+}
+.section-night .sw-signal-source {
+  border-color: var(--color-lime);
+  background: var(--color-night-800);
+  color: var(--color-night-text);
+}
+/* Terminal cards stay white plinths on the night ground. */
+.section-night .sw-terminal.ui-card {
+  border-color: transparent;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+/* The paper pills inherit the night section's light text; they carry their own ink. */
+.section-night .sw-signal-pill {
+  color: var(--color-ink);
+}

@@ -397,3 +397,17 @@
     animation: none;
   }
 }
+
+/* ---------- Software that fits: the one night band mid-page, over the ridges (home's software band) ---------- */
+.t3-software-ridges {
+  inline-size: 68rem;
+  inset-block-start: 50%;
+  inset-inline-end: -18rem;
+  translate: 0 -50%;
+}
+/* White plinth cards keep their own ink on the night ground, so the platform pictures (dark logos) stay legible. */
+.section-night .t3-software-spot .home-software-card.ui-card {
+  border-color: transparent;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}

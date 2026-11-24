@@ -38,7 +38,7 @@ export function SoftwareCard({
     </span>
   );
   return (
-    <article className="sw-card ui-card ui-card-interactive">
+    <article className="sw-card ui-card ui-card-interactive spotlight-card">
       <div className="sw-card-image ui-card-photo">
         {software.image && (
           <Image

@@ -7,6 +7,7 @@ import { SOFTWARE_TYPES, type SoftwareType } from "@/content/taxonomy";
 import { countLabel } from "@/i18n/format";
 import { typeFromParam } from "@/lib/software";
 import { ResultCount } from "@/components/catalogue/ResultCount";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 
 export type SoftwareFilterItem = { slug: string; types: SoftwareType[]; card: ReactNode };
 export type SoftwareFilterLabels = {
@@ -60,11 +61,13 @@ export function SoftwareFilterView({ items, basePath, labels, active }: ViewProp
           text={countLabel(shown.length, labels.countOne, labels.count)}
         />
       </nav>
-      <ul className="sw-card-grid">
-        {shown.map((item) => (
-          <li key={item.slug}>{item.card}</li>
-        ))}
-      </ul>
+      <SpotlightGroup className="sw-card-grid-wrap">
+        <ul className="sw-card-grid">
+          {shown.map((item) => (
+            <li key={item.slug}>{item.card}</li>
+          ))}
+        </ul>
+      </SpotlightGroup>
     </>
   );
 }
