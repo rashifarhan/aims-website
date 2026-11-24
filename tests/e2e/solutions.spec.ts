@@ -75,6 +75,13 @@ for (const locale of ["en", "ar"]) {
     await expect(page.locator(".solution-faq details").first()).toHaveAttribute("open", "");
     // Audit the settled page: the hero entrance and the site plan at their finished frames.
     await settle(page);
+    // Scroll reveals rest whole once read: audit that resting text, not a block half-faded at the fold.
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+        .forEach((animation) => animation.cancel()),
+    );
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -196,6 +203,13 @@ for (const locale of ["en", "ar"]) {
       ),
     ).toBe(0);
     await settle(page);
+    // Scroll reveals rest whole once read: audit that resting text, not a block half-faded at the fold.
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+        .forEach((animation) => animation.cancel()),
+    );
     const axe = await new AxeBuilder({ page })
       .include(".hs-site")
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

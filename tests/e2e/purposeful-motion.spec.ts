@@ -7,7 +7,8 @@ async function scrollStory(story: Locator, progress: number) {
   }, progress);
 }
 
-for (const path of ["/", "/solutions/access-control", "/ar/solutions/access-control"]) {
+// The door story left the home page (client decision 6, 24 Nov 2026); access control keeps it in both languages.
+for (const path of ["/solutions/access-control", "/ar/solutions/access-control"]) {
   test(`${path}: the door follows scroll in both directions or completes in normal phone flow`, async ({ page }) => {
     await page.goto(path);
     const story = page.locator(".door-story");

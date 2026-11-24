@@ -44,6 +44,17 @@
 }
 .hero-ridges-split {
   inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter) - 14rem);
+  /* AIMS's photographs are multiplied onto the hero ground, so the rings would show through a light screen: the
+     centre, where the photograph stands, stays clear and the rings ring it. */
+  --ridge-ring: radial-gradient(closest-side, transparent 24%, var(--color-ink) 40%, transparent);
+  mask-image:
+    var(--ridge-ring),
+    linear-gradient(to right, transparent 8%, var(--color-ink) 45%);
+}
+:dir(rtl) .hero-ridges-split {
+  mask-image:
+    var(--ridge-ring),
+    linear-gradient(to left, transparent 8%, var(--color-ink) 45%);
 }
 .hero-ridges-compact {
   inline-size: 44rem;
@@ -59,7 +70,7 @@
     inset-block-end: -6rem;
     inset-inline-end: calc(50% - 17rem);
     translate: none;
-    mask-image: radial-gradient(closest-side, var(--color-ink) 30%, transparent);
+    mask-image: var(--ridge-ring);
   }
   .hero-ridges-compact {
     display: none;

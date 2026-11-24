@@ -47,6 +47,13 @@ for (const locale of ["en", "ar"] as const) {
         { timeout: 8000 },
       )
       .toBe(0);
+    // Scroll reveals rest whole once read: audit that resting text, not a block half-faded at the fold.
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+        .forEach((animation) => animation.cancel()),
+    );
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
