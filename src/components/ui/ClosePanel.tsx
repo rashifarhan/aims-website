@@ -7,8 +7,8 @@ type Action = { href: string; label: string };
 
 /**
  * The one closing panel (design-taste-frontend one system; Design Doc 2, principle 1): a heading, one
- * line of body, one main action and at most one link, as a mint panel on paper (the home page's night close
- * turned mint by the client's decision of 24 Nov 2026, README Decisions). The action is a link, or a ready element
+ * line of body, one main action and at most one link, as a full-width mint band with no box (the client's decisions
+ * of 24 Nov 2026: night turned mint, then the panel un-boxed after the card review; README Decisions). The action is a link, or a ready element
  * when it does more than navigate (software's add-to-quote button). `embedded` renders the mint panel as the last block of another section's screen (the solution and location questions), with no
  * section ground of its own: alone, the close filled a fifth of a desktop screen (taste House rule 3; audit T-01).
  */

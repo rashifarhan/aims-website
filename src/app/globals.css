@@ -323,7 +323,7 @@
     color-mix(in srgb, var(--color-green-50) 90%, transparent),
     transparent 70%
   );
-  /* Light washes (client decision, 24 Nov 2026; README Decisions): the families band and the closing panel carry a
+  /* Light washes (client decision, 24 Nov 2026; README Decisions): the families band and the closing band carry a
      soft, full-section wash in AIMS's own greens instead of flat paper. Even where both of a wash's layers would
      stack at full strength, green-700 links keep 4.7:1 or more and ink-600 6:1 or more over it. The wash reaches
      every edge, so nothing fades into a neighbour. */
