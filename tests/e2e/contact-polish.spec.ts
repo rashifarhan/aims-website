@@ -20,13 +20,15 @@ const axeClean = async (page: import("@playwright/test").Page) => {
 for (const path of ["/contact", "/ar/contact"]) {
   test(`T9 ${path}: content edges match the header and footer`, async ({ page }) => {
     await page.goto(path);
-    const edges = await page.locator("header > div, main > section.co-contact > div.wrap, footer > div").evaluateAll((boxes) =>
-      boxes.map((box) => {
-        const rect = box.getBoundingClientRect();
-        const style = getComputedStyle(box);
-        return { start: rect.left + parseFloat(style.paddingLeft), end: rect.right - parseFloat(style.paddingRight) };
-      }),
-    );
+    const edges = await page
+      .locator("header > div, main > section.co-contact > div.wrap, footer > div")
+      .evaluateAll((boxes) =>
+        boxes.map((box) => {
+          const rect = box.getBoundingClientRect();
+          const style = getComputedStyle(box);
+          return { start: rect.left + parseFloat(style.paddingLeft), end: rect.right - parseFloat(style.paddingRight) };
+        }),
+      );
     expect(edges.length).toBeGreaterThanOrEqual(3);
     for (const edge of edges.slice(1)) {
       expect(Math.abs(edge.start - edges[0].start)).toBeLessThanOrEqual(1);
