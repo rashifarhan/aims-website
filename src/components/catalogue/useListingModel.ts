@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import type { ProductCard as Card } from "@/content/cards";
 import type { FamilySlug } from "@/content/taxonomy";
 import {
@@ -10,6 +10,7 @@ import {
   type FilterState,
 } from "@/lib/filters";
 import { withDestination, type QuoteContext } from "@/lib/quote/context";
+import { paginate, sortCards } from "@/lib/listing";
 import { createIndex, searchSlugs } from "@/lib/search";
 import { facetGroupViews } from "./facetGroups";
 import { useListingState } from "./useListingState";
@@ -33,7 +34,17 @@ export function useListingModel({
   const effective = useMemo<FilterState>(() => (family ? { ...state, family } : state), [state, family]);
   const index = useMemo(() => createIndex(cards, familyNames), [cards, familyNames]);
   const order = useMemo(() => searchSlugs(index, state.q), [index, state.q]);
-  const results = useMemo(() => applyFilters(cards, effective, order), [cards, effective, order]);
+  const results = useMemo(
+    () => sortCards(applyFilters(cards, effective, order), effective.sort),
+    [cards, effective, order],
+  );
+
+  /* ---------- pages ---------- */
+  const paged = paginate(results, state.page);
+  // A page past the end (?page=99, or filters that shrank the list) is rewritten to the last page.
+  useEffect(() => {
+    if (paged.page !== state.page) update({ page: paged.page });
+  });
 
   /* ---------- facets ---------- */
   const groups = facetGroupViews({ cards, state: effective, searchOrder: order, family, t, familyNames });
@@ -47,6 +58,15 @@ export function useListingModel({
 
   const filterCount = activeFilterCount(state);
   const clearFilters = () => update({ family: undefined, type: [], brand: [], verify: [], conn: [], outdoor: false });
+  const onSort = (sort: FilterState["sort"]) => update({ sort });
+  const onGoToPage = (n: number) => {
+    update({ page: n }, { push: true });
+    const heading = document.getElementById("results-heading");
+    heading?.scrollIntoView({ block: "start" });
+    heading?.focus({ preventScroll: true });
+  };
+  const hrefForPage = (n: number) =>
+    withDestination(`${hrefs.listing}${serializeFilters({ ...state, page: n })}`, preset);
 
   /* ---------- compare ---------- */
   const bySlug = useMemo(() => new Map(cards.map((c) => [c.slug, c])), [cards]);
@@ -57,5 +77,21 @@ export function useListingModel({
       : withDestination(`${window.location.pathname}${serializeFilters(state)}`, preset);
   const compareHref = `${hrefs.compare}?items=${compareItems.map((c) => c.slug).join(",")}${listingUrl ? `&from=${encodeURIComponent(listingUrl)}` : ""}`;
 
-  return { state, update, effective, results, groups, onToggle, filterCount, clearFilters, compareItems, compareHref };
+  return {
+    state,
+    update,
+    effective,
+    results,
+    pageResults: paged.items,
+    paged,
+    onSort,
+    onGoToPage,
+    hrefForPage,
+    groups,
+    onToggle,
+    filterCount,
+    clearFilters,
+    compareItems,
+    compareHref,
+  };
 }

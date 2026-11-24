@@ -135,6 +135,17 @@
     "filters": "التصفية",
     "filtersCount": "التصفية ({count})",
     "showResults": "عرض {count} منتجًا",
+    "sortLabel": "الترتيب",
+    "sort": {
+      "relevance": "الأكثر صلة",
+      "name": "الاسم (أ–ي)",
+      "family": "الفئة"
+    },
+    "pagination": "التنقل بين الصفحات",
+    "showing": "عرض {from}–{to} من {total}",
+    "prevPage": "السابق",
+    "nextPage": "التالي",
+    "pageN": "صفحة {n}",
     "clearAll": "مسح الكل",
     "closeFilters": "إغلاق التصفية",
     "facets": {

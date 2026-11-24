@@ -32,7 +32,12 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
     family,
     t: t.catalogue,
     familyNames,
-    hrefs: { product: href("/product"), compare: href("/products/compare"), quote: href("/quote") },
+    hrefs: {
+      listing: href(family ? `/products/${family}` : "/products"),
+      product: href("/product"),
+      compare: href("/products/compare"),
+      quote: href("/quote"),
+    },
   };
 
   return (

@@ -217,3 +217,75 @@ test.describe("product pages", () => {
     await expect(page.getByRole("link", { name: /Ask for the specifications/ })).toHaveAttribute("href", /wa\.me/);
   });
 });
+
+test.describe("pagination and sort", () => {
+  const cards = (page: Page) => page.getByRole("article");
+  const pagination = (page: Page) => page.getByRole("navigation", { name: "Pagination" });
+  const slugs = (page: Page, n: number) =>
+    cards(page)
+      .locator("h3 a")
+      .evaluateAll(
+        (els, count) => els.slice(0, count).map((a) => (a.getAttribute("href") ?? "").split("?")[0].split("/").pop()),
+        n,
+      );
+
+  test("12 products a page; Next shows the next 12 and Back returns to page 1", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(cards(page)).toHaveCount(12);
+    await expect(pagination(page).getByText("Showing 1–12 of 159")).toBeVisible();
+    const first = await slugs(page, 12);
+
+    await pagination(page).getByRole("link", { name: "Next" }).click();
+    await expect(page).toHaveURL(/page=2/);
+    await expect(pagination(page).getByText("Showing 13–24 of 159")).toBeVisible();
+    expect(await slugs(page, 12)).not.toEqual(first);
+
+    await page.goBack();
+    await expect(page).not.toHaveURL(/page=/);
+    expect(await slugs(page, 12)).toEqual(first);
+  });
+
+  test("a page past the end clamps to the last page", async ({ page }) => {
+    await page.goto("/products?page=99", { waitUntil: "load" });
+    await expect(pagination(page).getByText("Showing 157–159 of 159")).toBeVisible();
+    await expect(cards(page)).toHaveCount(3);
+    await expect(page).toHaveURL(/page=14/);
+  });
+
+  test("searching from page 3 lands on page 1 with results", async ({ page }) => {
+    await page.goto("/products?page=3", { waitUntil: "load" });
+    // Retry until the page has hydrated and the field's handler is attached.
+    await expect(async () => {
+      await page.locator("#listing-search").fill("f18");
+      await expect(page).not.toHaveURL(/page=/, { timeout: 1000 });
+    }).toPass();
+    await expect(cards(page).first()).toBeVisible();
+  });
+
+  test("ticking a filter from page 3 lands on page 1", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the facet rail is desktop; the mobile sheet shares the same handler");
+    await page.goto("/products?page=3", { waitUntil: "load" });
+    await expect(async () => {
+      await page
+        .getByRole("checkbox", { name: /^Fingerprint/ })
+        .first()
+        .check();
+      await expect(page).not.toHaveURL(/page=/, { timeout: 1000 });
+    }).toPass();
+    await expect(cards(page).first()).toBeVisible();
+  });
+
+  test("sort by name puts the catalogue in A–Z order", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(async () => {
+      await page.getByLabel("Sort").selectOption("name");
+      await expect(page).toHaveURL(/sort=name/, { timeout: 1000 });
+    }).toPass();
+    const expected = (products as { slug: string; name: string; duplicateOf?: string }[])
+      .filter((p) => !p.duplicateOf)
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }))
+      .slice(0, 3)
+      .map((p) => p.slug);
+    expect(await slugs(page, 3)).toEqual(expected);
+  });
+});

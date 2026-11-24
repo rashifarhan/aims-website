@@ -135,6 +135,17 @@
     "filters": "Filters",
     "filtersCount": "Filters ({count})",
     "showResults": "Show {count} products",
+    "sortLabel": "Sort",
+    "sort": {
+      "relevance": "Relevance",
+      "name": "Name A–Z",
+      "family": "Family"
+    },
+    "pagination": "Pagination",
+    "showing": "Showing {from}–{to} of {total}",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageN": "Page {n}",
     "clearAll": "Clear all",
     "closeFilters": "Close filters",
     "facets": {
