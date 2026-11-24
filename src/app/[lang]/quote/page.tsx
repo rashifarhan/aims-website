@@ -37,7 +37,7 @@ export default async function QuotePage() {
     catalog[`software-${s.slug}`] = { name: s.name, model: "", image: s.image?.src ?? null };
 
   return (
-    <main id="main" className="w-full flex-1 bg-paper-2">
+    <main id="main" className="w-full flex-1">
       <PageHero
         variant="compact"
         crumbs={[

@@ -30,8 +30,10 @@
   background: var(--band-edges, none), var(--gradient-night);
   color: var(--color-night-text);
 }
-/* A band followed by the closing band leaves the close's own top hairline to part them, so the join never doubles. */
-.section-band:has(+ .ui-close) {
+/* A band followed by the closing band, or ending the page above the footer's band, leaves the neighbour's own top
+   hairline to part them, so the join never doubles. */
+.section-band:has(+ .ui-close),
+main > .section-band:last-child {
   border-block-end: 0;
 }
 /* Two night bands in a row (the about page's proof and reach) are parted by a hairline, so they never read as one. */
