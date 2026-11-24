@@ -370,6 +370,10 @@ main:has(> .page-hero-split) {
   .page-hero-actions .home-secondary {
     justify-content: center;
   }
+  /* The magnetic wrapper (ui/Magnetic.tsx) stretches with the column; the button inside fills it. */
+  .page-hero-primary > .home-button {
+    flex: 1;
+  }
 }
 /* Short phones (audit B4): the software hub's title took seven lines at 320x480 and hid its action. One hero, so
    every page title takes the short size there. */

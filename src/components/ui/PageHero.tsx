@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { HeroSignature } from "./HeroSignature";
+import { Magnetic } from "./Magnetic";
 import { getDictionary } from "@/i18n/dictionaries";
 import "@/components/motion/entrance.css";
 
@@ -105,10 +106,19 @@ export async function PageHero(props: Props) {
 
 function renderAction(action: Action | ReactElement, className: string) {
   if (isValidElement(action)) return action;
+  if (className !== "home-button")
+    return (
+      <Link href={action.href} className={className}>
+        {action.label}
+      </Link>
+    );
+  // The primary leans toward a fine pointer, as on the home hero (premium pass, client decision 7).
   return (
-    <Link href={action.href} className={className}>
-      {action.label}
-      {className === "home-button" && <ArrowIcon width="18" height="18" className="home-action-arrow" />}
-    </Link>
+    <Magnetic className="page-hero-primary">
+      <Link href={action.href} className={className}>
+        {action.label}
+        <ArrowIcon width="18" height="18" className="home-action-arrow rtl:-scale-x-100" />
+      </Link>
+    </Magnetic>
   );
 }

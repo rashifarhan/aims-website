@@ -11,7 +11,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { LOCATION_PAGES, type LocationMarket } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
 import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
-import { HeroPrimary } from "./HeroPrimary";
 import { LocationModels } from "./LocationModels";
 import { LocationOffices } from "./LocationOffices";
 import { LocationSteps } from "./LocationSteps";
@@ -62,7 +61,7 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
         eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
-        primary={<HeroPrimary href={href(page.quote)} label={c.primary} />}
+        primary={{ href: href(page.quote), label: c.primary }}
         secondary={{ href: market === "dubai" ? "#visit" : "#models", label: c.secondary }}
         fact={fact}
         photo={photo}

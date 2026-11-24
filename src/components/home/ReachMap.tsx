@@ -24,7 +24,9 @@ const ROUTES: readonly { to: string; via: string; market?: Destination }[] = [
  * scales its text and strokes back down by the same factor (--reach-zoom) so they read the same size.
  */
 const ZOOM: Partial<Record<Destination, { viewBox: string; factor: number }>> = {
-  oman: { viewBox: "400 30 240 158", factor: 640 / 240 },
+  // Tight to the UAE, the route and Muscat's label, so the crop fills a phone's width rather than leaving its
+  // eastern third and northern band empty (rollout review, 24 Nov 2026).
+  oman: { viewBox: "400 66 185 122", factor: 640 / 185 },
 };
 const GCC_CITIES = [
   [333.1, 93],

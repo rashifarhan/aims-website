@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
-import { HeroPrimary } from "@/components/locations/HeroPrimary";
 import { LocationOffices } from "@/components/locations/LocationOffices";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
@@ -47,7 +46,7 @@ export default async function LocationsHub() {
         ]}
         title={c.title}
         lead={c.lead}
-        primary={<HeroPrimary href="#delivery" label={c.primary} />}
+        primary={{ href: "#delivery", label: c.primary }}
         secondary={{ href: "#uae", label: c.secondary }}
         fact={
           <span lang="en" dir="ltr">
