@@ -4,6 +4,7 @@ import type { FamilySlug } from "@/content/taxonomy";
 import {
   activeFilterCount,
   applyFilters,
+  relaxations,
   serializeFilters,
   toggle,
   type FacetGroup,
@@ -12,7 +13,7 @@ import {
 import { withDestination, type QuoteContext } from "@/lib/quote/context";
 import { paginate, sortCards } from "@/lib/listing";
 import { QUICK_PICKS, applyPreset, isPresetActive, quickPickCounts } from "@/lib/quickPicks";
-import { createIndex, searchSlugs } from "@/lib/search";
+import { closestSlugs, createIndex, searchSlugs } from "@/lib/search";
 import { facetGroupViews } from "./facetGroups";
 import { useListingState } from "./useListingState";
 import type { ListingProps } from "./Listing";
@@ -103,6 +104,28 @@ export function useListingModel({
       : withDestination(`${window.location.pathname}${serializeFilters(state)}`, preset);
   const compareHref = `${hrefs.compare}?items=${compareItems.map((c) => c.slug).join(",")}${listingUrl ? `&from=${encodeURIComponent(listingUrl)}` : ""}`;
 
+  /* ---------- zero-results recovery ---------- */
+  const noResults = results.length === 0;
+  // Close models only when the search itself found nothing (a typo or near code), not when filters emptied it.
+  const closest =
+    noResults && order && order.length === 0
+      ? closestSlugs(index, state.q)
+          .map((slug) => bySlug.get(slug))
+          .filter((c): c is Card => !!c)
+          .map((c) => ({ slug: c.slug, name: c.name, href: withDestination(`${hrefs.product}/${c.slug}`, preset) }))
+      : [];
+  const optionLabel = (group: string, value: string) =>
+    groups.find((g) => g.id === group)?.options.find((o) => o.value === value)?.label ?? value;
+  const relax =
+    noResults && filterCount > 0
+      ? relaxations(cards, state, order).map((r) => ({
+          key: `${r.group}-${r.value}`,
+          label: optionLabel(r.group, r.value),
+          count: r.count,
+          onRemove: () => onToggle(r.group, r.value),
+        }))
+      : [];
+
   return {
     state,
     update,
@@ -110,6 +133,8 @@ export function useListingModel({
     results,
     picks,
     onPick,
+    closest,
+    relax,
     pageResults: paged.items,
     paged,
     onSort,

@@ -37,6 +37,8 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
       product: href("/product"),
       compare: href("/products/compare"),
       quote: href("/quote"),
+      solutions: href("/solutions"),
+      showroom: `${href("/about")}#showrooms`,
     },
   };
 

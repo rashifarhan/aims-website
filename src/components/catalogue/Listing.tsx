@@ -23,6 +23,7 @@ import { FacetRail } from "./FacetRail";
 import { FilterSheet } from "./FilterSheet";
 import { ListingSearch } from "./ListingSearch";
 import { AppliedFilters } from "./AppliedFilters";
+import { CantFindPanel } from "./CantFindPanel";
 import { cardLabels, ResultsGrid } from "./ResultsGrid";
 import { useListingModel } from "./useListingModel";
 import { Pagination } from "./Pagination";
@@ -35,7 +36,7 @@ export type ListingProps = {
   family?: FamilySlug;
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
-  hrefs: { listing: string; product: string; compare: string; quote: string };
+  hrefs: { listing: string; product: string; compare: string; quote: string; solutions: string; showroom: string };
 };
 
 /** Reads the URL. Rendered inside <Suspense>; the fallback is the unfiltered list. */
@@ -70,6 +71,8 @@ export function ListingView({
     results,
     picks,
     onPick,
+    closest,
+    relax,
     pageResults,
     paged,
     onSort,
@@ -156,6 +159,8 @@ export function ListingView({
               t={t}
               onClearSearch={() => update({ q: "" })}
               onClearFilters={clearFilters}
+              closest={closest}
+              relax={relax}
               onAsk={() => {
                 dispatchQuote({ type: "addCustom", id: `ask-${Date.now()}`, text: state.q, qty: 1, preset });
                 setAsked(state.q);
@@ -173,6 +178,8 @@ export function ListingView({
             onGo={onGoToPage}
             labels={{ nav: t.pagination, showing: t.showing, prev: t.prevPage, next: t.nextPage, pageN: t.pageN }}
           />
+
+          <CantFindPanel initial={state.q} preset={preset} hrefs={hrefs} t={t} />
         </section>
       </div>
 

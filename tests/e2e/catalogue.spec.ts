@@ -355,3 +355,57 @@ test.describe("facet groups", () => {
     await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeVisible();
   });
 });
+
+test.describe("can't find your model", () => {
+  const panel = (page: Page) => page.getByRole("region", { name: "Can't find your model?" });
+
+  test("the panel is there with results; adding a request puts a custom line in the quote", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await expect(panel(page)).toBeVisible();
+    await expect(async () => {
+      await panel(page).getByLabel("Model or requirement").fill("ZK-9000");
+      await panel(page).getByRole("button", { name: "Add to quote request" }).click();
+      await expect(panel(page).getByRole("status")).toContainText("Added to your quote request.", { timeout: 1000 });
+    }).toPass();
+    expect(await quoteLines(page)).toEqual([expect.objectContaining({ kind: "custom", text: "ZK-9000", qty: 1 })]);
+  });
+
+  test("an empty request adds nothing", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    await panel(page).getByRole("button", { name: "Add to quote request" }).click();
+    expect(await quoteLines(page)).toEqual([]);
+  });
+
+  test("it is prefilled with the search and offers WhatsApp, a call and the way to solutions and the showroom", async ({
+    page,
+  }) => {
+    await page.goto("/products?q=XYZ-999", { waitUntil: "load" });
+    await expect(panel(page).getByLabel("Model or requirement")).toHaveValue("XYZ-999");
+    await expect(panel(page).getByRole("link", { name: "Ask on WhatsApp" })).toHaveAttribute(
+      "href",
+      /wa\.me\/\d+\?text=.*XYZ-999/,
+    );
+    await expect(panel(page).getByRole("link", { name: "Call the showroom" })).toHaveAttribute("href", /^tel:\+971/);
+    await expect(panel(page).getByRole("link", { name: /Compare solutions/ })).toHaveAttribute("href", "/solutions");
+    await expect(panel(page).getByRole("link", { name: /Deira showroom/ })).toHaveAttribute("href", "/about#showrooms");
+  });
+
+  test("a near-miss search with no results lists the closest models", async ({ page }) => {
+    await page.goto("/products?q=F19", { waitUntil: "load" });
+    await expect(page.getByText("No products match “F19”.")).toBeVisible();
+    await expect(page.getByText("Closest models")).toBeVisible();
+    await expect(page.getByRole("link", { name: "F18", exact: true })).toBeVisible();
+  });
+
+  test("filters that leave nothing offer a removal that brings products back", async ({ page }) => {
+    await page.goto("/products?verify=palm&conn=4g", { waitUntil: "load" });
+    await expect(page.getByText("No products match.")).toBeVisible();
+    const remove = page.getByRole("button", { name: "Remove Palm (3 products)" });
+    await expect(page.getByRole("button", { name: "Remove 4G (3 products)" })).toBeVisible();
+    await expect(async () => {
+      await remove.click();
+      await expect(page).not.toHaveURL(/verify=palm/, { timeout: 1000 });
+    }).toPass();
+    await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /products?$/ })).toHaveText("3 products");
+  });
+});
