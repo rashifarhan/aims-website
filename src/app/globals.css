@@ -99,8 +99,11 @@
      h2 --text-home-heading (38px; 28px on phones); h3 and panel titles --text-home-subtitle (24px); a card's title
      --text-home-card (18px). Weights: --font-weight-display for h1/h2, --font-weight-card below. */
   --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
+  /* Impeccable bolder (docs/impeccable-bolder.md): from 1280px the headline grows with the stage, 76px at 1280,
+     82px at 1440, 88px from 1600, so "ZKTeco access control" still holds one line beside the larger device. */
+  --text-home-display-bold: clamp(4.25rem, 1.75rem + 3.75vw, 5.5rem);
   --text-home-display-compact: 3.5rem;
-  --text-home-display-mobile: 2.5rem;
+  --text-home-display-mobile: 2.75rem; /* 44px (bolder): four lines at 390, Arabic in four too */
   /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
   --text-home-display-short: 1.875rem;
   --text-home-heading: 2.375rem;

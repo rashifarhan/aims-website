@@ -16,10 +16,6 @@ export async function Hero() {
   return (
     <section className="home-hero" aria-labelledby="home-title">
       <div className="home-hero-copy wrap">
-        <p className="home-eyebrow">
-          <span aria-hidden="true" />
-          {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
-        </p>
         <h1 id="home-title" className="home-display">
           <span>
             <span className="home-headline-rise">{h.line1}</span>
@@ -39,7 +35,15 @@ export async function Hero() {
             {h.quote}
           </Link>
         </div>
-        <p className="home-trust">{h.trust}</p>
+        {/* Impeccable bolder (craft floor: no kicker above a heading): the authorization is the hero's hard fact,
+            stated under the actions with the showroom and office, so the headline opens the page on its own. */}
+        <ul className="home-facts">
+          <li className="home-fact-lead">
+            <span aria-hidden="true" />
+            {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
+          </li>
+          <li className="home-trust">{h.trust}</li>
+        </ul>
       </div>
       <HeroAnimation pauseLabel={h.pause}>
         <div className="home-wash" aria-hidden="true" />
@@ -52,7 +56,7 @@ export async function Hero() {
             alt=""
             width={362}
             height={776}
-            sizes="(min-width: 1024px) 240px, 154px"
+            sizes="(min-width: 1280px) 340px, (min-width: 1024px) 240px, 154px"
             preload
             className="home-device-photo"
           />

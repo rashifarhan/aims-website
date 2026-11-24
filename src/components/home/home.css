@@ -24,27 +24,41 @@ main:has(> .home-hero) {
 .home-hero-copy a {
   pointer-events: auto;
 }
-.home-eyebrow {
+/* The hero's hard fact (was a kicker above the h1; craft floor bans it): the authorization in ink with the lime
+   light beside it, then the showroom and office, under the actions. */
+.home-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  margin-block-start: 2.5rem;
+  font-size: var(--text-caption);
+  color: var(--color-ink-600);
+}
+.home-fact-lead {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  font-size: var(--text-caption);
   font-weight: 600;
-  color: var(--color-green-700);
+  color: var(--color-ink);
 }
-.home-eyebrow > span {
+.home-fact-lead > span {
   flex: none;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
   background: var(--color-lime);
 }
+.home-trust {
+  padding-inline-start: 1.25rem;
+  border-inline-start: 1px solid var(--color-line);
+}
 .home-display {
   font-size: var(--text-home-display);
   font-weight: var(--font-weight-display);
   line-height: 1.03;
   letter-spacing: -0.04em;
-  margin-block: 1.5rem;
+  margin-block: 0 1.75rem;
   max-width: 54rem;
 }
 .home-display > span {
@@ -62,11 +76,6 @@ main:has(> .home-hero) {
   align-items: center;
   gap: 1.75rem;
   margin-block-start: 2.375rem;
-}
-.home-trust {
-  margin-block-start: 2.75rem;
-  font-size: var(--text-caption);
-  color: var(--color-ink-400);
 }
 .home-hero-art {
   position: absolute;
@@ -317,8 +326,8 @@ main:has(> .home-hero) {
   }
   .home-display {
     font-size: var(--text-home-display-mobile);
-    line-height: 1.08;
-    margin-block: 1.25rem;
+    line-height: 1.04;
+    margin-block: 0 1.25rem;
     max-width: 36rem;
   }
   .home-lead {
@@ -364,6 +373,35 @@ main:has(> .home-hero) {
     inset-block-end: 0.5rem;
   }
 }
+/* Impeccable bolder (docs/impeccable-bolder.md): on landscape desktops the device takes the stage, about a fifth
+   taller, its screen kept on the signal lines' target (1146, 390 of the 1440 × 760 drawing) so the approved motion
+   is reframed, not redesigned; the headline grows with it. */
+@media (min-width: 1280px) {
+  .home-display {
+    font-size: var(--text-home-display-bold);
+    max-width: 11em;
+  }
+  .home-device {
+    inset-inline-start: 79.58%;
+    inset-block-start: 51.3%;
+    height: 82%;
+    translate: -50% -50%;
+  }
+  :dir(rtl) .home-device {
+    translate: 50% -50%;
+  }
+  /* The tick rides the device's edge, inside the page's content line. */
+  .home-granted {
+    inset-inline-start: 78%;
+    inset-block-start: 22%;
+  }
+  .home-wash {
+    width: 1040px;
+    height: 1040px;
+    inset-inline-end: -240px;
+    inset-block-start: -80px;
+  }
+}
 /* A portrait tablet's screen is far taller than the stacked hero: keep its natural height, no empty band. */
 @media (min-width: 1024px) and (max-width: 1279px) and (orientation: portrait) {
   .home-hero {
@@ -389,9 +427,8 @@ main:has(> .home-hero) {
     justify-content: center;
     font-size: var(--text-small);
   }
-  .home-eyebrow {
-    font-size: var(--text-caption);
-    gap: 0.5rem;
+  .home-facts {
+    margin-block-start: 1.25rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -434,14 +471,10 @@ main:has(> .home-hero) {
 .home-wash-verified {
   background: var(--gradient-verified-light);
 }
-.home-eyebrow,
 .home-lead,
 .home-hero-actions,
-.home-trust {
+.home-facts {
   animation: home-copy-in 800ms var(--ease-aims) both;
-}
-.home-eyebrow {
-  animation-delay: 50ms;
 }
 .home-lead {
   animation-delay: 200ms;
@@ -449,7 +482,7 @@ main:has(> .home-hero) {
 .home-hero-actions {
   animation: none;
 }
-.home-trust {
+.home-facts {
   animation-delay: 250ms;
 }
 [data-pulse] {
@@ -504,10 +537,9 @@ main:has(> .home-hero) {
   .home-headline-rise,
   .home-device,
   .home-wash,
-  .home-eyebrow,
   .home-lead,
   .home-hero-actions,
-  .home-trust {
+  .home-facts {
     animation: none;
     transform: none;
     opacity: 1;
