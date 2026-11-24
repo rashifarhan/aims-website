@@ -12,6 +12,7 @@ import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { DoorTeaser } from "@/components/home/DoorTeaser";
 import { HomeProof } from "@/components/home/HomeProof";
 import { HomeLocations } from "@/components/home/HomeLocations";
+import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
@@ -55,6 +56,8 @@ export default async function Home() {
       <HomeSoftware />
       <DoorTeaser />
       <HomeLocations />
+      {/* Client mockup C (24 Nov 2026): the five steps follow the showroom, before the questions. */}
+      <HomeJourney />
       <HomeFaq />
       <ClosePanel
         id="closing-title"
