@@ -8,6 +8,7 @@ import { FloatingContact } from "@/components/home/FloatingContact";
 import { Hero } from "@/components/home/Hero";
 import { BuyerRoutes } from "@/components/home/BuyerRoutes";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
+import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { DoorTeaser } from "@/components/home/DoorTeaser";
 import { HomeProof } from "@/components/home/HomeProof";
 import { HomeLocations } from "@/components/home/HomeLocations";
@@ -51,6 +52,7 @@ export default async function Home() {
       <HomeProof />
       <BuyerRoutes />
       <ProductFamilies />
+      <HomeSoftware />
       <DoorTeaser />
       <HomeLocations />
       <HomeFaq />

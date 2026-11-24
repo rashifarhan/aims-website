@@ -5,7 +5,6 @@ import { localePath } from "@/i18n/config";
 import { FAMILIES } from "@/content/taxonomy";
 import { productBySlug, productCount, productsInFamily } from "@/content/catalogue";
 import { ArrowIcon } from "@/components/icons";
-import { HomeSoftware } from "./HomeSoftware";
 import { fmt } from "@/i18n/format";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Section } from "@/components/ui/Section";
@@ -71,7 +70,6 @@ export async function ProductFamilies() {
           );
         })}
       </div>
-      <HomeSoftware />
     </Section>
   );
 }

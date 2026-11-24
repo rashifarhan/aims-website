@@ -355,12 +355,31 @@
       "heading": "Software that runs them",
       "lead": "Attendance records and door events, managed in one place. Software is supplied on request.",
       "centre": "All software",
-      "attendance": "Time attendance",
-      "cloud": "Cloud attendance",
-      "access": "Access management",
       "purposeAttendance": "Attendance and workforce management, installed on your own server.",
       "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
-      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels."
+      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels.",
+      "runsCloud": "In the cloud, no local server",
+      "runsAttendance": "On your own server",
+      "runsAccess": "On a Windows PC",
+      "flow": {
+        "label": "How records flow. {items}",
+        "item": "{name} takes records from {inputs} and gives {outputs}.",
+        "columns": {
+          "terminals": "Terminals",
+          "software": "Software",
+          "outputs": "What you get"
+        },
+        "anyTerminal": "Attendance terminals",
+        "confirm": "Confirm your model with AIMS",
+        "anyTerminalAlt": "ZKTeco attendance terminals (confirm cloud support for your model with AIMS)",
+        "outputs": {
+          "payroll": "Payroll reports",
+          "shifts": "Shifts, leave and overtime",
+          "attendance": "Attendance reports",
+          "doors": "Live door events",
+          "permissions": "Door permissions"
+        }
+      }
     },
     "locations": {
       "heading": "Let’s talk in person.",

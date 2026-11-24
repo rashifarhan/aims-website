@@ -9,8 +9,9 @@
 
 /* ---------- Band rhythm: two night bands among light ones (client decision, 24 Nov 2026) ---------- */
 /*
- * Hero (paper) · proof (night) · routes (paper) · families (light band, green wash) · door (paper) · reach (night) ·
- * FAQ (paper) · close (full-width mint band with a wash) · footer (paper-2). The client found four night bands too
+ * Hero (paper) · proof (night) · routes (paper) · families (light band, green wash) · software (paper, closed by a
+ * hairline) · door (paper) · reach (night) · FAQ (paper) · close (full-width mint band with a wash) · footer
+ * (paper-2). The client found four night bands too
  * heavy, so only the proof and the reach (whose lime routes need the dark) stay night. Bands meet on clean edges:
  * each carries its own full gradient and nothing fades into a neighbour. Night bands keep a soft lime light at the
  * top; paper sections a faint mint corner (--gradient-paper-wash); the families band and the closing band carry the
@@ -29,11 +30,17 @@
   color: var(--color-night-text);
 }
 
-/* ---------- 3 · Families and software on a light band with a green wash ---------- */
+/* ---------- 3 · Families on a light band with a green wash ---------- */
 /* The band keeps its hairlines (ui/Section band); the wash replaces its flat paper-2. Product cut-outs stand on
    the white plinth cards (DESIGN.md Plinth rule), so text and links keep the light tokens from home/sections.css. */
 .home-bands .home-families {
   background: var(--gradient-families-wash);
+}
+
+/* ---------- 3b · Software on paper (client request, 24 Nov 2026) ---------- */
+/* The families band's hairline opens it; this one closes it, so it never runs into the door kit's paper below. */
+.home-bands .home-sw {
+  border-block-end: 1px solid var(--color-line);
 }
 
 /* Door motion is shared with Access Control in motion/doorStory.css and doorTimeline.ts. */
