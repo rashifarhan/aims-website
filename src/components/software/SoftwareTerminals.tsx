@@ -8,6 +8,7 @@ import type { BuiltSoftware } from "@/lib/software";
 import { SoftwareSignal, type SignalNode } from "./SoftwareSignal";
 import { loadSoftwarePage } from "./softwareCopy";
 import { Section } from "@/components/ui/Section";
+import { Ridges } from "@/components/ui/Ridges";
 
 type Loaded = Awaited<ReturnType<typeof loadSoftwarePage>>;
 
@@ -62,7 +63,8 @@ export async function SoftwareTerminals({ slug }: { slug: BuiltSoftware }) {
     : terminals.map((p) => terminalCard(p, loaded));
   const names = cloud ? c.terminals.cloudNodes : terminals.map((p) => p.model);
   return (
-    <Section id="terminals" ground="band" labelledBy="sw-terminals-title">
+    <Section id="terminals" ground="night" labelledBy="sw-terminals-title" className="sw-terminals">
+      <Ridges className="sw-terminals-ridges" />
       <div className="sw-split">
         <div>
           <h2 id="sw-terminals-title" className="section-title">
