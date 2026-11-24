@@ -8,7 +8,7 @@ const settle = (page: Page) =>
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 const noSideScroll = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
@@ -107,7 +107,13 @@ for (const [path, part] of [
     // Scrolling away and back does not replay it.
     await page.evaluate(() => scrollTo(0, 0));
     await moment.evaluate((el) => el.scrollIntoView({ block: "center" }));
-    expect(await page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
+    expect(
+      await page.evaluate(
+        () =>
+          document.getAnimations().filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline)
+            .length,
+      ),
+    ).toBe(0);
   });
 
   test(`${path}: under reduced motion the moment rests on its final frame`, async ({ browser }) => {
@@ -145,8 +151,12 @@ test.describe("support route moment", () => {
         () =>
           section.evaluate(
             (el) =>
-              el.getAnimations({ subtree: true }).filter((a) => a instanceof CSSAnimation && a.playState === "running")
-                .length,
+              el
+                .getAnimations({ subtree: true })
+                .filter(
+                  (a) =>
+                    a instanceof CSSAnimation && a.playState === "running" && a.timeline instanceof DocumentTimeline,
+                ).length,
           ),
         { timeout: 4000 },
       )

@@ -16,7 +16,12 @@ async function settle(page: Page) {
           () =>
             document
               .getAnimations()
-              .filter((a) => a.playState === "running" && Number.isFinite(a.effect?.getTiming().iterations)).length,
+              .filter(
+                (a) =>
+                  a.playState === "running" &&
+                  a.timeline instanceof DocumentTimeline &&
+                  Number.isFinite(a.effect?.getTiming().iterations),
+              ).length,
         ),
       { timeout: 8000 },
     )
@@ -166,7 +171,12 @@ for (const locale of ["en", "ar"]) {
     await expect
       .poll(
         () =>
-          site.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+          site.evaluate(
+            (el) =>
+              el
+                .getAnimations({ subtree: true })
+                .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+          ),
         { timeout: 6000 },
       )
       .toBe(0);
@@ -178,7 +188,12 @@ for (const locale of ["en", "ar"]) {
     await site.evaluate((el) => el.scrollIntoView({ block: "center" }));
     await page.waitForTimeout(300);
     expect(
-      await site.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      await site.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
     ).toBe(0);
     await settle(page);
     const axe = await new AxeBuilder({ page })
@@ -200,7 +215,12 @@ for (const locale of ["en", "ar"]) {
     expect(
       await page
         .locator(".hs-site")
-        .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+        .evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
     ).toBe(0);
   });
 

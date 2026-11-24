@@ -84,7 +84,12 @@ test("attendance transport finishes while the visitor reads the active stage", a
   expect(
     await page
       .locator(".ta-dots")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 
@@ -172,7 +177,12 @@ test("a completed phone door stays complete when the browser viewport height cha
   // Wait for the entire four-second timeline, including the software event, to finish.
   await expect
     .poll(() =>
-      story.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      story.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
     )
     .toBe(0);
   await page.setViewportSize({ width: 390, height: 800 });

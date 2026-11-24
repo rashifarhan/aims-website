@@ -13,7 +13,12 @@ const runningOutsideHero = (page: import("@playwright/test").Page) =>
     () =>
       document
         .getAnimations()
-        .filter((a) => a.playState === "running" && !(a.effect as KeyframeEffect).target?.closest(".home-hero")).length,
+        .filter(
+          (a) =>
+            a.playState === "running" &&
+            a.timeline instanceof DocumentTimeline &&
+            !(a.effect as KeyframeEffect).target?.closest(".home-hero"),
+        ).length,
   );
 
 test("reduced motion: everything rests at its final state and nothing moves", async ({ page }) => {
@@ -36,7 +41,13 @@ test("the verified frame locks on once, then stands still", async ({ page }) => 
   // Every entrance animation in the frame (corners, scan, border beam) is finite and done within 5 s.
   await expect
     .poll(
-      () => frame.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      () =>
+        frame.evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
       { timeout: 6000 },
     )
     .toBe(0);
@@ -78,8 +89,12 @@ test("the hero animation has a pause button that stops it", async ({ page }) => 
       () =>
         document
           .getAnimations()
-          .filter((a) => a.playState === "running" && (a.effect as KeyframeEffect).target?.closest(".home-hero-art"))
-          .length,
+          .filter(
+            (a) =>
+              a.playState === "running" &&
+              a.timeline instanceof DocumentTimeline &&
+              (a.effect as KeyframeEffect).target?.closest(".home-hero-art"),
+          ).length,
     );
   await expect.poll(running, { timeout: 3000 }).toBe(0);
 });

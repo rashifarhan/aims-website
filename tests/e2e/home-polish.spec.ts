@@ -98,7 +98,10 @@ test("approved hero entrances and verification tick settle under reduced motion"
     .poll(() =>
       hero.evaluate(
         (element) =>
-          element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length,
+          element
+            .getAnimations({ subtree: true })
+            .filter((animation) => animation.playState === "running" && animation.timeline instanceof DocumentTimeline)
+            .length,
       ),
     )
     .toBe(0);

@@ -104,12 +104,22 @@ test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
   await expect(hero).toHaveAttribute("data-state", "verified");
   await expect(hero.locator('[data-screen="verified"]')).toBeVisible();
   expect(
-    await hero.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+    await hero.evaluate(
+      (el) =>
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+    ),
   ).toBe(0);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect
     .poll(() =>
-      hero.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      hero.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
     )
     .toBeGreaterThan(0);
   // After the prototype's 450ms return transition, idle holds until the next scan.
@@ -121,7 +131,12 @@ test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
   await page.locator("#showrooms").scrollIntoViewIfNeeded();
   await expect
     .poll(() =>
-      hero.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      hero.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
     )
     .toBe(0);
 });

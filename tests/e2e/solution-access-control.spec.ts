@@ -37,7 +37,12 @@ for (const locale of ["en", "ar"] as const) {
             () =>
               document
                 .getAnimations()
-                .filter((a) => a.playState === "running" && Number.isFinite(a.effect?.getTiming().iterations)).length,
+                .filter(
+                  (a) =>
+                    a.playState === "running" &&
+                    a.timeline instanceof DocumentTimeline &&
+                    Number.isFinite(a.effect?.getTiming().iterations),
+                ).length,
           ),
         { timeout: 8000 },
       )
@@ -95,7 +100,13 @@ test("the door reaches its unlocked state without an ongoing timed loop", async 
   await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
   await expect
     .poll(
-      () => door.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      () =>
+        door.evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
       { timeout: 6000 },
     )
     .toBe(0);
@@ -114,7 +125,12 @@ test("reduced motion: the door rests drawn, open and granted, and nothing moves"
   expect(
     await page
       .locator("main")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 

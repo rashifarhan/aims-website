@@ -21,7 +21,7 @@ for (const locale of ["en", "ar"] as const) {
         document
           .getAnimations()
           .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-          .map((a) => a.finished.catch(() => undefined)),
+          .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
       ),
     );
     const axe = await new AxeBuilder({ page })
@@ -82,7 +82,13 @@ test("the lanes play once when they come into view", async ({ page }) => {
   // It plays once and then stands: nothing in the section keeps running.
   await expect
     .poll(
-      () => lanes.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      () =>
+        lanes.evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
       { timeout: 6000 },
     )
     .toBe(0);
@@ -105,7 +111,12 @@ test("reduced motion: the lanes rest drawn, open and read, and nothing moves", a
   expect(
     await page
       .locator("main")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 

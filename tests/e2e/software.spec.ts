@@ -10,7 +10,7 @@ const settle = (page: Page) =>
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 

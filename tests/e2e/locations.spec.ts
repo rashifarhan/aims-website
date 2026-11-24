@@ -25,7 +25,7 @@ async function settle(page: Page) {
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 }
@@ -105,7 +105,13 @@ test("SIGNAL on the hub: the routes draw once when the map comes into view, then
   await expect(band.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
   await expect
     .poll(
-      () => band.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      () =>
+        band.evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
       { timeout: 4000 },
     )
     .toBe(0);
@@ -150,7 +156,12 @@ test("reduced motion: hero and map rest at their final frame, nothing hidden or 
   expect(
     await page
       .locator("main")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 

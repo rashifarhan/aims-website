@@ -450,6 +450,51 @@ hairline. Text uses night-text (15.0:1) and night-muted (8.6:1); the focus ring 
 green marks its line (`--color-whatsapp-on-night`, 8.6:1). No page ends on a night section, so the footer never
 merges into one; a night-line hairline marks its top edge regardless.
 
+### Premium pass (client decisions, 24 Nov 2026; branch `claude/premium-pass`)
+
+The client approved the premium-pass mockup and asked to build it with more character. These decisions override the
+older rules they touch; CLAUDE.md §3 was updated by the client to allow the scroll reveals.
+
+- **Archivo for display** (decision 1). Headings, figures and the wordmark use Archivo (SIL OFL, self-hosted in
+  `src/app/fonts/` with its licence) through `--font-display`, set wide (`--font-stretch-display` 115%, weight 650,
+  `--tracking-display`). One shared rule in `globals.css` applies it to `.section-title`, `.page-hero h1`,
+  `.ui-close-title`, `.home-display`, `.home-figure` and `.ui-display`, so every page has it. Body stays Inter, codes
+  IBM Plex Mono; Arabic glyphs fall through to IBM Plex Sans Arabic in the same stack. Section titles grew to 44px.
+- **Two-line hero headline** (decision 2). The client rejected the mockup's three- or four-line wrap: from 1024px
+  `line1` and `line2` never wrap. Archivo is set a step narrower there (`--font-stretch-hero` 104%), the size follows
+  the viewport (`--text-home-display`, 45–62px) and the verified frame shrinks with the width, so both lines clear
+  it at 1024, 1280 and 1440 in both languages (tested). Arabic is 8% smaller, as Plex Arabic sets wider.
+- **Signature button** (decision 3). The one primary is a night-green pill with a lime arrow circle (the existing
+  `ArrowIcon` child becomes the circle, so no markup changed), inverting to white with a night circle on night
+  grounds. Hover sweeps a deeper night in, steps 1px and nudges the circle; the hero and closing primaries lean
+  toward a fine pointer (`Magnetic`). The secondary is a text link whose green underline draws over a pale one.
+  Outline, quiet, icon and WhatsApp variants are unchanged. This deliberately replaces green-700 as the primary fill.
+- **Verified frame** (decision 4). The home hero's signal lines are gone. Four corner brackets lock onto the real
+  SpeedFace photo, one lime scan sweeps down, the "Verified · Face · Entrance A" tick lights and a border beam runs
+  round the frame twice; everything is still by 4.6 s. The screen's verification loop and its keyboard-only pause
+  button stay. The entrance runs longer than the old 1.1 s because the client specified this sequence.
+- **Ridge lines, the one motif** (decision 5). `ridgePaths()` draws the mockup's fingerprint contours (unit tested);
+  the root layout defines them once as an SVG symbol and `<Ridges>` places a masked reference behind the hero
+  terminal, on the software band, on the closing band and on every inner hero. `SignalArt`, `SectionArcs`,
+  `CloseSignal` and the hero's `SignalLines` were removed. The families band has no motif (the mockup's calm white).
+- **Calmer home** (decision 6): hero · four company figures · model-code strip · six family tiles · stand-in photo
+  places · software (night) · showroom and offices · closing (night) with the journey as one line of steps. The FAQ,
+  buyer routes, reviews strip, door teaser and reach map left the home page. Components nothing else used were
+  deleted; `HomeProof` (with the reviews), `ReachMap` and the door drawing stay for the about, contact, locations and
+  access control pages. With the door and the map gone the home page's moments are the scroll-driven ones below.
+- **Night closing band.** `ClosePanel` is now a centred night band over the ridges with the inverted button on every
+  page; the embedded mint panel (solution and location questions) is unchanged.
+- **Character** (decision 7, no new dependencies): spotlight cards on the family and photo tiles, the scan reveal on
+  the photographs, the scroll-driven model-code strip, the border beam and the magnetic primary. **Scroll reveals**:
+  every `Section` raises its blocks 24px and fades them in over their first 12rem, and plain-text section titles rise
+  word by word (`SplitWords`), all through CSS `animation-timeline: view()` inside `@supports`; dealt moments and
+  blocks holding fixed or sticky UI are left out. Without support or under reduced motion everything stands.
+- **Tests.** The smoke test audits resting text, so it no longer waits on scroll-driven animations (they follow the
+  scroll, not the clock) and sets them to rest before axe. Home specs for removed sections were replaced by checks of
+  the new order, the two-line headline, the verified frame, the reveals and the reduced-motion rest.
+- **Header** (coordinator request): nav items and the quote button never wrap, and the search field is 14rem below
+  1536px, so the Arabic header holds one line at 1280 and 1440.
+
 ### Stand-in photographs (premium pass)
 
 `HomeWhereItGoes` ("From the front gate to the last door") uses four licensed stand-in photographs from Wikimedia

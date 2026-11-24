@@ -74,7 +74,12 @@ test("reduced motion shows the final drawing with every step readable", async ({
   for (const step of await page.locator("[data-story-step] h3").all())
     await expect(step).toHaveCSS("color", "rgb(14, 21, 18)");
   expect(
-    await story.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+    await story.evaluate(
+      (el) =>
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+    ),
   ).toBe(0);
 });
 
