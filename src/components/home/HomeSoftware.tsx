@@ -46,7 +46,10 @@ export async function HomeSoftware() {
               >
                 {/* The name leads (craft floor: no label above a heading); the kind and the arrow close the
                     card the way the family cards above close on their count. */}
-                <h4 dir="ltr">{software.name}</h4>
+                {/* The name stays left-to-right but sits on the card's start edge in Arabic too (Design Doc 13). */}
+                <h4>
+                  <bdi dir="ltr">{software.name}</bdi>
+                </h4>
                 <p className="home-software-purpose">{s[purpose]}</p>
                 <p className="home-software-foot">
                   <span className="home-software-kind">{s[kind]}</span>
