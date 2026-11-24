@@ -799,9 +799,10 @@ composition.
 - **Light and night alternate on the homepage:** hero (paper) · proof (night) · routes (paper) · families (night) ·
   door (paper) · reach (night) · FAQ (paper) · close (night) · footer (showroom floor). Only the proof's ground and
   position changed.
-- **Soft edges between bands (overrides DESIGN.md "no gradients as decoration on light surfaces", by the client's
-  instruction):** on the homepage (`main.home-bands`) each night band fades into its light neighbour over
-  `--band-fade` (80px desktop, 64px tablet, 40px phone) and carries a soft lime glow under its top fade. The fade lies
-  inside the band's padding (rhythm plus fade), so no text sits in it; night-muted keeps 5.4:1 or more over the glow.
-  Other pages keep hard edges; where two night bands meet (the about page's proof and reach) a night hairline parts
-  them.
+- **A full gradient per band, clean edges (overrides DESIGN.md "no gradients as decoration on light surfaces", by the
+  client's instruction):** a first version faded each night band into its light neighbour; the client found those
+  fading edges hard on the eyes and asked for each band to carry its own gradient instead, with no shadow at the joins.
+  On the homepage (`main.home-bands`) night bands keep the night-green gradient with a soft lime light at their top
+  edge (night-muted keeps 5.4:1 or more over it), and light bands carry a faint mint wash from the top end corner
+  (`--gradient-paper-wash`). Bands meet on a clean edge. Where two night bands meet elsewhere (the about page's proof
+  and reach) a night hairline parts them.

@@ -26,8 +26,8 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  /* Two slots so a page can add layers without restating the ground: --band-edges (the home page's fades and glow,
-     home/sections.css) over --band-ground (night green, or the closing band's glows on it). */
+  /* Two slots so a page can add layers without restating the ground: --band-edges (the home page's top glow,
+     premium.css) over --band-ground (night green, or the closing band's glows on it). */
   background: var(--band-edges, none), var(--band-ground, var(--gradient-night));
   color: var(--color-night-text);
 }

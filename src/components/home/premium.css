@@ -7,40 +7,19 @@
  * never reveal on scroll. Domain motion uses transform, opacity and stroke-dashoffset only.
  */
 
-/* ---------- Band rhythm: light and night alternate, with soft edges (client instruction, 24 Nov 2026) ---------- */
+/* ---------- Band rhythm: light and night alternate (client instructions, 24 Nov 2026) ---------- */
 /*
  * Hero (paper) · proof (night) · routes (paper) · families (night) · door (paper) · reach (night) · FAQ (paper) ·
- * close (night) · footer (paper-2). Where a night band meets a light one its edge fades into the neighbour's ground
- * over --band-fade (64–80px, 40px on phones) instead of cutting, and a soft lime glow sits under its top fade.
- * This overrides DESIGN.md's "no gradients as decoration on light surfaces" by the client's instruction (README
- * Decisions). The fade is padding: night bands pad by the rhythm plus the fade, so no text ever sits in it.
+ * close (night) · footer (paper-2). Bands meet on clean edges: the client found fading edges hard on the eyes and
+ * asked for each band to carry its own full gradient instead. Night bands keep the night-green gradient with a soft
+ * lime light at the top; light bands carry a faint mint wash from one corner (--gradient-paper-wash). This overrides
+ * DESIGN.md's "no gradients as decoration on light surfaces" by the client's instruction (README Decisions).
  */
 .home-bands .section-night {
-  --band-above: var(--color-paper);
-  --band-below: var(--color-paper);
-  --band-edges:
-    linear-gradient(
-        to bottom,
-        var(--band-above),
-        color-mix(in oklab, var(--band-above) 55%, transparent) 30%,
-        color-mix(in oklab, var(--band-above) 18%, transparent) 65%,
-        transparent
-      )
-      top / 100% var(--band-fade) no-repeat,
-    linear-gradient(
-        to top,
-        var(--band-below),
-        color-mix(in oklab, var(--band-below) 55%, transparent) 30%,
-        color-mix(in oklab, var(--band-below) 18%, transparent) 65%,
-        transparent
-      )
-      bottom / 100% var(--band-fade) no-repeat,
-    var(--gradient-band-glow) no-repeat;
-  padding-block: calc(var(--section-space) + var(--band-fade));
+  --band-edges: var(--gradient-band-glow) no-repeat;
 }
-/* The closing band ends on the footer's showroom floor. */
-.home-bands .ui-close-night {
-  --band-below: var(--color-paper-2);
+.home-bands .section-paper {
+  background: var(--gradient-paper-wash), var(--color-paper);
 }
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
