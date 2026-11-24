@@ -19,6 +19,9 @@ const examples = [
   "zkaio1000",
 ];
 
+/** The first families in taxonomy order take the large cards. */
+const LEAD_FAMILIES = 2;
+
 export async function ProductFamilies() {
   const t = await getDictionary();
   const locale = await getLocale();
@@ -35,15 +38,18 @@ export async function ProductFamilies() {
           </Link>
         }
       />
+      {/* Impeccable bolder: time attendance and access control, AIMS's two core lines (CLAUDE.md), lead at twice the
+          size with their products shown large; the other four families follow in one row. */}
       <div className="home-family-grid">
         {FAMILIES.map((family, i) => {
           const product = productBySlug(examples[i]);
           const image = product?.images[0];
+          const lead = i < LEAD_FAMILIES;
           return (
             <Link
               key={family.slug}
               href={localePath(locale, `/products/${family.slug}`)}
-              className="home-family-card ui-card ui-card-interactive"
+              className={`home-family-card ui-card ui-card-interactive${lead ? "home-family-lead" : ""}`}
             >
               <div className="home-family-image ui-card-photo">
                 {image && (
@@ -52,7 +58,11 @@ export async function ProductFamilies() {
                     alt=""
                     width={image.width}
                     height={image.height}
-                    sizes="(min-width: 1024px) 240px, (min-width: 640px) 200px, 130px"
+                    sizes={
+                      lead
+                        ? "(min-width: 1024px) 340px, (min-width: 640px) 240px, 200px"
+                        : "(min-width: 1024px) 160px, (min-width: 640px) 200px, 130px"
+                    }
                   />
                 )}
               </div>

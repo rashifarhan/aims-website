@@ -96,16 +96,21 @@
 }
 
 /* ---------- 3 · Product families ---------- */
+/* Impeccable bolder: two lead families over a row of four (12 columns), in place of six same-size cards. */
 .home-family-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 1.5rem;
 }
 .home-family-card {
+  grid-column: span 3;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+}
+.home-family-lead {
+  grid-column: span 6;
 }
 .home-family-image {
   height: 14rem;
@@ -118,6 +123,19 @@
   height: 100%;
   width: 100%;
   object-fit: contain;
+}
+.home-family-card:not(.home-family-lead) .home-family-image {
+  height: 11rem;
+  padding: 1.25rem;
+}
+.home-family-lead .home-family-image {
+  height: 24rem;
+  padding: 2rem;
+}
+.home-family-lead .home-family-info h3 {
+  font-size: var(--text-home-subtitle);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.015em;
 }
 .home-family-info {
   display: flex;
@@ -321,6 +339,13 @@
   .home-family-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .home-family-card,
+  .home-family-lead {
+    grid-column: span 1;
+  }
+  .home-family-lead .home-family-image {
+    height: 18rem;
+  }
   .home-door > .wrap,
   .home-proof {
     grid-template-columns: minmax(0, 1fr);
@@ -354,9 +379,17 @@
   .home-family-grid {
     gap: 0.75rem;
   }
-  .home-family-image {
+  .home-family-card:not(.home-family-lead) .home-family-image {
     height: 7.5rem;
     padding: 0.875rem;
+  }
+  /* Phones: the two lead families run full width with their products large, the other four two across. */
+  .home-family-lead {
+    grid-column: 1 / -1;
+  }
+  .home-family-lead .home-family-image {
+    height: 14rem;
+    padding: 1.25rem;
   }
   .home-family-info {
     padding: var(--card-pad-tight);
@@ -364,7 +397,7 @@
   .home-family-info h3 {
     font-size: var(--text-base);
   }
-  .home-family-summary {
+  .home-family-card:not(.home-family-lead) .home-family-summary {
     display: none;
   }
   .home-family-count {

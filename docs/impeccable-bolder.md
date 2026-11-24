@@ -8,3 +8,5 @@ conflict; CLAUDE.md §1, §4–§8 and tokens-only still bind. One line per chan
   target, and the kicker above the h1 moved under the actions as the hero's hard fact.
 - Section titles on home up to 48px (32px on phones), scoped to `.home-page`; buyer routes rebuilt from three
   same-size cards into an editorial split: the heading on the start columns, three large linked rows between hairlines.
+- Product families: time attendance and access control lead as two large cards with their products shown big, the
+  other four families in one row of four, in place of six same-size cards (phones: the two leads full width).
