@@ -24,8 +24,8 @@
   background: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--color-green-100) 45%, var(--color-paper-3)) 0%,
-    color-mix(in srgb, var(--color-green-50) 80%, var(--color-paper)) 55%,
-    var(--color-paper) 100%
+    color-mix(in srgb, var(--color-green-50) 80%, var(--color-page)) 55%,
+    var(--color-page) 100%
   );
 }
 .product-stage-photo {

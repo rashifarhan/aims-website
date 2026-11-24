@@ -7,7 +7,7 @@
   /*
    * The one link look, in two places (Design Doc 9 Text link; taste link-styles: one underline, one weight):
    * - .home-text-link, a standalone link ("See all products →"): no line at rest, the underline draws on hover.
-   *   .home-night-link is the same link on night green, in lime (7.8:1 there).
+   *   .home-night-link is the same link on night green, in lime (7.5:1 there).
    * - .home-secondary, a link set in running copy or beside a button: underlined at rest, darkens on hover.
    *   .ui-link is the same look inline in a sentence, without the 44px row.
    * Green-700 is the only action colour on light surfaces (Design Doc 4).

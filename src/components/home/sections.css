@@ -172,7 +172,7 @@
   background: var(--color-lime);
   box-shadow: var(--shadow-led);
 }
-/* Words in night-muted (9.1:1 on night-900; 5.4:1 at worst under the band glow), figures in night-text (15.9:1). */
+/* Words in night-muted (8.6:1 on night-900; 5.3:1 at worst under the band glow), figures in night-text (15.0:1). */
 .home-proof-statement {
   max-width: 30ch;
   margin-block-start: 2.5rem;

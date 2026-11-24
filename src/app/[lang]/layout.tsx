@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#f6f7f2", // --color-page, the showroom white
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {

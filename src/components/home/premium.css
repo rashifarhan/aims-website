@@ -21,7 +21,7 @@
   --band-edges: var(--gradient-band-glow) no-repeat;
 }
 .home-bands .section-paper {
-  background: var(--gradient-paper-wash), var(--color-paper);
+  background: var(--gradient-paper-wash), var(--color-page);
 }
 
 /* ---------- Night sections (the ground is ui/Section night) ---------- */
@@ -43,7 +43,7 @@
 /* ---------- Closing panel: mint with a soft wash (client decision, 24 Nov 2026) ---------- */
 /* The wash lives inside the panel, so the paper around it meets the FAQ on a clean, unbroken edge. */
 .home-bands .ui-close {
-  background: var(--color-paper);
+  background: var(--color-page);
 }
 .home-bands .ui-close-mint .ui-close-panel {
   background: var(--gradient-close-wash);

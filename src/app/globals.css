@@ -23,8 +23,13 @@
   /* Lines and surfaces */
   --color-line: #e3e7e3; /* dividers */
   --color-line-strong: #8a948e; /* 3.13:1 · input borders, UI component boundaries */
+  /* Showroom white (client decision, 24 Nov 2026; README Decisions): the page ground is a faint warm green-grey,
+     drawn from the stone tone of the client's chosen palette, so AIMS's light pages read as its own. Cards, fields,
+     menus and product photo frames stay pure --color-paper, so cut-out photos keep a clean white plinth.
+     On --color-page: ink 17.9:1, ink-600 7.2:1, ink-400 4.8:1, green-700 5.6:1. */
+  --color-page: #f6f7f2;
   --color-paper: #ffffff;
-  --color-paper-2: #f6f8f5;
+  --color-paper-2: #eff1ea; /* bands and the footer, a step deeper than the page · ink-400 4.6:1 */
   --color-paper-3: #eef1ee;
 
   /* Status */
@@ -32,11 +37,13 @@
   --color-warn: #8a5300;
   --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
   /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
-     Contrast on night-900: text 15.9:1, night-muted 8.9:1, lime 7.8:1, so lime may carry text there. */
-  --color-night-950: #06100a;
-  --color-night-900: #0a1a10;
+     Shifted toward the client's chosen forest palette (24 Nov 2026: #0F1F17, #1E3A2E).
+     Contrast on night-900: text 15.0:1, night-muted 8.6:1, lime 7.5:1, so lime may carry text there;
+     on night-700: night-muted 6.2:1, lime 5.4:1. */
+  --color-night-950: #08130d;
+  --color-night-900: #0f1f17;
   --color-night-800: #102619;
-  --color-night-700: #18352a;
+  --color-night-700: #1e3a2e;
   --color-night-line: #24432f;
   --color-night-text: #e9f2ec;
   --color-night-muted: #a9bdb0;
@@ -196,7 +203,7 @@
   }
 
   body {
-    background: var(--color-paper);
+    background: var(--color-page);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -304,11 +311,11 @@
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
     linear-gradient(180deg, var(--color-night-900), var(--color-night-950));
   /* Home bands (client instructions, 24 Nov 2026; README Decisions): clean edges, a full gradient per band. Night
-     bands get a soft lime light at their top edge; over it night-muted measures 7.4:1 on night-900 and 5.4:1 on
-     night-700 (night-text 12.8:1). Light bands get a faint mint wash from the top end corner. */
+     bands get a soft lime light at their top edge; at its strongest night-muted measures 7.3:1 on night-900 and
+     5.3:1 on night-700, lime 4.6:1 on night-700 (night-text 9.2:1). Light bands get a faint mint wash from the top end corner. */
   --gradient-band-glow: radial-gradient(
     50% 16rem at 50% 0%,
-    color-mix(in srgb, var(--color-lime) 12%, transparent),
+    color-mix(in srgb, var(--color-lime) 9%, transparent),
     transparent 70%
   );
   --gradient-paper-wash: radial-gradient(
