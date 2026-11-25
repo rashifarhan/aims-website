@@ -181,6 +181,15 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
   opacity only. Still banned: parallax on text, scroll-jacking and smooth-scroll libraries. A moment may hold its
   section with `position: sticky` while the page scrolls natively. The client may change this rule again; ask before
   widening it.
+- **GSAP is approved (client decision, 25 Nov 2026)** for AIMS's signature motion: ScrollTrigger may **pin** a
+  section and **scrub** a sequence with the scroll (for example the home process timeline), and SplitText, DrawSVG
+  and Flip may be used where they serve the domain story (verification, routes, the door). Rules: load GSAP lazily,
+  only in the smallest client leaf of a page that uses it, never in a layout; register plugins once; use
+  `gsap.matchMedia()` so `prefers-reduced-motion` shows every final state with no pin; clean up on unmount
+  (`@gsap/react` `useGSAP`); animate transform and opacity (plus SVG stroke drawing); where GSAP drives a section,
+  it replaces that section's CSS scroll reveal so two systems never run on one element. Content stays readable and
+  in the DOM without JavaScript. Pins are for one sequence per page at most and never trap the scroll; no
+  smooth-scroll library (ScrollSmoother) and no scroll-jacking.
 - The approved prototypes in `docs/prototypes/` (hero signal lines and verification, door kit) are AIMS's real
   domain motion: use them as the hero entrance and loop and as a dealt moment rather than adding generic effects.
   Port them; don't redesign them.
