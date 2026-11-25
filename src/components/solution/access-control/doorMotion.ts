@@ -1,51 +1,6 @@
 import { gsap, ScrollTrigger } from "@/components/motion/gsap";
 import { DOOR_BEATS, doorStep } from "@/lib/doorStep";
-
-const ELEMENTS = {
-  reader: ".door-reader",
-  controller: ".door-controller",
-  software: ".door-software",
-  lock: ".door-lock",
-  exit: ".door-exit",
-  card: ".door-card",
-  readerLed: ".door-reader .door-led",
-  lockLed: ".door-lock .door-led",
-  lockBody: ".door-lock-body",
-  softwareWire: ".door-software .door-wire",
-  log: ".door-log",
-  leaf: ".door-leaf",
-  granted: ".door-granted",
-  disc: ".door-verified circle",
-  tick: ".door-verified path",
-  readerTrail: '.door-trail[data-wire="reader"]',
-  lockTrail: '.door-trail[data-wire="lock"]',
-  exitTrail: '.door-trail[data-wire="exit"]',
-  readerPulse: '.door-pulse[data-wire="reader"]',
-  lockPulse: '.door-pulse[data-wire="lock"]',
-} as const;
-
-/** The door section's moving parts, read from the server-rendered drawing (DoorIllustration) and list (DoorParts). */
-export type DoorScene = { [K in keyof typeof ELEMENTS]: SVGElement } & {
-  section: HTMLElement;
-  wrap: HTMLElement;
-  stage: HTMLElement;
-  items: HTMLElement[];
-};
-
-export function doorScene(section: HTMLElement): DoorScene | null {
-  const wrap = section.querySelector<HTMLElement>(":scope > .wrap");
-  const stage = section.querySelector<HTMLElement>(".home-door-stage");
-  const items = [...section.querySelectorAll<HTMLElement>("[data-door-step]")];
-  const found = Object.entries(ELEMENTS).map(([key, selector]) => [key, section.querySelector(selector)] as const);
-  if (!wrap || !stage || items.length !== 6 || found.some(([, el]) => !(el instanceof SVGElement))) return null;
-  return {
-    ...(Object.fromEntries(found) as { [K in keyof typeof ELEMENTS]: SVGElement }),
-    section,
-    wrap,
-    stage,
-    items,
-  };
-}
+import type { DoorScene } from "./doorScene";
 
 /** Highlights the active part in the list (and `data-step` on the section, for tests), or none once verified. */
 function marker(s: DoorScene) {

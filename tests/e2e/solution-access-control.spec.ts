@@ -14,22 +14,18 @@ for (const locale of ["en", "ar"] as const) {
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "ar" ? "rtl" : "ltr");
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
-    // Audit the finished frame (as smoke.spec.ts does): let the entrance and the door sequence end.
-    // The door runs on WAAPI (motion/DoorStory): desktop scrubs it with scroll, phones play it once. Bring it to
-    // its finished frame either way, then wait until no finite animation (CSS or WAAPI) is still running.
+    // Audit the finished frame (as smoke.spec.ts does): let the entrance end, then put the door at rest. The door is
+    // a GSAP sequence (solution/access-control/doorMotion.ts), which the motion's rest switch reverts to the
+    // server-rendered finished frame; wait until no finite CSS animation is still running.
     const door = page.locator(".t3-door");
+    await expect(door).toHaveAttribute("data-motion", /pinned|flow/);
     await door.evaluate((el) => el.scrollIntoView({ block: "center" }));
-    if ((await door.getAttribute("data-mode")) === "scroll") {
-      await door.evaluate((el) => {
-        const box = el.getBoundingClientRect();
-        scrollTo(0, scrollY + box.top + box.height - innerHeight);
-      });
-    } else {
-      // A phone plays the door once its drawing is a third in view (DoorStory). The drawing sits under the parts
-      // list, so centring the whole section can leave less than that on screen; bring the drawing itself in.
-      await door.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "center" }));
-    }
-    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 8000 });
+    await page.evaluate(() => {
+      document.documentElement.dataset.motionRest = "true";
+      document.dispatchEvent(new Event("aims:motion-rest"));
+    });
+    await expect(door).not.toHaveAttribute("data-motion");
+    await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1");
     await expect
       .poll(
         () =>
@@ -92,31 +88,39 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-test("the door reaches its unlocked state without an ongoing timed loop", async ({ page }) => {
+test("the door reaches its unlocked, verified state and then stands still", async ({ page }) => {
   await page.goto(PATH);
   const door = page.locator(".t3-door");
   if ((page.viewportSize()?.width ?? 0) >= 1024) {
-    await expect(door).toHaveAttribute("data-mode", "scroll");
+    await expect(door).toHaveAttribute("data-motion", "pinned");
+    // The end of the pin: the spacer's foot reaches the viewport's foot.
     await door.evaluate((el) => {
-      const box = el.getBoundingClientRect();
-      scrollTo(0, scrollY + box.top + box.height - innerHeight);
+      const spacer = el.querySelector(".pin-spacer");
+      if (!spacer) throw new Error("the desktop door pins its content");
+      const box = spacer.getBoundingClientRect();
+      scrollTo(0, scrollY + box.bottom - innerHeight + 10);
     });
   } else {
-    await door.locator(".home-door-drawing").scrollIntoViewIfNeeded();
+    await expect(door).toHaveAttribute("data-motion", "flow");
+    await door.locator(".home-door-drawing").evaluate((el) => el.scrollIntoView({ block: "start" }));
   }
   await expect(door.locator(".door-granted")).toHaveCSS("opacity", "1", { timeout: 6000 });
-  await expect
-    .poll(
-      () =>
-        door.evaluate(
-          (el) =>
-            el
-              .getAnimations({ subtree: true })
-              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
-        ),
-      { timeout: 6000 },
-    )
-    .toBe(0);
+  // Verified: no part singled out, the tick drawn, and no timed loop: the drawing holds still once there.
+  await expect(door).toHaveAttribute("data-step", "done", { timeout: 6000 });
+  await expect(door.locator("[data-door-step][aria-current]")).toHaveCount(0);
+  const frame = () =>
+    door.evaluate((el) =>
+      [...el.querySelectorAll(".door-leaf, .door-card, .door-verified path, .door-pulse")]
+        .map(
+          (part) => `${part.getAttribute("transform")}|${getComputedStyle(part).opacity}|${part.getAttribute("style")}`,
+        )
+        .join(";"),
+    );
+  await page.waitForTimeout(1500);
+  const settled = await frame();
+  await page.waitForTimeout(1000);
+  expect(await frame()).toBe(settled);
+  await expect(door.locator(".door-leaf")).toHaveAttribute("transform", /matrix\(0\.74,0,0,1,0,0\)/);
 });
 
 test("reduced motion: the door rests drawn, open and granted, and nothing moves", async ({ page }) => {
@@ -127,6 +131,13 @@ test("reduced motion: the door rests drawn, open and granted, and nothing moves"
   for (const part of await door.locator(".door-part, .door-card, .door-granted, .door-log").all())
     await expect(part).toHaveCSS("opacity", "1");
   await expect(door.locator(".door-wire").first()).toHaveCSS("stroke-dashoffset", "0px");
+  // No GSAP: no mode, no pin, no inline styles; the leaf stands open and the verified tick is whole.
+  await expect(door).not.toHaveAttribute("data-motion");
+  await expect(door.locator(".pin-spacer")).toHaveCount(0);
+  await expect(door.locator(".door-leaf")).toHaveAttribute("transform", "scale(0.74 1)");
+  for (const part of await door.locator(".door-trail, .door-verified path, .door-part").all())
+    expect(await part.getAttribute("style")).toBeNull();
+  await expect(door.locator(".door-pulse").first()).toHaveCSS("opacity", "0");
   for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
   expect(
