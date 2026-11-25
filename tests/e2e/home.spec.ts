@@ -77,11 +77,11 @@ for (const locale of ["en", "ar"] as const) {
       "ui-close",
     ]);
     for (const gone of ["#faq", ".home-door", ".ui-close-steps"]) await expect(page.locator(gone)).toHaveCount(0);
-    // Two night bands mid-page, never side by side: the light journey parts the software band from the locations.
+    // Night green only on the software band and the close (client decision, 25 Nov 2026): locations is light.
     const grounds = await page
       .locator("main > section")
       .evaluateAll((sections) => sections.map((s) => s.classList.contains("section-night")));
-    expect(grounds.slice(5, 8)).toEqual([true, false, true]);
+    expect(grounds.slice(5, 8)).toEqual([true, false, false]);
     // Each preview ends on its menu page, from the shared section header.
     for (const [section, path] of [
       ["#families", "/products"],
@@ -133,7 +133,8 @@ for (const locale of ["en", "ar"] as const) {
     for (const body of await journey.locator(".journey-body").all()) await expect(body).not.toBeEmpty();
     // Locations: the reach map beside the showroom and AIMS's real lines, numbers left to right.
     const showrooms = page.locator("#showrooms");
-    await expect(showrooms).toHaveClass(/section-night/);
+    await expect(showrooms).toHaveClass(/section-band/);
+    await expect(showrooms).toHaveClass(/ui-reach-light/);
     await expect(showrooms.locator(".ui-reach-map svg[role='img']")).toHaveAttribute("aria-label", /.+/);
     await expect(showrooms.locator("address")).toContainText(CONTACT.showroomAddress);
     for (const line of [CONTACT.lines.headOffice, CONTACT.lines.showroom, CONTACT.lines.abuDhabi]) {

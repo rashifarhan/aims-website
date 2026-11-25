@@ -133,3 +133,31 @@
     font-size: calc(var(--text-map-label-mobile) / var(--reach-zoom));
   }
 }
+
+/* The light map (ReachBand ground="band"; client decision, 25 Nov 2026): the same drawing in green on the light band.
+   Labels read in ink (ink-600 on paper-2 6.2:1); the routes, cities and offices are green-700 (above 3:1 as
+   graphics, WCAG 1.4.11); lime stays only in the faint ring, where it is decoration. */
+.ui-reach-light .reach-map .fill-night-muted {
+  fill: var(--color-green-700);
+}
+.ui-reach-light .reach-land {
+  opacity: 0.35;
+}
+.ui-reach-light .reach-route {
+  stroke: var(--color-green-700);
+}
+.ui-reach-light .reach-city {
+  fill: var(--color-ink);
+}
+.ui-reach-light :is(.reach-office, .reach-arrive) {
+  fill: var(--color-green-700);
+}
+.ui-reach-light .reach-labels text {
+  fill: var(--color-ink-600);
+}
+.ui-reach-light .reach-labels .reach-label-strong {
+  fill: var(--color-ink);
+}
+.ui-reach-light .reach-labels .reach-label-region {
+  fill: var(--color-green-700);
+}

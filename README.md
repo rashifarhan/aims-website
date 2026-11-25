@@ -562,6 +562,13 @@ maps each product to one of 6 families, and converts images to webp. Every recor
 The site never contacts aimsuae.me at runtime. Inside a sandbox whose proxy Node's `fetch` doesn't pick up, run the
 import with `NODE_USE_ENV_PROXY=1`.
 
+**Locations on the light band (client decision, 25 Nov 2026).** With the reach map on night green, the locations
+section, the close and the footer made one long dark stretch, so the client asked for locations to go light.
+`ReachBand` takes `ground="band"`: the light band, with the same map drawn in green (`.ui-reach-light` in
+`signature/reach.css`: green-700 routes, cities and offices above 3:1 as graphics, labels in ink and ink-600, lime
+only in the faint ring) and the showroom list in ink with green actions. Night green on home is now only the
+software band and the close; the other pages keep the night reach band.
+
 ### What the import found (to raise with AIMS)
 
 From `content/import-report.json`:

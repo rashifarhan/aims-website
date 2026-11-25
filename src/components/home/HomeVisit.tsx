@@ -10,7 +10,8 @@ import { ReachMap } from "./ReachMap";
 
 /**
  * T1 showroom, offices and reach: the home preview of the Locations menu (client decision, 25 Nov 2026). The shared
- * night reach band (ui/ReachBand) carries the Deira showroom address to visit and AIMS's real lines (CLAUDE.md §1,
+ * reach band (ui/ReachBand), on the light band with the light map (the client kept night green to the software band
+ * and the close), carries the Deira showroom address to visit and AIMS's real lines (CLAUDE.md §1,
  * brief-given) beside the reach map, the page's dealt moment: its routes draw once when the map is a third on
  * screen and rest drawn under reduced motion (signature/reach.css). Opening hours are not published, so the lead asks
  * visitors to call ahead. Numbers stay left-to-right (CLAUDE.md §7).
@@ -27,6 +28,7 @@ export async function HomeVisit() {
   ];
   return (
     <ReachBand
+      ground="band"
       id="showrooms"
       titleId="locations-title"
       heading={l.heading}

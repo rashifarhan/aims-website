@@ -325,6 +325,22 @@
     font-size: var(--text-visit-tel);
   }
 }
+/* On the light band (the home page; ReachBand ground="band") the same list reads in ink with green actions:
+   ink-600 on paper-2 6.2:1, green-700 4.9:1. */
+.ui-reach-light :is(.home-visit-address, .home-visit-lines, .home-visit-lines li) {
+  border-color: var(--color-line);
+}
+.ui-reach-light .home-visit-label,
+.ui-reach-light .home-visit-tel .home-action-arrow,
+.ui-reach-light .home-visit-tel:hover {
+  color: var(--color-green-700);
+}
+.ui-reach-light :is(.home-visit-address address, .home-visit-lines strong, .home-visit-tel) {
+  color: var(--color-ink);
+}
+.ui-reach-light :is(.home-visit-lines p, .home-visit-reach) {
+  color: var(--color-ink-600);
+}
 /* The band's copy runs much taller than the map here (address and five lines), so on a desktop the map stands
    centred beside them rather than leaving the end column empty under it. */
 @media (min-width: 1024px) {

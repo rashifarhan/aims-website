@@ -9,7 +9,9 @@ import { SectionHeader } from "./SectionHeader";
  * location pages (`trigger="map"`) the trigger sits on the map frame instead: at 35% of their one-screen band
  * only the map's top edge is on screen, so the draw would play unseen (audit E1). Under reduced motion the map
  * rests finished. On narrow screens the map follows the heading, so the moment is seen before the list
- * (ui/sections.css .ui-reach). `link` is the header's end link (the home page's "See locations").
+ * (ui/sections.css .ui-reach). `link` is the header's end link (the home page's "See locations"). `ground="band"`
+ * sets it on the light band with the light map (signature/reach.css .ui-reach-light): the home page, where the
+ * client kept night green to the software band and the close (25 Nov 2026).
  */
 export function ReachBand({
   id,
@@ -19,6 +21,7 @@ export function ReachBand({
   link,
   map,
   trigger = "band",
+  ground = "night",
   children,
 }: {
   id?: string;
@@ -30,15 +33,18 @@ export function ReachBand({
   map: ReactNode;
   /** Which element MomentTrigger watches: the whole band, or the map frame (the location pages). */
   trigger?: "band" | "map";
+  /** Night green (default), or the light band with the light map. */
+  ground?: "night" | "band";
   children?: ReactNode;
 }) {
   const onMap = trigger === "map";
+  const tone = ground === "band" ? " ui-reach-light" : "";
   return (
     <Section
-      ground="night"
+      ground={ground}
       id={id}
       labelledBy={titleId}
-      className={onMap ? "ui-reach" : "ui-reach reach-moment"}
+      className={(onMap ? "ui-reach" : "ui-reach reach-moment") + tone}
       moment={!onMap}
     >
       <div className="ui-reach-grid">
