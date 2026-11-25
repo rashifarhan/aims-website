@@ -120,7 +120,7 @@ test.describe("reduced motion", () => {
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
   await page.goto("/software/zkaccess-3-5");
   await page.locator(".page-hero").getByRole("button", { name: "Add to quote" }).click();
-  await expect(page.locator(".page-hero").getByText("In your quote")).toBeVisible();
+  await expect(page.locator(".page-hero").getByText("On your list")).toBeVisible();
   // Focus moves to the link that replaced the button (WCAG 2.4.3).
   await expect(page.locator(".page-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
   await page.goto("/quote");

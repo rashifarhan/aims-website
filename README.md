@@ -730,6 +730,22 @@ usual band. Those pages now end in the same `ClosePanel` band, after the questio
 embedding there; the band is a short section of its own on those pages, as it already is on Services and Home. The
 `embedded` variant and its styles are removed.
 
+### Quote tray and add-to-quote feedback (client request, 25 Nov 2026)
+
+A product and buyer-psychology review found that adding to the quote only changed the card and a small badge in the
+header corner, out of view, and that "In quote" could read as "quote requested", so buyers might leave believing
+AIMS had their request. Changes:
+
+- **Quote tray** (`shell/QuoteTray`): once the list holds anything, a slim night bar pinned to the bottom of any page
+  with an add-to-quote control on screen: "Your quote list · 2 items · 3 units · not sent yet" and "Review and send"
+  to `/quote`. It is not shown on the quote page, steps aside while the footer is on screen, never times out, and
+  sets a bottom scroll padding so keyboard focus is never hidden under it (WCAG 2.4.11). On phones it shows the item
+  count and "not sent yet"; on product pages below 64rem the product page's own bar takes its place.
+- **Card wording**: "In quote" / "In your quote" is now "On your list".
+- **Header badge**: on every add or quantity rise (not only a new model) it bumps and a lime ring spreads from it
+  before the existing tick. Approved motion (client, 25 Nov 2026); transform and opacity only; none under reduced
+  motion.
+
 ## Content import
 
 ```bash

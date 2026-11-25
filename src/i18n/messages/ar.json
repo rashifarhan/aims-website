@@ -32,6 +32,15 @@
     "contactUs": "تواصل معنا",
     "quoteItems": "عناصر"
   },
+  "quoteTray": {
+    "label": "قائمة عرض السعر",
+    "itemOne": "عنصر واحد",
+    "itemMany": "{count} عناصر",
+    "unitOne": "وحدة واحدة",
+    "unitMany": "{count} وحدات",
+    "notSent": "لم تُرسل بعد",
+    "action": "راجع وأرسل"
+  },
   "common": {
     "journeyDone": "نظام يعمل",
     "addToQuote": "أضف إلى عرض السعر",
@@ -239,7 +248,7 @@
     "compareMax": "يمكنك مقارنة 3 منتجات كحد أقصى.",
     "specsOnRequest": "المواصفات عند الطلب",
     "add": "أضف إلى عرض السعر",
-    "inQuote": "في عرض السعر",
+    "inQuote": "في قائمتك",
     "addedAnnounce": "أُضيف {name} إلى عرض السعر. الكمية: {qty}",
     "qtyAnnounce": "{name}: الكمية {qty}",
     "qty": "الكمية",
@@ -1037,7 +1046,7 @@
       }
     },
     "add": "أضف إلى عرض السعر",
-    "inQuote": "في عرض السعر",
+    "inQuote": "في قائمتك",
     "added": "تمت إضافة {name} إلى عرض السعر",
     "viewQuote": "عرض قائمة عرض السعر",
     "line": "برنامج {name}: ملف التثبيت والتراخيص والإعداد",

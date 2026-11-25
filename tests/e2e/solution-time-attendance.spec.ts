@@ -87,7 +87,7 @@ test("adding a terminal updates the quote, and the quote opens with installation
   await page.goto(PATH);
   const card = page.locator(".pick-card").first();
   await card.getByRole("button", { name: "Add to quote" }).click();
-  await expect(card.getByText("In quote")).toBeVisible();
+  await expect(card.getByText("On your list")).toBeVisible();
   await page.locator('.ui-close a[href="/quote?need=install"]').click();
   await expect(page).toHaveURL(/\/quote\?need=install$/);
   await expect(page.getByRole("radio", { name: "Supply and installation" })).toBeChecked();

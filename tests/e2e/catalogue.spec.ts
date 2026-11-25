@@ -42,7 +42,7 @@ test.describe("installer journey (AT-01, catalogue part)", () => {
     await qty.fill("12");
     await qty.press("Enter");
     await page.getByRole("button", { name: "Add to quote" }).first().click();
-    await expect(page.getByRole("status").filter({ hasText: "In quote" })).toContainText("× 12");
+    await expect(page.getByRole("status").filter({ hasText: "On your list" })).toContainText("× 12");
 
     const fitted = page.getByRole("region", { name: "Often fitted with" });
     const lockItem = fitted.getByRole("listitem").filter({ hasText: "AL M280" });

@@ -12,27 +12,46 @@ type Props = { externalLabel: string; href: string; label: string; itemsLabel: s
 const TICK = "m5 12 4.5 4.5L19 7";
 /** ~300ms micro VERIFY (Design Doc 8.4: confirmations under 400ms). */
 const VERIFY_MS = 320;
+/** The ring that spreads from the badge, so an eye on the card catches it in the corner (client approval, 25 Nov 2026). */
+const RING_MS = 700;
 
 /** Header "Quote" pill with a live item count (0 on the server, real after hydration). */
 export function QuoteLink({ href, label, itemsLabel, externalLabel, className = "" }: Props) {
-  const count = useQuote().lines.length;
+  const { lines } = useQuote();
+  const count = lines.length;
+  // Units, not lines, decide a rise: raising a quantity confirms too, not only a new model.
+  const units = lines.reduce((sum, line) => sum + line.qty, 0);
   const seen = useRef<number | null>(null);
+  const badgeRef = useRef<HTMLSpanElement>(null);
+  const ringRef = useRef<HTMLSpanElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
   const tickRef = useRef<SVGSVGElement>(null);
 
-  // Micro VERIFY: when the count rises the badge shows ✓, then settles to the number. The first commit
-  // is the server snapshot (0), so start from the stored count: loading a page never "verifies".
+  // Micro VERIFY: when the list grows the badge bumps, a lime ring spreads from it, and it shows ✓ before settling
+  // to the number. The first commit is the server snapshot (0), so start from the stored units: loading a page
+  // never "verifies". Transform and opacity only; reduced motion skips it (CLAUDE.md §3).
   useEffect(() => {
     if (seen.current === null) {
-      seen.current = getQuote().lines.length;
+      seen.current = getQuote().lines.reduce((sum, line) => sum + line.qty, 0);
       return;
     }
-    const rose = count > seen.current;
-    seen.current = count;
+    const rose = units > seen.current;
+    seen.current = units;
     if (!rose || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     // The site curve comes from its token, so the badge moves like every other control.
     const ease = getComputedStyle(document.documentElement).getPropertyValue("--ease-aims").trim();
     const timing = { duration: VERIFY_MS, easing: ease || "ease-out" };
+    badgeRef.current?.animate(
+      [{ transform: "scale(1)" }, { transform: "scale(1.3)", offset: 0.35 }, { transform: "scale(1)" }],
+      { duration: 420, easing: ease || "ease-out" },
+    );
+    ringRef.current?.animate(
+      [
+        { opacity: 0.8, transform: "scale(1)" },
+        { opacity: 0, transform: "scale(2.6)" },
+      ],
+      { duration: RING_MS, easing: "ease-out" },
+    );
     tickRef.current?.animate(
       [
         { opacity: 0, transform: "scale(0.6)" },
@@ -50,7 +69,7 @@ export function QuoteLink({ href, label, itemsLabel, externalLabel, className = 
       ],
       timing,
     );
-  }, [count]);
+  }, [units]);
 
   return (
     <Link
@@ -63,7 +82,15 @@ export function QuoteLink({ href, label, itemsLabel, externalLabel, className = 
       <ListIcon width={18} height={18} className="hidden sm:block" />
       <span>{label}</span>
       {count > 0 && (
-        <span className="relative grid h-5 min-w-5 place-items-center rounded-pill bg-green-700 px-1.5 text-xs font-semibold text-white tabular-nums">
+        <span
+          ref={badgeRef}
+          className="relative grid h-5 min-w-5 place-items-center rounded-pill bg-green-700 px-1.5 text-xs font-semibold text-white tabular-nums"
+        >
+          <span
+            ref={ringRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-pill border-2 border-lime opacity-0"
+          />
           <span ref={numberRef}>{count}</span>
           <svg
             ref={tickRef}

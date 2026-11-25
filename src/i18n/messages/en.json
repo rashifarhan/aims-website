@@ -32,6 +32,15 @@
     "contactUs": "Contact us",
     "quoteItems": "items"
   },
+  "quoteTray": {
+    "label": "Your quote list",
+    "itemOne": "1 item",
+    "itemMany": "{count} items",
+    "unitOne": "1 unit",
+    "unitMany": "{count} units",
+    "notSent": "not sent yet",
+    "action": "Review and send"
+  },
   "common": {
     "journeyDone": "Working system",
     "addToQuote": "Add to quote",
@@ -239,7 +248,7 @@
     "compareMax": "You can compare up to 3 products.",
     "specsOnRequest": "Specs on request",
     "add": "Add to quote",
-    "inQuote": "In quote",
+    "inQuote": "On your list",
     "addedAnnounce": "{name} added to quote. Quantity: {qty}",
     "qtyAnnounce": "{name}: quantity {qty}",
     "qty": "Quantity",
@@ -1037,7 +1046,7 @@
       }
     },
     "add": "Add to quote",
-    "inQuote": "In your quote",
+    "inQuote": "On your list",
     "added": "{name} added to your quote",
     "viewQuote": "View quote list",
     "line": "{name} software: installer, licences and setup",

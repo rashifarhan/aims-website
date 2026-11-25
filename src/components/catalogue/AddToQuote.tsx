@@ -63,7 +63,7 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
   const button = `home-button ${variant === "outline" ? "home-button-outline home-button-sm" : size === "sm" ? "home-button-sm" : ""}`;
 
   return (
-    <div ref={root} className={`flex flex-wrap items-center gap-x-3 gap-y-2 ${className}`}>
+    <div ref={root} data-quote-add className={`flex flex-wrap items-center gap-x-3 gap-y-2 ${className}`}>
       {line ? (
         <>
           <QtyStepper

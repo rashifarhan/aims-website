@@ -89,7 +89,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
 
   return (
     <>
-      <div ref={inline} className="mt-6">
+      <div ref={inline} data-quote-add className="mt-6">
         <div className="flex flex-wrap items-center gap-3">
           {stepper}
           {/* The hero's primary leans toward a fine pointer, like the home hero's (premium pass, client decision 7).
@@ -127,6 +127,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
 
       {/* Mobile sticky bar (Design Doc 6) */}
       <div
+        data-purchase-bar
         aria-hidden={!showBar}
         inert={!showBar}
         className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}

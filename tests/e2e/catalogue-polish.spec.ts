@@ -36,7 +36,7 @@ test.describe("listing polish", () => {
     await expect.poll(async () => (await box()).height).toBeGreaterThan(0);
     const before = await box();
     await add.click();
-    await expect(card.getByText("In quote")).toBeVisible();
+    await expect(card.getByText("On your list")).toBeVisible();
     const after = await box();
     expect(after.height).toBe(before.height);
     expect(after.compareTop).toBe(before.compareTop);
@@ -46,7 +46,7 @@ test.describe("listing polish", () => {
     const removeOne = card.getByRole("button", { name: /^Remove from quote, / });
     await expect(removeOne).toBeEnabled();
     await removeOne.click();
-    await expect(card.getByText("In quote")).toHaveCount(0);
+    await expect(card.getByText("On your list")).toHaveCount(0);
     await expect(add).toBeFocused();
   });
 

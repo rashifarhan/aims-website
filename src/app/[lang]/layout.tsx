@@ -7,6 +7,8 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { INDEXABLE, SITE_URL } from "@/lib/site";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
+import { QuoteTray } from "@/components/shell/QuoteTray";
+import { localePath } from "@/i18n/config";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import { RidgeSymbol } from "@/components/ui/RidgeSymbol";
 import { HeadingReveal } from "@/components/motion/HeadingReveal";
@@ -61,6 +63,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           <Header />
           {children}
           <Footer />
+          <QuoteTray href={localePath(locale, "/quote")} labels={t.quoteTray} />
         </ContactGuardProvider>
         {/* One leaf for every section title's reveal; it reads the path, so it waits behind its own boundary. */}
         <Suspense fallback={null}>
