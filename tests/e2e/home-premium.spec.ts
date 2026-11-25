@@ -115,3 +115,33 @@ for (const path of ["/", "/ar", "/products", "/solutions/time-attendance", "/quo
     expect(rsc).toBeLessThan(80);
   });
 }
+
+// Client decision, 25 Nov 2026: the model-code strip runs on its own as a ticker, not with the scroll. It loops past
+// 5 s, so it must pause by keyboard (WCAG 2.2.2), hold still while a code has focus, and rest under reduced motion.
+test("the model strip runs on its own and pauses by keyboard", async ({ page }) => {
+  await page.goto("/");
+  const strip = page.locator(".model-strip");
+  await strip.scrollIntoViewIfNeeded();
+  const track = strip.locator(".model-strip-track");
+  const offset = () => track.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m41);
+  const first = await offset();
+  await expect.poll(offset, { timeout: 3000 }).not.toBe(first);
+  const toggle = strip.getByRole("button", { name: /pause/i });
+  await toggle.focus();
+  await page.keyboard.press("Enter");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await page.mouse.move(0, 0);
+  await page.locator("h1").focus();
+  const held = await offset();
+  await page.waitForTimeout(600);
+  expect(await offset()).toBe(held);
+});
+
+test("the model strip rests as one list under reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const strip = page.locator(".model-strip");
+  await expect(strip.locator(".model-strip-list[aria-hidden='true']")).toBeHidden();
+  await expect(strip.getByRole("button", { name: /pause/i })).toBeHidden();
+  await expect(strip.locator(".model-strip-track")).toHaveCSS("animation-name", "none");
+});

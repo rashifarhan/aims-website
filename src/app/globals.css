@@ -107,6 +107,8 @@
      than it arrives. */
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --duration-hover: 150ms;
+  /* The model-code ticker: slow enough to read a code as it passes (about 60px a second at 1440). */
+  --duration-strip: 48s;
   --duration-dropdown: 180ms;
   --duration-card: 240ms;
   --duration-drawer: 300ms;

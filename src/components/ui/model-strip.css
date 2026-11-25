@@ -1,17 +1,13 @@
 /*
- * Model-code strip (ui/ModelStrip.tsx; premium pass, client decision 7). At rest, and wherever scroll-driven
- * animation is missing or motion is reduced, the codes wrap as one list. Where it is supported, the track slides by
- * one list's width while the band crosses the viewport: only transform, driven by scroll, no timer. The
- * track is always dir="ltr" (model codes stay LTR); RTL pages slide the other way through --strip-dir.
+ * Model-code strip (ui/ModelStrip.tsx; premium pass, client decision 7). Under reduced motion the codes rest as one
+ * wrapped list. Otherwise the track slides by
+ * one list's width on a slow timer (client decision, 25 Nov 2026). The track is always dir="ltr" (model codes stay
+ * LTR); RTL pages run it the other way.
  */
 .model-strip {
-  --strip-dir: 1;
   overflow: clip;
   border-block: 1px solid var(--color-line);
   background: var(--color-paper);
-}
-:dir(rtl) .model-strip {
-  --strip-dir: -1;
 }
 .model-strip-track {
   display: flex;
@@ -53,21 +49,33 @@
   }
 }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Keyboard focus rests the band as a wrapped list, so a focused code is never off screen. */
-    .model-strip:not(:has(:focus-visible)) .model-strip-track {
-      inline-size: max-content;
-      animation: model-strip-slide linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    .model-strip:not(:has(:focus-visible)) .model-strip-list {
-      flex-wrap: nowrap;
-    }
-    .model-strip:not(:has(:focus-visible)) .model-strip-list[aria-hidden="true"] {
-      display: flex;
-    }
+/* A slow ticker that runs on its own (client decision, 25 Nov 2026): the track holds the list twice and slides by one
+   list's width, then repeats, transform only. Arabic runs the other way. It holds still while hovered, while a code
+   has focus, when paused by its keyboard button and while off-screen (StripMarquee). Both ends fade into the band so
+   codes never cut off on a hard edge. */
+@media (prefers-reduced-motion: no-preference) {
+  .model-strip-marquee {
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, var(--color-ink) 6%, var(--color-ink) 94%, transparent);
+  }
+  .model-strip-track {
+    inline-size: max-content;
+    animation: model-strip-slide var(--duration-strip) linear infinite;
+  }
+  :dir(rtl) .model-strip-track {
+    animation-direction: reverse;
+  }
+  .model-strip-list {
+    flex-wrap: nowrap;
+  }
+  .model-strip-list[aria-hidden="true"] {
+    display: flex;
+  }
+  .model-strip-marquee:hover .model-strip-track,
+  .model-strip-marquee:focus-within .model-strip-track,
+  .model-strip-marquee[data-paused] .model-strip-track,
+  .model-strip-marquee[data-offscreen="true"] .model-strip-track {
+    animation-play-state: paused;
   }
 }
 @keyframes model-strip-slide {
@@ -75,6 +83,28 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-50% * var(--strip-dir)));
+    transform: translateX(-50%);
+  }
+}
+/* The keyboard-only pause button, as in the hero: hidden until focused, then shown at the band's end. */
+.model-strip-toggle {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--page-gutter);
+  translate: 0 -50%;
+}
+.model-strip-toggle:not(:focus-visible) {
+  width: 1px;
+  height: 1px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .model-strip-toggle {
+    display: none;
   }
 }

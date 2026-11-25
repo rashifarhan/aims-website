@@ -3,14 +3,14 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { productBySlug } from "@/content/catalogue";
 import { pickStripItems } from "@/lib/modelStrip";
+import { StripMarquee } from "./StripMarquee";
 import "./model-strip.css";
 
 /**
- * Premium pass, client decision 7: a band of real model codes that slides sideways only as the page scrolls
- * (model-strip.css, `animation-timeline: view()`), never on a timer, so it needs no pause control. Each code links
- * to its product page. The second list exists only to fill the band while it slides, so it is `inert` and
- * `aria-hidden`: screen readers and the keyboard meet every code once. Without scroll-driven animation or under
- * reduced motion the band rests as one wrapped list.
+ * Premium pass, client decision 7: a band of real model codes that runs on its own as a slow ticker (the client's
+ * choice of 25 Nov 2026, in place of moving with the scroll), each code linking to its product page. The second
+ * list exists only to close the loop, so it is `inert` and `aria-hidden`: screen readers and the keyboard meet every
+ * code once. The pause, off-screen and reduced-motion behaviour lives in StripMarquee and model-strip.css.
  */
 export async function ModelStrip() {
   const t = await getDictionary();
@@ -31,10 +31,12 @@ export async function ModelStrip() {
 
   return (
     <section className="model-strip" aria-label={t.home.strip.label}>
-      <div className="model-strip-track" dir="ltr">
-        {list(false)}
-        {list(true)}
-      </div>
+      <StripMarquee pauseLabel={t.home.strip.pause}>
+        <div className="model-strip-track" dir="ltr">
+          {list(false)}
+          {list(true)}
+        </div>
+      </StripMarquee>
     </section>
   );
 }

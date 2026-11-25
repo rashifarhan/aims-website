@@ -309,7 +309,8 @@
   },
   "home": {
     "strip": {
-      "label": "Models we supply"
+      "label": "Models we supply",
+      "pause": "Pause the moving model list"
     },
     "metaTitle": "Access control & time attendance",
     "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",

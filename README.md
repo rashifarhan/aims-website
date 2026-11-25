@@ -485,7 +485,7 @@ older rules they touch; CLAUDE.md §3 was updated by the client to allow the scr
 - **Night closing band.** `ClosePanel` is now a centred night band over the ridges with the inverted button on every
   page; the embedded mint panel (solution and location questions) is unchanged.
 - **Character** (decision 7, no new dependencies): spotlight cards on the family and photo tiles, the scan reveal on
-  the photographs, the scroll-driven model-code strip, the border beam and the magnetic primary. **Scroll reveals**:
+  the photographs, the model-code strip (a self-running ticker since 25 Nov 2026 at the client's request, not tied to the scroll; it loops past 5 s, so it pauses off-screen, on hover and focus, and by a keyboard-only button like the hero's, and rests under reduced motion), the border beam and the magnetic primary. **Scroll reveals**:
   every `Section` raises its blocks 24px and fades them in over their first 12rem, and plain-text section titles rise
   word by word (`SplitWords`), all through CSS `animation-timeline: view()` inside `@supports`; dealt moments and
   blocks holding fixed or sticky UI are left out. Without support or under reduced motion everything stands.
