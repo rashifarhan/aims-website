@@ -1,13 +1,24 @@
-/* Access Control copy layout; the shared UNLOCK motion lives in motion/doorStory.css. The layout is the section's
-   one .wrap (DoorStory), which doorStory.css also makes the sticky stage in scroll mode. */
-.t3-door > .wrap {
+/* Access control: UNLOCK, the door kit (Design Doc 8.2). The server render is the finished frame; doorMotion.ts (GSAP)
+   walks a card through it. The section's one .wrap is the grid, and the element the desktop sequence pins. */
+.t3-door .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: 4rem;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "head stage"
+    "parts stage";
+  column-gap: 4rem;
   /* A split's columns are top-aligned (layout-v4.md 2, SR-8): the heading and the drawing start on one line. */
   align-items: start;
 }
+.t3-door-head {
+  grid-area: head;
+}
+.t3-door .home-door-stage {
+  grid-area: stage;
+}
 .t3-door-parts {
+  grid-area: parts;
   margin-block-start: 1.75rem;
 }
 .t3-door-parts li {
@@ -18,9 +29,26 @@
   padding-block: 0.375rem 0.75rem;
   border-block-start: 1px solid var(--color-line);
   font-size: var(--text-small);
+  transition: border-color var(--duration-base) var(--ease-aims);
 }
 .t3-door-parts .home-door-index {
-  padding-block-start: 0.75rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  margin-block-start: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--duration-base) ease,
+    background-color var(--duration-base) ease;
+}
+/* The part the drawing is showing (doorMotion.ts): its rule and numeral turn green-700 (paper on it, 6.07:1). */
+.t3-door-parts [aria-current="step"] {
+  border-block-start-color: var(--color-green-700);
+}
+.t3-door-parts [aria-current="step"] .home-door-index {
+  color: var(--color-paper);
+  background: var(--color-green-700);
 }
 /* The name and model code are the link: a 44px target (WCAG 2.5.8). */
 .t3-door-parts .home-door-link,
@@ -37,9 +65,28 @@
   line-height: 1.5;
 }
 
+/* The lime pulse only exists while a signal runs. (GSAP sets each SVG piece's transform origin itself.) */
+.t3-door .door-pulse {
+  opacity: 0;
+}
+
 @media (max-width: 1023px) {
-  .t3-door > .wrap {
+  /* One column, the drawing before the list, so a phone sees each step drawn before it reads the parts. */
+  .t3-door .wrap {
     grid-template-columns: minmax(0, 1fr);
-    gap: 2.5rem;
+    grid-template-rows: none;
+    grid-template-areas:
+      "head"
+      "stage"
+      "parts";
+  }
+  .t3-door .home-door-stage {
+    margin-block-start: 2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t3-door-parts li,
+  .t3-door-parts .home-door-index {
+    transition: none;
   }
 }

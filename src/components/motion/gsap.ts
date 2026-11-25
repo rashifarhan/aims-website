@@ -17,3 +17,6 @@ export { gsap, useGSAP, SplitText };
  * resting text this way, as it cancels the CSS scroll reveals (tests/e2e/smoke.spec.ts). */
 export const REST_EVENT = "aims:motion-rest";
 export const restRequested = () => document.documentElement.dataset.motionRest === "true";
+
+/* The access control door kit (solution/access-control/doorMotion.ts) creates its per-step triggers directly. */
+export { ScrollTrigger };
