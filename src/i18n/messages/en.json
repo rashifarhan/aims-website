@@ -345,7 +345,7 @@
       "checked": "Checked in · 08:17",
       "unlocked": "Door unlocked",
       "pause": "Pause animation",
-      "scene": "3D illustration: a site secured with ZKTeco systems from AIMS. A car passes the parking barrier, a visitor walks through the metal detector and speed gates, the door reader unlocks, the face terminal logs the check-in to BioTime, and the terminal opens to show its layers.",
+      "scene": "Video: a ZKTeco SpeedFace terminal scans a face, shows a green \"Verified\" tick, then opens to show its layers: glass, screen, circuit board and back plate.",
       "play": "Play animation",
       "verified": "Verified",
       "method": "Face"

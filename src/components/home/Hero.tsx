@@ -5,11 +5,12 @@ import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { ArrowIcon, PinIcon } from "@/components/icons";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Ridges } from "@/components/ui/Ridges";
-import { Hero3DStage } from "./hero3d/Hero3DStage";
+import { HeroFilm } from "./herofilm/HeroFilm";
 import { HeroTick } from "./HeroTick";
 
 /**
- * T1 hero: the copy beside the 3D loop of a site AIMS equips (hero3d/, client choice 25 Nov 2026) over the ridge motif.
+ * T1 hero: the copy beside a photoreal film of the SpeedFace terminal (herofilm/, client request 25 Nov 2026) over the
+ * ridge motif.
  * The headline holds two lines from 1024px, the second the quieter ink-600 line.
  */
 export async function Hero() {
@@ -52,10 +53,10 @@ export async function Hero() {
             {h.trust}
           </p>
         </div>
-        {/* The 3D hero (client choice, 25 Nov 2026), on its own branch for review. */}
-        <div className="home-stage home-stage-3d">
+        {/* The photoreal hero film (client request, 25 Nov 2026), on its own branch for review. */}
+        <div className="home-stage home-stage-film">
           <Ridges className="home-hero-ridges" />
-          <Hero3DStage label={h.scene} pauseLabel={h.pause} playLabel={h.play} />
+          <HeroFilm label={h.scene} pauseLabel={h.pause} playLabel={h.play} />
         </div>
       </div>
     </section>
