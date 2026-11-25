@@ -75,7 +75,7 @@ def light(sun_elevation=28, sun_azimuth=200):
     sc = bpy.context.scene
     world = bpy.data.worlds.new("Sky")
     sc.world = world
-    if hasattr(world, "use_nodes"):  # always on from Blender 5
+    if bpy.app.version < (5, 0, 0):  # node worlds are always on from Blender 5
         world.use_nodes = True
     nodes, links = world.node_tree.nodes, world.node_tree.links
     sky = nodes.new("ShaderNodeTexSky")
