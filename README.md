@@ -711,6 +711,16 @@ other moment there.
   switch before axe, the pin scrubbed both ways with the list in sync, the phone's per-step order (2…6, done), the
   verified rest with no loop, the exact frame under reduced motion and without JS.
 
+### Process steps: "Verified path" (client choice, 25 Nov 2026)
+
+The shared process component (`ui/JourneySteps`, on Services, Support, the solution pages and the software pages)
+was redesigned after the client found the numbered circles flat. Of three mocked directions the client chose option C:
+one card per step (number, icon, title, body, owner tag), every other card set lower, a dotted lime path joining the
+numbers through the gaps, and a "Working system" chip on the last card where the page's steps end in a running
+system (Services and the solution pages). Below a 60rem container the cards stack with the path running down between
+them, so the Support page's reading column stays stacked. Static: no motion was added. The old first-step night-disc
+overrides in `company.css` were removed; the component now carries that styling itself.
+
 ## Content import
 
 ```bash

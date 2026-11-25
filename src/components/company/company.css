@@ -238,29 +238,6 @@
   min-height: 100%;
 }
 
-/* ---------- Process steps (services, support): the first step is the night disc with a lime icon ---------- */
-.co-process .journey-step:first-child .journey-node,
-.co-support .journey-step:first-child .journey-node {
-  border-color: var(--color-night-900);
-  background: var(--color-night-900);
-  color: var(--color-lime);
-}
-.co-process .journey-badge,
-.co-support .journey-badge {
-  background: var(--color-night-900);
-  color: var(--color-night-text);
-}
-.co-process .journey-title,
-.co-support .journey-title {
-  font-family: var(--font-display);
-  font-stretch: var(--font-stretch-hero);
-  font-weight: var(--font-weight-display);
-  letter-spacing: -0.02em;
-}
-:lang(ar) :is(.co-process, .co-support) .journey-title {
-  letter-spacing: 0;
-}
-
 /* Support's route: the team and the check are the signature button's night disc and lime tick. */
 .support-route .sr-node,
 .support-route .sr-disc {

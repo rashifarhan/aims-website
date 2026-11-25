@@ -33,6 +33,7 @@
     "quoteItems": "items"
   },
   "common": {
+    "journeyDone": "Working system",
     "addToQuote": "Add to quote",
     "inQuote": "In your quote",
     "viewDatasheet": "Datasheet",
