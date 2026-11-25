@@ -27,7 +27,7 @@ def args():
         "engine": "cycles",
         "samples": "192",
         "res": "1600x1000",
-        "exposure": "0",
+        "exposure": "0.9",
         "open": "0",
         "out": os.path.join(HERE, "renders", "looktest.png"),
         "save": "",
@@ -46,32 +46,44 @@ def args():
 
 
 def lobby():
+    """A lobby corner: curtain wall on the left onto the street, oak slat wall behind the gates (dark and warm,
+    so the steel reads against it), plaster elsewhere. The visitor walks along +Y through the gates."""
     floor, wall, wood = M.marble_floor(), M.plaster(), M.oak()
-    frame, glass = M.dark_metal("Mullion"), M.clear_glass("Curtain wall", (0.9, 0.95, 0.97))
-    box("Floor", (16, 14, 0.1), (0, 0, -0.05), floor, 0)
-    box("Ceiling", (16, 14, 0.1), (0, 0, 3.45), wall, 0)
-    # Back: a glass curtain wall onto the street, mullions every 1.5 m.
-    for i in range(-5, 6):
-        box(f"Mullion {i}", (0.06, 0.12, 3.4), (i * 1.5, 5.0, 1.7), frame, 0.004)
-    box("Transom", (16, 0.12, 0.08), (0, 5.0, 2.6), frame, 0.004)
-    box("Curtain glass", (16, 0.02, 3.4), (0, 5.02, 1.7), glass, 0)
-    # Left: oak slat feature wall, the warm surface a Dubai office lobby would have.
-    box("Feature wall backing", (0.1, 10, 3.4), (-5.2, 0, 1.7), wall, 0)
-    for j in range(-48, 49):
-        box(f"Slat {j}", (0.05, 0.045, 3.4), (-5.12, j * 0.1, 1.7), wood, 0.004)
-    box("Front wall", (16, 0.1, 3.4), (0, -6.5, 1.7), wall, 0)
-    box("Right wall", (0.1, 14, 3.4), (6.5, 0, 1.7), wall, 0)
-    # Street outside: a pavement and a few distant blocks, soft through the glass and depth of field.
-    box("Pavement", (60, 30, 0.1), (0, 20, -0.06), M.plaster("Pavement", (0.6, 0.58, 0.55)), 0)
-    for k, (x, y, w, h) in enumerate([(-8, 26, 6, 28), (1, 32, 8, 46), (10, 24, 5, 18), (17, 34, 7, 60)]):
-        box(f"Tower {k}", (w, w, h), (x, y, h / 2), M.plaster(f"Tower {k}", (0.62, 0.66, 0.7)), 0)
-    # Recessed linear lights in the ceiling.
-    led = M.led("Ceiling light", (1.0, 0.92, 0.82), 6.0)
-    for k in range(-3, 4):
-        box(f"Linear light {k}", (0.06, 6, 0.02), (k * 1.8, -0.5, 3.395), led, 0)
+    frame, glass = M.dark_metal("Mullion"), M.window_glass("Curtain wall")
+    x_win, y_back, x_right, y_front = -5.0, 4.5, 6.5, -6.5
+    cx, cy = (x_win + x_right) / 2, (y_back + y_front) / 2
+    sx, sy = x_right - x_win, y_back - y_front
+    box("Floor", (sx, sy, 0.1), (cx, cy, -0.05), floor, 0)
+    box("Ceiling", (sx, sy, 0.1), (cx, cy, 3.45), wall, 0)
+    # Left: a full-height glass curtain wall, mullions every 1.5 m and one transom.
+    for j in range(-4, 4):
+        box(f"Mullion {j}", (0.12, 0.06, 3.4), (x_win, j * 1.5, 1.7), frame, 0.004)
+    box("Transom", (0.12, sy, 0.08), (x_win, cy, 2.6), frame, 0.004)
+    box("Curtain glass", (0.02, sy, 3.4), (x_win - 0.02, cy, 1.7), glass, 0)
+    # Back: oak slats on a dark backing, one slat repeated by an Array modifier (fewer objects, same look).
+    box("Feature wall backing", (sx, 0.1, 3.4), (cx, y_back + 0.05, 1.7), M.plaster("Backing", (0.05, 0.045, 0.04)), 0)
+    slat = box("Slats", (0.045, 0.05, 3.4), (x_win + 0.08, y_back - 0.03, 1.7), wood, 0.004)
+    arr = slat.modifiers.new("Array", "ARRAY")
+    arr.use_relative_offset, arr.use_constant_offset = False, True
+    arr.constant_offset_displace = (0.1, 0, 0)
+    arr.count = int((sx - 0.1) / 0.1)
+    box("Right wall", (0.1, sy, 3.4), (x_right + 0.05, cy, 1.7), wall, 0)
+    box("Front wall", (sx, 0.1, 3.4), (cx, y_front - 0.05, 1.7), wall, 0)
+    # Street outside: pavement and a few distant blocks, soft through the glass and the depth of field.
+    box("Pavement", (40, 60, 0.1), (x_win - 20.1, 0, -0.06), M.plaster("Pavement", (0.42, 0.4, 0.37)), 0)
+    # Kept behind the sun's path (y > 5) so they never shade the lobby.
+    blocks = [(-18, 7, 6, 26), (-30, 2, 9, 55), (-20, 14, 6, 22), (-40, 22, 10, 70), (-26, 34, 8, 40)]
+    for k, (x, y, w, h) in enumerate(blocks):
+        box(f"Tower {k}", (w, w, h), (x, y, h / 2), M.plaster(f"Tower {k}", (0.45, 0.48, 0.52)), 0)
+    # Recessed linear lights in the ceiling, running with the walk.
+    led = M.led("Ceiling light", (1.0, 0.9, 0.78), 8.0)
+    for k in range(-2, 4):
+        box(f"Linear light {k}", (0.05, 8, 0.02), (k * 1.8, -1.0, 3.395), led, 0)
 
 
-def light(sun_elevation=28, sun_azimuth=200):
+def light(sun_elevation=24, sun_azimuth=294):
+    """Low afternoon sun from the left-front through the curtain wall: it rakes across the floor, throws the
+    mullion shadows in long stripes and catches the gates' entry faces at a grazing angle."""
     sc = bpy.context.scene
     world = bpy.data.worlds.new("Sky")
     sc.world = world
@@ -91,29 +103,23 @@ def light(sun_elevation=28, sun_azimuth=200):
         sky.sun_elevation = sun_elevation * DEG
         sky.sun_rotation = sun_azimuth * DEG
     links.new(sky.outputs[0], nodes["Background"].inputs[0])
-    nodes["Background"].inputs[1].default_value = 0.35
+    nodes["Background"].inputs[1].default_value = 0.5
     bpy.ops.object.light_add(type="SUN", rotation=((90 - sun_elevation) * DEG, 0, sun_azimuth * DEG))
     sun = bpy.context.object
     sun.data.energy = 4.0
-    sun.data.angle = 0.6 * DEG
-    sun.data.color = (1.0, 0.95, 0.88)
-    # Soft fill from the ceiling so the steel has something to reflect besides the window.
-    bpy.ops.object.light_add(type="AREA", location=(0.5, -1.5, 3.3))
-    fill = bpy.context.object
-    fill.data.shape = "RECTANGLE"
-    fill.data.size, fill.data.size_y = 6.0, 3.0
-    fill.data.energy = 900
-    fill.data.color = (1.0, 0.94, 0.86)
+    sun.data.angle = 0.53 * DEG  # the real sun's disc: crisp shadows that soften with distance
+    sun.data.color = (1.0, 0.93, 0.84)
 
 
 def camera():
-    bpy.ops.object.camera_add(location=(3.0, -4.4, 1.6))
+    """The visitor's eye: standing back and to the right, at eye height, both gates whole."""
+    bpy.ops.object.camera_add(location=(3.7, -3.5, 1.55))
     cam = bpy.context.object
-    look_at(cam, (0.9, 0.0, 0.5))  # both units whole, three-quarter, at eye height
-    cam.data.lens = 40
+    look_at(cam, (0.55, 0.4, 0.6))
+    cam.data.lens = 35
     cam.data.dof.use_dof = True
     cam.data.dof.aperture_fstop = 4.0
-    cam.data.dof.focus_distance = math.dist(cam.location, (0.78, 0.0, 0.6))
+    cam.data.dof.focus_distance = math.dist(cam.location, (0.8, -0.14, 0.6))
     bpy.context.scene.camera = cam
 
 
@@ -124,6 +130,12 @@ def render_settings(opts):
     sc.render.film_transparent = False
     sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items] else "Filmic"
     sc.view_settings.exposure = float(opts["exposure"])
+    for look in ("AgX - Medium High Contrast", "Medium High Contrast"):  # the name differs by version
+        try:
+            sc.view_settings.look = look
+            break
+        except TypeError:
+            continue
     if opts["engine"] == "eevee":
         engines = [e.identifier for e in sc.render.bl_rna.properties["engine"].enum_items]
         sc.render.engine = "BLENDER_EEVEE_NEXT" if "BLENDER_EEVEE_NEXT" in engines else "BLENDER_EEVEE"
@@ -136,6 +148,12 @@ def render_settings(opts):
         sc.cycles.samples = int(opts["samples"])
         sc.cycles.use_denoising = True
         sc.cycles.use_adaptive_sampling = True
+        sc.cycles.adaptive_threshold = 0.02
+        # No caustics and a clamp on indirect light: the usual archviz trade, fewer fireflies, much faster.
+        sc.cycles.caustics_reflective = sc.cycles.caustics_refractive = False
+        sc.cycles.sample_clamp_indirect = 10.0
+        sc.cycles.diffuse_bounces, sc.cycles.glossy_bounces = 4, 4
+        sc.cycles.transmission_bounces, sc.cycles.transparent_max_bounces = 8, 16
         try:  # Apple Silicon GPU through Metal; falls back to CPU anywhere else
             prefs = bpy.context.preferences.addons["cycles"].preferences
             prefs.compute_device_type = "METAL"
@@ -153,7 +171,7 @@ def main():
     opts, flags = args()
     bpy.ops.wm.read_factory_settings(use_empty=True)
     lobby()
-    mats = {"steel": M.brushed_steel(), "dark": M.dark_metal(), "cap": M.black_glass(), "glass": M.clear_glass(), "led": M.led()}
+    mats = {"steel": M.brushed_steel(), "steel_v": M.brushed_steel("Brushed steel vertical", axis="Z"), "dark": M.dark_metal(), "cap": M.black_glass(), "glass": M.clear_glass(), "led": M.led()}
     opening = float(opts["open"])
     speed_gate("Gate A", (0, 0, 0), opening, mats)
     speed_gate("Gate B", (W + 0.02, 0, 0), opening, mats)  # a second unit beside it, as in a lobby row

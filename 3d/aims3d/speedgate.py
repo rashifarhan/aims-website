@@ -19,6 +19,7 @@ def speed_gate(name="MARS-B1200", location=(0, 0, 0), flap_open=0.0, mats=None):
     """Build one gate. `flap_open` is 0 (closed) to 1 (fully swung open, 90 degrees)."""
     m = mats or {
         "steel": M.brushed_steel(),
+        "steel_v": M.brushed_steel("Brushed steel vertical", axis="Z"),
         "dark": M.dark_metal(),
         "cap": M.black_glass(),
         "glass": M.clear_glass(),
@@ -29,7 +30,7 @@ def speed_gate(name="MARS-B1200", location=(0, 0, 0), flap_open=0.0, mats=None):
 
     for side in (-1, 1):
         cx = side * (x0 - PILLAR / 2)
-        box(f"{name} pillar {side}", (PILLAR, D, BEAM_LOW), (cx, 0, BEAM_LOW / 2), m["steel"], 0.006, parent=root)
+        box(f"{name} pillar {side}", (PILLAR, D, BEAM_LOW), (cx, 0, BEAM_LOW / 2), m.get("steel_v", m["steel"]), 0.006, parent=root)
 
     box(f"{name} beam", (W, D, BEAM_TOP - BEAM_LOW), (0, 0, (BEAM_LOW + BEAM_TOP) / 2), m["steel"], 0.004, parent=root)
     inner = W - 2 * PILLAR
@@ -67,6 +68,9 @@ def speed_gate(name="MARS-B1200", location=(0, 0, 0), flap_open=0.0, mats=None):
     del disc
 
     box(f"{name} base", (inner, D, 0.06), (0, 0, 0.03), m["steel"], 0.003, parent=root)
+    # Dark recessed kick strip along the base on both faces, as in the photo.
+    for face in (-1, 1):
+        box(f"{name} kick {face}", (inner, 0.004, 0.03), (0, face * (D / 2 + 0.001), 0.018), m["dark"], 0, parent=root)
     for y in (-0.07, 0.07):
         box(f"{name} base groove {y}", (inner - 0.08, 0.008, 0.002), (0, y, 0.0605), m["dark"], 0, parent=root)
 
