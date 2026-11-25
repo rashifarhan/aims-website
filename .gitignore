@@ -56,3 +56,8 @@ performance-results
 
 # personal Claude Code settings (impeccable writes its hooks here); never committed
 .claude/settings.local.json
+
+# Blender scene files and bake caches (large; renders are kept)
+3d/renders/*.blend
+3d/renders/*.blend1
+__pycache__/
