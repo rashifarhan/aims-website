@@ -1,77 +1,31 @@
-import Link from "next/link";
-import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { localePath } from "@/i18n/config";
-import { DOOR_MODELS, DoorIllustration } from "@/components/home/DoorIllustration";
-import { productBySlug, softwareBySlug } from "@/content/catalogue";
-import { isBuiltSoftware } from "@/lib/software";
-import { DoorStory } from "@/components/motion/DoorStory";
-
-const PARTS = ["reader", "controller", "lock", "exit", "card", "software"] as const;
-
-/** The catalogue page behind each model code in the drawing (the homepage door's products). */
-const PART_PATHS: Record<(typeof PARTS)[number], { product?: string; software?: string }> = {
-  reader: { product: "kr602" },
-  controller: { product: "inbio-pro-160" },
-  lock: { product: "al-m280" },
-  exit: { product: "alf-b21-exit-button" },
-  card: { product: "id-card-thin" },
-  software: { software: "zkaccess-3-5" },
-};
-
-/** A part links only when its page is built here (CLAUDE.md §6). */
-function partPath({ product, software }: { product?: string; software?: string }): string | null {
-  if (product) return productBySlug(product) ? `/product/${product}` : null;
-  if (software) return softwareBySlug(software) && isBuiltSoftware(software) ? `/software/${software}` : null;
-  return null;
-}
+import { getDictionary } from "@/i18n/dictionaries";
+import { DoorIllustration } from "@/components/home/DoorIllustration";
+import { DoorMotion } from "./DoorMotion";
+import { DoorParts } from "./DoorParts";
 
 /**
- * UNLOCK (Design Doc 8.2): the approved kit follows native scroll through DoorStory; phones play once.
- * The parts list is the drawing's text equivalent (Design Doc 14) and links each model to its page.
+ * UNLOCK (Design Doc 8.2), the page's one dealt moment: the approved door kit, walked through by a GSAP sequence
+ * (DoorMotion) that the server render's finished frame stands in for until it loads, under reduced motion and without
+ * JS. The drawing comes before the parts list so a phone sees it first; from 1024px the two stand side by side.
  */
 export async function SolutionDoor({ idPrefix }: { idPrefix: string }) {
   const t = await getDictionary();
   const c = t.solutionAccessControl.door;
-  const locale = await getLocale();
   return (
-    <DoorStory ground="band" className="t3-door" labelledBy={`${idPrefix}-door-title`}>
-      <div>
-        <h2 id={`${idPrefix}-door-title`} className="section-title">
-          {c.heading}
-        </h2>
-        <p className="section-lead">{c.lead}</p>
-        <ol className="t3-door-parts" aria-label={c.partsLabel}>
-          {PARTS.map((part, i) => {
-            const path = partPath(PART_PATHS[part]);
-            const label = (
-              <span>
-                {t.home.door[part]}
-                <bdi className="home-door-code">{DOOR_MODELS[part]}</bdi>
-              </span>
-            );
-            return (
-              <li key={part} data-door-step={i + 1}>
-                <span className="home-door-index" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  {path ? (
-                    <Link href={localePath(locale, path)} className="home-door-link">
-                      {label}
-                    </Link>
-                  ) : (
-                    label
-                  )}
-                  <p className="t3-door-note">{c.parts[part]}</p>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+    <section className="section section-band t3-door" aria-labelledby={`${idPrefix}-door-title`}>
+      <div className="wrap">
+        <div className="t3-door-head">
+          <h2 id={`${idPrefix}-door-title`} className="section-title">
+            {c.heading}
+          </h2>
+          <p className="section-lead">{c.lead}</p>
+        </div>
+        <div className="home-door-stage">
+          <DoorIllustration labels={t.home.door} />
+        </div>
+        <DoorParts />
+        <DoorMotion />
       </div>
-      <div className="home-door-stage">
-        <DoorIllustration labels={t.home.door} />
-      </div>
-    </DoorStory>
+    </section>
   );
 }

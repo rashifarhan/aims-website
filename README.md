@@ -681,6 +681,36 @@ second system on elements GSAP does not otherwise touch.
 - **Not tested here:** Firefox (no Firefox build in this environment). The reveal uses nothing browser-specific
   (transforms, opacity, clip-path and ScrollTrigger), so it should play there; worth one manual look.
 
+### Door kit with GSAP (client request, 25 Nov 2026; branch `claude/gsap-door`)
+
+The access control page's UNLOCK moment ("Six parts at every controlled door") is now one GSAP sequence that walks
+a controlled door through the approved kit's drawing. It replaces `DoorStory` (its WAAPI clock, sticky layout and
+`doorStory.css`), `doorTimeline.ts` and `storyProgress.ts`; the page no longer mounts `MomentTrigger`, which had no
+other moment there.
+
+- **Order of events.** The prototype's credential story, one beat per part (`src/lib/doorStep.ts`): the card swings
+  in to the reader and its light turns lime; a lime pulse runs the wire to the controller while a green-700 trail
+  draws behind it (DrawSVG); the controller reports to ZKAccess 3.5 and the event row appears; the pulse runs to the
+  EM lock, its light turns lime, the magnet lifts 2px and the leaf opens (the prototype's scaleX .74 about the
+  hinge) with "Access granted"; the exit button's input wire draws back to the controller, closing the circuit; the
+  hero's lime tick draws on a night disc in the badge. Parts wait at 35% opacity until their beat.
+- **The parts list follows the story** and was reordered to it: credential, reader, controller, software, EM lock,
+  exit button (same labels, copy and links). The active part's rule and numeral turn green-700 (`aria-current`);
+  none is singled out once the door rests verified.
+- **Desktop** (from 1024px, when the section fits below the header): the section's content pins, centred, and the
+  timeline scrubs over 2.4 viewports (scrub 0.6), both directions. The page's one pin; part links stay on screen.
+  **Below 1024px:** no pin; the drawing moves above the list, each beat plays forward once as the drawing rises
+  (one trigger per step, 72% to 30% of the viewport) and each list item rises in as it enters.
+- **Final frame.** The server renders the finished frame (door open, granted, verified tick, the three signal
+  trails drawn green), which reduced motion, no JS and the e2e rest switch show. `keepFrame` restores the frame's
+  own attributes after GSAP reverts, because GSAP leaves SVG transforms as matrices and a scrub caught by a
+  navigation could render once more after revert.
+- **Not drawn: a power supply.** The brief named "power" in the last step; the approved kit has no power supply
+  and drawing one would invent hardware, so the exit button closes the loop. AIMS can supply the PSU model to add.
+- **Tests.** `solution-access-control.spec.ts` and the door tests in `purposeful-motion.spec.ts` check the rest
+  switch before axe, the pin scrubbed both ways with the list in sync, the phone's per-step order (2…6, done), the
+  verified rest with no loop, the exact frame under reduced motion and without JS.
+
 ## Content import
 
 ```bash

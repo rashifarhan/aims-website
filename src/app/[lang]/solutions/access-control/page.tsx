@@ -3,7 +3,6 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { SOLUTION_PAGES } from "@/content/solutionPages";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SolutionIntro } from "@/components/solution/SolutionIntro";
 import { SolutionDoor } from "@/components/solution/access-control/SolutionDoor";
 import { SolutionMethods } from "@/components/solution/SolutionMethods";
@@ -61,7 +60,6 @@ export default async function AccessControlSolution() {
           />
         }
       />
-      <MomentTrigger />
     </main>
   );
 }

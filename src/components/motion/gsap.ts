@@ -5,9 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
 /*
- * The one GSAP entry (CLAUDE.md §3 GSAP rule): plugins are registered once, here, and only the lazy chunks of the home
- * hero (HeroTimeline) and journey (JourneyTimeline) import this module, so GSAP never reaches a layout or the first
- * paint.
+ * The one GSAP entry (CLAUDE.md §3 GSAP rule): plugins are registered once, here, and only lazy chunks import this
+ * module (the home hero and journey, the reach map, the access control door kit, and the section title reveal), so
+ * GSAP never reaches the first paint. ScrollTrigger is exported for the pieces that create triggers directly.
  */
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger, SplitText);
 
