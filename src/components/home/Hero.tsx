@@ -4,13 +4,12 @@ import { localePath } from "@/i18n/config";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { ArrowIcon, PinIcon } from "@/components/icons";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { Ridges } from "@/components/ui/Ridges";
-import { HeroFilm } from "./herofilm/HeroFilm";
+import { HeroScroll } from "./heroscroll/HeroScroll";
 import { HeroTick } from "./HeroTick";
 
 /**
- * T1 hero: the copy beside a photoreal film of the SpeedFace terminal (herofilm/, client request 25 Nov 2026) over the
- * ridge motif.
+ * T1 hero: the copy over the full-screen scroll scene (heroscroll/, client request 25 Nov 2026): a face of light is
+ * scanned and verified as the page scrolls.
  * The headline holds two lines from 1024px, the second the quieter ink-600 line.
  */
 export async function Hero() {
@@ -18,47 +17,40 @@ export async function Hero() {
   const h = t.home.hero;
   const locale = await getLocale();
   return (
-    <section className="home-hero" aria-labelledby="home-title">
-      <div className="home-hero-inner wrap">
-        <div className="home-hero-copy">
-          <p className="home-eyebrow">
-            <span aria-hidden="true">
-              <HeroTick />
-            </span>
-            {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
-          </p>
-          <h1 id="home-title" className="home-display">
-            <span>
-              <span className="home-headline-rise">{h.line1}</span>
-            </span>{" "}
-            {/* DESIGN.md One Sign Rule: green marks actions, so the second line steps back in ink. */}
-            <span className="home-headline-quiet">
-              <span className="home-headline-rise">{h.line2}</span>
-            </span>
-          </h1>
-          <p className="home-lead">{h.lead}</p>
-          <div className="home-hero-actions">
-            <Magnetic>
-              <Link href={localePath(locale, "/products")} className="home-button">
-                {h.explore}
-                <ArrowIcon className="home-action-arrow rtl:-scale-x-100" />
-              </Link>
-            </Magnetic>
-            <Link href={localePath(locale, "/quote")} className="home-secondary">
-              {h.quote}
+    <HeroScroll label={h.scene} steps={[h.step1, h.step2, h.step3]}>
+      <div className="home-hero-copy">
+        <p className="home-eyebrow">
+          <span aria-hidden="true">
+            <HeroTick />
+          </span>
+          {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
+        </p>
+        <h1 id="home-title" className="home-display">
+          <span>
+            <span className="home-headline-rise">{h.line1}</span>
+          </span>{" "}
+          {/* DESIGN.md One Sign Rule: green marks actions, so the second line steps back in ink. */}
+          <span className="home-headline-quiet">
+            <span className="home-headline-rise">{h.line2}</span>
+          </span>
+        </h1>
+        <p className="home-lead">{h.lead}</p>
+        <div className="home-hero-actions">
+          <Magnetic>
+            <Link href={localePath(locale, "/products")} className="home-button">
+              {h.explore}
+              <ArrowIcon className="home-action-arrow rtl:-scale-x-100" />
             </Link>
-          </div>
-          <p className="home-trust">
-            <PinIcon width="16" height="16" />
-            {h.trust}
-          </p>
+          </Magnetic>
+          <Link href={localePath(locale, "/quote")} className="home-secondary">
+            {h.quote}
+          </Link>
         </div>
-        {/* The photoreal hero film (client request, 25 Nov 2026), on its own branch for review. */}
-        <div className="home-stage home-stage-film">
-          <Ridges className="home-hero-ridges" />
-          <HeroFilm label={h.scene} pauseLabel={h.pause} playLabel={h.play} />
-        </div>
+        <p className="home-trust">
+          <PinIcon width="16" height="16" />
+          {h.trust}
+        </p>
       </div>
-    </section>
+    </HeroScroll>
   );
 }

@@ -345,7 +345,10 @@
       "checked": "Checked in · 08:17",
       "unlocked": "Door unlocked",
       "pause": "Pause animation",
-      "scene": "Video: a ZKTeco SpeedFace terminal scans a face, shows a green \"Verified\" tick, then opens to show its layers: glass, screen, circuit board and back plate.",
+      "scene": "Animation: a face made of points of light is scanned line by line and verified, then dissolves into light.",
+      "step1": "Recognised at the door",
+      "step2": "Verified and logged to BioTime",
+      "step3": "Supplied, installed and supported across the UAE",
       "play": "Play animation",
       "verified": "Verified",
       "method": "Face"
