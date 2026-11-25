@@ -1,0 +1,51 @@
+/* The 3D hero stage: a landscape window beside the copy on desktop, full width above the fold on phones. */
+.home-stage.home-stage-3d {
+  width: min(100%, 46rem);
+  height: auto;
+  justify-self: stretch;
+}
+@media (min-width: 1024px) {
+  .home-stage.home-stage-3d {
+    width: clamp(22rem, 31vw, 30rem);
+  }
+}
+.hero3d {
+  position: relative;
+  aspect-ratio: 6 / 5;
+  width: 100%;
+  /* The scene melts into the page instead of sitting in a box. */
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 66%, transparent 100%);
+}
+.hero3d canvas {
+  animation: hero3d-in var(--duration-hero-device) var(--ease-aims) both;
+}
+@keyframes hero3d-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero3d canvas {
+    animation: none;
+  }
+}
+/* Out of the way until a keyboard reaches it (the ticker's pattern). */
+.hero3d-pause {
+  position: absolute;
+  inset-block-end: 0.5rem;
+  inset-inline-end: 0.5rem;
+  min-block-size: 2.75rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-night-900);
+  color: var(--color-night-text);
+  font-size: var(--text-small);
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero3d-pause:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
