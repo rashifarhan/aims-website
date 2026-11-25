@@ -172,12 +172,15 @@
   .journey-step:not(:last-child)::after {
     display: none;
   }
+  /* The path runs from this card's number to the next one's, behind both cards (they are opaque and above it), so
+     only its gentle middle shows in the gap, as in the approved mockup. */
   .journey-link {
     position: absolute;
+    z-index: 0;
     inset-block-start: calc(var(--card-pad) + var(--journey-node) / 2);
-    inset-inline-start: 100%;
+    inset-inline-start: calc(var(--card-pad) + var(--journey-node) / 2);
     display: block;
-    inline-size: var(--journey-gap);
+    inline-size: calc(100% + var(--journey-gap));
     block-size: var(--journey-stagger);
     overflow: visible;
     fill: none;

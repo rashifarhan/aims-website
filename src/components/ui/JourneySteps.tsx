@@ -57,9 +57,9 @@ export function JourneySteps({
               )}
             </div>
             {i < steps.length - 1 && (
-              // The path to the next number, in the gap between the cards; it scales to the gap, the dots don't.
-              <svg className="journey-link" viewBox="0 0 40 48" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 0C24 0 16 48 40 48" vectorEffect="non-scaling-stroke" />
+              // The path to the next number, behind the cards; it stretches to the span, the dots don't.
+              <svg className="journey-link" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 0C50 0 50 100 100 100" vectorEffect="non-scaling-stroke" />
               </svg>
             )}
             {done && i === steps.length - 1 && (
