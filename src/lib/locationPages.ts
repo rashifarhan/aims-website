@@ -34,9 +34,6 @@ export const LOCATION_PAGES = {
   { path: string; hero: string; quote: string; preset: Partial<QuoteContext> | undefined }
 >;
 
-/** The hub's hero photograph, a product no location page or solution page leads with. */
-export const HUB_HERO = "speedface-h5l-p";
-
 export type LocationMarket = keyof typeof LOCATION_PAGES;
 
 /** Two terminals, a door controller and a lock (Plan 12 products): an editorial choice, not a sales ranking. */

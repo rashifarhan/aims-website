@@ -6,10 +6,8 @@ import { ReachBand } from "@/components/ui/ReachBand";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { HUB_HERO } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
 import "@/components/signature/reach.css";
@@ -34,7 +32,6 @@ export default async function LocationsHub() {
   const locale = await getLocale();
   const c = t.locations.hub;
   const href = (p: string) => localePath(locale, p);
-  const photo = productBySlug(HUB_HERO)?.images[0];
   return (
     <main id="main">
       <PageHero
@@ -52,7 +49,7 @@ export default async function LocationsHub() {
             {CONTACT.showroomAddress}
           </span>
         }
-        photo={photo}
+        scene="offices"
       />
       <LocationOffices id="uae" />
       <ReachBand

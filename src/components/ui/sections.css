@@ -825,3 +825,12 @@ main:has(> .page-hero-split) {
     font-size: var(--text-base);
   }
 }
+/* A drawn scene (ui/HeroScene) has no pixel size to respect, so it takes its column at a set measure. */
+.page-hero-media.page-hero-scene {
+  max-width: 22rem;
+}
+@media (min-width: 1024px) {
+  .page-hero-media.page-hero-scene {
+    max-width: 30rem;
+  }
+}

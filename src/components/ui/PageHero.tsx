@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
+import { HeroScene, type SceneName } from "./HeroScene";
 import { HeroSignature } from "./HeroSignature";
 import { Magnetic } from "./Magnetic";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -26,6 +27,8 @@ type Props = {
   /** The first screen's one hard fact, under the actions (design-taste-frontend House rule 5). */
   fact?: ReactNode;
   photo?: Photo | null;
+  /** A drawn scene in place of a photograph, for a page whose subject is not one product (ui/HeroScene). */
+  scene?: SceneName;
   /** A screen capture sits on a white panel; a cut-out product photograph stands on the page. */
   framed?: boolean;
   /** The h1's id, which names the hero's region; one hero per page. */
@@ -39,7 +42,7 @@ type Props = {
  * the rest of the copy in turn while the photograph settles; reduced motion rests.
  */
 export async function PageHero(props: Props) {
-  const { variant, crumbs, eyebrow, title, titleLang, lead, fact, photo, framed, id = "hero-title" } = props;
+  const { variant, crumbs, eyebrow, title, titleLang, lead, fact, photo, framed, scene, id = "hero-title" } = props;
   const t = await getDictionary();
   const copy = (
     <div className="page-hero-copy">
@@ -72,7 +75,12 @@ export async function PageHero(props: Props) {
         ) : (
           <div className="page-hero-grid">
             {copy}
-            {photo && (
+            {scene && (
+              <div className="page-hero-media page-hero-scene hero-enter-media">
+                <HeroScene name={scene} />
+              </div>
+            )}
+            {!scene && photo && (
               // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
               // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
               <div

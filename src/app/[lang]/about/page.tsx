@@ -6,7 +6,6 @@ import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
-import { productBySlug } from "@/content/catalogue";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
@@ -44,7 +43,7 @@ export default async function About() {
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        photo={productBySlug("proface-x")?.images[0]}
+        scene="company"
       />
       <AboutStory />
       {/* Premium pass: proof and reach share one night ground, so the page has one night band before the close. */}
