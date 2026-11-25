@@ -4,7 +4,6 @@ import { ArrowIcon } from "@/components/icons";
 import { Magnetic } from "./Magnetic";
 import { Section } from "./Section";
 import { Ridges } from "./Ridges";
-import { SplitWords } from "./SplitWords";
 
 type Action = { href: string; label: string };
 
@@ -34,8 +33,8 @@ export function ClosePanel({
   const panel = (
     <div className="ui-close-panel">
       <div className="ui-close-copy">
-        <h2 id={id} className="ui-close-title">
-          {embedded ? heading : <SplitWords text={heading} />}
+        <h2 id={id} className="ui-close-title" data-heading-reveal={!embedded || undefined}>
+          {heading}
         </h2>
         <p className="ui-close-body">{body}</p>
       </div>

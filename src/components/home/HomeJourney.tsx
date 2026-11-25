@@ -19,7 +19,7 @@ import "./home-journey.css";
  *
  * The server renders the final frame. JourneyMotion, the one client leaf, lazy-loads GSAP and pins and scrubs it
  * (journeyMotion.ts). GSAP drives the whole section, so it opts out of the CSS scroll reveal (`moment`: ui/reveal.css
- * leaves a moment's blocks alone) and the title is passed as a node, so SplitWords does not split it; SplitText does.
+ * leaves a moment's blocks alone) and the title is passed as a node, so HeadingReveal leaves it to the journey's own SplitText.
  *
  * Every line is AIMS's own published copy (CLAUDE.md §1): owners from the services process, the quotation line from
  * services step two, devices and setup merged from the access control and time attendance processes, coverage and
