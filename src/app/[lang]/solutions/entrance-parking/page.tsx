@@ -45,19 +45,13 @@ export default async function EntranceParkingSolution() {
       <SolutionProducts idPrefix="ep" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="ep" copy={c.process} />
       <SolutionSoftware idPrefix="ep" copy={c.software} items={software} />
-      <SolutionQuestions
-        idPrefix="ep"
-        copy={c.faq}
-        close={
-          <ClosePanel
-            embedded
-            id="ep-cta-title"
-            heading={c.cta.heading}
-            body={c.cta.body}
-            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
-            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
-          />
-        }
+      <SolutionQuestions idPrefix="ep" copy={c.faq} />
+      <ClosePanel
+        id="ep-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
     </main>

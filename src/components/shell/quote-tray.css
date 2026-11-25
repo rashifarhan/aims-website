@@ -1,0 +1,92 @@
+/* The quote tray (shell/QuoteTray.tsx). The night chip of the process steps' "Working system", widened into a bar:
+   night-900 with night-text (15:1) and night-muted (8.6:1); the action is the inverted signature button, as on the
+   closing band. It appears and goes at once: scrolling moves nothing (CLAUDE.md §3). */
+.quote-tray {
+  display: none;
+}
+/* QuoteTray decides where it shows (a page that can add to the list, not the quote page) and sets data-on. */
+.quote-tray[data-on] {
+  position: fixed;
+  inset-block-end: 1rem;
+  inset-inline: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  inline-size: min(42rem, 100% - 2 * var(--page-gutter));
+  margin-inline: auto;
+  padding-block: 0.625rem;
+  padding-inline: 0.75rem 0.625rem;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-night-900);
+  color: var(--color-night-text);
+  box-shadow: var(--shadow-3);
+}
+.quote-tray-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-lime);
+  color: var(--color-night-900);
+}
+.quote-tray-copy {
+  display: grid;
+  flex: 1;
+  min-inline-size: 0;
+  line-height: 1.3;
+}
+.quote-tray-title {
+  font-weight: 600;
+}
+.quote-tray-meta {
+  overflow: hidden;
+  color: var(--color-night-muted);
+  font-size: var(--text-small);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The action is the inverted signature button of every night ground (ui/actions.css), hover wash included. */
+.quote-tray .quote-tray-action {
+  flex: none;
+}
+@media (width < 40rem) {
+  .quote-tray[data-on] {
+    inset-block-end: 0.75rem;
+    gap: 0.75rem;
+    border-radius: var(--radius-lg);
+  }
+  .quote-tray-icon {
+    display: none;
+  }
+  .quote-tray-copy {
+    padding-inline-start: 0.5rem;
+  }
+  /* A phone keeps the counts whole: the title goes (the tray's name still says it to screen readers), the counts
+     take its line and "not sent yet" the one under it. */
+  .quote-tray-title {
+    display: none;
+  }
+  .quote-tray-meta {
+    display: grid;
+    white-space: nowrap;
+  }
+  .quote-tray-meta > span:first-child {
+    color: var(--color-night-text);
+    font-weight: 600;
+  }
+  .quote-tray-sent {
+    font-size: var(--text-caption);
+  }
+  /* The separator belongs to the one-line layout; here the line break does its job. */
+  .quote-tray-sep {
+    display: none;
+  }
+  /* The item count matches the header badge; the units wait for the quote page, so the action keeps its room. */
+  .quote-tray-units {
+    display: none;
+  }
+}

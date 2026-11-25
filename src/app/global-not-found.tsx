@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { inter, plexArabic } from "./fonts";
+import { archivo, inter, plexArabic } from "./fonts";
 import "./globals.css";
 import "@/components/ui/actions.css";
 
@@ -15,21 +15,19 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={`${inter.variable} ${plexArabic.variable}`}>
+    <html lang="en" className={`${inter.variable} ${archivo.variable} ${plexArabic.variable}`}>
       <body>
         <main id="main" className="wrap py-24">
           <Link
             href="/"
             aria-label="AIMS Security Systems, home"
-            className="inline-flex min-h-11 items-center text-xl font-bold tracking-wide"
+            className="ui-display inline-flex min-h-11 items-center text-xl font-extrabold tracking-wordmark"
           >
             <span dir="ltr">
               AIMS<span className="text-lime">.</span>
             </span>
           </Link>
-          <h1 className="mt-10 text-page-title-mobile font-display tracking-tight lg:text-page-title">
-            Page not found
-          </h1>
+          <h1 className="ui-display mt-10 text-page-title-mobile tracking-tight lg:text-page-title">Page not found</h1>
           <p className="mt-3 max-w-lg text-ink-600">
             The page may have moved. Try searching for a model code, or browse all products.
           </p>

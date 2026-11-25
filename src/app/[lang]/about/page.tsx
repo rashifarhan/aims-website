@@ -6,12 +6,10 @@ import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
-import { productBySlug } from "@/content/catalogue";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/sections.css";
 import "@/components/signature/reach.css";
 import "@/components/company/company.css";
@@ -33,7 +31,7 @@ export default async function About() {
   const c = t.about;
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="w-full flex-1">
+    <main id="main" className="co-about w-full flex-1">
       <PageHero
         variant="split"
         crumbs={[
@@ -45,16 +43,19 @@ export default async function About() {
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        photo={productBySlug("proface-x")?.images[0]}
+        scene="company"
       />
       <AboutStory />
-      <HomeProof />
-      <ReachBand
-        titleId="contact-reach-title"
-        heading={t.contactPage.reachTitle}
-        lead={t.contactPage.reachLead}
-        map={<ReachMap labels={t.home.reach} />}
-      />
+      {/* Premium pass: proof and reach share one night ground, so the page has one night band before the close. */}
+      <div className="co-night-pair section-night">
+        <HomeProof />
+        <ReachBand
+          titleId="contact-reach-title"
+          heading={t.contactPage.reachTitle}
+          lead={t.contactPage.reachLead}
+          map={<ReachMap labels={t.home.reach} />}
+        />
+      </div>
       <LocationCards t={t.contactPage} id="showrooms" />
       <ClosePanel
         id="about-close-title"
@@ -63,7 +64,6 @@ export default async function About() {
         action={{ href: href("/quote"), label: c.closeAction }}
         secondary={{ href: href("/contact"), label: c.closeSecondary }}
       />
-      <MomentTrigger />
     </main>
   );
 }

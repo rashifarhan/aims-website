@@ -136,8 +136,11 @@ test.describe("404 page", () => {
         // Keyframe animations only: the global reduced-motion rule also starts 0.01ms colour transitions on load.
         .evaluate(
           (el) =>
-            el.getAnimations({ subtree: true }).filter((a) => a instanceof CSSAnimation && a.playState === "running")
-              .length,
+            el
+              .getAnimations({ subtree: true })
+              .filter(
+                (a) => a instanceof CSSAnimation && a.playState === "running" && a.timeline instanceof DocumentTimeline,
+              ).length,
         ),
     ).toBe(0);
   });

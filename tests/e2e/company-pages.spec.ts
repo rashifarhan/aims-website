@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
+import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: Page) =>
@@ -8,7 +10,7 @@ const settle = (page: Page) =>
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 const noSideScroll = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
@@ -29,6 +31,7 @@ for (const base of ["/about", "/services", "/support"]) {
         await expect(moment.first()).toHaveAttribute("data-played", "true");
       }
       await settle(page);
+      await restMotion(page);
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
@@ -87,10 +90,7 @@ test("services: four cards open live pages; the quote action presets installatio
 });
 
 // The dealt moments play once and only when their band is on screen (taste motion.md; CLAUDE.md §3).
-for (const [path, part] of [
-  ["/services", ".verify-line"],
-  ["/about", ".reach-route"],
-] as const) {
+for (const [path, part] of [["/services", ".verify-line"]] as const) {
   test(`${path}: the moment waits for its band, plays once, and ends drawn`, async ({ page }) => {
     await page.goto(path);
     const moment = page.locator("[data-moment]");
@@ -107,7 +107,13 @@ for (const [path, part] of [
     // Scrolling away and back does not replay it.
     await page.evaluate(() => scrollTo(0, 0));
     await moment.evaluate((el) => el.scrollIntoView({ block: "center" }));
-    expect(await page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
+    expect(
+      await page.evaluate(
+        () =>
+          document.getAnimations().filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline)
+            .length,
+      ),
+    ).toBe(0);
   });
 
   test(`${path}: under reduced motion the moment rests on its final frame`, async ({ browser }) => {
@@ -145,8 +151,12 @@ test.describe("support route moment", () => {
         () =>
           section.evaluate(
             (el) =>
-              el.getAnimations({ subtree: true }).filter((a) => a instanceof CSSAnimation && a.playState === "running")
-                .length,
+              el
+                .getAnimations({ subtree: true })
+                .filter(
+                  (a) =>
+                    a instanceof CSSAnimation && a.playState === "running" && a.timeline instanceof DocumentTimeline,
+                ).length,
           ),
         { timeout: 4000 },
       )
@@ -162,4 +172,20 @@ test.describe("support route moment", () => {
     // The route is decorative; the steps carry its meaning for screen readers.
     await expect(page.locator(".support-route")).toHaveAttribute("aria-hidden", "true");
   });
+});
+
+test("/about: the reach map waits for its band, draws once, and ends drawn", async ({ page }) => {
+  await page.goto("/about");
+  const map = page.locator(".ui-reach-map");
+  await expectReachWaiting(map);
+  await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expectReachFinished(map);
+});
+
+test("/about: under reduced motion the reach map rests drawn", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  await page.goto("/about");
+  await expectReachResting(page.locator(".ui-reach-map"));
+  await context.close();
 });

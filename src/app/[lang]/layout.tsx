@@ -1,16 +1,23 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { lang } from "next/root-params";
-import { inter, plexArabic, plexMono } from "../fonts";
+import { archivo, inter, plexArabic, plexMono } from "../fonts";
 import { LOCALES, dir, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { INDEXABLE, SITE_URL } from "@/lib/site";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
+import { QuoteTray } from "@/components/shell/QuoteTray";
+import { localePath } from "@/i18n/config";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
+import { RidgeSymbol } from "@/components/ui/RidgeSymbol";
+import { HeadingReveal } from "@/components/motion/HeadingReveal";
 import "../globals.css";
 import "@/components/ui/actions.css";
 import "@/components/ui/sections.css";
 import "@/components/ui/journey.css";
+import "@/components/ui/reveal.css";
+import "@/components/ui/ridges.css";
 
 export function generateStaticParams() {
   return LOCALES.map((l) => ({ lang: l }));
@@ -42,7 +49,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
     <html
       lang={locale}
       dir={dir(locale)}
-      className={`${inter.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
+      className={`${inter.variable} ${archivo.variable} ${plexMono.variable} ${plexArabic.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <a
@@ -51,11 +58,17 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         >
           {t.nav.skipToContent}
         </a>
+        <RidgeSymbol />
         <ContactGuardProvider labels={t.contactGuard}>
           <Header />
           {children}
           <Footer />
+          <QuoteTray href={localePath(locale, "/quote")} labels={t.quoteTray} />
         </ContactGuardProvider>
+        {/* One leaf for every section title's reveal; it reads the path, so it waits behind its own boundary. */}
+        <Suspense fallback={null}>
+          <HeadingReveal />
+        </Suspense>
       </body>
     </html>
   );

@@ -1,9 +1,8 @@
 /*
  * SIGNAL: the reach map (src/components/home/ReachMap.tsx; Design Doc 8.3 "Locations / export"). Moved
- * from home/premium.css unchanged so the homepage and /contact share one map. Its routes draw once when
- * the section enters view: MomentTrigger sets data-played on the [data-moment] section, and data-effects
- * on <html> only without reduced motion, so the resting styles are the finished map. Every page hooks it
- * with .reach-moment (ui/ReachBand).
+ * from home/premium.css unchanged so the homepage and /contact share one map. Its sequence is GSAP's
+ * (home/ReachTimeline: routes draw once when a third of the map is on screen); the resting styles here are the
+ * finished map, which is also what reduced motion and no-JS show.
  */
 .reach-map {
   display: block;
@@ -42,38 +41,6 @@
   font-weight: 600;
   fill: var(--color-lime);
 }
-:root[data-effects="on"] .reach-moment:not([data-played]) .reach-route {
-  stroke-dashoffset: 1;
-}
-:root[data-effects="on"] .reach-moment[data-played] .reach-route {
-  animation: reach-draw 1400ms var(--ease-aims) both;
-}
-:root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(2) .reach-route {
-  animation-delay: 120ms;
-}
-:root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(3) .reach-route {
-  animation-delay: 240ms;
-}
-:root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(4) .reach-route {
-  animation-delay: 360ms;
-}
-:root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(5) .reach-route {
-  animation-delay: 480ms;
-}
-:root[data-effects="on"] .reach-moment[data-played] g > g:nth-child(6) .reach-route {
-  animation-delay: 600ms;
-}
-/* Same frames as the door's line draw (home/premium.css door-draw), named here so the map needs no
-   homepage stylesheet. */
-@keyframes reach-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 @media (max-width: 639px) {
   /* The map draws at about half size on a phone; labels scale up to stay near 13px. */
   .reach-labels text {
@@ -84,27 +51,7 @@
 /* T7 location pages (ReachMap `destination`): when the one route arrives, its market lights up and stays lit. */
 .reach-arrive {
   opacity: 0.3;
-  transform-box: fill-box;
-  transform-origin: center;
 }
-:root[data-effects="on"] .reach-moment:not([data-played]) .reach-arrive {
-  opacity: 0;
-  transform: scale(0.3);
-}
-:root[data-effects="on"] .reach-moment[data-played] .reach-arrive {
-  animation: reach-arrive 600ms 1200ms var(--ease-aims) both;
-}
-@keyframes reach-arrive {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 0.3;
-    transform: none;
-  }
-}
-
 /* Oman's map is cropped to the Gulf (ReachMap ZOOM): text, lines and dots are divided by the crop factor so
    they keep the full map's on-screen size; only the geography grows. */
 .reach-map-zoomed .reach-labels text {
@@ -132,4 +79,32 @@
   .reach-map-zoomed .reach-labels text {
     font-size: calc(var(--text-map-label-mobile) / var(--reach-zoom));
   }
+}
+
+/* The light map (ReachBand ground="band"; client decision, 25 Nov 2026): the same drawing in green on the light band.
+   Labels read in ink (ink-600 on paper-2 6.2:1); the routes, cities and offices are green-700 (above 3:1 as
+   graphics, WCAG 1.4.11); lime stays only in the faint ring, where it is decoration. */
+.ui-reach-light .reach-map .fill-night-muted {
+  fill: var(--color-green-700);
+}
+.ui-reach-light .reach-land {
+  opacity: 0.35;
+}
+.ui-reach-light .reach-route {
+  stroke: var(--color-green-700);
+}
+.ui-reach-light .reach-city {
+  fill: var(--color-ink);
+}
+.ui-reach-light :is(.reach-office, .reach-arrive) {
+  fill: var(--color-green-700);
+}
+.ui-reach-light .reach-labels text {
+  fill: var(--color-ink-600);
+}
+.ui-reach-light .reach-labels .reach-label-strong {
+  fill: var(--color-ink);
+}
+.ui-reach-light .reach-labels .reach-label-region {
+  fill: var(--color-green-700);
 }

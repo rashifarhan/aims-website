@@ -20,7 +20,7 @@ export async function SolutionCard({ solution }: { solution: SolutionCardData })
     // The heading holds the link and its ::after covers the card, so the name is the title,
     // not every line of the card (WCAG 2.5.3; Design Doc T2 "cards are real links with headings").
     // The shared card (actions.css): 2px lift and 1.03 photo zoom, like every linked card on the site.
-    <article className="solution-card ui-card ui-card-interactive">
+    <article className="solution-card ui-card ui-card-interactive spotlight-card">
       <div className="solution-card-heading">
         <div>
           <p className="solution-outcome">{copy.outcome}</p>

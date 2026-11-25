@@ -6,6 +6,7 @@ import { alternates } from "@/lib/seo";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { articles } from "@/content/pages";
 import "@/components/editorial/editorial.css";
@@ -45,13 +46,15 @@ export default async function Blog() {
         <h2 id="blog-list-title" className="sr-only">
           {t.blog.title}
         </h2>
-        <ul className="ed-card-grid">
-          {list.map((a, i) => (
-            <li key={a.slug}>
-              <ArticleCard article={a} href={href(`/blog/${a.slug}`)} lead={i === 0} />
-            </li>
-          ))}
-        </ul>
+        <SpotlightGroup>
+          <ul className="ed-card-grid">
+            {list.map((a, i) => (
+              <li key={a.slug}>
+                <ArticleCard article={a} href={href(`/blog/${a.slug}`)} lead={i === 0} />
+              </li>
+            ))}
+          </ul>
+        </SpotlightGroup>
       </Section>
       <ClosePanel
         id="blog-close-title"

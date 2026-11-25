@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { QtyStepper } from "@/components/ui/QtyStepper";
 import { fmt } from "@/i18n/format";
 import { destinationFromSearch } from "@/lib/quote/context";
@@ -88,10 +89,12 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
 
   return (
     <>
-      <div ref={inline} className="mt-6">
+      <div ref={inline} data-quote-add className="mt-6">
         <div className="flex flex-wrap items-center gap-3">
           {stepper}
-          {addButton("flex-1 max-[359px]:basis-full sm:flex-none")}
+          {/* The hero's primary leans toward a fine pointer, like the home hero's (premium pass, client decision 7).
+              The wrapper takes the button's place in the row, so the button fills it. */}
+          <Magnetic className="flex-1 max-[359px]:basis-full sm:flex-none">{addButton("w-full")}</Magnetic>
           <ContactLink
             kind="whatsapp"
             href={whatsappUrl(whatsappMessage)}
@@ -124,6 +127,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
 
       {/* Mobile sticky bar (Design Doc 6) */}
       <div
+        data-purchase-bar
         aria-hidden={!showBar}
         inert={!showBar}
         className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}

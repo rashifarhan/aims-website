@@ -4,7 +4,6 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
-import { productBySlug } from "@/content/catalogue";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
 import { ServicesProcess } from "@/components/company/ServicesProcess";
@@ -41,7 +40,7 @@ export default async function Services() {
         lead={c.lead}
         primary={{ href: href("/quote?need=install"), label: c.primary }}
         secondary={{ href: `${href("/support")}#warranty`, label: c.secondary }}
-        photo={productBySlug("inbio-pro-160")?.images[0]}
+        scene="services"
       />
       <ServicesList />
       <ServicesProcess />

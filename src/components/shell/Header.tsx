@@ -58,7 +58,7 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-page/94 backdrop-blur-md backdrop-saturate-150">
-      <div className="wrap flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-6">
+      <div className="wrap flex h-15 items-center gap-3 lg:h-18 lg:gap-4 xl:gap-5">
         <Wordmark href={href("/")} descriptor="Security Systems" />
         <DesktopNav externalLabel={t.home.external} items={items} label={t.nav.primary} />
         <HeaderSearch
@@ -66,16 +66,19 @@ export async function Header() {
           labels={t.search}
           id="header-search"
           action={href("/products")}
-          placeholder={t.nav.search}
+          // The header is full at laptop widths, so the visible hint is the short word and the name says it all
+          // (client report, 25 Nov 2026: "Search products" was cut to "Search proc").
+          placeholder={t.nav.searchShort}
+          label={t.nav.search}
           submitLabel={t.nav.searchSubmit}
-          className="ms-auto hidden w-56 lg:block xl:w-72"
+          className="ms-auto hidden w-52 lg:block xl:w-56 2xl:w-72"
           shortcut
         />
         <Suspense fallback={null}>
           <LanguageSwitch
             target={otherLocale}
             label={t.nav.switchLanguage}
-            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold text-ink-700 hover:text-ink lg:inline-flex"
+            className="hidden h-11 items-center rounded-pill px-2 text-sm font-semibold whitespace-nowrap text-ink-700 hover:text-ink lg:inline-flex"
           />
         </Suspense>
         <QuoteLink

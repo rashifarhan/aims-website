@@ -3,6 +3,7 @@ import { ArrowIcon } from "@/components/icons";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { Section } from "@/components/ui/Section";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 
 /**
  * Master Plan 12 #5 "coverage; warranty": where AIMS supplies and installs (as it publishes on the
@@ -26,18 +27,20 @@ export async function ServicesCover() {
       <h2 id="services-cover-title" className="section-title">
         {c.heading}
       </h2>
-      <ul className="co-cover">
-        {cards.map((card) => (
-          <li key={card.title} className="ui-card ui-card-interactive co-cover-card">
-            <h3>{card.title}</h3>
-            <p>{card.body}</p>
-            <Link href={card.href} className="home-text-link co-cover-link">
-              {card.action}
-              <ArrowIcon width="16" height="16" className="home-action-arrow" />
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <SpotlightGroup className="co-cover-wrap">
+        <ul className="co-cover">
+          {cards.map((card) => (
+            <li key={card.title} className="ui-card ui-card-interactive spotlight-card co-cover-card">
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+              <Link href={card.href} className="home-text-link co-cover-link">
+                {card.action}
+                <ArrowIcon width="16" height="16" className="home-action-arrow" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </SpotlightGroup>
     </Section>
   );
 }

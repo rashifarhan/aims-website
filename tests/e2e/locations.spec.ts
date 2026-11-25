@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
+import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /*
  * Locations hub and the four T7 location pages (Master Plan 12 #6, #32–35; Design Doc 10.1 T2/T7).
@@ -19,13 +21,13 @@ const PAGES = [
 /** Let the hero entrance and the map's one-time draw finish, so axe audits the settled frame. */
 async function settle(page: Page) {
   await page.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(page.locator(".ui-reach-map")).toHaveAttribute("data-played", "true");
+  await expectReachFinished(page.locator(".ui-reach-map"));
   await page.evaluate(() =>
     Promise.all(
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 }
@@ -43,6 +45,11 @@ for (const { path, lang } of PAGES) {
       .evaluateAll((scripts) => scripts.map((el) => el.textContent ?? ""));
     expect(jsonLd.filter((text) => text.includes('"BreadcrumbList"'))).toHaveLength(1);
     await settle(page);
+    await restMotion(page);
+    // The audit reads the page from its top, as smoke.spec.ts does: settle() leaves the map centred, and at that
+    // arbitrary scroll the sticky header covers whichever link passes under it, which axe counts as a target-size
+    // failure (seen on CI with the Dubai office's maps link, 25 Nov 2026). The map has finished and stays finished.
+    await page.evaluate(() => window.scrollTo(0, 0));
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -93,33 +100,24 @@ test("hub: every listed market is a page or an export quote with its destination
 
 test("SIGNAL on the hub: the routes draw once when the map comes into view, then stand", async ({ page }) => {
   await page.goto("/locations");
-  await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
   const band = page.locator(".ui-reach");
   const map = band.locator(".ui-reach-map");
-  await expect(map).toHaveAttribute("data-moment");
-  await expect(map).not.toHaveAttribute("data-played");
-  await expect(band.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "1px");
+  await expectReachWaiting(map);
   await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(map).toHaveAttribute("data-played", "true");
   await expect(band.locator(".reach-route")).toHaveCount(6);
-  await expect(band.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
-  await expect
-    .poll(
-      () => band.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
-      { timeout: 4000 },
-    )
-    .toBe(0);
+  await expectReachFinished(map);
 });
 
 test("SIGNAL starts only once a third of the map is on screen, never with just its top edge", async ({ page }) => {
   await page.goto("/zkteco-distributor-in-oman");
   const map = page.locator(".ui-reach-map");
-  // Scroll down in small steps, as a reader does, and catch the first frame the moment is marked played.
+  await expectReachWaiting(map);
+  // Scroll down in small steps, as a reader does, and catch the first frame the sequence has started (the hub shows).
   let visible = 0;
   for (let y = 0; y < 6000 && !visible; y += 40) {
     await page.evaluate((top) => window.scrollTo(0, top), y);
     visible = await map.evaluate((el) => {
-      if (!el.hasAttribute("data-played")) return 0;
+      if (getComputedStyle(el.querySelector(".reach-office") as Element).opacity === "0") return 0;
       const r = el.getBoundingClientRect();
       return (Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / r.height;
     });
@@ -132,11 +130,11 @@ test("SIGNAL on Oman: one route to Muscat, and the market lights up on arrival",
   const band = page.locator(".ui-reach");
   await expect(band.locator(".reach-route")).toHaveCount(1);
   await expect(band.getByRole("img", { name: /Muscat, Oman/ })).toBeAttached();
+  await expectReachWaiting(band.locator(".ui-reach-map"));
   await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0");
   await band.locator(".ui-reach-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(band.locator(".ui-reach-map")).toHaveAttribute("data-played", "true");
-  await expect(band.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
-  await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0.3", { timeout: 4000 });
+  await expect(band.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px", { timeout: 6000 });
+  await expect(band.locator(".reach-arrive")).toHaveCSS("opacity", "0.3", { timeout: 6000 });
 });
 
 test("reduced motion: hero and map rest at their final frame, nothing hidden or moving", async ({ page }) => {
@@ -145,12 +143,17 @@ test("reduced motion: hero and map rest at their final frame, nothing hidden or 
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
   for (const part of await page.locator(".hero-enter, .page-hero-media").all())
     await expect(part).toHaveCSS("opacity", "1");
-  await expect(page.locator(".reach-route")).toHaveCSS("stroke-dashoffset", "0px");
+  await expectReachResting(page.locator(".ui-reach-map"));
   await expect(page.locator(".reach-arrive")).toHaveCSS("opacity", "0.3");
   expect(
     await page
       .locator("main")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 

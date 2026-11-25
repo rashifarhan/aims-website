@@ -1,0 +1,102 @@
+/* HeroScene: the drawn inner-hero scenes (client request, 25 Nov 2026). Strokes and fills in AIMS's greens only
+   (CLAUDE.md §2); lime marks the live parts, as on the home hero. Units are the SVG's own (viewBox 480×360). */
+.hero-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.scene-bracket {
+  stroke: color-mix(in srgb, var(--color-green-700) 45%, transparent);
+  stroke-width: 3;
+}
+.scene-ground {
+  stroke: var(--color-line);
+  stroke-width: 2;
+}
+.scene-line,
+.scene-cable {
+  stroke: var(--color-green-700);
+  stroke-width: 2.5;
+}
+.scene-cable {
+  stroke-dasharray: 4 6;
+}
+.scene-fill,
+.scene-wall,
+.scene-device,
+.scene-glass,
+.scene-pin {
+  stroke: var(--color-green-700);
+  stroke-width: 2.5;
+}
+.scene-fill,
+.scene-wall {
+  fill: var(--color-paper);
+}
+.scene-device {
+  fill: var(--color-paper-2);
+}
+.scene-glass,
+.scene-pin {
+  fill: var(--color-green-50);
+}
+.scene-screen {
+  fill: var(--color-green-100);
+}
+.scene-lime,
+.scene-node-core {
+  fill: var(--color-lime);
+}
+.scene-node-ring {
+  fill: var(--color-paper);
+  stroke: var(--color-green-700);
+  stroke-width: 2.5;
+}
+.scene-route {
+  stroke: var(--color-lime);
+  stroke-width: 4;
+}
+.scene-tick {
+  stroke: var(--color-green-700);
+  stroke-width: 5;
+}
+
+/* The entrance (CLAUDE.md §3 (1)): the route draws once with the hero, each node lights as it arrives, the tick
+   draws last; then everything stands. Without motion, or without this support, the drawn scene shows as is. */
+@media (prefers-reduced-motion: no-preference) {
+  .scene-route,
+  .scene-tick {
+    stroke-dasharray: 1;
+    animation: scene-draw var(--duration-hero-device) 300ms var(--ease-aims) both;
+  }
+  .scene-tick {
+    animation-delay: 1200ms;
+    animation-duration: 500ms;
+  }
+  .scene-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: scene-node-in 400ms var(--ease-aims) both;
+  }
+  .scene-pin-drop {
+    transform-origin: center bottom;
+  }
+}
+@keyframes scene-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scene-node-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}

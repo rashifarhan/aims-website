@@ -14,7 +14,7 @@ type Props = { article: Article; href: string; heading?: "h2" | "h3"; lead?: boo
  */
 export function ArticleCard({ article, href, heading: Heading = "h2", lead = false }: Props) {
   return (
-    <article className="ed-card ui-card ui-card-interactive">
+    <article className="ed-card ui-card ui-card-interactive spotlight-card">
       {article.image && (
         <div className="ed-card-photo ui-card-photo">
           <Image

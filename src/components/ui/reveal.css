@@ -1,0 +1,47 @@
+/*
+ * Scroll reveals (client decision 7, 24 Nov 2026; CLAUDE.md §3 as updated by the client): blocks rise 24px and fade in
+ * as they enter, driven by native scroll through CSS scroll timelines (section titles moved to GSAP, below). No
+ * script, no scroll-jacking: the browser ties each frame to the scroll position, so scrolling back plays it in
+ * reverse. Transform and opacity only.
+ * - Without `animation-timeline` support (Safari before 26, Firefox) and under reduced motion nothing animates and
+ *   everything stands at its final state; nothing is hidden by default.
+ * - A block fades over the first 12rem of its entry, so anything already on the first screen at load is whole, and
+ *   no block sits half-transparent long enough to matter for reading.
+ */
+/* Section titles rise out of masked lines through GSAP (motion/headingReveal.ts); only the masks' clip is set here.
+   SplitText clips each line box with an inline overflow: clip, which would cut ascenders and descenders under the
+   tight display leading. A clip-path reaching past the box clips the same rise without touching layout (padding and
+   negative margins would collapse between lines and shift them), so it replaces the inline clip. The split reverts
+   once the title has risen. */
+.heading-line-mask {
+  overflow: visible !important;
+  clip-path: inset(-0.16em -0.5em -0.2em);
+}
+:lang(ar) .heading-line-mask {
+  clip-path: inset(-0.25em -0.5em -0.35em);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Section blocks (ui/Section.tsx). A dealt moment plays its own motion, and a block holding fixed or sticky UI
+       never takes a transform (a transformed ancestor would capture a fixed bar), so both are left out. */
+    .section-reveal:not([data-moment])
+      > .wrap
+      > :not(.section-heading, .ridges, :has([class*="fixed"], [class*="sticky"])),
+    .section-heading .section-lead,
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 12rem;
+    }
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

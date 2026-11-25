@@ -24,7 +24,9 @@ const ROUTES: readonly { to: string; via: string; market?: Destination }[] = [
  * scales its text and strokes back down by the same factor (--reach-zoom) so they read the same size.
  */
 const ZOOM: Partial<Record<Destination, { viewBox: string; factor: number }>> = {
-  oman: { viewBox: "400 30 240 158", factor: 640 / 240 },
+  // Tight to the UAE, the route and Muscat's label, so the crop fills a phone's width rather than leaving its
+  // eastern third and northern band empty (rollout review, 24 Nov 2026).
+  oman: { viewBox: "400 66 185 122", factor: 640 / 185 },
 };
 const GCC_CITIES = [
   [333.1, 93],
@@ -34,9 +36,10 @@ const GCC_CITIES = [
 ] as const;
 
 /**
- * Design Doc 8.3 "Locations / export": route lines draw from Dubai to the destinations, then a
- * light travels along each one. Only places AIMS names are labelled: its two offices, the GCC,
- * and the Oman and Kenya pages on aimsuae.me. Timing lives in signature/reach.css.
+ * Design Doc 8.3 "Locations / export": route lines draw from Dubai to the destinations, each city
+ * appearing as its route lands (home/reachMotion.ts finds the parts by class and `data-to`, the destination's
+ * coordinates). Only places AIMS names are labelled: its two offices, the GCC, and the Oman and Kenya pages on
+ * aimsuae.me.
  *
  * `destination` (a T7 location page) keeps the offices and draws the one route to that market, which
  * lights up on arrival; without it the map is the homepage's and /contact's, unchanged.
@@ -76,7 +79,12 @@ export function ReachMap({ labels, destination }: { labels: Labels; destination?
       <g fill="none" strokeWidth="1.4" strokeLinecap="round">
         {routes.map((r) => (
           <g key={r.to}>
-            <path d={`M${DUBAI}Q${r.via} ${r.to}`} className="reach-route stroke-night-muted" pathLength="1" />
+            <path
+              d={`M${DUBAI}Q${r.via} ${r.to}`}
+              className="reach-route stroke-night-muted"
+              pathLength="1"
+              data-to={r.to}
+            />
             <path
               d={`M${DUBAI}Q${r.via} ${r.to}`}
               className="reach-pulse stroke-lime"
@@ -88,14 +96,25 @@ export function ReachMap({ labels, destination }: { labels: Labels; destination?
       </g>
       {!destination &&
         GCC_CITIES.map(([x, y]) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" className="reach-city fill-night-text" />
+          <circle
+            key={`${x}-${y}`}
+            cx={x}
+            cy={y}
+            r="3.5"
+            data-to={`${x} ${y}`}
+            className="reach-city fill-night-text"
+          />
         ))}
-      {shows("oman") && <circle cx="552.5" cy="104" r="3.5" className="reach-city fill-night-text" />}
-      {shows("kenya") && <circle cx="147.9" cy="352.9" r="3.5" className="reach-city fill-night-text" />}
+      {shows("oman") && (
+        <circle cx="552.5" cy="104" r="3.5" data-to="552.5 104" className="reach-city fill-night-text" />
+      )}
+      {shows("kenya") && (
+        <circle cx="147.9" cy="352.9" r="3.5" data-to="147.9 352.9" className="reach-city fill-night-text" />
+      )}
       {destination &&
         routes.map((r) => {
           const [cx, cy] = r.to.split(" ");
-          return <circle key={r.to} cx={cx} cy={cy} r="11" className="reach-arrive fill-lime" />;
+          return <circle key={r.to} cx={cx} cy={cy} r="11" data-to={r.to} className="reach-arrive fill-lime" />;
         })}
       <circle cx="493.8" cy="88" r="14" className="reach-ring fill-lime" />
       <circle cx="493.8" cy="88" r="5.5" className="reach-office fill-lime" />
@@ -109,12 +128,12 @@ export function ReachMap({ labels, destination }: { labels: Labels; destination?
         </text>
         {/* Centred under its dot so the label never runs past the map's right edge. */}
         {shows("oman") && (
-          <text x="552.5" y={near(104, 30)} textAnchor="middle">
+          <text x="552.5" y={near(104, 30)} textAnchor="middle" data-to="552.5 104">
             {labels.muscat}
           </text>
         )}
         {shows("kenya") && (
-          <text x="160" y="372">
+          <text x="160" y="372" data-to="147.9 352.9">
             {labels.nairobi}
           </text>
         )}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { CompareStack } from "@/components/catalogue/CompareStack";
 import { CompareTable } from "@/components/catalogue/CompareTable";
+import "@/components/catalogue/catalogue.css";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { ArrowIcon } from "@/components/icons";
@@ -108,6 +109,8 @@ function CompareView({
     add: t.catalogue.add,
     inQuote: t.catalogue.inQuote,
     addedAnnounce: t.catalogue.addedAnnounce,
+    remove: t.catalogue.remove,
+    removedAnnounce: t.catalogue.removedAnnounce,
     qtyAnnounce: t.catalogue.qtyAnnounce,
     qty: t.catalogue.qty,
     decrease: t.catalogue.decrease,
@@ -127,7 +130,8 @@ function CompareView({
 
   return (
     <>
-      <div className="wrap">
+      {/* The shared section rhythm under the table, so its last row never meets the night band. */}
+      <div className="wrap pb-(--section-space)">
         {requested.length > items.length && <p className="mb-2 text-sm text-warn">{t.compare.notFound}</p>}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
           {backToResults}

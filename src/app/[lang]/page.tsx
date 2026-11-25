@@ -6,15 +6,14 @@ import { COMPANY_NAME, CONTACT, SITE_URL, whatsappUrl } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { FloatingContact } from "@/components/home/FloatingContact";
 import { Hero } from "@/components/home/Hero";
-import { BuyerRoutes } from "@/components/home/BuyerRoutes";
+import { HomeFigures } from "@/components/home/HomeFigures";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
+import { HomeWhereItGoes } from "@/components/home/HomeWhereItGoes";
 import { HomeSoftware } from "@/components/home/HomeSoftware";
-import { DoorTeaser } from "@/components/home/DoorTeaser";
-import { HomeProof } from "@/components/home/HomeProof";
-import { HomeLocations } from "@/components/home/HomeLocations";
 import { HomeJourney } from "@/components/home/HomeJourney";
-import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomeVisit } from "@/components/home/HomeVisit";
 import { ClosePanel } from "@/components/ui/ClosePanel";
+import { ModelStrip } from "@/components/ui/ModelStrip";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
@@ -30,7 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** T1 sequence: Design Doc ch. 10, with the proof moved up by the client; factual Organization data: Plan AT-12. */
+/**
+ * T1, the home page previews the header menu (client decision, 25 Nov 2026), one section per item in menu order:
+ * hero · four company figures with AIMS's published reviews (About, band) · the model-code strip · six product
+ * families (Products) · the photo places, each linked to its solution (Solutions) · software (Software, night) · how
+ * AIMS works, the five-step journey (Services, paper) · showroom, offices and the reach map (Locations, night) · the
+ * closing call (night). The FAQ, buyer routes and door teaser stay off. Grounds: two night bands mid-page, never side
+ * by side; the light journey parts them. Factual Organization data: Plan AT-12.
+ */
 export default async function Home() {
   const t = await getDictionary();
   const locale = await getLocale();
@@ -48,17 +54,13 @@ export default async function Home() {
         }}
       />
       <Hero />
-      {/* Client instruction (24 Nov 2026): the proof is AIMS's strongest trust signal, so it follows the hero. Only the
-          proof and the reach band stay night green (client decision, 24 Nov 2026; premium.css, band rhythm). */}
-      <HomeProof />
-      <BuyerRoutes />
+      <HomeFigures />
+      <ModelStrip />
       <ProductFamilies />
+      <HomeWhereItGoes />
       <HomeSoftware />
-      <DoorTeaser />
-      <HomeLocations />
-      {/* Client mockup C (24 Nov 2026): the five steps follow the showroom, before the questions. */}
       <HomeJourney />
-      <HomeFaq />
+      <HomeVisit />
       <ClosePanel
         id="closing-title"
         heading={close.heading}

@@ -50,20 +50,13 @@ export default async function PosSolution() {
           <HeadsetIcon key="support" />,
         ]}
       />
-      <SolutionQuestions
-        ground="band"
-        idPrefix="ps"
-        copy={c.faq}
-        close={
-          <ClosePanel
-            embedded
-            id="ps-cta-title"
-            heading={c.cta.heading}
-            body={c.cta.body}
-            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
-            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
-          />
-        }
+      <SolutionQuestions ground="band" idPrefix="ps" copy={c.faq} />
+      <ClosePanel
+        id="ps-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
     </main>

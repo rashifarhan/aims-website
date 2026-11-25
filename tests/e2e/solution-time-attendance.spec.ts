@@ -74,7 +74,12 @@ test("reduced motion shows the final drawing with every step readable", async ({
   for (const step of await page.locator("[data-story-step] h3").all())
     await expect(step).toHaveCSS("color", "rgb(14, 21, 18)");
   expect(
-    await story.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+    await story.evaluate(
+      (el) =>
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+    ),
   ).toBe(0);
 });
 
@@ -82,7 +87,7 @@ test("adding a terminal updates the quote, and the quote opens with installation
   await page.goto(PATH);
   const card = page.locator(".pick-card").first();
   await card.getByRole("button", { name: "Add to quote" }).click();
-  await expect(card.getByText("In quote")).toBeVisible();
+  await expect(card.getByText("On your list")).toBeVisible();
   await page.locator('.ui-close a[href="/quote?need=install"]').click();
   await expect(page).toHaveURL(/\/quote\?need=install$/);
   await expect(page.getByRole("radio", { name: "Supply and installation" })).toBeChecked();

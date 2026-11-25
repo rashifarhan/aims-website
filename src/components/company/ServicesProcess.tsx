@@ -21,7 +21,7 @@ const ICONS = [
  * in text. No durations: AIMS publishes none.
  */
 export async function ServicesProcess() {
-  const { services } = await getDictionary();
+  const { services, common } = await getDictionary();
   const c = services.process;
   return (
     <Section ground="band" labelledBy="services-process-title" className="co-process" moment>
@@ -31,7 +31,11 @@ export async function ServicesProcess() {
           <VerifyMark labels={[c.verify[0], c.verify[1], c.verify[2]]} />
         </div>
       </div>
-      <JourneySteps ownerLabel={c.owner} steps={c.steps.map((step, i) => ({ ...step, icon: ICONS[i] }))} />
+      <JourneySteps
+        done={common.journeyDone}
+        ownerLabel={c.owner}
+        steps={c.steps.map((step, i) => ({ ...step, icon: ICONS[i] }))}
+      />
     </Section>
   );
 }

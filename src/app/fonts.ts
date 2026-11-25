@@ -8,6 +8,20 @@ export const inter = localFont({
   display: "swap",
 });
 
+/*
+ * Archivo (client decision, 24 Nov 2026): the display face for headings, figures and the wordmark, set wide. One
+ * variable file carries every weight and width; the width range must be declared, or the browser clamps
+ * font-stretch to 100% and the wide setting never shows. Latin only: Arabic glyphs fall through to IBM Plex Sans
+ * Arabic in the --font-display stack (globals.css).
+ */
+export const archivo = localFont({
+  src: "./fonts/archivo-latin-standard-normal.woff2",
+  weight: "100 900",
+  variable: "--font-archivo",
+  display: "swap",
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
+});
+
 export const plexMono = localFont({
   src: [
     { path: "./fonts/ibm-plex-mono-latin-400-normal.woff2", weight: "400" },

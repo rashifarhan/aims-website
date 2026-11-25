@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import products from "../../content/products.json";
 
 const quoteLines = (page: Page) =>
@@ -19,11 +20,12 @@ const settle = (page: import("@playwright/test").Page) =>
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 const axe = async (page: Page) => {
   await settle(page);
+  await restMotion(page);
   const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
   expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 };
@@ -40,7 +42,7 @@ test.describe("installer journey (AT-01, catalogue part)", () => {
     await qty.fill("12");
     await qty.press("Enter");
     await page.getByRole("button", { name: "Add to quote" }).first().click();
-    await expect(page.getByRole("status").filter({ hasText: "In quote" })).toContainText("× 12");
+    await expect(page.getByRole("status").filter({ hasText: "On your list" })).toContainText("× 12");
 
     const fitted = page.getByRole("region", { name: "Often fitted with" });
     const lockItem = fitted.getByRole("listitem").filter({ hasText: "AL M280" });

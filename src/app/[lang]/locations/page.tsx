@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
 import { ReachMap } from "@/components/home/ReachMap";
@@ -7,10 +6,8 @@ import { ReachBand } from "@/components/ui/ReachBand";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { HUB_HERO } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
 import "@/components/signature/reach.css";
@@ -35,7 +32,6 @@ export default async function LocationsHub() {
   const locale = await getLocale();
   const c = t.locations.hub;
   const href = (p: string) => localePath(locale, p);
-  const photo = productBySlug(HUB_HERO)?.images[0];
   return (
     <main id="main">
       <PageHero
@@ -53,7 +49,7 @@ export default async function LocationsHub() {
             {CONTACT.showroomAddress}
           </span>
         }
-        photo={photo}
+        scene="offices"
       />
       <LocationOffices id="uae" />
       <ReachBand
@@ -62,27 +58,17 @@ export default async function LocationsHub() {
         heading={c.deliveryHeading}
         lead={c.deliveryLead}
         map={<ReachMap labels={t.home.reach} />}
-        trigger="map"
       >
         <LocationMarkets />
       </ReachBand>
-      {/* The close is the questions screen's last block: alone, each was a mostly empty screen (three-skill
-          audit). */}
-      <SolutionQuestions
-        idPrefix="lh"
-        copy={c.faq}
-        close={
-          <ClosePanel
-            embedded
-            id="lh-cta-title"
-            heading={c.cta.heading}
-            body={c.cta.body}
-            action={{ href: href("/quote?need=export"), label: c.cta.action }}
-            secondary={{ href: href("/contact"), label: c.cta.secondary }}
-          />
-        }
+      <SolutionQuestions idPrefix="lh" copy={c.faq} />
+      <ClosePanel
+        id="lh-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: href("/quote?need=export"), label: c.cta.action }}
+        secondary={{ href: href("/contact"), label: c.cta.secondary }}
       />
-      <MomentTrigger />
     </main>
   );
 }

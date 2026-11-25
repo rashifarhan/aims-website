@@ -14,6 +14,7 @@
     "about": "About",
     "contact": "Contact",
     "search": "Search products",
+    "searchShort": "Search",
     "quote": "Quote",
     "menu": "Menu",
     "close": "Close",
@@ -32,7 +33,17 @@
     "contactUs": "Contact us",
     "quoteItems": "items"
   },
+  "quoteTray": {
+    "label": "Your quote list",
+    "itemOne": "1 item",
+    "itemMany": "{count} items",
+    "unitOne": "1 unit",
+    "unitMany": "{count} units",
+    "notSent": "not sent yet",
+    "action": "Review and send"
+  },
   "common": {
+    "journeyDone": "Working system",
     "addToQuote": "Add to quote",
     "inQuote": "In your quote",
     "viewDatasheet": "Datasheet",
@@ -121,7 +132,16 @@
     "support": "Support & warranty",
     "blog": "Blog",
     "aboutShowrooms": "About & showrooms",
-    "locationsHub": "Locations"
+    "locationsHub": "Locations",
+    "standIns": {
+      "intro": "Stand-in photographs, showing the kinds of places AIMS equips (not AIMS premises or customers):",
+      "office": "office lobby",
+      "hotel": "hotel corridor",
+      "entrance": "building entrance",
+      "lobby": "reception lobby",
+      "by": "by",
+      "licence": "All CC BY-SA 4.0 via Wikimedia Commons."
+    }
   },
   "catalogue": {
     "allTitle": "All products",
@@ -229,13 +249,14 @@
     "compareMax": "You can compare up to 3 products.",
     "specsOnRequest": "Specs on request",
     "add": "Add to quote",
-    "inQuote": "In quote",
+    "inQuote": "On your list",
     "addedAnnounce": "{name} added to quote. Quantity: {qty}",
     "qtyAnnounce": "{name}: quantity {qty}",
     "qty": "Quantity",
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
     "remove": "Remove from quote",
+    "removedAnnounce": "{name} removed from quote.",
     "viewQuote": "Review quote request"
   },
   "product": {
@@ -299,6 +320,10 @@
     "notFound": "Some products in this link no longer exist and were skipped."
   },
   "home": {
+    "strip": {
+      "label": "Models we supply",
+      "pause": "Pause the moving model list"
+    },
     "metaTitle": "Access control & time attendance",
     "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",
     "hero": {
@@ -319,26 +344,9 @@
       "welcome": "Welcome",
       "checked": "Checked in · 08:17",
       "unlocked": "Door unlocked",
-      "granted": "Access granted",
-      "pause": "Pause animation"
-    },
-    "routes": {
-      "heading": "Three ways to buy from AIMS",
-      "supply": {
-        "title": "Buy for projects & stock",
-        "body": "Find models, compare specifications and build your product list.",
-        "action": "See all products"
-      },
-      "install": {
-        "title": "Supply & installation in the UAE",
-        "body": "Discuss the devices, installation and setup your site needs.",
-        "action": "Request an installation quote"
-      },
-      "export": {
-        "title": "Delivery to GCC & Africa",
-        "body": "Share your models, quantities and destination with AIMS.",
-        "action": "Request an export quote"
-      }
+      "pause": "Pause animation",
+      "verified": "Verified",
+      "method": "Face"
     },
     "families": {
       "heading": "{count} models in six product families",
@@ -384,7 +392,8 @@
           "title": "Dubai and Abu Dhabi",
           "body": "A head office and showroom in Dubai and an office in Abu Dhabi."
         }
-      }
+      },
+      "label": "AIMS in figures"
     },
     "software": {
       "heading": "Software that runs them",
@@ -395,26 +404,7 @@
       "purposeAccess": "Access control for standalone devices, C3 and inBIO panels.",
       "runsCloud": "In the cloud, no local server",
       "runsAttendance": "On your own server",
-      "runsAccess": "On a Windows PC",
-      "flow": {
-        "label": "How records flow. {items}",
-        "item": "{name} takes records from {inputs} and gives {outputs}.",
-        "columns": {
-          "terminals": "Terminals",
-          "software": "Software",
-          "outputs": "What you get"
-        },
-        "anyTerminal": "Attendance terminals",
-        "confirm": "Confirm your model with AIMS",
-        "anyTerminalAlt": "ZKTeco attendance terminals (confirm cloud support for your model with AIMS)",
-        "outputs": {
-          "payroll": "Payroll reports",
-          "shifts": "Shifts, leave and overtime",
-          "attendance": "Attendance reports",
-          "doors": "Live door events",
-          "permissions": "Door permissions"
-        }
-      }
+      "runsAccess": "On a Windows PC"
     },
     "locations": {
       "heading": "Let’s talk in person.",
@@ -426,43 +416,14 @@
       "abuDhabiArea": "Abu Dhabi · UAE",
       "call": "Call",
       "map": "Showroom directions",
-      "plan": "Plan a visit",
       "newTab": "opens in a new tab",
-      "office": "Office",
-      "showroomTag": "Showroom"
+      "showroomArea": "Naif Bazar Building",
+      "mobileNote": "Call or message",
+      "emailNote": "Model lists and site plans",
+      "all": "See locations"
     },
     "reviews": {
-      "read": "Read the published reviews",
       "rating": "Rated {count} out of 5"
-    },
-    "faq": {
-      "heading": "Questions about buying and installation",
-      "items": [
-        {
-          "q": "Can I buy products without installation?",
-          "a": "Browse the catalogue and compare specifications. Send AIMS the model codes and quantities you need to request a supply quotation."
-        },
-        {
-          "q": "Can AIMS help with installation?",
-          "a": "AIMS supplies, installs and supports access control and time attendance systems across the UAE. Contact the team with your site location and requirements."
-        },
-        {
-          "q": "Do you supply customers outside the UAE?",
-          "a": "For delivery to the GCC or Africa, share your destination, model codes and quantities. Ask AIMS to confirm delivery arrangements and any required documents."
-        },
-        {
-          "q": "How do I choose a time attendance device?",
-          "a": "Start with your preferred verification method, user capacity and connection requirements. Compare the published specifications and ask AIMS about software compatibility before ordering."
-        },
-        {
-          "q": "Where can I get the software?",
-          "a": "The software links open AIMS’s current pages. Software is supplied on request; confirm licensing, compatibility and setup requirements with the team."
-        },
-        {
-          "q": "Can I visit the showroom?",
-          "a": "The Deira showroom address and directions are listed above. Call before you travel to confirm opening hours and whether the devices you want to see are available."
-        }
-      ]
     },
     "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
@@ -482,30 +443,65 @@
       "lead": "You don't need a model code. Describe the site, and AIMS takes it from there.",
       "tell": {
         "title": "Tell us the job",
-        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira."
+        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira.",
+        "channels": "A model list or a site plan both work: no model code needed."
       },
       "quote": {
-        "title": "Get a quotation"
+        "title": "Get a quotation",
+        "attendance": "Time attendance: terminals and software.",
+        "doors": "Access control: readers, panels and locks."
       },
       "supply": {
         "title": "Supply",
-        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa."
+        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa.",
+        "export": "Project and export orders to GCC countries and East Africa."
       },
       "install": {
         "title": "Install",
-        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."
+        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software.",
+        "devices": "Devices are mounted, wired, powered and connected to your network.",
+        "setup": "Users, shifts, cards and door permissions are set up, and staff are enrolled on the terminals."
       },
       "support": {
         "title": "Support",
-        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email."
+        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email.",
+        "warranty": "ZKTeco’s published policy gives its hardware a one-year limited warranty.",
+        "changes": "Ask AIMS when you add staff, doors, sites or devices."
       },
-      "pill": "Start with step one now."
+      "services": "See services",
+      "includes": "What’s included",
+      "counter": "steps"
     },
     "closing": {
       "heading": "Send AIMS your model list or site plan",
       "body": "Send the models you need, or describe the site. AIMS replies with a quotation.",
       "action": "Request a quote",
       "secondary": "See all products"
+    },
+    "gate": {
+      "heading": "From the front gate to the last door",
+      "lead": "Entrance control, access control, attendance and hotel locks for the places people pass through every day.",
+      "office": {
+        "title": "Office towers",
+        "text": "Speed gates at the lift lobby",
+        "alt": "Glass speed gates in an office lift lobby"
+      },
+      "hotel": {
+        "title": "Hotels",
+        "text": "RFID hotel locks and smart locks",
+        "alt": "A hotel corridor lined with guest room doors"
+      },
+      "entrance": {
+        "title": "Building entrances",
+        "text": "Readers, controllers and EM locks",
+        "alt": "Glass entrance doors of an office building"
+      },
+      "lobby": {
+        "title": "Reception lobbies",
+        "text": "Optical turnstiles beside the front desk",
+        "alt": "Drop-arm optical turnstiles across a reception lobby"
+      },
+      "all": "See all solutions"
     }
   },
   "search": {
@@ -1051,7 +1047,7 @@
       }
     },
     "add": "Add to quote",
-    "inQuote": "In your quote",
+    "inQuote": "On your list",
     "added": "{name} added to your quote",
     "viewQuote": "View quote list",
     "line": "{name} software: installer, licences and setup",

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { ProcessCopy } from "./types";
 import { ChatIcon, DocumentIcon, HeadsetIcon, SlidersIcon, ToolIcon } from "@/components/icons";
+import { getDictionary } from "@/i18n/dictionaries";
 import { JourneySteps } from "@/components/ui/JourneySteps";
 import { Section } from "@/components/ui/Section";
 
@@ -18,7 +19,7 @@ const ICONS: readonly ReactNode[] = [
  * No durations: AIMS hasn't published any. `icons` replaces the shared set where a page's steps differ (POS
  * delivers its terminals rather than installing them).
  */
-export function SolutionProcess({
+export async function SolutionProcess({
   idPrefix,
   copy,
   icons = ICONS,
@@ -27,10 +28,12 @@ export function SolutionProcess({
   copy: ProcessCopy;
   icons?: readonly ReactNode[];
 }) {
+  const { common } = await getDictionary();
   return (
     <Section labelledBy={`${idPrefix}-process-title`}>
       <JourneySteps
         heading={{ id: `${idPrefix}-process-title`, title: copy.heading, lead: copy.lead }}
+        done={common.journeyDone}
         ownerLabel={copy.owner}
         steps={copy.steps.map((step, i) => ({ ...step, icon: icons[i] }))}
       />

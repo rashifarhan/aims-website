@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import type { Page } from "@playwright/test";
 
 // Audit the finished frame (as smoke.spec.ts does): the hero's entrance fades in, and axe measuring
@@ -10,7 +11,7 @@ const settle = (page: Page) =>
       document
         .getAnimations()
         .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-        .map((a) => a.finished.catch(() => undefined)),
+        .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
 
@@ -32,6 +33,7 @@ for (const locale of ["en", "ar"]) {
       await expect(page.locator(`.sw-card-grid a[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
     }
     await settle(page);
+    await restMotion(page);
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
     expect(axe.violations.map((v) => v.id)).toEqual([]);
   });
@@ -44,6 +46,7 @@ for (const locale of ["en", "ar"]) {
       expect((await page.title()).length).toBeLessThanOrEqual(60);
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`/software/${slug}$`));
       await settle(page);
+      await restMotion(page);
       const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
       expect(axe.violations.map((v) => v.id)).toEqual([]);
     });
@@ -117,7 +120,7 @@ test.describe("reduced motion", () => {
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
   await page.goto("/software/zkaccess-3-5");
   await page.locator(".page-hero").getByRole("button", { name: "Add to quote" }).click();
-  await expect(page.locator(".page-hero").getByText("In your quote")).toBeVisible();
+  await expect(page.locator(".page-hero").getByText("On your list")).toBeVisible();
   // Focus moves to the link that replaced the button (WCAG 2.4.3).
   await expect(page.locator(".page-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
   await page.goto("/quote");

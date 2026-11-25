@@ -1,0 +1,90 @@
+/*
+ * The ridge motif (ui/Ridges.tsx; client decision, 24 Nov 2026, replacing the signal-line watermarks). Every use sits
+ * absolutely behind its section's content (the section is the stacking context), never takes a layout box and never
+ * moves. A radial mask fades the rings out toward their edge, so no line ends on a hard edge (ink is only the mask's
+ * alpha). Opacity caps keep text crossing a ring at AA: at most 12% green-700 on white (ink-600 6.6:1, green-700
+ * 5.2:1) and 18% lime on night green (night-muted 6.2:1, lime 5.2:1, measured where a ring is fully on).
+ */
+.ridge-symbol {
+  position: absolute;
+  overflow: hidden;
+}
+.ridges {
+  position: absolute;
+  z-index: -1;
+  aspect-ratio: 1;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--color-green-700);
+  stroke-width: 1;
+  opacity: 0.11;
+  mask-image: radial-gradient(closest-side, var(--color-ink) 30%, transparent);
+}
+.section-night .ridges {
+  stroke: var(--color-lime);
+  opacity: 0.18;
+}
+
+/* ---------- Inner heroes (ui/HeroSignature.tsx in ui/PageHero.tsx) ---------- */
+/* A split hero centres the rings on its photograph's column (the five end columns of the 12-column split); a compact
+   hero sets them in its top end corner, away from the title. Both fade to nothing before the copy's side. */
+.hero-ridges {
+  inline-size: 56rem;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  mask-image:
+    radial-gradient(closest-side, var(--color-ink) 30%, transparent),
+    linear-gradient(to right, transparent 8%, var(--color-ink) 45%);
+  mask-composite: intersect;
+}
+:dir(rtl) .hero-ridges {
+  mask-image:
+    radial-gradient(closest-side, var(--color-ink) 30%, transparent),
+    linear-gradient(to left, transparent 8%, var(--color-ink) 45%);
+}
+.hero-ridges-split {
+  inset-inline-end: calc(max(0px, (100% - var(--container-page)) / 2) + var(--page-gutter) - 14rem);
+  /* AIMS's photographs are multiplied onto the hero ground, so the rings would show through a light screen: the
+     centre, where the photograph stands, stays clear and the rings ring it. */
+  --ridge-ring: radial-gradient(closest-side, transparent 24%, var(--color-ink) 40%, transparent);
+  mask-image: var(--ridge-ring), linear-gradient(to right, transparent 8%, var(--color-ink) 45%);
+}
+:dir(rtl) .hero-ridges-split {
+  mask-image: var(--ridge-ring), linear-gradient(to left, transparent 8%, var(--color-ink) 45%);
+}
+.hero-ridges-compact {
+  inline-size: 44rem;
+  inset-block-start: 0;
+  inset-inline-end: -10rem;
+  translate: 0 -40%;
+}
+/* Phones and portrait tablets stack the photograph under the copy: the rings sit behind it at the hero's foot. */
+@media (max-width: 1023px) {
+  .hero-ridges-split {
+    inline-size: 34rem;
+    inset-block-start: auto;
+    inset-block-end: -6rem;
+    inset-inline-end: calc(50% - 17rem);
+    translate: none;
+    mask-image: var(--ridge-ring);
+  }
+  .hero-ridges-compact {
+    display: none;
+  }
+}
+
+/* ---------- The closing band (ui/ClosePanel.tsx): rings centred behind the copy ---------- */
+.close-ridges {
+  inline-size: 82rem;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+}
+:dir(rtl) .close-ridges {
+  translate: 50% -50%;
+}
+@media (max-width: 639px) {
+  .close-ridges {
+    inline-size: 46rem;
+  }
+}

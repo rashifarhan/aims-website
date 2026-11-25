@@ -1,5 +1,5 @@
 import { CONTACT, whatsappUrl } from "@/lib/site";
-import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
+import { PinIcon, WhatsAppIcon } from "@/components/icons";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { footerLinkClass } from "./FooterLinks";
 
@@ -13,30 +13,31 @@ type Labels = {
   directions: string;
 };
 
-const valueClass = `${footerLinkClass} font-medium text-ink`;
-/* A link inside running text keeps its underline at rest (WCAG 1.4.1); on hover the underline darkens. */
+const labelClass = "flex items-center gap-1.5 text-xs text-night-muted";
+const valueClass = `${footerLinkClass} font-medium text-night-text`;
+/* The directions link keeps its underline at rest so it reads as a link beside the plain address; on hover the
+   underline brightens. */
 const directionsClass =
-  "font-medium text-ink underline decoration-line-strong underline-offset-4 transition-[text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:decoration-current active:opacity-75";
+  "font-medium text-night-text underline decoration-night-muted/60 underline-offset-4 transition-[text-decoration-color,opacity] duration-(--duration-hover) ease-[ease] hover:decoration-current active:opacity-75";
 
 /**
- * The footer's "Visit or call" list: AIMS's real lines, email and showroom (CLAUDE.md §1, brief-given). The
- * numbers, email and English address stay left-to-right inside Arabic (CLAUDE.md §7), so they never reorder
- * around the Arabic labels.
+ * The footer's "Visit or call" block: AIMS's real lines, email and showroom (CLAUDE.md §1, brief-given), as a
+ * contact grid with each label over its number, the way professional footers set office contacts (client
+ * request, 24 Nov 2026). From 640px to 1279px its four columns share the link columns' lines below it. Numbers, email and the English address stay left-to-right inside Arabic (CLAUDE.md §7).
  */
 export function FooterContact({ t }: { t: Labels }) {
-  const phones = [
+  const lines = [
     { label: t.headOffice, line: CONTACT.lines.headOffice },
     { label: t.showroom, line: CONTACT.lines.showroom },
     { label: t.abuDhabi, line: CONTACT.lines.abuDhabi },
   ];
   return (
-    <>
-      <h2 className="mt-8 text-sm font-semibold text-ink">{t.locations}</h2>
-      <ul className="mt-3 grid grid-cols-[16px_auto_1fr] items-center gap-x-3 gap-y-2.5 text-sm">
-        {phones.map((p) => (
-          <li key={p.line.tel} className="col-span-3 grid grid-cols-subgrid items-center">
-            <PhoneIcon width={16} height={16} className="shrink-0 text-ink-400" />
-            <span className="text-ink-600">{p.label}</span>
+    <div className="site-footer-contact">
+      <h2 className="text-sm font-semibold text-night-text">{t.locations}</h2>
+      <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3 text-sm sm:grid-cols-4 xl:grid-cols-2">
+        {lines.map((p) => (
+          <li key={p.line.tel}>
+            <span className={labelClass}>{p.label}</span>
             <ContactLink
               kind="phone"
               href={`tel:${p.line.tel}`}
@@ -47,9 +48,11 @@ export function FooterContact({ t }: { t: Labels }) {
             </ContactLink>
           </li>
         ))}
-        <li className="col-span-3 grid grid-cols-subgrid items-center">
-          <WhatsAppIcon width={16} height={16} className="shrink-0 text-whatsapp" />
-          <span className="text-ink-600">{t.mobile}</span>
+        <li>
+          <span className={labelClass}>
+            <WhatsAppIcon width={14} height={14} className="shrink-0 text-whatsapp-on-night" />
+            {t.mobile}
+          </span>
           <ContactLink
             kind="whatsapp"
             href={whatsappUrl()}
@@ -59,24 +62,26 @@ export function FooterContact({ t }: { t: Labels }) {
             <span dir="ltr">{CONTACT.lines.mobile.display}</span>
           </ContactLink>
         </li>
-        <li className="col-span-3 grid grid-cols-subgrid items-center">
-          <MailIcon width={16} height={16} className="shrink-0 text-ink-400" />
-          <span className="text-ink-600">{t.email}</span>
+        <li>
+          <span className={labelClass}>{t.email}</span>
           <ContactLink kind="email" href={`mailto:${CONTACT.email}`} target={CONTACT.email} className={valueClass}>
             <span dir="ltr">{CONTACT.email}</span>
           </ContactLink>
         </li>
-        <li className="col-span-3 grid grid-cols-subgrid items-start">
-          <PinIcon width={16} height={16} className="mt-0.5 shrink-0 text-ink-400" />
-          <span className="col-span-2 text-ink-600">
-            <span dir="ltr">{CONTACT.showroomAddress}</span> ·{" "}
-            <a href={CONTACT.showroomMap} target="_blank" rel="noopener noreferrer" className={directionsClass}>
-              {t.directions}
-              <span className="sr-only"> ({t.showroom}, Google Maps)</span>
-            </a>
+        <li className="col-span-2 sm:col-span-3 xl:col-span-2">
+          <span className={labelClass}>
+            <PinIcon width={14} height={14} className="shrink-0" />
+            {t.showroom}
           </span>
+          <p className="mt-1.5 text-night-text">
+            <span dir="ltr">{CONTACT.showroomAddress}</span>
+          </p>
+          <a href={CONTACT.showroomMap} target="_blank" rel="noopener noreferrer" className={directionsClass}>
+            {t.directions}
+            <span className="sr-only"> ({t.showroom}, Google Maps)</span>
+          </a>
         </li>
       </ul>
-    </>
+    </div>
   );
 }

@@ -74,7 +74,7 @@ export function DesktopNav({
               <Link
                 externalLabel={externalLabel}
                 href={item.href}
-                className="nav-motion inline-flex h-11 items-center rounded-pill px-2 text-small font-medium text-ink-700 hover:bg-paper-2 hover:text-ink xl:px-3"
+                className="nav-motion inline-flex h-11 items-center rounded-pill px-2 text-small font-medium whitespace-nowrap text-ink-700 hover:bg-paper-2 hover:text-ink 2xl:px-3"
               >
                 {item.label}
               </Link>
@@ -88,7 +88,7 @@ export function DesktopNav({
                   aria-expanded={open === i}
                   aria-controls={`${baseId}-${i}`}
                   onClick={() => toggle(i)}
-                  className="nav-motion inline-flex h-11 items-center gap-1 rounded-pill px-2 text-small font-medium text-ink-700 hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink xl:px-3"
+                  className="nav-motion inline-flex h-11 items-center gap-1 rounded-pill px-2 text-small font-medium whitespace-nowrap text-ink-700 hover:bg-paper-2 hover:text-ink aria-expanded:bg-paper-2 aria-expanded:text-ink 2xl:px-3"
                 >
                   {item.label}
                   <ChevronDownIcon

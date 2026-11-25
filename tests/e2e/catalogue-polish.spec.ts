@@ -36,10 +36,18 @@ test.describe("listing polish", () => {
     await expect.poll(async () => (await box()).height).toBeGreaterThan(0);
     const before = await box();
     await add.click();
-    await expect(card.getByText("In quote")).toBeVisible();
+    await expect(card.getByText("On your list")).toBeVisible();
     const after = await box();
     expect(after.height).toBe(before.height);
     expect(after.compareTop).toBe(before.compareTop);
+
+    // "−" at 1 takes the model back out of the quote, and focus lands on the returning "Add to quote" button
+    // (client report, 25 Nov 2026: a disabled "−" read as broken).
+    const removeOne = card.getByRole("button", { name: /^Remove from quote, / });
+    await expect(removeOne).toBeEnabled();
+    await removeOne.click();
+    await expect(card.getByText("On your list")).toHaveCount(0);
+    await expect(add).toBeFocused();
   });
 
   test("result count keeps its live region and changes with a filter", async ({ page, isMobile }) => {
@@ -80,6 +88,9 @@ test.describe("compare polish", () => {
     test.skip(isMobile, "phones get the stacked view");
     await page.goto("/products/compare?items=biopro-mh20,biopro-mh30", { waitUntil: "load" });
     const table = page.locator("table");
+    // The table streams in behind a Suspense boundary that React reveals a moment after load: measuring the first
+    // column while still hidden (no box, width 0) and the second after the reveal made this flake under load.
+    await expect(table).toBeVisible();
     await expect(table).toHaveCSS("table-layout", "fixed");
     const heads = table.locator("thead th");
     const [a, b] = [await heads.nth(0).boundingBox(), await heads.nth(1).boundingBox()];

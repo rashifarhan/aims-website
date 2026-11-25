@@ -10,6 +10,7 @@ import { SpecsSection } from "@/components/product/SpecsSection";
 import { connections, MIN_CONNECTS_NODES, nodeCount } from "@/components/product/connects";
 import { englishData } from "@/components/product/englishData";
 import { productGrounds } from "@/components/product/grounds";
+import "@/components/catalogue/catalogue.css";
 import "@/components/product/product.css";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";
@@ -52,6 +53,8 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
     add: t.catalogue.add,
     inQuote: t.catalogue.inQuote,
     addedAnnounce: t.catalogue.addedAnnounce,
+    remove: t.catalogue.remove,
+    removedAnnounce: t.catalogue.removedAnnounce,
     qtyAnnounce: t.catalogue.qtyAnnounce,
     qty: t.catalogue.qty,
     decrease: t.catalogue.decrease,

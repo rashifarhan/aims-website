@@ -12,6 +12,14 @@ export const DOOR_MODELS = {
   software: "ZKAccess 3.5",
 } as const;
 
+/** The prototype's three wires, each from the controller: to the reader, to the lock and to the exit button. */
+const WIRES = {
+  reader: "M150 162C150 240 248 250 248 318",
+  lock: "M212 96C300 96 360 96 400 152",
+  exit: "M212 112C430 112 552 150 552 330",
+} as const;
+const SIGNALS = ["reader", "lock", "exit"] as const;
+
 function Tag({ x, y, width, name, model }: { x: number; y: number; width: number; name: string; model: string }) {
   return (
     <g className="home-door-tag">
@@ -27,9 +35,10 @@ function Tag({ x, y, width, name, model }: { x: number; y: number; width: number
 }
 
 /**
- * The approved door-kit prototype's final frame (docs/prototypes/door-kit, Design Doc 8.2).
- * DoorStory scrubs the parts and credential on desktop, or plays once on phones. This markup
- * stays complete for reduced motion, unsupported animation APIs and no-JS visitors.
+ * The approved door-kit prototype's final frame (docs/prototypes/door-kit, Design Doc 8.2): door open, access granted
+ * and verified. The access control page's GSAP sequence (solution/access-control/doorMotion.ts) walks a credential
+ * through these parts and lands here; the markup stays complete for reduced motion and no-JS visitors. The leaf is
+ * open through its transform attribute, not CSS, so GSAP can tween it.
  */
 export function DoorIllustration({ labels }: { labels: Labels }) {
   return (
@@ -39,16 +48,30 @@ export function DoorIllustration({ labels }: { labels: Labels }) {
 
       <rect x="300" y="150" width="180" height="390" fill="none" className="stroke-ink" strokeWidth="2" />
       <rect x="306" y="156" width="168" height="384" className="fill-paper-3" />
-      <g className="door-leaf">
-        <rect x="306" y="156" width="168" height="384" className="fill-paper stroke-ink" strokeWidth="1.5" />
-        <rect x="324" y="176" width="132" height="150" fill="none" className="stroke-line" />
-        <path d="M448 356v36" className="stroke-ink" strokeWidth="4" strokeLinecap="round" />
+      {/* The leaf hangs from its hinge at x 306: the middle group's origin, so opening is one scaleX about it. */}
+      <g transform="translate(306 0)">
+        <g className="door-leaf" transform="scale(0.74 1)">
+          <g transform="translate(-306 0)">
+            <rect x="306" y="156" width="168" height="384" className="fill-paper stroke-ink" strokeWidth="1.5" />
+            <rect x="324" y="176" width="132" height="150" fill="none" className="stroke-line" />
+            <path d="M448 356v36" className="stroke-ink" strokeWidth="4" strokeLinecap="round" />
+          </g>
+        </g>
       </g>
 
       <g className="door-part door-wires" fill="none" strokeWidth="1.6">
-        <path d="M150 162C150 240 248 250 248 318" className="door-wire stroke-line-strong" pathLength="1" />
-        <path d="M212 96C300 96 360 96 400 152" className="door-wire stroke-line-strong" pathLength="1" />
-        <path d="M212 112C430 112 552 150 552 330" className="door-wire stroke-line-strong" pathLength="1" />
+        {SIGNALS.map((wire) => (
+          <path key={wire} d={WIRES[wire]} className="door-wire stroke-line-strong" />
+        ))}
+      </g>
+      {/* The path each signal takes, over its wire: drawn at rest, so the finished frame shows the closed circuit. */}
+      <g className="door-signal" fill="none" strokeLinecap="round">
+        {SIGNALS.map((wire) => (
+          <path key={wire} d={WIRES[wire]} className="door-trail stroke-green-700" strokeWidth="2" data-wire={wire} />
+        ))}
+        {SIGNALS.map((wire) => (
+          <path key={wire} d={WIRES[wire]} className="door-pulse stroke-lime" strokeWidth="4" data-wire={wire} />
+        ))}
       </g>
 
       <g className="door-part door-reader">
@@ -69,7 +92,15 @@ export function DoorIllustration({ labels }: { labels: Labels }) {
       </g>
 
       <g className="door-part door-lock">
-        <rect x="370" y="152" width="100" height="16" rx="3" className="fill-paper stroke-ink" strokeWidth="1.8" />
+        <rect
+          x="370"
+          y="152"
+          width="100"
+          height="16"
+          rx="3"
+          className="door-lock-body fill-paper stroke-ink"
+          strokeWidth="1.8"
+        />
         <circle cx="462" cy="160" r="2.6" className="fill-error" />
         <circle cx="462" cy="160" r="2.6" className="door-led fill-lime" />
         <path d="M470 160l66-42" className="home-door-tag stroke-ink" />
@@ -84,13 +115,7 @@ export function DoorIllustration({ labels }: { labels: Labels }) {
       </g>
 
       <g className="door-part door-software">
-        <path
-          d="M196 78V58h510v346"
-          fill="none"
-          className="door-wire stroke-green-700"
-          strokeWidth="1.4"
-          pathLength="1"
-        />
+        <path d="M196 78V58h510v346" fill="none" className="door-wire stroke-green-700" strokeWidth="1.4" />
         <rect x="556" y="404" width="150" height="96" rx="6" className="fill-paper stroke-ink" strokeWidth="1.8" />
         <path d="M540 508h182l-10 8H550Z" className="fill-paper stroke-ink" strokeWidth="1.5" />
         <rect x="564" y="412" width="134" height="16" className="fill-green-50" />
@@ -117,8 +142,20 @@ export function DoorIllustration({ labels }: { labels: Labels }) {
 
       <g className="door-granted">
         <rect x="300" y="94" width="180" height="36" rx="18" className="fill-green-700" />
-        <text x="390" y="117" textAnchor="middle" className="home-door-granted">
-          ✓ {labels.granted}
+        {/* The hero's verified tick, lime on a night disc (HeroTick's path at 0.6 scale). */}
+        <g className="door-verified">
+          <circle cx="318" cy="112" r="12" className="fill-night-900" />
+          <path
+            d="M313.8 112l2.7 2.7 5.7-5.7"
+            fill="none"
+            className="stroke-lime"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+        <text x="403" y="117" textAnchor="middle" className="home-door-granted">
+          {labels.granted}
         </text>
       </g>
       <text x="200" y="572" textAnchor="middle" className="home-door-model">

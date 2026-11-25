@@ -33,9 +33,7 @@ export function MomentTrigger() {
         return;
       }
       root.dataset.effects = "on";
-      document
-        .querySelectorAll('[data-moment]:not([data-moment="unlock"]):not([data-played])')
-        .forEach((el) => observer.observe(el));
+      document.querySelectorAll("[data-moment]:not([data-played])").forEach((el) => observer.observe(el));
     };
     setup();
     preference.addEventListener("change", setup);

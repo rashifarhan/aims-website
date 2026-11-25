@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import type { Page } from "@playwright/test";
 
 const SLUGS = ["entrance-parking", "access-control", "time-attendance", "door-locks", "pos"];
@@ -16,7 +17,12 @@ async function settle(page: Page) {
           () =>
             document
               .getAnimations()
-              .filter((a) => a.playState === "running" && Number.isFinite(a.effect?.getTiming().iterations)).length,
+              .filter(
+                (a) =>
+                  a.playState === "running" &&
+                  a.timeline instanceof DocumentTimeline &&
+                  Number.isFinite(a.effect?.getTiming().iterations),
+              ).length,
         ),
       { timeout: 8000 },
     )
@@ -70,6 +76,14 @@ for (const locale of ["en", "ar"]) {
     await expect(page.locator(".solution-faq details").first()).toHaveAttribute("open", "");
     // Audit the settled page: the hero entrance and the site plan at their finished frames.
     await settle(page);
+    // Scroll reveals rest whole once read: audit that resting text, not a block half-faded at the fold.
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+        .forEach((animation) => animation.cancel()),
+    );
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -166,7 +180,12 @@ for (const locale of ["en", "ar"]) {
     await expect
       .poll(
         () =>
-          site.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+          site.evaluate(
+            (el) =>
+              el
+                .getAnimations({ subtree: true })
+                .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+          ),
         { timeout: 6000 },
       )
       .toBe(0);
@@ -178,9 +197,22 @@ for (const locale of ["en", "ar"]) {
     await site.evaluate((el) => el.scrollIntoView({ block: "center" }));
     await page.waitForTimeout(300);
     expect(
-      await site.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      await site.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
     ).toBe(0);
     await settle(page);
+    // Scroll reveals rest whole once read: audit that resting text, not a block half-faded at the fold.
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
+        .forEach((animation) => animation.cancel()),
+    );
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .include(".hs-site")
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -200,7 +232,12 @@ for (const locale of ["en", "ar"]) {
     expect(
       await page
         .locator(".hs-site")
-        .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+        .evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
     ).toBe(0);
   });
 

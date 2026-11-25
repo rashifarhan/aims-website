@@ -24,6 +24,7 @@ type Props = {
  * filled green (CLAUDE.md §2: one main action per screen).
  */
 export function CompareStack({ items, rows, t, addLabels, productHref, preset, contentLang }: Props) {
+  const dataDir = contentLang ? "ltr" : undefined;
   const columns = { gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` };
   return (
     <div className="mt-6 sm:hidden" lang={contentLang}>
@@ -33,7 +34,7 @@ export function CompareStack({ items, rows, t, addLabels, productHref, preset, c
       >
         {items.map((p) => (
           <li key={p.slug} className="min-w-0">
-            <div className="relative mb-1 aspect-square w-14 overflow-hidden rounded-sm bg-white">
+            <div className="catalogue-plinth relative mb-1 aspect-square w-14 overflow-hidden rounded-sm">
               {p.images[0] && <Image src={p.images[0].src} alt="" fill sizes="56px" className="object-contain p-1" />}
             </div>
             {/* A 44px target, however many lines the name takes (CLAUDE.md §4). */}
@@ -50,7 +51,7 @@ export function CompareStack({ items, rows, t, addLabels, productHref, preset, c
         {rows.map((r) => (
           <li key={r.label} className={`-mx-4 border-b border-line px-4 py-3 ${r.differs ? "bg-paper-2" : ""}`}>
             <p className="text-sm font-semibold text-ink-700">
-              {r.label}
+              <span dir={dataDir}>{r.label}</span>
               {r.differs && <DiffersChip label={t.compare.differs} />}
             </p>
             {r.hint && <p className="mt-0.5 text-xs leading-snug text-ink-600">{r.hint}</p>}
@@ -59,7 +60,12 @@ export function CompareStack({ items, rows, t, addLabels, productHref, preset, c
                 <div key={items[i].slug} className="min-w-0">
                   <dt className="sr-only">{items[i].name}</dt>
                   <dd className="text-sm break-words text-ink tabular-nums">
-                    {v ?? <span className="text-ink-600 italic">{t.product.notListed}</span>}
+                    {/* English data keeps its order on an Arabic page, isolated in the cell (Design Doc 13). */}
+                    {v != null ? (
+                      <span dir={dataDir}>{v}</span>
+                    ) : (
+                      <span className="text-ink-600 italic">{t.product.notListed}</span>
+                    )}
                   </dd>
                 </div>
               ))}

@@ -48,9 +48,6 @@ export const CONTACT = {
   showroomMap: "https://maps.app.goo.gl/JJvK9uCbyHMoK4J1A",
 } as const;
 
-/** The three published places to visit or call: head office, Deira showroom, Abu Dhabi office. */
-export const LOCATION_LINES = ["headOffice", "showroom", "abuDhabi"] as const;
-
 /**
  * Delivery markets as AIMS lists them (PRODUCT.md "Markets", Master Plan ch. 11): places AIMS supplies from Dubai,
  * not offices. Oman and Kenya have their own pages on aimsuae.me; the others start an export quote.

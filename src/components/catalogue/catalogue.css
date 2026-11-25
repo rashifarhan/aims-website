@@ -75,3 +75,25 @@
     animation: none;
   }
 }
+
+/*
+ * Product tiles, premium pass (client decision 6, 24 Nov 2026): the home family tiles' treatment on every product
+ * card, fitted card and compare column (listing, product and compare pages load this file). The photograph stands
+ * whole on the faint plinth and multiplies onto it, so AIMS's white product shots never show a white square; a
+ * product name set as a tile title takes the display face at the tile's narrower width (home premium.css).
+ */
+.catalogue-plinth {
+  background: var(--gradient-tile-plinth);
+}
+.catalogue-plinth img {
+  mix-blend-mode: multiply;
+}
+.catalogue-tile-title {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.025em;
+}
+:lang(ar) .catalogue-tile-title {
+  letter-spacing: 0;
+}

@@ -3,10 +3,15 @@
  */
 
 /* ---------- Hero: the photograph big and whole on a lit ground (no border box) ---------- */
+/* Premium pass (client decisions 5 and 7, 24 Nov 2026): the hero is its own stacking context on an opaque white
+   ground with the green light at its top, like every inner hero (ui/sections.css .page-hero). The ridge motif and
+   the still studio light sit on that ground behind the stage, and the photograph multiplies onto all of it, so the
+   rings pass behind the product with no white box around it. */
 .product-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding-block: 1.5rem var(--section-space);
-  /* AIMS's hero signature (client decision, 24 Nov 2026), the green light only: the lit stage below fills the media
-     column as an opaque square, so the signal lines would show only as cut-off strips beside it. */
   background:
     var(--gradient-hero-glow) no-repeat,
     var(--color-page);
@@ -18,24 +23,37 @@
   gap: 1.5rem 4rem;
   margin-block-start: 0.5rem;
 }
-/* The light is part of the stage, and the photograph multiplies onto it, so AIMS's white product shots take
-   the lit ground instead of showing a white square. The light fades to the page's paper at the stage's edge,
-   so no box edge shows. Both sit inside the element the entrance animates, so the blend never changes as the
-   entrance runs. */
+/* The stage opens the studio box's isolation (motion/entrance.css .aims-studio), so its light (z-index -1) and the
+   rings join the hero's stacking context and the photograph blends with the hero's whole ground. */
 .product-stage {
   position: relative;
   aspect-ratio: 4 / 3;
-  isolation: isolate;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-green-100) 45%, var(--color-paper-3)) 0%,
-    color-mix(in srgb, var(--color-green-50) 80%, var(--color-page)) 55%,
-    var(--color-page) 100%
-  );
+  isolation: auto;
 }
 .product-stage-photo {
   object-fit: contain;
   mix-blend-mode: multiply;
+}
+/* The rings centred on the photograph, the centre clear where the product stands (ui/ridges.css .hero-ridges-split). */
+.product-hero-ridges {
+  inline-size: 34rem;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+  mask-image: radial-gradient(closest-side, transparent 24%, var(--color-ink) 40%, transparent);
+}
+:dir(rtl) .product-hero-ridges {
+  translate: 50% -50%;
+}
+/* The photograph settles by itself while the light and the rings stay still: an animated stage would group the
+   photo and show its white as a box over the rings while it moved (ui/sections.css, the same rule for PageHero). */
+@media (prefers-reduced-motion: no-preference) {
+  .product-stage.hero-enter-media {
+    animation: none;
+  }
+  .product-stage.hero-enter-media .product-stage-photo {
+    animation: hero-device-in var(--duration-hero-device) 150ms var(--ease-aims) both;
+  }
 }
 @media (min-width: 1024px) {
   /* The hero holds the first screen alone (taste House rule 3). */
@@ -43,20 +61,29 @@
   main:has(> .product-hero) {
     margin-block-start: calc(-1 * var(--home-header-block));
   }
-  .product-hero {
+  .product-hero,
+  .product-hero > .wrap {
     display: flex;
     flex-direction: column;
+  }
+  .product-hero {
     min-height: 100svh;
     padding-block-start: calc(var(--home-header-block) + 1.5rem);
   }
+  .product-hero > .wrap,
   .product-hero-grid {
     flex: 1;
+  }
+  .product-hero-grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   }
   .product-stage {
     aspect-ratio: 1;
     max-height: calc(100svh - var(--home-header-block) - 7rem);
     min-height: 28rem;
+  }
+  .product-hero-ridges {
+    inline-size: 56rem;
   }
 }
 

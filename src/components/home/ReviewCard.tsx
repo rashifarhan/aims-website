@@ -14,21 +14,26 @@ function initials(name: string) {
 }
 
 /**
- * One published review (DESIGN.md card; testimonial anatomy: rating, quote, reviewer). The quote and the
+ * One published review (DESIGN.md card; testimonial anatomy: quote, then reviewer and rating on one footer). The quote and the
  * reviewer stay English and left-to-right inside Arabic pages, as published. Until AIMS supplies the
  * reviewer's own photo, the avatar is a monogram, never a stand-in face.
  */
 export function ReviewCard({ review, ratingLabel }: { review: CustomerReview; ratingLabel: string }) {
   return (
     <figure className="home-review-card ui-card" lang="en" dir="ltr">
-      <p className="home-review-stars">
-        {Array.from({ length: review.rating }, (_, i) => (
-          <StarIcon key={i} width="16" height="16" />
-        ))}
-        <span className="sr-only">{fmt(ratingLabel, { count: review.rating })}</span>
-      </p>
+      <div className="home-review-head">
+        <span className="home-review-mark" aria-hidden="true">
+          “
+        </span>
+        <p className="home-review-stars">
+          {Array.from({ length: review.rating }, (_, i) => (
+            <StarIcon key={i} width="16" height="16" />
+          ))}
+          <span className="sr-only">{fmt(ratingLabel, { count: review.rating })}</span>
+        </p>
+      </div>
       <blockquote>
-        <p>“{review.excerpt}”</p>
+        <p>{review.excerpt}</p>
       </blockquote>
       <figcaption>
         {review.photo ? (

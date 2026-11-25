@@ -158,3 +158,112 @@
 :root[data-effects="on"] [data-moment][data-played] .support-route .sr-tick {
   animation: verify-moment-draw 360ms 1380ms var(--ease-aims) both;
 }
+
+/* ======================================================================================================
+ * Premium pass (client decisions, 24 Nov 2026): the company pages take the home page's look. Everything below
+ * only restyles; no copy or behaviour changes.
+ * ====================================================================================================== */
+
+/* ---------- About: the fact sheet is the home tile's plinth card, its figures in the display face ---------- */
+.co-facts {
+  box-shadow: var(--shadow-plinth);
+}
+.co-facts-title {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  font-size: var(--text-home-subtitle);
+  letter-spacing: -0.025em;
+}
+:lang(ar) .co-facts-title {
+  letter-spacing: 0;
+}
+.co-facts dd {
+  font-weight: var(--font-weight-card);
+}
+
+/*
+ * About: proof and reach are one night ground (the page's one night band before the close), not two bands parted by a
+ * hairline. The wrapper carries the gradient and the top glow; the two sections inside go transparent and keep
+ * their own spacing. The proof's sentence and the reasons take the display face like the home figures.
+ */
+.co-night-pair {
+  --band-edges: var(--gradient-band-glow) no-repeat;
+}
+.co-night-pair > .section-night {
+  background: none;
+  overflow: visible;
+}
+.co-night-pair > .section-night + .section-night {
+  border-block-start: 0;
+  padding-block-start: 0;
+}
+.co-night-pair > .home-proof-band {
+  padding-block-end: var(--section-space);
+}
+.co-about .home-proof-statement {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: var(--tracking-display);
+}
+.co-about .home-proof-statement b {
+  font-weight: var(--font-weight-display);
+}
+:lang(ar) .co-about .home-proof-statement {
+  letter-spacing: 0;
+}
+.co-about :is(.home-proof-points h3, .home-subtitle) {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.025em;
+}
+:lang(ar) .co-about :is(.home-proof-points h3, .home-subtitle) {
+  letter-spacing: 0;
+}
+
+/* ---------- Services: linked cards carry the spotlight and the display-face titles ---------- */
+.co-cover-card h3,
+.method-card h3 {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.025em;
+}
+:lang(ar) :is(.co-cover-card h3, .method-card h3) {
+  letter-spacing: 0;
+}
+.co-cover-card {
+  min-height: 100%;
+}
+
+/* Support's route: the team and the check are the signature button's night disc and lime tick. */
+.support-route .sr-node,
+.support-route .sr-disc {
+  background: var(--color-night-900);
+  color: var(--color-night-text);
+}
+.support-route .sr-disc {
+  color: var(--color-lime);
+}
+
+/* ---------- Support: headings in the reading column in the display face ---------- */
+.co-support h2 {
+  font-family: var(--font-display);
+  font-stretch: var(--font-stretch-display);
+  font-weight: var(--font-weight-display);
+  letter-spacing: var(--tracking-display);
+}
+:lang(ar) .co-support h2 {
+  letter-spacing: 0;
+}
+
+/* ---------- Contact ---------- */
+.co-contact legend {
+  letter-spacing: -0.02em;
+}
+.co-process .verify-disc {
+  background: var(--color-night-900);
+  color: var(--color-lime);
+}

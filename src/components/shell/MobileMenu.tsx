@@ -87,7 +87,7 @@ export function MobileMenu({ items, labels, hrefs, otherLocale, searchEntries, s
       >
         <div className="flex h-full flex-col">
           <div className="flex h-15 items-center justify-between border-b border-line px-4">
-            <span dir="ltr" className="text-lg font-extrabold tracking-wordmark">
+            <span dir="ltr" className="ui-display text-lg font-extrabold tracking-wordmark">
               AIMS<span className="text-lime">.</span>
             </span>
             <button

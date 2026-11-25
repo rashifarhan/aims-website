@@ -38,20 +38,13 @@ export default async function DoorLocksSolution() {
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
       <SolutionProcess idPrefix="dl" copy={c.process} />
-      <SolutionQuestions
-        ground="band"
-        idPrefix="dl"
-        copy={c.faq}
-        close={
-          <ClosePanel
-            embedded
-            id="dl-cta-title"
-            heading={c.cta.heading}
-            body={c.cta.body}
-            action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
-            secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
-          />
-        }
+      <SolutionQuestions ground="band" idPrefix="dl" copy={c.faq} />
+      <ClosePanel
+        id="dl-cta-title"
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
+        secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
     </main>

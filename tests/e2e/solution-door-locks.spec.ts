@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 
 const PATH = "/solutions/door-locks";
 
@@ -21,9 +22,10 @@ for (const locale of ["en", "ar"] as const) {
         document
           .getAnimations()
           .filter((a) => a instanceof CSSAnimation && Number.isFinite(a.effect?.getTiming().iterations))
-          .map((a) => a.finished.catch(() => undefined)),
+          .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
       ),
     );
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -79,7 +81,12 @@ test("the lock unlocks once when it comes into view", async ({ page }) => {
   await expect
     .poll(
       () =>
-        moment.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+        moment.evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+        ),
       { timeout: 6000 },
     )
     .toBe(0);
@@ -100,7 +107,12 @@ test("reduced motion: the lock rests unlocked, the door open, and nothing moves"
   expect(
     await page
       .locator("main")
-      .evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
+      .evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
+      ),
   ).toBe(0);
 });
 

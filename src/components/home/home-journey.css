@@ -1,0 +1,341 @@
+/*
+ * "How AIMS works" as a scroll timeline (home/HomeJourney.tsx; client request and GSAP approval, 25 Nov 2026; README
+ * Decisions "Home journey timeline"). One column with the rail on the start edge; from 1024px the heading block takes
+ * the start five of twelve columns and the rail with its cards the end seven. Logical properties throughout, so the
+ * rail and nodes mirror in Arabic.
+ *
+ * These rules are the final frame: rail full, every node ticked, every card whole. That is what shows without JS and
+ * under reduced motion. GSAP (journeyMotion.ts) writes inline transform, opacity and stroke over it and marks the
+ * section `data-motion="pinned"` (the layout below for the pin) or `"flow"`; reverting returns to this frame.
+ */
+/* GSAP drives this section, so no CSS scroll reveal runs on it (CLAUDE.md §3: two systems never on one element). */
+.home-journey .section-heading .section-lead {
+  animation: none;
+}
+.hj-list {
+  /* The node is the signature night disc, 44px; its centre sits level with the card's head row (the icon's centre:
+     the card's padding plus half the 40px icon). */
+  --hj-node: 2.75rem;
+  --hj-rail: 2px;
+  --hj-node-centre: calc(var(--card-pad) + 1.25rem);
+  --hj-column-gap: 0.75rem;
+}
+.hj-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--hj-node) minmax(0, 1fr);
+  column-gap: var(--hj-column-gap);
+  /* The gap belongs to the step, so the steps meet edge to edge: a rail segment spans exactly one step, and the
+     counter's centre line always falls inside one. */
+  padding-block-end: 1.25rem;
+}
+.hj-step:last-child {
+  padding-block-end: 0;
+}
+/* The rail segment from this node's centre to the next one's: a green-100 track and a green-700 fill under the opaque
+   nodes. A real element, so GSAP can scale the fill (scaleY from the top). */
+.hj-seg {
+  position: absolute;
+  inset-block-start: var(--hj-node-centre);
+  inset-inline-start: calc(var(--hj-node) / 2 - var(--hj-rail) / 2);
+  inline-size: var(--hj-rail);
+  block-size: 100%;
+  background: var(--color-green-100);
+}
+.hj-seg-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-green-700);
+}
+.hj-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: var(--hj-node);
+  aspect-ratio: 1;
+  margin-block-start: calc(var(--hj-node-centre) - var(--hj-node) / 2);
+  border: 0.25rem solid var(--color-page);
+  border-radius: var(--radius-pill);
+  background: var(--color-night-900);
+}
+.hj-node > * {
+  grid-area: 1 / 1;
+}
+/* Night text on night-900 measures 15.0:1; the tick is lime on night-900, 7.5:1 (globals.css). */
+/* The final frame shows the tick; the timeline brings the numeral back until the step is reached. */
+.hj-node-number {
+  opacity: 0;
+  color: var(--color-night-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.hj-node-tick {
+  display: grid;
+  color: var(--color-lime);
+}
+.hj-node-tick svg {
+  inline-size: 1rem;
+}
+/* The closing "verified" pulse around the last node (journeyMotion.ts), a lime ring at rest invisible. */
+.hj-node-ring {
+  position: absolute;
+  inset: -0.25rem;
+  border: 2px solid var(--color-lime);
+  border-radius: var(--radius-pill);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- The card: the one card look ---------- */
+.hj-card {
+  padding: var(--card-pad);
+}
+/* The active card's lift: the plinth's second shadow on a layer whose opacity the timeline sets through --hj-lift, so
+   only opacity moves, never the shadow itself. */
+.hj-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: var(--shadow-plinth-lift);
+  opacity: var(--hj-lift, 0);
+  pointer-events: none;
+}
+.hj-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.875rem;
+}
+/* The step's numeral is a code-like label: Plex Mono, ink-600 (a label, not an action). */
+.hj-number {
+  min-inline-size: 2ch;
+  color: var(--color-ink-600);
+  font-family: var(--font-mono);
+  font-size: var(--text-home-card);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.hj-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: var(--radius-md);
+  background: var(--color-green-50);
+  color: var(--color-green-700);
+}
+.hj-icon > svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+/* "Who: AIMS engineer", a small tag at the head's end: a hairline pill, ink text (ink-600 7.76:1, ink-400 5.19:1). */
+.hj-who {
+  margin-inline-start: auto;
+  padding-block: 0.25rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-700);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hj-who-label {
+  color: var(--color-ink-400);
+  font-weight: 500;
+}
+/* Face and weight from .ui-display; a step narrower at card size, as the family tiles' titles. */
+.hj-title {
+  margin-block-start: 1.25rem;
+  color: var(--color-ink);
+  font-size: var(--text-home-subtitle);
+  font-stretch: var(--font-stretch-hero);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.hj-body {
+  max-inline-size: 52ch;
+  margin-block-start: 0.5rem;
+  color: var(--color-ink-600);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.hj-includes {
+  margin-block-start: 1.25rem;
+  padding-block-start: 1.125rem;
+  border-block-start: 1px solid var(--color-line);
+}
+.hj-includes-label {
+  color: var(--color-ink-600);
+  font-size: var(--text-caption);
+  font-weight: 600;
+}
+.hj-points {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-start: 0.625rem;
+}
+.hj-points li {
+  display: flex;
+  align-items: start;
+  gap: 0.625rem;
+  color: var(--color-ink-700);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+/* A decorative check in the action green, the size of a line of text. */
+.hj-points svg {
+  flex: none;
+  inline-size: 1rem;
+  margin-block-start: 0.15em;
+  color: var(--color-green-700);
+}
+.hj-link {
+  margin-block-start: 0.75rem;
+  margin-block-end: -0.5rem;
+}
+
+/* Arabic keeps its own spacing on joined letters (Design Doc 13). */
+:lang(ar) .hj-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+/* ---------- The counter: from 1024px only ---------- */
+.hj-counter {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .hj-list {
+    --hj-column-gap: 1.25rem;
+  }
+  .hj-step {
+    padding-block-end: 1.5rem;
+  }
+}
+
+/* The site's 12-column split: heading block five columns, steps seven. The heading block holds below the sticky
+   header while the cards pass (position: sticky on native scroll; nothing is pinned or scroll-jacked). */
+@media (min-width: 1024px) {
+  .hj-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+  /* Without the pin (no JS, reduced motion, a short screen) the heading block holds sticky below the header while the
+     cards pass, on native scroll. */
+  .hj-head {
+    grid-column: 1 / span 5;
+    position: sticky;
+    inset-block-start: calc(var(--home-header-block) + 2.5rem);
+    padding-inline-end: 2rem;
+  }
+  .hj-head .section-heading {
+    display: block;
+    margin-block-end: 0;
+  }
+  .hj-head .section-heading > .home-secondary {
+    margin-block-start: 1.5rem;
+  }
+  .hj-track {
+    grid-column: 6 / -1;
+  }
+  .hj-list {
+    --hj-column-gap: 1.75rem;
+  }
+  .hj-counter {
+    display: block;
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--color-line);
+    color: var(--color-ink-400);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  /* The reel of numerals shows one line through its window, parked on the last at rest ("05 steps"). */
+  .hj-counter-window {
+    display: inline-block;
+    overflow: clip;
+    block-size: 1em;
+    color: var(--color-ink);
+    font-size: var(--text-home-display);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    vertical-align: bottom;
+  }
+  .hj-counter-reel {
+    display: block;
+    translate: 0 calc(-100% * (var(--hj-steps) - 1) / var(--hj-steps));
+  }
+  .hj-counter-reel > span {
+    display: block;
+  }
+  .hj-counter-of,
+  .hj-counter-word {
+    font-size: var(--text-home-subtitle);
+  }
+  .hj-counter-of,
+  .hj-counter[data-live] .hj-counter-word {
+    display: none;
+  }
+  .hj-counter[data-live] .hj-counter-of {
+    display: inline;
+  }
+  /* Live, the timeline owns the reel's position (yPercent). */
+  .hj-counter[data-live] .hj-counter-reel {
+    translate: none;
+  }
+
+  /* ---------- Pinned (journeyMotion.ts pinnedTimeline) ----------
+     The section's content pins below the header as one screen, its own rhythm inside; the step list slides up
+     through a window in the end columns, faded at its top and foot so cards enter and leave softly. */
+  .home-journey[data-motion="pinned"] {
+    padding-block: 0;
+  }
+  .home-journey[data-motion="pinned"] > .wrap {
+    block-size: calc(100svh - var(--home-header-block));
+    padding-block: var(--section-space);
+  }
+  /* One row as tall as the screen: the list's own height must not grow it (minmax(0, 1fr)), so the window clips. */
+  .home-journey[data-motion="pinned"] .hj-grid {
+    block-size: 100%;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  /* The counter stands at the foot of the start column, level with the window's foot. */
+  .home-journey[data-motion="pinned"] .hj-head {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    padding-block-end: 3rem;
+  }
+  .home-journey[data-motion="pinned"] .hj-counter {
+    margin-block-start: auto;
+  }
+  .home-journey[data-motion="pinned"] .hj-track {
+    align-self: stretch;
+    overflow: clip;
+    margin-inline: -1.5rem;
+    padding-block: 1rem 3rem;
+    padding-inline: 1.5rem;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-ink) 1rem,
+      var(--color-ink) calc(100% - 3rem),
+      transparent
+    );
+  }
+}

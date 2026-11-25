@@ -432,6 +432,320 @@ photograph beside the title and a full screen of blank space before the first ca
 uses the compact hero (no photograph, no forced screen height), so the five cards start on the first screen. This
 departs on purpose from the design skill's "hero alone on the first screen" rule for this one page.
 
+**A cleaner hero corner (client decision, 24 Nov 2026).** The divider above the hero's model label is gone; it crossed
+the signal lines and separated nothing. The client also asked for no pause button over the hero while the loop keeps
+running. WCAG 2.2.2 (CLAUDE.md §3) still needs a way to pause motion that runs past 5 s, so the button stays in the
+page but shows only on keyboard focus, like the skip link: mouse and touch visitors never see it, keyboard and
+screen-reader users can still pause. Reduced-motion visitors get the still hero as before. The e2e test now presses the
+button by keyboard, the way its users reach it.
+
+**Night-green footer (client request, 24 Nov 2026).** The footer moves from the pale paper ground to AIMS's night
+green (`--gradient-night`), closing every page on the brand's dark band, as most professional B2B footers do. It is
+rebuilt on one grid: at 1280px and up the wordmark, partner line and contacts take four of twelve columns and the four
+link groups the other eight, with the column headings on the wordmark's centre line. The contacts become a grid with
+each label over its number (four columns from 640px to 1279px, sharing the link columns' lines below it; two on a
+phone and on wide screens), the address gets its own "Directions" link under it, and the per-row phone icons are gone
+(the labels say it). Popular searches share one line with their label from 640px; the legal line closes under a
+hairline. Text uses night-text (15.0:1) and night-muted (8.6:1); the focus ring turns lime (7.5:1); WhatsApp's own
+green marks its line (`--color-whatsapp-on-night`, 8.6:1). No page ends on a night section, so the footer never
+merges into one; a night-line hairline marks its top edge regardless.
+
+### Premium pass (client decisions, 24 Nov 2026; branch `claude/premium-pass`)
+
+The client approved the premium-pass mockup and asked to build it with more character. These decisions override the
+older rules they touch; CLAUDE.md §3 was updated by the client to allow the scroll reveals.
+
+- **Archivo for display** (decision 1). Headings, figures and the wordmark use Archivo (SIL OFL, self-hosted in
+  `src/app/fonts/` with its licence) through `--font-display`, set wide (`--font-stretch-display` 115%, weight 650,
+  `--tracking-display`). One shared rule in `globals.css` applies it to `.section-title`, `.page-hero h1`,
+  `.ui-close-title`, `.home-display`, `.home-figure` and `.ui-display`, so every page has it. Body stays Inter, codes
+  IBM Plex Mono; Arabic glyphs fall through to IBM Plex Sans Arabic in the same stack. Section titles grew to 44px.
+- **Two-line hero headline** (decision 2). The client rejected the mockup's three- or four-line wrap: from 1024px
+  `line1` and `line2` never wrap. Archivo is set a step narrower there (`--font-stretch-hero` 104%), the size follows
+  the viewport (`--text-home-display`, 45–62px) and the verified frame shrinks with the width, so both lines clear
+  it at 1024, 1280 and 1440 in both languages (tested). Arabic is 8% smaller, as Plex Arabic sets wider.
+- **Signature button** (decision 3). The one primary is a night-green pill with a lime arrow circle (the existing
+  `ArrowIcon` child becomes the circle, so no markup changed), inverting to white with a night circle on night
+  grounds. Hover sweeps a deeper night in, steps 1px and nudges the circle; the hero and closing primaries lean
+  toward a fine pointer (`Magnetic`). The secondary is a text link whose green underline draws over a pale one.
+  Outline, quiet, icon and WhatsApp variants are unchanged. This deliberately replaces green-700 as the primary fill.
+- **Verified frame** (decision 4). The home hero's signal lines are gone. Four corner brackets lock onto the real
+  SpeedFace photo, one lime scan sweeps down, the "Verified · Face · Entrance A" tick lights and a border beam runs
+  round the frame twice; everything is still by 4.6 s. The screen's verification loop and its keyboard-only pause
+  button stay. The entrance runs longer than the old 1.1 s because the client specified this sequence.
+- **Ridge lines, the one motif** (decision 5). `ridgePaths()` draws the mockup's fingerprint contours (unit tested);
+  the root layout defines them once as an SVG symbol and `<Ridges>` places a masked reference behind the hero
+  terminal, on the software band, on the closing band and on every inner hero. `SignalArt`, `SectionArcs`,
+  `CloseSignal` and the hero's `SignalLines` were removed. The families band has no motif (the mockup's calm white).
+- **Calmer home** (decision 6): hero · four company figures · model-code strip · six family tiles · stand-in photo
+  places · software (night) · showroom and offices · closing (night) with the journey as one line of steps. The FAQ,
+  buyer routes, reviews strip, door teaser and reach map left the home page. Components nothing else used were
+  deleted; `HomeProof` (with the reviews), `ReachMap` and the door drawing stay for the about, contact, locations and
+  access control pages. With the door and the map gone the home page's moments are the scroll-driven ones below.
+- **Night closing band.** `ClosePanel` is now a centred night band over the ridges with the inverted button on every
+  page; the embedded mint panel (solution and location questions) is unchanged.
+- **Character** (decision 7, no new dependencies): spotlight cards on the family and photo tiles, the scan reveal on
+  the photographs, the model-code strip (a self-running ticker since 25 Nov 2026 at the client's request, not tied to the scroll; it loops past 5 s, so it pauses off-screen, on hover and focus, and by a keyboard-only button like the hero's, and rests under reduced motion), the border beam and the magnetic primary. **Scroll reveals**:
+  every `Section` raises its blocks 24px and fades them in over their first 12rem, and plain-text section titles rise
+  word by word (`SplitWords`), all through CSS `animation-timeline: view()` inside `@supports`; dealt moments and
+  blocks holding fixed or sticky UI are left out. Without support or under reduced motion everything stands.
+- **Tests.** The smoke test audits resting text, so it no longer waits on scroll-driven animations (they follow the
+  scroll, not the clock) and sets them to rest before axe. Home specs for removed sections were replaced by checks of
+  the new order, the two-line headline, the verified frame, the reveals and the reduced-motion rest.
+- **Header** (coordinator request): nav items and the quote button never wrap, and the search field is 14rem below
+  1536px, so the Arabic header holds one line at 1280 and 1440.
+
+### Stand-in photographs (premium pass)
+
+`HomeWhereItGoes` ("From the front gate to the last door") uses four licensed stand-in photographs from Wikimedia
+Commons, all CC BY-SA 4.0. They show the kinds of places AIMS equips, **not AIMS premises, staff or customers**, and
+are stand-ins to replace with AIMS's own installation photographs. Each `<img>` carries `data-source="stand-in"`, has
+no caption, and is credited in the footer's one line (`footer.standIns`). Converted to webp at the 1280 px Commons
+size, under 235 KB each, in `public/images/stand-ins/`. The scan reveal on the tiles is scroll-driven CSS
+(`animation-timeline: view()`, transform and opacity) and absent under reduced motion or without support.
+
+| File                                                                                        | Commons page                                                                                                                                                                                               | Author     | Why it fits                                                                                     |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
+| `office-lobby-speed-gates.webp` (Office towers → /solutions/entrance-parking)               | [Fukuoka Daimyō Garden City Tower turnstiles](https://commons.wikimedia.org/wiki/File:Fukuoka_Daimy%C5%8D_Garden_City_Tower_the_turnstiles_on_the_3rd_floor_Ch%C5%AB%C5%8D-ku_Fukuoka_20240812_153528.jpg) | Hirho      | Glass speed gates in an office lift lobby; green marble echoes AIMS green.                      |
+| `hotel-corridor.webp` (Hotels → /solutions/door-locks)                                      | [Corridor at Sokos Hotel Pier 4](https://commons.wikimedia.org/wiki/File:Corridor_at_Sokos_Hotel_Pier_4.jpg)                                                                                               | JIP        | A clean guest corridor lined with room doors, where RFID hotel locks go. No brand mark visible. |
+| `office-building-glass-entrance.webp` (Building entrances → /solutions/access-control)      | [TPE-DORTS-SDPO Building main entrance](https://commons.wikimedia.org/wiki/File:TPE-DORTS-SDPO_Building_main_entrance_20200726.jpg)                                                                        | Solomon203 | Glass entrance doors: the classic controlled door (reader, controller, EM lock).                |
+| `reception-lobby-optical-turnstiles.webp` (Reception lobbies → /solutions/entrance-parking) | [Drop Arm Optical Turnstiles](https://commons.wikimedia.org/wiki/File:Drop_Arm_Optical_Turnstiles.jpg)                                                                                                     | Fabtron    | Drop-arm optical turnstiles across a reception lobby beside the front desk.                     |
+
+### Home previews the header (client decision, 25 Nov 2026)
+
+The client approved a home page that previews the header menu, one section per item, in menu order. It extends the
+premium pass with no new visual pattern: the shared `Section` grounds, `SectionHeader` with its end link, the
+signature text link, `JourneySteps`, the night `ReachBand` and the existing cards.
+
+| #   | Section                                     | Menu item | Ground | End link                     |
+| --- | ------------------------------------------- | --------- | ------ | ---------------------------- |
+| 1   | Hero (unchanged)                            |           | paper  |                              |
+| 2   | Company figures, then the published reviews | About     | band   | Read the published reviews ↗ |
+| 3   | Model-code ticker (unchanged)               |           |        |                              |
+| 4   | Six product families                        | Products  | paper  | See all products             |
+| 5   | Photo places, each tile to its solution     | Solutions | paper  | See all solutions            |
+| 6   | Software                                    | Software  | night  | All software                 |
+| 7   | How AIMS works: the five-step journey       | Services  | paper  | See services                 |
+| 8   | Showroom, lines and the reach map           | Locations | night  | See locations                |
+| 9   | Closing call                                |           | night  |                              |
+
+- **Reviews.** `HomeReviews` is now the one reviews strip, used by the figures band and by `HomeProof` on /about; the
+  review card reads in ink on light grounds and keeps its night tones on night green.
+- **Places.** Photos, layout and scan reveal are unchanged; the tiles now open /solutions/entrance-parking (office
+  towers, reception lobbies), /solutions/access-control (building entrances) and /solutions/door-locks (hotels).
+- **Journey.** The pre-pass `HomeJourney` returned on `JourneySteps` with its five steps and copy. Its old pill
+  ("Start with step one now" → /quote) did not return: the end link is the section's one action and the closing band
+  asks for the quote. The closing band's one line of steps went, and with it `ClosePanel`'s unused `steps` prop.
+- **Locations.** The showroom and offices section merged into the shared night `ReachBand` (now with an optional end
+  link). The reach map is the page's dealt moment: it draws once when a third of the map is on screen
+  (`MomentTrigger`, `trigger="map"`) and rests drawn under reduced motion; it has no loop. On a desktop it stands
+  centred beside the taller showroom copy.
+- **Grounds.** The reach map is drawn for night green (its labels are night text and lime), so section 8 is night.
+  That gives two night bands mid-page, the software band and this one, parted by the light journey. Section 8 is
+  followed by the night closing band; the system's existing rule parts two adjacent night bands with a hairline
+  (`ui/sections.css`), as on /about, so they never read as one. Moving the close or the map onto light would have
+  needed a new pattern.
+- **Not returning:** buyer routes, the door teaser and the FAQ.
+
+### Home journey timeline (client request, 25 Nov 2026)
+
+The client found the home "How AIMS works" section too compact and asked for a richer process component, inspired by
+two 21st.dev components: "Scroll animated timeline" by ibrandify and "Vertical How It Works Timeline" by ln-dev7. Only
+the ideas were taken (a rail that fills with the scroll, step cards on dashed or solid rails); no code was copied. The
+client then approved GSAP for it the same day (CLAUDE.md §3).
+
+- **Place and ground unchanged.** `HomeJourney` stays the Services preview (`#journey`), on paper between the two night
+  bands, with "See services" as the end link. It is split into `HomeJourney`, `JourneyCard`, `JourneyCounter` (server)
+  and one client leaf, `JourneyMotion`, which lazy-loads `JourneyTimeline` and `journeyMotion.ts` after hydration.
+  The shared `JourneySteps` is untouched.
+- **Layout.** From 1024px the heading, lead, end link and a large Plex Mono counter ("01 / 05") take the start five
+  of twelve columns; five step cards stand on a rail in the end seven. Below, one column with the rail on the start
+  edge; the counter is hidden. Logical properties throughout, so Arabic mirrors.
+- **Cards** are the one card (white, radius lg, plinth shadow): the step's numeral in mono, its existing icon, a
+  display-face h3, the existing body, a "Who" tag, a "What's included" list of two points and, on steps one and five,
+  a link (Request a quote → /quote, Read the warranty policy → /support). Nodes are the night disc with the lime tick.
+- **Copy, only AIMS's own** (CLAUDE.md §1): owners and step one's first point from `services.process`; the quotation
+  line from services step two; step two's points from the access control and time attendance plans; the export line
+  and warranty sentence from `services.cover`; installation and setup merged from the two solutions' steps 2–4; the
+  model count from the catalogue (`home.families.heading`, as the families header reads it). It says "models", not
+  "ZKTeco models", because the catalogue also holds Alpha hardware. New keys are under `home.journey.*` in both
+  languages; the Arabic reuses the source strings where they exist, and the rest is a draft for AIMS's reviewer.
+- **Motion (GSAP).** The server renders the final frame (rail full, every node ticked, every card whole), which is
+  what shows without JS and under reduced motion. From 1024px on a screen at least 640px tall, ScrollTrigger pins the
+  section's content below the header and scrubs one timeline over 2.6 viewports: the list slides up a step at a time,
+  the green-700 rail fills over its green-100 track (scaleY), each card rises from rest (40% opacity, 24px low) to
+  active (whole, lifted to the plinth's second shadow through an opacity layer), each node's numeral gives way to a
+  drawn lime tick (DrawSVG), the counter rolls its digits to the step, and the last node sends out one lime ring, the
+  hero's verified tick at the journey's end. The pin never traps the scroll; keyboard focus on a card's link scrolls
+  to the point where that card is active. Below 1024px: no pin, each card rises in once and the rail fills down the
+  start edge with the scroll. SplitText (masked lines) replaces SplitWords on the heading, and the section opts out
+  of the CSS scroll reveal (`Section moment`), so two systems never run on one element.
+- **Dependencies: `gsap` and `@gsap/react`**, approved by the client for signature motion (free for commercial use,
+  plugins included); loaded only in the journey's lazy chunk, about 50 KB gzipped after hydration. Home transfer at
+  1440 measured 816 KB, at 390 577 KB; LCP unaffected (the hero image).
+- **Tests.** `home.spec.ts` checks five cards with a Who tag and a two-to-three-point list each, the two links, the
+  catalogue count and the aria-hidden counter, then the motion: at rest under reduced motion (no pin, rail full, all
+  ticked), pinned and scrubbed on a desktop (rail part-filled mid-way, all whole at the end, focus brings the last
+  link into view) and unpinned on a phone. GSAP tweens are not CSS animations, so the smoke test asks them to rest
+  before axe (`html[data-motion-rest]` and the `aims:motion-rest` event revert them to the server-rendered frame).
+- **Open.** Step one's second point repeats its body sentence in other words, as the brief mapped it; AIMS may prefer
+  one of the two.
+
+### Hero choreography with GSAP (client request, 25 Nov 2026)
+
+The client asked for a more premium hero entrance in GSAP, staying B2B and on AIMS's domain: a ZKTeco terminal
+verifying a person at a door. It replaces the verified frame's CSS keyframes, the border beam's CSS (`ui/beam.css`,
+used only here) and the screen's WAAPI loop (`animateHeroScreen.ts`); decision 4's sequence and the approved screen
+prototype are kept, now on one clock.
+
+- **Loading.** `HeroAnimation` (the client leaf with the pause button) lazy-loads `HeroTimeline` after hydration with
+  `next/dynamic`, exactly as `JourneyMotion` loads the journey; both chunks import GSAP from one entry,
+  `motion/gsap.ts`, which registers the plugins once and holds the shared rest switch (`aims:motion-rest`).
+- **One master timeline** (`heroMotion.ts`), from GSAP's first frame: the four brackets close in from 34% wider (expo
+  out, 1.1s, 70ms apart); at 0.55s one lime scan line sweeps down (1.2s); at 0.6s the screen scans ("Look at the
+  camera" → "Verifying…"), at 2.1s it turns to Welcome with its tick drawing (DrawSVG); at 2.25s the chip springs in
+  (back out) and its tick draws; at 2.4s the beam runs round twice (2s) and fades. The frame stands by about 4.7s.
+  After the prototype's 2.35s hold the screen loop starts at 4.9s: a child timeline with `repeat: -1` and the
+  prototype's beats (450ms fades, scan 1.5s before verified, 5.8s a cycle). It pauses off-screen
+  (IntersectionObserver), on `document.hidden` and by the keyboard-only button (WCAG 2.2.2).
+- **Scroll exit.** From 1024px a scrubbed ScrollTrigger timeline opens the brackets 14% outward, eases the terminal
+  to 0.96 and fades the chip as the hero leaves. Transform and opacity only; no text moves. Below 1024px there is no
+  exit (it only shrank the device on a phone). Entrance and exit drive different elements (the bracket svg and its
+  wrapper, the chip and its anchor), so two tweens never fight over one property.
+- **RTL.** Each bracket is the top-left corner mirrored into place by CSS, so "outward" is (-x, -y) inside every
+  corner; the Arabic mirrors swap and the motion follows with no per-language code.
+- **No flash, LCP untouched.** The device photo (the LCP element) is painted whole at first render: its old fade-in
+  is gone and it is never hidden. The server renders the verified frame, which no JS (`scripting: none`) and reduced
+  motion keep; with scripts and motion the stage paints a pending frame (screen at idle, brackets and chip waiting)
+  that equals the timeline's first, and `data-state` passes from `pending` to `animated` in the same frame. If the
+  chunk fails to load, the verified frame is shown.
+- **What stayed CSS: the text.** The headline's masked line rise, the badge, lead and trust fade and the model label
+  stay CSS, as before. GSAP arrives after hydration, so a SplitText reveal would have to hide the text first (a
+  flash, or a later LCP on phones, where the headline can be the largest element). The two lines stay unbroken from
+  1024px (tested).
+- **Reduced motion and rest.** `gsap.matchMedia` gives reduced motion its own handler: no timeline, no scrub, the
+  verified frame. The e2e rest switch reverts everything to that frame before axe.
+- **Tests.** GSAP writes inline styles, so the hero specs read computed styles and the art's `data-state` and
+  `data-playing` (`tests/e2e/hero.ts`): rest under reduced motion (no inline styles, nothing moves, no scrub), the
+  entrance's order and outward start and settling within 5s (recorded with a MutationObserver from the first paint),
+  the loop's return to idle and next scan, pause off-screen and by keyboard, the drawn tick, and the exit (desktop:
+  scale between 0.96 and 1, chip fading, brackets outward, headline scrolling exactly with the page; phone: none).
+
+### Reach map with GSAP (client request, 25 Nov 2026)
+
+- **Sequence.** `home/reachMotion.ts` builds one timeline, played once (unscrubbed, unpinned) when a third of the map is
+  on screen (`ReachTimeline`, loaded lazily by `ReachMotion` inside `ui/ReachBand`): the hub pops with one soft lime
+  ring pulse (0.7 s), the routes draw 150 ms apart (1.1 s each, `power2.inOut`, stroke-dashoffset on the existing
+  `pathLength="1"` paths), each city dot pops from 0.4 and its label fades in as its route lands, and the region
+  label comes last (about 3 s in all). It then stands: the ambient pulses stay hidden.
+- **Where.** Home (light map), /about, /contact, /locations and the location pages, including the Oman crop. The art is
+  still drawn `direction="ltr"` and never mirrored in Arabic; parts are matched by `data-to` coordinates.
+- **Removed.** The CSS draw and arrive keyframes, `.reach-moment`, the `trigger` prop of `ReachBand` and the
+  `MomentTrigger` on /about, /contact, /locations and the location pages (the map was their only moment).
+- **Rest.** Reduced motion and no-JS keep the server-rendered finished map; the e2e rest switch reverts the timeline.
+  `refreshPriority: -1` measures the start after the home journey's pin.
+- **Tests.** `tests/e2e/reach.ts` shared helpers: waiting, finished and standing still, resting without inline styles.
+
+### Section title reveal with GSAP (client approval, 25 Nov 2026)
+
+Section titles (every plain-text `SectionHeader` title and the closing panel's) rise out of masked lines as they
+enter the viewport, once, through SplitText and ScrollTrigger. This replaces the CSS scroll-timeline word reveal
+(`SplitWords` and its keyframes are gone), which Firefox and older Safari never played. The section blocks' 24px rise
+stays CSS (`ui/reveal.css`): it already plays where supported and rests whole elsewhere, and moving it would put a
+second system on elements GSAP does not otherwise touch.
+
+- **Timing.** Starts when the title's top reaches 85% of the viewport. English splits into lines and words; the words
+  rise from 110% below their line's mask with an opacity fade, 0.8s, power3.out, 40ms apart. Arabic splits into lines
+  only; each line rises from 130%, 0.9s, 100ms apart. Once played, the split reverts, so the resting title is the
+  server's plain markup (no aria-label, no clip, nothing to re-split).
+- **Arabic.** A line split keeps each word one text run, so letters join; a word split would also make each word an
+  inline-block, which bidi treats as a neutral, reversing runs of Latin names (for example "AIMS") inside RTL text.
+  Checked on `/ar` at 1440 and 390, mid-rise and at rest.
+- **No hidden first screen, no shift.** Only titles that start below the first screen at load are split, so no h1,
+  no LCP element and nothing visible is ever hidden. The line masks clip with a `clip-path` that reaches past the
+  line box (not padding and negative margins, which collapse between lines), so title heights are identical split and
+  unsplit (measured on 14 routes at both widths); `autoSplit` re-measures lines after fonts load and on resize.
+- **Triggers and the journey pin.** One trigger per title, all created by one leaf. They take `refreshPriority: -1`
+  and a page-height `ResizeObserver` re-measures triggers when the page grows, because the home journey's pin
+  spacer lazy-loads on its own clock: without this the titles below it fired 2.6 screens early, unseen.
+- **Accessibility.** SplitText `aria: "auto"` puts the text on the heading as its `aria-label` and hides the parts
+  while split; axe is 0 with titles split and at rest. Reduced motion never loads the chunk; the e2e rest switch
+  (`aims:motion-rest`) reverts every split.
+- **Deliberate deviation: the loader sits in the root layout.** CLAUDE.md §3 says GSAP is never loaded "in a layout".
+  `HeadingReveal` is a client leaf rendered once from `app/[lang]/layout.tsx` (inside its own `Suspense`), because
+  section titles are on almost every page and the brief asks for one page-level driver rather than a component per
+  heading. It keeps the rule's intent: the leaf itself is tiny and imports no GSAP; after hydration (and after each
+  client navigation) it dynamic-imports `motion/headingReveal.ts`, and through it GSAP, only when the page has a
+  marked title and the visitor does not prefer reduced motion. GSAP therefore never reaches the layout's bundle or the
+  first paint. `motion/gsap.ts` is reused unchanged (SplitText and ScrollTrigger were already registered there).
+- **Not tested here:** Firefox (no Firefox build in this environment). The reveal uses nothing browser-specific
+  (transforms, opacity, clip-path and ScrollTrigger), so it should play there; worth one manual look.
+
+### Door kit with GSAP (client request, 25 Nov 2026; branch `claude/gsap-door`)
+
+The access control page's UNLOCK moment ("Six parts at every controlled door") is now one GSAP sequence that walks
+a controlled door through the approved kit's drawing. It replaces `DoorStory` (its WAAPI clock, sticky layout and
+`doorStory.css`), `doorTimeline.ts` and `storyProgress.ts`; the page no longer mounts `MomentTrigger`, which had no
+other moment there.
+
+- **Order of events.** The prototype's credential story, one beat per part (`src/lib/doorStep.ts`): the card swings
+  in to the reader and its light turns lime; a lime pulse runs the wire to the controller while a green-700 trail
+  draws behind it (DrawSVG); the controller reports to ZKAccess 3.5 and the event row appears; the pulse runs to the
+  EM lock, its light turns lime, the magnet lifts 2px and the leaf opens (the prototype's scaleX .74 about the
+  hinge) with "Access granted"; the exit button's input wire draws back to the controller, closing the circuit; the
+  hero's lime tick draws on a night disc in the badge. Parts wait at 35% opacity until their beat.
+- **The parts list follows the story** and was reordered to it: credential, reader, controller, software, EM lock,
+  exit button (same labels, copy and links). The active part's rule and numeral turn green-700 (`aria-current`);
+  none is singled out once the door rests verified.
+- **Desktop** (from 1024px, when the section fits below the header): the section's content pins, centred, and the
+  timeline scrubs over 2.4 viewports (scrub 0.6), both directions. The page's one pin; part links stay on screen.
+  **Below 1024px:** no pin; the drawing moves above the list, each beat plays forward once as the drawing rises
+  (one trigger per step, 72% to 30% of the viewport) and each list item rises in as it enters.
+- **Final frame.** The server renders the finished frame (door open, granted, verified tick, the three signal
+  trails drawn green), which reduced motion, no JS and the e2e rest switch show. `keepFrame` restores the frame's
+  own attributes after GSAP reverts, because GSAP leaves SVG transforms as matrices and a scrub caught by a
+  navigation could render once more after revert.
+- **Not drawn: a power supply.** The brief named "power" in the last step; the approved kit has no power supply
+  and drawing one would invent hardware, so the exit button closes the loop. AIMS can supply the PSU model to add.
+- **Tests.** `solution-access-control.spec.ts` and the door tests in `purposeful-motion.spec.ts` check the rest
+  switch before axe, the pin scrubbed both ways with the list in sync, the phone's per-step order (2…6, done), the
+  verified rest with no loop, the exact frame under reduced motion and without JS.
+
+### Process steps: "Verified path" (client choice, 25 Nov 2026)
+
+The shared process component (`ui/JourneySteps`, on Services, Support, the solution pages and the software pages)
+was redesigned after the client found the numbered circles flat. Of three mocked directions the client chose option C:
+one card per step (number, icon, title, body, owner tag), every other card set lower, a dotted lime path joining the
+numbers through the gaps, and a "Working system" chip on the last card where the page's steps end in a running
+system (Services and the solution pages). Below a 60rem container the cards stack with the path running down between
+them, so the Support page's reading column stays stacked. Static: no motion was added. The old first-step night-disc
+overrides in `company.css` were removed; the component now carries that styling itself.
+
+### One closing band everywhere (client request, 25 Nov 2026)
+
+The solution pages for access control, door locks, entrance and parking, and POS, the locations hub, and the city
+location pages ended in a small mint panel inside their questions section, while every other page ends in the
+full-width night closing band. The client found the mint panel odd, a weaker, different ending, and asked for the
+usual band. Those pages now end in the same `ClosePanel` band, after the questions. This reverses audit T-01's
+embedding there; the band is a short section of its own on those pages, as it already is on Services and Home. The
+`embedded` variant and its styles are removed.
+
+### Quote tray and add-to-quote feedback (client request, 25 Nov 2026)
+
+A product and buyer-psychology review found that adding to the quote only changed the card and a small badge in the
+header corner, out of view, and that "In quote" could read as "quote requested", so buyers might leave believing
+AIMS had their request. Changes:
+
+- **Quote tray** (`shell/QuoteTray`): once the list holds anything, a slim night bar pinned to the bottom of any page
+  with an add-to-quote control on screen: "Your quote list · 2 items · 3 units · not sent yet" and "Review and send"
+  to `/quote`. It is not shown on the quote page, steps aside while the footer is on screen, never times out, and
+  sets a bottom scroll padding so keyboard focus is never hidden under it (WCAG 2.4.11). On phones it shows the item
+  count and "not sent yet"; on product pages below 64rem the product page's own bar takes its place.
+- **Card wording**: "In quote" / "In your quote" is now "On your list".
+- **Header badge**: on every add or quantity rise (not only a new model) it bumps and a lime ring spreads from it
+  before the existing tick. Approved motion (client, 25 Nov 2026); transform and opacity only; none under reduced
+  motion.
+
 ## Content import
 
 ```bash
@@ -446,6 +760,13 @@ maps each product to one of 6 families, and converts images to webp. Every recor
 
 The site never contacts aimsuae.me at runtime. Inside a sandbox whose proxy Node's `fetch` doesn't pick up, run the
 import with `NODE_USE_ENV_PROXY=1`.
+
+**Locations on the light band (client decision, 25 Nov 2026).** With the reach map on night green, the locations
+section, the close and the footer made one long dark stretch, so the client asked for locations to go light.
+`ReachBand` takes `ground="band"`: the light band, with the same map drawn in green (`.ui-reach-light` in
+`signature/reach.css`: green-700 routes, cities and offices above 3:1 as graphics, labels in ink and ink-600, lime
+only in the faint ring) and the showroom list in ink with green actions. Night green on home is now only the
+software band and the close; the other pages keep the night reach band.
 
 ### What the import found (to raise with AIMS)
 

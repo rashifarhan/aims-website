@@ -69,7 +69,7 @@ test.describe("product page (T5)", () => {
     await page.goto("/product/f18");
     const add = page.getByRole("button", { name: "Add to quote" }).first();
     await add.click();
-    const live = page.getByRole("status").filter({ hasText: "In quote" });
+    const live = page.getByRole("status").filter({ hasText: "On your list" });
     await expect(live).toContainText("ZKTeco F18 added to quote. Quantity: 1");
     await add.click();
     await expect(live).toContainText("ZKTeco F18: quantity 2");

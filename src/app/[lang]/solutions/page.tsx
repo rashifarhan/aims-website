@@ -6,6 +6,7 @@ import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { SOLUTION_CARDS } from "@/content/solutions";
 import { SolutionCard } from "@/components/solutions/SolutionCard";
 import { SolutionSite } from "@/components/solutions/SolutionSite";
@@ -46,11 +47,11 @@ export default async function SolutionsHub() {
       />
       {/* Each card's h2 names its need; the grid itself needs no heading. */}
       <Section ground="band" className="solution-grid-section">
-        <div className="solution-grid">
+        <SpotlightGroup className="solution-grid">
           {SOLUTION_CARDS.map((solution) => (
             <SolutionCard key={solution.slug} solution={solution} />
           ))}
-        </div>
+        </SpotlightGroup>
       </Section>
       {/* The dealt moment sits after the cards: they answer "what", the plan "where on my site". */}
       <SolutionSite />

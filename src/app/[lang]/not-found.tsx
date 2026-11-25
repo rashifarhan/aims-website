@@ -30,7 +30,7 @@ export default async function NotFound() {
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16">
         <div>
           {/* No label above the heading (Impeccable craft floor): the h1 says what happened. */}
-          <h1 className="text-page-title-mobile font-display tracking-tight lg:text-page-title">{t.notFound.title}</h1>
+          <h1 className="ui-display text-page-title-mobile tracking-tight lg:text-page-title">{t.notFound.title}</h1>
           <p className="mt-4 max-w-lg text-ink-600">{t.notFound.body}</p>
           <label htmlFor="notfound-search" className="mt-8 block text-sm font-semibold text-ink">
             {t.notFound.searchLabel}

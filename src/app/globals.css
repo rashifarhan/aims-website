@@ -35,6 +35,8 @@
   --color-error: #b42318;
   --color-warn: #8a5300;
   --color-whatsapp: #128043; /* WhatsApp button fill · 5.01:1 with white text */
+  /* WhatsApp's own green for its icon on the night-green footer (icons keep their brand colours): 8.6:1 on night-900. */
+  --color-whatsapp-on-night: #25d366;
   /* Premium homepage (user direction, 2026-11-21): deep-green night surfaces from AIMS's green.
      Shifted toward the client's chosen forest palette (24 Nov 2026: #0F1F17, #1E3A2E).
      Contrast on night-900: text 15.0:1, night-muted 8.6:1, lime 7.5:1, so lime may carry text there;
@@ -51,6 +53,10 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
   --font-arabic: var(--font-plex-arabic), var(--font-inter), sans-serif;
+  /* Display face (client decision, 24 Nov 2026): Archivo for headings, figures and the wordmark. Archivo is Latin
+     only, so Arabic glyphs fall through to IBM Plex Sans Arabic glyph by glyph, and Arabic headings keep the Arabic
+     font. */
+  --font-display: var(--font-archivo), var(--font-plex-arabic), var(--font-inter), ui-sans-serif, sans-serif;
 
   /* Type sizes outside Tailwind's default scale (Design Doc ch. 5) */
   --text-kbd: 0.6875rem; /* 11px · keyboard hints */
@@ -60,10 +66,15 @@
   --text-menu: 0.9375rem; /* 15px · mobile menu links */
   --text-wordmark: 1.375rem; /* 22px · interim wordmark */
   --text-brand: 0.71875rem; /* 11.5px · brand line on cards, the only all-caps label (Design Doc 5) */
-  --tracking-wordmark: 0.04em;
+  --tracking-wordmark: -0.01em; /* Archivo set wide needs no extra tracking */
   --tracking-brand: 0.08em;
   /* Design Doc ch. 5: reusable page-title and heading weights for T2. */
-  --font-weight-display: 680;
+  /* Archivo set wide (client decision, 24 Nov 2026): 650 at 115% width, tight tracking. The home hero is a step
+     narrower so its two lines hold beside the verified frame from 1024px. Width is a font axis, not a size. */
+  --font-weight-display: 650;
+  --font-stretch-display: 115%;
+  --font-stretch-hero: 104%;
+  --tracking-display: -0.035em;
   --font-weight-card: 650;
 
   /* Radius */
@@ -96,31 +107,38 @@
      than it arrives. */
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --duration-hover: 150ms;
+  /* The model-code ticker: slow enough to read a code as it passes (about 60px a second at 1440). */
+  --duration-strip: 48s;
   --duration-dropdown: 180ms;
   --duration-card: 240ms;
   --duration-drawer: 300ms;
   --duration-drawer-exit: 200ms;
+  /* The signature button's hover sweep and the secondary link's underline draw (client decision, 24 Nov 2026). */
+  --duration-sweep: 450ms;
   /* Approved hero prototype and Design Doc 8.4. */
   --duration-nav: 250ms;
   --duration-hero-rise: 900ms;
   --duration-hero-device: 1100ms;
-  --duration-hero-wash: 1600ms;
   --color-device-start: #f1f5f3;
   --color-device-end: #e4ebe8;
-  --drop-shadow-signal: 0 0 4px rgb(120 190 32 / 0.9);
 
   /* T1 homepage: Design Doc ch. 5–8; sizes beyond the shared scale.
      The one heading scale (Phase 1b polish): h1 --text-home-display (home, 68px) or --text-page-title (52px);
      h2 --text-home-heading (38px; 28px on phones); h3 and panel titles --text-home-subtitle (24px); a card's title
      --text-home-card (18px). Weights: --font-weight-display for h1/h2, --font-weight-card below. */
-  --text-home-display: 4.25rem; /* 68px: "and attendance for the UAE" holds one line beside the device */
-  --text-home-display-compact: 3.5rem;
+  /* Client decision 2 (24 Nov 2026): the hero's two lines never wrap from 1024px, so the size follows the viewport:
+     45px at 1024, 62px from 1410; "and attendance for the UAE" is 12.4em wide in Archivo at 104%. */
+  --text-home-display: clamp(2.625rem, 4.4vw, 3.875rem);
   --text-home-display-mobile: 2.5rem;
   /* Short phones (about 480px tall, audit B4): the hero title in four lines, so an action reaches the first screen. */
   --text-home-display-short: 1.875rem;
-  --text-home-heading: 2.375rem;
+  --text-home-heading: 2.75rem; /* 44px: Archivo set wide (client decision, 24 Nov 2026) */
   --text-home-card: 1.125rem;
   --text-home-lead: 1.1875rem;
+  /* The premium review card (25 Nov 2026): the quote in the display face a step above a card title, and the large
+     decorative quotation mark above it. */
+  --text-review-quote: 1.25rem;
+  --text-review-mark: 4.5rem;
   /* The proof statement (client mockup B, 24 Nov 2026): one sentence carrying the four company figures, a step above
      the h2 scale because it is the section's heading and its content. 28px at 390, 36px at 768, 42px from 1024. */
   --text-proof-statement: clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem);
@@ -143,6 +161,15 @@
   --text-explainer-name: 15px;
   --text-explainer-meta: 13px;
   --text-explainer-row: 14px;
+  /* The closing band's title (premium pass, 24 Nov 2026): 64px from 1024, 38px on phones. */
+  --text-close-title: clamp(2.375rem, 1.4rem + 3.4vw, 4rem);
+  /* Premium pass home (24 Nov 2026): the proof figures, sized so "2,200+" (3.2em wide) always fits its column (36px
+     at 320, 44px from 400; 52px at 1024 up to 64px in four columns), the showroom address (24px, 30px from 1024) and
+     a phone line on the desktop showroom list (22px). */
+  --text-figure: clamp(2.25rem, 11vw, 2.75rem);
+  --text-figure-wide: clamp(3.25rem, 5.4vw - 0.5rem, 4rem);
+  --text-visit-address: clamp(1.5rem, 1.1rem + 1.2vw, 1.875rem);
+  --text-visit-tel: 1.375rem;
   --text-home-subtitle: 1.5rem; /* 24px · a block heading inside a shared section, between card and H2 */
   --text-device-bar: 5.2cqw;
   --text-device-clock: 23cqw;
@@ -221,9 +248,36 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+  /* On the night-green footer the ring turns lime (7.5:1 on night-900), as in the night sections. */
+  .site-footer :focus-visible {
+    outline-color: var(--color-lime);
+  }
 
   ::selection {
     background: var(--color-green-100);
+  }
+}
+
+/*
+ * The display face on every shared heading class (client decision, 24 Nov 2026): page and section titles, the
+ * closing title, the home display and figures, the wordmark. In the components layer, so a family rule (size, colour,
+ * a hero's narrower width) still refines it. `.ui-display` gives a one-off heading the same face.
+ */
+@layer components {
+  .ui-display,
+  .home-display,
+  .section-title,
+  .page-hero h1,
+  .ui-close-title,
+  .home-figure {
+    font-family: var(--font-display);
+    font-stretch: var(--font-stretch-display);
+    font-weight: var(--font-weight-display);
+    letter-spacing: var(--tracking-display);
+  }
+  /* Arabic keeps its own font and spacing (Design Doc 13): no negative tracking on joined letters. */
+  :lang(ar) :is(.ui-display, .home-display, .section-title, .page-hero h1, .ui-close-title) {
+    letter-spacing: 0;
   }
 }
 
@@ -288,6 +342,9 @@
   --home-hero-height: 760px;
   --home-mobile-art-height: 400px;
   --home-button-height: 3.375rem;
+  /* The signature button's arrow circle and the inset round it (client decision, 24 Nov 2026). */
+  --home-button-dot: 2.625rem;
+  --home-button-inset: 0.375rem;
   /* Resting light at its original strength (DESIGN.md "Lime Is Light", not a glow); the verified layer below adds
      to it only while the hero shows "Access granted". */
   --gradient-home-glow: radial-gradient(
@@ -309,13 +366,15 @@
     transparent 76%
   );
   /* AIMS's inner hero signature (client decision, 24 Nov 2026): a soft green light at the top of every PageHero,
-     under its signal lines. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
+     under its ridge motif. At its strongest (green-100 at 45% over white) ink-400 keeps 4.7:1, ink-600 7.1:1 and
      green-700 5.5:1. */
   --gradient-hero-glow: radial-gradient(
     60rem 26rem at 50% 0%,
     color-mix(in srgb, var(--color-green-100) 45%, transparent),
     transparent 72%
   );
+  /* The closing band is the page's last ask, so it stands taller than the section rhythm. */
+  --close-space: calc(var(--section-space) * 2);
   /* Homepage night surfaces (README → Decisions): night green. */
   --gradient-night:
     radial-gradient(120% 80% at 85% 0%, var(--color-night-700), transparent 60%),
@@ -328,6 +387,13 @@
     color-mix(in srgb, var(--color-lime) 9%, transparent),
     transparent 70%
   );
+  /* The home hero's ground (premium pass mockup): a faint green pool behind the stage at the end side. */
+  --gradient-home-hero: radial-gradient(60% 70% at 78% 52%, var(--color-green-50), transparent 70%);
+  --gradient-home-hero-rtl: radial-gradient(60% 70% at 22% 52%, var(--color-green-50), transparent 70%);
+  /* The verified frame's one scan line trails a soft lime light (client decision 4). */
+  --gradient-frame-scan: linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-lime) 22%, transparent));
+  /* A product tile's faint plinth behind its contained photograph (premium pass mockup). */
+  --gradient-tile-plinth: linear-gradient(180deg, var(--color-paper-2), var(--color-paper-3));
   --gradient-home-screen: linear-gradient(180deg, var(--color-device-start), var(--color-device-end));
   --gradient-home-scan: linear-gradient(
     180deg,
@@ -351,7 +417,7 @@
   :root {
     --section-space: 2rem;
     --card-pad: 1.25rem;
-    --text-home-heading: 1.75rem;
+    --text-home-heading: 2rem;
   }
 }
 
