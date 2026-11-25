@@ -504,12 +504,48 @@ no caption, and is credited in the footer's one line (`footer.standIns`). Conver
 size, under 235 KB each, in `public/images/stand-ins/`. The scan reveal on the tiles is scroll-driven CSS
 (`animation-timeline: view()`, transform and opacity) and absent under reduced motion or without support.
 
-| File                                                                             | Commons page                                                                                                                                                                                               | Author     | Why it fits                                                                                     |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
-| `office-lobby-speed-gates.webp` (Office towers → entrance control)               | [Fukuoka Daimyō Garden City Tower turnstiles](https://commons.wikimedia.org/wiki/File:Fukuoka_Daimy%C5%8D_Garden_City_Tower_the_turnstiles_on_the_3rd_floor_Ch%C5%AB%C5%8D-ku_Fukuoka_20240812_153528.jpg) | Hirho      | Glass speed gates in an office lift lobby; green marble echoes AIMS green.                      |
-| `hotel-corridor.webp` (Hotels → door locks)                                      | [Corridor at Sokos Hotel Pier 4](https://commons.wikimedia.org/wiki/File:Corridor_at_Sokos_Hotel_Pier_4.jpg)                                                                                               | JIP        | A clean guest corridor lined with room doors, where RFID hotel locks go. No brand mark visible. |
-| `office-building-glass-entrance.webp` (Building entrances → access control)      | [TPE-DORTS-SDPO Building main entrance](https://commons.wikimedia.org/wiki/File:TPE-DORTS-SDPO_Building_main_entrance_20200726.jpg)                                                                        | Solomon203 | Glass entrance doors: the classic controlled door (reader, controller, EM lock).                |
-| `reception-lobby-optical-turnstiles.webp` (Reception lobbies → entrance control) | [Drop Arm Optical Turnstiles](https://commons.wikimedia.org/wiki/File:Drop_Arm_Optical_Turnstiles.jpg)                                                                                                     | Fabtron    | Drop-arm optical turnstiles across a reception lobby beside the front desk.                     |
+| File                                                                                        | Commons page                                                                                                                                                                                               | Author     | Why it fits                                                                                     |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
+| `office-lobby-speed-gates.webp` (Office towers → /solutions/entrance-parking)               | [Fukuoka Daimyō Garden City Tower turnstiles](https://commons.wikimedia.org/wiki/File:Fukuoka_Daimy%C5%8D_Garden_City_Tower_the_turnstiles_on_the_3rd_floor_Ch%C5%AB%C5%8D-ku_Fukuoka_20240812_153528.jpg) | Hirho      | Glass speed gates in an office lift lobby; green marble echoes AIMS green.                      |
+| `hotel-corridor.webp` (Hotels → /solutions/door-locks)                                      | [Corridor at Sokos Hotel Pier 4](https://commons.wikimedia.org/wiki/File:Corridor_at_Sokos_Hotel_Pier_4.jpg)                                                                                               | JIP        | A clean guest corridor lined with room doors, where RFID hotel locks go. No brand mark visible. |
+| `office-building-glass-entrance.webp` (Building entrances → /solutions/access-control)      | [TPE-DORTS-SDPO Building main entrance](https://commons.wikimedia.org/wiki/File:TPE-DORTS-SDPO_Building_main_entrance_20200726.jpg)                                                                        | Solomon203 | Glass entrance doors: the classic controlled door (reader, controller, EM lock).                |
+| `reception-lobby-optical-turnstiles.webp` (Reception lobbies → /solutions/entrance-parking) | [Drop Arm Optical Turnstiles](https://commons.wikimedia.org/wiki/File:Drop_Arm_Optical_Turnstiles.jpg)                                                                                                     | Fabtron    | Drop-arm optical turnstiles across a reception lobby beside the front desk.                     |
+
+### Home previews the header (client decision, 25 Nov 2026)
+
+The client approved a home page that previews the header menu, one section per item, in menu order. It extends the
+premium pass with no new visual pattern: the shared `Section` grounds, `SectionHeader` with its end link, the
+signature text link, `JourneySteps`, the night `ReachBand` and the existing cards.
+
+| #   | Section                                     | Menu item | Ground | End link                     |
+| --- | ------------------------------------------- | --------- | ------ | ---------------------------- |
+| 1   | Hero (unchanged)                            |           | paper  |                              |
+| 2   | Company figures, then the published reviews | About     | band   | Read the published reviews ↗ |
+| 3   | Model-code ticker (unchanged)               |           |        |                              |
+| 4   | Six product families                        | Products  | paper  | See all products             |
+| 5   | Photo places, each tile to its solution     | Solutions | paper  | See all solutions            |
+| 6   | Software                                    | Software  | night  | All software                 |
+| 7   | How AIMS works: the five-step journey       | Services  | paper  | See services                 |
+| 8   | Showroom, lines and the reach map           | Locations | night  | See locations                |
+| 9   | Closing call                                |           | night  |                              |
+
+- **Reviews.** `HomeReviews` is now the one reviews strip, used by the figures band and by `HomeProof` on /about; the
+  review card reads in ink on light grounds and keeps its night tones on night green.
+- **Places.** Photos, layout and scan reveal are unchanged; the tiles now open /solutions/entrance-parking (office
+  towers, reception lobbies), /solutions/access-control (building entrances) and /solutions/door-locks (hotels).
+- **Journey.** The pre-pass `HomeJourney` returned on `JourneySteps` with its five steps and copy. Its old pill
+  ("Start with step one now" → /quote) did not return: the end link is the section's one action and the closing band
+  asks for the quote. The closing band's one line of steps went, and with it `ClosePanel`'s unused `steps` prop.
+- **Locations.** The showroom and offices section merged into the shared night `ReachBand` (now with an optional end
+  link). The reach map is the page's dealt moment: it draws once when a third of the map is on screen
+  (`MomentTrigger`, `trigger="map"`) and rests drawn under reduced motion; it has no loop. On a desktop it stands
+  centred beside the taller showroom copy.
+- **Grounds.** The reach map is drawn for night green (its labels are night text and lime), so section 8 is night.
+  That gives two night bands mid-page, the software band and this one, parted by the light journey. Section 8 is
+  followed by the night closing band; the system's existing rule parts two adjacent night bands with a hairline
+  (`ui/sections.css`), as on /about, so they never read as one. Moving the close or the map onto light would have
+  needed a new pattern.
+- **Not returning:** buyer routes, the door teaser and the FAQ.
 
 ## Content import
 
