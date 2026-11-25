@@ -39,7 +39,12 @@ export async function Hero() {
   return (
     <HeroScroll
       label={h.scene}
-      steps={[h.step1, h.step2, h.step3]}
+      steps={[
+        { title: h.step1, body: h.step1Body },
+        { title: h.step2, body: h.step2Body },
+        { title: h.step3, body: h.step3Body },
+      ]}
+      stepLabel={h.stepLabel}
       families={families}
       rangeLabel={h.rangeLabel}
       linkLabel={h.rangeLink}

@@ -14,7 +14,7 @@ export async function HomeFigures() {
   const t = await getDictionary();
   const proof = t.home.proof;
   return (
-    <Section ground="band" labelledBy="proof-title" className="home-figures">
+    <Section ground="night" labelledBy="proof-title" className="home-figures">
       <h2 id="proof-title" className="sr-only">
         {proof.label}
       </h2>

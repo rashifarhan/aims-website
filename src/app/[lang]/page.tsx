@@ -3,11 +3,11 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { COMPANY_NAME, CONTACT, SITE_URL, whatsappUrl } from "@/lib/site";
+import { HomeAmbient } from "@/components/home/HomeAmbient";
 import { JsonLd } from "@/components/JsonLd";
 import { FloatingContact } from "@/components/home/FloatingContact";
 import { Hero } from "@/components/home/Hero";
 import { HomeFigures } from "@/components/home/HomeFigures";
-import { ProductFamilies } from "@/components/home/ProductFamilies";
 import { HomeWhereItGoes } from "@/components/home/HomeWhereItGoes";
 import { HomeSoftware } from "@/components/home/HomeSoftware";
 import { HomeJourney } from "@/components/home/HomeJourney";
@@ -42,7 +42,8 @@ export default async function Home() {
   const locale = await getLocale();
   const close = t.home.closing;
   return (
-    <main id="main" className="home-bands">
+    <main id="main" className="home-bands home-night">
+      <HomeAmbient />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -56,7 +57,6 @@ export default async function Home() {
       <Hero />
       <HomeFigures />
       <ModelStrip />
-      <ProductFamilies />
       <HomeWhereItGoes />
       <HomeSoftware />
       <HomeJourney />

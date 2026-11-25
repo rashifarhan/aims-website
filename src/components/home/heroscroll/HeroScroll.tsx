@@ -18,13 +18,15 @@ export type HeroFamily = { slug: string; name: string; summary: string; count: s
 export function HeroScroll({
   children,
   steps,
+  stepLabel,
   label,
   families,
   rangeLabel,
   linkLabel,
 }: {
   children: ReactNode;
-  steps: [string, string, string];
+  steps: { title: string; body: string }[];
+  stepLabel: string;
   label: string;
   families: HeroFamily[];
   rangeLabel: string;
@@ -119,14 +121,17 @@ export function HeroScroll({
             </article>
           ))}
         </div>
-        <ol className="hero-scroll-steps wrap" aria-hidden="true">
-          {steps.map((text, i) => (
-            <li key={text} data-on={step === i || undefined}>
-              <span>{String(i + 1).padStart(2, "0")}</span>
-              {text}
-            </li>
+        <div className="hero-scroll-families hero-scroll-story wrap" aria-hidden="true">
+          {steps.map((st, i) => (
+            <article key={st.title} data-on={step === i || undefined}>
+              <p className="hero-scroll-range">
+                {stepLabel} · {String(i + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+              </p>
+              <p className="hero-scroll-family">{st.title}</p>
+              <p className="hero-scroll-summary">{st.body}</p>
+            </article>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
   );

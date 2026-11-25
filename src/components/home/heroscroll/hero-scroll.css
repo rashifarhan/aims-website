@@ -67,43 +67,6 @@
   background: color-mix(in srgb, var(--color-night-800) 70%, transparent);
   color: var(--color-lime);
 }
-/* Three captions follow the story: scanned, verified, and what AIMS does with it. */
-.hero-scroll-steps {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-end: 3rem;
-  z-index: 1;
-  display: grid;
-  gap: 0.5rem;
-  list-style: none;
-}
-.hero-scroll-steps li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  max-inline-size: 30rem;
-  color: var(--color-night-text);
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.2vw, 2rem);
-  font-stretch: var(--font-stretch-hero);
-  font-weight: var(--font-weight-display);
-  letter-spacing: -0.02em;
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 450ms var(--ease-aims),
-    transform 450ms var(--ease-aims);
-  grid-area: 1 / 1;
-}
-.hero-scroll-steps li span {
-  color: var(--color-lime);
-  font-family: var(--font-mono, monospace);
-  font-size: 0.55em;
-}
-.hero-scroll-steps li[data-on] {
-  opacity: 1;
-  transform: none;
-}
 @media (max-width: 1023px) {
   .hero-scroll {
     height: 640svh;
@@ -120,7 +83,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-copy,
-  .hero-scroll-steps li {
+  .hero-scroll-families article {
     transition: none;
   }
 }

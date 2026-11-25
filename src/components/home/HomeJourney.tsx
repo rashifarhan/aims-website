@@ -72,7 +72,7 @@ export async function HomeJourney() {
     },
   ];
   return (
-    <Section id="journey" labelledBy="journey-title" className="home-journey" moment>
+    <Section ground="night" id="journey" labelledBy="journey-title" className="home-journey" moment>
       <div className="hj-grid">
         <div className="hj-head">
           <SectionHeader

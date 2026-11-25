@@ -28,7 +28,7 @@ export async function HomeVisit() {
   ];
   return (
     <ReachBand
-      ground="band"
+      ground="night"
       id="showrooms"
       titleId="locations-title"
       heading={l.heading}
