@@ -4,6 +4,7 @@ Run on the Mac (never in the cloud session):
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine eevee     # ~1 min preview
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine cycles    # final still
 Options: --samples N  --res 1600x1000  --exposure 0.5  --open 0.0..1.0  --out 3d/renders/looktest.png
+         --mood day|dusk (dusk: blue-hour street, no sun, warm room lights)  --lights 8
          --hdri path (default 3d/assets/hdri/docklands_02_4k.hdr; a plain sky when missing)
          --hdri-rotation 24  --sun-elevation 13 (lower the HDRI's sun)  --no-finish (no bloom, vignette, grain)
          --save 3d/renders/looktest.blend (keep the scene)  --no-render (build only)
@@ -29,6 +30,22 @@ from aims3d.speedgate import W, default_materials, speed_gate  # noqa: E402
 X_WIN, Y_BACK, X_RIGHT, Y_FRONT, CEILING = -5.0, 4.5, 6.5, -6.5, 3.4
 
 
+# Times of day. Each is a set of defaults the command line can still override.
+MOODS = {
+    "day": {},
+    # Blue hour across the water (Poly Haven "Golden Bay", CC0): no sun, the lobby's own warm lights lead.
+    "dusk": {
+        "hdri": os.path.join(HERE, "assets", "hdri", "golden_bay_4k.hdr"),
+        "hdri-rotation": "3",  # open water, the far shore's lights and most of the blue sky
+        "sun": "none",
+        "lights": "8",
+        "grazer": "450",
+        "exposure": "0.3",
+        "out": os.path.join(HERE, "renders", "looktest-dusk.png"),
+    },
+}
+
+
 def args():
     argv = sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else []
     opts = {
@@ -44,8 +61,13 @@ def args():
         # across sunlit water at a glass office (a creek-side lobby, as AIMS's Deira showroom is).
         "hdri-rotation": "24",
         "sun-elevation": "13",  # lower than the photo's 35 deg so the sun reaches the oak wall (see sun())
+        "sun": "hdri",  # "none" for dusk: an HDRI's brightest light may be a street lamp, not the sun
+        "lights": "8",  # ceiling light strength; at dusk they carry the room
+        "grazer": "0",  # watts of the warm light grazing down the oak slats from a ceiling slot
     }
     flags = set()
+    if "--mood" in argv and argv[argv.index("--mood") + 1] in MOODS:
+        opts.update(MOODS[argv[argv.index("--mood") + 1]])
     i = 0
     while i < len(argv):
         key = argv[i].lstrip("-")
@@ -58,7 +80,7 @@ def args():
     return opts, flags
 
 
-def lobby(street):
+def lobby(street, opts):
     """Curtain wall on the left onto the street, oak slat wall behind the gates (dark and warm, so the steel
     reads against it), plaster elsewhere, linear lights in the ceiling."""
     floor, wall, wood = M.marble_floor(), M.plaster(), M.oak()
@@ -94,10 +116,21 @@ def lobby(street):
         for k, (x, y, w, h) in enumerate([(-18, 7, 6, 26), (-30, 2, 9, 55), (-20, 14, 6, 22), (-40, 22, 10, 70)]):
             box(f"Tower {k}", (w, w, h), (x, y, h / 2), M.plaster(f"Tower {k}", (0.45, 0.48, 0.52)), 0)
     # Linear lights recessed in the ceiling, each in a dark trim, running with the walk.
-    led, trim = M.led("Ceiling light", (1.0, 0.9, 0.78), 8.0), M.dark_metal("Light trim")
+    led, trim = M.led("Ceiling light", (1.0, 0.86, 0.7), float(opts["lights"])), M.dark_metal("Light trim")
     for k in range(-2, 4):
         box(f"Linear trim {k}", (0.08, 8.04, 0.012), (k * 1.8, -1.0, CEILING - 0.004), trim, 0)
         box(f"Linear light {k}", (0.05, 8, 0.012), (k * 1.8, -1.0, CEILING - 0.006), led, 0)
+    # A concealed warm light in a ceiling slot, grazing down the slats: invisible by day, the glow of the room
+    # at dusk. The spread keeps it close to the wall so it rakes the slats instead of lighting the floor.
+    if float(opts["grazer"]) > 0:
+        bpy.ops.object.light_add(type="AREA", location=(cx, Y_BACK - 0.1, CEILING - 0.02))
+        graze = bpy.context.object
+        graze.data.shape = "RECTANGLE"
+        graze.data.size, graze.data.size_y = sx - 0.4, 0.04
+        graze.data.energy = float(opts["grazer"])
+        graze.data.color = (1.0, 0.72, 0.45)
+        graze.data.spread = 30 * DEG
+        graze.rotation_euler = (-8 * DEG, 0, 0)  # tipped toward the wall
     planter("Planter", (-3.7, 2.6, 0))
     reception_desk("Reception", (4.3, 3.2, 0))
 
@@ -132,7 +165,7 @@ def world(opts):
             print("LOOKTEST_SUN", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in found.items()})
         else:
             links.new(env.outputs["Color"], bg.inputs["Color"])
-        return False, found
+        return False, (found if opts["sun"] != "none" else None)
     sky = nodes.new("ShaderNodeTexSky")
     for kind in ("NISHITA", "MULTIPLE_SCATTERING", "SINGLE_SCATTERING", "HOSEK_WILKIE"):
         try:
@@ -151,6 +184,8 @@ def sun(found, opts):
     """The sun lamp. With a sunny HDRI it shines from the photographed sun with its measured strength and
     colour, so shadows outside and inside agree. `--sun-elevation` may lower it (a photographer's cheat: a
     low sun reaches deeper into the lobby). Without one: a low afternoon sun from the left-front."""
+    if opts["sun"] == "none":
+        return
     if found:
         rgb = found["rgb"]
         top = max(rgb)
@@ -229,7 +264,7 @@ def main():
     opts, flags = args()
     bpy.ops.wm.read_factory_settings(use_empty=True)
     street, found = world(opts)
-    lobby(street)
+    lobby(street, opts)
     mats = default_materials()
     opening = float(opts["open"])
     speed_gate("Gate A", (0, 0, 0), opening, mats)

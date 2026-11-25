@@ -21,8 +21,13 @@ strength), clips it out of the world light and puts a sun lamp in its place, so 
 agree. Without the file the scene falls back to a plain sky and modelled blocks. "Canary Wharf" by Andreas
 Mischok (overcast) also works: `--hdri 3d/assets/hdri/canary_wharf_4k.exr --hdri-rotation 150`.
 
+The dusk version uses "Golden Bay" by Greg Zaal (4K HDR, 22.6 MB, blue hour across water). Its brightest
+light is a street lamp, so dusk turns the sun lamp off (`--sun none`) and the lobby's own lights lead.
+
 ```bash
-mkdir -p 3d/assets/hdri && curl -L -o 3d/assets/hdri/docklands_02_4k.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/docklands_02_4k.hdr
+mkdir -p 3d/assets/hdri
+curl -L -o 3d/assets/hdri/docklands_02_4k.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/docklands_02_4k.hdr
+curl -L -o 3d/assets/hdri/golden_bay_4k.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/golden_bay_4k.hdr
 ```
 
 ## Look test
@@ -31,6 +36,12 @@ Quick preview (about a minute):
 
 ```bash
 /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine eevee --out 3d/renders/looktest-eevee.png
+```
+
+Dusk (blue-hour street, no sun, warm ceiling lights and a light grazing the oak slats):
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --mood dusk
 ```
 
 Realistic still (about 2.5 minutes on the M1 once Cycles has compiled its Metal kernels; the very first run
