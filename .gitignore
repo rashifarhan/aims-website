@@ -61,3 +61,4 @@ performance-results
 3d/renders/*.blend
 3d/renders/*.blend1
 __pycache__/
+3d/assets/

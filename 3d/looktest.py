@@ -3,7 +3,9 @@
 Run on the Mac (never in the cloud session):
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine eevee     # ~1 min preview
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine cycles    # final still
-Options: --samples N  --res 1600x1000  --exposure 0.0  --open 0.0..1.0  --out 3d/renders/looktest.png
+Options: --samples N  --res 1600x1000  --exposure 1.0  --open 0.0..1.0  --out 3d/renders/looktest.png
+         --hdri path.exr (default 3d/assets/hdri/canary_wharf_4k.exr; a plain sky when missing)
+         --hdri-rotation 150  --no-finish (skip bloom, vignette, grain)
          --save 3d/renders/looktest.blend (keep the scene)  --no-render (build only)
 """
 
@@ -18,7 +20,12 @@ sys.path.insert(0, HERE)
 
 from aims3d import materials as M  # noqa: E402
 from aims3d.build import DEG, box, look_at  # noqa: E402
-from aims3d.speedgate import W, speed_gate  # noqa: E402
+from aims3d.dressing import planter, reception_desk  # noqa: E402
+from aims3d.finish import photographic_finish  # noqa: E402
+from aims3d.speedgate import W, default_materials, speed_gate  # noqa: E402
+
+# The room, in metres. The visitor walks along +Y through the gates, which stand in a row along X at y = 0.
+X_WIN, Y_BACK, X_RIGHT, Y_FRONT, CEILING = -5.0, 4.5, 6.5, -6.5, 3.4
 
 
 def args():
@@ -27,10 +34,12 @@ def args():
         "engine": "cycles",
         "samples": "192",
         "res": "1600x1000",
-        "exposure": "0.9",
+        "exposure": "1.0",
         "open": "0",
         "out": os.path.join(HERE, "renders", "looktest.png"),
         "save": "",
+        "hdri": os.path.join(HERE, "assets", "hdri", "canary_wharf_4k.exr"),
+        "hdri-rotation": "150",  # the plaza steps and towers outside the window, not the waterfront cafe
     }
     flags = set()
     i = 0
@@ -45,51 +54,72 @@ def args():
     return opts, flags
 
 
-def lobby():
-    """A lobby corner: curtain wall on the left onto the street, oak slat wall behind the gates (dark and warm,
-    so the steel reads against it), plaster elsewhere. The visitor walks along +Y through the gates."""
+def lobby(street):
+    """Curtain wall on the left onto the street, oak slat wall behind the gates (dark and warm, so the steel
+    reads against it), plaster elsewhere, linear lights in the ceiling."""
     floor, wall, wood = M.marble_floor(), M.plaster(), M.oak()
     frame, glass = M.dark_metal("Mullion"), M.window_glass("Curtain wall")
-    x_win, y_back, x_right, y_front = -5.0, 4.5, 6.5, -6.5
-    cx, cy = (x_win + x_right) / 2, (y_back + y_front) / 2
-    sx, sy = x_right - x_win, y_back - y_front
+    cx, cy = (X_WIN + X_RIGHT) / 2, (Y_BACK + Y_FRONT) / 2
+    sx, sy = X_RIGHT - X_WIN, Y_BACK - Y_FRONT
     box("Floor", (sx, sy, 0.1), (cx, cy, -0.05), floor, 0)
-    box("Ceiling", (sx, sy, 0.1), (cx, cy, 3.45), wall, 0)
-    # Left: a full-height glass curtain wall, mullions every 1.5 m and one transom.
+    box("Ceiling", (sx, sy, 0.1), (cx, cy, CEILING + 0.05), M.plaster("Ceiling", (0.7, 0.69, 0.66)), 0)
+    # Full-height curtain wall: mullions every 1.5 m, one transom, a sill track and a head trim.
     for j in range(-4, 4):
-        box(f"Mullion {j}", (0.12, 0.06, 3.4), (x_win, j * 1.5, 1.7), frame, 0.004)
-    box("Transom", (0.12, sy, 0.08), (x_win, cy, 2.6), frame, 0.004)
-    box("Curtain glass", (0.02, sy, 3.4), (x_win - 0.02, cy, 1.7), glass, 0)
-    # Back: oak slats on a dark backing, one slat repeated by an Array modifier (fewer objects, same look).
-    box("Feature wall backing", (sx, 0.1, 3.4), (cx, y_back + 0.05, 1.7), M.plaster("Backing", (0.05, 0.045, 0.04)), 0)
-    slat = box("Slats", (0.045, 0.05, 3.4), (x_win + 0.08, y_back - 0.03, 1.7), wood, 0.004)
+        box(f"Mullion {j}", (0.12, 0.06, CEILING), (X_WIN, j * 1.5, CEILING / 2), frame, 0.004)
+    box("Transom", (0.12, sy, 0.08), (X_WIN, cy, 2.6), frame, 0.004)
+    box("Sill", (0.16, sy, 0.04), (X_WIN, cy, 0.02), frame, 0.003)
+    box("Head", (0.16, sy, 0.06), (X_WIN, cy, CEILING - 0.03), frame, 0.003)
+    box("Curtain glass", (0.02, sy, CEILING), (X_WIN - 0.02, cy, CEILING / 2), glass, 0)
+    # Oak slats on a dark backing, stopping short of floor and ceiling (the shadow gaps a joiner leaves).
+    box("Feature wall backing", (sx, 0.1, CEILING), (cx, Y_BACK + 0.05, CEILING / 2), M.plaster("Backing", (0.03, 0.028, 0.026)), 0)
+    slat = box("Slats", (0.045, 0.05, CEILING - 0.06), (X_WIN + 0.08, Y_BACK - 0.03, CEILING / 2), wood, 0.004)
     arr = slat.modifiers.new("Array", "ARRAY")
     arr.use_relative_offset, arr.use_constant_offset = False, True
     arr.constant_offset_displace = (0.1, 0, 0)
     arr.count = int((sx - 0.1) / 0.1)
-    box("Right wall", (0.1, sy, 3.4), (x_right + 0.05, cy, 1.7), wall, 0)
-    box("Front wall", (sx, 0.1, 3.4), (cx, y_front - 0.05, 1.7), wall, 0)
-    # Street outside: pavement and a few distant blocks, soft through the glass and the depth of field.
-    box("Pavement", (40, 60, 0.1), (x_win - 20.1, 0, -0.06), M.plaster("Pavement", (0.42, 0.4, 0.37)), 0)
-    # Kept behind the sun's path (y > 5) so they never shade the lobby.
-    blocks = [(-18, 7, 6, 26), (-30, 2, 9, 55), (-20, 14, 6, 22), (-40, 22, 10, 70), (-26, 34, 8, 40)]
-    for k, (x, y, w, h) in enumerate(blocks):
-        box(f"Tower {k}", (w, w, h), (x, y, h / 2), M.plaster(f"Tower {k}", (0.45, 0.48, 0.52)), 0)
-    # Recessed linear lights in the ceiling, running with the walk.
-    led = M.led("Ceiling light", (1.0, 0.9, 0.78), 8.0)
+    box("Right wall", (0.1, sy, CEILING), (X_RIGHT + 0.05, cy, CEILING / 2), wall, 0)
+    # Behind the visitor: the glazed entrance they just came through. Out of frame, but its daylight is what
+    # the gates' entry faces reflect, and brushed steel only looks bright when it has something bright to mirror.
+    for i in range(-3, 5):
+        box(f"Entrance mullion {i}", (0.06, 0.12, CEILING), (i * 1.5, Y_FRONT, CEILING / 2), frame, 0.004)
+    box("Entrance transom", (sx, 0.12, 0.08), (cx, Y_FRONT, 2.6), frame, 0.004)
+    box("Entrance glass", (sx, 0.02, CEILING), (cx, Y_FRONT - 0.02, CEILING / 2), glass, 0)
+    if street:  # without a photographed street, a pavement and a few blocks stand in for it
+        box("Pavement", (40, 60, 0.1), (X_WIN - 20.1, 0, -0.06), M.plaster("Pavement", (0.42, 0.4, 0.37)), 0)
+        # Kept behind the sun's path (y > 5) so they never shade the lobby.
+        for k, (x, y, w, h) in enumerate([(-18, 7, 6, 26), (-30, 2, 9, 55), (-20, 14, 6, 22), (-40, 22, 10, 70)]):
+            box(f"Tower {k}", (w, w, h), (x, y, h / 2), M.plaster(f"Tower {k}", (0.45, 0.48, 0.52)), 0)
+    # Linear lights recessed in the ceiling, each in a dark trim, running with the walk.
+    led, trim = M.led("Ceiling light", (1.0, 0.9, 0.78), 8.0), M.dark_metal("Light trim")
     for k in range(-2, 4):
-        box(f"Linear light {k}", (0.05, 8, 0.02), (k * 1.8, -1.0, 3.395), led, 0)
+        box(f"Linear trim {k}", (0.08, 8.04, 0.012), (k * 1.8, -1.0, CEILING - 0.004), trim, 0)
+        box(f"Linear light {k}", (0.05, 8, 0.012), (k * 1.8, -1.0, CEILING - 0.006), led, 0)
+    planter("Planter", (-3.7, 2.6, 0))
+    reception_desk("Reception", (4.3, 3.2, 0))
 
 
-def light(sun_elevation=24, sun_azimuth=294):
-    """Low afternoon sun from the left-front through the curtain wall: it rakes across the floor, throws the
-    mullion shadows in long stripes and catches the gates' entry faces at a grazing angle."""
+def world(opts):
+    """The street seen through the glass and reflected in the steel: a photographed city (CC0 HDRI) when it
+    is on disk, otherwise a physical sky. Returns True when the street needs modelling."""
     sc = bpy.context.scene
-    world = bpy.data.worlds.new("Sky")
-    sc.world = world
+    w = bpy.data.worlds.new("World")
+    sc.world = w
     if bpy.app.version < (5, 0, 0):  # node worlds are always on from Blender 5
-        world.use_nodes = True
-    nodes, links = world.node_tree.nodes, world.node_tree.links
+        w.use_nodes = True
+    nodes, links = w.node_tree.nodes, w.node_tree.links
+    bg = nodes["Background"]
+    path = opts["hdri"]
+    if path and os.path.exists(path):
+        coord = nodes.new("ShaderNodeTexCoord")
+        mapping = nodes.new("ShaderNodeMapping")
+        mapping.inputs["Rotation"].default_value = (0, 0, float(opts["hdri-rotation"]) * DEG)
+        env = nodes.new("ShaderNodeTexEnvironment")
+        env.image = bpy.data.images.load(os.path.abspath(path))
+        links.new(coord.outputs["Generated"], mapping.inputs["Vector"])
+        links.new(mapping.outputs["Vector"], env.inputs["Vector"])
+        links.new(env.outputs["Color"], bg.inputs["Color"])
+        bg.inputs["Strength"].default_value = 1.0
+        return False
     sky = nodes.new("ShaderNodeTexSky")
     for kind in ("NISHITA", "MULTIPLE_SCATTERING", "SINGLE_SCATTERING", "HOSEK_WILKIE"):
         try:
@@ -98,25 +128,30 @@ def light(sun_elevation=24, sun_azimuth=294):
         except TypeError:
             continue
     if hasattr(sky, "sun_disc"):
-        sky.sun_disc = False  # the sun lamp below draws the sun and its shadows
-    if hasattr(sky, "sun_elevation"):
-        sky.sun_elevation = sun_elevation * DEG
-        sky.sun_rotation = sun_azimuth * DEG
-    links.new(sky.outputs[0], nodes["Background"].inputs[0])
-    nodes["Background"].inputs[1].default_value = 0.5
-    bpy.ops.object.light_add(type="SUN", rotation=((90 - sun_elevation) * DEG, 0, sun_azimuth * DEG))
-    sun = bpy.context.object
-    sun.data.energy = 4.0
-    sun.data.angle = 0.53 * DEG  # the real sun's disc: crisp shadows that soften with distance
-    sun.data.color = (1.0, 0.93, 0.84)
+        sky.sun_disc = False
+    links.new(sky.outputs[0], bg.inputs["Color"])
+    bg.inputs["Strength"].default_value = 0.5
+    return True
+
+
+def sun(elevation=17, azimuth=294):
+    """Low afternoon sun from the left-front through the curtain wall: it rakes across the floor, throws the
+    mullion shadows in long stripes and catches the gates' entry faces at a grazing angle."""
+    bpy.ops.object.light_add(type="SUN", rotation=((90 - elevation) * DEG, 0, azimuth * DEG))
+    lamp = bpy.context.object
+    lamp.data.energy = 4.0
+    lamp.data.angle = 0.53 * DEG  # the real sun's disc: crisp shadows that soften with distance
+    lamp.data.color = (1.0, 0.93, 0.84)
 
 
 def camera():
-    """The visitor's eye: standing back and to the right, at eye height, both gates whole."""
-    bpy.ops.object.camera_add(location=(3.7, -3.5, 1.55))
+    """The visitor's eye, held level like an architectural photograph (verticals stay vertical); the frame is
+    moved down with lens shift instead of tilting the camera."""
+    bpy.ops.object.camera_add(location=(3.4, -3.7, 1.55))
     cam = bpy.context.object
-    look_at(cam, (0.55, 0.4, 0.6))
-    cam.data.lens = 35
+    look_at(cam, (0.4, 0.6, 1.55))
+    cam.data.lens = 28
+    cam.data.shift_y = -0.07
     cam.data.dof.use_dof = True
     cam.data.dof.aperture_fstop = 4.0
     cam.data.dof.focus_distance = math.dist(cam.location, (0.8, -0.14, 0.6))
@@ -128,7 +163,8 @@ def render_settings(opts):
     x, y = (int(v) for v in opts["res"].lower().split("x"))
     sc.render.resolution_x, sc.render.resolution_y = x, y
     sc.render.film_transparent = False
-    sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items] else "Filmic"
+    transforms = [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items]
+    sc.view_settings.view_transform = "AgX" if "AgX" in transforms else "Filmic"
     sc.view_settings.exposure = float(opts["exposure"])
     for look in ("AgX - Medium High Contrast", "Medium High Contrast"):  # the name differs by version
         try:
@@ -151,7 +187,7 @@ def render_settings(opts):
         sc.cycles.adaptive_threshold = 0.02
         # No caustics and a clamp on indirect light: the usual archviz trade, fewer fireflies, much faster.
         sc.cycles.caustics_reflective = sc.cycles.caustics_refractive = False
-        sc.cycles.sample_clamp_indirect = 10.0
+        sc.cycles.sample_clamp_indirect = float(opts.get("clamp", "10"))
         sc.cycles.diffuse_bounces, sc.cycles.glossy_bounces = 4, 4
         sc.cycles.transmission_bounces, sc.cycles.transparent_max_bounces = 8, 16
         try:  # Apple Silicon GPU through Metal; falls back to CPU anywhere else
@@ -170,14 +206,18 @@ def render_settings(opts):
 def main():
     opts, flags = args()
     bpy.ops.wm.read_factory_settings(use_empty=True)
-    lobby()
-    mats = {"steel": M.brushed_steel(), "steel_v": M.brushed_steel("Brushed steel vertical", axis="Z"), "dark": M.dark_metal(), "cap": M.black_glass(), "glass": M.clear_glass(), "led": M.led()}
+    street = world(opts)
+    lobby(street)
+    mats = default_materials()
     opening = float(opts["open"])
     speed_gate("Gate A", (0, 0, 0), opening, mats)
     speed_gate("Gate B", (W + 0.02, 0, 0), opening, mats)  # a second unit beside it, as in a lobby row
-    light()
+    if "no-sun" not in flags:
+        sun()
     camera()
     render_settings(opts)
+    if "no-finish" not in flags:
+        photographic_finish(bpy.context.scene)
     if opts["save"]:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opts["save"]))
     if "no-render" in flags:

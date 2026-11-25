@@ -5,7 +5,7 @@ import math
 import bpy
 
 
-def _finish(obj, material, bevel):
+def _finish(obj, material, bevel, smooth=False):
     if material is not None:
         obj.data.materials.append(material)
     if bevel:
@@ -14,8 +14,10 @@ def _finish(obj, material, bevel):
         mod.segments = 3
         mod.limit_method = "ANGLE"
         mod.harden_normals = True
+    # Smooth only with a hardened bevel: on a bare 8-vertex box, smooth shading bends the normals across
+    # each face, so big flat walls and glass shade (and reflect) as if curved.
     for poly in obj.data.polygons:
-        poly.use_smooth = True
+        poly.use_smooth = bool(bevel) or smooth
     return obj
 
 
@@ -37,7 +39,7 @@ def cylinder(name, radius, depth, location, material=None, rotation=(0, 0, 0), v
     obj.name = name
     if parent:
         obj.parent = parent
-    return _finish(obj, material, bevel)
+    return _finish(obj, material, bevel, smooth=True)  # round sides want smooth normals even unbevelled
 
 
 def prism(name, profile, depth, location, material=None, bevel=0.003, axis="Y", parent=None):

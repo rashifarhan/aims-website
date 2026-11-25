@@ -184,7 +184,10 @@ def marble_floor(name="Polished stone floor", tile=1.2):
 def plaster(name="Warm plaster", colour=(0.62, 0.6, 0.56)):
     m, p, n, l = _principled(name)
     _set(p, "Base Color", (*colour, 1))
-    _set(p, "Roughness", 0.85)
+    # Matte emulsion: very rough and low specular. At 0.85 / default specular the ceiling mirrored the
+    # bright curtain wall at grazing angles as a hard-edged arc that no painted ceiling shows.
+    _set(p, "Roughness", 0.95)
+    _set(p, "Specular IOR Level", 0.25)
     noise = n.new("ShaderNodeTexNoise")
     noise.inputs["Scale"].default_value = 40.0
     bump = n.new("ShaderNodeBump")
@@ -210,4 +213,68 @@ def oak(name="Oak slats"):
     l.new(wave.outputs["Fac"], ramp.inputs["Fac"])
     l.new(ramp.outputs["Color"], p.inputs["Base Color"])
     _set(p, "Roughness", 0.5)
+    return m
+
+
+def ceramic(name="Charcoal planter"):
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (0.035, 0.034, 0.033, 1))
+    _smudges(n, l, p.inputs["Roughness"], 0.35, 0.5, scale=4.0)
+    return m
+
+
+def soil(name="Bark mulch"):
+    m, p, n, l = _principled(name)
+    noise = n.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 180.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.02, 0.012, 0.008, 1)
+    ramp.color_ramp.elements[1].color = (0.09, 0.055, 0.03, 1)
+    bump = n.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.6
+    l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    l.new(noise.outputs["Fac"], bump.inputs["Height"])
+    l.new(bump.outputs["Normal"], p.inputs["Normal"])
+    _set(p, "Roughness", 0.95)
+    return m
+
+
+def leaf(name="Snake plant leaf"):
+    """Deep green with the pale cross-bands of Sansevieria, waxy, a little light coming through."""
+    m, p, n, l = _principled(name)
+    coord = n.new("ShaderNodeTexCoord")
+    bands = n.new("ShaderNodeTexWave")
+    bands.bands_direction = "Z"
+    bands.inputs["Scale"].default_value = 9.0
+    bands.inputs["Distortion"].default_value = 12.0
+    bands.inputs["Detail"].default_value = 4.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.012, 0.04, 0.012, 1)
+    ramp.color_ramp.elements[1].color = (0.06, 0.12, 0.045, 1)
+    l.new(coord.outputs["Object"], bands.inputs["Vector"])
+    l.new(bands.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    _set(p, "Roughness", 0.38)
+    _set(p, "Transmission", 0.0)
+    _set(p, "Subsurface", 0.08)
+    return m
+
+
+def dark_stone(name="Dark stone"):
+    """Honed nero marquina style top: near-black with faint pale veins."""
+    m, p, n, l = _principled(name)
+    vein = n.new("ShaderNodeTexWave")
+    vein.inputs["Scale"].default_value = 1.2
+    vein.inputs["Distortion"].default_value = 18.0
+    vein.inputs["Detail"].default_value = 10.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].position = 0.9
+    ramp.color_ramp.elements[0].color = (0.018, 0.018, 0.019, 1)
+    ramp.color_ramp.elements[1].color = (0.25, 0.25, 0.24, 1)
+    coord = n.new("ShaderNodeTexCoord")
+    l.new(coord.outputs["Object"], vein.inputs["Vector"])
+    l.new(vein.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    _smudges(n, l, p.inputs["Roughness"], 0.12, 0.25, scale=3.0)
     return m
