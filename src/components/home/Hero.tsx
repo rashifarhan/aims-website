@@ -11,7 +11,6 @@ import { HeroFrame } from "./HeroFrame";
 import { HeroModel } from "./HeroModel";
 import { HeroScreen } from "./HeroScreen";
 import { HeroTick } from "./HeroTick";
-import "@/components/ui/beam.css";
 
 /**
  * T1 hero, premium pass (client decisions 2 and 4, 24 Nov 2026): the copy beside the real SpeedFace terminal, which

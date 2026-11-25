@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { heroStill } from "./hero";
 import { builtRoutes } from "../../src/lib/routes";
 import { CONTACT, CUSTOMER_REVIEWS, LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "../../src/lib/site";
 import catalogue from "../../content/products.json";
@@ -177,42 +178,22 @@ test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
   const hero = page.locator("[data-hero-animation]");
   await expect(hero).toHaveAttribute("data-state", "verified");
   await expect(hero.locator('[data-screen="verified"]')).toBeVisible();
-  expect(
-    await hero.evaluate(
-      (el) =>
-        el
-          .getAnimations({ subtree: true })
-          .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
-    ),
-  ).toBe(0);
+  // GSAP writes inline styles; at rest it has written none, and nothing moves.
+  await expect(
+    page.locator(".home-stage :is(.home-corner svg, .home-verified-chip, [data-screen])[style]"),
+  ).toHaveCount(0);
+  expect(await heroStill(page, 600)).toBe(true);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect
-    .poll(() =>
-      hero.evaluate(
-        (el) =>
-          el
-            .getAnimations({ subtree: true })
-            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
-      ),
-    )
-    .toBeGreaterThan(0);
-  // After the prototype's 450ms return transition, idle holds until the next scan.
-  await hero.locator("[data-screen]").evaluateAll((screens) => {
-    for (const screen of screens) for (const animation of screen.getAnimations()) animation.currentTime = 1900 + 4900;
-  });
-  await expect(hero.locator('[data-screen="idle"]')).toHaveCSS("opacity", "1");
+  await expect(hero).toHaveAttribute("data-state", "animated");
+  await expect(hero).toHaveAttribute("data-playing", "true");
+  // The screen verifies, then loops: after the approved hold it returns to idle (450ms) and scans again.
+  await expect(hero.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1", { timeout: 6000 });
+  await expect(hero.locator('[data-screen="idle"]')).toHaveCSS("opacity", "1", { timeout: 6000 });
   await expect(hero.locator('[data-screen="verified"]')).toHaveCSS("opacity", "0");
+  await expect(hero.locator('[data-screen="scan"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
   await page.locator("#showrooms").scrollIntoViewIfNeeded();
-  await expect
-    .poll(() =>
-      hero.evaluate(
-        (el) =>
-          el
-            .getAnimations({ subtree: true })
-            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
-      ),
-    )
-    .toBe(0);
+  await expect(hero).toHaveAttribute("data-playing", "false");
+  expect(await heroStill(page, 800)).toBe(true);
 });
 
 test("desktop hero artwork stays clear of English and Arabic copy", async ({ page }) => {

@@ -39,8 +39,8 @@ test.describe("pages", () => {
           .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
           .forEach((animation) => animation.cancel()),
       );
-      // GSAP sequences (the home journey) are not CSS animations: the motion's rest switch reverts them to the
-      // server-rendered final frame, the same resting text (home/JourneyTimeline.tsx; motion in home.spec.ts).
+      // GSAP sequences (the home hero and journey) are not CSS animations: the motion's rest switch reverts them to
+      // the server-rendered final frame, the same resting text (motion/gsap.ts; motion in home*.spec.ts).
       await page.evaluate(() => {
         document.documentElement.dataset.motionRest = "true";
         document.dispatchEvent(new Event("aims:motion-rest"));

@@ -1,11 +1,5 @@
-import { gsap } from "gsap";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
+import { gsap, SplitText } from "@/components/motion/gsap";
 import { journeyStep } from "@/lib/journeyStep";
-
-// Registered once, when the lazy chunk first loads (CLAUDE.md §3 GSAP rule).
-gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger, SplitText);
 
 /** The journey's moving parts, read from the server-rendered section (HomeJourney, JourneyCard). */
 export type JourneyParts = {

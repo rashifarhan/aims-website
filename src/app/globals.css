@@ -119,9 +119,6 @@
   --duration-nav: 250ms;
   --duration-hero-rise: 900ms;
   --duration-hero-device: 1100ms;
-  --duration-hero-wash: 1600ms;
-  /* The verified frame's scan sweep: slow in and out, like a scanner's beam (client decision 4). */
-  --ease-scan: cubic-bezier(0.55, 0.1, 0.35, 1);
   --color-device-start: #f1f5f3;
   --color-device-end: #e4ebe8;
 

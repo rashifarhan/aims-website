@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { heroStill, recordHeroFrame } from "./hero";
 
 /*
  * Homepage motion (taste motion.md; CLAUDE.md §3 as updated by the client, and client decisions 4 and 7, 24 Nov
- * 2026): the hero enters once (the verified frame locks on, one scan, the tick lights) and its screen loops with a
- * pause button; section headings and blocks reveal with native scroll; under reduced motion everything rests whole.
+ * 2026): the hero enters once (the verified frame locks on, one scan, the chip springs in, the beam runs; one GSAP
+ * timeline since 25 Nov 2026) and its screen loops with a pause button; section headings and blocks reveal with native scroll; under reduced motion everything rests whole.
  * The door teaser left the home page (client decision 6; covered on the access control spec). The reach map came back
  * with the locations preview (client decision, 25 Nov 2026) as the page's dealt moment: it draws once in view.
  */
@@ -26,8 +27,18 @@ test("reduced motion: everything rests at its final state and nothing moves", as
   await page.goto("/");
   await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
   await expect(page.locator(".home-motion-toggle")).toHaveCount(0);
+  await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "verified");
   await expect(page.locator(".home-verified-chip")).toHaveCSS("opacity", "1");
-  await expect(page.locator(".home-corner").first()).toHaveCSS("opacity", "1");
+  await expect(page.locator(".home-corner svg")).toHaveCount(4);
+  for (const bracket of await page.locator(".home-corner svg").all()) await expect(bracket).toHaveCSS("opacity", "1");
+  await expect(page.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1");
+  // No scrub either: scrolled, the hero's parts carry no GSAP style and stand still.
+  await page.evaluate(() => scrollTo(0, innerHeight / 2));
+  await expect(page.locator(".home-device[style], .home-corner > i[style], .home-verified-anchor[style]")).toHaveCount(
+    0,
+  );
+  expect(await heroStill(page, 600)).toBe(true);
+  await page.evaluate(() => scrollTo(0, 0));
   await expect(page.locator(".home-family-grid")).toHaveCSS("opacity", "1");
   await expect(page.locator(".split-word > span").first()).toHaveCSS("transform", "none");
   await expect(page.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "0px");
@@ -53,25 +64,68 @@ test("the reach map draws its routes once in view and then stands still", async 
     .toBe(0);
 });
 
-test("the verified frame locks on once, then stands still", async ({ page }) => {
+test("the verified frame locks on once, in order, then stands still", async ({ page }) => {
+  const log = await recordHeroFrame(page);
   await page.goto("/");
-  const frame = page.locator(".home-frame");
-  await expect(page.locator(".home-verified-chip")).toHaveCSS("opacity", "1", { timeout: 5000 });
-  await expect(frame.locator(".home-corner").last()).toHaveCSS("opacity", "1");
-  // Every entrance animation in the frame (corners, scan, border beam) is finite and done within 5 s.
-  await expect
-    .poll(
-      () =>
-        frame.evaluate(
-          (el) =>
-            el
-              .getAnimations({ subtree: true })
-              .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
-        ),
-      { timeout: 6000 },
-    )
-    .toBe(0);
+  const art = page.locator("[data-hero-animation]");
+  await expect(art).toHaveAttribute("data-state", "animated");
+  await expect(page.locator(".home-verified-chip")).toHaveCSS("opacity", "1", { timeout: 6000 });
+  // Everything the frame does is finite: within 5 s of the timeline's first frame it stands, the beam gone.
+  await expect.poll(() => heroStill(page, 400, "frame"), { timeout: 8000 }).toBe(true);
+  await expect(page.locator(".home-frame-beam")).toHaveCSS("opacity", "0");
+  await expect(page.locator(".home-frame-scan i")).toHaveCSS("opacity", "0");
+  for (const bracket of await page.locator(".home-corner svg").all()) {
+    await expect(bracket).toHaveCSS("opacity", "1");
+    await expect(bracket).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
+  }
+  const entries = await log();
+  const of = (part: string) => entries.filter((entry) => entry.part === part);
+  const start = Math.min(...entries.map((entry) => entry.t));
+  // The brackets close in from wider apart: outward is (-x, -y) inside each mirrored corner (HeroFrame).
+  expect(of("bracket")[0].style).toMatch(/translate\(-\d+(\.\d+)?%, -\d+(\.\d+)?%\)/);
+  expect(of("bracket")[0].style).toContain("opacity: 0");
+  expect(of("bracket").at(-1)?.style).toContain("opacity: 1");
+  expect(Math.max(...entries.map((entry) => entry.t)) - start).toBeLessThanOrEqual(5000);
+  // In order: the brackets, then the scan line, then the chip, then the beam (each part's first move after the
+  // timeline's opening frame).
+  const firstMove = (part: string) => of(part)[1]?.t ?? Infinity;
+  expect(firstMove("bracket")).toBeLessThan(firstMove("scan"));
+  expect(firstMove("scan")).toBeLessThan(firstMove("chip"));
+  expect(firstMove("chip")).toBeLessThan(firstMove("beam"));
   await expect(page.locator("[data-signal], .home-signals")).toHaveCount(0);
+});
+
+test("the hero exits with the scroll from 1024px, transform and opacity only, no text moving", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "animated");
+  const wide = (page.viewportSize()?.width ?? 0) >= 1024;
+  const device = page.locator(".home-device");
+  const anchor = page.locator(".home-verified-anchor");
+  const scale = () => device.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).a);
+  const titleTop = () => page.locator("#home-title").evaluate((el) => el.getBoundingClientRect().top + scrollY);
+  const before = await titleTop();
+  await page.evaluate(() => scrollTo(0, innerHeight * 0.6));
+  if (wide) {
+    // The terminal eases down toward 0.96, the chip fades, the brackets open outward in their mirrored space.
+    await expect.poll(scale).toBeLessThan(0.995);
+    expect(await scale()).toBeGreaterThanOrEqual(0.96);
+    await expect.poll(() => anchor.evaluate((el) => Number(getComputedStyle(el).opacity))).toBeLessThan(1);
+    const corner = await page
+      .locator(".home-corner > i")
+      .first()
+      .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform));
+    expect(corner.e).toBeLessThan(0);
+    expect(corner.f).toBeLessThan(0);
+  } else {
+    // Below 1024px the exit does not read, so there is none.
+    await page.waitForTimeout(800);
+    expect(await scale()).toBe(1);
+    await expect(anchor).toHaveCSS("opacity", "1");
+  }
+  // No parallax on text: the headline scrolls with the page, exactly.
+  expect(await titleTop()).toBeCloseTo(before, 0);
+  await page.evaluate(() => scrollTo(0, 0));
+  await expect.poll(scale).toBe(1);
 });
 
 test("section headings and blocks reveal with native scroll", async ({ page }) => {
@@ -96,27 +150,21 @@ test("section headings and blocks reveal with native scroll", async ({ page }) =
 
 test("the hero animation has a pause button that stops it", async ({ page }) => {
   await page.goto("/");
+  const art = page.locator("[data-hero-animation]");
   const toggle = page.getByRole("button", { name: /pause animation/i });
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(art).toHaveAttribute("data-playing", "true");
   // The client asked for no visible button over the hero (24 Nov 2026): it shows only on keyboard focus, so the
   // test reaches it the way its users do, by keyboard.
   await toggle.focus();
   await expect(toggle).toBeInViewport();
   await page.keyboard.press("Enter");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  const running = () =>
-    page.evaluate(
-      () =>
-        document
-          .getAnimations()
-          .filter(
-            (a) =>
-              a.playState === "running" &&
-              a.timeline instanceof DocumentTimeline &&
-              (a.effect as KeyframeEffect).target?.closest(".home-hero-art"),
-          ).length,
-    );
-  await expect.poll(running, { timeout: 3000 }).toBe(0);
+  await expect(art).toHaveAttribute("data-playing", "false");
+  expect(await heroStill(page, 1200)).toBe(true);
+  await page.keyboard.press("Enter");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(art).toHaveAttribute("data-playing", "true");
 });
 
 /*

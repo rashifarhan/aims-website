@@ -1,16 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, REST_EVENT, restRequested, useGSAP } from "@/components/motion/gsap";
 import { flowMotion, journeyParts, pinnedTimeline, revealIntro } from "./journeyMotion";
-
-gsap.registerPlugin(useGSAP);
-
-/** Set on <html> (or sent as an event) to put every GSAP sequence at its final, static frame: the e2e axe audit reads
- * resting text this way, as it cancels the CSS scroll reveals (tests/e2e/smoke.spec.ts). */
-const REST_EVENT = "aims:motion-rest";
-const restRequested = () => document.documentElement.dataset.motionRest === "true";
 
 /**
  * The home journey's motion (client decision, 25 Nov 2026; CLAUDE.md §3 GSAP rule), loaded lazily after hydration by

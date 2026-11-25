@@ -58,41 +58,28 @@ test("WhatsApp stays out of the first screen and previews before leaving", async
   await expect(contact).toBeFocused();
 });
 
-test("approved hero entrances and verification tick settle under reduced motion", async ({ page }) => {
+test("hero photo paints at once, the verification tick draws, and all rests under reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   const hero = page.locator(".home-hero");
+  // The device photo is the LCP element: whole from the first paint, never faded or moved in (CLAUDE.md §5).
+  const device = page.locator(".home-device");
+  await expect(device).toHaveCSS("opacity", "1");
+  await expect(page.locator(".home-device-photo")).toHaveCSS("opacity", "1");
+  expect(await device.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
   await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "animated");
-  const entrance = await page
-    .locator(".home-device")
-    .evaluate((element) => element.getAnimations().map((animation) => animation.effect?.getTiming()));
-  // Approved redesign: the entire entrance settles within 1.1s, including its overlap delay.
-  expect(entrance.length).toBeGreaterThan(0);
-  expect(
-    entrance.every(
-      (timing) =>
-        timing !== undefined &&
-        typeof timing.duration === "number" &&
-        timing.duration + (timing.delay ?? 0) <= 1100 &&
-        timing.iterations === 1,
-    ),
-  ).toBe(true);
+  // The prototype's tick: undrawn while the face is scanned, drawn whole once the screen says Welcome.
   const tick = page.locator(".home-device-tick path");
-  await tick.evaluate((element) => {
-    for (const animation of element.getAnimations()) {
-      animation.pause();
-      animation.currentTime = 1900 + 1750;
-    }
-  });
-  const drawing = await tick.evaluate((element) => Number.parseFloat(getComputedStyle(element).strokeDashoffset));
-  expect(drawing).toBeGreaterThan(0);
-  await tick.evaluate((element) => {
-    for (const animation of element.getAnimations()) animation.currentTime = 1900 + 2400;
-  });
-  await expect(tick).toHaveCSS("stroke-dashoffset", "0px");
+  const drawn = () =>
+    tick.evaluate((el) => parseFloat(getComputedStyle(el).strokeDasharray) / (el as SVGPathElement).getTotalLength());
+  await expect(page.locator('[data-screen="scan"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
+  expect(await drawn()).toBeLessThan(0.05);
+  await expect(page.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
+  await expect.poll(drawn).toBeGreaterThan(0.99);
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "verified");
   await expect(page.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1");
-  await expect(tick).toHaveCSS("stroke-dashoffset", "0px");
+  await expect(tick).toHaveCSS("stroke-dasharray", "none");
   await expect(page.locator(".home-headline-rise").first()).toHaveCSS("transform", "none");
   await expect
     .poll(() =>
