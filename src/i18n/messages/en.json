@@ -433,7 +433,7 @@
       "tell": {
         "title": "Tell us the job",
         "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira.",
-        "channels": "Call, WhatsApp, the quote form or a visit to the Deira showroom."
+        "channels": "A model list or a site plan both work: no model code needed."
       },
       "quote": {
         "title": "Get a quotation",
