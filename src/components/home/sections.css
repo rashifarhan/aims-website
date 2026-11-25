@@ -102,32 +102,83 @@
 .home-review-grid > li {
   display: flex;
 }
+/* The premium review card (client request, 25 Nov 2026): the hero's verified-frame brackets at the four corners, a
+   large display quotation mark, the quote in the display face, and the reviewer and rating on a hairline footer. The
+   brackets are drawn as background gradients, so the card keeps one element and no extra DOM. */
 .home-review-card {
+  --review-bracket: color-mix(in srgb, var(--color-green-700) 40%, transparent);
+  --review-bracket-size: 1.125rem;
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
   padding: var(--card-pad);
+  padding-block-start: calc(var(--card-pad) + 0.5rem);
+  overflow: clip;
+  background:
+    linear-gradient(var(--review-bracket), var(--review-bracket)) top 0.75rem left 0.75rem / var(--review-bracket-size)
+      2px no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) top 0.75rem left 0.75rem / 2px
+      var(--review-bracket-size) no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) top 0.75rem right 0.75rem / var(--review-bracket-size)
+      2px no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) top 0.75rem right 0.75rem / 2px
+      var(--review-bracket-size) no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) bottom 0.75rem left 0.75rem /
+      var(--review-bracket-size) 2px no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) bottom 0.75rem left 0.75rem / 2px
+      var(--review-bracket-size) no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) bottom 0.75rem right 0.75rem /
+      var(--review-bracket-size) 2px no-repeat,
+    linear-gradient(var(--review-bracket), var(--review-bracket)) bottom 0.75rem right 0.75rem / 2px
+      var(--review-bracket-size) no-repeat,
+    radial-gradient(70% 55% at 0% 0%, var(--color-green-50), transparent 70%),
+    linear-gradient(180deg, var(--color-paper), var(--color-paper-2));
+}
+/* The quotation mark is decoration (aria-hidden), set large in the display face; the quote's own marks stay in the
+   text for screen readers and copy-paste. */
+/* The head row: the quotation mark at the start, the rating at the end, so the footer holds only the reviewer and
+   every card's hairline lines up even when a name wraps. */
+.home-review-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: -0.5rem;
+}
+.home-review-mark {
+  display: block;
+  height: 0.5em;
+  font-family: var(--font-display);
+  font-size: var(--text-review-mark);
+  font-weight: var(--font-weight-display);
+  line-height: 0.9;
+  color: var(--color-green-700);
 }
 /* The rating is information, not an action, so it takes the text colour, never green or lime (One Sign Rule, Lime Is
    Light Rule). Light grounds first (the home figures band); night green below (the about proof). */
 .home-review-stars {
   display: flex;
+  flex: none;
   gap: 0.125rem;
+  padding-block-start: 0.5rem;
   color: var(--color-ink);
 }
 .home-review-card blockquote {
   flex: 1;
-  font-size: var(--text-home-card);
+  font-family: var(--font-display);
+  font-size: var(--text-review-quote);
   font-weight: 500;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
   color: var(--color-ink);
 }
 .home-review-card figcaption {
   display: flex;
   align-items: center;
   gap: 0.875rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--color-line);
 }
 .home-review-avatar {
   display: grid;
@@ -137,11 +188,13 @@
   height: 2.75rem;
   border-radius: var(--radius-pill);
   object-fit: cover;
-  background: var(--color-paper-2);
-  border: 1px solid var(--color-line);
-  color: var(--color-ink);
+  background: var(--color-green-50);
+  border: 1px solid var(--color-green-100);
+  color: var(--color-green-800);
+  font-family: var(--font-display);
   font-size: var(--text-small);
   font-weight: var(--font-weight-card);
+  letter-spacing: 0.02em;
 }
 .home-review-name,
 .home-review-place {
@@ -156,9 +209,29 @@
   font-size: var(--text-small);
   color: var(--color-ink-600);
 }
-/* On night green the cards are night-800 (actions.css .section-night .ui-card); night-muted on it measures 8.1:1. */
+/* On night green the cards are night-800 (actions.css .section-night .ui-card); night-muted on it measures 8.1:1.
+   The brackets light lime there (DESIGN.md Lime Is Light) and the light washes give way to the night card. */
+.section-night .home-review-card {
+  --review-bracket: color-mix(in srgb, var(--color-lime) 55%, transparent);
+  background-color: var(--color-night-800);
+  background-image:
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket)),
+    linear-gradient(var(--review-bracket), var(--review-bracket));
+}
 .section-night :is(.home-review-stars, .home-review-card blockquote, .home-review-name) {
   color: var(--color-night-text);
+}
+.section-night .home-review-mark {
+  color: var(--color-lime);
+}
+.section-night .home-review-card figcaption {
+  border-color: var(--color-night-line);
 }
 .section-night .home-review-avatar {
   background: var(--color-night-700);
