@@ -246,6 +246,7 @@
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
     "remove": "Remove from quote",
+    "removedAnnounce": "{name} removed from quote.",
     "viewQuote": "Review quote request"
   },
   "product": {

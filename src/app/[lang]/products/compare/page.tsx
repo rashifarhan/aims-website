@@ -109,6 +109,8 @@ function CompareView({
     add: t.catalogue.add,
     inQuote: t.catalogue.inQuote,
     addedAnnounce: t.catalogue.addedAnnounce,
+    remove: t.catalogue.remove,
+    removedAnnounce: t.catalogue.removedAnnounce,
     qtyAnnounce: t.catalogue.qtyAnnounce,
     qty: t.catalogue.qty,
     decrease: t.catalogue.decrease,

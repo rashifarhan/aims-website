@@ -21,6 +21,8 @@ export const cardLabels = (t: Dictionary["catalogue"]): CardLabels => ({
   add: t.add,
   inQuote: t.inQuote,
   addedAnnounce: t.addedAnnounce,
+  remove: t.remove,
+  removedAnnounce: t.removedAnnounce,
   qtyAnnounce: t.qtyAnnounce,
   qty: t.qty,
   decrease: t.decrease,

@@ -14,6 +14,9 @@ export type AddToQuoteLabels = {
   qty: string;
   decrease: string;
   increase: string;
+  /** The "−" button's name at quantity 1, where it takes the model back out of the quote. */
+  remove: string;
+  removedAnnounce: string;
 };
 
 type Props = {
@@ -30,7 +33,8 @@ type Props = {
 
 /**
  * "Add to quote" that becomes a quantity stepper + "✓ In quote" once
- * added (Design Doc 9). Never "Buy" or "Order". Changes are announced.
+ * added (Design Doc 9). Never "Buy" or "Order". Changes are announced. "−" at 1
+ * takes the model back out (client report, 25 Nov 2026: a disabled "−" read as broken).
  */
 export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary", className = "", preset }: Props) {
   const quote = useQuote();
@@ -38,6 +42,7 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
   const [status, setStatus] = useState("");
   const root = useRef<HTMLDivElement>(null);
   const justAdded = useRef(false);
+  const justRemoved = useRef(false);
 
   // The button unmounts once the line exists; keep keyboard focus on the control that replaced it
   // (WCAG 2.4.3) instead of dropping it to the page. The "+" button, not the field, so a phone doesn't
@@ -46,6 +51,12 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
     if (!line || !justAdded.current) return;
     justAdded.current = false;
     root.current?.querySelector<HTMLButtonElement>("button:not(:disabled)")?.focus();
+  }, [line]);
+  // Removing at 1 unmounts the stepper; the "Add to quote" button that returns takes focus.
+  useEffect(() => {
+    if (line || !justRemoved.current) return;
+    justRemoved.current = false;
+    root.current?.querySelector<HTMLButtonElement>("button")?.focus();
   }, [line]);
 
   // The outline is always the small one; it only appears inside cards.
@@ -61,6 +72,12 @@ export function AddToQuote({ slug, name, labels, size = "sm", variant = "primary
             label={`${labels.qty}, ${name}`}
             decreaseLabel={labels.decrease}
             increaseLabel={labels.increase}
+            removeLabel={`${labels.remove}, ${name}`}
+            onRemove={() => {
+              justRemoved.current = true;
+              dispatchQuote({ type: "remove", key: slug });
+              setStatus(fmt(labels.removedAnnounce, { name }));
+            }}
             onChange={(qty) => {
               dispatchQuote({ type: "setQty", key: slug, qty });
               setStatus(fmt(labels.qtyAnnounce, { name, qty }));

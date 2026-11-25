@@ -40,6 +40,14 @@ test.describe("listing polish", () => {
     const after = await box();
     expect(after.height).toBe(before.height);
     expect(after.compareTop).toBe(before.compareTop);
+
+    // "−" at 1 takes the model back out of the quote, and focus lands on the returning "Add to quote" button
+    // (client report, 25 Nov 2026: a disabled "−" read as broken).
+    const removeOne = card.getByRole("button", { name: /^Remove from quote, / });
+    await expect(removeOne).toBeEnabled();
+    await removeOne.click();
+    await expect(card.getByText("In quote")).toHaveCount(0);
+    await expect(add).toBeFocused();
   });
 
   test("result count keeps its live region and changes with a filter", async ({ page, isMobile }) => {

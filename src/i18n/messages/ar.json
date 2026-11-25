@@ -246,6 +246,7 @@
     "decrease": "إنقاص الكمية",
     "increase": "زيادة الكمية",
     "remove": "إزالة من عرض السعر",
+    "removedAnnounce": "أُزيل {name} من عرض السعر.",
     "viewQuote": "مراجعة طلب عرض السعر"
   },
   "product": {
