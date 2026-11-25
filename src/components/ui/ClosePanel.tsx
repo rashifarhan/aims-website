@@ -12,8 +12,8 @@ type Action = { href: string; label: string };
  * one main action and at most one link. Premium pass (client decisions, 24 Nov 2026): a full-width night-green band,
  * centred over the ridge motif, with the inverted signature button, so the page's last ask reads as its most
  * important. The action is a link, or a ready element when it does more than navigate (software's add-to-quote
- * button). `embedded` renders the mint panel as the last block of another section's screen (the solution and
- * location questions), with no section ground of its own (taste House rule 3; audit T-01).
+ * button). Every page that closes with an ask uses this band, the solution and location pages included (client
+ * request, 25 Nov 2026: their small mint panel read as a weaker, different ending).
  */
 export function ClosePanel({
   id,
@@ -21,19 +21,17 @@ export function ClosePanel({
   body,
   action,
   secondary,
-  embedded = false,
 }: {
   id: string;
   heading: string;
   body: string;
   action: Action | ReactElement;
   secondary?: Action;
-  embedded?: boolean;
 }) {
   const panel = (
     <div className="ui-close-panel">
       <div className="ui-close-copy">
-        <h2 id={id} className="ui-close-title" data-heading-reveal={!embedded || undefined}>
+        <h2 id={id} className="ui-close-title" data-heading-reveal>
           {heading}
         </h2>
         <p className="ui-close-body">{body}</p>
@@ -50,19 +48,13 @@ export function ClosePanel({
           </Magnetic>
         )}
         {secondary && (
-          <Link href={secondary.href} className={embedded ? "home-text-link" : "home-secondary"}>
+          <Link href={secondary.href} className="home-secondary">
             {secondary.label}
           </Link>
         )}
       </div>
     </div>
   );
-  if (embedded)
-    return (
-      <section className="ui-close-mint ui-close-embedded" aria-labelledby={id}>
-        {panel}
-      </section>
-    );
   return (
     <Section ground="night" labelledBy={id} className="ui-close">
       <Ridges className="close-ridges" />

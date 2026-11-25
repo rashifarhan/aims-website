@@ -551,23 +551,6 @@ main:has(> .page-hero-split) {
   gap: 1rem 2rem;
   margin-block-start: 2.5rem;
 }
-/* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). Inside another section
-   it cannot span the page, so there it keeps the mint panel beside its action. */
-.ui-close-embedded .ui-close-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-}
-.ui-close-embedded {
-  margin-block-start: 3rem;
-}
-.ui-close-embedded .ui-close-panel {
-  padding: 2.5rem;
-  border: 1px solid var(--color-green-100);
-  border-radius: var(--radius-lg);
-  background: var(--color-green-50);
-}
 .ui-close-title {
   font-size: var(--text-home-heading);
   line-height: 1.08;
@@ -580,12 +563,6 @@ main:has(> .page-hero-split) {
   line-height: 1.6;
   text-wrap: pretty;
 }
-.ui-close-embedded .ui-close-actions {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  align-items: center;
-}
 :lang(ar) .ui-close-title {
   letter-spacing: 0;
   line-height: 1.25;
@@ -594,13 +571,6 @@ main:has(> .page-hero-split) {
   .ui-faq-split {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
-  }
-  .ui-close-embedded .ui-close-panel {
-    flex-direction: column;
-    align-items: start;
-  }
-  .ui-close-embedded .ui-close-actions {
-    align-items: start;
   }
 }
 @media (max-width: 639px) {
@@ -613,13 +583,6 @@ main:has(> .page-hero-split) {
   }
   .method-card p {
     display: none;
-  }
-  .ui-close-embedded .ui-close-panel {
-    padding: 1.5rem;
-  }
-  .ui-close-embedded .ui-close-actions,
-  .ui-close-embedded .ui-close-actions .home-button {
-    width: 100%;
   }
 }
 
@@ -809,13 +772,6 @@ main:has(> .page-hero-split) {
 .ui-close .ui-close-body {
   margin-inline: auto;
   font-size: var(--text-lg);
-}
-.ui-close.ui-close-mint .ui-close-actions {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem 1.75rem;
 }
 @media (max-width: 639px) {
   .ui-close .ui-close-title {

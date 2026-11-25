@@ -721,6 +721,15 @@ system (Services and the solution pages). Below a 60rem container the cards stac
 them, so the Support page's reading column stays stacked. Static: no motion was added. The old first-step night-disc
 overrides in `company.css` were removed; the component now carries that styling itself.
 
+### One closing band everywhere (client request, 25 Nov 2026)
+
+The solution pages for access control, door locks, entrance and parking, and POS, the locations hub, and the city
+location pages ended in a small mint panel inside their questions section, while every other page ends in the
+full-width night closing band. The client found the mint panel odd, a weaker, different ending, and asked for the
+usual band. Those pages now end in the same `ClosePanel` band, after the questions. This reverses audit T-01's
+embedding there; the band is a short section of its own on those pages, as it already is on Services and Home. The
+`embedded` variant and its styles are removed.
+
 ## Content import
 
 ```bash

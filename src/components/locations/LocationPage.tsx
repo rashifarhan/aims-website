@@ -82,21 +82,13 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
       >
         <LocationSteps label={common.stepsLabel} steps={c.steps} />
       </ReachBand>
-      {/* The close is the questions screen's last block, as on the solution pages: alone, each was a mostly
-          empty screen (three-skill audit). */}
-      <SolutionQuestions
-        idPrefix={id}
-        copy={c.faq}
-        close={
-          <ClosePanel
-            embedded
-            id={`${id}-cta-title`}
-            heading={c.cta.heading}
-            body={c.cta.body}
-            action={{ href: href(page.quote), label: c.cta.action }}
-            secondary={{ href: href("/locations"), label: common.allLocations }}
-          />
-        }
+      <SolutionQuestions idPrefix={id} copy={c.faq} />
+      <ClosePanel
+        id={`${id}-cta-title`}
+        heading={c.cta.heading}
+        body={c.cta.body}
+        action={{ href: href(page.quote), label: c.cta.action }}
+        secondary={{ href: href("/locations"), label: common.allLocations }}
       />
     </main>
   );
