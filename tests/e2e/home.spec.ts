@@ -109,7 +109,8 @@ for (const locale of ["en", "ar"] as const) {
     await expect(figures.locator(".home-figure")).toHaveCount(4);
     await expect(figures.locator(".home-review-card")).toHaveCount(CUSTOMER_REVIEWS.length);
     await expect(figures.locator("h3")).toHaveText(locale === "en" ? "From reviews published by AIMS" : /AIMS/);
-    await expect(figures.locator(`a[href="${LIVE_AIMS.home}"]`)).toHaveCount(1);
+    // The link out to the live reviews was removed at the client's request (25 Nov 2026).
+    await expect(figures.locator(`a[href="${LIVE_AIMS.home}"]`)).toHaveCount(0);
     // Solutions: each photo tile opens the solution page that fits the place.
     const places = page.locator("#places .home-place");
     await expect(places).toHaveCount(4);

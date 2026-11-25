@@ -39,7 +39,7 @@ export async function HomeProof() {
           </li>
         ))}
       </ul>
-      <HomeReviews tone="night" />
+      <HomeReviews />
     </Section>
   );
 }

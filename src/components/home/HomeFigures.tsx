@@ -29,7 +29,7 @@ export async function HomeFigures() {
         ))}
       </ul>
       <p className="home-figures-note">{proof.body}</p>
-      <HomeReviews tone="light" />
+      <HomeReviews />
     </Section>
   );
 }

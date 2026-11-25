@@ -412,7 +412,6 @@
       "all": "See locations"
     },
     "reviews": {
-      "read": "Read the published reviews",
       "rating": "Rated {count} out of 5"
     },
     "contactNotice": "Opens AIMS’s live website.",
