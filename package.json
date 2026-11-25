@@ -19,6 +19,8 @@
     "import:pages": "tsx scripts/import-pages.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.15.1",
     "minisearch": "7.2.0",
     "next": "16.4.6",
     "react": "19.3.0",

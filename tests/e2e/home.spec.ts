@@ -118,19 +118,35 @@ for (const locale of ["en", "ar"] as const) {
       ),
     );
     await expect(places.locator("img[data-source='stand-in']")).toHaveCount(4);
-    // Services: the five steps of the journey, in order, as one list.
+    // Services: the journey timeline (client request, 25 Nov 2026), five step cards in order on one list, each with
+    // its owner, what it includes and an h3; two links, the quote from step one and the warranty from step five.
     const journey = page.locator("#journey");
     await expect(journey.locator("h2")).toHaveCount(1);
-    await expect(journey.locator("ol.journey-list > li")).toHaveCount(5);
+    const steps = journey.locator("ol.hj-list > li");
+    await expect(steps).toHaveCount(5);
     if (locale === "en")
-      await expect(journey.locator(".journey-title")).toHaveText([
+      await expect(journey.locator(".hj-title")).toHaveText([
         "Tell us the job",
         "Get a quotation",
         "Supply",
         "Install",
         "Support",
       ]);
-    for (const body of await journey.locator(".journey-body").all()) await expect(body).not.toBeEmpty();
+    for (const step of await steps.all()) {
+      await expect(step.locator("h3")).toHaveCount(1);
+      await expect(step.locator(".hj-body")).not.toBeEmpty();
+      await expect(step.locator(".hj-who")).toContainText(locale === "en" ? "Who" : "المسؤول");
+      const points = await step.locator("ul.hj-points > li").count();
+      expect(points >= 2 && points <= 3).toBe(true);
+    }
+    await expect(journey.locator(".hj-card a")).toHaveCount(2);
+    await expect(steps.nth(0).locator(`a[href="${prefix}/quote"]`)).toHaveCount(1);
+    await expect(steps.nth(4).locator(`a[href="${prefix}/support"]`)).toHaveCount(1);
+    // The supply step reads the catalogue count, as the families header does, never a hard-coded figure.
+    const shown = catalogue.filter((p) => !("duplicateOf" in p && p.duplicateOf)).length;
+    await expect(steps.nth(2).locator(".hj-points")).toContainText(String(shown));
+    // The counter repeats the list, so screen readers never hear it change on scroll.
+    await expect(journey.locator(".hj-counter")).toHaveAttribute("aria-hidden", "true");
     // Locations: the reach map beside the showroom and AIMS's real lines, numbers left to right.
     const showrooms = page.locator("#showrooms");
     await expect(showrooms).toHaveClass(/section-band/);
@@ -225,4 +241,95 @@ test("desktop hero artwork stays clear of English and Arabic copy", async ({ pag
       ]);
     }
   }
+});
+
+/*
+ * The journey timeline's GSAP motion (client decision, 25 Nov 2026; CLAUDE.md §3 GSAP rule). The server renders the
+ * final frame; the lazy motion pins and scrubs it from 1024px, runs an unpinned flow below, and stays out of the way
+ * under reduced motion.
+ */
+const journeyFrame = (page: import("@playwright/test").Page) =>
+  page.locator("#journey").evaluate((section) => ({
+    motion: (section as HTMLElement).dataset.motion ?? null,
+    pinned: !!section.querySelector(".pin-spacer"),
+    live: section.querySelector(".hj-counter")?.hasAttribute("data-live") ?? false,
+    fills: [...section.querySelectorAll(".hj-seg-fill")].map((el) => getComputedStyle(el).transform),
+    numbers: [...section.querySelectorAll(".hj-node-number")].map((el) => getComputedStyle(el).opacity),
+    ticks: [...section.querySelectorAll(".hj-node-tick path")].map((el) => getComputedStyle(el).strokeDasharray),
+    cards: [...section.querySelectorAll(".hj-card")].map((el) => getComputedStyle(el).opacity),
+  }));
+const restingFrame = {
+  motion: null,
+  pinned: false,
+  live: false,
+  fills: Array(4).fill("none"),
+  numbers: Array(5).fill("0"),
+  ticks: Array(5).fill("none"),
+  cards: Array(5).fill("1"),
+};
+
+test("journey rests at its final frame under reduced motion: no pin, rail full, every node ticked", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/", { waitUntil: "networkidle" });
+  await page.locator("#journey").scrollIntoViewIfNeeded();
+  expect(await journeyFrame(page)).toEqual(restingFrame);
+  // The counter shows the total, as it does without JS.
+  await expect(page.locator("#journey .hj-counter")).toHaveText(/05\s*steps/);
+});
+
+test("journey pins on a desktop and scrubs rail, cards, nodes and counter to the verified end", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/", { waitUntil: "networkidle" });
+  const section = page.locator("#journey");
+  await expect(section).toHaveAttribute("data-motion", "pinned");
+  // The section itself stays a child of main (the content pins, not the section), so the page order holds.
+  await expect(page.locator("main > section#journey")).toHaveCount(1);
+  const counter = section.locator(".hj-counter");
+  await expect(counter).toHaveAttribute("data-live", "");
+  const pin = await section.locator(".pin-spacer").evaluate((el) => ({
+    start: el.getBoundingClientRect().top + scrollY - (document.querySelector("header")?.offsetHeight ?? 0),
+    length: (el as HTMLElement).offsetHeight - (el.firstElementChild as HTMLElement).offsetHeight,
+  }));
+  expect(pin.length).toBeGreaterThan(2 * 900);
+  expect(pin.length).toBeLessThan(3 * 900);
+  // Mid-way: some of the rail is drawn, some not; the counter has rolled past the first step.
+  await page.evaluate((y) => scrollTo(0, y), pin.start + pin.length * 0.5);
+  const scaleY = (t: string) => (t === "none" ? 1 : Number(t.slice(7, -1).split(",")[3]));
+  await expect
+    .poll(async () => {
+      const fills = (await journeyFrame(page)).fills.map(scaleY);
+      return fills.some((s) => s > 0) && fills.some((s) => s < 1);
+    })
+    .toBe(true);
+  await expect(counter.locator(".hj-counter-reel")).not.toHaveCSS("transform", /matrix\(1, 0, 0, 1, 0, 0\)/);
+  // At the end every card is whole, every node ticked and the rail full.
+  await page.evaluate((y) => scrollTo(0, y), pin.start + pin.length + 2);
+  await expect.poll(async () => (await journeyFrame(page)).cards).toEqual(Array(5).fill("1"));
+  await expect.poll(async () => (await journeyFrame(page)).numbers).toEqual(Array(5).fill("0"));
+  await expect
+    .poll(() => counter.locator(".hj-counter-reel").evaluate((el) => getComputedStyle(el).transform))
+    .toMatch(/matrix\(1, 0, 0, 1, 0, -\d+/);
+  // Keyboard: focusing the last card's link from the top brings its card into view.
+  await page.evaluate(() => scrollTo(0, 0));
+  await page.locator('#journey a[href="/support"]').focus();
+  await expect(page.locator('#journey a[href="/support"]')).toBeInViewport();
+});
+
+test("journey flows without a pin on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/", { waitUntil: "networkidle" });
+  const section = page.locator("#journey");
+  await expect(section).toHaveAttribute("data-motion", "flow");
+  await expect(section.locator(".pin-spacer")).toHaveCount(0);
+  await expect(section.locator(".hj-counter")).toBeHidden();
+  // Scrolled through, every card has risen in whole and every node is ticked.
+  for (const card of await section.locator(".hj-card").all()) {
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveCSS("opacity", "1");
+  }
+  await page.evaluate(() => scrollBy(0, innerHeight));
+  await expect.poll(async () => (await journeyFrame(page)).numbers).toEqual(Array(5).fill("0"));
 });

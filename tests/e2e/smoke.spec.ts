@@ -39,6 +39,12 @@ test.describe("pages", () => {
           .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
           .forEach((animation) => animation.cancel()),
       );
+      // GSAP sequences (the home journey) are not CSS animations: the motion's rest switch reverts them to the
+      // server-rendered final frame, the same resting text (home/JourneyTimeline.tsx; motion in home.spec.ts).
+      await page.evaluate(() => {
+        document.documentElement.dataset.motionRest = "true";
+        document.dispatchEvent(new Event("aims:motion-rest"));
+      });
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();

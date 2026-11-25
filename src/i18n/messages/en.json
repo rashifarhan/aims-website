@@ -432,24 +432,34 @@
       "lead": "You don't need a model code. Describe the site, and AIMS takes it from there.",
       "tell": {
         "title": "Tell us the job",
-        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira."
+        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira.",
+        "channels": "Call, WhatsApp, the quote form or a visit to the Deira showroom."
       },
       "quote": {
-        "title": "Get a quotation"
+        "title": "Get a quotation",
+        "attendance": "Time attendance: terminals and software.",
+        "doors": "Access control: readers, panels and locks."
       },
       "supply": {
         "title": "Supply",
-        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa."
+        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa.",
+        "export": "Project and export orders to GCC countries and East Africa."
       },
       "install": {
         "title": "Install",
-        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."
+        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software.",
+        "devices": "Devices are mounted, wired, powered and connected to your network.",
+        "setup": "Users, shifts, cards and door permissions are set up, and staff are enrolled on the terminals."
       },
       "support": {
         "title": "Support",
-        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email."
+        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email.",
+        "warranty": "ZKTeco’s published policy gives its hardware a one-year limited warranty.",
+        "changes": "Ask AIMS when you add staff, doors, sites or devices."
       },
-      "services": "See services"
+      "services": "See services",
+      "includes": "What’s included",
+      "counter": "steps"
     },
     "closing": {
       "heading": "Send AIMS your model list or site plan",
