@@ -15,11 +15,14 @@ cd ~/Development/aims-website && git fetch origin && git checkout explore/3d-hom
 
 ## Assets (not in git)
 
-The street outside the lobby is a photographed city, a CC0 HDRI from Poly Haven ("Canary Wharf" by Andreas
-Mischok, 4K EXR, 23.6 MB). Without it the scene falls back to a plain sky and modelled blocks.
+The street outside the lobby is a photographed city, a CC0 HDRI from Poly Haven: "Docklands 02" by Savva
+Zakharov (4K HDR, 25.4 MB), clear sky and hard sun. The script measures the HDRI's sun (direction, colour,
+strength), clips it out of the world light and puts a sun lamp in its place, so shadows inside and outside
+agree. Without the file the scene falls back to a plain sky and modelled blocks. "Canary Wharf" by Andreas
+Mischok (overcast) also works: `--hdri 3d/assets/hdri/canary_wharf_4k.exr --hdri-rotation 150`.
 
 ```bash
-mkdir -p 3d/assets/hdri && curl -L -o 3d/assets/hdri/canary_wharf_4k.exr https://dl.polyhaven.org/file/ph-assets/HDRIs/exr/4k/canary_wharf_4k.exr
+mkdir -p 3d/assets/hdri && curl -L -o 3d/assets/hdri/docklands_02_4k.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/docklands_02_4k.hdr
 ```
 
 ## Look test
@@ -47,6 +50,7 @@ The picture lands in `3d/renders/`. Options: `--res 800x500 --samples 64` (a 20 
   planter, leaf, dark stone
 - `aims3d/build.py`: bevelled boxes, cylinders, extruded profiles (flat shading unless bevelled)
 - `aims3d/dressing.py`: snake-plant planter, reception desk
+- `aims3d/hdri.py`: finds an HDRI's sun and aims the sun lamp at it
 - `aims3d/finish.py`: the photographic finish (compositor: bloom, dispersion, vignette, grain)
 - `aims3d/speedgate.py`: ZKTeco MARS-B1200 (proportions estimated from AIMS's product photo)
 - `looktest.py`: the lobby corner, daylight, camera and render settings
@@ -58,4 +62,6 @@ The picture lands in `3d/renders/`. Options: `--res 800x500 --samples 64` (a 20 
 - Never smooth-shade an unbevelled box: big walls and glass shade and reflect as if curved.
 - Brushed steel only looks bright when it has something bright to mirror: keep glazing or light walls
   behind the camera.
+- Put the sun behind the camera: looking toward it through glass shows the street's shaded side, darker than
+  the room. Lower it below the photo's real elevation if it must reach deep into the room.
 - Use real albedos (white paint ~0.7, light stone ~0.5); hold the camera level and frame with lens shift.

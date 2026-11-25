@@ -3,9 +3,9 @@
 Run on the Mac (never in the cloud session):
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine eevee     # ~1 min preview
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/looktest.py -- --engine cycles    # final still
-Options: --samples N  --res 1600x1000  --exposure 1.0  --open 0.0..1.0  --out 3d/renders/looktest.png
-         --hdri path.exr (default 3d/assets/hdri/canary_wharf_4k.exr; a plain sky when missing)
-         --hdri-rotation 150  --no-finish (skip bloom, vignette, grain)
+Options: --samples N  --res 1600x1000  --exposure 0.5  --open 0.0..1.0  --out 3d/renders/looktest.png
+         --hdri path (default 3d/assets/hdri/docklands_02_4k.hdr; a plain sky when missing)
+         --hdri-rotation 24  --sun-elevation 13 (lower the HDRI's sun)  --no-finish (no bloom, vignette, grain)
          --save 3d/renders/looktest.blend (keep the scene)  --no-render (build only)
 """
 
@@ -22,6 +22,7 @@ from aims3d import materials as M  # noqa: E402
 from aims3d.build import DEG, box, look_at  # noqa: E402
 from aims3d.dressing import planter, reception_desk  # noqa: E402
 from aims3d.finish import photographic_finish  # noqa: E402
+from aims3d.hdri import find_sun, sun_lamp_rotation  # noqa: E402
 from aims3d.speedgate import W, default_materials, speed_gate  # noqa: E402
 
 # The room, in metres. The visitor walks along +Y through the gates, which stand in a row along X at y = 0.
@@ -34,12 +35,15 @@ def args():
         "engine": "cycles",
         "samples": "192",
         "res": "1600x1000",
-        "exposure": "1.0",
+        "exposure": "0.5",
         "open": "0",
         "out": os.path.join(HERE, "renders", "looktest.png"),
         "save": "",
-        "hdri": os.path.join(HERE, "assets", "hdri", "canary_wharf_4k.exr"),
-        "hdri-rotation": "150",  # the plaza steps and towers outside the window, not the waterfront cafe
+        "hdri": os.path.join(HERE, "assets", "hdri", "docklands_02_4k.hdr"),
+        # Turns the street so the sun comes from behind the visitor, through the entrance, and the window looks
+        # across sunlit water at a glass office (a creek-side lobby, as AIMS's Deira showroom is).
+        "hdri-rotation": "24",
+        "sun-elevation": "13",  # lower than the photo's 35 deg so the sun reaches the oak wall (see sun())
     }
     flags = set()
     i = 0
@@ -117,9 +121,18 @@ def world(opts):
         env.image = bpy.data.images.load(os.path.abspath(path))
         links.new(coord.outputs["Generated"], mapping.inputs["Vector"])
         links.new(mapping.outputs["Vector"], env.inputs["Vector"])
-        links.new(env.outputs["Color"], bg.inputs["Color"])
         bg.inputs["Strength"].default_value = 1.0
-        return False
+        found = find_sun(env.image)
+        if found:  # clip the photographed sun out of the world light; the sun lamp carries it instead
+            clip = nodes.new("ShaderNodeVectorMath")
+            clip.operation = "MINIMUM"
+            clip.inputs[1].default_value = (found["clip"],) * 3
+            links.new(env.outputs["Color"], clip.inputs[0])
+            links.new(clip.outputs["Vector"], bg.inputs["Color"])
+            print("LOOKTEST_SUN", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in found.items()})
+        else:
+            links.new(env.outputs["Color"], bg.inputs["Color"])
+        return False, found
     sky = nodes.new("ShaderNodeTexSky")
     for kind in ("NISHITA", "MULTIPLE_SCATTERING", "SINGLE_SCATTERING", "HOSEK_WILKIE"):
         try:
@@ -131,17 +144,26 @@ def world(opts):
         sky.sun_disc = False
     links.new(sky.outputs[0], bg.inputs["Color"])
     bg.inputs["Strength"].default_value = 0.5
-    return True
+    return True, None
 
 
-def sun(elevation=17, azimuth=294):
-    """Low afternoon sun from the left-front through the curtain wall: it rakes across the floor, throws the
-    mullion shadows in long stripes and catches the gates' entry faces at a grazing angle."""
-    bpy.ops.object.light_add(type="SUN", rotation=((90 - elevation) * DEG, 0, azimuth * DEG))
+def sun(found, opts):
+    """The sun lamp. With a sunny HDRI it shines from the photographed sun with its measured strength and
+    colour, so shadows outside and inside agree. `--sun-elevation` may lower it (a photographer's cheat: a
+    low sun reaches deeper into the lobby). Without one: a low afternoon sun from the left-front."""
+    if found:
+        rgb = found["rgb"]
+        top = max(rgb)
+        elevation = float(opts["sun-elevation"]) if opts.get("sun-elevation") else found["elevation"]
+        rot = sun_lamp_rotation(found["u"], elevation, float(opts["hdri-rotation"]))
+        energy, colour = top, tuple(c / top for c in rgb)
+    else:
+        rot, energy, colour = (90 - 17, 0, 294), 4.0, (1.0, 0.93, 0.84)
+    bpy.ops.object.light_add(type="SUN", rotation=tuple(a * DEG for a in rot))
     lamp = bpy.context.object
-    lamp.data.energy = 4.0
+    lamp.data.energy = energy
     lamp.data.angle = 0.53 * DEG  # the real sun's disc: crisp shadows that soften with distance
-    lamp.data.color = (1.0, 0.93, 0.84)
+    lamp.data.color = colour
 
 
 def camera():
@@ -206,14 +228,14 @@ def render_settings(opts):
 def main():
     opts, flags = args()
     bpy.ops.wm.read_factory_settings(use_empty=True)
-    street = world(opts)
+    street, found = world(opts)
     lobby(street)
     mats = default_materials()
     opening = float(opts["open"])
     speed_gate("Gate A", (0, 0, 0), opening, mats)
     speed_gate("Gate B", (W + 0.02, 0, 0), opening, mats)  # a second unit beside it, as in a lobby row
     if "no-sun" not in flags:
-        sun()
+        sun(found, opts)
     camera()
     render_settings(opts)
     if "no-finish" not in flags:
