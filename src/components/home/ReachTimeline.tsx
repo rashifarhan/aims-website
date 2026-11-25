@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, REST_EVENT, restRequested, ScrollTrigger, useGSAP } from "@/components/motion/gsap";
+import { gsap, REST_EVENT, restRequested, useGSAP } from "@/components/motion/gsap";
 import { reachTimeline } from "./reachMotion";
 
 /**
@@ -18,15 +18,19 @@ export function ReachTimeline() {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = reachTimeline(svg);
-      ScrollTrigger.create({
-        trigger: svg,
-        // A third of the map's height above the window's foot, so the draw never plays on a sliver.
-        start: () => `top bottom-=${svg.getBoundingClientRect().height / 3}`,
-        once: true,
-        // After the home journey's pin has added its spacer, so the start is measured on the final layout.
-        refreshPriority: -1,
-        onEnter: () => void tl.play(),
-      });
+      // The browser reports when a third of the map is really on screen, so the draw never plays on a sliver. An
+      // IntersectionObserver, not a ScrollTrigger start: the home journey's pin and the section title reveals change
+      // the page's height while it loads, and a start measured before they settle could fire at load, unseen.
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+          tl.play();
+          observer.disconnect();
+        },
+        { threshold: 1 / 3 },
+      );
+      observer.observe(svg);
+      return () => observer.disconnect();
     });
     const rest = () => mm.revert();
     document.addEventListener(REST_EVENT, rest);

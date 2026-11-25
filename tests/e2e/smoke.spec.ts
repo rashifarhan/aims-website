@@ -45,6 +45,16 @@ test.describe("pages", () => {
         document.documentElement.dataset.motionRest = "true";
         document.dispatchEvent(new Event("aims:motion-rest"));
       });
+      // Resting can start CSS transitions (a highlighted step returning to its plain colours); audit their end state,
+      // not a colour caught halfway.
+      await page.evaluate(() =>
+        Promise.all(
+          document
+            .getAnimations()
+            .filter((animation) => animation instanceof CSSTransition)
+            .map((animation) => animation.finished.catch(() => undefined)),
+        ),
+      );
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
