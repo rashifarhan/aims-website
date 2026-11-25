@@ -10,6 +10,8 @@ import { HEADING_SELECTOR } from "./headingSelector";
  * after each client navigation, it looks for marked titles (SectionHeader, ClosePanel) and only then lazy-loads the
  * GSAP chunk (headingReveal.ts), so a page without one, or a visitor who prefers reduced motion, never downloads it.
  * The server render is the final, readable heading; until the chunk arrives, and if it never does, it stands.
+ * Rendering it from the layout is a deliberate deviation from §3's "never in a layout" (README Decisions "Section
+ * title reveal"): this leaf imports no GSAP itself, so GSAP still never reaches the layout's bundle or the first paint.
  */
 export function HeadingReveal() {
   const pathname = usePathname();
