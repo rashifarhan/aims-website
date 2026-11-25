@@ -631,6 +631,21 @@ prototype are kept, now on one clock.
   the loop's return to idle and next scan, pause off-screen and by keyboard, the drawn tick, and the exit (desktop:
   scale between 0.96 and 1, chip fading, brackets outward, headline scrolling exactly with the page; phone: none).
 
+### Reach map with GSAP (client request, 25 Nov 2026)
+
+- **Sequence.** `home/reachMotion.ts` builds one timeline, played once (unscrubbed, unpinned) when a third of the map is
+  on screen (`ReachTimeline`, loaded lazily by `ReachMotion` inside `ui/ReachBand`): the hub pops with one soft lime
+  ring pulse (0.7 s), the routes draw 150 ms apart (1.1 s each, `power2.inOut`, stroke-dashoffset on the existing
+  `pathLength="1"` paths), each city dot pops from 0.4 and its label fades in as its route lands, and the region
+  label comes last (about 3 s in all). It then stands: the ambient pulses stay hidden.
+- **Where.** Home (light map), /about, /contact, /locations and the location pages, including the Oman crop. The art is
+  still drawn `direction="ltr"` and never mirrored in Arabic; parts are matched by `data-to` coordinates.
+- **Removed.** The CSS draw and arrive keyframes, `.reach-moment`, the `trigger` prop of `ReachBand` and the
+  `MomentTrigger` on /about, /contact, /locations and the location pages (the map was their only moment).
+- **Rest.** Reduced motion and no-JS keep the server-rendered finished map; the e2e rest switch reverts the timeline.
+  `refreshPriority: -1` measures the start after the home journey's pin.
+- **Tests.** `tests/e2e/reach.ts` shared helpers: waiting, finished and standing still, resting without inline styles.
+
 ## Content import
 
 ```bash

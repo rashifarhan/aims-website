@@ -5,7 +5,6 @@ import { ContactRouter } from "@/components/contact/ContactRouter";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
@@ -55,7 +54,6 @@ export default async function ContactPage() {
         lead={t.contactPage.reachLead}
         map={<ReachMap labels={t.home.reach} />}
       />
-      <MomentTrigger />
     </main>
   );
 }

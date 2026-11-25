@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: Page) =>
@@ -87,10 +88,7 @@ test("services: four cards open live pages; the quote action presets installatio
 });
 
 // The dealt moments play once and only when their band is on screen (taste motion.md; CLAUDE.md §3).
-for (const [path, part] of [
-  ["/services", ".verify-line"],
-  ["/about", ".reach-route"],
-] as const) {
+for (const [path, part] of [["/services", ".verify-line"]] as const) {
   test(`${path}: the moment waits for its band, plays once, and ends drawn`, async ({ page }) => {
     await page.goto(path);
     const moment = page.locator("[data-moment]");
@@ -172,4 +170,20 @@ test.describe("support route moment", () => {
     // The route is decorative; the steps carry its meaning for screen readers.
     await expect(page.locator(".support-route")).toHaveAttribute("aria-hidden", "true");
   });
+});
+
+test("/about: the reach map waits for its band, draws once, and ends drawn", async ({ page }) => {
+  await page.goto("/about");
+  const map = page.locator(".ui-reach-map");
+  await expectReachWaiting(map);
+  await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expectReachFinished(map);
+});
+
+test("/about: under reduced motion the reach map rests drawn", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  await page.goto("/about");
+  await expectReachResting(page.locator(".ui-reach-map"));
+  await context.close();
 });

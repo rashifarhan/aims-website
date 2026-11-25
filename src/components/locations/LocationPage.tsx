@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { ReachBand } from "@/components/ui/ReachBand";
@@ -80,7 +79,6 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
             destination={market === "dubai" ? undefined : market}
           />
         }
-        trigger="map"
       >
         <LocationSteps label={common.stepsLabel} steps={c.steps} />
       </ReachBand>
@@ -100,7 +98,6 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
           />
         }
       />
-      <MomentTrigger />
     </main>
   );
 }

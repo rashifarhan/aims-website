@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { LocationMarkets } from "@/components/locations/LocationMarkets";
 import { LocationOffices } from "@/components/locations/LocationOffices";
 import { ReachMap } from "@/components/home/ReachMap";
@@ -62,7 +61,6 @@ export default async function LocationsHub() {
         heading={c.deliveryHeading}
         lead={c.deliveryLead}
         map={<ReachMap labels={t.home.reach} />}
-        trigger="map"
       >
         <LocationMarkets />
       </ReachBand>
@@ -82,7 +80,6 @@ export default async function LocationsHub() {
           />
         }
       />
-      <MomentTrigger />
     </main>
   );
 }
