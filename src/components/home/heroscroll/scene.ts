@@ -20,7 +20,6 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { facePoints } from "./face";
-import type { Shape } from "./productShapes";
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const ramp = (p: number, a: number, b: number) => {
@@ -28,11 +27,7 @@ const ramp = (p: number, a: number, b: number) => {
   return x * x * (3 - 2 * x);
 };
 
-/** The share of the pinned scroll the hero's own story takes; the product families share the rest. */
-export const HERO_END = 0.34;
-export const FAMILY_COUNT = 6;
-
-/** The hero's story (0 → 1): tighten, scan, verify, burst into light. */
+/** The story along the scroll (0 → 1): tighten, scan, verify, burst into light. */
 export function phases(p: number) {
   return {
     form: 0.965 + 0.035 * ramp(p, 0, 0.16),
@@ -44,30 +39,11 @@ export function phases(p: number) {
   };
 }
 
-/** The whole pinned scroll (0 → 1): the hero's story, then each product family forming from the light. */
-export function storyAt(p: number) {
-  const hero = phases(clamp01(p / HERO_END));
-  const seg = clamp01((p - HERO_END) / (1 - HERO_END)) * FAMILY_COUNT;
-  const index = Math.min(FAMILY_COUNT - 1, Math.floor(seg));
-  const local = seg - index;
-  return {
-    hero,
-    prod: ramp(p, HERO_END - 0.03, HERO_END + 0.05),
-    index,
-    local,
-    // The first family forms out of the burst; each next one morphs out of the one before.
-    morph: index === 0 ? 1 : ramp(local, 0, 0.45),
-  };
-}
-
 const vertex = /* glsl */ `
   attribute vec3 aCloud;
   attribute float aRand;
   attribute float aShade;
-  attribute vec3 aFrom;
-  attribute vec3 aTo;
-  attribute float aPShade;
-  uniform float uTime, uForm, uScan, uScanOn, uVerify, uOut, uSize, uPixelRatio, uGain, uProd, uMorph;
+  uniform float uTime, uForm, uScan, uScanOn, uVerify, uOut, uSize, uPixelRatio, uGain;
   uniform vec3 uBase, uLime, uWhite;
   varying vec3 vColor;
   varying float vAlpha;
@@ -82,14 +58,6 @@ const vertex = /* glsl */ `
     vColor = (mix(uBase, uLime, max(scanned * 0.75, uVerify)) + uWhite * band * 0.8 + uWhite * uVerify * 0.25) * (0.35 + 1.25 * aShade * aShade);
     // Each point adds only a little light: dense features glow, edges sparkle (additive blending).
     vAlpha = uGain * (0.45 + 0.55 * aRand) * (1.0 - uOut * 0.6) * (1.0 + band * 1.5);
-    // The product families: the burst light gathers into each device, morphing from one to the next.
-    vec3 q = mix(aFrom, aTo, uMorph);
-    float travel = sin(uMorph * 3.14159);
-    q += vec3(sin(uTime * 0.7 + aRand * 23.0), cos(uTime * 0.6 + aRand * 13.0), 0.0) * (0.01 + 0.25 * travel * aRand);
-    vec3 prodColor = mix(uBase, uLime, 0.15 + 0.55 * aPShade * aPShade) * (0.4 + 1.1 * aPShade);
-    p = mix(p, q, uProd);
-    vColor = mix(vColor, prodColor, uProd);
-    vAlpha = mix(vAlpha, uGain * (0.5 + 0.5 * aRand) * 1.15, uProd);
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_PointSize = uSize * uPixelRatio * (0.55 + aRand * 0.9) * (1.0 + band * 0.7 + uVerify * 0.3) / -mv.z;
     gl_Position = projectionMatrix * mv;
@@ -108,7 +76,6 @@ const fragment = /* glsl */ `
 export type HeroScene = {
   setProgress(p: number): void;
   setPointer(x: number, y: number): void;
-  setShapes(shapes: Shape[]): void;
   dispose(): void;
 };
 
@@ -131,15 +98,6 @@ export function createHeroScene(
   geo.setAttribute("aCloud", new BufferAttribute(cloud, 3));
   geo.setAttribute("aRand", new BufferAttribute(rand, 1));
   geo.setAttribute("aShade", new BufferAttribute(shade, 1));
-  // Until the product photos are read, the families sit on the face (never shown: they arrive within a second).
-  const fromAttr = new BufferAttribute(new Float32Array(face), 3);
-  const toAttr = new BufferAttribute(new Float32Array(face), 3);
-  const pshadeAttr = new BufferAttribute(new Float32Array(shade), 1);
-  geo.setAttribute("aFrom", fromAttr);
-  geo.setAttribute("aTo", toAttr);
-  geo.setAttribute("aPShade", pshadeAttr);
-  let shapes: Shape[] = [];
-  let shownPair = "";
   const uniforms = {
     uTime: { value: 0 },
     uForm: { value: opts.still ? 1 : 0.25 },
@@ -149,8 +107,6 @@ export function createHeroScene(
     uOut: { value: 0 },
     uSize: { value: 15 },
     uGain: { value: 0.22 },
-    uProd: { value: 0 },
-    uMorph: { value: 1 },
     uPixelRatio: { value: dpr },
     uBase: { value: new Color(opts.colors.base).lerp(new Color(opts.colors.lime), 0.35) },
     uLime: { value: new Color(opts.colors.lime) },
@@ -194,7 +150,7 @@ export function createHeroScene(
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
-  let target = opts.still ? HERO_END * 0.56 : 0;
+  let target = opts.still ? 0.56 : 0;
   let current = target;
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let width = 0;
@@ -224,22 +180,7 @@ export function createHeroScene(
     resize();
     const t = (now - start) / 1000;
     current += (target - current) * 0.12;
-    const story = storyAt(current);
-    const ph = story.hero;
-    if (shapes.length === FAMILY_COUNT) {
-      const from = story.index === 0 ? 0 : story.index - 1;
-      const pair = `${from}-${story.index}`;
-      if (pair !== shownPair) {
-        shownPair = pair;
-        // Shapes are fixed-size typed arrays read from the photos; the index is clamped to their count.
-        fromAttr.copyArray(shapes[from]!.points);
-        toAttr.copyArray(shapes[story.index]!.points);
-        pshadeAttr.copyArray(shapes[story.index]!.shade);
-        fromAttr.needsUpdate = toAttr.needsUpdate = pshadeAttr.needsUpdate = true;
-      }
-    }
-    uniforms.uProd.value = shapes.length === FAMILY_COUNT ? story.prod : 0;
-    uniforms.uMorph.value = story.morph;
+    const ph = phases(current);
     // The face gathers within a second of load, so the stage is alive before any scroll.
     const intro = opts.still ? 1 : 1 - (1 - clamp01(t / 1.4)) ** 3;
     uniforms.uTime.value = t;
@@ -254,10 +195,7 @@ export function createHeroScene(
     ring.scale.setScalar(0.86 + 0.14 * ph.verify);
     pointer.x += (pointer.tx - pointer.x) * 0.06;
     pointer.y += (pointer.ty - pointer.y) * 0.06;
-    // Each device turns a little as its stretch of the scroll passes, so the flat photo reads in depth.
-    const prodTurn = (story.local - 0.5) * 0.6 * story.prod;
-    head.rotation.y =
-      ph.turn * (1 - story.prod) + prodTurn + pointer.x * 0.35 + (opts.still ? 0 : Math.sin(t * 0.35) * 0.06);
+    head.rotation.y = ph.turn + pointer.x * 0.35 + (opts.still ? 0 : Math.sin(t * 0.35) * 0.06);
     head.rotation.x = pointer.y * 0.18;
     composer.render();
     if (!opts.still) frame = requestAnimationFrame(render);
@@ -267,10 +205,6 @@ export function createHeroScene(
   return {
     setProgress(p) {
       target = clamp01(p);
-    },
-    setShapes(next) {
-      shapes = next;
-      shownPair = "";
     },
     setPointer(x, y) {
       pointer.tx = x;

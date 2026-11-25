@@ -3,7 +3,7 @@
 .hero-scroll {
   --p: 0;
   position: relative;
-  height: 860svh;
+  height: 280svh;
   margin-block-start: calc(var(--header-height, 4.5rem) * -1);
   background: var(--color-night-900);
 }
@@ -69,7 +69,7 @@
 }
 @media (max-width: 1023px) {
   .hero-scroll {
-    height: 640svh;
+    height: 220svh;
   }
   .hero-scroll-copy {
     justify-content: flex-end;
@@ -83,13 +83,13 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-copy,
-  .hero-scroll-families article {
+  .hero-scroll-panels article {
     transition: none;
   }
 }
 
-/* The product families: one panel at a time beside the device its light has formed. */
-.hero-scroll-families {
+/* The story panels: one at a time beside the face, as the scan, the verification and the burst happen. */
+.hero-scroll-panels {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -97,7 +97,7 @@
   align-items: center;
   pointer-events: none;
 }
-.hero-scroll-families article {
+.hero-scroll-panels article {
   grid-area: 1 / 1;
   max-inline-size: 30rem;
   opacity: 0;
@@ -106,18 +106,18 @@
     opacity 500ms var(--ease-aims),
     transform 500ms var(--ease-aims);
 }
-.hero-scroll-families article[data-on] {
+.hero-scroll-panels article[data-on] {
   opacity: 1;
   transform: none;
   pointer-events: auto;
 }
-.hero-scroll-range {
+.hero-scroll-eyebrow {
   color: var(--color-lime);
   font-size: var(--text-small);
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.hero-scroll-family {
+.hero-scroll-title {
   margin-block-start: 0.75rem;
   color: var(--color-night-text);
   font-family: var(--font-display);
@@ -127,19 +127,13 @@
   letter-spacing: -0.03em;
   line-height: 1.02;
 }
-.hero-scroll-summary {
+.hero-scroll-body {
   margin-block-start: 1rem;
   color: var(--color-night-muted);
   font-size: var(--text-home-lead);
 }
-.hero-scroll-count {
-  margin-block: 0.5rem 1.5rem;
-  color: var(--color-night-text);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
 @media (max-width: 1023px) {
-  .hero-scroll-families {
+  .hero-scroll-panels {
     align-items: end;
     padding-block-end: 2.5rem;
   }
