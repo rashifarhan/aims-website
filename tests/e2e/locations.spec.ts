@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /*
@@ -44,6 +45,7 @@ for (const { path, lang } of PAGES) {
       .evaluateAll((scripts) => scripts.map((el) => el.textContent ?? ""));
     expect(jsonLd.filter((text) => text.includes('"BreadcrumbList"'))).toHaveLength(1);
     await settle(page);
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();

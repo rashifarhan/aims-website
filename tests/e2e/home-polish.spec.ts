@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 
 for (const locale of ["en", "ar"] as const) {
   test(`${locale} header suggestions support keyboard selection`, async ({ page, isMobile }, testInfo) => {
@@ -24,6 +25,7 @@ for (const locale of ["en", "ar"] as const) {
     await expect(input).toHaveAttribute("aria-expanded", "true");
     await expect(page.getByRole("option").first()).toContainText("SA20");
     await expect(page.getByRole("option").first().locator("strong")).toContainText(/sa20/i);
+    await restMotion(page);
     const suggestionsAxe = await new AxeBuilder({ page })
       .include(isMobile ? "dialog[open]" : "header")
       .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
@@ -51,6 +53,7 @@ test("WhatsApp stays out of the first screen and previews before leaving", async
   await expect(notice).toBeVisible();
   await expect(notice).toContainText("Nothing has been sent to AIMS");
   await expect(notice.getByRole("link", { name: /Open WhatsApp/ })).toHaveAttribute("href", /wa.me\/971565240495/);
+  await restMotion(page);
   const contactAxe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
   expect(contactAxe.violations.map((violation) => violation.id)).toEqual([]);
   await page.keyboard.press("Escape");

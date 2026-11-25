@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import pages from "../../content/pages.json";
 
 /** Let finite CSS animations (the entrance) end, so axe audits the settled frame (smoke.spec.ts). */
@@ -12,10 +13,13 @@ const settle = (page: Page) =>
         .map((a) => (a.timeline instanceof DocumentTimeline ? a.finished.catch(() => undefined) : a.cancel())),
     ),
   );
-const axe = async (page: Page) =>
-  (
-    await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze()
-  ).violations.map((v) => `${v.id}: ${v.nodes.length}`);
+const axe = async (page: Page) => {
+  await restMotion(page);
+  const result = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  return result.violations.map((v) => `${v.id}: ${v.nodes.length}`);
+};
 const noSideScroll = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
 
 // The article in the route registry (Master Plan 12 #14): AIMS's access control buying guide.

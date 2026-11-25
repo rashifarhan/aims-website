@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 
 /** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: import("@playwright/test").Page) =>
@@ -13,6 +14,7 @@ const settle = (page: import("@playwright/test").Page) =>
   );
 const axeClean = async (page: import("@playwright/test").Page) => {
   await settle(page);
+  await restMotion(page);
   const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
   expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 };

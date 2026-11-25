@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations end, so axe audits the settled frame (smoke.spec.ts). */
@@ -30,6 +31,7 @@ for (const base of ["/about", "/services", "/support"]) {
         await expect(moment.first()).toHaveAttribute("data-played", "true");
       }
       await settle(page);
+      await restMotion(page);
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();

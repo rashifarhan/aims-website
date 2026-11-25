@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import type { Page } from "@playwright/test";
 
 // Audit the finished frame (as smoke.spec.ts does): the hero's entrance fades in, and axe measuring
@@ -32,6 +33,7 @@ for (const locale of ["en", "ar"]) {
       await expect(page.locator(`.sw-card-grid a[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
     }
     await settle(page);
+    await restMotion(page);
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
     expect(axe.violations.map((v) => v.id)).toEqual([]);
   });
@@ -44,6 +46,7 @@ for (const locale of ["en", "ar"]) {
       expect((await page.title()).length).toBeLessThanOrEqual(60);
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`/software/${slug}$`));
       await settle(page);
+      await restMotion(page);
       const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
       expect(axe.violations.map((v) => v.id)).toEqual([]);
     });

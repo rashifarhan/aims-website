@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 
 const seed = (page: Page, lines: unknown[], context: Record<string, unknown> = {}) =>
   page.addInitScript(
@@ -25,6 +26,7 @@ const settle = (page: import("@playwright/test").Page) =>
   );
 const axe = async (page: Page) => {
   await settle(page);
+  await restMotion(page);
   const r = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
   expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 };

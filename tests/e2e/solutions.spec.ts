@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { restMotion } from "./rest";
 import type { Page } from "@playwright/test";
 
 const SLUGS = ["entrance-parking", "access-control", "time-attendance", "door-locks", "pos"];
@@ -82,6 +83,7 @@ for (const locale of ["en", "ar"]) {
         .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
         .forEach((animation) => animation.cancel()),
     );
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -210,6 +212,7 @@ for (const locale of ["en", "ar"]) {
         .filter((animation) => !(animation.timeline instanceof DocumentTimeline))
         .forEach((animation) => animation.cancel()),
     );
+    await restMotion(page);
     const axe = await new AxeBuilder({ page })
       .include(".hs-site")
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
