@@ -278,3 +278,64 @@ def dark_stone(name="Dark stone"):
     l.new(ramp.outputs["Color"], p.inputs["Base Color"])
     _smudges(n, l, p.inputs["Roughness"], 0.12, 0.25, scale=3.0)
     return m
+
+
+def plastic(name, colour, roughness=0.35):
+    """Moulded ABS / PC housings (the UHF reader, the barrier boom)."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (*colour, 1))
+    _smudges(n, l, p.inputs["Roughness"], roughness * 0.85, roughness * 1.2, scale=5.0)
+    return m
+
+
+def powder_coat(name, colour, roughness=0.45):
+    """Powder-coated steel (the metal detector's posts): a fine orange-peel texture under a soft sheen."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (*colour, 1))
+    _set(p, "Roughness", roughness)
+    noise = n.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 900.0
+    bump = n.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.04
+    l.new(noise.outputs["Fac"], bump.inputs["Height"])
+    l.new(bump.outputs["Normal"], p.inputs["Normal"])
+    return m
+
+
+def aluminium(name="Satin aluminium"):
+    """Bead-blasted anodised aluminium (the maglock body, terminal side frames): soft and bright."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (0.82, 0.83, 0.84, 1))
+    _set(p, "Metallic", 1.0)
+    _smudges(n, l, p.inputs["Roughness"], 0.3, 0.42, scale=6.0)
+    return m
+
+
+def frosted(name="Frosted window", colour=(0.9, 0.92, 0.94), glow=0.0):
+    """Diffused acrylic over IR or white fill lights; `glow` > 0 when the light behind it is on."""
+    m, p, *_ = _principled(name)
+    _set(p, "Base Color", (*colour, 1))
+    _set(p, "Roughness", 0.5)
+    _set(p, "Subsurface", 0.3)
+    if glow:
+        _set(p, "Emission Color", (*colour, 1))
+        _set(p, "Emission Strength", glow)
+    return m
+
+
+def screen(name, image_path=None, colour=(0.02, 0.05, 0.09), strength=1.0):
+    """A display under cover glass: the picture is emission (an image, or a flat colour), the glass on top
+    is a clear coat, so the room still reflects in it as it does in a real screen."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (0.0, 0.0, 0.0, 1))
+    _set(p, "Roughness", 0.3)
+    _set(p, "Coat", 1.0)
+    _set(p, "Coat Roughness", 0.02)
+    _set(p, "Emission Strength", strength)
+    if image_path:
+        tex = n.new("ShaderNodeTexImage")
+        tex.image = bpy.data.images.load(image_path, check_existing=True)
+        l.new(tex.outputs["Color"], p.inputs["Emission Color"])
+    else:
+        _set(p, "Emission Color", (*colour, 1))
+    return m

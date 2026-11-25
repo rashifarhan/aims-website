@@ -55,12 +55,32 @@ The picture lands in `3d/renders/`. Options: `--res 800x500 --samples 64` (a 20 
 (brighter), `--open 1` (flaps swung open), `--hdri-rotation 150` (what the window looks onto), `--no-finish`
 (no bloom, dispersion, vignette or grain), `--save 3d/renders/looktest.blend` (keep the scene to open in Blender).
 
+## Devices
+
+Each device is a function in `aims3d/`, built to the catalogue's dimensions where `content/products.json` gives
+them (estimates are marked in each module's docstring). Check them in a grey studio (about 40 s each):
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/devices.py -- --shot parking   # BGM-1030 + UHF10
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/devices.py -- --shot lobby --zones 18   # ZK-D3180S, door, ProFace X
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/devices.py -- --shot desk      # terminals, maglock, monitor
+```
+
+`--open 1` raises the boom and opens the door; `--zones 0..18` lights the detector's zones from the floor up.
+Screen pictures are drawn by `python3 3d/make_textures.py` into `3d/textures/` (no figures or records on them).
+
 ## Files
 
 - `aims3d/materials.py`: brushed steel, black glass, clear and window glass, LEDs, polished stone, plaster, oak,
   planter, leaf, dark stone
 - `aims3d/build.py`: bevelled boxes, cylinders, extruded profiles (flat shading unless bevelled)
 - `aims3d/dressing.py`: snake-plant planter, reception desk
+- `aims3d/barrier.py`: BGM-1030 boom barrier, UHF10 reader on its pole
+- `aims3d/detector.py`: ZK-D3180S walk-through metal detector
+- `aims3d/terminals.py`: ProFace X, SpeedFace V5L
+- `aims3d/door.py`: ALF-M560 maglock, frameless glass door with armature and handle
+- `aims3d/monitor.py`: 24-inch monitor with the attendance dashboard
+- `aims3d/render.py`: shared command line and Cycles settings
 - `aims3d/hdri.py`: finds an HDRI's sun and aims the sun lamp at it
 - `aims3d/finish.py`: the photographic finish (compositor: bloom, dispersion, vignette, grain)
 - `aims3d/speedgate.py`: ZKTeco MARS-B1200 (proportions estimated from AIMS's product photo)

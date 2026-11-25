@@ -24,6 +24,7 @@ from aims3d.build import DEG, box, look_at  # noqa: E402
 from aims3d.dressing import planter, reception_desk  # noqa: E402
 from aims3d.finish import photographic_finish  # noqa: E402
 from aims3d.hdri import find_sun, sun_lamp_rotation  # noqa: E402
+from aims3d.render import parse_args, render_settings  # noqa: E402
 from aims3d.speedgate import W, default_materials, speed_gate  # noqa: E402
 
 # The room, in metres. The visitor walks along +Y through the gates, which stand in a row along X at y = 0.
@@ -47,7 +48,6 @@ MOODS = {
 
 
 def args():
-    argv = sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else []
     opts = {
         "engine": "cycles",
         "samples": "192",
@@ -65,19 +65,7 @@ def args():
         "lights": "8",  # ceiling light strength; at dusk they carry the room
         "grazer": "0",  # watts of the warm light grazing down the oak slats from a ceiling slot
     }
-    flags = set()
-    if "--mood" in argv and argv[argv.index("--mood") + 1] in MOODS:
-        opts.update(MOODS[argv[argv.index("--mood") + 1]])
-    i = 0
-    while i < len(argv):
-        key = argv[i].lstrip("-")
-        if i + 1 < len(argv) and not argv[i + 1].startswith("--"):
-            opts[key] = argv[i + 1]
-            i += 2
-        else:
-            flags.add(key)
-            i += 1
-    return opts, flags
+    return parse_args(opts, MOODS)
 
 
 def lobby(street, opts):
@@ -213,51 +201,6 @@ def camera():
     cam.data.dof.aperture_fstop = 4.0
     cam.data.dof.focus_distance = math.dist(cam.location, (0.8, -0.14, 0.6))
     bpy.context.scene.camera = cam
-
-
-def render_settings(opts):
-    sc = bpy.context.scene
-    x, y = (int(v) for v in opts["res"].lower().split("x"))
-    sc.render.resolution_x, sc.render.resolution_y = x, y
-    sc.render.film_transparent = False
-    transforms = [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items]
-    sc.view_settings.view_transform = "AgX" if "AgX" in transforms else "Filmic"
-    sc.view_settings.exposure = float(opts["exposure"])
-    for look in ("AgX - Medium High Contrast", "Medium High Contrast"):  # the name differs by version
-        try:
-            sc.view_settings.look = look
-            break
-        except TypeError:
-            continue
-    if opts["engine"] == "eevee":
-        engines = [e.identifier for e in sc.render.bl_rna.properties["engine"].enum_items]
-        sc.render.engine = "BLENDER_EEVEE_NEXT" if "BLENDER_EEVEE_NEXT" in engines else "BLENDER_EEVEE"
-        ee = sc.eevee
-        for attr, val in (("use_raytracing", True), ("use_shadows", True), ("taa_render_samples", 64)):
-            if hasattr(ee, attr):
-                setattr(ee, attr, val)
-    else:
-        sc.render.engine = "CYCLES"
-        sc.cycles.samples = int(opts["samples"])
-        sc.cycles.use_denoising = True
-        sc.cycles.use_adaptive_sampling = True
-        sc.cycles.adaptive_threshold = 0.02
-        # No caustics and a clamp on indirect light: the usual archviz trade, fewer fireflies, much faster.
-        sc.cycles.caustics_reflective = sc.cycles.caustics_refractive = False
-        sc.cycles.sample_clamp_indirect = float(opts.get("clamp", "10"))
-        sc.cycles.diffuse_bounces, sc.cycles.glossy_bounces = 4, 4
-        sc.cycles.transmission_bounces, sc.cycles.transparent_max_bounces = 8, 16
-        try:  # Apple Silicon GPU through Metal; falls back to CPU anywhere else
-            prefs = bpy.context.preferences.addons["cycles"].preferences
-            prefs.compute_device_type = "METAL"
-            prefs.get_devices()
-            for d in prefs.devices:
-                d.use = True
-            sc.cycles.device = "GPU"
-        except (KeyError, TypeError, AttributeError):
-            sc.cycles.device = "CPU"
-    sc.render.image_settings.file_format = "PNG"
-    sc.render.filepath = opts["out"]
 
 
 def main():
