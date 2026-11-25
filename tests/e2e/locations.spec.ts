@@ -46,6 +46,10 @@ for (const { path, lang } of PAGES) {
     expect(jsonLd.filter((text) => text.includes('"BreadcrumbList"'))).toHaveLength(1);
     await settle(page);
     await restMotion(page);
+    // The audit reads the page from its top, as smoke.spec.ts does: settle() leaves the map centred, and at that
+    // arbitrary scroll the sticky header covers whichever link passes under it, which axe counts as a target-size
+    // failure (seen on CI with the Dubai office's maps link, 25 Nov 2026). The map has finished and stays finished.
+    await page.evaluate(() => window.scrollTo(0, 0));
     const axe = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
