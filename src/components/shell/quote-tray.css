@@ -49,10 +49,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* The action is the inverted signature button of every night ground (ui/actions.css), hover wash included. */
 .quote-tray .quote-tray-action {
   flex: none;
-  background: var(--color-paper);
-  color: var(--color-night-900);
 }
 @media (width < 40rem) {
   .quote-tray[data-on] {

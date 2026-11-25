@@ -188,17 +188,18 @@
   :dir(rtl) .home-button:hover .home-action-arrow {
     translate: -3px 0;
   }
-  /* On night green (night sections, the closing band, the footer) the primary inverts: a white pill with green-800
+  /* On night green (night sections, the closing band, the footer, the quote tray) the primary inverts: a white pill with green-800
      text (7.9:1), a night circle and a lime arrow (7.5:1 on night-900). */
-  :is(.section-night, .site-footer) .home-button:not(.home-button-outline, .home-button-quiet, .home-button-whatsapp) {
+  :is(.section-night, .site-footer, .quote-tray)
+    .home-button:not(.home-button-outline, .home-button-quiet, .home-button-whatsapp) {
     background: var(--color-paper);
     color: var(--color-green-800);
   }
-  :is(.section-night, .site-footer)
+  :is(.section-night, .site-footer, .quote-tray)
     .home-button:not(.home-button-outline, .home-button-quiet, .home-button-whatsapp)::before {
     background: var(--color-green-50);
   }
-  :is(.section-night, .site-footer) .home-button > .home-action-arrow {
+  :is(.section-night, .site-footer, .quote-tray) .home-button > .home-action-arrow {
     background: var(--color-night-900);
     color: var(--color-lime);
   }
