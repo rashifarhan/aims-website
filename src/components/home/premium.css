@@ -325,3 +325,10 @@
     font-size: var(--text-visit-tel);
   }
 }
+/* The band's copy runs much taller than the map here (address and five lines), so on a desktop the map stands
+   centred beside them rather than leaving the end column empty under it. */
+@media (min-width: 1024px) {
+  .ui-reach-grid:has(.home-visit) > .ui-reach-map {
+    align-self: center;
+  }
+}
