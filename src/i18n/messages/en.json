@@ -407,7 +407,8 @@
       "newTab": "opens in a new tab",
       "showroomArea": "Naif Bazar Building",
       "mobileNote": "Call or message",
-      "emailNote": "Model lists and site plans"
+      "emailNote": "Model lists and site plans",
+      "all": "See locations"
     },
     "reviews": {
       "read": "Read the published reviews",
@@ -428,21 +429,27 @@
     },
     "journey": {
       "heading": "From the first call to a working system",
+      "lead": "You don't need a model code. Describe the site, and AIMS takes it from there.",
       "tell": {
-        "title": "Tell us the job"
+        "title": "Tell us the job",
+        "body": "Call, send a WhatsApp, fill in the quote form or visit the showroom in Deira."
       },
       "quote": {
         "title": "Get a quotation"
       },
       "supply": {
-        "title": "Supply"
+        "title": "Supply",
+        "body": "AIMS supplies the ZKTeco hardware in the UAE and delivers project and export orders to the GCC and Africa."
       },
       "install": {
-        "title": "Install"
+        "title": "Install",
+        "body": "AIMS installs and connects the devices across the UAE, from Dubai and Abu Dhabi, and sets up the software."
       },
       "support": {
-        "title": "Support"
-      }
+        "title": "Support",
+        "body": "After handover, AIMS supports the system. Reach the team by WhatsApp or email."
+      },
+      "services": "See services"
     },
     "closing": {
       "heading": "Send AIMS your model list or site plan",
@@ -472,7 +479,8 @@
         "title": "Reception lobbies",
         "text": "Optical turnstiles beside the front desk",
         "alt": "Drop-arm optical turnstiles across a reception lobby"
-      }
+      },
+      "all": "See all solutions"
     }
   },
   "search": {

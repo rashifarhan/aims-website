@@ -9,13 +9,14 @@ import { SectionHeader } from "./SectionHeader";
  * location pages (`trigger="map"`) the trigger sits on the map frame instead: at 35% of their one-screen band
  * only the map's top edge is on screen, so the draw would play unseen (audit E1). Under reduced motion the map
  * rests finished. On narrow screens the map follows the heading, so the moment is seen before the list
- * (ui/sections.css .ui-reach).
+ * (ui/sections.css .ui-reach). `link` is the header's end link (the home page's "See locations").
  */
 export function ReachBand({
   id,
   titleId,
   heading,
   lead,
+  link,
   map,
   trigger = "band",
   children,
@@ -24,6 +25,7 @@ export function ReachBand({
   titleId: string;
   heading: string;
   lead: string;
+  link?: ReactNode;
   /** The ReachMap, with the page's labels and destination. */
   map: ReactNode;
   /** Which element MomentTrigger watches: the whole band, or the map frame (the location pages). */
@@ -42,7 +44,7 @@ export function ReachBand({
       <div className="ui-reach-grid">
         <div className="ui-reach-copy">
           <div className="ui-reach-head">
-            <SectionHeader id={titleId} title={heading} lead={lead} />
+            <SectionHeader id={titleId} title={heading} lead={lead} link={link} />
           </div>
           {children && <div className="ui-reach-body">{children}</div>}
         </div>

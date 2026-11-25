@@ -1,7 +1,7 @@
 /*
- * The home page's sections, premium pass (client decision 6, 24 Nov 2026): hero · figures (band) · model strip ·
- * families · places (photos) · software (night) · showroom and offices · closing (night) · footer. One idea per
- * screen, one big heading, generous air. Motion: the shared hover layer, the scroll reveals (ui/reveal.css), the
+ * The home page's sections, premium pass (client decision 6, 24 Nov 2026; menu previews 25 Nov 2026): hero ·
+ * figures and reviews (band) · model strip · families · places (photos) · software (night) · journey · showroom,
+ * offices and reach (night) · closing (night) · footer. One idea per screen, one big heading, generous air. Motion: the shared hover layer, the scroll reveals (ui/reveal.css), the
  * spotlight on tiles (ui/spotlight.css) and the scan reveal on the photographs (home-where.css).
  */
 
@@ -243,25 +243,16 @@
   }
 }
 
-/* ---------- Showroom and offices ---------- */
-.home-visit-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2.5rem;
-  align-items: start;
-}
-.home-visit .section-heading {
-  margin-block-end: 0;
-}
+/* ---------- Showroom, offices and reach: the body of the night reach band (ui/ReachBand, HomeVisit) ----------
+   Night text 15.0:1, night-muted 8.6:1 and lime 7.5:1 on night green (globals.css); lime marks the actions. */
 .home-visit-address {
-  margin-block-start: 2.5rem;
   padding-block-start: 2rem;
-  border-block-start: 1px solid var(--color-line);
+  border-block-start: 1px solid var(--color-night-line);
 }
 .home-visit-label {
   font-size: var(--text-small);
   font-weight: 600;
-  color: var(--color-green-700);
+  color: var(--color-lime);
 }
 .home-visit-address address {
   margin-block: 0.625rem 1rem;
@@ -272,10 +263,11 @@
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.025em;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 .home-visit-lines {
-  border-block-start: 1px solid var(--color-line);
+  margin-block-start: 2.5rem;
+  border-block-start: 1px solid var(--color-night-line);
 }
 .home-visit-lines li {
   display: flex;
@@ -284,18 +276,18 @@
   justify-content: space-between;
   gap: 0.25rem 1.5rem;
   padding-block: 1.25rem;
-  border-block-end: 1px solid var(--color-line);
+  border-block-end: 1px solid var(--color-night-line);
 }
 .home-visit-lines p {
   font-size: var(--text-small);
-  color: var(--color-ink-600);
+  color: var(--color-night-muted);
 }
 .home-visit-lines strong {
   display: block;
   margin-block-end: 0.125rem;
   font-size: var(--text-base);
   font-weight: 600;
-  color: var(--color-ink);
+  color: var(--color-night-text);
 }
 /* A phone line reads at a glance: the display face, a step above body size, the arrow nudging on hover. */
 .home-visit-tel {
@@ -307,14 +299,14 @@
   font-size: var(--text-home-card);
   font-weight: 560;
   white-space: nowrap;
-  color: var(--color-ink);
+  color: var(--color-night-text);
   transition: color var(--duration-hover) ease;
 }
 .home-visit-tel .home-action-arrow {
-  color: var(--color-green-700);
+  color: var(--color-lime);
 }
 .home-visit-tel:hover {
-  color: var(--color-green-700);
+  color: var(--color-lime);
 }
 .home-visit-tel:hover .home-action-arrow {
   translate: 3px 0;
@@ -326,16 +318,9 @@
   max-width: 34em;
   margin-block-start: 1.75rem;
   font-size: var(--text-small);
-  color: var(--color-ink-600);
+  color: var(--color-night-muted);
 }
 @media (min-width: 1024px) {
-  .home-visit-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6rem;
-  }
-  .home-visit-address {
-    margin-block-start: 3.5rem;
-  }
   .home-visit-tel {
     font-size: var(--text-visit-tel);
   }

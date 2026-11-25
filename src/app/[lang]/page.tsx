@@ -10,12 +10,15 @@ import { HomeFigures } from "@/components/home/HomeFigures";
 import { ProductFamilies } from "@/components/home/ProductFamilies";
 import { HomeWhereItGoes } from "@/components/home/HomeWhereItGoes";
 import { HomeSoftware } from "@/components/home/HomeSoftware";
+import { HomeJourney } from "@/components/home/HomeJourney";
 import { HomeVisit } from "@/components/home/HomeVisit";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { ModelStrip } from "@/components/ui/ModelStrip";
+import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/home.css";
 import "@/components/home/sections.css";
 import "@/components/home/premium.css";
+import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -27,17 +30,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * T1, premium pass (client decision 6, 24 Nov 2026): hero · four company figures · the model-code strip · six
- * product families · where it goes (stand-in photographs) · software (night) · showroom and offices · the closing
- * call (night) with the journey as one line of steps. The FAQ, buyer routes, reviews, door teaser and reach map left
- * the home page (they live on as needed elsewhere: the reach map on contact, about and locations, the door on access
- * control, the reviews on about). Factual Organization data: Plan AT-12.
+ * T1, the home page previews the header menu (client decision, 25 Nov 2026), one section per item in menu order:
+ * hero · four company figures with AIMS's published reviews (About, band) · the model-code strip · six product
+ * families (Products) · the photo places, each linked to its solution (Solutions) · software (Software, night) · how
+ * AIMS works, the five-step journey (Services, paper) · showroom, offices and the reach map (Locations, night) · the
+ * closing call (night). The FAQ, buyer routes and door teaser stay off. Grounds: two night bands mid-page, never side
+ * by side; the light journey parts them. Factual Organization data: Plan AT-12.
  */
 export default async function Home() {
   const t = await getDictionary();
   const locale = await getLocale();
   const close = t.home.closing;
-  const j = t.home.journey;
   return (
     <main id="main" className="home-bands">
       <JsonLd
@@ -56,6 +59,7 @@ export default async function Home() {
       <ProductFamilies />
       <HomeWhereItGoes />
       <HomeSoftware />
+      <HomeJourney />
       <HomeVisit />
       <ClosePanel
         id="closing-title"
@@ -63,11 +67,8 @@ export default async function Home() {
         body={close.body}
         action={{ href: localePath(locale, "/quote"), label: close.action }}
         secondary={{ href: localePath(locale, "/products"), label: close.secondary }}
-        steps={{
-          label: j.heading,
-          items: [j.tell.title, j.quote.title, j.supply.title, j.install.title, j.support.title],
-        }}
       />
+      <MomentTrigger />
       <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
     </main>
   );

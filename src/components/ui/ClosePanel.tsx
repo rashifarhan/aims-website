@@ -12,10 +12,9 @@ type Action = { href: string; label: string };
  * The one closing panel (design-taste-frontend one system; Design Doc 2, principle 1): a heading, one line of body,
  * one main action and at most one link. Premium pass (client decisions, 24 Nov 2026): a full-width night-green band,
  * centred over the ridge motif, with the inverted signature button, so the page's last ask reads as its most
- * important. `steps` adds the journey as one quiet line of steps under the actions (the home page). The action is a
- * link, or a ready element when it does more than navigate (software's add-to-quote button). `embedded` renders the
- * mint panel as the last block of another section's screen (the solution and location questions), with no section
- * ground of its own (taste House rule 3; audit T-01).
+ * important. The action is a link, or a ready element when it does more than navigate (software's add-to-quote
+ * button). `embedded` renders the mint panel as the last block of another section's screen (the solution and
+ * location questions), with no section ground of its own (taste House rule 3; audit T-01).
  */
 export function ClosePanel({
   id,
@@ -23,7 +22,6 @@ export function ClosePanel({
   body,
   action,
   secondary,
-  steps,
   embedded = false,
 }: {
   id: string;
@@ -31,7 +29,6 @@ export function ClosePanel({
   body: string;
   action: Action | ReactElement;
   secondary?: Action;
-  steps?: { label: string; items: string[] };
   embedded?: boolean;
 }) {
   const panel = (
@@ -59,13 +56,6 @@ export function ClosePanel({
           </Link>
         )}
       </div>
-      {steps && (
-        <ol className="ui-close-steps" aria-label={steps.label}>
-          {steps.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ol>
-      )}
     </div>
   );
   if (embedded)

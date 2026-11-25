@@ -109,12 +109,12 @@
   gap: 1.25rem;
   padding: var(--card-pad);
 }
-/* The cards sit on night green (actions.css .section-night .ui-card, night-800). Night text, not lime: the rating is
-   information, not an action (One Sign Rule, Lime Is Light Rule). */
+/* The rating is information, not an action, so it takes the text colour, never green or lime (One Sign Rule, Lime Is
+   Light Rule). Light grounds first (the home figures band); night green below (the about proof). */
 .home-review-stars {
   display: flex;
   gap: 0.125rem;
-  color: var(--color-night-text);
+  color: var(--color-ink);
 }
 .home-review-card blockquote {
   flex: 1;
@@ -122,7 +122,7 @@
   font-weight: 500;
   line-height: 1.55;
   letter-spacing: -0.005em;
-  color: var(--color-night-text);
+  color: var(--color-ink);
 }
 .home-review-card figcaption {
   display: flex;
@@ -137,9 +137,9 @@
   height: 2.75rem;
   border-radius: var(--radius-pill);
   object-fit: cover;
-  background: var(--color-night-700);
-  border: 1px solid var(--color-night-line);
-  color: var(--color-night-text);
+  background: var(--color-paper-2);
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
   font-size: var(--text-small);
   font-weight: var(--font-weight-card);
 }
@@ -149,12 +149,23 @@
 }
 .home-review-name {
   font-weight: var(--font-weight-card);
-  color: var(--color-night-text);
+  color: var(--color-ink);
   line-height: 1.35;
 }
-/* Night-muted on night-800: 8.1:1. */
 .home-review-place {
   font-size: var(--text-small);
+  color: var(--color-ink-600);
+}
+/* On night green the cards are night-800 (actions.css .section-night .ui-card); night-muted on it measures 8.1:1. */
+.section-night :is(.home-review-stars, .home-review-card blockquote, .home-review-name) {
+  color: var(--color-night-text);
+}
+.section-night .home-review-avatar {
+  background: var(--color-night-700);
+  border-color: var(--color-night-line);
+  color: var(--color-night-text);
+}
+.section-night .home-review-place {
   color: var(--color-night-muted);
 }
 

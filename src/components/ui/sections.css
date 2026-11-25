@@ -551,37 +551,6 @@ main:has(> .page-hero-split) {
   gap: 1rem 2rem;
   margin-block-start: 2.5rem;
 }
-/* The journey as one quiet line of steps under the actions (home page): short hairlines part the steps. */
-.ui-close-steps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem 0;
-  margin-block-start: 3.5rem;
-  font-size: var(--text-small);
-  color: var(--color-night-muted);
-}
-.ui-close-steps li {
-  display: flex;
-  align-items: center;
-}
-.ui-close-steps li + li::before {
-  content: "";
-  inline-size: 1.75rem;
-  block-size: 1px;
-  margin-inline: 0.875rem;
-  background: var(--color-night-line);
-}
-@media (max-width: 639px) {
-  .ui-close-steps {
-    margin-block-start: 2.5rem;
-    font-size: var(--text-caption);
-  }
-  .ui-close-steps li + li::before {
-    inline-size: 0.875rem;
-    margin-inline: 0.5rem;
-  }
-}
 /* The close as the last block of the questions screen (ClosePanel embedded; audit T-01). Inside another section
    it cannot span the page, so there it keeps the mint panel beside its action. */
 .ui-close-embedded .ui-close-panel {

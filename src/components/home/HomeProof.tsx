@@ -1,9 +1,8 @@
 import { Fragment } from "react";
 import { getDictionary } from "@/i18n/dictionaries";
-import { COMPANY_FIGURES, CUSTOMER_REVIEWS, LIVE_AIMS } from "@/lib/site";
+import { COMPANY_FIGURES } from "@/lib/site";
 import { CountUpFigure } from "./CountUpFigure";
-import { ExternalLink } from "./ExternalLink";
-import { ReviewCard } from "./ReviewCard";
+import { HomeReviews } from "./HomeReviews";
 import { Section } from "@/components/ui/Section";
 
 const POINTS = ["showroom", "team", "places"] as const;
@@ -17,7 +16,7 @@ const POINTS = ["showroom", "team", "places"] as const;
  */
 export async function HomeProof() {
   const t = await getDictionary();
-  const { proof, reviews } = t.home;
+  const { proof } = t.home;
   return (
     <Section ground="night" labelledBy="proof-title" className="home-proof-band">
       <h2 id="proof-title" className="home-proof-statement" data-count-group>
@@ -40,24 +39,7 @@ export async function HomeProof() {
           </li>
         ))}
       </ul>
-      {/* Harden: the excerpts are AIMS's published reviews; with none on file the block is left out, not shown empty. */}
-      {CUSTOMER_REVIEWS.length > 0 && (
-        <div className="home-proof-reviews">
-          <div className="section-heading">
-            <h3 className="home-subtitle">{proof.reviews}</h3>
-            <ExternalLink href={LIVE_AIMS.home} label={t.common.externalSite} className="home-night-link">
-              {reviews.read}
-            </ExternalLink>
-          </div>
-          <ul className="home-review-grid">
-            {CUSTOMER_REVIEWS.map((review) => (
-              <li key={review.name}>
-                <ReviewCard review={review} ratingLabel={reviews.rating} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <HomeReviews tone="night" />
     </Section>
   );
 }
