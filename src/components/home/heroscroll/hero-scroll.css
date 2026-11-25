@@ -3,7 +3,7 @@
 .hero-scroll {
   --p: 0;
   position: relative;
-  height: 280svh;
+  height: 860svh;
   margin-block-start: calc(var(--header-height, 4.5rem) * -1);
   background: var(--color-night-900);
 }
@@ -17,6 +17,11 @@
   overflow: hidden;
   background:
     radial-gradient(55% 65% at 72% 48%, color-mix(in srgb, var(--color-green-700) 32%, transparent), transparent 70%),
+    var(--color-night-900);
+}
+:dir(rtl) .hero-scroll-stage {
+  background:
+    radial-gradient(55% 65% at 28% 48%, color-mix(in srgb, var(--color-green-700) 32%, transparent), transparent 70%),
     var(--color-night-900);
 }
 .hero-scroll-canvas {
@@ -101,7 +106,7 @@
 }
 @media (max-width: 1023px) {
   .hero-scroll {
-    height: 220svh;
+    height: 640svh;
   }
   .hero-scroll-copy {
     justify-content: flex-end;
@@ -117,5 +122,62 @@
   .hero-scroll-copy,
   .hero-scroll-steps li {
     transition: none;
+  }
+}
+
+/* The product families: one panel at a time beside the device its light has formed. */
+.hero-scroll-families {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  align-items: center;
+  pointer-events: none;
+}
+.hero-scroll-families article {
+  grid-area: 1 / 1;
+  max-inline-size: 30rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 500ms var(--ease-aims),
+    transform 500ms var(--ease-aims);
+}
+.hero-scroll-families article[data-on] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.hero-scroll-range {
+  color: var(--color-lime);
+  font-size: var(--text-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hero-scroll-family {
+  margin-block-start: 0.75rem;
+  color: var(--color-night-text);
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.4vw, 4rem);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.hero-scroll-summary {
+  margin-block-start: 1rem;
+  color: var(--color-night-muted);
+  font-size: var(--text-home-lead);
+}
+.hero-scroll-count {
+  margin-block: 0.5rem 1.5rem;
+  color: var(--color-night-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 1023px) {
+  .hero-scroll-families {
+    align-items: end;
+    padding-block-end: 2.5rem;
   }
 }

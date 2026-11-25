@@ -349,6 +349,9 @@
       "step1": "Recognised at the door",
       "step2": "Verified and logged to BioTime",
       "step3": "Supplied, installed and supported across the UAE",
+      "rangeLabel": "Product range",
+      "rangeModels": "{count} models",
+      "rangeLink": "See the range",
       "play": "Play animation",
       "verified": "Verified",
       "method": "Face"

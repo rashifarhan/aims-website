@@ -4,7 +4,10 @@ import { localePath } from "@/i18n/config";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { ArrowIcon, PinIcon } from "@/components/icons";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { HeroScroll } from "./heroscroll/HeroScroll";
+import { HeroScroll, type HeroFamily } from "./heroscroll/HeroScroll";
+import { FAMILIES } from "@/content/taxonomy";
+import { productsInFamily } from "@/content/catalogue";
+import { fmt } from "@/i18n/format";
 import { HeroTick } from "./HeroTick";
 
 /**
@@ -16,8 +19,31 @@ export async function Hero() {
   const t = await getDictionary();
   const h = t.home.hero;
   const locale = await getLocale();
+  // One photo of AIMS's own per family, whose outline the hero's light forms (heroscroll/productShapes.ts).
+  const photos: Record<string, string> = {
+    "time-attendance": "/images/home/speedface-cut.png",
+    "access-control": "/images/products/f18.webp",
+    "entrance-control": "/images/products/ts1000-pro-series.webp",
+    "door-locks": "/images/products/tl400.webp",
+    "door-hardware": "/images/products/al-280d-led-electric-magnetic-door-lock-model.webp",
+    pos: "/images/products/zkaio1000.webp",
+  };
+  const families: HeroFamily[] = FAMILIES.map((f) => ({
+    slug: f.slug,
+    name: t.families[f.slug].name,
+    summary: t.families[f.slug].summary,
+    count: fmt(h.rangeModels, { count: productsInFamily(f.slug).length }),
+    href: localePath(locale, `/products/${f.slug}`),
+    image: photos[f.slug] ?? "/images/home/speedface-cut.png",
+  }));
   return (
-    <HeroScroll label={h.scene} steps={[h.step1, h.step2, h.step3]}>
+    <HeroScroll
+      label={h.scene}
+      steps={[h.step1, h.step2, h.step3]}
+      families={families}
+      rangeLabel={h.rangeLabel}
+      linkLabel={h.rangeLink}
+    >
       <div className="home-hero-copy">
         <p className="home-eyebrow">
           <span aria-hidden="true">
