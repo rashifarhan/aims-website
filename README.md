@@ -547,6 +547,50 @@ signature text link, `JourneySteps`, the night `ReachBand` and the existing card
   needed a new pattern.
 - **Not returning:** buyer routes, the door teaser and the FAQ.
 
+### Home journey timeline (client request, 25 Nov 2026)
+
+The client found the home "How AIMS works" section too compact and asked for a richer process component, inspired by
+two 21st.dev components: "Scroll animated timeline" by ibrandify and "Vertical How It Works Timeline" by ln-dev7. Only
+the ideas were taken (a rail that fills with the scroll, step cards on dashed or solid rails); no code was copied. The
+client then approved GSAP for it the same day (CLAUDE.md §3).
+
+- **Place and ground unchanged.** `HomeJourney` stays the Services preview (`#journey`), on paper between the two night
+  bands, with "See services" as the end link. It is split into `HomeJourney`, `JourneyCard`, `JourneyCounter` (server)
+  and one client leaf, `JourneyMotion`, which lazy-loads `JourneyTimeline` and `journeyMotion.ts` after hydration.
+  The shared `JourneySteps` is untouched.
+- **Layout.** From 1024px the heading, lead, end link and a large Plex Mono counter ("01 / 05") take the start five
+  of twelve columns; five step cards stand on a rail in the end seven. Below, one column with the rail on the start
+  edge; the counter is hidden. Logical properties throughout, so Arabic mirrors.
+- **Cards** are the one card (white, radius lg, plinth shadow): the step's numeral in mono, its existing icon, a
+  display-face h3, the existing body, a "Who" tag, a "What's included" list of two points and, on steps one and five,
+  a link (Request a quote → /quote, Read the warranty policy → /support). Nodes are the night disc with the lime tick.
+- **Copy, only AIMS's own** (CLAUDE.md §1): owners and step one's first point from `services.process`; the quotation
+  line from services step two; step two's points from the access control and time attendance plans; the export line
+  and warranty sentence from `services.cover`; installation and setup merged from the two solutions' steps 2–4; the
+  model count from the catalogue (`home.families.heading`, as the families header reads it). It says "models", not
+  "ZKTeco models", because the catalogue also holds Alpha hardware. New keys are under `home.journey.*` in both
+  languages; the Arabic reuses the source strings where they exist, and the rest is a draft for AIMS's reviewer.
+- **Motion (GSAP).** The server renders the final frame (rail full, every node ticked, every card whole), which is
+  what shows without JS and under reduced motion. From 1024px on a screen at least 640px tall, ScrollTrigger pins the
+  section's content below the header and scrubs one timeline over 2.6 viewports: the list slides up a step at a time,
+  the green-700 rail fills over its green-100 track (scaleY), each card rises from rest (40% opacity, 24px low) to
+  active (whole, lifted to the plinth's second shadow through an opacity layer), each node's numeral gives way to a
+  drawn lime tick (DrawSVG), the counter rolls its digits to the step, and the last node sends out one lime ring, the
+  hero's verified tick at the journey's end. The pin never traps the scroll; keyboard focus on a card's link scrolls
+  to the point where that card is active. Below 1024px: no pin, each card rises in once and the rail fills down the
+  start edge with the scroll. SplitText (masked lines) replaces SplitWords on the heading, and the section opts out
+  of the CSS scroll reveal (`Section moment`), so two systems never run on one element.
+- **Dependencies: `gsap` and `@gsap/react`**, approved by the client for signature motion (free for commercial use,
+  plugins included); loaded only in the journey's lazy chunk, about 50 KB gzipped after hydration. Home transfer at
+  1440 measured 816 KB, at 390 577 KB; LCP unaffected (the hero image).
+- **Tests.** `home.spec.ts` checks five cards with a Who tag and a two-to-three-point list each, the two links, the
+  catalogue count and the aria-hidden counter, then the motion: at rest under reduced motion (no pin, rail full, all
+  ticked), pinned and scrubbed on a desktop (rail part-filled mid-way, all whole at the end, focus brings the last
+  link into view) and unpinned on a phone. GSAP tweens are not CSS animations, so the smoke test asks them to rest
+  before axe (`html[data-motion-rest]` and the `aims:motion-rest` event revert them to the server-rendered frame).
+- **Open.** Step one's second point repeats its body sentence in other words, as the brief mapped it; AIMS may prefer
+  one of the two.
+
 ## Content import
 
 ```bash

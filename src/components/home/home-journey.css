@@ -308,8 +308,10 @@
     block-size: calc(100svh - var(--home-header-block));
     padding-block: var(--section-space);
   }
+  /* One row as tall as the screen: the list's own height must not grow it (minmax(0, 1fr)), so the window clips. */
   .home-journey[data-motion="pinned"] .hj-grid {
     block-size: 100%;
+    grid-template-rows: minmax(0, 1fr);
   }
   /* The counter stands at the foot of the start column, level with the window's foot. */
   .home-journey[data-motion="pinned"] .hj-head {
