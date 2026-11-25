@@ -11,7 +11,7 @@ import { SplitText } from "gsap/SplitText";
  */
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger, SplitText);
 
-export { gsap, useGSAP, SplitText };
+export { gsap, useGSAP, ScrollTrigger, SplitText };
 
 /** Set on <html> (or sent as an event) to put every GSAP sequence at its final, static frame: the e2e axe audit reads
  * resting text this way, as it cancels the CSS scroll reveals (tests/e2e/smoke.spec.ts). */

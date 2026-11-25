@@ -40,7 +40,6 @@ export async function HomeVisit() {
         </Link>
       }
       map={<ReachMap labels={t.home.reach} />}
-      trigger="map"
     >
       <div className="home-visit">
         <div className="home-visit-address">

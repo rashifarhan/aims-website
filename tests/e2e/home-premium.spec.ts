@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { heroStill, recordHeroFrame } from "./hero";
+import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /*
  * Homepage motion (taste motion.md; CLAUDE.md §3 as updated by the client, and client decisions 4 and 7, 24 Nov
@@ -41,7 +42,7 @@ test("reduced motion: everything rests at its final state and nothing moves", as
   await page.evaluate(() => scrollTo(0, 0));
   await expect(page.locator(".home-family-grid")).toHaveCSS("opacity", "1");
   await expect(page.locator(".split-word > span").first()).toHaveCSS("transform", "none");
-  await expect(page.locator(".reach-route").first()).toHaveCSS("stroke-dashoffset", "0px");
+  await expectReachResting(page.locator("#showrooms .ui-reach-map"));
   expect(await runningOutsideHero(page)).toBe(0);
 });
 
@@ -50,18 +51,10 @@ test("the reach map draws its routes once in view and then stands still", async 
   const map = page.locator("#showrooms .ui-reach-map");
   const routes = map.locator(".reach-route");
   // Off screen the routes wait undrawn, so the draw is never spent where nobody sees it.
-  await expect(page.locator("html")).toHaveAttribute("data-effects", "on");
-  await expect(map).not.toHaveAttribute("data-played", "true");
-  await expect(routes.first()).toHaveCSS("stroke-dashoffset", "1px");
+  await expectReachWaiting(map);
   await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expect(map).toHaveAttribute("data-played", "true");
   await expect(routes).toHaveCount(6);
-  await expect(routes.last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
-  await expect
-    .poll(() =>
-      map.evaluate((el) => el.getAnimations({ subtree: true }).filter((a) => a.playState === "running").length),
-    )
-    .toBe(0);
+  await expectReachFinished(map);
 });
 
 test("the verified frame locks on once, in order, then stands still", async ({ page }) => {

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: import("@playwright/test").Page) =>
@@ -66,19 +67,16 @@ test("channel buttons share the one button: WhatsApp in its own colour, Call as 
 test("SIGNAL: the reach band draws its routes once when it comes into view", async ({ page }) => {
   await page.goto("/contact");
   const band = page.getByRole("region", { name: "Where AIMS delivers" });
-  await expect(band).toHaveAttribute("data-moment");
+  const map = band.locator(".ui-reach-map");
   await expect(band.getByRole("img", { name: /^Map: AIMS offices in Dubai and Abu Dhabi/ })).toBeAttached();
-  await expect(band).not.toHaveAttribute("data-played");
+  await expectReachWaiting(map);
   await band.scrollIntoViewIfNeeded();
-  await expect(band).toHaveAttribute("data-played", "true");
-  await expect(band.locator(".reach-route").last()).toHaveCSS("stroke-dashoffset", "0px", { timeout: 4000 });
+  await expectReachFinished(map);
   await axeClean(page);
 });
 
 test("SIGNAL under reduced motion: the map rests finished, nothing hidden", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/contact");
-  await expect(page.locator("html")).not.toHaveAttribute("data-effects", "on");
-  for (const route of await page.locator(".ui-reach .reach-route").all())
-    await expect(route).toHaveCSS("stroke-dashoffset", "0px");
+  await expectReachResting(page.locator(".ui-reach-map"));
 });

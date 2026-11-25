@@ -11,7 +11,6 @@ import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import "@/components/home/sections.css";
 import "@/components/signature/reach.css";
 import "@/components/company/company.css";
@@ -66,7 +65,6 @@ export default async function About() {
         action={{ href: href("/quote"), label: c.closeAction }}
         secondary={{ href: href("/contact"), label: c.closeSecondary }}
       />
-      <MomentTrigger />
     </main>
   );
 }
