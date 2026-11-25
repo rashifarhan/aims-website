@@ -33,8 +33,9 @@ export function HeroTimeline({ paused, onMotion }: Props) {
     };
     if (restRequested()) return rest();
     const mm = gsap.matchMedia();
-    mm.add({ motion: "(prefers-reduced-motion: no-preference)" }, (context) => {
-      if (!context.conditions?.motion) return rest();
+    // gsap.matchMedia runs a handler only while its query matches, so reduced motion has its own: the verified frame.
+    mm.add("(prefers-reduced-motion: reduce)", rest);
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = heroTimeline(parts);
       // Same frame as the timeline's first: the pending CSS lets go as GSAP's inline styles take over.
       art.dataset.state = "animated";

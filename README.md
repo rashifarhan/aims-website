@@ -591,6 +591,46 @@ client then approved GSAP for it the same day (CLAUDE.md §3).
 - **Open.** Step one's second point repeats its body sentence in other words, as the brief mapped it; AIMS may prefer
   one of the two.
 
+### Hero choreography with GSAP (client request, 25 Nov 2026)
+
+The client asked for a more premium hero entrance in GSAP, staying B2B and on AIMS's domain: a ZKTeco terminal
+verifying a person at a door. It replaces the verified frame's CSS keyframes, the border beam's CSS (`ui/beam.css`,
+used only here) and the screen's WAAPI loop (`animateHeroScreen.ts`); decision 4's sequence and the approved screen
+prototype are kept, now on one clock.
+
+- **Loading.** `HeroAnimation` (the client leaf with the pause button) lazy-loads `HeroTimeline` after hydration with
+  `next/dynamic`, exactly as `JourneyMotion` loads the journey; both chunks import GSAP from one entry,
+  `motion/gsap.ts`, which registers the plugins once and holds the shared rest switch (`aims:motion-rest`).
+- **One master timeline** (`heroMotion.ts`), from GSAP's first frame: the four brackets close in from 34% wider (expo
+  out, 1.1s, 70ms apart); at 0.55s one lime scan line sweeps down (1.2s); at 0.6s the screen scans ("Look at the
+  camera" → "Verifying…"), at 2.1s it turns to Welcome with its tick drawing (DrawSVG); at 2.25s the chip springs in
+  (back out) and its tick draws; at 2.4s the beam runs round twice (2s) and fades. The frame stands by about 4.7s.
+  After the prototype's 2.35s hold the screen loop starts at 4.9s: a child timeline with `repeat: -1` and the
+  prototype's beats (450ms fades, scan 1.5s before verified, 5.8s a cycle). It pauses off-screen
+  (IntersectionObserver), on `document.hidden` and by the keyboard-only button (WCAG 2.2.2).
+- **Scroll exit.** From 1024px a scrubbed ScrollTrigger timeline opens the brackets 14% outward, eases the terminal
+  to 0.96 and fades the chip as the hero leaves. Transform and opacity only; no text moves. Below 1024px there is no
+  exit (it only shrank the device on a phone). Entrance and exit drive different elements (the bracket svg and its
+  wrapper, the chip and its anchor), so two tweens never fight over one property.
+- **RTL.** Each bracket is the top-left corner mirrored into place by CSS, so "outward" is (-x, -y) inside every
+  corner; the Arabic mirrors swap and the motion follows with no per-language code.
+- **No flash, LCP untouched.** The device photo (the LCP element) is painted whole at first render: its old fade-in
+  is gone and it is never hidden. The server renders the verified frame, which no JS (`scripting: none`) and reduced
+  motion keep; with scripts and motion the stage paints a pending frame (screen at idle, brackets and chip waiting)
+  that equals the timeline's first, and `data-state` passes from `pending` to `animated` in the same frame. If the
+  chunk fails to load, the verified frame is shown.
+- **What stayed CSS: the text.** The headline's masked line rise, the badge, lead and trust fade and the model label
+  stay CSS, as before. GSAP arrives after hydration, so a SplitText reveal would have to hide the text first (a
+  flash, or a later LCP on phones, where the headline can be the largest element). The two lines stay unbroken from
+  1024px (tested).
+- **Reduced motion and rest.** `gsap.matchMedia` gives reduced motion its own handler: no timeline, no scrub, the
+  verified frame. The e2e rest switch reverts everything to that frame before axe.
+- **Tests.** GSAP writes inline styles, so the hero specs read computed styles and the art's `data-state` and
+  `data-playing` (`tests/e2e/hero.ts`): rest under reduced motion (no inline styles, nothing moves, no scrub), the
+  entrance's order and outward start and settling within 5s (recorded with a MutationObserver from the first paint),
+  the loop's return to idle and next scan, pause off-screen and by keyboard, the drawn tick, and the exit (desktop:
+  scale between 0.96 and 1, chip fading, brackets outward, headline scrolling exactly with the page; phone: none).
+
 ## Content import
 
 ```bash
