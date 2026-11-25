@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { lang } from "next/root-params";
 import { archivo, inter, plexArabic, plexMono } from "../fonts";
@@ -8,6 +9,7 @@ import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import { RidgeSymbol } from "@/components/ui/RidgeSymbol";
+import { HeadingReveal } from "@/components/motion/HeadingReveal";
 import "../globals.css";
 import "@/components/ui/actions.css";
 import "@/components/ui/sections.css";
@@ -60,6 +62,10 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           {children}
           <Footer />
         </ContactGuardProvider>
+        {/* One leaf for every section title's reveal; it reads the path, so it waits behind its own boundary. */}
+        <Suspense fallback={null}>
+          <HeadingReveal />
+        </Suspense>
       </body>
     </html>
   );

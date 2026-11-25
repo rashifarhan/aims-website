@@ -646,6 +646,41 @@ prototype are kept, now on one clock.
   `refreshPriority: -1` measures the start after the home journey's pin.
 - **Tests.** `tests/e2e/reach.ts` shared helpers: waiting, finished and standing still, resting without inline styles.
 
+### Section title reveal with GSAP (client approval, 25 Nov 2026)
+
+Section titles (every plain-text `SectionHeader` title and the closing panel's) rise out of masked lines as they
+enter the viewport, once, through SplitText and ScrollTrigger. This replaces the CSS scroll-timeline word reveal
+(`SplitWords` and its keyframes are gone), which Firefox and older Safari never played. The section blocks' 24px rise
+stays CSS (`ui/reveal.css`): it already plays where supported and rests whole elsewhere, and moving it would put a
+second system on elements GSAP does not otherwise touch.
+
+- **Timing.** Starts when the title's top reaches 85% of the viewport. English splits into lines and words; the words
+  rise from 110% below their line's mask with an opacity fade, 0.8s, power3.out, 40ms apart. Arabic splits into lines
+  only; each line rises from 130%, 0.9s, 100ms apart. Once played, the split reverts, so the resting title is the
+  server's plain markup (no aria-label, no clip, nothing to re-split).
+- **Arabic.** A line split keeps each word one text run, so letters join; a word split would also make each word an
+  inline-block, which bidi treats as a neutral, reversing runs of Latin names (for example "AIMS") inside RTL text.
+  Checked on `/ar` at 1440 and 390, mid-rise and at rest.
+- **No hidden first screen, no shift.** Only titles that start below the first screen at load are split, so no h1,
+  no LCP element and nothing visible is ever hidden. The line masks clip with a `clip-path` that reaches past the
+  line box (not padding and negative margins, which collapse between lines), so title heights are identical split and
+  unsplit (measured on 14 routes at both widths); `autoSplit` re-measures lines after fonts load and on resize.
+- **Triggers and the journey pin.** One trigger per title, all created by one leaf. They take `refreshPriority: -1`
+  and a page-height `ResizeObserver` re-measures triggers when the page grows, because the home journey's pin
+  spacer lazy-loads on its own clock: without this the titles below it fired 2.6 screens early, unseen.
+- **Accessibility.** SplitText `aria: "auto"` puts the text on the heading as its `aria-label` and hides the parts
+  while split; axe is 0 with titles split and at rest. Reduced motion never loads the chunk; the e2e rest switch
+  (`aims:motion-rest`) reverts every split.
+- **Deliberate deviation: the loader sits in the root layout.** CLAUDE.md §3 says GSAP is never loaded "in a layout".
+  `HeadingReveal` is a client leaf rendered once from `app/[lang]/layout.tsx` (inside its own `Suspense`), because
+  section titles are on almost every page and the brief asks for one page-level driver rather than a component per
+  heading. It keeps the rule's intent: the leaf itself is tiny and imports no GSAP; after hydration (and after each
+  client navigation) it dynamic-imports `motion/headingReveal.ts`, and through it GSAP, only when the page has a
+  marked title and the visitor does not prefer reduced motion. GSAP therefore never reaches the layout's bundle or the
+  first paint. `motion/gsap.ts` is reused unchanged (SplitText and ScrollTrigger were already registered there).
+- **Not tested here:** Firefox (no Firefox build in this environment). The reveal uses nothing browser-specific
+  (transforms, opacity, clip-path and ScrollTrigger), so it should play there; worth one manual look.
+
 ## Content import
 
 ```bash

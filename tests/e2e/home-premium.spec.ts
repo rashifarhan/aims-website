@@ -5,7 +5,8 @@ import { expectReachFinished, expectReachResting, expectReachWaiting } from "./r
 /*
  * Homepage motion (taste motion.md; CLAUDE.md §3 as updated by the client, and client decisions 4 and 7, 24 Nov
  * 2026): the hero enters once (the verified frame locks on, one scan, the chip springs in, the beam runs; one GSAP
- * timeline since 25 Nov 2026) and its screen loops with a pause button; section headings and blocks reveal with native scroll; under reduced motion everything rests whole.
+ * timeline since 25 Nov 2026) and its screen loops with a pause button; section titles rise once through GSAP SplitText
+ * and blocks reveal with native scroll; under reduced motion everything rests whole.
  * The door teaser left the home page (client decision 6; covered on the access control spec). The reach map came back
  * with the locations preview (client decision, 25 Nov 2026) as the page's dealt moment: it draws once in view.
  */
@@ -41,7 +42,10 @@ test("reduced motion: everything rests at its final state and nothing moves", as
   expect(await heroStill(page, 600)).toBe(true);
   await page.evaluate(() => scrollTo(0, 0));
   await expect(page.locator(".home-family-grid")).toHaveCSS("opacity", "1");
-  await expect(page.locator(".split-word > span").first()).toHaveCSS("transform", "none");
+  // No title is split or hidden: the GSAP heading reveal never loads under reduced motion.
+  await page.locator("#closing-title").scrollIntoViewIfNeeded();
+  await expect(page.locator(".heading-line")).toHaveCount(0);
+  await expect(page.locator("#families-title")).not.toHaveAttribute("aria-label");
   await expectReachResting(page.locator("#showrooms .ui-reach-map"));
   expect(await runningOutsideHero(page)).toBe(0);
 });
@@ -121,16 +125,27 @@ test("the hero exits with the scroll from 1024px, transform and opacity only, no
   await expect.poll(scale).toBe(1);
 });
 
-test("section headings and blocks reveal with native scroll", async ({ page }) => {
+test("section titles rise out of masked lines once, and blocks reveal with native scroll", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("[data-scene]")).toHaveCount(0);
   const card = page.locator(".home-family-grid");
-  const word = page.locator("#families-title .split-word > span").first();
-  // Below the fold the block waits; scrolled into view it stands whole, driven by the scroll position alone.
+  const title = page.locator("#families-title");
+  // Below the fold the title waits split into masked lines, its words hidden, its text kept as its accessible name.
+  await expect(title.locator(".heading-line-mask").first()).toBeAttached();
+  const text = (await title.getAttribute("aria-label")) ?? "";
+  expect(text.length).toBeGreaterThan(0);
+  await expect(title).toHaveAccessibleName(text);
+  await expect(title.locator(".heading-line div").first()).toHaveCSS("opacity", "0");
+  // No h1 and nothing on the first screen is ever split (LCP and first paint untouched).
+  await expect(page.locator("h1 .heading-line, .home-hero .heading-line")).toHaveCount(0);
+  // The block waits for its CSS view timeline.
   await expect(card).not.toHaveCSS("opacity", "1");
   await card.evaluate((el) => el.scrollIntoView({ block: "center" }));
   await expect(card).toHaveCSS("opacity", "1");
-  await expect(word).toHaveCSS("transform", /^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
+  // Played once, the split reverts: the resting title is the server's plain text again.
+  await expect(title.locator(".heading-line")).toHaveCount(0, { timeout: 4000 });
+  await expect(title).toHaveText(text);
+  await expect(title).not.toHaveAttribute("aria-label");
   const timelines = await page.evaluate(() =>
     document
       .getAnimations()
@@ -139,6 +154,29 @@ test("section headings and blocks reveal with native scroll", async ({ page }) =
   );
   expect(timelines.length).toBeGreaterThan(0);
   expect(new Set(timelines)).toEqual(new Set(["ViewTimeline"]));
+});
+
+test("Arabic titles rise as whole lines, so no word is broken apart", async ({ page }) => {
+  await page.goto("/ar");
+  const title = page.locator("#families-title");
+  await expect(title.locator(".heading-line").first()).toBeAttached();
+  // Lines only: each line keeps its words as one text run (letters join, Latin names keep their bidi order).
+  await expect(title.locator(".heading-line div")).toHaveCount(0);
+  await expect(title.locator(".heading-line").first()).toHaveCSS("opacity", "0");
+  await title.evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(title.locator(".heading-line")).toHaveCount(0, { timeout: 4000 });
+});
+
+test("titles below the home journey's pin rise when they reach the viewport, not screens early", async ({ page }) => {
+  await page.goto("/");
+  const title = page.locator("#closing-title");
+  await expect(title.locator(".heading-line-mask").first()).toBeAttached();
+  // Two screens above the title it still waits: its trigger counts the journey's pin spacer.
+  await title.evaluate((el) => scrollTo(0, el.getBoundingClientRect().top + scrollY - innerHeight * 2));
+  await page.waitForTimeout(600);
+  await expect(title.locator(".heading-line div").first()).toHaveCSS("opacity", "0");
+  await title.evaluate((el) => el.scrollIntoView({ block: "center" }));
+  await expect(title.locator(".heading-line")).toHaveCount(0, { timeout: 4000 });
 });
 
 test("the hero animation has a pause button that stops it", async ({ page }) => {
