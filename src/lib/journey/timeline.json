@@ -13,10 +13,6 @@
       "frame": 569
     },
     {
-      "key": "Face matched",
-      "frame": 969
-    },
-    {
       "key": "Clocked in",
       "frame": 1119
     }
@@ -56,18 +52,8 @@
       ]
     },
     {
-      "key": "office",
-      "from": 792,
-      "to": 1079,
-      "topics": [
-        "Door Access Control Systems UAE",
-        "Access Control Systems",
-        "ZKTeco Biometric Devices"
-      ]
-    },
-    {
       "key": "clockin",
-      "from": 1080,
+      "from": 792,
       "to": 1180,
       "topics": [
         "Face recognition Attendance",
@@ -99,14 +85,6 @@
       "from": 520,
       "to": 620,
       "slug": "zkteco-mars-b1200-double-swing-barrier-gate",
-      "kind": "product"
-    },
-    {
-      "key": "ProFace X",
-      "chapter": "office",
-      "from": 930,
-      "to": 1030,
-      "slug": "proface-x",
       "kind": "product"
     },
     {

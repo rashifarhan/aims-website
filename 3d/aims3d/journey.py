@@ -24,8 +24,7 @@ CHAPTERS = {  # name: (first frame, last frame)
     "hero": (1, 215),
     "parking": (216, 450),
     "lobby": (451, 791),
-    "office": (792, 1079),
-    "clockin": (1080, 1180),
+    "clockin": (792, 1180),  # up to the office floor and straight to the attendance terminal
     "software": (1181, END),
 }
 
@@ -35,19 +34,18 @@ TOPICS = {
     "hero": ("ZKTeco Distributor in UAE", "ZKTeco Distributor in Dubai", "ZKTeco Distributor in Abu Dhabi"),
     "parking": ("Parking Barrier Suppliers UAE",),
     "lobby": ("Metal Detector Machines UAE", "Security Gate Suppliers in UAE", "Turnstile Suppliers in Dubai"),
-    "office": ("Door Access Control Systems UAE", "Access Control Systems", "ZKTeco Biometric Devices"),
     "clockin": ("Face recognition Attendance", "Time Attendance Machines"),
     "software": ("BioTime Software and integration Solutions", "ZKTeco Attendance Software UAE"),
 }
 
 # One product per category (user, 26 Nov: "from each category only one product is enough"). Each beat: its
 # frames, where the product stands (focus, accent light and the web's tracked line aim there), its catalogue slug.
-# Software is its own category (user, 26 Nov): BioTime 9.5 on the attendance screen. The UHF10, ZK-D3180S and
-# ALF-M560 stay in the building, unfeatured.
+# Software is its own category (user, 26 Nov): BioTime 9.5 on the attendance screen. Four stops in all (user,
+# 26 Nov: "4 products, the 4th is software"), so door access left the film's stops: the ProFace X still opens
+# the office door as the camera walks through, and stays in the building with the UHF10, ZK-D3180S and ALF-M560.
 PRODUCTS = {
     "BGM-1030": {"frames": (216, 336), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
     "MARS-B1200": {"frames": (520, 620), "at": (0.0, 8.0, 0.9), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
-    "ProFace X": {"frames": (930, 1030), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
     "SpeedFace V5L": {"frames": (1080, 1180), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
     "BioTime 9.5": {"frames": (1200, 1300), "at": (-0.6, 5.55, Z1 + 1.36), "slug": "biotime-9-5", "light": None},
 }
@@ -85,9 +83,7 @@ CAMERA = [
     (830, (-1.4, 17.2, Z1 + 1.6), (-1.4, 14.0, Z1 + 1.5), 22, -0.05),
     (860, (-1.4, 15.4, Z1 + 1.6), (-1.0, 12.0, Z1 + 1.5), 24, -0.05),
     (900, (-0.3, 13.8, Z1 + 1.6), (0.2, 9.0, Z1 + 1.5), 24, -0.05),
-    (930, (0.45, 10.3, Z1 + 1.55), (1.05, 9.06, Z1 + 1.45), 40, 0.0),  # ProFace X on its panel
-    (955, (0.92, 9.66, Z1 + 1.47), (0.977, 9.06, Z1 + 1.45), 50, 0.0),  # push in: face-on; left third
-    (1000, (0.86, 9.7, Z1 + 1.47), (0.94, 9.06, Z1 + 1.45), 50, 0.0),
+    (970, (-0.15, 11.6, Z1 + 1.6), (0.1, 6.0, Z1 + 1.5), 25, -0.04),  # towards the door as the ProFace X opens it
     (1040, (0.0, 9.9, Z1 + 1.6), (0.0, 6.0, Z1 + 1.5), 26, -0.03),
     (1065, (0.05, 8.3, Z1 + 1.6), (0.8, 6.5, Z1 + 1.45), 26, 0.0),
     (1080, (1.75, 8.0, Z1 + 1.55), (1.9, 7.3, Z1 + 1.4), 32, 0.0),  # SpeedFace V5L on its stand
@@ -103,7 +99,7 @@ CAMERA = [
 CUT = 791  # the last ground-floor key; held constant so the camera jumps to 792 inside the closed lift
 
 # The "access granted" moments, each the frame a device finishes saying yes; the web pulses green on each.
-MOMENTS = {"Boom up": 306, "Gate open": 569, "Face matched": 969, "Clocked in": 1119}
+MOMENTS = {"Boom up": 306, "Gate open": 569, "Clocked in": 1119}
 LIFT = (760, 830)  # doors closing on the lobby to doors open on floor 11: the web counts the floors
 
 

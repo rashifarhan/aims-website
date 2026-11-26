@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "One building, every door",
     description:
-      "Walk through a building fitted by AIMS: parking barriers, security gates, door access and face recognition attendance.",
+      "Walk through a building fitted by AIMS: parking barriers, security gates, face recognition attendance and BioTime software.",
     alternates: alternates(await getLocale(), "/journey"),
   };
 }

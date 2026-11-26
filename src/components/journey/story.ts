@@ -21,18 +21,13 @@ export const CHAPTER_COPY: Record<string, ChapterCopy> = {
     title: "Lobby security",
     line: "Security gates, turnstiles and walk-through metal detectors, supplied and installed by AIMS.",
   },
-  office: {
-    number: "03",
-    title: "Door access",
-    line: "Face recognition terminals, locks and the door hardware around them: AIMS fits the whole door.",
-  },
   clockin: {
-    number: "04",
+    number: "03",
     title: "Attendance",
     line: "Face recognition attendance terminals, installed and set up by AIMS across the UAE.",
   },
   software: {
-    number: "05",
+    number: "04",
     title: "Software",
     line: "BioTime attendance software, set up and integrated by AIMS.",
   },
@@ -123,6 +118,7 @@ export const stopFrame = (key: string, from: number, to: number) =>
 
 /** Shown in "Your system" as also fitted in this building: in the film, but not one of its four stops. */
 export const ALSO_IN_BUILDING: { name: string; slug: string; kind: "product" | "software" }[] = [
+  { name: "ProFace X face recognition terminal", slug: "proface-x", kind: "product" },
   { name: "UHF10 long-range reader", slug: "uhf-10", kind: "product" },
   { name: "ZK-D3180S metal detector", slug: "zk-d3180s", kind: "product" },
   { name: "ALF-M560 electromagnetic lock", slug: "alf-m560-electromagnetic-locks", kind: "product" },
