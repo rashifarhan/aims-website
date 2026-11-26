@@ -37,13 +37,46 @@ def _linear_lights(name, xs, y0, y1, z, strength, colour=(1.0, 0.86, 0.7)):
 
 
 def _lift_portals(name, y, z0, xs=(-1.4, 1.4)):
-    """Brushed steel lift doors in a dark frame, closed, facing -Y."""
+    """Lift entrances facing -Y: a dark frame (two jambs and a head) around a 1.1 x 2.35 m opening, closed by
+    two brushed steel leaves that slide apart. Returns {lift index: (left leaf, right leaf)} for animation."""
     steel, frame = M.brushed_steel(f"{name} doors", axis="Z"), M.dark_metal(f"{name} frame")
+    arrow = M.led(f"{name} arrow", (1.0, 0.9, 0.8), 3.0)
+    leaves = {}
     for k, x in enumerate(xs):
-        box(f"{name} frame {k}", (1.5, 0.14, 2.6), (x, y - 0.07, z0 + 1.3), frame, 0.004)
         for side in (-1, 1):
-            box(f"{name} leaf {k}{side}", (0.55, 0.04, 2.35), (x + side * 0.277, y - 0.16, z0 + 1.175), steel, 0.002)
-        box(f"{name} indicator {k}", (0.18, 0.01, 0.05), (x, y - 0.145, z0 + 2.45), M.led(f"{name} arrow", (1.0, 0.9, 0.8), 3.0), 0)
+            box(f"{name} jamb {k}{side}", (0.2, 0.14, 2.6), (x + side * 0.65, y - 0.07, z0 + 1.3), frame, 0.004)
+        box(f"{name} head {k}", (1.5, 0.14, 0.25), (x, y - 0.07, z0 + 2.475), frame, 0.004)
+        leaves[k] = tuple(box(f"{name} leaf {k}{side}", (0.55, 0.04, 2.35), (x + side * 0.277, y - 0.16, z0 + 1.175), steel, 0.002)
+                          for side in (-1, 1))
+        box(f"{name} indicator {k}", (0.18, 0.01, 0.05), (x, y - 0.145, z0 + 2.45), arrow, 0)
+    return leaves
+
+
+def _cut_opening(targets, location, size):
+    """Cut a doorway through wall objects with a hidden Boolean cutter (it survives their Array modifiers)."""
+    cutter = box(f"Cutter {location}", size, location, None, 0)
+    cutter.hide_render, cutter.display_type = True, "WIRE"
+    for obj in targets:
+        mod = obj.modifiers.new("Opening", "BOOLEAN")
+        mod.operation, mod.object = "DIFFERENCE", cutter
+    return cutter
+
+
+def lift_car(name, x, y_front, z0):
+    """The car behind a lift door: steel walls, a stone floor, a lit ceiling. Only ever seen through its own
+    door, and as the room the camera rides between floors."""
+    steel, floor = M.brushed_steel(f"{name} walls", axis="Z"), M.plastic(f"{name} floor", (0.04, 0.04, 0.042), 0.4)
+    depth, half, h = 1.8, 0.95, 2.5
+    yc = y_front + depth / 2
+    box(f"{name} floor", (2 * half, depth, 0.05), (x, yc, z0 + 0.025), floor, 0)
+    box(f"{name} ceiling", (2 * half, depth, 0.05), (x, yc, z0 + h), M.plaster(f"{name} ceiling", (0.1, 0.1, 0.1)), 0)
+    box(f"{name} back", (2 * half, 0.04, h), (x, y_front + depth, z0 + h / 2), steel, 0)
+    for side in (-1, 1):
+        box(f"{name} side {side}", (0.04, depth, h), (x + side * half, yc, z0 + h / 2), steel, 0)
+    box(f"{name} light", (1.2, 1.0, 0.01), (x, yc, z0 + h - 0.03), M.led(f"{name} light", (1.0, 0.92, 0.82), 4.0), 0)
+    bpy.ops.object.light_add(type="AREA", location=(x, yc, z0 + h - 0.05))
+    lamp = bpy.context.object
+    lamp.name, lamp.data.energy, lamp.data.size = f"{name} lamp", 60, 1.0
 
 
 def ground_floor(opts):
@@ -64,13 +97,15 @@ def ground_floor(opts):
     # Sides and back of the lobby.
     box("Lobby left wall", (0.3, LOBBY_Y1, GROUND_H), (lx0 + 0.15, LOBBY_Y1 / 2, GROUND_H / 2), stone, 0)
     box("Lobby right wall", (0.2, LOBBY_Y1, GROUND_H), (lx1 + 0.1, LOBBY_Y1 / 2, GROUND_H / 2), M.plaster("Lobby wall"), 0)
-    box("Oak wall backing", (lx1 - lx0, 0.1, GROUND_H), (cx, LOBBY_Y1 + 0.05, GROUND_H / 2), M.plaster("Oak backing", (0.03, 0.028, 0.026)), 0)
+    backing = box("Oak wall backing", (lx1 - lx0, 0.1, GROUND_H), (cx, LOBBY_Y1 + 0.05, GROUND_H / 2), M.plaster("Oak backing", (0.03, 0.028, 0.026)), 0)
     slat = box("Oak slats", (0.045, 0.05, GROUND_H - 0.5), (lx0 + 0.35, LOBBY_Y1 - 0.03, (GROUND_H - 0.4) / 2 + 0.03), M.oak(), 0.004)
     arr = slat.modifiers.new("Array", "ARRAY")
     arr.use_relative_offset, arr.use_constant_offset = False, True
     arr.constant_offset_displace = (0.1, 0, 0)
     arr.count = int((lx1 - lx0 - 0.5) / 0.1)
     _lift_portals("Lobby lift", LOBBY_Y1 - 0.06, 0.0)
+    _cut_opening((backing, slat), (-1.4, LOBBY_Y1 + 0.05, 1.175), (1.1, 0.6, 2.35))
+    lift_car("Lobby lift car", -1.4, LOBBY_Y1 + 0.1, 0.0)
     # Screening first, then the gates, with glass balustrades closing the line either side.
     zk_d3180s("ZK-D3180S", (0, DETECTOR_Y, 0), zones_lit=int(opts.get("zones", "0")))
     mats = default_materials()
@@ -90,8 +125,8 @@ def ground_floor(opts):
     bpy.ops.object.light_add(type="AREA", location=(cx, LOBBY_Y1 - 0.12, GROUND_H - 0.45))
     graze = bpy.context.object
     graze.data.shape, graze.data.size, graze.data.size_y = "RECTANGLE", lx1 - lx0 - 0.6, 0.05
-    graze.data.energy, graze.data.color, graze.data.spread = 1200, (1.0, 0.72, 0.45), 30 * DEG
-    graze.rotation_euler = (-8 * DEG, 0, 0)
+    graze.data.energy, graze.data.color, graze.data.spread = 600, (1.0, 0.72, 0.45), 25 * DEG
+    graze.rotation_euler = (-14 * DEG, 0, 0)  # tipped into the wall so it rakes the slats, not the floor
 
 
 def car_park_portal(opts):
@@ -137,11 +172,14 @@ def office_floor(opts):
                              ("Office lining back", (X1 - X0, 0.05, ceil), (0, Y1 - 0.35, z0 + ceil / 2))):
         box(label, size, loc, wall, 0)
     # Lift lobby and corridor.
-    box("Lift wall", (8.0, 0.2, ceil), (0, 16.1, z0 + ceil / 2), wall, 0)
+    lift_wall = box("Lift wall", (8.0, 0.2, ceil), (0, 16.1, z0 + ceil / 2), wall, 0)
     _lift_portals("Office lift", 16.0, z0)
+    _cut_opening((lift_wall,), (-1.4, 16.1, z0 + 1.175), (1.1, 0.6, 2.35))
+    lift_car("Office lift car", -1.4, 16.2, z0)
+    # The corridor stops 1.4 m short of the lift wall, leaving a lift lobby the doors open into.
     for x in (-1.6, 1.6):
-        box(f"Corridor wall {x}", (0.2, 7.0, ceil), (x, 12.5, z0 + ceil / 2), wall, 0)
-    box("Corridor ceiling", (3.0, 7.0, 0.3), (0, 12.5, z0 + 2.6 + 0.15), M.plaster("Corridor ceiling", (0.72, 0.72, 0.7)), 0)
+        box(f"Corridor wall {x}", (0.2, 5.6, ceil), (x, 11.8, z0 + ceil / 2), wall, 0)
+    box("Corridor ceiling", (3.0, 5.6, 0.3), (0, 11.8, z0 + 2.6 + 0.15), M.plaster("Corridor ceiling", (0.72, 0.72, 0.7)), 0)
     down = M.led("Corridor downlight", (1.0, 0.86, 0.72), 30.0)
     for k in range(4):
         cylinder(f"Corridor downlight {k}", 0.05, 0.01, (0, 10.0 + k * 1.8, z0 + 2.595), down, vertices=24, bevel=0)

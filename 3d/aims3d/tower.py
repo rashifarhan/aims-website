@@ -70,7 +70,8 @@ def tower():
     box("Crown", (w + 0.6, d + 0.6, 2.4), (cx, cy, top + 1.2), M.dark_metal("Crown"), 0.01)
     # The ground floor behind and beside the rooms that are built: solid stone, so nothing shows through.
     stone = M.concrete("Podium stone", (0.42, 0.4, 0.37))
-    box("Podium back", (w, Y1 - 16.1, GROUND_H), (cx, (16.1 + Y1) / 2, GROUND_H / 2), stone, 0)
+    # Starts behind the lift cars (y 16.1-18), which sit in the gap between it and the lobby's oak wall.
+    box("Podium back", (w, Y1 - 18.2, GROUND_H), (cx, (18.2 + Y1) / 2, GROUND_H / 2), stone, 0)
     box("Podium right", (0.8, 16.1, GROUND_H), (X1 - 0.4, 8.05, GROUND_H / 2), stone, 0)
     box("Slab above lobby", (w + 0.2, d + 0.2, 0.4), (cx, cy, GROUND_H - 0.2), slab, 0.004)
 

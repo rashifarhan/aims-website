@@ -85,6 +85,21 @@ and the attendance screen), `finale` (the skyline from the office windows). Stat
 street-level HDRI puts its own buildings beside the tower at the wrong scale. Floors nobody enters, and the
 whole city around, wear one procedural lit-window facade (`materials.tower_facade`).
 
+## The journey (camera path and device motion)
+
+`--shot journey` adds the visitor's camera and every device's motion on one 60 s timeline (24 fps,
+`aims3d/journey.py`): hero push, glide to the driver's seat, the boom rising in 1.5 s, the sliding doors,
+the detector's zones lighting floor-up, Gate A's flaps, the lift (a hidden cut while its doors are shut),
+the corridor, the ProFace X match and the door swinging, the SpeedFace V5L clock-in, and out through the
+office glass over the city. `journey.CHAPTERS` gives each chapter's frame range for the scroll mapping.
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --frames 1,320,560,1030
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --video --engine eevee --res 960x600 --step 2
+```
+
+Output goes to `3d/renders/journey/`.
+
 ## Files
 
 - `aims3d/materials.py`: brushed steel, black glass, clear and window glass, LEDs, polished stone, plaster, oak,
@@ -99,6 +114,7 @@ whole city around, wear one procedural lit-window facade (`materials.tower_facad
 - `aims3d/render.py`: shared command line and Cycles settings
 - `aims3d/tower.py`: the tower, its street and forecourt, street lights, canopy, skyline and city blocks
 - `aims3d/spaces.py`: the rooms: lobby and car park portal (ground floor), corridor, door and clock-in (floor 11)
+- `aims3d/journey.py`: the camera path, device keyframes and chapter frame ranges
 - `aims3d/hdri.py`: finds an HDRI's sun and aims the sun lamp at it
 - `aims3d/finish.py`: the photographic finish (compositor: bloom, dispersion, vignette, grain)
 - `aims3d/speedgate.py`: ZKTeco MARS-B1200 (proportions estimated from AIMS's product photo)

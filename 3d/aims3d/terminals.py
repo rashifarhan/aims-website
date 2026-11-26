@@ -8,9 +8,19 @@ of the front follows AIMS's product photos (public/images/products/proface-x.web
 import os
 
 from . import materials as M
-from .build import cylinder, empty, panel, rounded_box
+from .build import box, cylinder, empty, panel, rounded_box
 
 TEXTURES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "textures")
+
+
+def _verified_frame(name, w, h, centre, parent):
+    """A thin green frame around the screen, off until the journey lights it on a successful match (its
+    material is named f"{name} verified" so the animation can find it)."""
+    x, y, z = centre
+    green = M.led(f"{name} verified", (0.12, 1.0, 0.3), 0.0)
+    t = 0.0025
+    for k, (cx, cz, sx, sz) in enumerate(((x, z + h / 2, w, t), (x, z - h / 2, w, t), (x - w / 2, z, t, h), (x + w / 2, z, t, h))):
+        box(f"{name} verified {k}", (sx, 0.0006, sz), (cx, y - 0.0003, cz), green, 0, parent=parent)
 
 
 def _lens(name, location, parent, mats):
@@ -31,6 +41,7 @@ def proface_x(name="ProFace X", location=(0, 0, 0), mats=None, screen_image="pro
     # 8-inch 16:10 screen, 108 x 172 mm, set low in the glass as on the photo.
     scr = M.screen(f"{name} screen", os.path.join(TEXTURES, screen_image), strength=1.2)
     panel(f"{name} display", 0.108, 0.172, (0, front - 0.0002, -h / 2 + 0.015 + 0.086), scr, parent=root)
+    _verified_frame(name, 0.104, 0.168, (0, front - 0.0003, -h / 2 + 0.015 + 0.086), root)
     ir = M.frosted(f"{name} IR window", (0.92, 0.93, 0.94))
     for side in (-1, 1):
         rounded_box(f"{name} IR {side}", (0.021, 0.0012, 0.021), (side * 0.046, front - 0.0004, h / 2 - 0.022), 0.003, ir, 0.0004, parent=root)
@@ -54,6 +65,7 @@ def speedface_v5l(name="SpeedFace V5L", location=(0, 0, 0), mats=None, screen_im
         _lens(f"{name} camera {side}", (side * 0.009, front - 0.0002, h / 2 - 0.03), root, m)
     scr = M.screen(f"{name} screen", os.path.join(TEXTURES, screen_image), strength=1.2)
     panel(f"{name} display", 0.062, 0.110, (0, front - 0.0002, 0.012), scr, parent=root)
+    _verified_frame(name, 0.058, 0.106, (0, front - 0.0003, 0.012), root)
     # Fingerprint window in a satin bezel.
     rounded_box(f"{name} sensor bezel", (0.02, 0.0015, 0.026), (0, front - 0.0006, -h / 2 + 0.038), 0.004, m.get("alu") or M.aluminium(), 0.0004, parent=root)
     rounded_box(f"{name} sensor", (0.014, 0.0016, 0.019), (0, front - 0.0008, -h / 2 + 0.038), 0.003, m["dark"], 0.0003, parent=root)

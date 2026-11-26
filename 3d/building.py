@@ -2,6 +2,8 @@
 
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot hero
   (shots: hero, parking, lobby, corridor, clockin, finale)
+  /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --frames 1,300,560
+  /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --video --engine eevee --res 960x600 --step 2
 
 Options: --sky 4 (twilight strength)  --sun-elevation -4  --sun-azimuth 200  --samples 128  --res 1600x1000  --exposure 0  --boom 0..1  --zones 0..18  --gates 0..1  --door 0..1
          --save 3d/renders/building.blend (the whole scene, for the camera path)  --no-render
@@ -16,6 +18,7 @@ import bpy
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+from aims3d import journey  # noqa: E402
 from aims3d.build import look_at  # noqa: E402
 from aims3d.finish import photographic_finish  # noqa: E402
 from aims3d.render import parse_args, render_settings  # noqa: E402
@@ -45,7 +48,7 @@ def args():
     opts = {"shot": "hero", "engine": "cycles", "samples": "128", "res": "1600x1000", "save": "",
             "sun-elevation": "-4", "sun-azimuth": "200", "sky": "4"}
     opts, flags = parse_args(opts, {k: {"shot": k} for k in SHOTS})
-    opts.setdefault("exposure", str(SHOTS[opts["shot"]][4]))
+    opts.setdefault("exposure", str(SHOTS[opts["shot"]][4]) if opts["shot"] in SHOTS else "0.2")
     opts.setdefault("out", os.path.join(HERE, "renders", f"building-{opts['shot']}.png"))
     return opts, flags
 
@@ -97,7 +100,10 @@ def main():
     ground_floor(opts)
     car_park_portal(opts)
     office_floor(opts)
-    camera(opts["shot"])
+    if opts["shot"] == "journey":
+        journey.build()
+    else:
+        camera(opts["shot"])
     render_settings(opts)
     photographic_finish(bpy.context.scene)
     if opts["save"]:
@@ -105,9 +111,39 @@ def main():
     if "no-render" in flags:
         print("BUILDING_BUILT", len(bpy.data.objects), "objects")
         return
+    if opts["shot"] == "journey":
+        render_journey(opts, flags)
+        return
     os.makedirs(os.path.dirname(os.path.abspath(opts["out"])), exist_ok=True)
     bpy.ops.render.render(write_still=True)
     print("BUILDING_RENDERED", opts["out"])
+
+
+def render_journey(opts, flags):
+    """`--frames 1,300,560` renders those frames as stills; `--video` renders the whole journey (every
+    `--step` frames, played back at real speed) to an MP4 for review."""
+    sc = bpy.context.scene
+    out_dir = os.path.join(HERE, "renders", "journey")
+    os.makedirs(out_dir, exist_ok=True)
+    if "video" in flags:
+        step = int(opts.get("step", "2"))
+        sc.frame_step = step
+        sc.render.fps = journey.FPS // step if journey.FPS % step == 0 else journey.FPS
+        settings = sc.render.image_settings
+        if hasattr(settings, "media_type"):  # Blender 5 splits image and video output
+            settings.media_type = "VIDEO"
+        settings.file_format = "FFMPEG"
+        sc.render.ffmpeg.format, sc.render.ffmpeg.codec = "MPEG4", "H264"
+        sc.render.ffmpeg.constant_rate_factor = "HIGH"
+        sc.render.filepath = os.path.join(out_dir, "journey-")
+        bpy.ops.render.render(animation=True)
+        print("JOURNEY_VIDEO", out_dir)
+        return
+    for frame in [int(f) for f in opts.get("frames", "1").split(",")]:
+        sc.frame_set(frame)
+        sc.render.filepath = os.path.join(out_dir, f"frame-{frame:04d}.png")
+        bpy.ops.render.render(write_still=True)
+        print("JOURNEY_FRAME", frame)
 
 
 main()
