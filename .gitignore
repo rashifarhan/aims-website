@@ -63,3 +63,4 @@ performance-results
 __pycache__/
 3d/assets/
 3d/renders/journey/
+public/journey/frames/

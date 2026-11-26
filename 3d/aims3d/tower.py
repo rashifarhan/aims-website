@@ -130,10 +130,11 @@ def street_and_forecourt():
     box("Street", (400, 16, 0.1), (0, -26, -0.05), tarmac, 0)
     box("Median", (400, 1.2, 0.2), (0, -26, 0.05), M.concrete("Median", (0.3, 0.3, 0.29)), 0.01)
     box("Pavement", (400, 4, 0.16), (0, -16, 0.03), M.paving("Pavement", (0.3, 0.3, 0.29), 0.4), 0.004)
-    box("Forecourt", (30, 14, 0.1), (-1.5, -7, 0.0), M.paving("Forecourt", (0.36, 0.35, 0.32), 0.8), 0.004)
+    # Ends at the driveway's kerb (x 8.9): it used to run over the driveway and hide its asphalt.
+    box("Forecourt", (25.4, 14, 0.1), (-3.8, -7, 0.0), M.paving("Forecourt", (0.36, 0.35, 0.32), 0.8), 0.004)
     box("Driveway", (5.0, 14, 0.1), (11.5, -7, -0.01), tarmac, 0)
-    for k in range(6):  # lane marking on the driveway: a dashed centre line
-        box(f"Dash {k}", (0.12, 1.0, 0.005), (11.5, -13 + k * 2.2, 0.042), M.plastic("Road white", (0.7, 0.7, 0.68), 0.6), 0)
+    for k in range(4):  # a dashed centre line, starting past the painted read zone (signage.py)
+        box(f"Dash {k}", (0.12, 1.0, 0.005), (11.5, -8.6 + k * 2.2, 0.042), M.plastic("Road white", (0.7, 0.7, 0.68), 0.6), 0)
 
 
 def street_lights(positions, height=8.0):

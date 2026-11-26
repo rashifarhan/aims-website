@@ -104,6 +104,10 @@ CAMERA = [
 ]
 CUT = 1051  # the last ground-floor key; held constant so the camera jumps to 1052 inside the closed lift
 
+# The "access granted" moments, each the frame a device finishes saying yes; the web pulses green on each.
+MOMENTS = {"Boom up": 381, "Zones clear": 646, "Gate open": 794, "Face matched": 1240, "Clocked in": 1494}
+LIFT = (1020, 1095)  # doors closing on the lobby to doors open on floor 11: the web counts the floors
+
 
 def fcurves(id_data):
     """An ID's F-curves, on Blender versions with and without layered actions (slots and channel bags)."""
@@ -251,6 +255,48 @@ def product_beats(cam):
 # One grade across the film: the same view transform and look throughout, with exposure eased between
 # chapters (night street, lit lobby, lit office, out into the dusk) so each reads without a jump.
 EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (510, 0.3), (560, 0.25), (1052, 0.25), (1090, 0.35), (1700, 0.35), (1790, 0.1), (END, 0.0))
+
+
+def timeline(step):
+    """The film's structure for the web player: frames on disk (every `step`), chapters with AIMS's search
+    topics, and each product beat with its catalogue slug (kind "software" for BioTime)."""
+    def chapter_of(frame):
+        return next(k for k, (a, b) in CHAPTERS.items() if a <= frame <= b)
+
+    return {
+        "fps": FPS,
+        "frames": END,
+        "step": step,
+        "cut": CUT,
+        "moments": [{"key": k, "frame": f} for k, f in MOMENTS.items()],
+        "lift": {"from": LIFT[0], "to": LIFT[1], "floor": OFFICE_FLOOR},
+        "chapters": [{"key": k, "from": a, "to": b, "topics": list(TOPICS[k])} for k, (a, b) in CHAPTERS.items()],
+        "beats": [
+            {"key": name, "chapter": chapter_of(beat["frames"][0]), "from": beat["frames"][0], "to": beat["frames"][1],
+             "slug": beat["slug"], "kind": "software" if name.startswith("BioTime") else "product"}
+            for name, beat in PRODUCTS.items()
+        ],
+    }
+
+
+def anchors(margin=48, step=2):
+    """Where each product sits on screen, frame by frame through its beat (plus `margin` frames either side),
+    as fractions of the film frame (x right, y down) and whether it is in front of the camera: the web pins
+    each product's label to it as the film moves."""
+    from bpy_extras.object_utils import world_to_camera_view
+    from mathutils import Vector
+
+    scene, cam = bpy.context.scene, bpy.context.scene.camera
+    out = {}
+    for name, beat in PRODUCTS.items():
+        f0, f1 = beat["frames"]
+        point, track = Vector(beat["at"]), []
+        for frame in range(max(1, f0 - margin), min(END, f1 + margin) + 1, step):
+            scene.frame_set(frame)
+            x, y, depth = world_to_camera_view(scene, cam, point)
+            track.append([frame, round(x, 4), round(1 - y, 4), 1 if depth > 0 else 0])
+        out[name] = track
+    return out
 
 
 def build():

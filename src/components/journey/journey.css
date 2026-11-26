@@ -1,0 +1,258 @@
+/* The journey page: a scroll film pinned under the sticky header, with each product's words laid over it.
+   Night palette, because the film is dusk; lime carries text and actions on night (≥ 4.5:1, globals.css). */
+
+.journey-page {
+  background: var(--color-night-950);
+  color: var(--color-night-text);
+}
+
+.journey {
+  position: relative;
+}
+
+/* Pinned with CSS (sticky), not a script: native scroll keeps working everywhere (responsiveness rules). */
+.journey-stage {
+  position: sticky;
+  top: var(--home-header-block);
+  height: calc(100svh - var(--home-header-block));
+  overflow: hidden;
+}
+
+.journey-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--color-night-950);
+}
+
+/* A soft scrim at the start edge and the foot, so the words read on any frame. */
+.journey-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, color-mix(in oklab, var(--color-night-950) 70%, transparent), transparent 45%),
+    linear-gradient(to right, color-mix(in oklab, var(--color-night-950) 55%, transparent), transparent 55%);
+}
+[dir="rtl"] .journey-stage::after {
+  background:
+    linear-gradient(to top, color-mix(in oklab, var(--color-night-950) 70%, transparent), transparent 45%),
+    linear-gradient(to left, color-mix(in oklab, var(--color-night-950) 55%, transparent), transparent 55%);
+}
+
+.journey-slide {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: clamp(1rem, 5vw, 4.5rem);
+  inset-block-end: clamp(5.5rem, 12vh, 8rem);
+  max-inline-size: min(32rem, calc(100% - 2rem));
+  opacity: 0;
+  transform: translateY(0.75rem);
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0s linear 0.3s;
+}
+.journey-slide[data-active="true"] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.journey-card {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--color-night-900) 84%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+
+.journey-eyebrow {
+  font-size: var(--text-caption);
+  color: var(--color-night-muted);
+}
+.journey-model {
+  margin-block-start: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-lime);
+}
+.journey-name {
+  margin-block-start: 0.25rem;
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  font-weight: var(--font-weight-display);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.journey-summary {
+  margin-block-start: 0.625rem;
+  color: var(--color-night-muted);
+  line-height: 1.5;
+}
+
+.journey-facts {
+  display: grid;
+  gap: 0.375rem;
+  margin-block-start: 0.875rem;
+  padding-block-start: 0.875rem;
+  border-block-start: 1px solid var(--color-night-line);
+  font-size: var(--text-small);
+}
+.journey-facts > div {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.journey-facts dt {
+  color: var(--color-night-muted);
+}
+.journey-facts dd {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-block-start: 1rem;
+}
+.journey-quote,
+.journey-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}
+.journey-quote {
+  padding-inline: 1.25rem;
+  background: var(--color-lime);
+  color: var(--color-night-950);
+}
+.journey-quote:hover {
+  transform: translateY(-1px);
+}
+.journey-quote:active {
+  transform: translateY(0);
+}
+.journey-link {
+  padding-inline: 0.25rem;
+  color: var(--color-night-text);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.journey-quote:focus-visible,
+.journey-link:focus-visible,
+.journey-index button:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+}
+
+.journey-hero h1 {
+  font-size: clamp(2.25rem, 5vw, var(--text-home-display));
+  font-weight: var(--font-weight-display);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+.journey-hero > p:first-of-type {
+  margin-block-start: 1rem;
+  max-inline-size: 28rem;
+  color: var(--color-night-muted);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+.journey-trust {
+  margin-block-start: 1rem;
+  font-size: var(--text-caption);
+  color: var(--color-night-muted);
+}
+
+.journey-places {
+  display: grid;
+  gap: 0.75rem;
+  margin-block-start: 1rem;
+}
+.journey-places li {
+  display: grid;
+  gap: 0.125rem;
+}
+.journey-places span {
+  color: var(--color-night-muted);
+  font-size: var(--text-small);
+}
+.journey-places a {
+  justify-self: start;
+  color: var(--color-lime);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chapter index: jump to any product beat (responsiveness rules, "skippable"). */
+.journey-index {
+  position: absolute;
+  z-index: 3;
+  inset-inline-end: clamp(1rem, 3vw, 2.5rem);
+  inset-block-start: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+.journey-index button {
+  min-block-size: 2.75rem;
+  padding-inline: 0.875rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-small);
+  color: var(--color-night-muted);
+  background: color-mix(in oklab, var(--color-night-900) 60%, transparent);
+  backdrop-filter: blur(10px);
+}
+.journey-index button:hover {
+  color: var(--color-night-text);
+}
+.journey-index button[aria-current="step"] {
+  color: var(--color-night-950);
+  background: var(--color-lime);
+}
+
+/* Phones: the card becomes a sheet at the foot, the index a row along the top; less text, not smaller text. */
+@media (max-width: 47.99rem) {
+  .journey-slide {
+    inset-inline: 0.75rem;
+    inset-block-end: 0.75rem;
+    max-inline-size: none;
+  }
+  .journey-card {
+    padding: 1rem 1.125rem;
+  }
+  .journey-summary,
+  .journey-facts > div:nth-child(n + 3) {
+    display: none;
+  }
+  .journey-index {
+    inset-inline: 0.5rem;
+    inset-block-start: 0.5rem;
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .journey-index button {
+    flex: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-slide {
+    transform: none;
+    transition: none;
+  }
+}

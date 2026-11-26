@@ -21,6 +21,7 @@ sys.path.insert(0, HERE)
 
 from aims3d import journey  # noqa: E402
 from aims3d.build import look_at  # noqa: E402
+from aims3d import signage  # noqa: E402
 from aims3d.finish import photographic_finish  # noqa: E402
 from aims3d.render import parse_args, render_settings  # noqa: E402
 from aims3d.spaces import car_park_portal, ground_floor, office_floor  # noqa: E402
@@ -50,6 +51,10 @@ SHOTS = {
     "corridor": ((0.2, 15.2, Z_OFFICE + 1.6), (0.4, 9.0, Z_OFFICE + 1.6), 26, -0.08, 0.3),
     # Through the door: the SpeedFace V5L on its stand and the attendance screen beside it.
     "clockin": ((3.2, 8.7, Z_OFFICE + 1.6), (1.2, 6.4, Z_OFFICE + 1.6), 32, -0.06, 0.3),
+    # Environmental type tests: the read zone painted on the driveway, the inlay before the detector, the door.
+    "type-parking": ((11.5, -17.5, 1.3), (10.8, 0.0, 0.7), 28, -0.06, 0.3),
+    "type-lobby": ((0.3, 0.55, 1.6), (0.0, 4.8, 0.35), 24, 0.0, 0.3),
+    "type-door": ((0.25, 12.6, Z_OFFICE + 1.6), (0.1, 9.0, Z_OFFICE + 1.35), 28, 0.0, 0.3),
     # To the windows: the skyline at dusk.
     "finale": ((0.0, 3.6, Z_OFFICE + 1.6), (-8.0, -100.0, Z_OFFICE + 1.6), 24, 0.0, 0.0),
 }
@@ -100,6 +105,14 @@ def camera(shot):
 
 def main():
     opts, flags = args()
+    if "export-timeline" in opts:  # the web player's copy of the film's structure; no scene needed
+        import json
+
+        with open(opts["export-timeline"], "w") as f:
+            json.dump(journey.timeline(int(opts.get("step", "2"))), f, indent=2)
+            f.write("\n")
+        print("TIMELINE_WRITTEN", opts["export-timeline"])
+        return
     bpy.ops.wm.read_factory_settings(use_empty=True)
     world(opts)
     street_and_forecourt()
@@ -112,11 +125,20 @@ def main():
     ground_floor(opts)
     car_park_portal(opts)
     office_floor(opts)
+    signage.build()
     if opts["shot"] == "journey":
         journey.build()
     else:
         camera(opts["shot"])
     render_settings(opts)
+    if "export-anchors" in opts:  # the web's tracked product labels: screen positions per frame
+        import json
+
+        with open(opts["export-anchors"], "w") as f:
+            json.dump(journey.anchors(), f, separators=(",", ":"))
+            f.write("\n")
+        print("ANCHORS_WRITTEN", opts["export-anchors"])
+        return
     photographic_finish(bpy.context.scene)
     if opts["save"]:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opts["save"]))

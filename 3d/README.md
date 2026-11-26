@@ -103,6 +103,25 @@ office glass over the city. `journey.CHAPTERS` gives each chapter's frame range 
 Output goes to `3d/renders/journey/`. The homepage will use route B: this film as a frame sequence scrubbed
 by scroll (decided 26 Nov), so the final render is the journey at full quality with `--blur`.
 
+## Environmental typography
+
+Display words and numbers live in the scene (`aims3d/signage.py`): "10 m" painted on the driveway at the
+UHF10's read distance, "18" inlaid in brass before the ZK-D3180S, an etched "11" and safety band on the office
+door. They are lit, reflected and blurred like the rest of the film. They need static Mona Sans instances
+(not in git), made once from the variable web font with fonttools:
+
+```bash
+python3 -m venv /tmp/fontenv && /tmp/fontenv/bin/pip install fonttools brotli
+/tmp/fontenv/bin/python -c "
+from fontTools.ttLib import TTFont; from fontTools.varLib import instancer
+src='node_modules/@fontsource-variable/mona-sans/files/mona-sans-latin-standard-normal.woff2'
+for n,a in (('MonaSans-WideHeavy',{'wdth':125,'wght':820}),('MonaSans-SemiCondensedBold',{'wdth':88,'wght':700})):
+    f=instancer.instantiateVariableFont(TTFont(src),a); f.flavor=None; f.save(f'3d/assets/fonts/{n}.ttf')"
+```
+
+Mona Sans draws GitHub's Octocat at U+2264 ("≤"): set that sign in another face. Test stills:
+`--shot type-parking`, `type-lobby`, `type-door`.
+
 ## Files
 
 - `aims3d/materials.py`: brushed steel, black glass, clear and window glass, LEDs, polished stone, plaster, oak,
@@ -118,6 +137,7 @@ by scroll (decided 26 Nov), so the final render is the journey at full quality w
 - `aims3d/tower.py`: the tower, its street and forecourt, street lights, canopy, skyline and city blocks
 - `aims3d/spaces.py`: the rooms: lobby and car park portal (ground floor), corridor, door and clock-in (floor 11)
 - `aims3d/journey.py`: the camera path, device keyframes and chapter frame ranges
+- `aims3d/signage.py`: environmental typography (road paint, brass inlay, etched glass)
 - `aims3d/hdri.py`: finds an HDRI's sun and aims the sun lamp at it
 - `aims3d/finish.py`: the photographic finish (compositor: bloom, dispersion, vignette, grain)
 - `aims3d/speedgate.py`: ZKTeco MARS-B1200 (proportions estimated from AIMS's product photo)
