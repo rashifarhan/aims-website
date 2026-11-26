@@ -10,7 +10,7 @@ import bmesh
 import bpy
 
 from . import materials as M
-from .build import box, cylinder
+from .build import box, cylinder, empty
 
 
 def _leaf(bm, base, height, width, yaw, lean):
@@ -57,10 +57,12 @@ def planter(name, location, seed=7):
     return obj
 
 
-def reception_desk(name, location, length=3.2):
-    """A long reception desk: oak front and a dark stone top that overhangs on the visitor side."""
-    x, y, z = location
-    box(f"{name} body", (length, 0.7, 0.99), (x, y, z + 0.555), M.oak("Desk oak"), 0.004)
-    box(f"{name} top", (length + 0.06, 0.82, 0.04), (x, y - 0.04, z + 1.07), M.dark_stone(), 0.003)
+def reception_desk(name, location, length=3.2, rotation_z=0.0):
+    """A long reception desk: oak front and a dark stone top that overhangs on the visitor side (-Y)."""
+    root = empty(name, location)
+    root.rotation_euler = (0, 0, rotation_z)
+    box(f"{name} body", (length, 0.7, 0.99), (0, 0, 0.555), M.oak("Desk oak"), 0.004, parent=root)
+    box(f"{name} top", (length + 0.06, 0.82, 0.04), (0, -0.04, 1.07), M.dark_stone(), 0.003, parent=root)
     # A recessed dark plinth makes the desk float a little, as joinery does.
-    box(f"{name} plinth", (length - 0.08, 0.6, 0.06), (x, y + 0.03, z + 0.03), M.dark_metal("Desk plinth"), 0)
+    box(f"{name} plinth", (length - 0.08, 0.6, 0.06), (0, 0.03, 0.03), M.dark_metal("Desk plinth"), 0, parent=root)
+    return root

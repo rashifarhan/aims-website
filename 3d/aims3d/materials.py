@@ -339,3 +339,173 @@ def screen(name, image_path=None, colour=(0.02, 0.05, 0.09), strength=1.0):
     else:
         _set(p, "Emission Color", (*colour, 1))
     return m
+
+
+def tower_facade(name="Tower facade", bay=1.5, floor=3.6, lit=0.3, glow=1.5):
+    """A whole office tower's curtain wall in one shader, for the floors nobody walks through: mullions every
+    `bay` metres, a dark spandrel at the foot of each floor, and dark glass in which `lit` of the windows glow
+    at dusk, each at its own brightness and warmth (offices are never lit evenly). Works on any box: the grid
+    runs along X + Y and up Z in world space, so the boxes a tower is built from line up."""
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    n, l = m.node_tree.nodes, m.node_tree.links
+    out = n["Material Output"]
+    n.remove(n["Principled BSDF"])
+
+    def math_node(op, a=None, b=None, c=None):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, v in enumerate((a, b, c)):
+            if v is None:
+                continue
+            if isinstance(v, (int, float)):
+                node.inputs[i].default_value = v
+            else:
+                l.new(v, node.inputs[i])
+        return node.outputs[0]
+
+    geo, sep = n.new("ShaderNodeNewGeometry"), n.new("ShaderNodeSeparateXYZ")
+    l.new(geo.outputs["Position"], sep.inputs[0])
+    u = math_node("DIVIDE", math_node("ADD", sep.outputs["X"], sep.outputs["Y"]), bay)
+    v = math_node("DIVIDE", sep.outputs["Z"], floor)
+    fu, fv = math_node("FRACT", u), math_node("FRACT", v)
+    # Mullions and the floor joint: thin bands at the cell edges.
+    mull = math_node("MAXIMUM", math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fu, 0.5)), 0.47),
+                     math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fv, 0.5)), 0.49))
+    # One random number per window, and two more derived from it (brightness, warmth).
+    cell = n.new("ShaderNodeCombineXYZ")
+    l.new(math_node("FLOOR", u), cell.inputs["X"])
+    l.new(math_node("FLOOR", v), cell.inputs["Y"])
+    noise = n.new("ShaderNodeTexWhiteNoise")
+    noise.noise_dimensions = "3D"
+    l.new(cell.outputs[0], noise.inputs["Vector"])
+    r = noise.outputs["Value"]
+    on = math_node("GREATER_THAN", r, 1.0 - lit)
+    bright = math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", r, 7.13)), 0.75, 0.25)
+    warm = math_node("FRACT", math_node("MULTIPLY", r, 3.71))
+    above_spandrel = math_node("GREATER_THAN", fv, 0.28)
+    strength = math_node("MULTIPLY", math_node("MULTIPLY", on, above_spandrel), math_node("MULTIPLY", bright, glow))
+    tint = n.new("ShaderNodeMix")
+    tint.data_type = "RGBA"
+    # Socket names repeat per data type on this node, so the colour pair is addressed by index.
+    tint.inputs[6].default_value = (1.0, 0.7, 0.42, 1)  # warm office light
+    tint.inputs[7].default_value = (0.82, 0.88, 1.0, 1)  # cool panels
+    l.new(warm, tint.inputs[0])
+    glass = n.new("ShaderNodeBsdfPrincipled")
+    glass.inputs["Base Color"].default_value = (0.012, 0.015, 0.02, 1)
+    glass.inputs["Roughness"].default_value = 0.05
+    l.new(tint.outputs[2], glass.inputs["Emission Color"])
+    l.new(strength, glass.inputs["Emission Strength"])
+    mullion = n.new("ShaderNodeBsdfPrincipled")
+    mullion.inputs["Base Color"].default_value = (0.25, 0.26, 0.27, 1)
+    mullion.inputs["Metallic"].default_value = 1.0
+    mullion.inputs["Roughness"].default_value = 0.35
+    # Roofs (faces pointing up or down) are plant and parapet, not windows: dark metal, unlit.
+    nsep = n.new("ShaderNodeSeparateXYZ")
+    l.new(geo.outputs["Normal"], nsep.inputs[0])
+    roof = math_node("GREATER_THAN", math_node("ABSOLUTE", nsep.outputs["Z"]), 0.5)
+    mix = n.new("ShaderNodeMixShader")
+    l.new(math_node("MAXIMUM", mull, roof), mix.inputs["Fac"])
+    l.new(glass.outputs["BSDF"], mix.inputs[1])
+    l.new(mullion.outputs["BSDF"], mix.inputs[2])
+    l.new(mix.outputs["Shader"], out.inputs["Surface"])
+    return m
+
+
+def asphalt(name="Asphalt"):
+    m, p, n, l = _principled(name)
+    noise = n.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 300.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.025, 0.025, 0.026, 1)
+    ramp.color_ramp.elements[1].color = (0.06, 0.06, 0.062, 1)
+    bump = n.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.3
+    l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    l.new(noise.outputs["Fac"], bump.inputs["Height"])
+    l.new(bump.outputs["Normal"], p.inputs["Normal"])
+    _smudges(n, l, p.inputs["Roughness"], 0.55, 0.85, scale=0.3)  # damp patches catch the street lights
+    return m
+
+
+def paving(name="Paving", colour=(0.32, 0.31, 0.29), size=0.6):
+    """Square stone pavers with dark joints."""
+    m, p, n, l = _principled(name)
+    coord = n.new("ShaderNodeTexCoord")
+    brick = n.new("ShaderNodeTexBrick")
+    brick.offset = 0.5
+    brick.inputs["Scale"].default_value = 1.0 / size
+    brick.inputs["Mortar Size"].default_value = 0.004
+    brick.inputs["Brick Width"].default_value = 1.0
+    brick.inputs["Row Height"].default_value = 1.0
+    brick.inputs["Color1"].default_value = (*colour, 1)
+    brick.inputs["Color2"].default_value = (*(c * 1.12 for c in colour), 1)
+    brick.inputs["Mortar"].default_value = (*(c * 0.4 for c in colour), 1)
+    l.new(coord.outputs["Object"], brick.inputs["Vector"])
+    l.new(brick.outputs["Color"], p.inputs["Base Color"])
+    _smudges(n, l, p.inputs["Roughness"], 0.45, 0.75, scale=0.5)
+    return m
+
+
+def concrete(name="Concrete", colour=(0.36, 0.35, 0.33)):
+    m, p, n, l = _principled(name)
+    noise = n.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 6.0
+    noise.inputs["Detail"].default_value = 10.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (*(c * 0.85 for c in colour), 1)
+    ramp.color_ramp.elements[1].color = (*colour, 1)
+    l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    _set(p, "Roughness", 0.8)
+    return m
+
+
+def carpet(name="Office carpet", colour=(0.07, 0.072, 0.075)):
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (*colour, 1))
+    _set(p, "Roughness", 0.95)
+    noise = n.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 400.0
+    bump = n.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.25
+    l.new(noise.outputs["Fac"], bump.inputs["Height"])
+    l.new(bump.outputs["Normal"], p.inputs["Normal"])
+    return m
+
+
+def city_carpet(name="City at night", block=140.0, clear_radius=180.0):
+    """The ground seen from a tower at dusk: dark, crossed every `block` metres by dotted lines of street
+    lamps. Nothing lights up within `clear_radius` of the origin, where the modelled street takes over."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (0.02, 0.021, 0.024, 1))
+    _set(p, "Roughness", 0.7)
+    geo, sep = n.new("ShaderNodeNewGeometry"), n.new("ShaderNodeSeparateXYZ")
+    l.new(geo.outputs["Position"], sep.inputs[0])
+
+    def node(op, a, b=None):
+        x = n.new("ShaderNodeMath")
+        x.operation = op
+        for i, v in enumerate((a, b)):
+            if v is None:
+                continue
+            if isinstance(v, (int, float)):
+                x.inputs[i].default_value = v
+            else:
+                l.new(v, x.inputs[i])
+        return x.outputs[0]
+
+    def line(axis, along):
+        """A street along `along`: a 1.2 m band at every `block`, broken into lamps every 30 m."""
+        f = node("FRACT", node("DIVIDE", sep.outputs[axis], block))
+        band = node("LESS_THAN", node("ABSOLUTE", node("SUBTRACT", f, 0.5)), 0.6 / block)
+        lamps = node("LESS_THAN", node("FRACT", node("DIVIDE", sep.outputs[along], 30.0)), 0.25)
+        return node("MULTIPLY", band, lamps)
+
+    streets = node("MAXIMUM", line("X", "Y"), line("Y", "X"))
+    dist = node("SQRT", node("ADD", node("MULTIPLY", sep.outputs["X"], sep.outputs["X"]), node("MULTIPLY", sep.outputs["Y"], sep.outputs["Y"])))
+    far = node("GREATER_THAN", dist, clear_radius)
+    _set(p, "Emission Color", (1.0, 0.62, 0.32, 1))
+    l.new(node("MULTIPLY", node("MULTIPLY", streets, far), 3.0), p.inputs["Emission Strength"])
+    return m

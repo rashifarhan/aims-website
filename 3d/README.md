@@ -69,6 +69,22 @@ them (estimates are marked in each module's docstring). Check them in a grey stu
 `--open 1` raises the boom and opens the door; `--zones 0..18` lights the detector's zones from the floor up.
 Screen pictures are drawn by `python3 3d/make_textures.py` into `3d/textures/` (no figures or records on them).
 
+## The building (all chapters, at dusk)
+
+One scene holds every chapter, so the camera path can later run through it. Render a chapter's still (about
+1-2.5 minutes each at 1600x1000, 96 samples):
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot hero --samples 96
+```
+
+Shots: `hero` (the tower from across the street), `parking` (driving up to the BGM-1030), `lobby` (through
+the metal detector to the gates), `corridor` (floor 11, the door with the ProFace X), `clockin` (SpeedFace V5L
+and the attendance screen), `finale` (the skyline from the office windows). States: `--boom`, `--zones`,
+`--gates`, `--door`. The sky is Blender's physical sky after sunset (`--sky 4 --sun-elevation -4`): a
+street-level HDRI puts its own buildings beside the tower at the wrong scale. Floors nobody enters, and the
+whole city around, wear one procedural lit-window facade (`materials.tower_facade`).
+
 ## Files
 
 - `aims3d/materials.py`: brushed steel, black glass, clear and window glass, LEDs, polished stone, plaster, oak,
@@ -81,6 +97,8 @@ Screen pictures are drawn by `python3 3d/make_textures.py` into `3d/textures/` (
 - `aims3d/door.py`: ALF-M560 maglock, frameless glass door with armature and handle
 - `aims3d/monitor.py`: 24-inch monitor with the attendance dashboard
 - `aims3d/render.py`: shared command line and Cycles settings
+- `aims3d/tower.py`: the tower, its street and forecourt, street lights, canopy, skyline and city blocks
+- `aims3d/spaces.py`: the rooms: lobby and car park portal (ground floor), corridor, door and clock-in (floor 11)
 - `aims3d/hdri.py`: finds an HDRI's sun and aims the sun lamp at it
 - `aims3d/finish.py`: the photographic finish (compositor: bloom, dispersion, vignette, grain)
 - `aims3d/speedgate.py`: ZKTeco MARS-B1200 (proportions estimated from AIMS's product photo)
