@@ -6,9 +6,9 @@ import { phases } from "./scene";
 import "./hero-scroll.css";
 
 /**
- * The scroll hero (client request, 25 Nov 2026: high-end, fast, scroll-driven 3D). A full-screen light stage pins
+ * The scroll hero (client request, 25 Nov 2026: high-end, fast, scroll-driven 3D). A full-screen night stage pins
  * while the page scrolls through it: a face of glowing points tightens, a lime scan sweeps it, a "Verified" ring
- * blooms, and the face bursts into light as the page moves on. The copy and the light stage paint with the page; the
+ * blooms, and the face bursts into light as the page moves on. The copy and dark stage paint with the page; the
  * WebGL scene starts at once (no idle wait) and gathers within a second. Reduced motion: one verified still, no pin.
  */
 export function HeroScroll({
@@ -81,7 +81,7 @@ export function HeroScroll({
   }, []);
 
   return (
-    <section ref={section} className="hero-scroll" aria-labelledby="home-title">
+    <section ref={section} className="hero-scroll section-night" aria-labelledby="home-title">
       <div className="hero-scroll-stage">
         <canvas ref={canvas} className="hero-scroll-canvas" role="img" aria-label={label} />
         <div className="hero-scroll-copy wrap">{children}</div>
