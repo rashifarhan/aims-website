@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useQuoteCount } from "./AddToQuote";
 
 /** The journey's own header: dark glass over the film, AIMS's authorization always in sight, the quote list one tap away. */
-export function JourneyHeader({ authorized, paths }: { authorized: string; paths: { home: string; products: string; services: string; quote: string } }) {
+export function JourneyHeader({
+  authorized,
+  paths,
+}: {
+  authorized: string;
+  paths: { home: string; products: string; services: string; quote: string };
+}) {
   const count = useQuoteCount();
   return (
     <header className="jh">

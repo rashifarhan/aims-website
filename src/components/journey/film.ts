@@ -10,6 +10,8 @@ export type FilmState = {
   stage: { w: number; h: number };
   /** Average colour (0..255) of a region of the current picture, in film fractions: the light behind a card. */
   sample: (x: number, y: number, w: number, h: number) => [number, number, number];
+  stop: number; // the checkpoint the film is at, or heading to
+  settled: boolean; // true once the film has arrived and holds there
 };
 export type Film = { subscribe: (fn: (s: FilmState) => void) => () => void; jump: (frame: number) => void };
 
@@ -34,12 +36,6 @@ export function smooth(a: number, b: number, x: number) {
 
 /** Progress through a frame range: 0 at its first frame, 1 at its last (unclamped). */
 export const progress = (frame: number, from: number, to: number) => (frame - from) / Math.max(to - from, 1);
-
-/**
- * How present a beat's card is at progress p: it materialises as the camera finishes its push-in and dissolves
- * as it pulls out (the push-in fills roughly the first third of every beat, journey.CAMERA).
- */
-export const cardAmount = (p: number) => smooth(0.26, 0.4, p) * (1 - smooth(0.88, 0.98, p));
 
 /** The product's position on the film at a frame, linearly between exported samples. */
 export function anchorAt(track: AnchorPoint[], frame: number): { x: number; y: number; visible: boolean } | null {

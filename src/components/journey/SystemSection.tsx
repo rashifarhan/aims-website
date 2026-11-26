@@ -13,7 +13,13 @@ const PLACE: Record<string, string> = { headOffice: "Head office", showroom: "Sh
  * (authorization, figures stated by AIMS) and the people to visit or call. Ordinary page content, readable without
  * the film.
  */
-export function SystemSection({ beats, authorized, figureLabels, figureNote, paths }: {
+export function SystemSection({
+  beats,
+  authorized,
+  figureLabels,
+  figureNote,
+  paths,
+}: {
   beats: BeatData[];
   authorized: string;
   figureLabels: Record<string, string>;
@@ -26,12 +32,21 @@ export function SystemSection({ beats, authorized, figureLabels, figureNote, pat
       <h2 id="sys-title" className="sys-title">
         Everything in this building, from one ZKTeco partner.
       </h2>
-      <p className="sys-lead">Supplied, installed and supported across the UAE by AIMS, {authorized.replace(" · UAE", "")}.</p>
+      <p className="sys-lead">
+        Supplied, installed and supported across the UAE by AIMS, {authorized.replace(" · UAE", "")}.
+      </p>
       <ul className="sys-grid">
         {beats.map((b) => (
           <li key={b.key} className="sys-item">
             {b.image ? (
-              <Image src={b.image.src} alt={b.image.alt} width={b.image.width} height={b.image.height} sizes="(min-width: 1024px) 22vw, 45vw" className="sys-img" />
+              <Image
+                src={b.image.src}
+                alt={b.image.alt}
+                width={b.image.width}
+                height={b.image.height}
+                sizes="(min-width: 1024px) 22vw, 45vw"
+                className="sys-img"
+              />
             ) : (
               <div className="sys-img sys-img-empty" aria-hidden="true" />
             )}

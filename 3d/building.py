@@ -138,6 +138,11 @@ def main():
             json.dump(journey.anchors(), f, separators=(",", ":"))
             f.write("\n")
         print("ANCHORS_WRITTEN", opts["export-anchors"])
+        if "export-pace" in opts:
+            with open(opts["export-pace"], "w") as f:
+                json.dump(journey.pace(), f, separators=(",", ":"))
+                f.write("\n")
+            print("PACE_WRITTEN", opts["export-pace"])
         return
     photographic_finish(bpy.context.scene)
     if opts["save"]:

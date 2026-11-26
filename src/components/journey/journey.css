@@ -287,10 +287,19 @@ body:has(.journey-page) footer {
 
 /* ── Product beats ──────────────────────────────────────────────────────── */
 .beat {
+  /* The house curves: one soft spring for anything arriving, one quick ease for anything leaving. */
+  --j-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --j-leave: cubic-bezier(0.4, 0, 1, 1);
   position: absolute;
   inset: 0;
   z-index: 6;
   pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s 0.3s;
+}
+.beat:not([data-phase="out"]) {
+  visibility: visible;
+  transition: none;
 }
 .beat-line {
   position: absolute;
@@ -303,6 +312,14 @@ body:has(.journey-page) footer {
   stroke: var(--j-green);
   stroke-width: 1.25;
   filter: drop-shadow(0 0 6px rgb(94 240 138 / 0.7));
+  /* The light draws itself from the product to the card once the card is up, and retracts as it leaves. */
+  stroke-dasharray: var(--len, 0);
+  stroke-dashoffset: var(--len, 0);
+  transition: stroke-dashoffset 0.25s var(--j-leave);
+}
+.beat[data-phase="in"] .beat-line line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.7s var(--j-spring) 0.18s;
 }
 .beat-dot {
   position: absolute;
@@ -315,6 +332,23 @@ body:has(.journey-page) footer {
   box-shadow:
     0 0 0 4px rgb(94 240 138 / 0.18),
     0 0 18px rgb(94 240 138 / 0.8);
+  opacity: 0;
+  scale: 0.4;
+  transition:
+    opacity 0.2s var(--j-leave),
+    scale 0.2s var(--j-leave);
+}
+/* The product is marked the moment the camera lands on it, before the card, so the eye goes there first. */
+.beat[data-phase="in"] .beat-dot {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity 0.3s ease-out,
+    scale 0.6s var(--j-spring);
+}
+.beat[data-no-anchor] .beat-dot,
+.beat[data-no-anchor] .beat-line {
+  display: none;
 }
 .beat-dot::after {
   content: "";
@@ -341,8 +375,27 @@ body:has(.journey-page) footer {
   inset-inline-start: clamp(1.25rem, 5vw, 5rem);
   inset-block-start: calc(var(--j-header) + 3vh);
   max-width: 90%;
-  opacity: 0;
   text-shadow: 0 2px 30px rgb(0 0 0 / 0.5);
+  opacity: 0;
+  translate: 0 1.5rem;
+  transition:
+    opacity 0.25s var(--j-leave),
+    translate 0.25s var(--j-leave);
+}
+/* While the camera travels here: the product's name rises and widens with it, then hands over to the card. */
+.beat[data-phase="arriving"] .beat-title {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.5s ease-out 0.15s,
+    translate 1.2s var(--j-spring) 0.15s;
+}
+.beat[data-phase="in"] .beat-title {
+  opacity: 0;
+  translate: 0 -0.75rem;
+  transition:
+    opacity 0.45s ease-in,
+    translate 0.6s ease-in;
 }
 .beat-big {
   font-family: var(--j-display);
@@ -350,6 +403,13 @@ body:has(.journey-page) footer {
   font-size: clamp(3rem, 9vw, 9rem);
   line-height: 0.9;
   letter-spacing: -0.01em;
+  font-stretch: 75%;
+  transition: font-stretch 0.25s var(--j-leave);
+}
+.beat[data-phase="arriving"] .beat-big,
+.beat[data-phase="in"] .beat-big {
+  font-stretch: 125%;
+  transition: font-stretch 1.6s var(--j-spring);
 }
 .beat-model {
   font-family: var(--j-mono);
@@ -360,9 +420,6 @@ body:has(.journey-page) footer {
 /* The card: glass that takes the colour of the picture behind it, lit at its top edge like the scene's light. */
 .beat-card {
   --tint: 20 24 30;
-  position: absolute;
-  top: 0;
-  left: 0;
   width: min(25rem, calc(100vw - 1.5rem));
   padding: 1.25rem 1.35rem 1.1rem;
   border-radius: 22px;
@@ -374,9 +431,71 @@ body:has(.journey-page) footer {
     inset 0 1px 0 rgb(255 255 255 / 0.28),
     inset 0 0 0 1px rgb(255 255 255 / 0.07),
     0 30px 80px -20px rgb(0 0 0 / 0.6);
+  transform-origin: 50% 100%;
   opacity: 0;
-  transform-origin: 30% 30%;
-  will-change: transform, opacity, filter;
+  translate: 0 1.25rem;
+  scale: 0.96;
+  filter: blur(6px);
+  transition:
+    opacity 0.25s var(--j-leave),
+    translate 0.25s var(--j-leave),
+    scale 0.25s var(--j-leave),
+    filter 0.25s var(--j-leave);
+}
+/* The card rises in on the spring once the camera has settled, a breath after the dot. */
+.beat[data-phase="in"] .beat-card {
+  pointer-events: auto;
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  filter: none;
+  transition:
+    opacity 0.45s ease-out 0.1s,
+    translate 0.8s var(--j-spring) 0.1s,
+    scale 0.8s var(--j-spring) 0.1s,
+    filter 0.45s ease-out 0.1s;
+}
+/* Its contents follow a beat apart, top to bottom: what it is, what it does, the facts, where to go next. */
+.beat-card > * {
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition:
+    opacity 0.2s var(--j-leave),
+    translate 0.2s var(--j-leave);
+}
+.beat[data-phase="in"] .beat-card > * {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.5s ease-out calc(0.2s + var(--i, 0) * 0.055s),
+    translate 0.7s var(--j-spring) calc(0.2s + var(--i, 0) * 0.055s);
+}
+.beat-card > :nth-child(2) {
+  --i: 1;
+}
+.beat-card > :nth-child(3) {
+  --i: 2;
+}
+.beat-card > :nth-child(4) {
+  --i: 3;
+}
+.beat-card > :nth-child(5) {
+  --i: 4;
+}
+.beat-card > :nth-child(6) {
+  --i: 5;
+}
+.beat-card > :nth-child(7) {
+  --i: 6;
+}
+.beat-card > :nth-child(n + 8) {
+  --i: 7;
+}
+.beat-pos {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
 }
 .beat-chapter {
   font-size: 0.78rem;
@@ -709,5 +828,10 @@ body:has(.journey-page) footer {
 @media (prefers-reduced-motion: reduce) {
   .beat-dot::after {
     animation: none;
+  }
+  .beat *,
+  .beat *::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
 }

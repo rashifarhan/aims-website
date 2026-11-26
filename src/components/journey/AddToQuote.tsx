@@ -11,9 +11,19 @@ export function AddToQuote({ quote, name }: { quote: BeatData["quote"]; name: st
   const state = useSyncExternalStore(subscribeQuote, getQuote, getServerQuote);
   const added = state.lines.some((l) => lineKey(l) === keyOf(quote));
   const add = () =>
-    dispatchQuote(quote.kind === "product" ? { type: "add", slug: quote.slug, qty: 1 } : { type: "requestSoftware", slug: quote.slug, text: quote.text });
+    dispatchQuote(
+      quote.kind === "product"
+        ? { type: "add", slug: quote.slug, qty: 1 }
+        : { type: "requestSoftware", slug: quote.slug, text: quote.text },
+    );
   return (
-    <button type="button" className="beat-add" data-added={added} onClick={added ? undefined : add} aria-label={added ? `${name} is on your quote list` : `Add ${name} to your quote list`}>
+    <button
+      type="button"
+      className="beat-add"
+      data-added={added}
+      onClick={added ? undefined : add}
+      aria-label={added ? `${name} is on your quote list` : `Add ${name} to your quote list`}
+    >
       {added ? "On your quote list ✓" : "+ Add to quote list"}
     </button>
   );

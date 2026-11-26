@@ -296,6 +296,29 @@ def anchors(margin=48, step=2):
     return out
 
 
+def pace(step=2, still=0.012, radius=1.5):
+    """How far the camera travels, frame by frame (cumulative), so the web can play any stretch at an even speed
+    and put the only ease at the start and end of each move. Travel counts the camera's movement plus its turn
+    (the target's angle change at `radius` metres); `still` adds a little per frame so held shots, where only a
+    device moves, still take their time instead of being skipped."""
+    scene, cam = bpy.context.scene, bpy.context.scene.camera
+    target = _obj("Journey target")
+    frames, cum, total = [], [], 0.0
+    prev_loc = prev_dir = None
+    for frame in range(1, END + 1, step):
+        scene.frame_set(frame)
+        loc = cam.matrix_world.translation.copy()
+        direction = (target.matrix_world.translation - loc).normalized()
+        if prev_loc is not None:
+            jump = (loc - prev_loc).length
+            turn = prev_dir.angle(direction, 0.0) * radius if prev_dir is not None else 0.0
+            total += (0.0 if jump > 5 else jump) + turn + still * step  # the lift's hidden cut costs nothing
+        frames.append(frame)
+        cum.append(round(total, 4))
+        prev_loc, prev_dir = loc, direction
+    return {"frames": frames, "travel": cum}
+
+
 def build():
     scene = bpy.context.scene
     scene.render.fps = FPS

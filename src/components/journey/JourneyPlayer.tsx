@@ -3,15 +3,15 @@
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { availableFrames, nearestLoaded, neighbourhood } from "@/lib/journey/frames";
 import type { Timeline } from "@/lib/journey/scrollMap";
-import { cardAmount, type Film, FilmContext, type FilmState, progress } from "./film";
+import { type Film, FilmContext, type FilmState } from "./film";
 import { FrameStore } from "./frameStore";
 
 type Props = {
   timeline: Timeline;
   frameSrc: string; // "/journey/frames/" → /journey/frames/0001.webp
   filmAspect: number; // width / height of the rendered frames
-  stops: number[]; // the checkpoints, in film frames: arrival, each product's held close-up, the skyline
-  beats: { from: number; to: number }[]; // product beats: the scene dims while their cards are up
+  stops: number[]; // the checkpoints, in film frames: arrival, then each product's held close-up
+  pace: { frames: number[]; travel: number[] }; // the camera's cumulative travel per frame (journey.pace)
   children: ReactNode; // overlays, which follow the film through FilmContext
 };
 
@@ -20,8 +20,26 @@ const SAMPLE_W = 32;
 const SAMPLE_H = 20;
 const QUIET_MS = 280; // a trackpad keeps firing for a moment after a flick: one gesture, one step
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
-/** Play time for a stretch of film: long journeys stay brisk, short hops never snap. */
-const duration = (frames: number) => Math.min(2800, Math.max(1100, 800 + frames * 4.2));
+/** Play time for a move, from how far the camera travels: long glides stay brisk, short hops never snap. */
+const duration = (travel: number) => Math.min(2600, 1200 + 230 * Math.sqrt(travel));
+
+/** Linear lookup in a monotonic table: x → y. */
+function lookup(xs: number[], ys: number[], x: number): number {
+  if (!xs.length) return x;
+  let lo = 0;
+  let hi = xs.length - 1;
+  if (x <= (xs[0] ?? 0)) return ys[0] ?? x;
+  if (x >= (xs[hi] ?? 0)) return ys[hi] ?? x;
+  while (hi - lo > 1) {
+    const mid = (lo + hi) >> 1;
+    if ((xs[mid] ?? 0) <= x) lo = mid;
+    else hi = mid;
+  }
+  const x0 = xs[lo] ?? 0;
+  const x1 = xs[hi] ?? 1;
+  const t = x1 > x0 ? (x - x0) / (x1 - x0) : 0;
+  return (ys[lo] ?? 0) + ((ys[hi] ?? 0) - (ys[lo] ?? 0)) * t;
+}
 
 /**
  * The film as a sequence of checkpoints (user decision, 26 Nov: "scroll is a trigger"). One wheel notch, swipe or
@@ -29,7 +47,7 @@ const duration = (frames: number) => Math.min(2800, Math.max(1100, 800 + frames 
  * product's close-up until the next gesture. After the last checkpoint the page scrolls normally. Frames load
  * coarse to fine and the nearest one on hand is always drawn, so nothing ever waits on a spinner.
  */
-export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, children }: Props) {
+export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, children }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const available = useMemo(() => availableFrames(timeline.frames, timeline.step), [timeline]);
@@ -66,13 +84,19 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       frame: current,
       rect: { x: 0, y: 0, w: 0, h: 0 },
       stage: { w: 0, h: 0 },
+      stop: 0,
+      settled: true,
       sample: (x, y, w, h) => {
         let r = 0;
         let g = 0;
         let b = 0;
         let n = 0;
         for (let j = Math.max(0, Math.floor(y * SAMPLE_H)); j < Math.min(SAMPLE_H, Math.ceil((y + h) * SAMPLE_H)); j++)
-          for (let i = Math.max(0, Math.floor(x * SAMPLE_W)); i < Math.min(SAMPLE_W, Math.ceil((x + w) * SAMPLE_W)); i++) {
+          for (
+            let i = Math.max(0, Math.floor(x * SAMPLE_W));
+            i < Math.min(SAMPLE_W, Math.ceil((x + w) * SAMPLE_W));
+            i++
+          ) {
             const k = (j * SAMPLE_W + i) * 4;
             r += pixels[k] ?? 0;
             g += pixels[k + 1] ?? 0;
@@ -84,9 +108,18 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
     };
     const notify = () => {
       state.frame = current;
-      const dim = Math.max(0, ...beats.map((b) => cardAmount(progress(current, b.from, b.to)))) * 0.18;
-      canvas.style.filter = dim > 0.005 ? `brightness(${1 - dim})` : "";
       for (const fn of listeners.current) fn(state);
+    };
+    const settle = (settled: boolean) => {
+      state.settled = settled;
+    };
+    /** While holding, fetch the way to the neighbouring checkpoints, so the next move plays sharp. */
+    const prefetch = () => {
+      const around = [stops[index - 1], stops[index + 1]].filter((f): f is number => f !== undefined);
+      const path = around.flatMap((t) =>
+        Array.from({ length: 16 }, (_, k) => current + ((t - current) * (k + 1)) / 16),
+      );
+      store.focus(path.flatMap((f) => neighbourhood(available, f, 1)));
     };
     const draw = () => {
       const want = nearestLoaded(available, store.has, Math.round(current));
@@ -100,39 +133,52 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       pixels = probeCtx.getImageData(0, 0, SAMPLE_W, SAMPLE_H).data;
       shown = want;
     };
-    const store = new FrameStore((f) => `${frameSrc}${pad(f)}.webp`, available, (f) => {
-      if (Math.abs(f - current) <= timeline.step * 8 || shown < 0) {
-        shown = -1;
-        draw();
-        notify();
-      }
-    });
+    const store = new FrameStore(
+      (f) => `${frameSrc}${pad(f)}.webp`,
+      available,
+      (f) => {
+        if (Math.abs(f - current) <= timeline.step * 8 || shown < 0) {
+          shown = -1;
+          draw();
+          notify();
+        }
+      },
+    );
 
-    /** Play the film from where it is to `target`, by itself, eased; then hold. */
+    /**
+     * Play the film from where it is to `target`, by itself. It moves along the camera's travel, not its frame
+     * numbers, so the camera glides at an even speed and the only ease is the one at each end of the move.
+     */
     const playTo = (target: number) => {
       cancelAnimationFrame(raf);
       const from = current;
-      const span = Math.abs(target - from);
-      // Fetch the stretch ahead first: every few frames along the way, then the destination's neighbourhood.
+      const s0 = lookup(pace.frames, pace.travel, from);
+      const s1 = lookup(pace.frames, pace.travel, target);
       const path: number[] = [];
       for (let k = 1; k <= 24; k++) path.push(from + ((target - from) * k) / 24);
       store.focus([...neighbourhood(available, target, 10), ...path.flatMap((f) => neighbourhood(available, f, 1))]);
-      if (reduced || span < 1) {
+      settle(false);
+      if (reduced || Math.abs(target - from) < 1) {
         current = target;
         draw();
+        settle(true);
         notify();
         return;
       }
       playing = true;
-      const total = duration(span);
+      const total = duration(Math.abs(s1 - s0));
       const start = performance.now();
       const tick = (now: number) => {
         const t = Math.min(1, (now - start) / total);
-        current = from + (target - from) * ease(t);
+        current = t < 1 ? lookup(pace.travel, pace.frames, s0 + (s1 - s0) * ease(t)) : target;
         draw();
+        if (t >= 1) {
+          playing = false;
+          settle(true);
+          prefetch();
+        }
         notify();
         if (t < 1) raf = requestAnimationFrame(tick);
-        else playing = false;
       };
       raf = requestAnimationFrame(tick);
     };
@@ -140,6 +186,7 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       const next = Math.min(Math.max(index + dir, 0), stops.length - 1);
       if (next === index) return false;
       index = next;
+      state.stop = next;
       setStopIndex(next);
       playTo(stops[next] ?? current);
       return true;
@@ -151,6 +198,7 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       });
       window.scrollTo({ top: section.offsetTop });
       index = best;
+      state.stop = best;
       setStopIndex(best);
       playTo(stops[best] ?? frame);
     };
@@ -271,7 +319,7 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       cancelAnimationFrame(raf);
       store.stop();
     };
-  }, [available, beats, film, filmAspect, frameSrc, stops, timeline.step]);
+  }, [available, film, filmAspect, frameSrc, pace, stops, timeline.step]);
 
   return (
     <FilmContext.Provider value={film}>

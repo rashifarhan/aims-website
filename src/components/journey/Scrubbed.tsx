@@ -9,7 +9,15 @@ type Fade = [start: number, end: number];
  * Words that live in a stretch of the film: they rise in over `fadeIn` and leave over `fadeOut` (fractions of
  * the frame range), widening their display type as they go (Mona Sans width axis), all scrubbed by scroll.
  */
-export function Scrubbed({ from, to, fadeIn = [0, 0.15], fadeOut = [0.8, 1], stretch = [100, 125], className, children }: {
+export function Scrubbed({
+  from,
+  to,
+  fadeIn = [0, 0.15],
+  fadeOut = [0.8, 1],
+  stretch = [100, 125],
+  className,
+  children,
+}: {
   from: number;
   to: number;
   fadeIn?: Fade;
@@ -27,7 +35,10 @@ export function Scrubbed({ from, to, fadeIn = [0, 0.15], fadeOut = [0.8, 1], str
     node.style.visibility = a > 0.002 ? "visible" : "hidden";
     node.style.opacity = String(a);
     node.style.transform = `translate3d(0, ${(1 - a) * 28}px, 0)`;
-    node.style.setProperty("--stretch", `${stretch[0] + (stretch[1] - stretch[0]) * smooth(fadeIn[0], fadeOut[1], p)}%`);
+    node.style.setProperty(
+      "--stretch",
+      `${stretch[0] + (stretch[1] - stretch[0]) * smooth(fadeIn[0], fadeOut[1], p)}%`,
+    );
   });
   return (
     <div ref={el} className={className}>
@@ -59,7 +70,11 @@ export function LiftCounter({ from, to, floor }: { from: number; to: number; flo
 }
 
 /** Chapter rail: where you are, how far through, what's next; a tap jumps to that chapter's first product. */
-export function ChapterRail({ chapters }: { chapters: { key: string; label: string; from: number; to: number; jump: number }[] }) {
+export function ChapterRail({
+  chapters,
+}: {
+  chapters: { key: string; label: string; from: number; to: number; jump: number }[];
+}) {
   const film = useContext(FilmContext);
   const fills = useRef<(HTMLSpanElement | null)[]>([]);
   const items = useRef<(HTMLLIElement | null)[]>([]);

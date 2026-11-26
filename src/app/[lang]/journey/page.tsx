@@ -9,6 +9,7 @@ import { alternates } from "@/lib/seo";
 import { TimelineSchema } from "@/lib/journey/scrollMap";
 import rawTimeline from "@/lib/journey/timeline.json";
 import rawAnchors from "@/lib/journey/anchors.json";
+import pace from "@/lib/journey/pace.json";
 import { type AnchorPoint, type BeatData, beatData } from "@/components/journey/beatData";
 import { BeatCard } from "@/components/journey/BeatCard";
 import { JourneyHeader } from "@/components/journey/JourneyHeader";
@@ -24,7 +25,8 @@ const anchors = rawAnchors as unknown as Record<string, AnchorPoint[]>; // gener
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "One building, every door",
-    description: "Walk through a building fitted by AIMS: parking barriers, security gates, door access and face recognition attendance.",
+    description:
+      "Walk through a building fitted by AIMS: parking barriers, security gates, door access and face recognition attendance.",
     alternates: alternates(await getLocale(), "/journey"),
   };
 }
@@ -54,14 +56,30 @@ export default async function Journey() {
     .filter((c) => CHAPTER_COPY[c.key])
     .map((c) => {
       const first = beats.find((b) => b.chapter === c.key);
-      return { key: c.key, label: CHAPTER_COPY[c.key]?.title ?? c.key, from: c.from, to: c.to, jump: first ? stopFrame(first.key, first.from, first.to) : c.from };
+      return {
+        key: c.key,
+        label: CHAPTER_COPY[c.key]?.title ?? c.key,
+        from: c.from,
+        to: c.to,
+        jump: first ? stopFrame(first.key, first.from, first.to) : c.from,
+      };
     });
 
   return (
     <main id="main" className="journey-page">
-      <JourneyHeader authorized={AUTHORIZED} paths={{ home: at("/"), products: at("/products"), services: paths.services, quote: at("/quote") }} />
-      <JourneyPlayer timeline={timeline} frameSrc="/journey/frames/" filmAspect={1.6} stops={stops} beats={beats.map(({ from, to }) => ({ from, to }))}>
-        <Scrubbed from={hero.from} to={hero.to} fadeIn={[-1, -0.5]} fadeOut={[0.3, 0.6]} stretch={[110, 125]} className="hero">
+      <JourneyHeader
+        authorized={AUTHORIZED}
+        paths={{ home: at("/"), products: at("/products"), services: paths.services, quote: at("/quote") }}
+      />
+      <JourneyPlayer timeline={timeline} frameSrc="/journey/frames/" filmAspect={1.6} stops={stops} pace={pace}>
+        <Scrubbed
+          from={hero.from}
+          to={hero.to}
+          fadeIn={[-1, -0.5]}
+          fadeOut={[0.3, 0.6]}
+          stretch={[110, 125]}
+          className="hero"
+        >
           <p className="hero-badge">{AUTHORIZED}</p>
           <h1 className="hero-title">Every door of your building.</h1>
           <p className="hero-lead">{t.home.hero.lead}</p>
@@ -75,10 +93,11 @@ export default async function Journey() {
           </p>
         </Scrubbed>
         <LiftCounter from={timeline.lift.from} to={timeline.lift.to} floor={timeline.lift.floor} />
-        {beats.map((b) => (
+        {beats.map((b, i) => (
           <BeatCard
             key={b.key}
             beat={b}
+            stopIndex={i + 1}
             chapterTitle={CHAPTER_COPY[b.chapter]?.title ?? ""}
             chapterLine={firstOfChapter.has(b.key) ? CHAPTER_COPY[b.chapter]?.line : undefined}
           />
@@ -88,7 +107,12 @@ export default async function Journey() {
       <SystemSection
         beats={beats}
         authorized={AUTHORIZED}
-        figureLabels={{ years: t.home.proof.years, installations: t.home.proof.installations, clients: t.home.proof.clients, countries: t.home.proof.countries }}
+        figureLabels={{
+          years: t.home.proof.years,
+          installations: t.home.proof.installations,
+          clients: t.home.proof.clients,
+          countries: t.home.proof.countries,
+        }}
         figureNote={t.home.proof.body}
         paths={{ quote: at("/quote"), services: paths.services, product: paths.product, software: paths.software }}
       />
