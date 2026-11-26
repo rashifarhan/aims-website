@@ -45,7 +45,8 @@ export function HeroScroll({
     const count = matchMedia("(max-width: 767px)").matches ? 9000 : 20000;
     void import("./scene").then(({ createHeroScene }) => {
       if (!alive) return;
-      scene = createHeroScene(el, { count, still, colors });
+      const topInset = () => Math.max(0, document.querySelector("header")?.getBoundingClientRect().bottom ?? 0);
+      scene = createHeroScene(el, { count, still, colors, topInset });
       root.setAttribute("data-live", "");
       update();
     });

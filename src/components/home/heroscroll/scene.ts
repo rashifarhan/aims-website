@@ -21,6 +21,10 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { facePoints } from "./face";
 
+/** The face's extent in its own units (face.ts): 2.1 tall, about 1.5 wide with its sides. */
+const FACE_HEIGHT = 2.1;
+const FACE_WIDTH = 1.5;
+
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const ramp = (p: number, a: number, b: number) => {
   const x = clamp01((p - a) / (b - a));
@@ -81,7 +85,13 @@ export type HeroScene = {
 
 export function createHeroScene(
   canvas: HTMLCanvasElement,
-  opts: { count: number; still: boolean; colors: { base: string; lime: string } },
+  opts: {
+    count: number;
+    still: boolean;
+    colors: { base: string; lime: string };
+    /** Pixels of the stage hidden under the site header, read on every resize. */
+    topInset: () => number;
+  },
 ): HeroScene {
   const renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
   const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -155,6 +165,9 @@ export function createHeroScene(
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let width = 0;
   let height = 0;
+  // The verified ring's size against the face: wide screens give it room; narrow ones draw it close round the face,
+  // so it stays clear of the header and inside the screen's edges.
+  let ringFit = 1;
   const resize = () => {
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
@@ -169,8 +182,20 @@ export function createHeroScene(
     const wide = w / h > 1.15;
     // In Arabic the copy reads from the right, so the light takes the left.
     const side = document.documentElement.dir === "rtl" ? -1 : 1;
-    head.position.set(wide ? 1.15 * side : 0, wide ? 0 : 0.55, 0);
-    head.scale.setScalar(wide ? 1 : 0.82);
+    if (wide) {
+      head.position.set(1.15 * side, 0, 0);
+      head.scale.setScalar(1);
+      ringFit = 1;
+    } else {
+      // Narrow (client feedback, 26 Nov 2026: on phones the face ran up into the header). Size the face in screen
+      // terms instead: about 40% of the stage tall and within the width, its crown a clear gap below the header.
+      const unit = (2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360)) / h;
+      const s = Math.min((0.4 * h * unit) / FACE_HEIGHT, (0.86 * w * unit) / FACE_WIDTH);
+      const top = opts.topInset() + 40;
+      head.position.set(0, (h / 2 - top) * unit - (FACE_HEIGHT / 2) * s, 0);
+      head.scale.setScalar(s);
+      ringFit = 0.82;
+    }
   };
   resize();
 
@@ -192,7 +217,7 @@ export function createHeroScene(
     scanBar.position.y = ph.scanY;
     scanMat.opacity = ph.scanOn * 0.7;
     ringMat.opacity = ph.verify * 0.85;
-    ring.scale.setScalar(0.86 + 0.14 * ph.verify);
+    ring.scale.setScalar(ringFit * (0.86 + 0.14 * ph.verify));
     pointer.x += (pointer.tx - pointer.x) * 0.06;
     pointer.y += (pointer.ty - pointer.y) * 0.06;
     head.rotation.y = ph.turn + pointer.x * 0.35 + (opts.still ? 0 : Math.sin(t * 0.35) * 0.06);

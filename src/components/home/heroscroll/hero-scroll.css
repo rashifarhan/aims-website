@@ -150,3 +150,36 @@
   border-start-end-radius: 2rem;
   box-shadow: 0 -18px 40px color-mix(in srgb, var(--color-night-900) 35%, transparent);
 }
+
+/* Phones (client feedback, 26 Nov 2026: "Request a quote" got too little weight as a thin link under the button).
+   The pair stacks full width: the products pill stays the one filled action, and the quote becomes an outlined pill
+   of the same height in lime (7.5:1 on night-900), so it reads as the second button, not a footnote. */
+@media (max-width: 639px) {
+  .hero-scroll .home-hero-actions {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .hero-scroll .home-hero-actions > span,
+  .hero-scroll .home-hero-actions .home-button {
+    inline-size: 100%;
+  }
+  .hero-scroll .home-hero-actions .home-button {
+    justify-content: space-between;
+  }
+  .hero-scroll .home-secondary {
+    justify-content: center;
+    min-height: var(--home-button-height);
+    border: 1.5px solid var(--color-lime);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-lime) 10%, transparent);
+    transition:
+      transform var(--duration-fast) var(--ease-aims),
+      background-color var(--duration-hover) ease;
+  }
+  .hero-scroll .home-secondary:hover {
+    background: color-mix(in srgb, var(--color-lime) 18%, transparent);
+  }
+  .hero-scroll .home-secondary:active {
+    transform: translateY(1px);
+  }
+}
