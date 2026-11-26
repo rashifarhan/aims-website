@@ -6,13 +6,13 @@ import { AddToQuote } from "./AddToQuote";
 import type { BeatData } from "./beatData";
 import { anchorAt, useFilm } from "./film";
 
-type Phase = "out" | "arriving" | "in";
+type Phase = "out" | "in";
 
 /**
- * One product's moment, choreographed against the film rather than scrubbed by it: while the camera travels to
- * this product, its name sweeps in wide; once the camera settles, the name hands over to a card that rises in
- * with a soft spring, its contents a beat apart, and a line of light draws from the product to the card; on the
- * next gesture everything clears in a quarter of a second. The phases switch a data attribute and CSS does the
+ * One product's moment, choreographed against the film rather than scrubbed by it: while the camera travels,
+ * nothing covers the picture (user, 26 Nov: no big name while moving; the card names the product). Once the
+ * camera settles, a card rises in with a soft spring, its contents a beat apart, and a line of light draws from
+ * the product to the card; on the next gesture everything clears in a quarter of a second. The phases switch a data attribute and CSS does the
  * easing (journey.css); position follows the product frame by frame and the glass takes the picture's colour.
  */
 export function BeatCard({
@@ -40,7 +40,7 @@ export function BeatCard({
     const ln = line.current;
     const dt = dot.current;
     if (!el || !ps || !cd || !ln || !dt) return;
-    const next: Phase = s.stop !== stopIndex ? "out" : s.settled ? "in" : "arriving";
+    const next: Phase = s.stop === stopIndex && s.settled ? "in" : "out";
     const enter = next !== phase.current;
     if (enter) {
       phase.current = next;
@@ -101,10 +101,6 @@ export function BeatCard({
         <line ref={line} />
       </svg>
       <span ref={dot} className="beat-dot" aria-hidden="true" />
-      <div className="beat-title" aria-hidden="true">
-        <p className="beat-model">{beat.model}</p>
-        <p className="beat-big">{beat.name.replace(/^(ZKTeco|Alpha) /, "")}</p>
-      </div>
       <div ref={pos} className="beat-pos">
         <article ref={card} className="beat-card" aria-label={beat.name} inert>
           <p className="beat-chapter">{chapterTitle}</p>

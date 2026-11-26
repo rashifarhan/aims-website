@@ -373,48 +373,6 @@ body:has(.journey-page) footer {
   }
 }
 
-/* The arrival title: the product's name, huge, stretching wide as the camera arrives. */
-.beat-title {
-  position: absolute;
-  inset-inline-start: clamp(1.25rem, 5vw, 5rem);
-  inset-block-start: calc(var(--j-header) + 3vh);
-  max-width: 90%;
-  text-shadow: 0 2px 30px rgb(0 0 0 / 0.5);
-  opacity: 0;
-  translate: 0 1.5rem;
-  transition:
-    opacity 0.25s var(--j-leave),
-    translate 0.25s var(--j-leave);
-}
-/* While the camera travels here: the product's name rises and widens with it, then hands over to the card. */
-.beat[data-phase="arriving"] .beat-title {
-  opacity: 1;
-  translate: 0 0;
-  transition:
-    opacity 0.5s ease-out 0.15s,
-    translate 1.2s var(--j-spring) 0.15s;
-}
-.beat[data-phase="in"] .beat-title {
-  opacity: 0;
-  translate: 0 -0.75rem;
-  transition:
-    opacity 0.45s ease-in,
-    translate 0.6s ease-in;
-}
-.beat-big {
-  font-family: var(--j-display);
-  font-weight: 840;
-  font-size: clamp(3rem, 9vw, 9rem);
-  line-height: 0.9;
-  letter-spacing: -0.01em;
-  font-stretch: 75%;
-  transition: font-stretch 0.25s var(--j-leave);
-}
-.beat[data-phase="arriving"] .beat-big,
-.beat[data-phase="in"] .beat-big {
-  font-stretch: 125%;
-  transition: font-stretch 1.6s var(--j-spring);
-}
 .beat-model {
   font-family: var(--j-mono);
   font-size: 0.85rem;
@@ -816,9 +774,6 @@ body:has(.journey-page) footer {
   }
   .rail button {
     font-size: 0.7rem;
-  }
-  .beat-title {
-    inset-block-start: calc(var(--j-header) + 4.5rem);
   }
   /* A phone keeps the product in view: the sheet says what it is, two facts and where to go next. */
   .beat-aims,
