@@ -185,10 +185,17 @@ def devices():
     _glow("SpeedFace V5L verified", ((1158, 0.0), (1162, 4.0)))
 
 
+# One grade across the film: the same view transform and look throughout, with exposure eased between
+# chapters (night street, lit lobby, lit office, out into the dusk) so each reads without a jump.
+EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (430, 0.3), (480, 0.25), (832, 0.25), (870, 0.35), (1250, 0.35), (1320, 0.1), (END, 0.0))
+
+
 def build():
     scene = bpy.context.scene
     scene.render.fps = FPS
     scene.frame_start, scene.frame_end = 1, END
     cam = camera_rig()
     devices()
+    for frame, ev in EXPOSURE:
+        _key(scene.view_settings, "exposure", frame, ev)
     return cam

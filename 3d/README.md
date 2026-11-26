@@ -98,7 +98,8 @@ office glass over the city. `journey.CHAPTERS` gives each chapter's frame range 
 /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --video --engine eevee --res 960x600 --step 2
 ```
 
-Output goes to `3d/renders/journey/`.
+Output goes to `3d/renders/journey/`. The homepage will use route B: this film as a frame sequence scrubbed
+by scroll (decided 26 Nov), so the final render is the journey at full quality with `--blur`.
 
 ## Files
 

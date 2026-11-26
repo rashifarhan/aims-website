@@ -111,6 +111,24 @@ def text(name, body, size, location, material=None, extrude=0.001, rotation=(mat
     return obj
 
 
+def boxes(name, parts, material=None):
+    """Several boxes [(size, centre), ...] as ONE object, so a shader that varies per object (a tower's
+    window grid) treats them as one building."""
+    import bmesh
+    from mathutils import Matrix
+
+    bm = bmesh.new()
+    for size, centre in parts:
+        mat = Matrix.Translation(centre) @ Matrix.Diagonal((*size, 1.0))
+        bmesh.ops.create_cube(bm, size=1.0, matrix=mat)
+    mesh = bpy.data.meshes.new(name)
+    bm.to_mesh(mesh)
+    bm.free()
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    return _finish(obj, material, 0)
+
+
 def panel(name, width, height, location, material=None, parent=None):
     """A flat w x h rectangle facing -Y with 0..1 UVs (u across, v up): for screens and printed graphics."""
     bpy.ops.mesh.primitive_plane_add(location=location, rotation=(math.pi / 2, 0, 0))

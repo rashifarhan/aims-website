@@ -11,7 +11,7 @@ import random
 import bpy
 
 from . import materials as M
-from .build import box, cylinder, empty
+from .build import box, boxes, cylinder, empty
 
 X0, X1, Y0, Y1 = -15.0, 15.0, 0.0, 24.0
 GROUND_H, FLOOR_H, FLOORS = 6.0, 3.6, 18
@@ -52,7 +52,7 @@ def curtain_wall(name, axis, at, a0, a1, z0, z1, frame, glass, bay=1.5, transoms
 def tower():
     """The tower above the lobby: facade boxes for the floors nobody enters, and the office floor's three
     solid sides (its front is real glass, built in spaces.py)."""
-    facade = M.tower_facade("Our tower facade", lit=0.35, glow=1.6)
+    facade = M.tower_facade("Our tower facade", lit=(0.32, 0.32), glow=1.6, haze=False)
     slab = M.concrete("Slab edge", (0.2, 0.2, 0.21))
     w, d = X1 - X0, Y1 - Y0
     cx, cy = (X0 + X1) / 2, (Y0 + Y1) / 2
@@ -80,7 +80,7 @@ def neighbours(seed=3):
     """A dusk skyline: towers of the same facade at 300-1200 m, most of them ahead of the office windows
     (-Y), so the finale looks out over lit floors; far enough that none crowds the tower in the hero."""
     rng = random.Random(seed)
-    facade = M.tower_facade("Skyline facade", lit=0.3, glow=2.0)
+    facade = M.tower_facade("Skyline facade", bay=(1.2, 2.4), floor=(3.4, 4.2), lit=(0.15, 0.45), glow=2.0)
     for k in range(44):
         ahead = k < 32
         angle = math.radians(rng.uniform(-165, -15) if ahead else rng.uniform(15, 165))
@@ -88,17 +88,25 @@ def neighbours(seed=3):
         x, y = dist * math.cos(angle), dist * math.sin(angle) + Y1 / 2
         w, d = rng.uniform(25, 50), rng.uniform(25, 50)
         h = rng.uniform(40, min(260, dist * 0.3))  # nothing near looms over the view
-        box(f"Skyline tower {k}", (w, d, h), (x, y, h / 2), facade, 0)
+        # Gulf towers step back as they rise: a base and up to two narrower tiers.
+        tiers = 1 if h < 120 else rng.choice((2, 3))
+        parts, z = [], 0.0
+        for t in range(tiers):
+            th, scale = h / tiers, 1.0 - 0.18 * t
+            parts.append(((w * scale, d * scale, th), (x, y, z + th / 2)))
+            z += th
+        boxes(f"Skyline tower {k}", parts, facade)
         if h > 180 and rng.random() < 0.5:  # a few spires, as Gulf skylines have
             cylinder(f"Spire {k}", 1.5, h * 0.15, (x, y, h + h * 0.075), M.dark_metal("Spire"), vertices=12, bevel=0)
+            cylinder(f"Spire light {k}", 0.6, 0.6, (x, y, h * 1.15 + 0.3), M.led("Aircraft warning", (1.0, 0.1, 0.05), 20.0), vertices=12, bevel=0)
 
 
 def city_fabric(seed=7):
     """The city between the towers: mid-rises along the tower's own street (they frame the hero) and a few
     hundred low blocks out to 1.5 km (they fill the view from the office floor)."""
     rng = random.Random(seed)
-    near = M.tower_facade("Street block facade", bay=2.0, lit=0.3, glow=1.4)
-    far = M.tower_facade("City facade", bay=2.0, lit=0.25, glow=2.0)
+    near = M.tower_facade("Street block facade", bay=(1.5, 3.0), floor=(3.2, 4.0), lit=(0.15, 0.4), glow=1.4)
+    far = M.tower_facade("City facade", bay=(1.8, 3.2), floor=(3.2, 4.2), lit=(0.1, 0.35), glow=2.0)
     x = -130.0
     while x < 130:  # the tower's side of the street, either side of the plot
         w = rng.uniform(18, 34)
@@ -143,6 +151,32 @@ def street_lights(positions, height=8.0):
         spot.data.spot_size = 120 * math.pi / 180
         spot.data.spot_blend = 0.6
         spot.data.shadow_soft_size = 0.3
+
+
+def forecourt_dressing():
+    """Kerbs, date palms and lit bollards: the street furniture that makes a forecourt read as a real one."""
+    from .dressing import date_palm
+
+    kerb = M.concrete("Kerb", (0.5, 0.49, 0.46))
+    box("Kerb street", (400, 0.2, 0.16), (0, -18.0, 0.03), kerb, 0.01)
+    box("Kerb median north", (400, 0.15, 0.2), (0, -25.3, 0.05), kerb, 0.01)
+    for x in (8.95, 14.05):
+        box(f"Kerb driveway {x}", (0.2, 14, 0.14), (x, -7, 0.02), kerb, 0.01)
+    k = 0
+    for x in (-13.0, -8.5, 4.5):  # forecourt palms, either side of the entrance
+        date_palm(f"Forecourt palm {k}", (x, -9.5, 0.05), seed=40 + k)
+        k += 1
+    for x in range(-60, 61, 12):  # pavement palms, clear of the driveway
+        if 6 < x < 17:
+            continue
+        date_palm(f"Pavement palm {k}", (x + 2.5, -16.2, 0.11), seed=40 + k, uplight=abs(x) < 40)
+        k += 1
+    steel, ring = M.brushed_steel("Bollard steel", axis="Z"), M.led("Bollard light", (1.0, 0.82, 0.6), 6.0)
+    for i, x in enumerate([-14.0 + 1.6 * j for j in range(15)]):
+        if -2.5 < x < 2.5:  # leave the walk to the doors open
+            continue
+        cylinder(f"Bollard {i}", 0.08, 0.9, (x, -13.8, 0.45), steel, vertices=24)
+        cylinder(f"Bollard ring {i}", 0.082, 0.04, (x, -13.8, 0.82), ring, vertices=24, bevel=0)
 
 
 def entrance_canopy():

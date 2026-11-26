@@ -13,7 +13,7 @@ import bpy
 
 from . import materials as M
 from .barrier import bgm_1030, pole_with_reader
-from .build import DEG, box, cylinder, empty
+from .build import DEG, box, cylinder, empty, text
 from .detector import zk_d3180s
 from .door import glass_door
 from .dressing import planter, reception_desk
@@ -34,6 +34,38 @@ def _linear_lights(name, xs, y0, y1, z, strength, colour=(1.0, 0.86, 0.7)):
     for k, x in enumerate(xs):
         box(f"{name} trim {k}", (0.08, y1 - y0 + 0.04, 0.012), (x, (y0 + y1) / 2, z - 0.004), trim, 0)
         box(f"{name} {k}", (0.05, y1 - y0, 0.012), (x, (y0 + y1) / 2, z - 0.006), led, 0)
+
+
+def _hazard_stripes(name="Hazard stripes", width=0.25):
+    """Yellow and black diagonal stripes (car park kerbs and clearance bars)."""
+    m = M.plastic(name, (0.6, 0.45, 0.02), 0.5)
+    n, l = m.node_tree.nodes, m.node_tree.links
+    geo, sep = n.new("ShaderNodeNewGeometry"), n.new("ShaderNodeSeparateXYZ")
+    l.new(geo.outputs["Position"], sep.inputs[0])
+    diag = n.new("ShaderNodeMath")
+    diag.operation = "ADD"
+    xy = n.new("ShaderNodeMath")
+    xy.operation = "ADD"
+    l.new(sep.outputs["X"], xy.inputs[0])
+    l.new(sep.outputs["Y"], xy.inputs[1])
+    # X + Y + Z: diagonal stripes on a face of any orientation.
+    l.new(xy.outputs[0], diag.inputs[0])
+    l.new(sep.outputs["Z"], diag.inputs[1])
+    wave = n.new("ShaderNodeMath")
+    wave.operation = "PINGPONG"
+    wave.inputs[1].default_value = width
+    l.new(diag.outputs[0], wave.inputs[0])
+    step = n.new("ShaderNodeMath")
+    step.operation = "GREATER_THAN"
+    step.inputs[1].default_value = width / 2
+    l.new(wave.outputs[0], step.inputs[0])
+    mix = n.new("ShaderNodeMix")
+    mix.data_type = "RGBA"
+    mix.inputs[6].default_value = (0.6, 0.45, 0.02, 1)
+    mix.inputs[7].default_value = (0.02, 0.02, 0.02, 1)
+    l.new(step.outputs[0], mix.inputs[0])
+    l.new(mix.outputs[2], n["Principled BSDF"].inputs["Base Color"])
+    return m
 
 
 def _lift_portals(name, y, z0, xs=(-1.4, 1.4)):
@@ -127,12 +159,20 @@ def ground_floor(opts):
     graze.data.shape, graze.data.size, graze.data.size_y = "RECTANGLE", lx1 - lx0 - 0.6, 0.05
     graze.data.energy, graze.data.color, graze.data.spread = 600, (1.0, 0.72, 0.45), 25 * DEG
     graze.rotation_euler = (-14 * DEG, 0, 0)  # tipped into the wall so it rakes the slats, not the floor
+    # Light linking: the grazer lights only the oak wall, so it leaves no hot band on the marble below.
+    oak_wall = bpy.data.collections.new("Oak wall receivers")
+    for obj in (backing, slat):
+        oak_wall.objects.link(obj)
+    if hasattr(graze, "light_linking"):
+        graze.light_linking.receiver_collection = oak_wall
 
 
 def car_park_portal(opts):
     """The car park entrance at the front right: a stone frame, a ramp falling into the basement under
     cool strip lights, and the barrier with its UHF reader on the kerb before it."""
-    stone, conc = M.concrete("Portal stone", (0.42, 0.4, 0.37)), M.concrete("Ramp concrete")
+    # Dark cladding round the portal, so it reads as an entrance and not as a hole in the wall (plain: a
+    # veined stone at this scale reads as graffiti).
+    stone, conc = M.powder_coat("Portal cladding", (0.05, 0.05, 0.055), 0.5), M.concrete("Ramp concrete")
     px0, px1, ph = 9.0, 14.0, 3.2
     box("Portal left", (px0 - LOBBY_X1, 0.6, GROUND_H), ((LOBBY_X1 + px0) / 2, 0.0, GROUND_H / 2), stone, 0.004)
     box("Portal right", (X1 - px1, 0.6, GROUND_H), ((px1 + X1) / 2, 0.0, GROUND_H / 2), stone, 0.004)
@@ -145,12 +185,33 @@ def car_park_portal(opts):
         box(f"Ramp wall {x}", (0.2, length, ph + drop), (x, length / 2, (ph - drop) / 2), conc, 0)
     box("Ramp ceiling", (px1 - px0 + 0.4, length, 0.2), ((px0 + px1) / 2, length / 2, ph + 0.1), conc, 0)
     box("Ramp end", (px1 - px0, 0.2, ph + drop), ((px0 + px1) / 2, length, (ph - drop) / 2), M.plaster("Ramp end", (0.05, 0.05, 0.05)), 0)
+    # Painted kerb band along the ramp walls and a striped clearance bar hung across the entrance.
+    stripes = _hazard_stripes()
+    for x in (px0 + 0.01, px1 - 0.01):
+        box(f"Ramp wall band {x}", (0.02, length, 0.35), (x, length / 2, 0.0), stripes, 0)
+    box("Clearance bar", (px1 - px0 - 0.2, 0.12, 0.12), ((px0 + px1) / 2, -0.6, 2.4), stripes, 0.01)
+    for x in (px0 + 0.3, px1 - 0.3):
+        box(f"Clearance chain {x}", (0.02, 0.02, ph - 2.46), (x, -0.6, (ph + 2.46) / 2), M.dark_metal("Chain"), 0)
+    # A standard blue "P" sign on the portal's left pier, and wall lights either side.
+    sign = M.plastic("Sign blue", (0.0, 0.08, 0.35), 0.4)
+    box("P sign", (0.7, 0.04, 0.7), (px0 - 0.5, -0.33, 3.9), sign, 0.01)
+    text("P sign letter", "P", 0.5, (px0 - 0.5, -0.36, 3.9), M.plastic("Sign white", (0.85, 0.85, 0.85), 0.4), 0.004)
+    for x in (px0 - 0.5, px1 + 0.5):
+        box(f"Portal wall light {x}", (0.12, 0.1, 0.25), (x, -0.35, 2.6), M.dark_metal("Wall light"), 0.005)
+        box(f"Portal wall glow {x}", (0.08, 0.01, 0.02), (x, -0.41, 2.49), M.led("Wall light glow", (1.0, 0.82, 0.6), 30.0), 0)
+        bpy.ops.object.light_add(type="SPOT", location=(x, -0.5, 2.45))
+        spot = bpy.context.object
+        spot.data.energy, spot.data.color, spot.data.spot_size = 150, (1.0, 0.82, 0.6), 100 * DEG
     cool = M.led("Car park strip", (0.85, 0.92, 1.0), 12.0)
     for k in range(5):
         box(f"Ramp strip {k}", (1.2, 0.08, 0.03), ((px0 + px1) / 2, 1.5 + k * 2.8, ph - 0.02), cool, 0)
     # Barrier on the lane's left kerb, boom across the lane; the reader before it, turned to the driver.
     box("Barrier island", (0.9, 3.2, 0.15), (px0 + 0.15, -2.2, 0.075), M.concrete("Island", (0.5, 0.48, 0.44)), 0.01)
     bgm_1030("BGM-1030", (px0 + 0.2, -1.4, 0.15), rotation_z=0.0, boom_open=float(opts.get("boom", "0")))
+    ring = M.led("Island bollard light", (1.0, 0.82, 0.6), 6.0)
+    for y in (-3.7, -0.75):  # lit bollards at both ends of the island
+        cylinder(f"Island bollard {y}", 0.08, 0.9, (px0 + 0.15, y, 0.6), M.brushed_steel("Island bollard", axis="Z"), vertices=24)
+        cylinder(f"Island bollard ring {y}", 0.082, 0.04, (px0 + 0.15, y, 0.97), ring, vertices=24, bevel=0)
     pole_with_reader("UHF10 pole", (px0 + 0.1, -3.4, 0.15), facing_deg=-15, height=1.9)
 
 
@@ -162,7 +223,7 @@ def office_floor(opts):
     frame, glass = M.dark_metal("Office mullion"), M.window_glass("Office glass")
     wall = M.plaster("Office wall", (0.66, 0.65, 0.62))
     # 1 cm proud of the tower box below, so the two top faces never fight.
-    box("Office floor", (X1 - X0, Y1, 0.1), (0, Y1 / 2, z0 - 0.04), M.carpet(), 0)
+    box("Office floor", (X1 - X0, Y1, 0.1), (0, Y1 / 2, z0 - 0.04), M.carpet("Office carpet", (0.16, 0.16, 0.165)), 0)
     box("Office ceiling", (X1 - X0, Y1, 0.1), (0, Y1 / 2, z0 + ceil + 0.05), M.plaster("Office ceiling", (0.72, 0.72, 0.7)), 0)
     box("Slab below office", (X1 - X0 + 0.2, 0.3, 0.6), (0, 0.0, z0 - 0.3), M.concrete("Office slab edge", (0.2, 0.2, 0.21)), 0.004)
     box("Plenum above office", (X1 - X0 + 0.2, 0.3, 0.6), (0, 0.0, z0 + ceil + 0.4), M.concrete("Office plenum", (0.2, 0.2, 0.21)), 0.004)
@@ -212,7 +273,14 @@ def office_floor(opts):
         monitor(f"Desk monitor {k}", (x, 2.65, z0 + 0.75), rotation_z=math.pi, screen_image=None)
     planter("Office planter", (-13.6, 1.2, z0), seed=21)
     planter("Office planter 2", (13.6, 1.2, z0), seed=9)
+    # Ceiling panels: an emitting face to be seen, and an area light of the same size to light the room
+    # (an emissive face alone barely lights a room this size, which is why it read dark).
     panel = M.led("Ceiling panel", (1.0, 0.95, 0.88), 3.0)
     for x in range(-12, 13, 4):
-        for y in (2.0, 5.5):
+        for y in (2.0, 5.5, 8.0):
             box(f"Ceiling panel {x}{y}", (1.2, 0.6, 0.01), (x, y, z0 + ceil - 0.006), panel, 0)
+            bpy.ops.object.light_add(type="AREA", location=(x, y, z0 + ceil - 0.02))
+            lamp = bpy.context.object
+            lamp.name = f"Ceiling panel light {x}{y}"
+            lamp.data.shape, lamp.data.size, lamp.data.size_y = "RECTANGLE", 1.2, 0.6
+            lamp.data.energy, lamp.data.color = 110, (1.0, 0.95, 0.88)

@@ -4,6 +4,7 @@
   (shots: hero, parking, lobby, corridor, clockin, finale)
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --frames 1,300,560
   /Applications/Blender.app/Contents/MacOS/Blender -b -P 3d/building.py -- --shot journey --video --engine eevee --res 960x600 --step 2
+  (add --blur for camera motion blur)
 
 Options: --sky 4 (twilight strength)  --sun-elevation -4  --sun-azimuth 200  --samples 128  --res 1600x1000  --exposure 0  --boom 0..1  --zones 0..18  --gates 0..1  --door 0..1
          --save 3d/renders/building.blend (the whole scene, for the camera path)  --no-render
@@ -23,7 +24,17 @@ from aims3d.build import look_at  # noqa: E402
 from aims3d.finish import photographic_finish  # noqa: E402
 from aims3d.render import parse_args, render_settings  # noqa: E402
 from aims3d.spaces import car_park_portal, ground_floor, office_floor  # noqa: E402
-from aims3d.tower import OFFICE_FLOOR, city_fabric, entrance_canopy, floor_z, neighbours, street_and_forecourt, street_lights, tower  # noqa: E402
+from aims3d.tower import (  # noqa: E402
+    OFFICE_FLOOR,
+    city_fabric,
+    entrance_canopy,
+    floor_z,
+    forecourt_dressing,
+    neighbours,
+    street_and_forecourt,
+    street_lights,
+    tower,
+)
 
 Z_OFFICE = floor_z(OFFICE_FLOOR)
 
@@ -95,6 +106,7 @@ def main():
     street_lights([(x, -18.5) for x in (-40, -20, 0, 20, 40)] + [(x, -33.5) for x in (-30, -10, 10, 30)])
     tower()
     entrance_canopy()
+    forecourt_dressing()
     neighbours()
     city_fabric()
     ground_floor(opts)
@@ -123,6 +135,9 @@ def render_journey(opts, flags):
     """`--frames 1,300,560` renders those frames as stills; `--video` renders the whole journey (every
     `--step` frames, played back at real speed) to an MP4 for review."""
     sc = bpy.context.scene
+    if "blur" in flags:  # camera-move motion blur, for the final film
+        sc.render.use_motion_blur = True
+        sc.render.motion_blur_shutter = 0.5
     out_dir = os.path.join(HERE, "renders", "journey")
     os.makedirs(out_dir, exist_ok=True)
     if "video" in flags:

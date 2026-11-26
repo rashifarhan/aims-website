@@ -341,11 +341,32 @@ def screen(name, image_path=None, colour=(0.02, 0.05, 0.09), strength=1.0):
     return m
 
 
-def tower_facade(name="Tower facade", bay=1.5, floor=3.6, lit=0.3, glow=1.5):
-    """A whole office tower's curtain wall in one shader, for the floors nobody walks through: mullions every
-    `bay` metres, a dark spandrel at the foot of each floor, and dark glass in which `lit` of the windows glow
-    at dusk, each at its own brightness and warmth (offices are never lit evenly). Works on any box: the grid
-    runs along X + Y and up Z in world space, so the boxes a tower is built from line up."""
+HAZE = (0.075, 0.085, 0.14)  # the dusk air between the camera and the far city
+
+
+def _haze_over(n, l, shader_out, near=200.0, far=1800.0, most=0.75):
+    """Aerial perspective: blend toward the dusk haze with distance from the camera (ray length), so the
+    city recedes in layers instead of every block standing at the same contrast."""
+    path, rng = n.new("ShaderNodeLightPath"), n.new("ShaderNodeMapRange")
+    rng.inputs["From Min"].default_value, rng.inputs["From Max"].default_value = near, far
+    rng.inputs["To Max"].default_value = most
+    l.new(path.outputs["Ray Length"], rng.inputs["Value"])
+    haze = n.new("ShaderNodeEmission")
+    haze.inputs["Color"].default_value = (*HAZE, 1)
+    mix = n.new("ShaderNodeMixShader")
+    l.new(rng.outputs["Result"], mix.inputs["Fac"])
+    l.new(shader_out, mix.inputs[1])
+    l.new(haze.outputs["Emission"], mix.inputs[2])
+    return mix.outputs["Shader"]
+
+
+def tower_facade(name="Tower facade", bay=(1.5, 1.5), floor=(3.6, 3.6), lit=(0.3, 0.3), glow=1.5, haze=True):
+    """A whole office tower's curtain wall in one shader, for the floors nobody walks through: mullions, a dark
+    spandrel at the foot of each floor, and dark glass in which some windows glow at dusk, each at its own
+    brightness and warmth, brighter toward its ceiling (offices are never lit evenly). `bay`, `floor` and `lit`
+    are (min, max) ranges: each object picks its own values from its random number, so one material gives a
+    whole city of different buildings. The grid runs along X + Y and up Z in world space, so the boxes a
+    tower is built from line up."""
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     n, l = m.node_tree.nodes, m.node_tree.links
@@ -364,27 +385,43 @@ def tower_facade(name="Tower facade", bay=1.5, floor=3.6, lit=0.3, glow=1.5):
                 l.new(v, node.inputs[i])
         return node.outputs[0]
 
+    obj = n.new("ShaderNodeObjectInfo").outputs["Random"]
+
+    def per_object(lo_hi, salt):
+        lo, hi = lo_hi
+        if lo == hi:
+            return lo
+        return math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", obj, salt)), hi - lo, lo)
+
+    bay_v, floor_v, lit_v = per_object(bay, 1.0), per_object(floor, 13.7), per_object(lit, 7.31)
     geo, sep = n.new("ShaderNodeNewGeometry"), n.new("ShaderNodeSeparateXYZ")
     l.new(geo.outputs["Position"], sep.inputs[0])
-    u = math_node("DIVIDE", math_node("ADD", sep.outputs["X"], sep.outputs["Y"]), bay)
-    v = math_node("DIVIDE", sep.outputs["Z"], floor)
+    u = math_node("DIVIDE", math_node("ADD", sep.outputs["X"], sep.outputs["Y"]), bay_v)
+    v = math_node("DIVIDE", sep.outputs["Z"], floor_v)
     fu, fv = math_node("FRACT", u), math_node("FRACT", v)
     # Mullions and the floor joint: thin bands at the cell edges.
     mull = math_node("MAXIMUM", math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fu, 0.5)), 0.47),
                      math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fv, 0.5)), 0.49))
-    # One random number per window, and two more derived from it (brightness, warmth).
+    # One random number per window (and per building), and two more derived from it (brightness, warmth).
     cell = n.new("ShaderNodeCombineXYZ")
     l.new(math_node("FLOOR", u), cell.inputs["X"])
     l.new(math_node("FLOOR", v), cell.inputs["Y"])
+    l.new(obj, cell.inputs["Z"])
     noise = n.new("ShaderNodeTexWhiteNoise")
     noise.noise_dimensions = "3D"
     l.new(cell.outputs[0], noise.inputs["Vector"])
     r = noise.outputs["Value"]
-    on = math_node("GREATER_THAN", r, 1.0 - lit)
+    on = math_node("GREATER_THAN", r, math_node("SUBTRACT", 1.0, lit_v))
     bright = math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", r, 7.13)), 0.75, 0.25)
     warm = math_node("FRACT", math_node("MULTIPLY", r, 3.71))
     above_spandrel = math_node("GREATER_THAN", fv, 0.28)
-    strength = math_node("MULTIPLY", math_node("MULTIPLY", on, above_spandrel), math_node("MULTIPLY", bright, glow))
+    # Ceiling lights: a lit window is brightest just under its ceiling and dimmer toward the sill.
+    ceiling = n.new("ShaderNodeMapRange")
+    ceiling.inputs["From Min"].default_value, ceiling.inputs["From Max"].default_value = 0.28, 1.0
+    ceiling.inputs["To Min"].default_value, ceiling.inputs["To Max"].default_value = 0.5, 1.25
+    l.new(fv, ceiling.inputs["Value"])
+    strength = math_node("MULTIPLY", math_node("MULTIPLY", on, above_spandrel),
+                         math_node("MULTIPLY", math_node("MULTIPLY", bright, ceiling.outputs["Result"]), glow))
     tint = n.new("ShaderNodeMix")
     tint.data_type = "RGBA"
     # Socket names repeat per data type on this node, so the colour pair is addressed by index.
@@ -408,7 +445,7 @@ def tower_facade(name="Tower facade", bay=1.5, floor=3.6, lit=0.3, glow=1.5):
     l.new(math_node("MAXIMUM", mull, roof), mix.inputs["Fac"])
     l.new(glass.outputs["BSDF"], mix.inputs[1])
     l.new(mullion.outputs["BSDF"], mix.inputs[2])
-    l.new(mix.outputs["Shader"], out.inputs["Surface"])
+    l.new(_haze_over(n, l, mix.outputs["Shader"]) if haze else mix.outputs["Shader"], out.inputs["Surface"])
     return m
 
 
@@ -508,4 +545,63 @@ def city_carpet(name="City at night", block=140.0, clear_radius=180.0):
     far = node("GREATER_THAN", dist, clear_radius)
     _set(p, "Emission Color", (1.0, 0.62, 0.32, 1))
     l.new(node("MULTIPLY", node("MULTIPLY", streets, far), 3.0), p.inputs["Emission Strength"])
+    l.new(_haze_over(n, l, p.outputs["BSDF"]), n["Material Output"].inputs["Surface"])
+    return m
+
+
+def palm_bark(name="Palm bark"):
+    """Date palm trunk: brown-grey with the ring scars of old frond bases."""
+    m, p, n, l = _principled(name)
+    coord = n.new("ShaderNodeTexCoord")
+    rings = n.new("ShaderNodeTexWave")
+    rings.bands_direction = "Z"
+    rings.inputs["Scale"].default_value = 14.0
+    rings.inputs["Distortion"].default_value = 3.0
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.06, 0.045, 0.03, 1)
+    ramp.color_ramp.elements[1].color = (0.16, 0.12, 0.08, 1)
+    bump = n.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.6
+    l.new(coord.outputs["Object"], rings.inputs["Vector"])
+    l.new(rings.outputs["Fac"], ramp.inputs["Fac"])
+    l.new(ramp.outputs["Color"], p.inputs["Base Color"])
+    l.new(rings.outputs["Fac"], bump.inputs["Height"])
+    l.new(bump.outputs["Normal"], p.inputs["Normal"])
+    _set(p, "Roughness", 0.9)
+    return m
+
+
+def palm_frond(name="Palm frond"):
+    """A frond ribbon whose UVs (u across, v along) are cut into angled leaflets by an alpha mask."""
+    m, p, n, l = _principled(name)
+    _set(p, "Base Color", (0.035, 0.06, 0.022, 1))
+    _set(p, "Roughness", 0.45)
+    _set(p, "Subsurface", 0.1)
+    uv, sep = n.new("ShaderNodeTexCoord"), n.new("ShaderNodeSeparateXYZ")
+    l.new(uv.outputs["UV"], sep.inputs[0])
+
+    def node(op, a, b=None):
+        x = n.new("ShaderNodeMath")
+        x.operation = op
+        for i, v in enumerate((a, b)):
+            if v is None:
+                continue
+            if isinstance(v, (int, float)):
+                x.inputs[i].default_value = v
+            else:
+                l.new(v, x.inputs[i])
+        return x.outputs[0]
+
+    across = node("ABSOLUTE", node("SUBTRACT", sep.outputs["X"], 0.5))
+    # Leaflets slant back from the midrib: stripes along v, offset by the distance from the middle.
+    stripes = node("FRACT", node("ADD", node("MULTIPLY", sep.outputs["Y"], 60.0), node("MULTIPLY", across, 9.0)))
+    leaf = node("MAXIMUM", node("LESS_THAN", stripes, 0.5), node("LESS_THAN", across, 0.04))
+    clear = n.new("ShaderNodeBsdfTransparent")
+    mix = n.new("ShaderNodeMixShader")
+    l.new(leaf, mix.inputs["Fac"])
+    l.new(clear.outputs["BSDF"], mix.inputs[1])
+    l.new(p.outputs["BSDF"], mix.inputs[2])
+    l.new(mix.outputs["Shader"], n["Material Output"].inputs["Surface"])
+    if hasattr(m, "surface_render_method"):
+        m.surface_render_method = "DITHERED"
     return m
