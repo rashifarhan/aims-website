@@ -1,0 +1,552 @@
+/* Option 2, step inside the terminal (exploration). --dive (0 → 1) flies the terminal at the viewer; --inside
+   (0 → 1) swaps its screen for the family showcase. Both are written by StepInside on scroll. */
+.si {
+  --dive: 0;
+  --inside: 0;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  position: relative;
+  height: 560svh;
+  background: #0b1d14;
+  color: #fff;
+}
+.si-stage {
+  position: sticky;
+  top: 4.5rem;
+  height: calc(100svh - 4.5rem);
+  overflow: clip;
+  background: radial-gradient(70% 80% at 50% 38%, #24603f 0%, #143826 45%, #0b1d14 100%);
+}
+.si-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.si[data-inside] .si-hero {
+  pointer-events: none;
+}
+.si-word {
+  position: absolute;
+  inset-inline: 0;
+  top: 9%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: min(30vw, 27rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: #f3f8f4;
+  opacity: calc(1 - var(--dive) * 2.4);
+  scale: calc(1 + var(--dive) * 0.6);
+}
+.si-tag {
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  margin: 0;
+  translate: -50% calc(var(--dive) * -120px);
+  rotate: -3deg;
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  background: #0f1f17;
+  color: #78be20;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.25rem;
+  white-space: nowrap;
+  opacity: calc(1 - var(--dive) * 4);
+}
+.si-badge {
+  position: absolute;
+  right: 7%;
+  top: -1.5rem;
+  width: 14rem;
+  translate: 0 calc(var(--dive) * -340px);
+  opacity: calc(1 - var(--dive) * 3);
+}
+.si-lanyard {
+  display: block;
+  width: 7.5rem;
+  height: 18rem;
+  margin-inline-start: 2.5rem;
+}
+.si-card {
+  position: relative;
+  margin-top: -1rem;
+  rotate: 7deg;
+  filter: drop-shadow(0 22px 26px rgb(0 0 0 / 0.4));
+  transform-origin: 50% 0;
+}
+.si-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.si-card p {
+  position: absolute;
+  left: 18%;
+  top: 30%;
+  margin: 0;
+  color: #0f1f17;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.375rem;
+  line-height: 1;
+}
+.si-card i {
+  font-style: normal;
+  color: #78be20;
+}
+.si-card small {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #26703a;
+}
+.si-copy {
+  position: absolute;
+  left: max(1.5rem, 3.5rem);
+  bottom: 3.5rem;
+  max-width: 25rem;
+  opacity: calc(1 - var(--dive) * 4);
+  translate: 0 calc(var(--dive) * 80px);
+}
+.si-copy h1 {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.si-copy p {
+  margin: 0 0 1.5rem;
+  color: #a9bdb0;
+  line-height: 1.55;
+}
+.si-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.si-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0 0.4rem 0 1.4rem;
+  border-radius: 99px;
+  background: #fff;
+  color: #0f1f17;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition: transform 160ms var(--ease);
+}
+.si-pill b {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 99px;
+  background: #0f1f17;
+  color: #78be20;
+  font-weight: 400;
+  transition: translate 200ms var(--ease);
+}
+.si-pill:hover {
+  transform: translateY(-1px);
+}
+.si-pill:hover b {
+  translate: 3px 0;
+}
+.si-pill:active {
+  transform: translateY(1px);
+}
+.si-link {
+  color: #78be20;
+  font-weight: 600;
+  border-bottom: 1.5px solid rgb(120 190 32 / 0.5);
+  padding-bottom: 2px;
+}
+.si-cue {
+  position: absolute;
+  right: 3.5rem;
+  bottom: 3.75rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: calc(1 - var(--dive) * 5);
+}
+.si-cue span {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1.5px solid rgb(255 255 255 / 0.6);
+  border-radius: 99px;
+}
+
+/* The terminal. Its screen brightens into the showcase's green as it comes close, so the swap is seamless. */
+.si-device {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: -4%;
+  height: 80%;
+  aspect-ratio: 362 / 776;
+  translate: -50% 0;
+  rotate: -4deg;
+  opacity: calc(1 - var(--inside));
+  filter: drop-shadow(0 50px 60px rgb(0 0 0 / 0.55));
+  will-change: transform;
+}
+.si-device img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.si-screen {
+  position: absolute;
+  left: 15.2%;
+  top: 20%;
+  width: 68.8%;
+  height: 57.1%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(80% 60% at 50% 40%, #123a22, #050b08);
+}
+.si-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 90% at 70% 40%, #1f5c3a, #0b1d14);
+  opacity: var(--dive);
+}
+.si-screen svg {
+  width: 72%;
+  opacity: calc(1 - var(--dive) * 1.6);
+}
+.si-brackets,
+.si-tick {
+  stroke: #78be20;
+  stroke-width: 2.4;
+}
+.si-tick {
+  stroke-width: 4;
+}
+.si-face {
+  stroke: #7fc79a;
+  stroke-width: 2;
+  stroke-dasharray: 1 3.2;
+}
+.si-scan {
+  stroke: #b6f06a;
+  stroke-width: 1.4;
+}
+
+/* The showcase: the screen, full view. */
+.si-inside {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: var(--inside);
+  pointer-events: none;
+}
+.si[data-inside] .si-inside {
+  z-index: 3;
+  pointer-events: auto;
+}
+.si-glass {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(18rem, 30rem) 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.5rem 3rem;
+  padding: 3rem 3.5rem 2.5rem;
+  background: radial-gradient(80% 90% at 70% 40%, #1f5c3a, #0b1d14);
+  scale: calc(1.06 - var(--inside) * 0.06);
+}
+.si-step {
+  grid-column: 1;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: #78be20;
+}
+.si-ticket {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: center;
+  padding: 1.5rem 1.6rem;
+  border-radius: 1rem;
+  background: #f5f1e8;
+  color: #0f1f17;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  -webkit-mask:
+    radial-gradient(circle 0.75rem at 0 70%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 0.75rem at 100% 70%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 0.75rem at 0 70%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 0.75rem at 100% 70%, transparent 98%, #000) right / 51% 100% no-repeat;
+}
+.si-ticket h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+.si-ticket div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-top: 1px dashed rgb(15 31 23 / 0.25);
+}
+.si-ticket div span:last-child {
+  text-align: end;
+}
+.si-product {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+.si-product img {
+  max-width: 88%;
+  height: min(62vh, 40rem);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.5));
+}
+.si-desc {
+  grid-column: 1;
+  grid-row: 3;
+}
+.si-desc p {
+  margin: 0 0 1.25rem;
+  color: #c9d9cf;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  max-width: 28rem;
+}
+.si-arrows {
+  position: absolute;
+  top: 2.5rem;
+  right: 3.5rem;
+  display: flex;
+  gap: 0.6rem;
+}
+.si-arrows button {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 99px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.08);
+  font-size: 1.125rem;
+  transition:
+    background-color 200ms ease,
+    transform 160ms ease;
+}
+.si-arrows button:hover {
+  background: rgb(255 255 255 / 0.18);
+}
+.si-arrows button:active {
+  transform: scale(0.94);
+}
+.si-dots {
+  position: absolute;
+  right: 3.5rem;
+  bottom: 2.25rem;
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.si-dots button {
+  min-height: 2.75rem;
+  padding: 0 0.8rem;
+  border-radius: 99px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgb(255 255 255 / 0.6);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.si-dots button[aria-current] {
+  background: #78be20;
+  color: #0b1a10;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .si-scan {
+    animation: si-scan 2.4s ease-in-out infinite;
+  }
+  .si-ticket {
+    animation: si-in 600ms var(--ease) both;
+  }
+  .si-product {
+    animation: si-slide 800ms var(--ease) both;
+  }
+  .si-desc {
+    animation: si-in 600ms 120ms var(--ease) both;
+  }
+  .si-word,
+  .si-copy,
+  .si-badge {
+    transition: none;
+  }
+  .si-card {
+    animation: si-swing 4s ease-in-out infinite alternate;
+  }
+}
+@keyframes si-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(70px);
+  }
+}
+@keyframes si-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes si-slide {
+  from {
+    opacity: 0;
+    transform: translateX(12%) scale(0.96);
+  }
+}
+@keyframes si-swing {
+  from {
+    rotate: 5deg;
+  }
+  to {
+    rotate: 9deg;
+  }
+}
+
+/* Reduced motion: no pin; the hero, then the showcase, one after the other. */
+.si[data-still] {
+  height: auto;
+}
+.si[data-still] .si-stage {
+  position: relative;
+  top: 0;
+  height: auto;
+}
+.si[data-still] .si-hero {
+  position: relative;
+  height: calc(100svh - 4.5rem);
+}
+.si[data-still] .si-inside {
+  position: relative;
+  opacity: 1;
+  height: calc(100svh - 4.5rem);
+  pointer-events: auto;
+}
+.si[data-still] .si-device {
+  top: auto;
+}
+
+@media (max-width: 767px) {
+  .si-stage {
+    top: 4rem;
+    height: calc(100svh - 4rem);
+  }
+  .si-word {
+    top: 13%;
+    font-size: 31vw;
+  }
+  .si-tag {
+    top: 9%;
+    font-size: 0.95rem;
+  }
+  .si-badge {
+    display: none;
+  }
+  .si-device {
+    height: 46%;
+    bottom: auto;
+    top: 19%;
+  }
+  .si-copy {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.5rem;
+  }
+  .si-copy h1 {
+    font-size: 1.625rem;
+  }
+  .si-copy p {
+    font-size: 0.9375rem;
+    margin-bottom: 1rem;
+  }
+  .si-cue {
+    display: none;
+  }
+  .si-glass {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    padding: 1.25rem 1.25rem 5rem;
+    gap: 0.75rem;
+  }
+  .si-product {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .si-product img {
+    height: 30vh;
+  }
+  .si-desc {
+    grid-row: 4;
+  }
+  .si-desc p {
+    font-size: 0.9375rem;
+  }
+  .si-ticket {
+    padding: 1rem 1.1rem;
+    font-size: 0.6875rem;
+  }
+  .si-ticket h2 {
+    font-size: 1.375rem;
+    margin-bottom: 0.5rem;
+  }
+  .si-arrows {
+    display: none;
+  }
+  .si-dots {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1rem;
+    overflow-x: auto;
+  }
+}
