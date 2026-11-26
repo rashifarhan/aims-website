@@ -50,11 +50,14 @@ export function BeatCard({ beat, chapterTitle }: { beat: BeatData; chapterTitle:
     let y: number;
     if (narrow) {
       x = 12;
-      y = s.stage.h - ch - 12;
+      y = s.stage.h - ch - 12; // phones: a sheet at the foot (the timeline moves under the header)
     } else {
       // A fixed column beside the product that drifts 12 % with it: the card floats at its own depth.
-      x = (right ? s.stage.w * 0.6 : s.stage.w * 0.06) + (sx - s.stage.w / 2) * 0.12;
-      y = Math.min(Math.max(sy - ch * 0.4, 84), s.stage.h - ch - 72);
+      // The outer margin on the product's open side, drifting 8 % with it: the card floats at its own depth
+      // and keeps clear of a close-up product filling the middle of the frame.
+      const margin = Math.max(24, s.stage.w * 0.035);
+      x = (right ? s.stage.w - cw - margin : margin) + (sx - s.stage.w / 2) * 0.08;
+      y = Math.min(Math.max(sy - ch * 0.4, 84), s.stage.h - ch - 84); // clear of the timeline at the foot
     }
     const tilt = narrow ? 0 : (right ? -1 : 1) * 5 * c;
     cd.style.opacity = String(c);
@@ -62,7 +65,9 @@ export function BeatCard({ beat, chapterTitle }: { beat: BeatData; chapterTitle:
     cd.style.transform = `translate3d(${x}px, ${y}px, 0) perspective(1000px) rotateY(${tilt}deg) scale(${0.95 + 0.05 * c})`;
     cd.style.pointerEvents = c > 0.6 ? "auto" : "none";
     const [r, g, b] = s.sample((x - s.rect.x) / s.rect.w, (y - s.rect.y) / s.rect.h, cw / s.rect.w, ch / s.rect.h);
-    cd.style.setProperty("--tint", `${r | 0} ${g | 0} ${b | 0}`);
+    // Take the scene's hue but cap its brightness, so white text stays legible over a bright office.
+    const k = Math.min(1, 70 / Math.max(0.2126 * r + 0.7152 * g + 0.0722 * b, 1));
+    cd.style.setProperty("--tint", `${(r * k) | 0} ${(g * k) | 0} ${(b * k) | 0}`);
 
     const show = !narrow && a?.visible && c > 0.01;
     const ex = right ? x : x + cw;

@@ -47,7 +47,7 @@ TOPICS = {
 PRODUCTS = {
     "UHF10": {"frames": (216, 300), "at": (9.1, -3.4, 2.05), "slug": "uhf-10", "light": ((8.0, -5.2, 2.7), 60)},
     "BGM-1030": {"frames": (300, 420), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
-    "ZK-D3180S": {"frames": (580, 715), "at": (0.0, 3.6, 1.15), "slug": "zk-d3180s", "light": ((1.6, 1.4, 3.3), 160)},
+    "ZK-D3180S": {"frames": (580, 715), "at": (0.05, 3.33, 2.1), "slug": "zk-d3180s", "light": ((1.6, 1.4, 3.3), 160)},
     "MARS-B1200": {"frames": (755, 850), "at": (-0.4, 8.0, 0.65), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
     "ProFace X": {"frames": (1190, 1285), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
     "ALF-M560": {"frames": (1340, 1430), "at": (-0.345, 8.96, Z1 + 2.17), "slug": "alf-m560-electromagnetic-locks", "light": ((0.25, 7.95, Z1 + 1.3), 25)},
