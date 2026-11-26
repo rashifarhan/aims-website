@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Vendored agent skills: third-party scripts, not part of the app.
     ".agents/**",
+    // The films' Remotion source: its own package, rendered offline to public/video.
+    "video/**",
     ".claude/**",
     ".github/skills/**",
     ".github/agents/**",
