@@ -1,6 +1,6 @@
 {
   "fps": 24,
-  "frames": 1410,
+  "frames": 1525,
   "step": 2,
   "cut": 791,
   "moments": [
@@ -71,15 +71,22 @@
       "to": 1180,
       "topics": [
         "Face recognition Attendance",
-        "Time Attendance Machines",
+        "Time Attendance Machines"
+      ]
+    },
+    {
+      "key": "software",
+      "from": 1181,
+      "to": 1300,
+      "topics": [
         "BioTime Software and integration Solutions",
         "ZKTeco Attendance Software UAE"
       ]
     },
     {
       "key": "finale",
-      "from": 1181,
-      "to": 1410,
+      "from": 1301,
+      "to": 1525,
       "topics": [
         "ZKTeco Showroom in Dubai",
         "ZKTeco Showroom in Abu Dhabi"
@@ -118,6 +125,14 @@
       "to": 1180,
       "slug": "speedface-v5l-p",
       "kind": "product"
+    },
+    {
+      "key": "BioTime 9.5",
+      "chapter": "software",
+      "from": 1200,
+      "to": 1300,
+      "slug": "biotime-9-5",
+      "kind": "software"
     }
   ]
 }

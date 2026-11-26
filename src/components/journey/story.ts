@@ -29,7 +29,12 @@ export const CHAPTER_COPY: Record<string, ChapterCopy> = {
   clockin: {
     number: "04",
     title: "Attendance",
-    line: "Face recognition attendance and BioTime software, set up and integrated by AIMS.",
+    line: "Face recognition attendance terminals, installed and set up by AIMS across the UAE.",
+  },
+  software: {
+    number: "05",
+    title: "Software",
+    line: "BioTime attendance software, set up and integrated by AIMS.",
   },
 };
 
@@ -120,5 +125,4 @@ export const ALSO_IN_BUILDING: { name: string; slug: string; kind: "product" | "
   { name: "UHF10 long-range reader", slug: "uhf-10", kind: "product" },
   { name: "ZK-D3180S metal detector", slug: "zk-d3180s", kind: "product" },
   { name: "ALF-M560 electromagnetic lock", slug: "alf-m560-electromagnetic-locks", kind: "product" },
-  { name: "BioTime 9.5 attendance software", slug: "biotime-9-5", kind: "software" },
 ];

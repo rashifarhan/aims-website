@@ -1,5 +1,5 @@
 """The visitor's journey: one camera move through the building and every device's motion, keyframed on a
-single 59-second timeline (24 fps) that the homepage will map to scroll.
+single 64-second timeline (24 fps) that the homepage will map to scroll.
 
 The camera is the visitor's eye. Between places it walks, level, at eye height; at each product it slows into
 a beat: the device fills the frame, the camera arcs a little round it, focus goes shallow so the device stands
@@ -17,7 +17,7 @@ import bpy
 from .build import empty, look_at
 from .tower import OFFICE_FLOOR, floor_z
 
-FPS, END = 24, 1410
+FPS, END = 24, 1525
 Z1 = floor_z(OFFICE_FLOOR)
 
 CHAPTERS = {  # name: (first frame, last frame)
@@ -26,7 +26,8 @@ CHAPTERS = {  # name: (first frame, last frame)
     "lobby": (451, 791),
     "office": (792, 1079),
     "clockin": (1080, 1180),
-    "finale": (1181, END),
+    "software": (1181, 1300),
+    "finale": (1301, END),
 }
 
 # What each chapter answers, in AIMS's own search topics (supplied by the user, 26 Nov), for the overlay
@@ -36,19 +37,21 @@ TOPICS = {
     "parking": ("Parking Barrier Suppliers UAE",),
     "lobby": ("Metal Detector Machines UAE", "Security Gate Suppliers in UAE", "Turnstile Suppliers in Dubai"),
     "office": ("Door Access Control Systems UAE", "Access Control Systems", "ZKTeco Biometric Devices"),
-    "clockin": ("Face recognition Attendance", "Time Attendance Machines", "BioTime Software and integration Solutions",
-                "ZKTeco Attendance Software UAE"),
+    "clockin": ("Face recognition Attendance", "Time Attendance Machines"),
+    "software": ("BioTime Software and integration Solutions", "ZKTeco Attendance Software UAE"),
     "finale": ("ZKTeco Showroom in Dubai", "ZKTeco Showroom in Abu Dhabi"),
 }
 
 # One product per category (user, 26 Nov: "from each category only one product is enough"). Each beat: its
 # frames, where the product stands (focus, accent light and the web's tracked line aim there), its catalogue slug.
-# The UHF10, ZK-D3180S, ALF-M560 and BioTime stay in the building, unfeatured.
+# Software is its own category (user, 26 Nov): BioTime 9.5 on the attendance screen. The UHF10, ZK-D3180S and
+# ALF-M560 stay in the building, unfeatured.
 PRODUCTS = {
     "BGM-1030": {"frames": (216, 336), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
     "MARS-B1200": {"frames": (520, 620), "at": (-0.4, 8.0, 0.65), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
     "ProFace X": {"frames": (930, 1030), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
     "SpeedFace V5L": {"frames": (1080, 1180), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
+    "BioTime 9.5": {"frames": (1200, 1300), "at": (-0.6, 5.55, Z1 + 1.36), "slug": "biotime-9-5", "light": None},
 }
 
 # (frame, camera location, target location, lens mm, vertical shift). Keys are eased by Blender's default
@@ -90,10 +93,13 @@ CAMERA = [
     (1080, (1.75, 8.0, Z1 + 1.55), (1.9, 7.3, Z1 + 1.4), 32, 0.0),  # SpeedFace V5L on its stand
     (1105, (1.82, 7.88, Z1 + 1.42), (1.83, 7.3, Z1 + 1.39), 50, 0.0),  # push in; left third
     (1160, (1.76, 7.9, Z1 + 1.41), (1.77, 7.3, Z1 + 1.39), 50, 0.0),
-    (1185, (0.9, 6.5, Z1 + 1.6), (1.0, 2.0, Z1 + 1.5), 26, -0.03),  # round the counter's free end
-    (1205, (1.2, 5.0, Z1 + 1.6), (0.75, -20.0, Z1 + 1.3), 24, 0.0),
-    (1250, (0.75, 2.0, Z1 + 1.6), (0.75, -50.0, Z1 + 1.0), 24, 0.0),
-    (1290, (0.75, -1.5, Z1 + 2.2), (0.75, -100.0, Z1), 24, 0.0),
+    (1200, (-0.05, 6.75, Z1 + 1.5), (-0.6, 5.55, Z1 + 1.36), 40, 0.0),  # BioTime 9.5 on the attendance screen
+    (1225, (-0.28, 6.23, Z1 + 1.4), (-0.7, 5.6, Z1 + 1.36), 40, 0.0),  # push in: the dashboard; left third
+    (1270, (-0.25, 6.2, Z1 + 1.4), (-0.67, 5.6, Z1 + 1.36), 40, 0.0),
+    (1300, (0.9, 6.5, Z1 + 1.6), (1.0, 2.0, Z1 + 1.5), 26, -0.03),  # round the counter's free end
+    (1320, (1.2, 5.0, Z1 + 1.6), (0.75, -20.0, Z1 + 1.3), 24, 0.0),
+    (1365, (0.75, 2.0, Z1 + 1.6), (0.75, -50.0, Z1 + 1.0), 24, 0.0),
+    (1405, (0.75, -1.5, Z1 + 2.2), (0.75, -100.0, Z1), 24, 0.0),
     (END, (0.75, -60.0, Z1 + 18.0), (0.0, -800.0, 60.0), 24, 0.0),  # hold on the horizon, not the roofs
 ]
 CUT = 791  # the last ground-floor key; held constant so the camera jumps to 792 inside the closed lift
@@ -249,7 +255,7 @@ def product_beats(cam):
 
 # One grade across the film: the same view transform and look throughout, with exposure eased between
 # chapters (night street, lit lobby, lit office, out into the dusk) so each reads without a jump.
-EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (400, 0.3), (450, 0.25), (792, 0.25), (830, 0.35), (1180, 0.35), (1260, 0.1), (END, 0.0))
+EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (400, 0.3), (450, 0.25), (792, 0.25), (830, 0.35), (1300, 0.35), (1380, 0.1), (END, 0.0))
 
 
 def timeline(step):
