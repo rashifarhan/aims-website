@@ -324,12 +324,12 @@
       "label": "Models we supply",
       "pause": "Pause the moving model list"
     },
-    "metaTitle": "Access control & time attendance",
-    "metaDescription": "Explore ZKTeco access control and time attendance products, installation and support from AIMS in Dubai and Abu Dhabi.",
+    "metaTitle": "ZKTeco Distributor in Dubai & UAE",
+    "metaDescription": "ZKTeco distributor in Dubai and Abu Dhabi: time attendance machines, face recognition attendance, access control systems, turnstiles, gates and BioTime software.",
     "hero": {
       "line1": "ZKTeco access control",
       "line2": "and attendance for the UAE",
-      "lead": "ZKTeco access control and time attendance systems, supplied, installed and supported across the UAE.",
+      "lead": "ZKTeco distributor in Dubai and Abu Dhabi: time attendance machines, face recognition attendance and access control systems, supplied, installed and supported across the UAE.",
       "explore": "See all products",
       "quote": "Request a quote",
       "trust": "Showroom in Deira, Dubai · Office in Abu Dhabi",
@@ -350,7 +350,7 @@
     },
     "families": {
       "heading": "{count} models in six product families",
-      "lead": "ZKTeco and Alpha terminals, readers, controllers, locks, turnstiles and POS, each with its published specifications.",
+      "lead": "ZKTeco biometric devices and Alpha hardware: time attendance machines, access control readers and controllers, locks, turnstiles and POS, each with its published specifications.",
       "count": "products",
       "all": "See all products"
     },
@@ -397,7 +397,7 @@
     },
     "software": {
       "heading": "Software that runs them",
-      "lead": "Attendance records and door events, managed in one place. Software is supplied on request.",
+      "lead": "ZKTeco attendance software and integration: BioTime for attendance and payroll reports, ZKBio CVSecurity and CVAccess for access control. Supplied on request.",
       "centre": "All software",
       "purposeAttendance": "Attendance and workforce management, installed on your own server.",
       "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
@@ -430,8 +430,8 @@
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
     "external": "on aimsuae.me",
     "reach": {
-      "heading": "Visit the showroom in Deira",
-      "lead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
+      "heading": "Visit our ZKTeco showroom in Dubai",
+      "lead": "Our ZKTeco showroom is in Deira, Dubai, with an office in Abu Dhabi. Supply and installation across the UAE; project and export orders to GCC countries and East Africa.",
       "mapLabel": "Map: AIMS offices in Dubai and Abu Dhabi, with delivery routes to the GCC, Muscat and Nairobi",
       "dubai": "Dubai",
       "abuDhabi": "Abu Dhabi",
@@ -481,7 +481,7 @@
     },
     "gate": {
       "heading": "From the front gate to the last door",
-      "lead": "Entrance control, access control, attendance and hotel locks for the places people pass through every day.",
+      "lead": "Security gates, turnstiles, parking barriers and metal detectors at the entrance, door access control systems on every floor, and attendance and hotel locks in between.",
       "office": {
         "title": "Office towers",
         "text": "Speed gates at the lift lobby",
@@ -775,8 +775,8 @@
     "close": "Close"
   },
   "solutionTimeAttendance": {
-    "metaTitle": "Time attendance systems in the UAE",
-    "metaDescription": "Face, fingerprint and card time attendance terminals with BioTime software, supplied, installed and set up by AIMS across the UAE.",
+    "metaTitle": "Time attendance machines in the UAE",
+    "metaDescription": "Face recognition attendance, fingerprint and card time attendance machines with BioTime software, supplied, installed and set up by AIMS across the UAE.",
     "title": "Time attendance that feeds payroll.",
     "lead": "Face, fingerprint and card terminals record when people arrive and leave. BioTime turns each punch into a timesheet your payroll team can export.",
     "primary": "Get an installation quote",
@@ -922,7 +922,7 @@
   },
   "contactPage": {
     "metaTitle": "Contact AIMS",
-    "metaDescription": "WhatsApp, call or visit AIMS Security Systems in Dubai and Abu Dhabi. Choose what you need and reach the right channel.",
+    "metaDescription": "Contact AIMS, ZKTeco distributor in Dubai and Abu Dhabi: WhatsApp, call or visit the Deira showroom. Choose what you need and reach the right channel.",
     "title": "Contact AIMS",
     "lead": "Choose what you need and we'll show you the quickest way to reach the right person.",
     "needLegend": "What do you need?",
@@ -990,7 +990,7 @@
   },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",
-    "metaDescription": "BioTime, BioTime Cloud, ZKBio CVSecurity and ZKBio CVAccess for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
+    "metaDescription": "ZKTeco attendance software in the UAE: BioTime, BioTime Cloud, ZKBio CVSecurity and ZKBio CVAccess, with integration, supplied and set up by AIMS.",
     "title": "ZKTeco software for attendance and access control",
     "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
     "primary": "Help me choose software",
@@ -1026,7 +1026,7 @@
     "pages": {
       "biotime-9-5": {
         "metaTitle": "BioTime 9.5 attendance software",
-        "metaDescription": "ZKTeco BioTime 9.5 for attendance, shifts and payroll reports, supplied, installed and supported by AIMS in Dubai and across the UAE.",
+        "metaDescription": "BioTime software and integration: ZKTeco BioTime 9.5 for attendance, shifts and payroll reports, supplied, installed and supported by AIMS in the UAE.",
         "title": "BioTime 9.5 attendance software",
         "lead": "Collects check-ins from ZKTeco face, fingerprint and card terminals into one database for shifts, leave and payroll reports. Supplied and set up by AIMS in the UAE.",
         "jump": "See supported terminals"
@@ -1108,8 +1108,8 @@
     }
   },
   "solutionAccessControl": {
-    "metaTitle": "Access control systems in the UAE",
-    "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKBio CVAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
+    "metaTitle": "Door access control systems, UAE",
+    "metaDescription": "Door access control systems from ZKTeco: readers, InBio Pro and C3 panels, EM locks and ZKBio CVAccess, supplied and installed by AIMS in the UAE.",
     "title": "Decide who opens every door.",
     "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
     "primary": "Get an installation quote",
@@ -1230,8 +1230,8 @@
     }
   },
   "solutionEntranceParking": {
-    "metaTitle": "Turnstiles & parking barriers, UAE",
-    "metaDescription": "Tripod, flap, swing and full-height turnstiles, parking barrier gates and plate recognition from ZKTeco, supplied and installed by AIMS in the UAE.",
+    "metaTitle": "Turnstile suppliers in Dubai",
+    "metaDescription": "Turnstile and security gate suppliers in Dubai and the UAE: tripod, flap, swing and full-height turnstiles, parking barriers and metal detectors, installed by AIMS.",
     "title": "Turnstiles for lobbies, barriers for car parks.",
     "lead": "Turnstiles and swing or flap barriers decide who walks in. Barrier gates, plate recognition and radar sensors manage the cars.",
     "primary": "Get an installation quote",
@@ -1648,8 +1648,8 @@
       "allLocations": "All locations"
     },
     "hub": {
-      "metaTitle": "Locations and delivery",
-      "metaDescription": "Visit AIMS's Deira showroom, call the Dubai or Abu Dhabi office, or choose a GCC or African destination for an export quote.",
+      "metaTitle": "ZKTeco in Dubai & Abu Dhabi",
+      "metaDescription": "ZKTeco distributor in Dubai and Abu Dhabi: visit the Deira showroom, call the Dubai or Abu Dhabi office, or request an export quote for the GCC or Africa.",
       "title": "ZKTeco in Dubai, delivered across the GCC and Africa",
       "lead": "AIMS supplies ZKTeco time attendance and access control from a showroom in Deira and offices in Dubai and Abu Dhabi. Choose where you are to see how to buy.",
       "primary": "Choose a destination",
@@ -1702,7 +1702,7 @@
     },
     "dubai": {
       "metaTitle": "ZKTeco distributor in Dubai",
-      "metaDescription": "Visit AIMS's Deira showroom for ZKTeco time attendance and access control, or request supply and installation anywhere in the UAE.",
+      "metaDescription": "ZKTeco showroom in Dubai, in Deira: see time attendance and access control devices, or request supply and installation anywhere in the UAE.",
       "eyebrow": "Showroom and UAE installation",
       "title": "ZKTeco distributor in Dubai",
       "lead": "Time attendance terminals, access control and door locks from AIMS. See them at Showroom #14 in Deira, or have AIMS supply and install them on your UAE site.",
