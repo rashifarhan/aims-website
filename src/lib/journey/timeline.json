@@ -1,6 +1,6 @@
 {
   "fps": 24,
-  "frames": 1525,
+  "frames": 1300,
   "step": 2,
   "cut": 791,
   "moments": [
@@ -81,15 +81,6 @@
       "topics": [
         "BioTime Software and integration Solutions",
         "ZKTeco Attendance Software UAE"
-      ]
-    },
-    {
-      "key": "finale",
-      "from": 1301,
-      "to": 1525,
-      "topics": [
-        "ZKTeco Showroom in Dubai",
-        "ZKTeco Showroom in Abu Dhabi"
       ]
     }
   ],

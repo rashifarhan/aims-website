@@ -47,8 +47,8 @@ export default async function Journey() {
   const beats = timeline.beats.map((b) => beatData(b, anchors, paths)).filter((b): b is BeatData => b !== null);
   const chapter = (key: string) => timeline.chapters.find((c) => c.key === key) ?? { from: 1, to: timeline.frames };
   const hero = chapter("hero");
-  // The checkpoints one gesture moves between: arrival, each product's held close-up, the skyline.
-  const stops = [1, ...beats.map((b) => stopFrame(b.key, b.from, b.to)), timeline.frames];
+  // Arrival, then each product's held close-up; the next gesture after the last product leaves for "Your system".
+  const stops = [1, ...beats.map((b) => stopFrame(b.key, b.from, b.to))];
   const firstOfChapter = new Set(timeline.chapters.map((c) => beats.find((b) => b.chapter === c.key)?.key));
   const railChapters = timeline.chapters
     .filter((c) => CHAPTER_COPY[c.key])

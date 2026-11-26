@@ -1,5 +1,5 @@
 """The visitor's journey: one camera move through the building and every device's motion, keyframed on a
-single 64-second timeline (24 fps) that the homepage will map to scroll.
+single 54-second timeline (24 fps) that the homepage will map to scroll.
 
 The camera is the visitor's eye. Between places it walks, level, at eye height; at each product it slows into
 a beat: the device fills the frame, the camera arcs a little round it, focus goes shallow so the device stands
@@ -17,7 +17,7 @@ import bpy
 from .build import empty, look_at
 from .tower import OFFICE_FLOOR, floor_z
 
-FPS, END = 24, 1525
+FPS, END = 24, 1300
 Z1 = floor_z(OFFICE_FLOOR)
 
 CHAPTERS = {  # name: (first frame, last frame)
@@ -26,8 +26,7 @@ CHAPTERS = {  # name: (first frame, last frame)
     "lobby": (451, 791),
     "office": (792, 1079),
     "clockin": (1080, 1180),
-    "software": (1181, 1300),
-    "finale": (1301, END),
+    "software": (1181, END),
 }
 
 # What each chapter answers, in AIMS's own search topics (supplied by the user, 26 Nov), for the overlay
@@ -39,7 +38,6 @@ TOPICS = {
     "office": ("Door Access Control Systems UAE", "Access Control Systems", "ZKTeco Biometric Devices"),
     "clockin": ("Face recognition Attendance", "Time Attendance Machines"),
     "software": ("BioTime Software and integration Solutions", "ZKTeco Attendance Software UAE"),
-    "finale": ("ZKTeco Showroom in Dubai", "ZKTeco Showroom in Abu Dhabi"),
 }
 
 # One product per category (user, 26 Nov: "from each category only one product is enough"). Each beat: its
@@ -96,11 +94,9 @@ CAMERA = [
     (1200, (-0.05, 6.75, Z1 + 1.5), (-0.6, 5.55, Z1 + 1.36), 40, 0.0),  # BioTime 9.5 on the attendance screen
     (1225, (-0.28, 6.23, Z1 + 1.4), (-0.7, 5.6, Z1 + 1.36), 40, 0.0),  # push in: the dashboard; left third
     (1270, (-0.25, 6.2, Z1 + 1.4), (-0.67, 5.6, Z1 + 1.36), 40, 0.0),
-    (1300, (0.9, 6.5, Z1 + 1.6), (1.0, 2.0, Z1 + 1.5), 26, -0.03),  # round the counter's free end
-    (1320, (1.2, 5.0, Z1 + 1.6), (0.75, -20.0, Z1 + 1.3), 24, 0.0),
-    (1365, (0.75, 2.0, Z1 + 1.6), (0.75, -50.0, Z1 + 1.0), 24, 0.0),
-    (1405, (0.75, -1.5, Z1 + 2.2), (0.75, -100.0, Z1), 24, 0.0),
-    (END, (0.75, -60.0, Z1 + 18.0), (0.0, -800.0, 60.0), 24, 0.0),  # hold on the horizon, not the roofs
+    # The film ends on the last product (user, 26 Nov: "it should directly reach our system, not the skyline"):
+    # the next gesture leaves the film for "Your system" on the page.
+    (END, (-0.24, 6.19, Z1 + 1.4), (-0.67, 5.6, Z1 + 1.36), 40, 0.0),
 ]
 CUT = 791  # the last ground-floor key; held constant so the camera jumps to 792 inside the closed lift
 
@@ -255,7 +251,7 @@ def product_beats(cam):
 
 # One grade across the film: the same view transform and look throughout, with exposure eased between
 # chapters (night street, lit lobby, lit office, out into the dusk) so each reads without a jump.
-EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (400, 0.3), (450, 0.25), (792, 0.25), (830, 0.35), (1300, 0.35), (1380, 0.1), (END, 0.0))
+EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (400, 0.3), (450, 0.25), (792, 0.25), (830, 0.35), (END, 0.35))
 
 
 def timeline(step):
