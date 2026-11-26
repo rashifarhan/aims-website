@@ -1,7 +1,7 @@
 import type { FamilySlug } from "@/content/taxonomy";
 
 /**
- * The six product families as the two hero explorations show them (client exploration, 26 Nov 2026, branch
+ * The six product families as the two hero explorations show them, access control first (client, 26 Nov 2026) (client exploration, 26 Nov 2026, branch
  * claude/hero-options): one short word, one ground colour, AIMS's own photograph of a real model in that family
  * (cut out of its white studio background, public/images/cutouts), and real accessories that float around it.
  * Counts are read from the catalogue at render time; nothing here is invented.
@@ -39,33 +39,6 @@ const POS2 = c("zk1515-series", 243, 273, "");
 /* Positions are in a 1440 × 900 design frame. Depth sets how far a piece drifts with the pointer and on a change. */
 export const FAMILY_SHOW: FamilyShow[] = [
   {
-    slug: "time-attendance",
-    word: "TIME",
-    name: "Time attendance",
-    line: "Face, palm, fingerprint and card terminals that clock staff in, synced to BioTime.",
-    ground: "#26703a",
-    hero: {
-      ...c("zkteco-iface-990-plus", 679, 658, "ZKTeco iFace 990 Plus attendance terminal"),
-      model: "iFace 990 Plus",
-      productSlug: "zkteco-iface-990-plus",
-      x: 500,
-      y: 250,
-      width: 440,
-    },
-    facts: [
-      ["Type", "Multi-biometric terminal"],
-      ["Use", "Attendance and access"],
-    ],
-    bits: [
-      { img: CARD, x: 330, y: 170, width: 150, rotate: -14, depth: 0.6 },
-      { img: READER, x: 1010, y: 200, width: 110, rotate: 9, depth: 0.8 },
-      { img: EXIT, x: 280, y: 520, width: 120, rotate: -8, depth: 0.5 },
-      { img: MAG, x: 980, y: 600, width: 200, rotate: -12, depth: 0.7 },
-      { img: CARD, x: -40, y: 610, width: 280, rotate: 18, depth: 1.4, blur: true },
-      { img: READER, x: 1290, y: 20, width: 170, rotate: -10, depth: 1.3, blur: true },
-    ],
-  },
-  {
     slug: "access-control",
     word: "ACCESS",
     name: "Access control",
@@ -90,6 +63,33 @@ export const FAMILY_SHOW: FamilyShow[] = [
       { img: MAG, x: 960, y: 590, width: 220, rotate: -8, depth: 0.7 },
       { img: PANEL, x: -60, y: 620, width: 300, rotate: 14, depth: 1.4, blur: true },
       { img: CARD, x: 1280, y: 30, width: 200, rotate: -16, depth: 1.3, blur: true },
+    ],
+  },
+  {
+    slug: "time-attendance",
+    word: "TIME",
+    name: "Time attendance",
+    line: "Face, palm, fingerprint and card terminals that clock staff in, synced to BioTime.",
+    ground: "#26703a",
+    hero: {
+      ...c("zkteco-iface-990-plus", 679, 658, "ZKTeco iFace 990 Plus attendance terminal"),
+      model: "iFace 990 Plus",
+      productSlug: "zkteco-iface-990-plus",
+      x: 500,
+      y: 250,
+      width: 440,
+    },
+    facts: [
+      ["Type", "Multi-biometric terminal"],
+      ["Use", "Attendance and access"],
+    ],
+    bits: [
+      { img: CARD, x: 330, y: 170, width: 150, rotate: -14, depth: 0.6 },
+      { img: READER, x: 1010, y: 200, width: 110, rotate: 9, depth: 0.8 },
+      { img: EXIT, x: 280, y: 520, width: 120, rotate: -8, depth: 0.5 },
+      { img: MAG, x: 980, y: 600, width: 200, rotate: -12, depth: 0.7 },
+      { img: CARD, x: -40, y: 610, width: 280, rotate: 18, depth: 1.4, blur: true },
+      { img: READER, x: 1290, y: 20, width: 170, rotate: -10, depth: 1.3, blur: true },
     ],
   },
   {
