@@ -746,6 +746,30 @@ AIMS had their request. Changes:
   before the existing tick. Approved motion (client, 25 Nov 2026); transform and opacity only; none under reduced
   motion.
 
+### ZKBio CVSecurity and CVAccess replace ZKAccess; search keywords (client request, 26 Nov 2026)
+
+AIMS no longer supplies ZKAccess 3.5. It now supplies ZKBio CVSecurity and ZKBio CVAccess, and asked for a list of
+search phrases to appear on the home page and other pages.
+
+- **Software**: `/software/zkbio-cvsecurity` and `/software/zkbio-cvaccess` are built pages (`BUILT_SOFTWARE`).
+  ZKAccess is `RETIRED_SOFTWARE`, so it is hidden from the Download Centre, the menus and the solution and door pages.
+  Its URL, and the Arabic one, 301 to CVAccess (Master Plan 12, AT-13: old URLs never break). Each page lists the
+  terminals whose AIMS product text names that platform (`NAMED_IN_PRODUCT`).
+- **Keywords** go where a buyer reads them, in plain sentences, never as a keyword list:
+  - Titles: the home title is "ZKTeco Distributor in Dubai & UAE"; the solution titles are "Time attendance machines
+    in the UAE", "Door access control systems, UAE" and "Turnstile suppliers in Dubai"; the locations title is
+    "ZKTeco in Dubai & Abu Dhabi".
+  - The home sections carry "ZKTeco distributor in Dubai and Abu Dhabi", face recognition attendance, ZKTeco
+    biometric devices, ZKTeco attendance software and integration, "Visit our ZKTeco showroom in Dubai", security
+    gates, turnstiles, parking barriers, metal detectors and door access control systems.
+  - Meta descriptions carry the rest: BioTime software and integration, ZKTeco attendance software UAE, turnstile and
+    security gate suppliers, ZKTeco showroom in Dubai.
+  - Every title stays within 60 characters (AT-12).
+- **Not used, pending AIMS**:
+  - "ZKTeco Showroom in Abu Dhabi": `site.ts` lists an office in Abu Dhabi, not a showroom (§1, never invent).
+  - Metal detectors are named in copy, but the catalogue has no metal detector product yet.
+  - The Arabic versions are drafts until AIMS's reviewer approves them (Design Doc 17).
+
 ## Content import
 
 ```bash
