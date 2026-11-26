@@ -19,6 +19,9 @@ export function buildRedirects(): Redirect[] {
     r("/contact.html", "/contact"),
     r("/index.html", "/"),
     r("/getaquote", "/quote"),
+    // ZKAccess 3.5 is retired; its successor for AIMS is ZKBio CVAccess (client, 26 Nov 2026).
+    r("/software/zkaccess-3-5", "/software/zkbio-cvaccess"),
+    r("/ar/software/zkaccess-3-5", "/ar/software/zkbio-cvaccess"),
     // The Dubai page's other-language aliases go straight to its pair, so it never exists twice (Plan 12 #32, #35).
     r("/zkteco-dubai", "/zkteco-distributor-in-dubai"),
     r("/ar/zkteco-distributor-in-dubai", "/ar/zkteco-dubai"),

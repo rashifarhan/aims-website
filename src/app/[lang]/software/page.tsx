@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { isBuiltSoftware } from "@/lib/software";
+import { isBuiltSoftware, RETIRED_SOFTWARE } from "@/lib/software";
 import { softwareList } from "@/content/catalogue";
 import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButton";
 import { SoftwareCard } from "@/components/software/SoftwareCard";
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /** Built platforms first, in the order the navigation lists them (src/lib/nav.ts), then the rest. */
-const ORDER = ["biotime-9-5", "biotimecloud", "zkaccess-3-5"];
+const ORDER = ["biotime-9-5", "biotimecloud", "zkbio-cvsecurity", "zkbio-cvaccess"];
 const rank = (slug: string) => (ORDER.includes(slug) ? ORDER.indexOf(slug) : ORDER.length);
 
 /**
@@ -38,7 +38,7 @@ export default async function SoftwareCentre() {
   const c = t.softwareCentre;
   const locale = await getLocale();
   const href = (path: string) => localePath(locale, path);
-  const items: SoftwareFilterItem[] = [...softwareList()]
+  const items: SoftwareFilterItem[] = [...softwareList().filter((s) => !RETIRED_SOFTWARE.includes(s.slug))]
     .sort((a, b) => rank(a.slug) - rank(b.slug))
     .map((software) => ({
       slug: software.slug,

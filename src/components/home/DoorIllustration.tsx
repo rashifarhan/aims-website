@@ -9,7 +9,7 @@ export const DOOR_MODELS = {
   lock: "AL-M280 · 280 kg",
   exit: "ALF B21",
   card: "ID card",
-  software: "ZKAccess 3.5",
+  software: "ZKBio CVAccess",
 } as const;
 
 /** The prototype's three wires, each from the controller: to the reader, to the lock and to the exit button. */

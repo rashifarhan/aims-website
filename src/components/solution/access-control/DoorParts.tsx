@@ -16,7 +16,7 @@ const PART_PATHS: Record<(typeof PARTS)[number], { product?: string; software?: 
   lock: { product: "al-m280" },
   exit: { product: "alf-b21-exit-button" },
   card: { product: "id-card-thin" },
-  software: { software: "zkaccess-3-5" },
+  software: { software: "zkbio-cvaccess" },
 };
 
 /** A part links only when its page is built here (CLAUDE.md §6). */

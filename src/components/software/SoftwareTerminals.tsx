@@ -50,7 +50,7 @@ function terminalCard(p: Product, { t, href }: Loaded): SignalNode {
 
 /**
  * T6 detail, "works with which devices" (Plan 12 #29–31), and the page's dealt moment (SIGNAL).
- * BioTime 9.5 and ZKAccess 3.5 draw lines to the terminals whose own AIMS product text names them.
+ * BioTime 9.5, ZKBio CVSecurity and ZKBio CVAccess draw lines to the terminals whose own AIMS product text names them.
  * No AIMS product page names BioTime Cloud, so it names no terminal: its lines reach the ways in
  * that its own feature list gives (browser, mobile app, branches, attendance devices), and its copy
  * asks buyers to confirm cloud support (CLAUDE.md §1: no inferred compatibility).

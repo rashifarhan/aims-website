@@ -21,7 +21,7 @@ const MAX_FEATURES = 6;
  */
 export async function SoftwareFeatures({ slug }: { slug: BuiltSoftware }) {
   const { software, c } = await loadSoftwarePage(slug);
-  const features = listAfter(software, /key features/i)
+  const features = listAfter(software, /key features|main features/i)
     .slice(0, MAX_FEATURES)
     .map(splitFeature);
   const system = listAfter(software, /capabilit|requirement/i);

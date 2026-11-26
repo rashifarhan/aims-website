@@ -3,8 +3,11 @@ import type { Product, Software } from "@/content/schema";
 import { SOFTWARE_TYPES, type SoftwareType } from "@/content/taxonomy";
 
 /** Software detail pages built in this preview (Master Plan 12, #29–31). The rest open AIMS's current pages. */
-export const BUILT_SOFTWARE = ["biotime-9-5", "biotimecloud", "zkaccess-3-5"] as const;
+// ZKAccess 3.5 is retired: AIMS now supplies ZKBio CVSecurity and ZKBio CVAccess (client, 26 Nov 2026).
+export const BUILT_SOFTWARE = ["biotime-9-5", "biotimecloud", "zkbio-cvsecurity", "zkbio-cvaccess"] as const;
 export type BuiltSoftware = (typeof BUILT_SOFTWARE)[number];
+/** Software AIMS no longer supplies: kept in the import, left out of every list; its old page redirects. */
+export const RETIRED_SOFTWARE: readonly string[] = ["zkaccess-3-5"];
 export const isBuiltSoftware = (slug: string): slug is BuiltSoftware =>
   (BUILT_SOFTWARE as readonly string[]).includes(slug);
 
@@ -35,7 +38,8 @@ export function splitFeature(item: string): { title: string; body?: string } {
  */
 const NAMED_IN_PRODUCT: Partial<Record<BuiltSoftware, RegExp>> = {
   "biotime-9-5": /\b(?:zk)?biotime\b(?!\s*(?:8\.5|cloud))/i,
-  "zkaccess-3-5": /\bzkaccess/i,
+  "zkbio-cvsecurity": /\b(?:zkbio\s*)?cvsecurity\b/i,
+  "zkbio-cvaccess": /\b(?:zkbio\s*)?cvaccess\b/i,
 };
 
 export function namesSoftware(product: Product, slug: BuiltSoftware): boolean {

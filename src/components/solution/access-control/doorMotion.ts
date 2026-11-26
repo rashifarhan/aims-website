@@ -29,7 +29,7 @@ function signal(tl: gsap.core.Timeline, trail: SVGElement, pulse: SVGElement | n
 
 /**
  * The approved kit's order of events (docs/prototypes/door-kit), one beat per part (DOOR_BEATS): the card swings in
- * to the reader and its light turns lime; the signal runs to the controller; the controller reports to ZKAccess and
+ * to the reader and its light turns lime; the signal runs to the controller; the controller reports to ZKBio CVAccess and
  * the event row appears; the signal runs to the EM lock, its light turns lime and the magnet lets go, the leaf opens
  * and "Access granted" appears; the exit button's input closes the circuit; the hero's lime tick draws on its night
  * disc. Parts wait at a third of their strength until their beat. Transform, opacity and stroke drawing only.

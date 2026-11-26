@@ -6,9 +6,13 @@ const { terminalsFor } = await import("./softwarePages");
 
 describe("terminalsFor", () => {
   it("lists only terminals whose own AIMS text names the platform, with a photo", () => {
-    for (const slug of ["biotime-9-5", "zkaccess-3-5"] as const) {
+    // CVSecurity's other named products carry model codes too long for the diagram's nodes, so it lists one.
+    for (const [slug, min] of [
+      ["biotime-9-5", 2],
+      ["zkbio-cvsecurity", 1],
+    ] as const) {
       const terminals = terminalsFor(slug);
-      expect(terminals.length).toBeGreaterThanOrEqual(2);
+      expect(terminals.length).toBeGreaterThanOrEqual(min);
       expect(terminals.length).toBeLessThanOrEqual(4);
       for (const p of terminals) {
         expect(namesSoftware(p, slug)).toBe(true);

@@ -15,7 +15,8 @@ export const FAMILY_SLUGS = FAMILIES.map((f) => f.slug);
 export const SOFTWARE_LINKS = [
   { path: "/software/biotime-9-5", label: "BioTime 9.5" },
   { path: "/software/biotimecloud", label: "BioTime Cloud" },
-  { path: "/software/zkaccess-3-5", label: "ZKAccess 3.5" },
+  { path: "/software/zkbio-cvsecurity", label: "ZKBio CVSecurity" },
+  { path: "/software/zkbio-cvaccess", label: "ZKBio CVAccess" },
 ] as const;
 
 /** Model codes people search for; each opens a filtered listing. */

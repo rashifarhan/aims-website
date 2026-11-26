@@ -82,9 +82,10 @@ for (const locale of ["en", "ar"] as const) {
       page.locator(".pick-card").getByRole("button", { name: /Add to quote|أضف إلى عرض السعر/ }),
     ).toHaveCount(6);
     await expect(page.locator(`main a[href="${prefix}/quote?need=install"]`)).toHaveCount(2);
-    // Software: ZKAccess 3.5 opens its built page; the others leave for aimsuae.me, marked.
-    await expect(page.locator(`.home-software-card[href="${prefix}/software/zkaccess-3-5"]`)).toHaveCount(1);
-    await expect(page.locator('.home-software-card[href^="https://aimsuae.me"]')).toHaveCount(2);
+    // Software: ZKBio CVAccess and CVSecurity open their built pages (ZKAccess 3.5 is retired).
+    for (const slug of ["zkbio-cvaccess", "zkbio-cvsecurity"])
+      await expect(page.locator(`.home-software-card[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
+    await expect(page.locator('.home-software-card[href^="https://aimsuae.me"]')).toHaveCount(0);
   });
 }
 
