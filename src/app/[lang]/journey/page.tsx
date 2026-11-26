@@ -15,7 +15,7 @@ import { JourneyHeader } from "@/components/journey/JourneyHeader";
 import { JourneyPlayer } from "@/components/journey/JourneyPlayer";
 import { ChapterRail, LiftCounter, Scrubbed } from "@/components/journey/Scrubbed";
 import { SystemSection } from "@/components/journey/SystemSection";
-import { AUTHORIZED, CHAPTER_COPY } from "@/components/journey/story";
+import { AUTHORIZED, CHAPTER_COPY, stopFrame } from "@/components/journey/story";
 import "@/components/journey/journey.css";
 
 const timeline = TimelineSchema.parse(rawTimeline);
@@ -47,40 +47,41 @@ export default async function Journey() {
   const beats = timeline.beats.map((b) => beatData(b, anchors, paths)).filter((b): b is BeatData => b !== null);
   const chapter = (key: string) => timeline.chapters.find((c) => c.key === key) ?? { from: 1, to: timeline.frames };
   const hero = chapter("hero");
+  // The checkpoints one gesture moves between: arrival, each product's held close-up, the skyline.
+  const stops = [1, ...beats.map((b) => stopFrame(b.key, b.from, b.to)), timeline.frames];
+  const firstOfChapter = new Set(timeline.chapters.map((c) => beats.find((b) => b.chapter === c.key)?.key));
   const railChapters = timeline.chapters
     .filter((c) => CHAPTER_COPY[c.key])
-    .map((c) => ({ key: c.key, label: CHAPTER_COPY[c.key]?.title ?? c.key, from: c.from, to: c.to, jump: beats.find((b) => b.chapter === c.key)?.from ?? c.from }));
+    .map((c) => {
+      const first = beats.find((b) => b.chapter === c.key);
+      return { key: c.key, label: CHAPTER_COPY[c.key]?.title ?? c.key, from: c.from, to: c.to, jump: first ? stopFrame(first.key, first.from, first.to) : c.from };
+    });
 
   return (
     <main id="main" className="journey-page">
       <JourneyHeader authorized={AUTHORIZED} paths={{ home: at("/"), products: at("/products"), services: paths.services, quote: at("/quote") }} />
-      <JourneyPlayer timeline={timeline} frameSrc="/journey/frames/" filmAspect={1.6} beats={beats.map(({ from, to }) => ({ from, to }))}>
+      <JourneyPlayer timeline={timeline} frameSrc="/journey/frames/" filmAspect={1.6} stops={stops} beats={beats.map(({ from, to }) => ({ from, to }))}>
         <Scrubbed from={hero.from} to={hero.to} fadeIn={[-1, -0.5]} fadeOut={[0.3, 0.6]} stretch={[110, 125]} className="hero">
           <p className="hero-badge">{AUTHORIZED}</p>
           <h1 className="hero-title">Every door of your building.</h1>
           <p className="hero-lead">{t.home.hero.lead}</p>
           <p className="hero-actions">
-            <span className="hero-cue">Scroll to walk in</span>
-            <Link href={at("/products")}>Skip to products →</Link>
+            <a href="#your-system" className="hero-skip">
+              See the whole system
+            </a>
+            <Link href={at("/products")} className="hero-link">
+              All products →
+            </Link>
           </p>
         </Scrubbed>
-        {timeline.chapters
-          .filter((c) => CHAPTER_COPY[c.key])
-          .map((c) => {
-            const copy = CHAPTER_COPY[c.key];
-            const firstBeat = beats.find((b) => b.chapter === c.key)?.from ?? c.to;
-            if (!copy) return null;
-            return (
-              <Scrubbed key={c.key} from={Math.max(c.from - 30, 1)} to={firstBeat + 10} fadeIn={[0, 0.2]} fadeOut={[0.7, 0.95]} className="chapter">
-                <p className="chapter-number">{copy.number}</p>
-                <p className="chapter-title">{copy.title}</p>
-                <p className="chapter-line">{copy.line}</p>
-              </Scrubbed>
-            );
-          })}
         <LiftCounter from={timeline.lift.from} to={timeline.lift.to} floor={timeline.lift.floor} />
         {beats.map((b) => (
-          <BeatCard key={b.key} beat={b} chapterTitle={CHAPTER_COPY[b.chapter]?.title ?? ""} />
+          <BeatCard
+            key={b.key}
+            beat={b}
+            chapterTitle={CHAPTER_COPY[b.chapter]?.title ?? ""}
+            chapterLine={firstOfChapter.has(b.key) ? CHAPTER_COPY[b.chapter]?.line : undefined}
+          />
         ))}
         <ChapterRail chapters={railChapters} />
       </JourneyPlayer>

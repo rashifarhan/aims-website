@@ -107,3 +107,10 @@ export const PRODUCT_COPY: Record<string, ProductCopy> = {
 export const WORKS_WITH: Record<string, { label: string; slug: string }[]> = {
   "SpeedFace V5L": [{ label: "Works with BioTime 8.5", slug: "biotime-8-5" }],
 };
+
+/**
+ * Where in its beat each product's checkpoint holds (fraction of the beat): on the close-up with the card fully
+ * formed, after the device has done its job (the boom up, the zones lit, the flaps open, the match shown).
+ */
+export const STOP_AT: Record<string, number> = { "BGM-1030": 0.8 };
+export const stopFrame = (key: string, from: number, to: number) => Math.round(from + (to - from) * (STOP_AT[key] ?? 0.6));

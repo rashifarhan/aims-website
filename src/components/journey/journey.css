@@ -88,15 +88,42 @@ body:has(.journey-page) footer {
 }
 
 /* ── Stage ──────────────────────────────────────────────────────────────── */
+/* One screen: the film plays between checkpoints by itself, so the page needs no scroll length for it. */
 .journey {
   position: relative;
+  height: 100svh;
 }
 .journey-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+  position: relative;
+  height: 100%;
   overflow: hidden;
   isolation: isolate;
+}
+.journey-count {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: clamp(1.25rem, 5vw, 5rem);
+  inset-block-end: 1.4rem;
+  font-family: var(--j-mono);
+  font-size: 0.78rem;
+  color: var(--j-muted);
+  font-variant-numeric: tabular-nums;
+}
+.journey[data-stop="0"] .journey-count::after {
+  content: "";
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-inline-start: 0.6rem;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  transform: translateY(-0.15rem) rotate(45deg);
+  animation: cue 1.6s ease-in-out infinite;
+}
+@keyframes cue {
+  50% {
+    transform: translateY(0.15rem) rotate(45deg);
+  }
 }
 .journey-canvas {
   position: absolute;
@@ -123,7 +150,7 @@ body:has(.journey-page) footer {
   position: absolute;
   z-index: 5;
   inset-inline-start: clamp(1.25rem, 5vw, 5rem);
-  inset-block-end: clamp(5rem, 12vh, 7rem);
+  inset-block-end: clamp(5.5rem, 13vh, 7.5rem);
   max-width: min(60rem, calc(100% - 2.5rem));
   visibility: hidden;
   text-shadow: 0 2px 24px rgb(0 0 0 / 0.45);
@@ -150,11 +177,21 @@ body:has(.journey-page) footer {
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
+/* A dark wash behind the hero's words, so they read over the lit city at any width. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -40vh -10vw -20vh -20vw;
+  z-index: -1;
+  background: radial-gradient(ellipse 70% 60% at 25% 70%, rgb(3 6 9 / 0.78), rgb(3 6 9 / 0.4) 55%, transparent 80%);
+  pointer-events: none;
+}
 .hero-lead {
   max-width: 34rem;
   margin-top: 1.25rem;
-  color: var(--j-muted);
-  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--j-warm);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.35vw, 1.2rem);
   line-height: 1.5;
 }
 .hero-actions {
@@ -179,7 +216,23 @@ body:has(.journey-page) footer {
   vertical-align: middle;
   background: linear-gradient(to right, var(--j-warm), transparent);
 }
-.hero-actions a {
+.hero-skip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding-inline: 1.5rem;
+  border-radius: 999px;
+  background: var(--j-green);
+  color: var(--j-ink);
+  font-weight: 700;
+  text-shadow: none;
+  box-shadow: 0 10px 40px -10px rgb(94 240 138 / 0.6);
+  transition: transform 0.15s;
+}
+.hero-skip:hover {
+  transform: translateY(-1px);
+}
+.hero-link {
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
@@ -328,6 +381,16 @@ body:has(.journey-page) footer {
 .beat-chapter {
   font-size: 0.78rem;
   color: var(--j-muted);
+}
+/* The chapter's line about AIMS, on its first product's card: said while the visitor is stopped. */
+.beat-aims {
+  margin-top: 0.35rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--j-line);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--j-warm);
+  opacity: 0.8;
 }
 .beat-card .beat-model {
   margin-top: 0.4rem;

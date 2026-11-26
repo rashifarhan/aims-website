@@ -12,7 +12,7 @@ import { anchorAt, cardAmount, progress, smooth, useFilm } from "./film";
  * its tracked position, tinted by the picture behind it, drifting a little with the camera, and dissolving as
  * the camera pulls out. All of it scroll-driven, both ways (visionOS-style spatial UI, 3D plan).
  */
-export function BeatCard({ beat, chapterTitle }: { beat: BeatData; chapterTitle: string }) {
+export function BeatCard({ beat, chapterTitle, chapterLine }: { beat: BeatData; chapterTitle: string; chapterLine?: string }) {
   const root = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLDivElement>(null);
   const card = useRef<HTMLElement>(null);
@@ -64,6 +64,7 @@ export function BeatCard({ beat, chapterTitle }: { beat: BeatData; chapterTitle:
     cd.style.filter = c < 0.999 ? `blur(${(1 - c) * 8}px)` : "";
     cd.style.transform = `translate3d(${x}px, ${y}px, 0) perspective(1000px) rotateY(${tilt}deg) scale(${0.95 + 0.05 * c})`;
     cd.style.pointerEvents = c > 0.6 ? "auto" : "none";
+    cd.inert = c < 0.5; // a card on its way in or out is out of the tab order too
     const [r, g, b] = s.sample((x - s.rect.x) / s.rect.w, (y - s.rect.y) / s.rect.h, cw / s.rect.w, ch / s.rect.h);
     // Take the scene's hue but cap its brightness, so white text stays legible over a bright office.
     const k = Math.min(1, 70 / Math.max(0.2126 * r + 0.7152 * g + 0.0722 * b, 1));
@@ -96,6 +97,7 @@ export function BeatCard({ beat, chapterTitle }: { beat: BeatData; chapterTitle:
       </div>
       <article ref={card} className="beat-card" aria-label={beat.name}>
         <p className="beat-chapter">{chapterTitle}</p>
+        {chapterLine && <p className="beat-aims">{chapterLine}</p>}
         <p className="beat-model" dir="ltr">
           {beat.model}
         </p>

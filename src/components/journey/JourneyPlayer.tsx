@@ -2,7 +2,7 @@
 
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { availableFrames, nearestLoaded, neighbourhood } from "@/lib/journey/frames";
-import { buildSegments, frameAt, progressAt, type Timeline, totalScreens } from "@/lib/journey/scrollMap";
+import type { Timeline } from "@/lib/journey/scrollMap";
 import { cardAmount, type Film, FilmContext, type FilmState, progress } from "./film";
 import { FrameStore } from "./frameStore";
 
@@ -10,6 +10,7 @@ type Props = {
   timeline: Timeline;
   frameSrc: string; // "/journey/frames/" → /journey/frames/0001.webp
   filmAspect: number; // width / height of the rendered frames
+  stops: number[]; // the checkpoints, in film frames: arrival, each product's held close-up, the skyline
   beats: { from: number; to: number }[]; // product beats: the scene dims while their cards are up
   children: ReactNode; // overlays, which follow the film through FilmContext
 };
@@ -17,25 +18,30 @@ type Props = {
 const pad = (n: number) => String(n).padStart(4, "0");
 const SAMPLE_W = 32;
 const SAMPLE_H = 20;
+const QUIET_MS = 280; // a trackpad keeps firing for a moment after a flick: one gesture, one step
+const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+/** Play time for a stretch of film: long journeys stay brisk, short hops never snap. */
+const duration = (frames: number) => Math.min(2800, Math.max(1100, 800 + frames * 4.2));
 
 /**
- * The scroll film. Scroll position is the only clock (3D plan, responsiveness rules): native scroll picks the frame
- * through the scroll map, an ~80 ms ease smooths it, nothing autoplays, and the nearest frame on hand is always
- * drawn while sharper ones load. Overlays subscribe to the film and move themselves.
+ * The film as a sequence of checkpoints (user decision, 26 Nov: "scroll is a trigger"). One wheel notch, swipe or
+ * key press moves to the next product and the page plays the film there by itself; the film holds on each
+ * product's close-up until the next gesture. After the last checkpoint the page scrolls normally. Frames load
+ * coarse to fine and the nearest one on hand is always drawn, so nothing ever waits on a spinner.
  */
-export function JourneyPlayer({ timeline, frameSrc, filmAspect, beats, children }: Props) {
+export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, children }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const segments = useMemo(() => buildSegments(timeline, 1.6), [timeline]);
   const available = useMemo(() => availableFrames(timeline.frames, timeline.step), [timeline]);
   const listeners = useRef(new Set<(s: FilmState) => void>());
-  const jumpTo = useRef<(frame: number) => void>(() => {});
+  const goTo = useRef<(frame: number) => void>(() => {});
+  const [stopIndex, setStopIndex] = useState(0);
   const [film] = useState<Film>(() => ({
     subscribe: (fn) => {
       listeners.current.add(fn);
       return () => listeners.current.delete(fn);
     },
-    jump: (frame) => jumpTo.current(frame),
+    jump: (frame) => goTo.current(frame),
   }));
 
   useEffect(() => {
@@ -49,20 +55,24 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, beats, children 
     if (!section || !canvas || !ctx || !probeCtx) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let pixels = new Uint8ClampedArray(SAMPLE_W * SAMPLE_H * 4);
-    let target = 1;
-    let current = 1;
+    let current = stops[0] ?? 1;
+    let index = 0;
     let shown = -1;
     let raf = 0;
-    let last = 0;
+    let playing = false;
+    let lastGesture = 0;
 
     const state: FilmState = {
-      frame: 1,
+      frame: current,
       rect: { x: 0, y: 0, w: 0, h: 0 },
       stage: { w: 0, h: 0 },
       sample: (x, y, w, h) => {
-        let r = 0, g = 0, b = 0, n = 0;
-        for (let j = Math.floor(y * SAMPLE_H); j < Math.min(SAMPLE_H, Math.ceil((y + h) * SAMPLE_H)); j++)
-          for (let i = Math.floor(x * SAMPLE_W); i < Math.min(SAMPLE_W, Math.ceil((x + w) * SAMPLE_W)); i++) {
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let n = 0;
+        for (let j = Math.max(0, Math.floor(y * SAMPLE_H)); j < Math.min(SAMPLE_H, Math.ceil((y + h) * SAMPLE_H)); j++)
+          for (let i = Math.max(0, Math.floor(x * SAMPLE_W)); i < Math.min(SAMPLE_W, Math.ceil((x + w) * SAMPLE_W)); i++) {
             const k = (j * SAMPLE_W + i) * 4;
             r += pixels[k] ?? 0;
             g += pixels[k + 1] ?? 0;
@@ -98,25 +108,97 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, beats, children 
       }
     });
 
-    const tick = (now: number) => {
-      const dt = last ? now - last : 16;
-      last = now;
-      current += (target - current) * (1 - Math.exp(-dt / 80));
-      if (Math.abs(target - current) < 0.05) current = target;
-      draw();
-      notify();
-      raf = current === target ? 0 : requestAnimationFrame(tick);
-      if (!raf) last = 0;
+    /** Play the film from where it is to `target`, by itself, eased; then hold. */
+    const playTo = (target: number) => {
+      cancelAnimationFrame(raf);
+      const from = current;
+      const span = Math.abs(target - from);
+      // Fetch the stretch ahead first: every few frames along the way, then the destination's neighbourhood.
+      const path: number[] = [];
+      for (let k = 1; k <= 24; k++) path.push(from + ((target - from) * k) / 24);
+      store.focus([...neighbourhood(available, target, 10), ...path.flatMap((f) => neighbourhood(available, f, 1))]);
+      if (reduced || span < 1) {
+        current = target;
+        draw();
+        notify();
+        return;
+      }
+      playing = true;
+      const total = duration(span);
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / total);
+        current = from + (target - from) * ease(t);
+        draw();
+        notify();
+        if (t < 1) raf = requestAnimationFrame(tick);
+        else playing = false;
+      };
+      raf = requestAnimationFrame(tick);
     };
-    const onScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const span = rect.height - window.innerHeight;
-      const frame = frameAt(segments, span > 0 ? -rect.top / span : 0);
-      const beat = beats.find((b) => frame >= b.from && frame <= b.to);
-      target = reduced && beat ? Math.round(beat.from + (beat.to - beat.from) * 0.6) : frame;
-      if (reduced) current = target;
-      store.focus(neighbourhood(available, target, 12));
-      if (!raf) raf = requestAnimationFrame(tick);
+    const step = (dir: 1 | -1) => {
+      const next = Math.min(Math.max(index + dir, 0), stops.length - 1);
+      if (next === index) return false;
+      index = next;
+      setStopIndex(next);
+      playTo(stops[next] ?? current);
+      return true;
+    };
+    goTo.current = (frame: number) => {
+      let best = 0;
+      stops.forEach((s, i) => {
+        if (Math.abs(s - frame) < Math.abs((stops[best] ?? 0) - frame)) best = i;
+      });
+      window.scrollTo({ top: section.offsetTop });
+      index = best;
+      setStopIndex(best);
+      playTo(stops[best] ?? frame);
+    };
+
+    /** The film has the gestures while it fills the screen, except scrolling on past the last checkpoint. */
+    const filmOwns = (dir: 1 | -1) => {
+      const top = section.getBoundingClientRect().top;
+      if (Math.abs(top) > 2) return false;
+      return !(dir === 1 && index === stops.length - 1);
+    };
+    const gesture = (dir: 1 | -1, e: Event) => {
+      if (!filmOwns(dir)) return;
+      e.preventDefault();
+      const now = performance.now();
+      const quiet = now - lastGesture > QUIET_MS;
+      lastGesture = now;
+      if (playing || !quiet) return;
+      step(dir);
+    };
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 2) return;
+      gesture(e.deltaY > 0 ? 1 : -1, e);
+    };
+    let touchY: number | null = null;
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0]?.clientY ?? null;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY;
+      if (touchY === null || y === undefined) return;
+      const dy = touchY - y;
+      if (Math.abs(dy) < 8) return;
+      const dir = dy > 0 ? 1 : -1;
+      if (!filmOwns(dir)) return;
+      e.preventDefault();
+      if (Math.abs(dy) > 40 && !playing) {
+        touchY = null;
+        step(dir);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      const el = document.activeElement;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT")) return;
+      const dir = ["ArrowDown", "PageDown", " "].includes(e.key) ? 1 : ["ArrowUp", "PageUp"].includes(e.key) ? -1 : 0;
+      if (!dir || (e.key === " " && el?.tagName === "BUTTON")) return;
+      if (!filmOwns(dir)) return;
+      e.preventDefault();
+      if (!playing) step(dir);
     };
     const onResize = () => {
       const w = canvas.clientWidth;
@@ -132,32 +214,36 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, beats, children 
       draw();
       notify();
     };
-    jumpTo.current = (frame: number) => {
-      const top = section.getBoundingClientRect().top + window.scrollY;
-      const span = section.offsetHeight - window.innerHeight;
-      window.scrollTo({ top: top + progressAt(segments, frame) * span + 1 });
-    };
 
     store.start();
+    store.focus(stops.flatMap((s) => neighbourhood(available, s, 3))); // every checkpoint sharp first
     onResize();
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(raf);
       store.stop();
     };
-  }, [available, beats, film, filmAspect, frameSrc, segments, timeline.step]);
+  }, [available, beats, film, filmAspect, frameSrc, stops, timeline.step]);
 
   return (
     <FilmContext.Provider value={film}>
-      <section ref={sectionRef} className="journey" style={{ height: `${(totalScreens(segments) + 1) * 100}svh` }}>
+      <section ref={sectionRef} className="journey" data-stop={stopIndex} data-last={stopIndex === stops.length - 1}>
         <div className="journey-stage">
           <canvas ref={canvasRef} className="journey-canvas" aria-hidden="true" />
           {children}
           <div className="journey-grain" aria-hidden="true" />
+          <p className="journey-count" aria-live="polite">
+            {stopIndex === 0 ? "Scroll to walk in" : `${stopIndex} / ${stops.length - 1}`}
+          </p>
         </div>
       </section>
     </FilmContext.Provider>
