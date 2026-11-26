@@ -27,7 +27,7 @@ const c = (file: string, w: number, h: number, alt: string): Cutout => ({
   alt,
 });
 
-const CARD = c("id-card-thick", 629, 496, "");
+const CARD = c("id-card-thick", 629, 403, "");
 const READER = c("kr600", 376, 575, "");
 const EXIT = c("alf-b21-exit-button", 513, 509, "");
 const MAG = c("al-280d-led-electric-magnetic-door-lock-model", 730, 442, "");
@@ -72,7 +72,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     line: "Face, palm, fingerprint and card terminals that clock staff in, synced to BioTime.",
     ground: "#26703a",
     hero: {
-      ...c("zkteco-iface-990-plus", 679, 658, "ZKTeco iFace 990 Plus attendance terminal"),
+      ...c("zkteco-iface-990-plus", 675, 650, "ZKTeco iFace 990 Plus attendance terminal"),
       model: "iFace 990 Plus",
       productSlug: "zkteco-iface-990-plus",
       x: 500,

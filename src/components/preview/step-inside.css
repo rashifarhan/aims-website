@@ -1,11 +1,12 @@
-/* Option 2, step inside the terminal (exploration). --dive (0 → 1) flies the terminal at the viewer; --inside
+/* Option 2, step inside the terminal (exploration). --dive (0 → 1) flies the terminal at the viewer; --open
    (0 → 1) swaps its screen for the family showcase. Both are written by StepInside on scroll. */
 .si {
   --dive: 0;
-  --inside: 0;
+  --open: 0;
+  --clip: inset(50%);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   position: relative;
-  height: 470svh;
+  height: 460svh;
   background: #0b1d14;
   color: #fff;
 }
@@ -208,9 +209,18 @@
   aspect-ratio: 362 / 776;
   translate: -50% 0;
   rotate: -4deg;
-  opacity: calc(1 - var(--inside));
-  filter: drop-shadow(0 50px 60px rgb(0 0 0 / 0.55));
   will-change: transform;
+}
+/* The terminal's shadow is its own soft layer, not a filter on the terminal: a filter re-rendered at every step of
+   the zoom made the browser drop frames. It fades as the terminal lifts away. */
+.si-device::before {
+  content: "";
+  position: absolute;
+  inset: auto 6% -4% 6%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+  opacity: calc(1 - var(--dive) * 3);
 }
 .si-device img {
   display: block;
@@ -262,11 +272,17 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  opacity: var(--inside);
+  clip-path: var(--clip);
+  visibility: hidden;
   pointer-events: none;
 }
-.si[data-inside] .si-inside {
+.si[data-opening] .si-inside {
+  visibility: visible;
+}
+.si-inside {
   z-index: 3;
+}
+.si[data-inside] .si-inside {
   pointer-events: auto;
 }
 .si-glass {
@@ -278,7 +294,7 @@
   gap: 1.5rem 3rem;
   padding: 3rem 3.5rem 2.5rem;
   background: radial-gradient(80% 90% at 70% 40%, #1f5c3a, #0b1d14);
-  scale: calc(1.06 - var(--inside) * 0.06);
+  scale: calc(1.04 - var(--open) * 0.04);
 }
 .si-step {
   grid-column: 1;
@@ -469,7 +485,8 @@
 }
 .si[data-still] .si-inside {
   position: relative;
-  opacity: 1;
+  clip-path: none;
+  visibility: visible;
   height: calc(100svh - 4.5rem);
   pointer-events: auto;
 }
