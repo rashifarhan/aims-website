@@ -178,6 +178,20 @@ def render_journey(opts, flags):
         bpy.ops.render.render(animation=True)
         print("JOURNEY_VIDEO", out_dir)
         return
+    if "stills" in flags:  # the web frame set: every --step frames as numbered JPEGs (0001.jpg, 0003.jpg ...)
+        step = int(opts.get("step", "2"))
+        still_dir = opts.get("still-dir", os.path.join(out_dir, "stills"))
+        os.makedirs(still_dir, exist_ok=True)
+        sc.render.image_settings.file_format, sc.render.image_settings.quality = "JPEG", 90
+        for frame in range(sc.frame_start, sc.frame_end + 1, step):
+            path = os.path.join(still_dir, f"{frame:04d}.jpg")
+            if os.path.exists(path):  # resumable: a stopped run picks up where it left off
+                continue
+            sc.frame_set(frame)
+            sc.render.filepath = path
+            bpy.ops.render.render(write_still=True)
+        print("JOURNEY_STILLS", still_dir)
+        return
     for frame in [int(f) for f in opts.get("frames", "1").split(",")]:
         sc.frame_set(frame)
         sc.render.filepath = os.path.join(out_dir, f"frame-{frame:04d}.png")

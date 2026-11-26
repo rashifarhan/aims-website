@@ -17,13 +17,14 @@ ap.add_argument("--out", required=True)
 ap.add_argument("--step", type=int, default=2)
 ap.add_argument("--width", type=int, default=960)
 ap.add_argument("--quality", type=int, default=72)
+ap.add_argument("--numbered", action="store_true", help="stills are already named by film frame (0001.jpg …)")
 a = ap.parse_args()
 
 os.makedirs(a.out, exist_ok=True)
 names = sorted(f for f in os.listdir(a.stills) if f.lower().endswith((".jpg", ".jpeg", ".png")))
 total = 0
 for n, name in enumerate(names, start=1):
-    frame = 1 + (n - 1) * a.step
+    frame = int(os.path.splitext(name)[0]) if a.numbered else 1 + (n - 1) * a.step
     im = Image.open(os.path.join(a.stills, name)).convert("RGB")
     if im.width != a.width:
         im = im.resize((a.width, round(im.height * a.width / im.width)), Image.LANCZOS)
