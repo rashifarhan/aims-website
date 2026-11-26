@@ -126,12 +126,12 @@ def street_and_forecourt():
     """The ground outside: a wide street with a median, a pavement, the paved forecourt and the driveway to
     the car park portal, all set under a far ground plane so the HDRI's own ground never shows."""
     box("Far ground", (4000, 4000, 0.1), (0, 0, -0.16), M.city_carpet(), 0)
-    tarmac = M.asphalt()
+    tarmac = M.scanned("Asphalt", "asphalt_02", 3.0, rough=(0.5, 0.9)) or M.asphalt()
     box("Street", (400, 16, 0.1), (0, -26, -0.05), tarmac, 0)
     box("Median", (400, 1.2, 0.2), (0, -26, 0.05), M.concrete("Median", (0.3, 0.3, 0.29)), 0.01)
     box("Pavement", (400, 4, 0.16), (0, -16, 0.03), M.paving("Pavement", (0.3, 0.3, 0.29), 0.4), 0.004)
     # Ends at the driveway's kerb (x 8.9): it used to run over the driveway and hide its asphalt.
-    box("Forecourt", (25.4, 14, 0.1), (-3.8, -7, 0.0), M.paving("Forecourt", (0.36, 0.35, 0.32), 0.8), 0.004)
+    box("Forecourt", (25.4, 14, 0.1), (-3.8, -7, 0.0), (M.scanned("Forecourt", "large_grey_tiles", 3.0, rough=(0.4, 0.85)) or M.paving("Forecourt", (0.36, 0.35, 0.32), 0.8)), 0.004)
     box("Driveway", (5.0, 14, 0.1), (11.5, -7, -0.01), tarmac, 0)
     for k in range(4):  # a dashed centre line, starting past the painted read zone (signage.py)
         box(f"Dash {k}", (0.12, 1.0, 0.005), (11.5, -8.6 + k * 2.2, 0.042), M.plastic("Road white", (0.7, 0.7, 0.68), 0.6), 0)

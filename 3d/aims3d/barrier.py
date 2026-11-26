@@ -47,6 +47,7 @@ def bgm_1030(name="BGM-1030", location=(0, 0, 0), rotation_z=0.0, boom_open=0.0,
     _ring(f"{name} ring", 0.065, 0.0045, (0, face, 0.6), red_led, root)
     for k in range(6):
         cylinder(f"{name} dot {k}", 0.0045, 0.002, (-0.03 + k * 0.012, face, 0.6), red_led, (90 * DEG, 0, 0), vertices=16, bevel=0, parent=root)
+    _cabinet_details(name, root, face)
     # The boom on its hub at the cabinet's side.
     s = 1 if hand == "R" else -1
     hx = s * (W / 2 + 0.03)
@@ -65,6 +66,27 @@ def bgm_1030(name="BGM-1030", location=(0, 0, 0), rotation_z=0.0, boom_open=0.0,
     return root
 
 
+def _cabinet_details(name, root, face):
+    """What makes the cabinet read as a manufactured product rather than a block: the service door's seam on
+    the face, its key lock, a top cover line, louvred vents on the side away from the boom, and corner screws.
+    Sizes are estimated from the product photo; no logo (no drawn look-alike marks)."""
+    seam = M.plastic(f"{name} seam", (0.002, 0.002, 0.002), 0.6)
+    steel = M.brushed_steel(f"{name} lock", axis="Z")
+    d = face - 0.0004  # just proud of the face
+    for x in (-W / 2 + 0.03, W / 2 - 0.03):  # the door's sides
+        box(f"{name} door seam {x}", (0.0025, 0.001, 0.78), (x, d, 0.47), seam, 0, parent=root)
+    for z in (0.08, 0.86):  # its top and bottom
+        box(f"{name} door seam z{z}", (W - 0.06, 0.001, 0.0025), (0, d, z), seam, 0, parent=root)
+    box(f"{name} cover line", (W + 0.002, D + 0.002, 0.003), (0, 0, H - 0.06), seam, 0, parent=root)
+    cylinder(f"{name} key lock", 0.011, 0.006, (W / 2 - 0.07, d - 0.002, 0.42), steel, (90 * DEG, 0, 0), vertices=24, parent=root)
+    box(f"{name} key slot", (0.0025, 0.002, 0.012), (W / 2 - 0.07, d - 0.0055, 0.42), seam, 0, parent=root)
+    for k in range(7):  # louvres on the side away from the boom
+        box(f"{name} vent {k}", (0.002, D - 0.1, 0.006), (-W / 2 - 0.0006, 0, 0.22 + k * 0.018), seam, 0, parent=root)
+    for x in (-W / 2 + 0.015, W / 2 - 0.015):
+        for z in (0.04, H - 0.09):
+            cylinder(f"{name} screw {x}{z}", 0.004, 0.002, (x, d - 0.0008, z), steel, (90 * DEG, 0, 0), vertices=12, bevel=0, parent=root)
+
+
 def uhf10(name="UHF10", location=(0, 0, 0), rotation=(0, 0, 0)):
     """The reader alone, centred on its origin with the radome facing -Y."""
     root = empty(name, location)
@@ -72,6 +94,14 @@ def uhf10(name="UHF10", location=(0, 0, 0), rotation=(0, 0, 0)):
     shell = M.plastic(f"{name} white", (0.78, 0.78, 0.76), 0.4)
     rounded_box(f"{name} housing", (0.44, 0.045, 0.44), (0, 0.0075, 0), 0.02, shell, 0.006, parent=root)
     rounded_box(f"{name} radome", (0.37, 0.016, 0.37), (0, -0.022, 0), 0.035, shell, 0.009, parent=root)
+    # The housing's seam round the radome, four corner screws and a small status light (estimated from the photo).
+    seam = M.plastic(f"{name} seam", (0.25, 0.25, 0.25), 0.5)
+    box(f"{name} seam", (0.385, 0.002, 0.385), (0, -0.0145, 0), seam, 0, parent=root)
+    screw = M.brushed_steel(f"{name} screw", axis="Z")
+    for x in (-0.2, 0.2):
+        for z in (-0.2, 0.2):
+            cylinder(f"{name} screw {x}{z}", 0.005, 0.003, (x, -0.0155, z), screw, (90 * DEG, 0, 0), vertices=12, bevel=0, parent=root)
+    cylinder(f"{name} status", 0.004, 0.003, (0.17, -0.0155, -0.2), M.led(f"{name} status", (0.1, 1.0, 0.3), 4.0), (90 * DEG, 0, 0), vertices=12, bevel=0, parent=root)
     bracket = M.dark_metal(f"{name} bracket")
     box(f"{name} bracket", (0.12, 0.05, 0.12), (0, 0.055, 0), bracket, 0.003, parent=root)
     return root

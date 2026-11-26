@@ -30,6 +30,29 @@ curl -L -o 3d/assets/hdri/docklands_02_4k.hdr https://dl.polyhaven.org/file/ph-a
 curl -L -o 3d/assets/hdri/golden_bay_4k.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/golden_bay_4k.hdr
 ```
 
+Surfaces are photo-scanned CC0 textures from Poly Haven (2K JPEG colour and roughness maps; the normal maps
+are downloaded but unused, since box projection can't carry tangent-space normals). `materials.scanned()`
+falls back to the procedural material when a folder is missing.
+
+| Folder                    | Used for                      | Size covered | Author                                  |
+| ------------------------- | ----------------------------- | ------------ | --------------------------------------- |
+| `asphalt_02`              | street and driveway           | 3 m          | Rob Tuytel                              |
+| `large_grey_tiles`        | forecourt paving              | 3 m          | Rob Tuytel                              |
+| `concrete_floor_painted`  | car park ramp deck            | 2 m          | Rob Tuytel                              |
+| `plaster_grey_04`         | car park walls and ceiling    | 1.5 m        | Rob Tuytel                              |
+| `concrete_floor_worn_001` | barrier island kerb           | 3 m          | Dimitrios Savva, Rico Cilliers          |
+| `concrete_wall_003`       | (downloaded, too stained)     | 3 m          | Dimitrios Savva, Rico Cilliers          |
+
+```bash
+for id in asphalt_02 large_grey_tiles concrete_floor_painted plaster_grey_04 concrete_floor_worn_001; do
+  mkdir -p 3d/assets/textures/$id
+  for k in diff nor_gl rough; do
+    curl -L -o 3d/assets/textures/$id/${id}_${k}_2k.jpg \
+      https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/$id/${id}_${k}_2k.jpg
+  done
+done
+```
+
 ## Look test
 
 Quick preview (about a minute):

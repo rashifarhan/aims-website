@@ -7,7 +7,12 @@ Albedos follow measured real-world values (white paint ~0.7, light stone ~0.5 li
 anything brighter reads as CG and blows out under daylight.
 """
 
+import os
+
 import bpy
+
+# CC0 photo-scanned surfaces from Poly Haven (3d/README.md → Assets); not in git. Each is (folder, metres covered).
+SCANS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "textures")
 
 
 def _principled(name):
@@ -604,4 +609,46 @@ def palm_frond(name="Palm frond"):
     l.new(mix.outputs["Shader"], n["Material Output"].inputs["Surface"])
     if hasattr(m, "surface_render_method"):
         m.surface_render_method = "DITHERED"
+    return m
+
+
+def scanned(name, asset, metres, tint=(1.0, 1.0, 1.0), rough=(0.0, 1.0), bump=0.25):
+    """A photo-scanned surface (Poly Haven, CC0) at its real-world size, box-projected in object space so any box
+    takes it without UVs. Colour is multiplied by `tint`, roughness remapped into `rough`, and relief comes from
+    the colour map as a bump (tangent-space normal maps don't survive box projection). Returns None when the
+    files aren't downloaded, so callers fall back to the procedural material."""
+    folder = os.path.join(SCANS, asset)
+    paths = {k: os.path.join(folder, f"{asset}_{k}_2k.jpg") for k in ("diff", "rough")}
+    if not all(os.path.exists(f) for f in paths.values()):
+        return None
+    m, p, n, l = _principled(name)
+    coord = n.new("ShaderNodeTexCoord")
+    mapping = n.new("ShaderNodeMapping")
+    mapping.inputs["Scale"].default_value = (1.0 / metres,) * 3
+    l.new(coord.outputs["Object"], mapping.inputs["Vector"])
+
+    def image(key, colour):
+        tex = n.new("ShaderNodeTexImage")
+        tex.image = bpy.data.images.load(paths[key], check_existing=True)
+        tex.image.colorspace_settings.name = "sRGB" if colour else "Non-Color"
+        tex.projection, tex.projection_blend = "BOX", 0.25
+        l.new(mapping.outputs["Vector"], tex.inputs["Vector"])
+        return tex
+
+    diff, rgh = image("diff", True), image("rough", False)
+    tinted = n.new("ShaderNodeMix")
+    tinted.data_type, tinted.blend_type = "RGBA", "MULTIPLY"
+    tinted.inputs[0].default_value = 1.0
+    l.new(diff.outputs["Color"], tinted.inputs[6])
+    tinted.inputs[7].default_value = (*tint, 1.0)
+    l.new(tinted.outputs[2], p.inputs["Base Color"])
+    rng = n.new("ShaderNodeMapRange")
+    rng.inputs["To Min"].default_value, rng.inputs["To Max"].default_value = rough
+    l.new(rgh.outputs["Color"], rng.inputs["Value"])
+    l.new(rng.outputs["Result"], p.inputs["Roughness"])
+    relief = n.new("ShaderNodeBump")
+    relief.inputs["Strength"].default_value = bump
+    relief.inputs["Distance"].default_value = 0.01
+    l.new(diff.outputs["Color"], relief.inputs["Height"])
+    l.new(relief.outputs["Normal"], p.inputs["Normal"])
     return m

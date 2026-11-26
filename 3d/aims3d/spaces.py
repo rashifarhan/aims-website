@@ -172,15 +172,23 @@ def car_park_portal(opts):
     cool strip lights, and the barrier with its UHF reader on the kerb before it."""
     # Dark cladding round the portal, so it reads as an entrance and not as a hole in the wall (plain: a
     # veined stone at this scale reads as graffiti).
-    stone, conc = M.powder_coat("Portal cladding", (0.05, 0.05, 0.055), 0.5), M.concrete("Ramp concrete")
+    stone = M.powder_coat("Portal cladding", (0.05, 0.05, 0.055), 0.5)
+    conc = M.scanned("Ramp concrete", "plaster_grey_04", 1.5, tint=(0.55, 0.55, 0.56), rough=(0.6, 0.9)) or M.concrete("Ramp concrete")
+    deck = M.scanned("Ramp deck", "concrete_floor_worn_001", 3.0, tint=(0.7, 0.7, 0.7), rough=(0.4, 0.85)) or conc  # the painted scan is blue
     px0, px1, ph = 9.0, 14.0, 3.2
     box("Portal left", (px0 - LOBBY_X1, 0.6, GROUND_H), ((LOBBY_X1 + px0) / 2, 0.0, GROUND_H / 2), stone, 0.004)
     box("Portal right", (X1 - px1, 0.6, GROUND_H), ((px1 + X1) / 2, 0.0, GROUND_H / 2), stone, 0.004)
     box("Portal lintel", (px1 - px0, 0.6, GROUND_H - ph), ((px0 + px1) / 2, 0.0, (ph + GROUND_H) / 2), stone, 0.004)
     length, drop = 14.0, 3.0
     slope = math.atan2(drop, length)
-    ramp = box("Ramp", (px1 - px0, math.hypot(length, drop), 0.2), ((px0 + px1) / 2, length / 2, -drop / 2 - 0.1), conc, 0)
-    ramp.rotation_euler = (-slope, 0, 0)
+    # Tilted through box()'s own rotation, which turns it about its centre: box() applies its transform, so
+    # setting rotation_euler afterwards swung the ramp about the world origin, 1.4 m below the street.
+    box("Ramp", (px1 - px0, math.hypot(length, drop), 0.2), ((px0 + px1) / 2, length / 2, -drop / 2 - 0.1), deck, 0, rotation=(-slope, 0, 0))
+    # The city's ground plane runs under the whole site at street level: open it over the ramp, or the ramp
+    # (and anything on it) is hidden under a flat floor.
+    ground = bpy.data.objects.get("Far ground")
+    if ground is not None:
+        _cut_opening((ground,), ((px0 + px1) / 2, length / 2, -0.16), (px1 - px0 + 0.3, length, 1.0))  # edges inside the walls
     for x in (px0 - 0.1, px1 + 0.1):
         box(f"Ramp wall {x}", (0.2, length, ph + drop), (x, length / 2, (ph - drop) / 2), conc, 0)
     box("Ramp ceiling", (px1 - px0 + 0.4, length, 0.2), ((px0 + px1) / 2, length / 2, ph + 0.1), conc, 0)
@@ -188,7 +196,7 @@ def car_park_portal(opts):
     # Painted kerb band along the ramp walls and a striped clearance bar hung across the entrance.
     stripes = _hazard_stripes()
     for x in (px0 + 0.01, px1 - 0.01):
-        box(f"Ramp wall band {x}", (0.02, length, 0.35), (x, length / 2, 0.0), stripes, 0)
+        box(f"Ramp wall band {x}", (0.02, math.hypot(length, drop), 0.35), (x, length / 2, -drop / 2 + 0.175), stripes, 0, rotation=(-slope, 0, 0))
     box("Clearance bar", (px1 - px0 - 0.2, 0.12, 0.12), ((px0 + px1) / 2, -0.6, 2.4), stripes, 0.01)
     for x in (px0 + 0.3, px1 - 0.3):
         box(f"Clearance chain {x}", (0.02, 0.02, ph - 2.46), (x, -0.6, (ph + 2.46) / 2), M.dark_metal("Chain"), 0)
@@ -202,11 +210,19 @@ def car_park_portal(opts):
         bpy.ops.object.light_add(type="SPOT", location=(x, -0.5, 2.45))
         spot = bpy.context.object
         spot.data.energy, spot.data.color, spot.data.spot_size = 150, (1.0, 0.82, 0.6), 100 * DEG
-    cool = M.led("Car park strip", (0.85, 0.92, 1.0), 12.0)
+    # Neutral-white strips (4000 K-ish, as real car parks are lit), each with the area light it would cast: the
+    # emissive strip alone left the walls in the dark and the ramp read as a black hole.
+    cool = M.led("Car park strip", (1.0, 0.95, 0.88), 12.0)
     for k in range(5):
-        box(f"Ramp strip {k}", (1.2, 0.08, 0.03), ((px0 + px1) / 2, 1.5 + k * 2.8, ph - 0.02), cool, 0)
+        y = 1.5 + k * 2.8
+        box(f"Ramp strip {k}", (1.2, 0.08, 0.03), ((px0 + px1) / 2, y, ph - 0.02), cool, 0)
+        bpy.ops.object.light_add(type="AREA", location=((px0 + px1) / 2, y, ph - 0.05))
+        lamp = bpy.context.object
+        lamp.name = f"Ramp strip light {k}"
+        lamp.data.shape, lamp.data.size, lamp.data.size_y = "RECTANGLE", 1.2, 0.12
+        lamp.data.energy, lamp.data.color = 140, (1.0, 0.93, 0.84)
     # Barrier on the lane's left kerb, boom across the lane; the reader before it, turned to the driver.
-    box("Barrier island", (0.9, 3.2, 0.15), (px0 + 0.15, -2.2, 0.075), M.concrete("Island", (0.5, 0.48, 0.44)), 0.01)
+    box("Barrier island", (0.9, 3.2, 0.15), (px0 + 0.15, -2.2, 0.075), (M.scanned("Island", "concrete_floor_worn_001", 3.0, rough=(0.5, 0.9)) or M.concrete("Island", (0.5, 0.48, 0.44))), 0.01)
     bgm_1030("BGM-1030", (px0 + 0.2, -1.4, 0.15), rotation_z=0.0, boom_open=float(opts.get("boom", "0")))
     ring = M.led("Island bollard light", (1.0, 0.82, 0.6), 6.0)
     for y in (-3.7, -0.75):  # lit bollards at both ends of the island
