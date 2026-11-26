@@ -1,33 +1,29 @@
 {
   "fps": 24,
-  "frames": 1920,
+  "frames": 1410,
   "step": 2,
-  "cut": 1051,
+  "cut": 791,
   "moments": [
     {
       "key": "Boom up",
-      "frame": 381
-    },
-    {
-      "key": "Zones clear",
-      "frame": 646
+      "frame": 306
     },
     {
       "key": "Gate open",
-      "frame": 794
+      "frame": 569
     },
     {
       "key": "Face matched",
-      "frame": 1240
+      "frame": 969
     },
     {
       "key": "Clocked in",
-      "frame": 1494
+      "frame": 1119
     }
   ],
   "lift": {
-    "from": 1020,
-    "to": 1095,
+    "from": 760,
+    "to": 830,
     "floor": 11
   },
   "chapters": [
@@ -44,15 +40,15 @@
     {
       "key": "parking",
       "from": 216,
-      "to": 559,
+      "to": 450,
       "topics": [
         "Parking Barrier Suppliers UAE"
       ]
     },
     {
       "key": "lobby",
-      "from": 560,
-      "to": 1051,
+      "from": 451,
+      "to": 791,
       "topics": [
         "Metal Detector Machines UAE",
         "Security Gate Suppliers in UAE",
@@ -61,8 +57,8 @@
     },
     {
       "key": "office",
-      "from": 1052,
-      "to": 1439,
+      "from": 792,
+      "to": 1079,
       "topics": [
         "Door Access Control Systems UAE",
         "Access Control Systems",
@@ -71,8 +67,8 @@
     },
     {
       "key": "clockin",
-      "from": 1440,
-      "to": 1700,
+      "from": 1080,
+      "to": 1180,
       "topics": [
         "Face recognition Attendance",
         "Time Attendance Machines",
@@ -82,8 +78,8 @@
     },
     {
       "key": "finale",
-      "from": 1701,
-      "to": 1920,
+      "from": 1181,
+      "to": 1410,
       "topics": [
         "ZKTeco Showroom in Dubai",
         "ZKTeco Showroom in Abu Dhabi"
@@ -92,68 +88,36 @@
   ],
   "beats": [
     {
-      "key": "UHF10",
-      "chapter": "parking",
-      "from": 216,
-      "to": 300,
-      "slug": "uhf-10",
-      "kind": "product"
-    },
-    {
       "key": "BGM-1030",
       "chapter": "parking",
-      "from": 300,
-      "to": 420,
+      "from": 216,
+      "to": 336,
       "slug": "barrier-gates-zkteco-bgm-1030",
-      "kind": "product"
-    },
-    {
-      "key": "ZK-D3180S",
-      "chapter": "lobby",
-      "from": 580,
-      "to": 715,
-      "slug": "zk-d3180s",
       "kind": "product"
     },
     {
       "key": "MARS-B1200",
       "chapter": "lobby",
-      "from": 755,
-      "to": 850,
+      "from": 520,
+      "to": 620,
       "slug": "zkteco-mars-b1200-double-swing-barrier-gate",
       "kind": "product"
     },
     {
       "key": "ProFace X",
       "chapter": "office",
-      "from": 1190,
-      "to": 1285,
+      "from": 930,
+      "to": 1030,
       "slug": "proface-x",
-      "kind": "product"
-    },
-    {
-      "key": "ALF-M560",
-      "chapter": "office",
-      "from": 1340,
-      "to": 1430,
-      "slug": "alf-m560-electromagnetic-locks",
       "kind": "product"
     },
     {
       "key": "SpeedFace V5L",
       "chapter": "clockin",
-      "from": 1445,
-      "to": 1560,
+      "from": 1080,
+      "to": 1180,
       "slug": "speedface-v5l-p",
       "kind": "product"
-    },
-    {
-      "key": "BioTime 9.5",
-      "chapter": "clockin",
-      "from": 1580,
-      "to": 1670,
-      "slug": "biotime-9-5",
-      "kind": "software"
     }
   ]
 }

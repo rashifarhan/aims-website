@@ -114,3 +114,11 @@ export const WORKS_WITH: Record<string, { label: string; slug: string }[]> = {
  */
 export const STOP_AT: Record<string, number> = { "BGM-1030": 0.8 };
 export const stopFrame = (key: string, from: number, to: number) => Math.round(from + (to - from) * (STOP_AT[key] ?? 0.6));
+
+/** Shown in "Your system" as also fitted in this building: in the film, but not one of its four stops. */
+export const ALSO_IN_BUILDING: { name: string; slug: string; kind: "product" | "software" }[] = [
+  { name: "UHF10 long-range reader", slug: "uhf-10", kind: "product" },
+  { name: "ZK-D3180S metal detector", slug: "zk-d3180s", kind: "product" },
+  { name: "ALF-M560 electromagnetic lock", slug: "alf-m560-electromagnetic-locks", kind: "product" },
+  { name: "BioTime 9.5 attendance software", slug: "biotime-9-5", kind: "software" },
+];

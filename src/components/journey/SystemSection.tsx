@@ -4,6 +4,7 @@ import { COMPANY_FIGURES, CONTACT, LOCATIONS, whatsappUrl } from "@/lib/site";
 import { AddToQuote } from "./AddToQuote";
 import type { BeatData } from "./beatData";
 import { QuoteCta } from "./QuoteCta";
+import { ALSO_IN_BUILDING } from "./story";
 
 const PLACE: Record<string, string> = { headOffice: "Head office", showroom: "Showroom", abuDhabi: "Abu Dhabi office" };
 
@@ -17,7 +18,7 @@ export function SystemSection({ beats, authorized, figureLabels, figureNote, pat
   authorized: string;
   figureLabels: Record<string, string>;
   figureNote: string;
-  paths: { quote: string; services: string };
+  paths: { quote: string; services: string; product: (s: string) => string; software: (s: string) => string };
 }) {
   return (
     <section id="your-system" className="sys" aria-labelledby="sys-title">
@@ -44,6 +45,14 @@ export function SystemSection({ beats, authorized, figureLabels, figureNote, pat
           </li>
         ))}
       </ul>
+      <p className="sys-also">
+        <span>Also in this building:</span>
+        {ALSO_IN_BUILDING.map((a) => (
+          <Link key={a.slug} href={a.kind === "product" ? paths.product(a.slug) : paths.software(a.slug)}>
+            {a.name}
+          </Link>
+        ))}
+      </p>
       <QuoteCta href={paths.quote} />
 
       <div className="sys-proof">

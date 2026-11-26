@@ -1,5 +1,5 @@
 """The visitor's journey: one camera move through the building and every device's motion, keyframed on a
-single 80-second timeline (24 fps) that the homepage will map to scroll.
+single 59-second timeline (24 fps) that the homepage will map to scroll.
 
 The camera is the visitor's eye. Between places it walks, level, at eye height; at each product it slows into
 a beat: the device fills the frame, the camera arcs a little round it, focus goes shallow so the device stands
@@ -17,16 +17,16 @@ import bpy
 from .build import empty, look_at
 from .tower import OFFICE_FLOOR, floor_z
 
-FPS, END = 24, 1920
+FPS, END = 24, 1410
 Z1 = floor_z(OFFICE_FLOOR)
 
 CHAPTERS = {  # name: (first frame, last frame)
     "hero": (1, 215),
-    "parking": (216, 559),
-    "lobby": (560, 1051),
-    "office": (1052, 1439),
-    "clockin": (1440, 1700),
-    "finale": (1701, END),
+    "parking": (216, 450),
+    "lobby": (451, 791),
+    "office": (792, 1079),
+    "clockin": (1080, 1180),
+    "finale": (1181, END),
 }
 
 # What each chapter answers, in AIMS's own search topics (supplied by the user, 26 Nov), for the overlay
@@ -41,79 +41,66 @@ TOPICS = {
     "finale": ("ZKTeco Showroom in Dubai", "ZKTeco Showroom in Abu Dhabi"),
 }
 
-# Each product's beat: its frames, where it stands (focus and accent light aim there), and its catalogue
-# slug for the overlay that names it. The attendance screen is BioTime 9.5: ZKTeco Middle East's current
-# on-premise edition, whose dashboard shows real-time punches (zkteco.me/biotime-95, checked 26 Nov).
+# One product per category (user, 26 Nov: "from each category only one product is enough"). Each beat: its
+# frames, where the product stands (focus, accent light and the web's tracked line aim there), its catalogue slug.
+# The UHF10, ZK-D3180S, ALF-M560 and BioTime stay in the building, unfeatured.
 PRODUCTS = {
-    "UHF10": {"frames": (216, 300), "at": (9.1, -3.4, 2.05), "slug": "uhf-10", "light": ((8.0, -5.2, 2.7), 60)},
-    "BGM-1030": {"frames": (300, 420), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
-    "ZK-D3180S": {"frames": (580, 715), "at": (0.05, 3.33, 2.1), "slug": "zk-d3180s", "light": ((1.6, 1.4, 3.3), 160)},
-    "MARS-B1200": {"frames": (755, 850), "at": (-0.4, 8.0, 0.65), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
-    "ProFace X": {"frames": (1190, 1285), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
-    "ALF-M560": {"frames": (1340, 1430), "at": (-0.345, 8.96, Z1 + 2.17), "slug": "alf-m560-electromagnetic-locks", "light": ((0.25, 7.95, Z1 + 1.3), 25)},
-    "SpeedFace V5L": {"frames": (1445, 1560), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
-    "BioTime 9.5": {"frames": (1580, 1670), "at": (-0.6, 5.55, Z1 + 1.36), "slug": "biotime-9-5", "light": None},
+    "BGM-1030": {"frames": (216, 336), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
+    "MARS-B1200": {"frames": (520, 620), "at": (-0.4, 8.0, 0.65), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
+    "ProFace X": {"frames": (930, 1030), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
+    "SpeedFace V5L": {"frames": (1080, 1180), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
 }
 
 # (frame, camera location, target location, lens mm, vertical shift). Keys are eased by Blender's default
-# Bezier; CUT and CUT + 1 are the lift's hidden cut (constant, so the camera jumps between them).
+# Bezier; CUT and CUT + 1 are the lift's hidden cut (constant, so the camera jumps between them). Each close-up
+# frames its product on the left third (target shifted right of it by distance x 6 / lens), leaving the right
+# two thirds for the web's card.
 CAMERA = [
     (1, (-32.0, -72.0, 1.7), (-2.0, 0.0, 1.7), 18, 0.2),
     (96, (-26.0, -60.0, 1.7), (-1.0, 0.0, 1.7), 18, 0.2),
     (156, (-5.0, -40.0, 6.0), (5.0, 0.0, 2.0), 22, 0.05),
-    (216, (8.3, -5.3, 1.75), (9.1, -3.4, 2.0), 35, 0.0),  # beat: UHF10, whole on its pole
-    (245, (8.68, -4.72, 1.8), (9.1, -3.4, 2.02), 50, 0.0),  # push in: the reader fills half the frame
-    (285, (8.78, -4.72, 1.79), (9.1, -3.4, 2.02), 50, 0.0),
-    (315, (9.45, -2.65, 0.95), (9.25, -1.5, 0.82), 40, 0.0),  # beat: BGM-1030 close on its lit face
-    (340, (9.55, -2.7, 0.97), (9.25, -1.5, 0.84), 40, 0.0),
-    (385, (10.4, -5.6, 1.4), (9.4, -1.4, 1.9), 26, 0.0),  # cabinet and raised boom in one frame
-    (420, (10.5, -5.8, 1.4), (9.4, -1.4, 2.0), 26, 0.0),
-    (470, (5.0, -6.5, 1.6), (0.0, -1.0, 1.6), 24, -0.03),
-    (520, (0.0, -4.5, 1.6), (0.0, 2.0, 1.6), 24, -0.03),
-    (565, (0.0, 0.6, 1.5), (0.0, 3.6, 1.2), 24, -0.03),
-    (590, (0.9, 0.9, 1.3), (0.0, 3.6, 1.15), 22, 0.0),  # beat: ZK-D3180S whole
-    (625, (0.12, 2.25, 1.95), (0.05, 3.33, 2.1), 40, 0.0),  # push in: the head unit, LCD and zone lights
-    (670, (-0.05, 2.3, 1.95), (0.05, 3.33, 2.1), 40, 0.0),
-    (695, (-0.5, 1.2, 1.4), (0.0, 3.6, 1.2), 24, 0.0),
-    (720, (0.0, 3.6, 1.6), (0.2, 8.0, 1.3), 24, -0.03),
-    (760, (0.6, 6.0, 1.35), (-0.4, 8.0, 0.65), 30, 0.0),  # beat: MARS-B1200 row whole
-    (790, (0.1, 6.95, 1.2), (-0.5, 7.95, 0.85), 35, 0.0),  # push in: cap, LED strip, flaps swinging
-    (825, (-0.1, 7.0, 1.2), (-0.55, 7.95, 0.85), 35, 0.0),
-    (845, (-0.79, 6.9, 1.6), (-0.9, 11.0, 1.4), 24, -0.03),
-    (870, (-0.79, 8.0, 1.6), (-1.0, 13.0, 1.5), 24, -0.05),
-    (920, (-1.2, 12.5, 1.6), (-1.4, 16.0, 1.5), 24, -0.05),
-    (970, (-1.4, 15.4, 1.6), (-1.4, 19.0, 1.5), 24, -0.05),
-    (1000, (-1.4, 17.3, 1.6), (-0.2, 17.6, 1.5), 22, -0.05),
-    (1020, (-1.4, 17.4, 1.6), (-1.4, 14.0, 1.5), 22, -0.05),
-    (1051, (-1.4, 17.4, 1.6), (-1.4, 14.0, 1.5), 22, -0.05),
-    (1052, (-1.4, 17.4, Z1 + 1.6), (-1.4, 14.0, Z1 + 1.5), 22, -0.05),
-    (1090, (-1.4, 17.2, Z1 + 1.6), (-1.4, 14.0, Z1 + 1.5), 22, -0.05),
-    (1120, (-1.4, 15.4, Z1 + 1.6), (-1.0, 12.0, Z1 + 1.5), 24, -0.05),
-    (1160, (-0.3, 13.8, Z1 + 1.6), (0.2, 9.0, Z1 + 1.5), 24, -0.05),
-    (1200, (0.45, 10.3, Z1 + 1.55), (1.05, 9.06, Z1 + 1.45), 40, 0.0),  # beat: ProFace X on its panel
-    (1225, (0.92, 9.66, Z1 + 1.47), (1.05, 9.06, Z1 + 1.45), 50, 0.0),  # push in: face-on, the match
-    (1270, (0.86, 9.7, Z1 + 1.47), (1.05, 9.06, Z1 + 1.45), 50, 0.0),
-    (1305, (0.0, 9.9, Z1 + 1.6), (0.0, 6.0, Z1 + 1.5), 26, -0.03),
-    (1335, (0.05, 8.3, Z1 + 1.6), (-0.2, 7.0, Z1 + 1.7), 26, 0.0),
-    (1360, (-0.2, 8.45, Z1 + 1.95), (-0.345, 8.96, Z1 + 2.17), 50, 0.0),  # beat: ALF-M560 close, under the header
-    (1420, (-0.1, 8.42, Z1 + 1.92), (-0.345, 8.96, Z1 + 2.17), 50, 0.0),
-    (1455, (1.75, 8.0, Z1 + 1.55), (1.9, 7.3, Z1 + 1.4), 32, 0.0),  # beat: SpeedFace V5L on its stand
-    (1480, (1.82, 7.88, Z1 + 1.42), (1.9, 7.3, Z1 + 1.39), 50, 0.0),  # push in: light bar, match, sensor
-    (1540, (1.76, 7.9, Z1 + 1.41), (1.9, 7.3, Z1 + 1.39), 50, 0.0),
-    (1590, (-0.05, 6.75, Z1 + 1.5), (-0.6, 5.55, Z1 + 1.36), 40, 0.0),  # beat: BioTime on the attendance screen
-    (1615, (-0.28, 6.23, Z1 + 1.4), (-0.6, 5.55, Z1 + 1.36), 40, 0.0),  # push in: the dashboard fills the frame
-    (1660, (-0.25, 6.2, Z1 + 1.4), (-0.6, 5.55, Z1 + 1.36), 40, 0.0),
-    (1690, (0.9, 6.5, Z1 + 1.6), (1.0, 2.0, Z1 + 1.5), 26, -0.03),  # round the counter's free end
-    (1715, (1.2, 5.0, Z1 + 1.6), (0.75, -20.0, Z1 + 1.3), 24, 0.0),
-    (1760, (0.75, 2.0, Z1 + 1.6), (0.75, -50.0, Z1 + 1.0), 24, 0.0),
-    (1800, (0.75, -1.5, Z1 + 2.2), (0.75, -100.0, Z1), 24, 0.0),
+    (216, (10.6, -5.9, 1.45), (9.9, -1.5, 1.0), 28, 0.0),  # BGM-1030 whole, by the kerb
+    (250, (9.55, -2.7, 0.97), (9.43, -1.5, 0.84), 40, 0.0),  # push in: the lit face, product on the left third
+    (268, (9.6, -2.75, 0.98), (9.45, -1.5, 0.86), 40, 0.0),
+    (300, (10.4, -5.6, 1.4), (10.0, -1.4, 1.9), 26, 0.0),  # pull back as the boom rises
+    (336, (10.5, -5.8, 1.4), (10.05, -1.4, 2.0), 26, 0.0),
+    (380, (5.0, -6.5, 1.6), (0.0, -1.0, 1.6), 24, -0.03),
+    (420, (0.0, -4.5, 1.6), (0.0, 2.0, 1.6), 24, -0.03),
+    (450, (0.0, 0.8, 1.6), (0.0, 8.0, 1.6), 24, -0.05),
+    (500, (0.0, 3.6, 1.6), (0.1, 8.0, 1.4), 24, -0.03),
+    (520, (0.6, 6.0, 1.35), (-0.4, 8.0, 0.65), 30, 0.0),  # MARS-B1200 row whole
+    (545, (0.1, 6.95, 1.2), (-0.21, 8.09, 0.75), 35, 0.0),  # push in: cap, LED strip, flaps; left third
+    (590, (-0.1, 7.0, 1.2), (-0.26, 8.09, 0.75), 35, 0.0),
+    (605, (-0.79, 6.9, 1.6), (-0.9, 11.0, 1.4), 24, -0.03),
+    (630, (-0.79, 8.0, 1.6), (-1.0, 13.0, 1.5), 24, -0.05),
+    (670, (-1.2, 12.5, 1.6), (-1.4, 16.0, 1.5), 24, -0.05),
+    (715, (-1.4, 15.4, 1.6), (-1.4, 19.0, 1.5), 24, -0.05),
+    (740, (-1.4, 17.3, 1.6), (-0.2, 17.6, 1.5), 22, -0.05),
+    (760, (-1.4, 17.4, 1.6), (-1.4, 14.0, 1.5), 22, -0.05),
+    (791, (-1.4, 17.4, 1.6), (-1.4, 14.0, 1.5), 22, -0.05),
+    (792, (-1.4, 17.4, Z1 + 1.6), (-1.4, 14.0, Z1 + 1.5), 22, -0.05),
+    (830, (-1.4, 17.2, Z1 + 1.6), (-1.4, 14.0, Z1 + 1.5), 22, -0.05),
+    (860, (-1.4, 15.4, Z1 + 1.6), (-1.0, 12.0, Z1 + 1.5), 24, -0.05),
+    (900, (-0.3, 13.8, Z1 + 1.6), (0.2, 9.0, Z1 + 1.5), 24, -0.05),
+    (930, (0.45, 10.3, Z1 + 1.55), (1.05, 9.06, Z1 + 1.45), 40, 0.0),  # ProFace X on its panel
+    (955, (0.92, 9.66, Z1 + 1.47), (0.977, 9.06, Z1 + 1.45), 50, 0.0),  # push in: face-on; left third
+    (1000, (0.86, 9.7, Z1 + 1.47), (0.94, 9.06, Z1 + 1.45), 50, 0.0),
+    (1040, (0.0, 9.9, Z1 + 1.6), (0.0, 6.0, Z1 + 1.5), 26, -0.03),
+    (1065, (0.05, 8.3, Z1 + 1.6), (0.8, 6.5, Z1 + 1.45), 26, 0.0),
+    (1080, (1.75, 8.0, Z1 + 1.55), (1.9, 7.3, Z1 + 1.4), 32, 0.0),  # SpeedFace V5L on its stand
+    (1105, (1.82, 7.88, Z1 + 1.42), (1.83, 7.3, Z1 + 1.39), 50, 0.0),  # push in; left third
+    (1160, (1.76, 7.9, Z1 + 1.41), (1.77, 7.3, Z1 + 1.39), 50, 0.0),
+    (1185, (0.9, 6.5, Z1 + 1.6), (1.0, 2.0, Z1 + 1.5), 26, -0.03),  # round the counter's free end
+    (1205, (1.2, 5.0, Z1 + 1.6), (0.75, -20.0, Z1 + 1.3), 24, 0.0),
+    (1250, (0.75, 2.0, Z1 + 1.6), (0.75, -50.0, Z1 + 1.0), 24, 0.0),
+    (1290, (0.75, -1.5, Z1 + 2.2), (0.75, -100.0, Z1), 24, 0.0),
     (END, (0.75, -60.0, Z1 + 18.0), (0.0, -800.0, 60.0), 24, 0.0),  # hold on the horizon, not the roofs
 ]
-CUT = 1051  # the last ground-floor key; held constant so the camera jumps to 1052 inside the closed lift
+CUT = 791  # the last ground-floor key; held constant so the camera jumps to 792 inside the closed lift
 
 # The "access granted" moments, each the frame a device finishes saying yes; the web pulses green on each.
-MOMENTS = {"Boom up": 381, "Zones clear": 646, "Gate open": 794, "Face matched": 1240, "Clocked in": 1494}
-LIFT = (1020, 1095)  # doors closing on the lobby to doors open on floor 11: the web counts the floors
+MOMENTS = {"Boom up": 306, "Gate open": 569, "Face matched": 969, "Clocked in": 1119}
+LIFT = (760, 830)  # doors closing on the lobby to doors open on floor 11: the web counts the floors
 
 
 def fcurves(id_data):
@@ -220,21 +207,21 @@ def detector_sweep(start, step=2, strength=3.5):
 
 
 def devices():
-    """Every device's motion on the shared timeline, each inside its product beat."""
-    _turn("BGM-1030 boom pivot", 1, ((345, 0), (381, -90)))  # BGM-1030 opens in about 1.5 s (catalogue)
-    _slide("Sliding leaf -1", 0, ((515, 0), (545, -1.5)))
-    _slide("Sliding leaf 1", 0, ((515, 0), (545, 1.5)))
-    detector_sweep(610)
+    """Every device's motion on the shared timeline; the featured four do theirs inside their beats."""
+    _turn("BGM-1030 boom pivot", 1, ((270, 0), (306, -90)))  # BGM-1030 opens in about 1.5 s (catalogue)
+    _slide("Sliding leaf -1", 0, ((400, 0), (430, -1.5)))
+    _slide("Sliding leaf 1", 0, ((400, 0), (430, 1.5)))
+    detector_sweep(470)  # lights as the visitor walks through
     for side in (-1, 1):  # Gate A's flaps swing open in the beat and close behind the visitor
-        _turn(f"Gate A flap pivot {side}", 2, ((770, 0), (794, -side * 90), (890, -side * 90), (914, 0)))
+        _turn(f"Gate A flap pivot {side}", 2, ((545, 0), (569, -side * 90), (645, -side * 90), (669, 0)))
     for side, name in ((-1, "Lobby lift leaf 0-1"), (1, "Lobby lift leaf 01")):
-        _slide(name, 0, ((905, 0), (935, side * 0.55), (1020, side * 0.55), (1050, 0)))
+        _slide(name, 0, ((660, 0), (690, side * 0.55), (760, side * 0.55), (790, 0)))
     for side, name in ((-1, "Office lift leaf 0-1"), (1, "Office lift leaf 01")):
-        _slide(name, 0, ((1060, 0), (1090, side * 0.55)))
-    _glow("ProFace X verified", ((1236, 0.0), (1240, 4.0), (1330, 4.0), (1350, 0.0)))
-    _turn("Office door leaf", 2, ((1285, 0), (1325, -95)))
-    _glow("SpeedFace V5L light bar", ((1470, 0.0), (1478, 3.0)), colour=(0.95, 0.97, 1.0))
-    _glow("SpeedFace V5L verified", ((1490, 0.0), (1494, 4.0)))
+        _slide(name, 0, ((800, 0), (830, side * 0.55)))
+    _glow("ProFace X verified", ((965, 0.0), (969, 4.0), (1030, 4.0), (1050, 0.0)))
+    _turn("Office door leaf", 2, ((1010, 0), (1050, -95)))
+    _glow("SpeedFace V5L light bar", ((1095, 0.0), (1103, 3.0)), colour=(0.95, 0.97, 1.0))
+    _glow("SpeedFace V5L verified", ((1115, 0.0), (1119, 4.0)))
 
 
 def product_beats(cam):
@@ -262,7 +249,7 @@ def product_beats(cam):
 
 # One grade across the film: the same view transform and look throughout, with exposure eased between
 # chapters (night street, lit lobby, lit office, out into the dusk) so each reads without a jump.
-EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (510, 0.3), (560, 0.25), (1052, 0.25), (1090, 0.35), (1700, 0.35), (1790, 0.1), (END, 0.0))
+EXPOSURE = ((1, 0.0), (180, 0.0), (240, 0.3), (400, 0.3), (450, 0.25), (792, 0.25), (830, 0.35), (1180, 0.35), (1260, 0.1), (END, 0.0))
 
 
 def timeline(step):

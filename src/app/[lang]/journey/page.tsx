@@ -90,7 +90,7 @@ export default async function Journey() {
         authorized={AUTHORIZED}
         figureLabels={{ years: t.home.proof.years, installations: t.home.proof.installations, clients: t.home.proof.clients, countries: t.home.proof.countries }}
         figureNote={t.home.proof.body}
-        paths={{ quote: at("/quote"), services: paths.services }}
+        paths={{ quote: at("/quote"), services: paths.services, product: paths.product, software: paths.software }}
       />
     </main>
   );
