@@ -7,7 +7,8 @@ import { namesSoftware, type BuiltSoftware } from "@/lib/software";
 const FAMILY_ORDER: Record<BuiltSoftware, string[]> = {
   "biotime-9-5": ["time-attendance", "access-control"],
   biotimecloud: ["time-attendance"],
-  "zkaccess-3-5": ["access-control", "time-attendance", "door-hardware"],
+  "zkbio-cvsecurity": ["access-control", "time-attendance", "door-hardware"],
+  "zkbio-cvaccess": ["access-control", "time-attendance", "door-hardware"],
 };
 
 /** Model codes long enough to be a product name don't fit the diagram's nodes. */

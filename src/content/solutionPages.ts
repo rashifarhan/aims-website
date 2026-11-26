@@ -82,7 +82,6 @@ export const SOLUTION_PAGES = {
     ],
     // Only software content/software.json files under access control (CLAUDE.md §1).
     software: [
-      { slug: "zkaccess-3-5", kind: "pc", purpose: "purposeZkaccess" },
       { slug: "zkbio-cvaccess", kind: "browser", purpose: "purposeCvaccess" },
       { slug: "zkbio-cvsecurity", kind: "browser", purpose: "purposeCvsecurity" },
     ],

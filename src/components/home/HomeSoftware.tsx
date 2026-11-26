@@ -12,7 +12,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 const PLATFORMS = [
   { slug: "biotime-9-5", runs: "runsAttendance", purpose: "purposeAttendance" },
   { slug: "biotimecloud", runs: "runsCloud", purpose: "purposeCloud" },
-  { slug: "zkaccess-3-5", runs: "runsAccess", purpose: "purposeAccess" },
+  { slug: "zkbio-cvsecurity", runs: "runsBrowser", purpose: "purposeCvsecurity" },
+  { slug: "zkbio-cvaccess", runs: "runsBrowser", purpose: "purposeCvaccess" },
 ] as const satisfies readonly { slug: BuiltSoftware; runs: string; purpose: string }[];
 
 /**

@@ -81,9 +81,9 @@ describe("namesSoftware", () => {
   });
   it("reads spec rows as well as overview text", () => {
     const p = product("", {
-      specs: [{ title: "", rows: [{ label: "SDK and software", value: "Standalone SDK, ZKAccess3.5 software" }] }],
+      specs: [{ title: "", rows: [{ label: "SDK and software", value: "Standalone SDK, ZKBio CVSecurity software" }] }],
     });
-    expect(namesSoftware(p, "zkaccess-3-5")).toBe(true);
+    expect(namesSoftware(p, "zkbio-cvsecurity")).toBe(true);
   });
   it("names nothing for software without published product links", () => {
     expect(namesSoftware(product("BioTime Cloud ready"), "biotimecloud")).toBe(false);

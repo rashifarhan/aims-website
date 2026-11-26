@@ -95,7 +95,7 @@ for (const locale of ["en", "ar"] as const) {
     const software = page.locator("#software");
     await expect(software.locator("h2")).toHaveCount(1);
     await expect(page.locator("#families a[href*='/software/']")).toHaveCount(0);
-    for (const slug of ["biotimecloud", "biotime-9-5", "zkaccess-3-5"]) {
+    for (const slug of ["biotimecloud", "biotime-9-5", "zkbio-cvsecurity", "zkbio-cvaccess"]) {
       await expect(software.locator(`a.home-sw-name[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
     }
   });

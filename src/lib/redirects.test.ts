@@ -11,9 +11,11 @@ const productSlugs = new Set(
 );
 const familyPaths = new Set(FAMILIES.map((f) => `/products/${f.slug}`));
 
-/** A destination is valid if it is a designed route, a family listing, or a live product. */
+/** A destination is valid if it is a designed route (or its Arabic mirror under /ar), a family listing, or a live product. */
 function resolves(destination: string): boolean {
-  const path = destination.split(/[?#]/)[0];
+  const full = destination.split(/[?#]/)[0];
+  if (routePaths.has(full)) return true;
+  const path = full.replace(/^\/ar(?=\/)/, "");
   if (routePaths.has(path) || familyPaths.has(path)) return true;
   const m = /^\/product\/([a-z0-9-]+)$/.exec(path);
   return !!m && productSlugs.has(m[1]);

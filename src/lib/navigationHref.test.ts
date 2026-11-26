@@ -35,7 +35,9 @@ describe("preview navigation", () => {
   it("uses live destinations only for software pages not built yet", () => {
     expect(navigationHref("/contact")).toBe("/contact");
     // Software pages AIMS lists but this site hasn't built still open AIMS's own page.
-    expect(navigationHref("/ar/software/zkbio-cvaccess")).toBe("https://aimsuae.me/software/zkbio-cvaccess");
+    expect(navigationHref("/ar/software/zkbiotime-mobile-app")).toBe(
+      "https://aimsuae.me/software/zkbiotime-mobile-app",
+    );
   });
 });
 

@@ -193,7 +193,20 @@ export const ROUTES: RouteEntry[] = [
     priority: "P1",
     status: "built",
   },
-  { path: "/software/zkaccess-3-5", title: "ZKAccess 3.5", template: "T6 Software", priority: "P1", status: "built" },
+  {
+    path: "/software/zkbio-cvsecurity",
+    title: "ZKBio CVSecurity",
+    template: "T6 Software",
+    priority: "P1",
+    status: "built",
+  },
+  {
+    path: "/software/zkbio-cvaccess",
+    title: "ZKBio CVAccess",
+    template: "T6 Software",
+    priority: "P1",
+    status: "built",
+  },
 
   // Locations (URLs unchanged)
   {

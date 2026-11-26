@@ -15,7 +15,7 @@ const settle = (page: Page) =>
     ),
   );
 
-const PAGES = ["biotime-9-5", "biotimecloud", "zkaccess-3-5"];
+const PAGES = ["biotime-9-5", "biotimecloud", "zkbio-cvsecurity", "zkbio-cvaccess"];
 
 for (const locale of ["en", "ar"]) {
   const prefix = locale === "ar" ? "/ar" : "";
@@ -23,12 +23,13 @@ for (const locale of ["en", "ar"]) {
   test(`${locale} Download Centre filters by URL and links built pages locally`, async ({ page }) => {
     await page.goto(`${prefix}/software`);
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator(".sw-card-grid > li")).toHaveCount(8);
+    // Seven: ZKAccess 3.5 is retired and left out of the list (client, 26 Nov 2026).
+    await expect(page.locator(".sw-card-grid > li")).toHaveCount(7);
     await page.goto(`${prefix}/software?type=access-control`);
-    // Access control: Bio Security 3.2, ZKAccess 3.5, CVAccess, CVSecurity.
-    await expect(page.locator(".sw-card-grid > li")).toHaveCount(4);
+    // Access control: Bio Security 3.2, CVAccess, CVSecurity.
+    await expect(page.locator(".sw-card-grid > li")).toHaveCount(3);
     await page.goto(`${prefix}/software?type=nonsense`);
-    await expect(page.locator(".sw-card-grid > li")).toHaveCount(8);
+    await expect(page.locator(".sw-card-grid > li")).toHaveCount(7);
     for (const slug of PAGES) {
       await expect(page.locator(`.sw-card-grid a[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
     }
@@ -68,13 +69,13 @@ for (const locale of ["en", "ar"]) {
       await expect(page).toHaveURL(new RegExp(`${prefix}/software\\?type=access-control$`), { timeout: 1000 });
     }).toPass();
     await expect(chip).toHaveAttribute("aria-current", "page");
-    await expect(page.locator(".sw-card-grid > li")).toHaveCount(4);
-    await expect(filter.locator("[aria-live]")).toContainText("4");
+    await expect(page.locator(".sw-card-grid > li")).toHaveCount(3);
+    await expect(filter.locator("[aria-live]")).toContainText("3");
     await expect(chip).toBeFocused();
   });
 
   test(`${locale} software pages draw SIGNAL only to what their own data lists`, async ({ page }) => {
-    for (const slug of ["biotime-9-5", "zkaccess-3-5"]) {
+    for (const slug of ["biotime-9-5"]) {
       await page.goto(`${prefix}/software/${slug}`);
       const signal = page.locator("#terminals .sw-signal");
       await expect(signal).toHaveCount(1);
@@ -93,7 +94,7 @@ for (const locale of ["en", "ar"]) {
 }
 
 test("Arabic software pages keep AIMS's English copy left-to-right", async ({ page }) => {
-  await page.goto("/ar/software/zkaccess-3-5");
+  await page.goto("/ar/software/zkbio-cvsecurity");
   const list = page.locator(".sw-feature-list");
   await expect(list).toHaveAttribute("lang", "en");
   await expect(list).toHaveAttribute("dir", "ltr");
@@ -118,13 +119,24 @@ test.describe("reduced motion", () => {
 });
 
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
-  await page.goto("/software/zkaccess-3-5");
+  await page.goto("/software/zkbio-cvaccess");
   await page.locator(".page-hero").getByRole("button", { name: "Add to quote" }).click();
   await expect(page.locator(".page-hero").getByText("On your list")).toBeVisible();
   // Focus moves to the link that replaced the button (WCAG 2.4.3).
   await expect(page.locator(".page-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
   await page.goto("/quote");
-  await expect(page.getByText("ZKAccess 3.5 software", { exact: false }).first()).toBeVisible();
+  await expect(page.getByText("ZKBio CVAccess software", { exact: false }).first()).toBeVisible();
+});
+
+test("the retired ZKAccess 3.5 page forwards to ZKBio CVAccess, in both languages", async ({ request }) => {
+  for (const [from, to] of [
+    ["/software/zkaccess-3-5", "/software/zkbio-cvaccess"],
+    ["/ar/software/zkaccess-3-5", "/ar/software/zkbio-cvaccess"],
+  ]) {
+    const res = await request.get(from, { maxRedirects: 0 });
+    expect(res.status(), from).toBe(301);
+    expect(new URL(res.headers().location, "http://x").pathname).toBe(to);
+  }
 });
 
 test("an unknown software slug renders no software page", async ({ page }) => {

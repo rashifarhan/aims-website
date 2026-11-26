@@ -401,10 +401,11 @@
       "centre": "All software",
       "purposeAttendance": "Attendance and workforce management, installed on your own server.",
       "purposeCloud": "Cloud-based attendance and workforce management for one or many sites.",
-      "purposeAccess": "Access control for standalone devices, C3 and inBIO panels.",
       "runsCloud": "In the cloud, no local server",
       "runsAttendance": "On your own server",
-      "runsAccess": "On a Windows PC"
+      "purposeCvsecurity": "One web platform for access control, visitors, parking, elevators and video.",
+      "purposeCvaccess": "Web-based access control for doors, users and live events across sites.",
+      "runsBrowser": "In a web browser"
     },
     "locations": {
       "heading": "Let’s talk in person.",
@@ -932,7 +933,7 @@
       },
       "software": {
         "label": "Software and setup",
-        "hint": "BioTime, ZKAccess and other software"
+        "hint": "BioTime, ZKBio CVSecurity and other software"
       },
       "visit": {
         "label": "Showroom visit",
@@ -989,7 +990,7 @@
   },
   "softwareCentre": {
     "metaTitle": "ZKTeco software download centre",
-    "metaDescription": "BioTime, BioTime Cloud, ZKAccess and ZKBio software for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
+    "metaDescription": "BioTime, BioTime Cloud, ZKBio CVSecurity and ZKBio CVAccess for ZKTeco terminals, supplied and set up by AIMS in Dubai and across the UAE.",
     "title": "ZKTeco software for attendance and access control",
     "lead": "Eight ZKTeco software platforms, supplied and set up by AIMS across the UAE. AIMS sends each installer on request, with the version that fits your terminals.",
     "primary": "Help me choose software",
@@ -1009,7 +1010,6 @@
       "biotime-8-5": "Earlier BioTime version for attendance terminals already on site.",
       "biotime-9-5": "Attendance, shifts and payroll reports from ZKTeco terminals in one database.",
       "biotimecloud": "Attendance in a web browser and mobile app, with no local server.",
-      "zkaccess-3-5": "Users, door permissions and live door events for inBio and C3 panels.",
       "zkbio-cvaccess": "Access control and video verification in one web platform.",
       "zkbio-cvsecurity": "Access, attendance, video and visitors for large sites.",
       "zkbiotime-mobile-app": "Staff check in and see their attendance records on a phone."
@@ -1038,11 +1038,18 @@
         "lead": "Attendance, shifts and leave in a web browser and mobile app, with no local server to run. Suits companies with several branches. Configured by AIMS in the UAE.",
         "jump": "See how it connects"
       },
-      "zkaccess-3-5": {
-        "metaTitle": "ZKAccess 3.5 access software",
-        "metaDescription": "ZKTeco ZKAccess 3.5 for users, door permissions and live door events on inBio and C3 panels. Supplied, installed and configured by AIMS in the UAE.",
-        "title": "ZKAccess 3.5 access control software",
-        "lead": "Manages users, door permissions and live door events for ZKTeco inBio and C3 panels, up to 30,000 users on Windows. Installed and configured by AIMS in the UAE.",
+      "zkbio-cvsecurity": {
+        "metaTitle": "ZKBio CVSecurity security platform",
+        "metaDescription": "ZKTeco ZKBio CVSecurity: one web-based platform for access control, visitors, parking, elevators and video. Supplied and set up by AIMS in the UAE.",
+        "title": "ZKBio CVSecurity security platform",
+        "lead": "One web-based platform for access control, visitor management, parking and vehicle control, elevator control and video surveillance. Supplied and set up by AIMS in the UAE.",
+        "jump": "See supported terminals"
+      },
+      "zkbio-cvaccess": {
+        "metaTitle": "ZKBio CVAccess access software",
+        "metaDescription": "ZKTeco ZKBio CVAccess: web-based access control for doors, users and live events across sites. Supplied and set up by AIMS in the UAE.",
+        "title": "ZKBio CVAccess access control software",
+        "lead": "Web-based access control: manage doors, users and permissions, and watch live door events across sites from a browser. Supplied and set up by AIMS in the UAE.",
         "jump": "See supported terminals"
       }
     },
@@ -1102,7 +1109,7 @@
   },
   "solutionAccessControl": {
     "metaTitle": "Access control systems in the UAE",
-    "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
+    "metaDescription": "ZKTeco readers, InBio Pro and C3 panels, EM locks and ZKBio CVAccess software for one door or a whole building, supplied and installed by AIMS in the UAE.",
     "title": "Decide who opens every door.",
     "lead": "Readers, controllers, locks and software for one door or a whole building. AIMS supplies, installs and sets them up across the UAE.",
     "primary": "Get an installation quote",
@@ -1187,7 +1194,6 @@
       "lead": "Run doors from one Windows PC or from a browser. Confirm with AIMS which version fits your panels.",
       "pc": "On a Windows PC",
       "browser": "In a browser",
-      "purposeZkaccess": "Users, door permissions and live door events for standalone devices, C3 and inBIO panels.",
       "purposeCvaccess": "Web-based access control for devices and doors across several locations.",
       "purposeCvsecurity": "One web platform for access control, visitors, parking and video."
     },
