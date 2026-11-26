@@ -87,8 +87,10 @@ whole city around, wear one procedural lit-window facade (`materials.tower_facad
 
 ## The journey (camera path and device motion)
 
-`--shot journey` adds the visitor's camera and every device's motion on one 60 s timeline (24 fps,
-`aims3d/journey.py`): hero push, glide to the driver's seat, the boom rising in 1.5 s, the sliding doors,
+`--shot journey` adds the visitor's camera and every device's motion on one 80 s timeline (24 fps,
+`aims3d/journey.py`). Each product gets a beat: the camera slows and arcs round it, focus goes shallow
+(f/2.8), an accent light fades up and the device does its job in frame. `journey.PRODUCTS` lists each beat's
+frames, position and catalogue slug for the scroll overlays. The path runs: hero push, glide to the driver's seat, the boom rising in 1.5 s, the sliding doors,
 the detector's zones lighting floor-up, Gate A's flaps, the lift (a hidden cut while its doors are shut),
 the corridor, the ProFace X match and the door swinging, the SpeedFace V5L clock-in, and out through the
 office glass over the city. `journey.CHAPTERS` gives each chapter's frame range for the scroll mapping.
