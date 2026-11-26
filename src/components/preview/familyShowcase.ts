@@ -1,8 +1,8 @@
 import type { FamilySlug } from "@/content/taxonomy";
 
 /**
- * The six product families as the two hero explorations show them, access control first (client, 26 Nov 2026) (client exploration, 26 Nov 2026, branch
- * claude/hero-options): one short word, one ground colour, AIMS's own photograph of a real model in that family
+ * The six product families as the two hero explorations show them (client exploration, 26 Nov 2026, branch
+ * claude/hero-options), access control first and time attendance second at the client's request: one short word, one ground colour, AIMS's own photograph of a real model in that family
  * (cut out of its white studio background, public/images/cutouts), and real accessories that float around it.
  * Counts are read from the catalogue at render time; nothing here is invented.
  */
