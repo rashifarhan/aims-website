@@ -56,8 +56,6 @@
 }
 .vh-line {
   display: block;
-  overflow: clip;
-  padding-block-end: 0.08em;
 }
 .vh-quiet {
   color: var(--color-night-muted);
@@ -85,7 +83,7 @@
 }
 .vh-bars {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.5rem;
   max-inline-size: 26rem;
 }
@@ -107,7 +105,7 @@
   gap: 0.75rem;
   color: var(--color-night-text);
   font-family: var(--font-display);
-  font-size: var(--text-home-card);
+  font-size: clamp(1.375rem, 2.2vw, 2rem);
   font-stretch: var(--font-stretch-hero);
   font-weight: var(--font-weight-display);
   letter-spacing: -0.02em;
@@ -153,47 +151,65 @@
   fill: currentColor;
 }
 
-/* Entrance: everything rises inside 0.7 s, over the poster, so the page is ready before the film starts. */
+/* Entrance: the headline rises word by word out of its masks, then the lead, actions and trust line follow; all of
+   it inside about a second, over the poster, so the page is ready before the film starts. */
+.vh-line {
+  overflow: visible;
+}
+.vh-word {
+  display: inline-block;
+  overflow: clip;
+  padding-block-end: 0.1em;
+  margin-block-end: -0.1em;
+  vertical-align: top;
+}
+.vh-word-in {
+  display: inline-block;
+}
 @media (prefers-reduced-motion: no-preference) {
-  .vh-rise {
-    display: inline-block;
-    animation: vh-rise 720ms var(--ease-aims) both;
+  .vh-word-in {
+    animation: vh-word 900ms var(--ease-aims) both;
+    animation-delay: calc(80ms + var(--i) * 55ms);
   }
-  .vh-copy > .vh-rise {
-    display: flex;
+  .vh-rise {
+    animation: vh-rise 800ms var(--ease-aims) both;
   }
   .vh-copy > .home-eyebrow.vh-rise {
-    display: inline-flex;
+    animation-delay: 0ms;
   }
   .vh-copy > .home-lead.vh-rise {
-    display: block;
+    animation-delay: 480ms;
   }
-  .vh-title .vh-line:nth-child(2) .vh-rise {
-    animation-delay: 70ms;
+  .vh-copy > .home-hero-actions.vh-rise {
+    animation-delay: 580ms;
   }
-  .vh-copy > :nth-child(3) {
-    animation-delay: 160ms;
+  .vh-copy > .home-trust.vh-rise {
+    animation-delay: 680ms;
   }
-  .vh-copy > :nth-child(4) {
-    animation-delay: 230ms;
-  }
-  .vh-copy > :nth-child(5) {
-    animation-delay: 300ms;
+  .vh-reel {
+    animation: vh-rise 800ms 760ms var(--ease-aims) both;
   }
   .vh-now-label {
-    animation: vh-swap 520ms var(--ease-aims) both;
+    animation: vh-swap 900ms var(--ease-aims) both;
+  }
+}
+@keyframes vh-word {
+  from {
+    transform: translateY(105%) rotate(4deg);
   }
 }
 @keyframes vh-rise {
   from {
     opacity: 0;
-    transform: translateY(0.6em);
+    transform: translateY(1.25rem);
   }
 }
+/* Each caption arrives out of a soft focus, as the shot behind it dissolves in. */
 @keyframes vh-swap {
   from {
     opacity: 0;
-    transform: translateY(105%);
+    filter: blur(8px);
+    transform: translateY(60%);
   }
 }
 

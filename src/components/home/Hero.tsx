@@ -1,3 +1,4 @@
+import { Fragment, type CSSProperties } from "react";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
@@ -9,9 +10,9 @@ import { ReelVideo } from "./videohero/ReelVideo";
 import "./videohero/video-hero.css";
 
 /**
- * T1 hero, video direction (client exploration, branch claude/video-home, 26 Nov 2026): a full-bleed film of AIMS's
- * own hardware (video/src/HeroReel.tsx) plays behind the copy, and a caption names each shot as it plays. The copy
- * rises at once over the poster, so nothing waits on the film.
+ * T1 hero, video direction (client exploration, branch claude/video-home, 26 Nov 2026): a cinematic film plays behind
+ * the copy, the headline reveals word by word, and a caption says what each shot stands for as it plays. Everything
+ * is in place within a second over the poster, so nothing waits on the film.
  */
 export async function Hero() {
   const t = await getDictionary();
@@ -30,12 +31,7 @@ export async function Hero() {
             {ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
           </p>
           <h1 id="home-title" className="home-display vh-title">
-            <span className="vh-line">
-              <span className="vh-rise">{h.line1}</span>
-            </span>{" "}
-            <span className="vh-line vh-quiet">
-              <span className="vh-rise">{h.line2}</span>
-            </span>
+            <Words text={h.line1} from={0} /> <Words text={h.line2} from={h.line1.split(" ").length} quiet />
           </h1>
           <p className="home-lead vh-rise">{h.lead}</p>
           <div className="home-hero-actions vh-rise">
@@ -56,5 +52,22 @@ export async function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** One headline line, each word rising out of its own mask in turn (the index carries on across lines). */
+function Words({ text, from, quiet = false }: { text: string; from: number; quiet?: boolean }) {
+  return (
+    <span className={quiet ? "vh-line vh-quiet" : "vh-line"}>
+      {text.split(" ").map((w, i) => (
+        <Fragment key={i}>
+          <span className="vh-word">
+            <span className="vh-word-in" style={{ "--i": from + i } as CSSProperties}>
+              {w}
+            </span>
+          </span>{" "}
+        </Fragment>
+      ))}
+    </span>
   );
 }

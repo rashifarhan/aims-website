@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * The hero film and the line that moves with it (client direction, 26 Nov 2026: immersive speed, nothing to wait
- * for). The reel is four 2-second shots; the caption names the shot on screen and its bar fills with the shot, read
- * from the video's own clock so the two never drift. Reduced motion: the poster stands and nothing plays. The film
- * runs past 5 s, so it has a pause button (WCAG 2.2.2).
+ * The hero film and the line that moves with it (client direction, 26 Nov 2026: a cinematic background film with the
+ * text animating over it). The film is six 3.4-second shots (stand-in footage, credited in the footer); the caption
+ * says what each shot stands for and its bar fills with the shot, read from the video's own clock so the two never
+ * drift. Reduced motion: the poster stands and nothing plays. The film runs past 5 s, so it has a pause button
+ * (WCAG 2.2.2).
  */
-const SHOT_SECONDS = 2;
+const SHOT_SECONDS = 3.4;
 
 export function ReelVideo({
   labels,
@@ -93,11 +94,12 @@ export function ReelVideo({
         loop
         playsInline
         preload="auto"
-        poster="/video/hero-reel-poster.webp"
+        poster="/video/hero-film-poster.webp"
         aria-label={label}
       >
-        <source src="/video/hero-reel.webm" type="video/webm" />
-        <source src="/video/hero-reel.mp4" type="video/mp4" />
+        {/* Phones get a lighter cut: under 1 MB, where the film fills less of the screen. */}
+        <source src="/video/hero-film-sm.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/video/hero-film.mp4" type="video/mp4" />
       </video>
       <div className="vh-reel">
         <ol className="vh-bars" aria-hidden="true">

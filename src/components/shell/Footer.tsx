@@ -142,7 +142,7 @@ export async function Footer() {
               {i < STAND_IN_CREDITS.length - 1 ? "; " : ". "}
             </span>
           ))}
-          {t.footer.standIns.licence}
+          {t.footer.standIns.licence} {t.footer.standIns.film}
         </p>
 
         <div className="mt-2 flex flex-col gap-1 border-t border-night-line pt-4 text-sm text-night-muted sm:flex-row sm:items-center sm:justify-between">

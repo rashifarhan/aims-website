@@ -140,7 +140,8 @@
       "entrance": "building entrance",
       "lobby": "reception lobby",
       "by": "by",
-      "licence": "All CC BY-SA 4.0 via Wikimedia Commons."
+      "licence": "All CC BY-SA 4.0 via Wikimedia Commons.",
+      "film": "The home page film uses stand-in footage from Mixkit (free licence), not AIMS premises or customers."
     }
   },
   "catalogue": {
@@ -347,10 +348,17 @@
       "pause": "Pause animation",
       "verified": "Verified",
       "method": "Face",
-      "reel": ["Face recognition attendance", "Speed gates and turnstiles", "Parking barriers", "Door access control"],
+      "reel": [
+        "Across Dubai and Abu Dhabi",
+        "At every entrance",
+        "On every door",
+        "Verified in a glance",
+        "Watched in real time",
+        "Logged to BioTime"
+      ],
       "pauseVideo": "Pause the film",
       "playVideo": "Play the film",
-      "videoLabel": "Short film of AIMS hardware: a face recognition terminal verifies, a speed gate opens its lane, a parking barrier lifts and a magnetic lock releases"
+      "videoLabel": "Film: Dubai at night, people crossing a glass atrium, a hand at a door keypad, an eye close-up, a security control room and a server hallway"
     },
     "families": {
       "heading": "{count} models in six product families",
