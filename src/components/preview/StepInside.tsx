@@ -14,8 +14,9 @@ import "./step-inside.css";
  * Reduced motion: no pin, the hero stands and the showcase sits below it with its arrows.
  */
 const SCREEN = { x: 0.152, y: 0.2, w: 0.688, h: 0.571 };
-const DIVE = [0.03, 0.3] as const;
-const SHOW = [0.33, 0.97] as const;
+// The dive takes about two thirds of a screen of scrolling (client feedback, 26 Nov 2026: it felt slow).
+const DIVE = [0.02, 0.17] as const;
+const SHOW = [0.22, 0.97] as const;
 const ramp = (p: number, [a, b]: readonly [number, number]) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 
 export function StepInside({ slides }: { slides: FamilySlide[] }) {
@@ -59,12 +60,14 @@ export function StepInside({ slides }: { slides: FamilySlide[] }) {
       const run = Math.max(1, rect.height - innerHeight);
       const p = Math.min(1, Math.max(0, -rect.top / run));
       const d = ramp(p, DIVE);
-      // Ease in on the scale (it gathers speed as it nears), out on the move.
-      const k = 1 + (geo.k - 1) * d * d * d;
-      const m = 1 - (1 - d) ** 2;
+      // The zoom runs in log space, so every step of scroll magnifies by the same factor: a steady rush towards
+      // the screen with no slow start, eased only at its two ends. The move to centre leads the zoom slightly.
+      const e = d * d * (3 - 2 * d);
+      const k = Math.exp(Math.log(geo.k) * e);
+      const m = 1 - (1 - d) ** 3;
       dev.style.transform = `translate(${geo.tx * m}px, ${geo.ty * m}px) scale(${k}) rotate(${-4 * (1 - m)}deg)`;
       root.style.setProperty("--dive", d.toFixed(4));
-      const inside = ramp(p, [0.24, 0.32]);
+      const inside = ramp(p, [0.14, 0.2]);
       root.style.setProperty("--inside", inside.toFixed(4));
       // Whichever layer is showing takes the clicks.
       root.toggleAttribute("data-inside", inside > 0.5);
