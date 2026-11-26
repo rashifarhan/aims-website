@@ -1,0 +1,250 @@
+/* The video hero (exploration, claude/video-home). The film fills the section; a night scrim holds the copy's side at
+   full contrast (night-text 15:1, night-muted 8.6:1 on night-950 to night-900), and the products keep the other side. */
+.vh {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: calc(100svh - 4.5rem);
+  overflow: clip;
+  background: var(--color-night-950);
+}
+.vh-video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 72% 50%;
+}
+:dir(rtl) .vh-video {
+  /* The products stand on the right of the film; in Arabic the copy takes the right, so the film turns over. */
+  transform: scaleX(-1);
+}
+.vh-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to right,
+    var(--color-night-950) 0%,
+    color-mix(in srgb, var(--color-night-950) 88%, transparent) 34%,
+    transparent 62%
+  );
+}
+:dir(rtl) .vh-scrim {
+  background: linear-gradient(
+    to left,
+    var(--color-night-950) 0%,
+    color-mix(in srgb, var(--color-night-950) 88%, transparent) 34%,
+    transparent 62%
+  );
+}
+.vh-inner {
+  display: flex;
+  align-items: center;
+  padding-block: 4rem 7rem;
+}
+.vh-copy {
+  max-inline-size: 52rem;
+}
+.vh .home-lead {
+  max-inline-size: 36rem;
+}
+.vh .home-display {
+  color: var(--color-night-text);
+}
+.vh-line {
+  display: block;
+  overflow: clip;
+  padding-block-end: 0.08em;
+}
+.vh-quiet {
+  color: var(--color-night-muted);
+}
+.vh :is(.home-lead, .home-trust) {
+  color: var(--color-night-muted);
+}
+.vh .home-eyebrow {
+  border-color: var(--color-night-line);
+  background: color-mix(in srgb, var(--color-night-800) 70%, transparent);
+  color: var(--color-lime);
+}
+
+/* The caption that moves with the film: four bars, the playing one filling, and the shot's name sliding in. */
+.vh-reel {
+  position: absolute;
+  inset-block-end: 2.25rem;
+  inset-inline: 0;
+  margin-inline: auto;
+  inline-size: calc(100% - 2 * var(--page-gutter));
+  max-inline-size: calc(var(--container-page) - 2 * var(--page-gutter));
+  display: grid;
+  gap: 0.875rem;
+  pointer-events: none;
+}
+.vh-bars {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-inline-size: 26rem;
+}
+.vh-bar {
+  --fill: 0;
+  display: block;
+  block-size: 2px;
+  border-radius: var(--radius-pill);
+  background:
+    linear-gradient(var(--color-lime), var(--color-lime)) no-repeat 0 0 / calc(var(--fill) * 100%) 100%,
+    var(--color-night-line);
+}
+:dir(rtl) .vh-bar {
+  background-position: 100% 0;
+}
+.vh-now {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: var(--color-night-text);
+  font-family: var(--font-display);
+  font-size: var(--text-home-card);
+  font-stretch: var(--font-stretch-hero);
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.02em;
+}
+.vh-now-index {
+  color: var(--color-lime);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.vh-now-mask {
+  display: block;
+  overflow: clip;
+}
+.vh-now-label {
+  display: block;
+}
+.vh-pause {
+  position: absolute;
+  inset-block-end: 1.75rem;
+  inset-inline-end: max(var(--page-gutter), calc((100% - var(--container-page)) / 2 + var(--page-gutter)));
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-night-900) 70%, transparent);
+  color: var(--color-night-text);
+  transition:
+    transform var(--duration-fast) var(--ease-aims),
+    border-color var(--duration-hover) ease;
+}
+.vh-pause:hover {
+  border-color: var(--color-lime);
+}
+.vh-pause:active {
+  transform: scale(0.94);
+}
+.vh-pause svg {
+  inline-size: 1.125rem;
+  fill: currentColor;
+}
+
+/* Entrance: everything rises inside 0.7 s, over the poster, so the page is ready before the film starts. */
+@media (prefers-reduced-motion: no-preference) {
+  .vh-rise {
+    display: inline-block;
+    animation: vh-rise 720ms var(--ease-aims) both;
+  }
+  .vh-copy > .vh-rise {
+    display: flex;
+  }
+  .vh-copy > .home-eyebrow.vh-rise {
+    display: inline-flex;
+  }
+  .vh-copy > .home-lead.vh-rise {
+    display: block;
+  }
+  .vh-title .vh-line:nth-child(2) .vh-rise {
+    animation-delay: 70ms;
+  }
+  .vh-copy > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .vh-copy > :nth-child(4) {
+    animation-delay: 230ms;
+  }
+  .vh-copy > :nth-child(5) {
+    animation-delay: 300ms;
+  }
+  .vh-now-label {
+    animation: vh-swap 520ms var(--ease-aims) both;
+  }
+}
+@keyframes vh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+}
+@keyframes vh-swap {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+}
+
+/* Phones: the film stands above, the copy sits at its foot on a scrim rising from the bottom. */
+@media (max-width: 767px) {
+  .vh {
+    min-height: calc(100svh - 4rem);
+  }
+  .vh-video {
+    block-size: 62%;
+    object-position: 70% 50%;
+  }
+  .vh-scrim,
+  :dir(rtl) .vh-scrim {
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      color-mix(in srgb, var(--color-night-950) 90%, transparent) 56%,
+      var(--color-night-950) 64%
+    );
+  }
+  .vh-inner {
+    align-items: flex-end;
+    padding-block: 40svh 7.5rem;
+  }
+  .vh .home-trust {
+    display: none;
+  }
+}
+
+/* Phones (client feedback, 26 Nov 2026): the quote is the second button, not a footnote, as on the 3D hero. */
+@media (max-width: 639px) {
+  .vh .home-hero-actions {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .vh .home-hero-actions > span,
+  .vh .home-hero-actions .home-button {
+    inline-size: 100%;
+  }
+  .vh .home-hero-actions .home-button {
+    justify-content: space-between;
+  }
+  .vh .home-secondary {
+    justify-content: center;
+    min-height: var(--home-button-height);
+    border: 1.5px solid var(--color-lime);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-lime) 10%, transparent);
+  }
+  .vh .home-secondary:active {
+    transform: translateY(1px);
+  }
+}

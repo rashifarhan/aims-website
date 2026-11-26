@@ -346,7 +346,11 @@
       "unlocked": "Door unlocked",
       "pause": "Pause animation",
       "verified": "Verified",
-      "method": "Face"
+      "method": "Face",
+      "reel": ["Face recognition attendance", "Speed gates and turnstiles", "Parking barriers", "Door access control"],
+      "pauseVideo": "Pause the film",
+      "playVideo": "Play the film",
+      "videoLabel": "Short film of AIMS hardware: a face recognition terminal verifies, a speed gate opens its lane, a parking barrier lifts and a magnetic lock releases"
     },
     "families": {
       "heading": "{count} models in six product families",
