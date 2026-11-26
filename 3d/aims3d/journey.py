@@ -7,7 +7,7 @@ off its background, an accent light fades up on it, and the device does its job 
 the ground floor and floor 11 the camera rides the lift: the doors close in front of it and, while the frame is
 only closed steel, it jumps 42 m up (a hidden cut), so the journey is one unbroken take.
 
-CHAPTERS and PRODUCTS give the frame ranges the web scroll and its overlays use.
+CHAPTERS, TOPICS and PRODUCTS give the frame ranges and words the web scroll and its overlays use.
 """
 
 import math
@@ -29,9 +29,21 @@ CHAPTERS = {  # name: (first frame, last frame)
     "finale": (1701, END),
 }
 
+# What each chapter answers, in AIMS's own search topics (supplied by the user, 26 Nov), for the overlay
+# headings and the page's metadata. "Distributor" wording follows the claims policy in src/lib/site.ts.
+TOPICS = {
+    "hero": ("ZKTeco Distributor in UAE", "ZKTeco Distributor in Dubai", "ZKTeco Distributor in Abu Dhabi"),
+    "parking": ("Parking Barrier Suppliers UAE",),
+    "lobby": ("Metal Detector Machines UAE", "Security Gate Suppliers in UAE", "Turnstile Suppliers in Dubai"),
+    "office": ("Door Access Control Systems UAE", "Access Control Systems", "ZKTeco Biometric Devices"),
+    "clockin": ("Face recognition Attendance", "Time Attendance Machines", "BioTime Software and integration Solutions",
+                "ZKTeco Attendance Software UAE"),
+    "finale": ("ZKTeco Showroom in Dubai", "ZKTeco Showroom in Abu Dhabi"),
+}
+
 # Each product's beat: its frames, where it stands (focus and accent light aim there), and its catalogue
-# slug for the overlay that names it. The attendance screen's BioTime edition is AIMS's to name (the
-# catalogue lists four), so it has no slug yet.
+# slug for the overlay that names it. The attendance screen is BioTime 9.5: ZKTeco Middle East's current
+# on-premise edition, whose dashboard shows real-time punches (zkteco.me/biotime-95, checked 26 Nov).
 PRODUCTS = {
     "UHF10": {"frames": (216, 300), "at": (9.1, -3.4, 2.05), "slug": "uhf-10", "light": ((8.0, -5.2, 2.7), 60)},
     "BGM-1030": {"frames": (300, 420), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
@@ -40,7 +52,7 @@ PRODUCTS = {
     "ProFace X": {"frames": (1190, 1285), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
     "ALF-M560": {"frames": (1340, 1430), "at": (-0.345, 8.96, Z1 + 2.17), "slug": "alf-m560-electromagnetic-locks", "light": ((0.25, 7.95, Z1 + 1.3), 25)},
     "SpeedFace V5L": {"frames": (1445, 1560), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
-    "Attendance screen": {"frames": (1580, 1670), "at": (-0.6, 5.55, Z1 + 1.36), "slug": None, "light": None},
+    "BioTime 9.5": {"frames": (1580, 1670), "at": (-0.6, 5.55, Z1 + 1.36), "slug": "biotime-9-5", "light": None},
 }
 
 # (frame, camera location, target location, lens mm, vertical shift). Keys are eased by Blender's default
