@@ -43,7 +43,8 @@ def render_settings(opts):
         engines = [e.identifier for e in sc.render.bl_rna.properties["engine"].enum_items]
         sc.render.engine = "BLENDER_EEVEE_NEXT" if "BLENDER_EEVEE_NEXT" in engines else "BLENDER_EEVEE"
         ee = sc.eevee
-        for attr, val in (("use_raytracing", True), ("use_shadows", True), ("taa_render_samples", 64)):
+        taa = min(int(opts.get("samples", "64")), 64)  # EEVEE needs far fewer samples than Cycles
+        for attr, val in (("use_raytracing", True), ("use_shadows", True), ("taa_render_samples", taa)):
             if hasattr(ee, attr):
                 setattr(ee, attr, val)
     else:

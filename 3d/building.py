@@ -141,6 +141,8 @@ def render_journey(opts, flags):
     out_dir = os.path.join(HERE, "renders", "journey")
     os.makedirs(out_dir, exist_ok=True)
     if "video" in flags:
+        if "range" in opts:  # e.g. --range 1:120 for a short test clip
+            sc.frame_start, sc.frame_end = (int(v) for v in opts["range"].split(":"))
         step = int(opts.get("step", "2"))
         sc.frame_step = step
         sc.render.fps = journey.FPS // step if journey.FPS % step == 0 else journey.FPS
