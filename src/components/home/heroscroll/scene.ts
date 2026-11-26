@@ -1,5 +1,4 @@
 import {
-  AdditiveBlending,
   BufferAttribute,
   BufferGeometry,
   Color,
@@ -12,13 +11,8 @@ import {
   RingGeometry,
   Scene,
   ShaderMaterial,
-  Vector2,
   WebGLRenderer,
 } from "three";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { facePoints } from "./face";
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -31,7 +25,7 @@ const ramp = (p: number, a: number, b: number) => {
 export function phases(p: number) {
   return {
     form: 0.965 + 0.035 * ramp(p, 0, 0.16),
-    scanOn: ramp(p, 0.16, 0.2) * (1 - ramp(p, 0.54, 0.6)),
+    scanOn: ramp(p, 0.16, 0.2) * (1 - ramp(p, 0.49, 0.53)),
     scanY: 1.25 - 2.5 * ramp(p, 0.18, 0.52),
     verify: ramp(p, 0.5, 0.6) * (1 - ramp(p, 0.8, 0.9)),
     out: ramp(p, 0.68, 1),
@@ -55,9 +49,11 @@ const vertex = /* glsl */ `
     p += dir * uOut * (1.2 + aRand * 4.5) + vec3(0.0, 0.0, uOut * aRand * 2.5);
     float scanned = step(uScan, position.y) * uScanOn;
     float band = exp(-pow((position.y - uScan) * 16.0, 2.0)) * uScanOn;
-    vColor = (mix(uBase, uLime, max(scanned * 0.75, uVerify)) + uWhite * band * 0.8 + uWhite * uVerify * 0.25) * (0.35 + 1.25 * aShade * aShade);
+    // On the light stage, depth is shading: surfaces facing the light read deep green, the rest a softer green.
+    vec3 ink = mix(uWhite, uBase, 0.55 + 0.45 * aShade);
+    vColor = mix(ink, uLime, max(max(scanned * 0.55, uVerify * 0.6), band));
     // Each point adds only a little light: dense features glow, edges sparkle (additive blending).
-    vAlpha = uGain * (0.45 + 0.55 * aRand) * (1.0 - uOut * 0.6) * (1.0 + band * 1.5);
+    vAlpha = uGain * (0.35 + 0.65 * aShade) * (0.6 + 0.4 * aRand) * (1.0 - uOut * 0.7) * (1.0 + band);
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_PointSize = uSize * uPixelRatio * (0.55 + aRand * 0.9) * (1.0 + band * 0.7 + uVerify * 0.3) / -mv.z;
     gl_Position = projectionMatrix * mv;
@@ -69,7 +65,7 @@ const fragment = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.0, d);
-    gl_FragColor = vec4(vColor * a * vAlpha, 1.0);
+    gl_FragColor = vec4(vColor, a * vAlpha);
   }
 `;
 
@@ -83,11 +79,11 @@ export function createHeroScene(
   canvas: HTMLCanvasElement,
   opts: { count: number; still: boolean; colors: { base: string; lime: string } },
 ): HeroScene {
-  const renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
+  const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: "high-performance" });
   const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
   renderer.setPixelRatio(dpr);
-  // Light on black, screened onto the page's own night gradient (hero-scroll.css): dark stays exactly the brand's.
-  renderer.setClearColor(new Color(0, 0, 0), 1);
+  // A transparent canvas over the page's own light stage (hero-scroll.css): white and green-50 stay the brand's.
+  renderer.setClearColor(new Color(0, 0, 0), 0);
   const scene = new Scene();
   const camera = new PerspectiveCamera(35, 1, 0.1, 50);
   camera.position.set(0, 0, 5.4);
@@ -106,11 +102,11 @@ export function createHeroScene(
     uVerify: { value: 0 },
     uOut: { value: 0 },
     uSize: { value: 15 },
-    uGain: { value: 0.22 },
+    uGain: { value: 0.75 },
     uPixelRatio: { value: dpr },
-    uBase: { value: new Color(opts.colors.base).lerp(new Color(opts.colors.lime), 0.35) },
+    uBase: { value: new Color(opts.colors.base) },
     uLime: { value: new Color(opts.colors.lime) },
-    uWhite: { value: new Color("#ffffff") },
+    uWhite: { value: new Color("#b9d3c0") },
   };
   const mat = new ShaderMaterial({
     vertexShader: vertex,
@@ -118,7 +114,6 @@ export function createHeroScene(
     uniforms,
     transparent: true,
     depthWrite: false,
-    blending: AdditiveBlending,
   });
   const head = new Group();
   head.add(new Points(geo, mat));
@@ -127,28 +122,48 @@ export function createHeroScene(
     color: new Color(opts.colors.lime),
     transparent: true,
     opacity: 0,
-    blending: AdditiveBlending,
     depthWrite: false,
   });
   const scanBar = new Mesh(new PlaneGeometry(2.3, 0.012), scanMat);
   scanBar.position.z = 0.75;
   head.add(scanBar);
   const ringMat = new MeshBasicMaterial({
-    color: new Color(opts.colors.lime),
+    color: new Color(opts.colors.base),
     transparent: true,
     opacity: 0,
-    blending: AdditiveBlending,
     depthWrite: false,
   });
   const ring = new Mesh(new RingGeometry(1.42, 1.442, 160), ringMat);
   head.add(ring);
   scene.add(head);
 
-  const composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new Vector2(1, 1), 0.85, 0.5, 0.12);
-  composer.addPass(bloom);
-  composer.addPass(new OutputPass());
+  // Soft lime halos for the scan line and the ring: on white, a wide faint band reads as glow where bloom would
+  // only wash out.
+  const scanHaloMat = new MeshBasicMaterial({
+    color: new Color(opts.colors.lime),
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+  });
+  // Each halo is three nested bands, faintest outside, so the glow fades rather than ending in a hard edge.
+  const scanHalo = new Group();
+  for (const band of [0.05, 0.1, 0.18]) scanHalo.add(new Mesh(new PlaneGeometry(2.4, band), scanHaloMat));
+  scanHalo.position.z = 0.74;
+  head.add(scanHalo);
+  const ringHaloMat = new MeshBasicMaterial({
+    color: new Color(opts.colors.lime),
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+  });
+  const ringHalo = new Group();
+  for (const [inner, outer] of [
+    [1.41, 1.455],
+    [1.39, 1.475],
+    [1.36, 1.505],
+  ] as const)
+    ringHalo.add(new Mesh(new RingGeometry(inner, outer, 160), ringHaloMat));
+  head.add(ringHalo);
 
   let target = opts.still ? 0.56 : 0;
   let current = target;
@@ -162,7 +177,6 @@ export function createHeroScene(
     width = w;
     height = h;
     renderer.setSize(w, h, false);
-    composer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     // Beside the copy on wide screens, above it on narrow ones.
@@ -190,14 +204,18 @@ export function createHeroScene(
     uniforms.uVerify.value = ph.verify;
     uniforms.uOut.value = ph.out;
     scanBar.position.y = ph.scanY;
-    scanMat.opacity = ph.scanOn * 0.7;
-    ringMat.opacity = ph.verify * 0.85;
+    scanMat.opacity = ph.scanOn;
+    scanHalo.position.y = ph.scanY;
+    scanHaloMat.opacity = ph.scanOn * 0.07;
+    ringMat.opacity = ph.verify;
+    ringHaloMat.opacity = ph.verify * 0.08;
     ring.scale.setScalar(0.86 + 0.14 * ph.verify);
+    ringHalo.scale.copy(ring.scale);
     pointer.x += (pointer.tx - pointer.x) * 0.06;
     pointer.y += (pointer.ty - pointer.y) * 0.06;
     head.rotation.y = ph.turn + pointer.x * 0.35 + (opts.still ? 0 : Math.sin(t * 0.35) * 0.06);
     head.rotation.x = pointer.y * 0.18;
-    composer.render();
+    renderer.render(scene, camera);
     if (!opts.still) frame = requestAnimationFrame(render);
   };
   frame = requestAnimationFrame(render);
@@ -216,7 +234,8 @@ export function createHeroScene(
       mat.dispose();
       scanMat.dispose();
       ringMat.dispose();
-      composer.dispose();
+      scanHaloMat.dispose();
+      ringHaloMat.dispose();
       renderer.dispose();
       start = 0;
     },

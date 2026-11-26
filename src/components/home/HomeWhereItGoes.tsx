@@ -27,7 +27,7 @@ export async function HomeWhereItGoes() {
   const t = await getDictionary();
   const locale = await getLocale();
   return (
-    <Section ground="night" id="places" labelledBy="places-title" className="home-where">
+    <Section id="places" labelledBy="places-title" className="home-where">
       <SectionHeader
         id="places-title"
         title={t.home.gate.heading}
