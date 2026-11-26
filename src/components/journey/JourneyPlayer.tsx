@@ -155,23 +155,46 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       playTo(stops[best] ?? frame);
     };
 
-    /** The film has the gestures while it fills the screen, except scrolling on past the last checkpoint. */
-    const filmOwns = (dir: 1 | -1) => {
-      const top = section.getBoundingClientRect().top;
-      if (Math.abs(top) > 2) return false;
-      return !(dir === 1 && index === stops.length - 1);
+    // While the visitor is in the film, the page itself does not scroll: every wheel event, however small (a
+    // trackpad starts with tiny ones), is a gesture for the film. One more step past the last checkpoint releases
+    // the page and glides into "Your system"; scrolling back to the top locks it again.
+    const root = document.documentElement;
+    let locked = false;
+    let releasing = 0;
+    const lock = () => {
+      if (locked) return;
+      locked = true;
+      root.style.overflow = "hidden";
+    };
+    const unlock = () => {
+      if (!locked) return;
+      locked = false;
+      root.style.overflow = "";
+      releasing = performance.now();
+    };
+    const release = () => {
+      unlock();
+      window.scrollTo({ top: section.offsetTop + section.offsetHeight, behavior: reduced ? "auto" : "smooth" });
+    };
+    const onScroll = () => {
+      if (!locked && performance.now() - releasing > 900 && window.scrollY <= section.offsetTop + 1) lock();
     };
     const gesture = (dir: 1 | -1, e: Event) => {
-      if (!filmOwns(dir)) return;
+      if (!locked) return;
       e.preventDefault();
       const now = performance.now();
       const quiet = now - lastGesture > QUIET_MS;
       lastGesture = now;
       if (playing || !quiet) return;
-      step(dir);
+      if (dir === 1 && index === stops.length - 1) release();
+      else step(dir);
     };
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 2) return;
+      if (!locked) return;
+      if (Math.abs(e.deltaY) < 3) {
+        e.preventDefault(); // too small to say which way, but still not the page's to scroll
+        return;
+      }
       gesture(e.deltaY > 0 ? 1 : -1, e);
     };
     let touchY: number | null = null;
@@ -179,26 +202,34 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
       touchY = e.touches[0]?.clientY ?? null;
     };
     const onTouchMove = (e: TouchEvent) => {
-      const y = e.touches[0]?.clientY;
-      if (touchY === null || y === undefined) return;
-      const dy = touchY - y;
-      if (Math.abs(dy) < 8) return;
-      const dir = dy > 0 ? 1 : -1;
-      if (!filmOwns(dir)) return;
+      if (!locked) return;
       e.preventDefault();
-      if (Math.abs(dy) > 40 && !playing) {
-        touchY = null;
-        step(dir);
-      }
+      const y = e.touches[0]?.clientY;
+      if (touchY === null || y === undefined || Math.abs(touchY - y) < 40 || playing) return;
+      const dir = touchY - y > 0 ? 1 : -1;
+      touchY = null;
+      if (dir === 1 && index === stops.length - 1) release();
+      else step(dir);
     };
     const onKey = (e: KeyboardEvent) => {
+      if (!locked) return;
       const el = document.activeElement;
       if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT")) return;
       const dir = ["ArrowDown", "PageDown", " "].includes(e.key) ? 1 : ["ArrowUp", "PageUp"].includes(e.key) ? -1 : 0;
       if (!dir || (e.key === " " && el?.tagName === "BUTTON")) return;
-      if (!filmOwns(dir)) return;
       e.preventDefault();
-      if (!playing) step(dir);
+      if (playing) return;
+      if (dir === 1 && index === stops.length - 1) release();
+      else step(dir);
+    };
+    // Links to the content below ("See the whole system", "Skip the tour") and keyboard focus moving there
+    // release the page, so nothing below the film is ever out of reach.
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as Element | null)?.closest?.("a[href^='#']");
+      if (a && !section.contains(document.querySelector(a.getAttribute("href") ?? "#none"))) unlock();
+    };
+    const onFocus = (e: FocusEvent) => {
+      if (e.target instanceof Node && !section.contains(e.target) && !(e.target as Element).closest?.(".jh")) unlock();
     };
     const onResize = () => {
       const w = canvas.clientWidth;
@@ -218,12 +249,20 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, beats, ch
     store.start();
     store.focus(stops.flatMap((s) => neighbourhood(available, s, 3))); // every checkpoint sharp first
     onResize();
+    if (window.scrollY <= section.offsetTop + 1) lock();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("click", onClick, true);
+    document.addEventListener("focusin", onFocus);
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
+      root.style.overflow = "";
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("click", onClick, true);
+      document.removeEventListener("focusin", onFocus);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
