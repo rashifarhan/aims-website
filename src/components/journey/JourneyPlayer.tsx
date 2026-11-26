@@ -12,6 +12,7 @@ type Props = {
   filmAspect: number; // width / height of the rendered frames
   stops: number[]; // the checkpoints, in film frames: arrival, then each product's held close-up
   pace: { frames: number[]; travel: number[] }; // the camera's cumulative travel per frame (journey.pace)
+  focus: [number, number][]; // per checkpoint, where its product sits on the film (fractions): phones keep it in view
   children: ReactNode; // overlays, which follow the film through FilmContext
 };
 
@@ -22,6 +23,9 @@ const QUIET_MS = 280; // a trackpad keeps firing for a moment after a flick: one
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 /** Play time for a move, from how far the camera travels: long glides stay brisk, short hops never snap. */
 const duration = (travel: number) => Math.min(2600, 1200 + 230 * Math.sqrt(travel));
+const NARROW = 768; // below this the card is a sheet at the foot (BeatCard, journey.css 47.99rem)
+const PHONE_ZOOM = 1.15; // room to slide the wide film so the product clears the sheet
+const PHONE_SPOT: [number, number] = [0.5, 0.3]; // where a phone shows the product: centred, upper third
 
 /** Linear lookup in a monotonic table: x → y. */
 function lookup(xs: number[], ys: number[], x: number): number {
@@ -47,7 +51,7 @@ function lookup(xs: number[], ys: number[], x: number): number {
  * product's close-up until the next gesture. After the last checkpoint the page scrolls normally. Frames load
  * coarse to fine and the nearest one on hand is always drawn, so nothing ever waits on a spinner.
  */
-export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, children }: Props) {
+export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, focus, children }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const available = useMemo(() => availableFrames(timeline.frames, timeline.step), [timeline]);
@@ -121,17 +125,53 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, chi
       );
       store.focus(path.flatMap((f) => neighbourhood(available, f, 1)));
     };
+    let size = { w: 0, h: 0 };
+    let shownAt = { x: 0, y: 0 };
+    const stopTravel = stops.map((f) => lookup(pace.frames, pace.travel, f));
+    /**
+     * Where the picture sits. On wide screens it covers the stage, centred: every close-up already frames its product
+     * on the left third. A phone sees only a slice of the wide film, so there the picture slides, along the camera's
+     * travel, from one product to the next, keeping each where the sheet doesn't cover it.
+     */
+    const place = () => {
+      const { w, h } = state.stage;
+      if (w >= NARROW) {
+        state.rect = { x: (w - size.w) / 2, y: (h - size.h) / 2, w: size.w, h: size.h };
+        return;
+      }
+      const s = lookup(pace.frames, pace.travel, current);
+      const fx = lookup(
+        stopTravel,
+        focus.map((f) => f[0]),
+        s,
+      );
+      const fy = lookup(
+        stopTravel,
+        focus.map((f) => f[1]),
+        s,
+      );
+      const clampTo = (v: number, lo: number) => Math.min(0, Math.max(lo, v));
+      state.rect = {
+        x: clampTo(w * PHONE_SPOT[0] - fx * size.w, w - size.w),
+        y: clampTo(h * PHONE_SPOT[1] - fy * size.h, h - size.h),
+        w: size.w,
+        h: size.h,
+      };
+    };
     const draw = () => {
+      place();
       const want = nearestLoaded(available, store.has, Math.round(current));
       if (want === null) return;
       const bitmap = store.bitmap(want);
-      if (!bitmap || want === shown) return; // keep the last good frame until this one decodes
       const { x, y, w, h } = state.rect;
+      // Keep the last good frame until this one decodes; redraw the same frame only if the picture slid (phones).
+      if (!bitmap || (want === shown && x === shownAt.x && y === shownAt.y)) return;
       const dpr = canvas.width / Math.max(state.stage.w, 1);
       ctx.drawImage(bitmap, x * dpr, y * dpr, w * dpr, h * dpr);
       probeCtx.drawImage(bitmap, 0, 0, SAMPLE_W, SAMPLE_H);
       pixels = probeCtx.getImageData(0, 0, SAMPLE_W, SAMPLE_H).data;
       shown = want;
+      shownAt = { x, y };
     };
     const store = new FrameStore(
       (f) => `${frameSrc}${pad(f)}.webp`,
@@ -285,10 +325,9 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, chi
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
-      const fw = Math.max(w, h * filmAspect); // cover
-      const fh = fw / filmAspect;
+      const fw = Math.max(w, h * filmAspect) * (w < NARROW ? PHONE_ZOOM : 1); // cover
+      size = { w: fw, h: fw / filmAspect };
       state.stage = { w, h };
-      state.rect = { x: (w - fw) / 2, y: (h - fh) / 2, w: fw, h: fh };
       shown = -1;
       draw();
       notify();
@@ -319,7 +358,7 @@ export function JourneyPlayer({ timeline, frameSrc, filmAspect, stops, pace, chi
       cancelAnimationFrame(raf);
       store.stop();
     };
-  }, [available, film, filmAspect, frameSrc, pace, stops, timeline.step]);
+  }, [available, film, filmAspect, focus, frameSrc, pace, stops, timeline.step]);
 
   return (
     <FilmContext.Provider value={film}>

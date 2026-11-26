@@ -41,18 +41,22 @@ export function BeatCard({
     const dt = dot.current;
     if (!el || !ps || !cd || !ln || !dt) return;
     const next: Phase = s.stop !== stopIndex ? "out" : s.settled ? "in" : "arriving";
-    if (next !== phase.current) {
+    const enter = next !== phase.current;
+    if (enter) {
       phase.current = next;
-      el.dataset.phase = next;
       cd.inert = next !== "in"; // a card on its way in or out is out of the tab order too
     }
-    // Keep tracking through the quarter-second exit; after that, nothing to place.
-    if (next === "out" && Math.abs(s.frame - (beat.from + beat.to) / 2) > beat.to - beat.from) return;
+    // Placed only while the camera holds on the product: while it travels, the card, line and dot neither show
+    // nor follow it, and on leaving they fade where they stood instead of sliding with the picture.
+    if (next !== "in") {
+      if (enter) el.dataset.phase = next;
+      return;
+    }
 
     const a = anchorAt(beat.track, s.frame);
     const sx = a ? s.rect.x + a.x * s.rect.w : s.stage.w / 2;
     const sy = a ? s.rect.y + a.y * s.rect.h : s.stage.h / 2;
-    const narrow = s.stage.w < 760;
+    const narrow = s.stage.w < 768; // journey.css 47.99rem
     const cw = cd.offsetWidth;
     const ch = cd.offsetHeight;
     const right = sx < s.stage.w * 0.52;
@@ -83,6 +87,12 @@ export function BeatCard({
     ln.style.setProperty("--len", String(Math.ceil(Math.hypot(ex - sx, ey - sy)) + 2));
     el.toggleAttribute("data-no-anchor", narrow || !a?.visible);
     dt.style.transform = `translate3d(${sx}px, ${sy}px, 0)`;
+    if (enter) {
+      // Commit the new place and the line's length before the phase flips, so the light draws from the product
+      // rather than appearing whole.
+      void ln.getBoundingClientRect();
+      el.dataset.phase = next;
+    }
   });
 
   return (

@@ -313,13 +313,17 @@ body:has(.journey-page) footer {
   stroke-width: 1.25;
   filter: drop-shadow(0 0 6px rgb(94 240 138 / 0.7));
   /* The light draws itself from the product to the card once the card is up, and retracts as it leaves. */
-  stroke-dasharray: var(--len, 0);
+  stroke-dasharray: var(--len, 0) 100000;
   stroke-dashoffset: var(--len, 0);
-  transition: stroke-dashoffset 0.25s var(--j-leave);
+  opacity: 0;
+  transition: opacity 0.2s var(--j-leave);
 }
 .beat[data-phase="in"] .beat-line line {
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.7s var(--j-spring) 0.18s;
+  opacity: 1;
+  transition:
+    stroke-dashoffset 0.7s var(--j-spring) 0.18s,
+    opacity 0s 0.18s;
 }
 .beat-dot {
   position: absolute;
@@ -609,8 +613,8 @@ body:has(.journey-page) footer {
   gap: 0.5rem;
   padding: 0.3rem 0.5rem;
   border-radius: 999px;
-  background: rgb(5 8 10 / 0.35);
-  backdrop-filter: blur(12px);
+  background: rgb(5 8 10 / 0.6);
+  backdrop-filter: blur(16px) saturate(1.2);
   pointer-events: auto;
 }
 .rail button {
@@ -816,9 +820,15 @@ body:has(.journey-page) footer {
   .beat-title {
     inset-block-start: calc(var(--j-header) + 4.5rem);
   }
+  /* A phone keeps the product in view: the sheet says what it is, two facts and where to go next. */
+  .beat-aims,
   .beat-role,
-  .beat-specs > div:nth-child(n + 3) {
+  .beat-specs > div:nth-child(n + 3),
+  .beat-links li:nth-child(n + 3) {
     display: none;
+  }
+  .journey-count {
+    display: none; /* the timeline under the header already says where you are */
   }
   .beat-card {
     padding: 1rem;

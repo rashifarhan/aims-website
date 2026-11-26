@@ -51,6 +51,16 @@ export default async function Journey() {
   const hero = chapter("hero");
   // Arrival, then each product's held close-up; the next gesture after the last product leaves for "Your system".
   const stops = [1, ...beats.map((b) => stopFrame(b.key, b.from, b.to))];
+  // Where each checkpoint's product sits on the film, for phones (the arrival: the tower, a little left of centre).
+  const nearest = (track: AnchorPoint[], f: number) =>
+    track.reduce<AnchorPoint | undefined>((m, p) => (!m || Math.abs(p[0] - f) < Math.abs(m[0] - f) ? p : m), undefined);
+  const focus: [number, number][] = [
+    [0.45, 0.45],
+    ...beats.map((b): [number, number] => {
+      const p = nearest(b.track, stopFrame(b.key, b.from, b.to));
+      return p ? [p[1], Math.min(p[2], 0.55)] : [0.5, 0.5]; // a low product (the barrier's lit face) shows its top half
+    }),
+  ];
   const firstOfChapter = new Set(timeline.chapters.map((c) => beats.find((b) => b.chapter === c.key)?.key));
   const railChapters = timeline.chapters
     .filter((c) => CHAPTER_COPY[c.key])
@@ -71,7 +81,14 @@ export default async function Journey() {
         authorized={AUTHORIZED}
         paths={{ home: at("/"), products: at("/products"), services: paths.services, quote: at("/quote") }}
       />
-      <JourneyPlayer timeline={timeline} frameSrc="/journey/frames/" filmAspect={1.6} stops={stops} pace={pace}>
+      <JourneyPlayer
+        timeline={timeline}
+        frameSrc="/journey/frames/"
+        filmAspect={1.6}
+        stops={stops}
+        pace={pace}
+        focus={focus}
+      >
         <Scrubbed
           from={hero.from}
           to={hero.to}

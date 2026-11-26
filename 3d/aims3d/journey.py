@@ -46,7 +46,7 @@ TOPICS = {
 # ALF-M560 stay in the building, unfeatured.
 PRODUCTS = {
     "BGM-1030": {"frames": (216, 336), "at": (9.2, -1.55, 0.75), "slug": "barrier-gates-zkteco-bgm-1030", "light": ((10.7, -3.4, 2.3), 90)},
-    "MARS-B1200": {"frames": (520, 620), "at": (-0.4, 8.0, 0.65), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
+    "MARS-B1200": {"frames": (520, 620), "at": (0.0, 8.0, 0.9), "slug": "zkteco-mars-b1200-double-swing-barrier-gate", "light": ((0.9, 6.3, 2.7), 160)},
     "ProFace X": {"frames": (930, 1030), "at": (1.05, 9.06, Z1 + 1.45), "slug": "proface-x", "light": ((0.3, 10.1, Z1 + 2.2), 25)},
     "SpeedFace V5L": {"frames": (1080, 1180), "at": (1.9, 7.3, Z1 + 1.4), "slug": "speedface-v5l-p", "light": ((1.25, 8.2, Z1 + 2.0), 25)},
     "BioTime 9.5": {"frames": (1200, 1300), "at": (-0.6, 5.55, Z1 + 1.36), "slug": "biotime-9-5", "light": None},
@@ -69,9 +69,11 @@ CAMERA = [
     (420, (0.0, -4.5, 1.6), (0.0, 2.0, 1.6), 24, -0.03),
     (450, (0.0, 0.8, 1.6), (0.0, 8.0, 1.6), 24, -0.05),
     (500, (0.0, 3.6, 1.6), (0.1, 8.0, 1.4), 24, -0.03),
-    (520, (0.6, 6.0, 1.35), (-0.4, 8.0, 0.65), 30, 0.0),  # MARS-B1200 row whole
-    (545, (0.1, 6.95, 1.2), (-0.21, 8.09, 0.75), 35, 0.0),  # push in: cap, LED strip, flaps; left third
-    (590, (-0.1, 7.0, 1.2), (-0.26, 8.09, 0.75), 35, 0.0),
+    (520, (1.2, 3.9, 1.7), (0.6, 8.2, 0.8), 24, 0.0),  # MARS-B1200 pair, past the detector
+    # Three-quarter view of the whole pair, flaps opening: close enough to read, far enough to recognise
+    # (user, 26 Nov: the tight push-in showed only a cabinet top). Product on the left third.
+    (545, (1.7, 4.6, 1.75), (0.84, 8.25, 0.6), 24, 0.0),
+    (590, (1.66, 4.66, 1.74), (0.82, 8.25, 0.6), 24, 0.0),
     (605, (-0.79, 6.9, 1.6), (-0.9, 11.0, 1.4), 24, -0.03),
     (630, (-0.79, 8.0, 1.6), (-1.0, 13.0, 1.5), 24, -0.05),
     (670, (-1.2, 12.5, 1.6), (-1.4, 16.0, 1.5), 24, -0.05),
