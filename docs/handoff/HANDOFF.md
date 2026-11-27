@@ -6,7 +6,9 @@ file, then `CLAUDE.md` and `AGENTS.md`, before changing anything.
 ## 1. Where things stand
 
 - **Project:** the AIMS website redesign (aimsuae.me), Next.js 16 + Tailwind 4 + pnpm. `CLAUDE.md` holds the rules
-  (truth, tokens, accessibility, i18n, tests). They still apply on these branches unless the client says otherwise.
+  (truth, tokens, accessibility, i18n, tests). On these branches its motion rules (§3) were rewritten for the
+  directions, and the chosen direction leads on layout, composition, motion and imagery (see "When sources disagree").
+  The client wants a completely different look from `main`; don't pull the design back towards it.
 - **The team reviewed three hero directions and chose two of them, 2 and 3.** Both are built as preview pages on
   branch `claude/hero-options`:
   - Direction 2, **Step inside the terminal**: `/preview/step-inside`
@@ -77,8 +79,8 @@ FamilyStage.tsx, family-slider.css, familyShowcase.ts). Watch both previews in a
   pointers only). Nothing runs on a timer.
 - **Libraries (client decision, 27 Nov 2026):** use whatever gives the smoothest result. GSAP ScrollTrigger (pin,
   scrub, snap) is already approved and wired in `src/components/motion/gsap.ts`. The client has also allowed a
-  smooth-scroll library such as Lenis for the buttery feel. This **overrides** the "no smooth-scroll library" line in
-  `CLAUDE.md` §3 for these two branches; record it in `README.md` → Decisions. Keep these guards: native scroll on
+  smooth-scroll library such as Lenis for the buttery feel. `CLAUDE.md` §3 on these branches was rewritten on
+  27 Nov 2026 to allow this; record what you use in `README.md` → Decisions. Keep these guards: native scroll on
   touch devices if the library feels laggy there, everything static with no pin under `prefers-reduced-motion`,
   keyboard and screen-reader access to every family, transform/opacity/clip-path only, and the page still meets
   `CLAUDE.md` §5 (performance). Use the same scroll engine for direction 2's dive, so both branches feel equally

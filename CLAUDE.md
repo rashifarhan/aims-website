@@ -78,6 +78,11 @@ the pages you need.
 ### When sources disagree
 
 1. The user's explicit instruction in the current session wins.
+   **Redesign directions (client decision, 27 Nov 2026):** on the redesign branches (`claude/direction-2-step-inside`,
+   `claude/direction-3-families`, `claude/hero-options`) the chosen direction leads on layout, composition, motion
+   and imagery: `docs/handoff/HANDOFF.md` and the MotionSites designs it names. Where the design skill, the Design Doc
+   or older rules in this file would block that direction, the direction wins. Truth, accessibility, SEO/URLs and the
+   performance budget in item 2 still hold.
 2. **Truth (§1), accessibility (§4), performance (§5) and SEO/URLs (§6) below** are never traded away for a design
    rule, whichever source it comes from.
 3. **The design skill** wins on layout, composition, motion, imagery, copy style and the finish checks (decided by
@@ -153,10 +158,13 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
   it measures ≥ 4.5:1 (the ratios are listed beside the tokens). Ink-300 is decorative only. No violet anywhere.
 - **The skill's house rules apply** (`SKILL.md`, House rules): no caption or description under any image (licence
   credits go in one footer line); every visual renders at 1440, 1024, 768 and 390; **one section per screen** (each
-  section one or two screens tall at 1440×900, the hero alone on the first); equal left and right content edges.
+  section one or two screens tall at 1440×900, the hero alone on the first; a pinned scroll sequence may run longer);
+  equal left and right content edges.
 - **One system:** one button pair, one card style, one radius scale, one link look; two boxes deep at most.
 - **First screen:** it says what AIMS sells, for whom or where, with one hard fact, and has at most two actions. One
-  main action per screen. No carousels, no timed tabs, no stacked banners, nothing above the header.
+  main action per screen. No auto-rotating carousels or timed tabs, no stacked banners, nothing above the header. A
+  scroll-driven slider (direction 3's product families) is allowed: it changes with the visitor's scroll, never on a
+  timer.
 - Typography follows the Design Doc ch. 5 scale. Use sentence case. Model codes are in IBM Plex Mono. Numbers in
   quantities, counts and specs use `tabular-nums`. Body text is 16 px minimum on inputs.
 - **Imagery (skill `photos.md`):** AIMS's own product photographs lead, big and whole, a different picture each
@@ -166,39 +174,28 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
   customers. Real third-party icons keep their own colours (`icons.mjs`). No drawn look-alike logos.
 - **Mobile first and uncluttered.** Design 390 px first. If a mobile view feels busy, remove things; don't shrink them.
 
-### 3. Motion (skill `references/motion.md`)
+### 3. Motion: high end, scroll driven (client decision, 27 Nov 2026)
 
-- **Every page moves in these places (plus the scroll reveals below), and nothing else moves:** (1) the hero enters once on load (about 1.1 s, then
-  stands); (2) one dealt moment in a section of its own, two on a long page (eight sections or more), picked with
-  `moments.mjs pick --page tech`; (3) the hover and press layer on every link, button, linked card and linked photo
-  (card lifts 2px, photo zooms 1.02–1.03, button steps 1px and presses, underlines draw). As a tech site AIMS may also
-  have loops inside a card's visual, one timed loop in the hero, one count, and the one effect or scene
-  `effects-usage.md` deals.
-- **Scroll reveals are allowed (client decision, 24 Nov 2026; this overrides the design skill's no-scroll-reveal
-  rule).** Section headings may rise word by word and content blocks may rise (about 24 px) and fade in as they enter
-  the viewport. Build them with CSS scroll-driven animations (`animation-timeline: view()`) inside
-  `@supports (animation-timeline: view())`, so content is fully visible where they are unsupported; transform and
-  opacity only. Still banned: parallax on text, scroll-jacking and smooth-scroll libraries. A moment may hold its
-  section with `position: sticky` while the page scrolls natively. The client may change this rule again; ask before
-  widening it.
-- **GSAP is approved (client decision, 25 Nov 2026)** for AIMS's signature motion: ScrollTrigger may **pin** a
-  section and **scrub** a sequence with the scroll (for example the home process timeline), and SplitText, DrawSVG
-  and Flip may be used where they serve the domain story (verification, routes, the door). Rules: load GSAP lazily,
-  only in the smallest client leaf of a page that uses it, never in a layout; register plugins once; use
-  `gsap.matchMedia()` so `prefers-reduced-motion` shows every final state with no pin; clean up on unmount
-  (`@gsap/react` `useGSAP`); animate transform and opacity (plus SVG stroke drawing); where GSAP drives a section,
-  it replaces that section's CSS scroll reveal so two systems never run on one element. Content stays readable and
-  in the DOM without JavaScript. Pins are for one sequence per page at most and never trap the scroll; no
-  smooth-scroll library (ScrollSmoother) and no scroll-jacking.
-- The approved prototypes in `docs/prototypes/` (hero signal lines and verification, door kit) are AIMS's real
-  domain motion: use them as the hero entrance and loop and as a dealt moment rather than adding generic effects.
-  Port them; don't redesign them.
-- The motion layer animates transform, scale and opacity (a hover may also change colour); a moment may also move the
-  cheap properties its `meta.json` names. Never animate width, height, top, left, margin or padding.
-- Loops pause off-screen; anything moving past 5 s has a pause button; at most four live WebGL contexts. Under
-  `prefers-reduced-motion` everything rests at its final state and nothing stays hidden. Nothing flashes more than
-  3 times per second.
-- Effect and moment code loads lazily, only on pages that deal one, and the page must still meet §5.
+The redesign directions need cinematic, buttery-smooth motion, and this section allows it. It replaces the earlier
+limits (one dealt moment per page, one pin per page, no parallax, no smooth-scroll library, the 24 and 25 Nov rules).
+
+- **Allowed and encouraged:** scroll-driven storytelling. Pin sections and scrub sequences with the scroll, snap
+  softly between steps, run several pinned sequences on a long page, scroll-driven sliders, product parallax and
+  depth layers, clip-path wipes and reveals, giant display type that moves, scroll-scrubbed video, canvas and WebGL
+  scenes, pointer-reactive pieces, and page and section transitions.
+- **Libraries:** GSAP with any of its plugins (ScrollTrigger, SplitText, Flip, DrawSVG, ScrollSmoother) and a
+  smooth-scroll library such as Lenis are approved; choose what feels smoothest. Load them lazily in the smallest
+  client leaf, never in a layout; register plugins once (`src/components/motion/gsap.ts`); clean up on unmount
+  (`@gsap/react` `useGSAP`); use one scroll engine per page so two systems never drive one element.
+- **Smoothness is the bar.** Animate compositor-friendly properties (transform, opacity, clip-path; filters only on
+  small elements); never width, height, top, left, margin or padding. No layout shift. Test at 60 fps on a mid-range
+  phone; if a smooth-scroll library feels laggy on touch devices, use native scroll there.
+- **Guards that stay (accessibility, §4):** under `prefers-reduced-motion` everything rests at its final state, with
+  no pin, no smooth scroll and nothing hidden. Every slide, step and family is reachable by keyboard and by screen
+  reader, and content stays in the DOM without JavaScript. Scrolling is never trapped: the visitor can always scroll
+  past a sequence. Anything that plays by itself for more than 5 s has a pause button. Nothing flashes more than
+  3 times per second. Body text stays still and readable while it is being read. At most four live WebGL contexts.
+- Loops pause off-screen, and motion code loads only on the pages that use it, so each page still meets §5.
 
 ### 4. Accessibility: WCAG 2.2 AA, built in
 
