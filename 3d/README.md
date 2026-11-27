@@ -34,24 +34,30 @@ Surfaces are photo-scanned CC0 textures from Poly Haven (2K JPEG colour and roug
 are downloaded but unused, since box projection can't carry tangent-space normals). `materials.scanned()`
 falls back to the procedural material when a folder is missing.
 
-| Folder                    | Used for                      | Size covered | Author                                  |
-| ------------------------- | ----------------------------- | ------------ | --------------------------------------- |
-| `asphalt_02`              | street and driveway           | 3 m          | Rob Tuytel                              |
-| `large_grey_tiles`        | forecourt paving              | 3 m          | Rob Tuytel                              |
-| `concrete_floor_painted`  | car park ramp deck            | 2 m          | Rob Tuytel                              |
-| `plaster_grey_04`         | car park walls and ceiling    | 1.5 m        | Rob Tuytel                              |
-| `concrete_floor_worn_001` | barrier island kerb           | 3 m          | Dimitrios Savva, Rico Cilliers          |
-| `concrete_wall_003`       | (downloaded, too stained)     | 3 m          | Dimitrios Savva, Rico Cilliers          |
+| Folder                    | Used for                         | Size covered | Author                         |
+| ------------------------- | -------------------------------- | ------------ | ------------------------------ |
+| `asphalt_02`              | street and driveway              | 3 m          | Rob Tuytel                     |
+| `large_grey_tiles`        | forecourt and the hero's plaza   | 3 m          | Rob Tuytel                     |
+| `plaster_grey_04`         | car park walls and ceiling       | 1.5 m        | Rob Tuytel                     |
+| `concrete_floor_worn_001` | car park ramp deck, barrier kerb | 3 m          | Dimitrios Savva, Rico Cilliers |
+| `marble_01`               | lobby floor (polished limestone) | 2.4 m        | Rob Tuytel                     |
+| `oak_veneer_01`           | lobby slat wall                  | 1.2 m        | Jenelle van Heerden            |
+| `ash_veneer`              | office desk tops                 | 1 m          | Jenelle van Heerden            |
 
 ```bash
-for id in asphalt_02 large_grey_tiles concrete_floor_painted plaster_grey_04 concrete_floor_worn_001; do
+for id in asphalt_02 large_grey_tiles plaster_grey_04 concrete_floor_worn_001 marble_01 oak_veneer_01 ash_veneer; do
   mkdir -p 3d/assets/textures/$id
-  for k in diff nor_gl rough; do
+  for k in diff rough; do
     curl -L -o 3d/assets/textures/$id/${id}_${k}_2k.jpg \
-      https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/$id/${id}_${k}_2k.jpg
+      https://dl.polyhaven.com/file/ph-assets/Textures/jpg/2k/$id/${id}_${k}_2k.jpg
   done
 done
 ```
+
+The film's final render (26 Nov, about 11 hours on the M1): every 2nd frame at 1600x1000, 24 Cycles samples
+with motion blur, and the five frames the page rests on (1, 313, 581, 1141, 1261) again at 1920x1200 and 256
+samples. Stops snap to that grid (`stopFrame` in `src/components/journey/story.ts`), so a visitor who stops
+scrolling always sees a full-quality frame. `--range a:b` limits `--stills` to part of the film.
 
 ## Look test
 

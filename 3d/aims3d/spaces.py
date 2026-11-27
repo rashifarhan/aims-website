@@ -117,7 +117,9 @@ def ground_floor(opts):
     stone = M.concrete("Stone cladding", (0.42, 0.4, 0.37))
     lx0, lx1 = X0, LOBBY_X1
     cx = (lx0 + lx1) / 2
-    box("Lobby floor", (lx1 - lx0, LOBBY_Y1, 0.1), (cx, LOBBY_Y1 / 2, -0.05), M.marble_floor(), 0)
+    # Scanned limestone, polished: the procedural stone read as plastic at the gates.
+    floor = M.scanned("Lobby limestone", "marble_01", 2.4, tint=(0.72, 0.72, 0.73), rough=(0.04, 0.22), bump=0.02) or M.marble_floor()
+    box("Lobby floor", (lx1 - lx0, LOBBY_Y1, 0.1), (cx, LOBBY_Y1 / 2, -0.05), floor, 0)
     box("Lobby ceiling", (lx1 - lx0, LOBBY_Y1, 0.1), (cx, LOBBY_Y1 / 2, GROUND_H - 0.35), M.plaster("Lobby ceiling", (0.7, 0.69, 0.66)), 0)
     # The street front: glass from the left corner to the lobby's right wall, sliding doors in the middle.
     curtain_wall("Lobby front", "X", 0.0, lx0, lx1, 0.0, GROUND_H - 0.3, frame, glass, transoms=(3.2,), gaps=((-1.6, 1.6),))
@@ -130,7 +132,7 @@ def ground_floor(opts):
     box("Lobby left wall", (0.3, LOBBY_Y1, GROUND_H), (lx0 + 0.15, LOBBY_Y1 / 2, GROUND_H / 2), stone, 0)
     box("Lobby right wall", (0.2, LOBBY_Y1, GROUND_H), (lx1 + 0.1, LOBBY_Y1 / 2, GROUND_H / 2), M.plaster("Lobby wall"), 0)
     backing = box("Oak wall backing", (lx1 - lx0, 0.1, GROUND_H), (cx, LOBBY_Y1 + 0.05, GROUND_H / 2), M.plaster("Oak backing", (0.03, 0.028, 0.026)), 0)
-    slat = box("Oak slats", (0.045, 0.05, GROUND_H - 0.5), (lx0 + 0.35, LOBBY_Y1 - 0.03, (GROUND_H - 0.4) / 2 + 0.03), M.oak(), 0.004)
+    slat = box("Oak slats", (0.045, 0.05, GROUND_H - 0.5), (lx0 + 0.35, LOBBY_Y1 - 0.03, (GROUND_H - 0.4) / 2 + 0.03), (M.scanned("Oak slats", "oak_veneer_01", 1.2, tint=(0.75, 0.62, 0.5), rough=(0.4, 0.65), bump=0.05) or M.oak()), 0.004)
     arr = slat.modifiers.new("Array", "ARRAY")
     arr.use_relative_offset, arr.use_constant_offset = False, True
     arr.constant_offset_displace = (0.1, 0, 0)
@@ -152,6 +154,7 @@ def ground_floor(opts):
     reception_desk("Lobby reception", (-10.5, 5.0, 0), length=3.6, rotation_z=90 * DEG)
     planter("Lobby planter left", (-13.8, 14.6, 0), seed=11)
     planter("Lobby planter right", (6.8, 14.6, 0), seed=5)
+    planter("Lobby planter by the lifts", (3.2, 15.2, 0), seed=17)
     _linear_lights("Lobby light", [lx0 + 2.0 + 2.5 * k for k in range(9)], 1.0, LOBBY_Y1 - 1.0, GROUND_H - 0.4, 14.0)
     # A warm grazer down the oak wall, as in the dusk look test.
     bpy.ops.object.light_add(type="AREA", location=(cx, LOBBY_Y1 - 0.12, GROUND_H - 0.45))
@@ -279,9 +282,11 @@ def office_floor(opts):
     sf = speedface_v5l("SpeedFace V5L", (1.9, 7.3 + 0.06, z0 + 1.28 + 0.1))
     sf.rotation_euler = (0, 0, math.pi)
     reception_desk("Office counter", (-0.9, 5.6, z0), length=2.6, rotation_z=math.pi)
-    monitor("Attendance screen", (-0.6, 5.55, z0 + 1.09), rotation_z=math.pi - 25 * DEG)
+    # Close enough to read at the software stop: BioTime's own words, dimmed to an office screen's brightness.
+    monitor("Attendance screen", (-0.6, 5.55, z0 + 1.09), rotation_z=math.pi - 25 * DEG, screen_image="attendance_app.png", brightness=0.55)
     # Workstations by the windows.
-    top, legs = M.plastic("Desk top", (0.6, 0.59, 0.56), 0.4), M.dark_metal("Desk legs")
+    top = M.scanned("Desk top", "ash_veneer", 1.0, rough=(0.35, 0.6), bump=0.03) or M.plastic("Desk top", (0.6, 0.59, 0.56), 0.4)
+    legs = M.dark_metal("Desk legs")
     for k, x in enumerate((-11, -7, -3, 3, 7, 11)):
         box(f"Desk {k}", (1.6, 0.8, 0.03), (x, 2.4, z0 + 0.735), top, 0.003)
         for lx in (-0.75, 0.75):

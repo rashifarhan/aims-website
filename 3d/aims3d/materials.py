@@ -328,14 +328,18 @@ def frosted(name="Frosted window", colour=(0.9, 0.92, 0.94), glow=0.0):
     return m
 
 
-def screen(name, image_path=None, colour=(0.02, 0.05, 0.09), strength=1.0):
+def screen(name, image_path=None, colour=(0.02, 0.05, 0.09), strength=1.0, matte=False):
     """A display under cover glass: the picture is emission (an image, or a flat colour), the glass on top
-    is a clear coat, so the room still reflects in it as it does in a real screen."""
+    is a clear coat, so the room still reflects in it as it does in a real screen. `matte` is an office
+    monitor's anti-glare film: a glossy coat there veiled the whole picture in the bright room's reflection."""
     m, p, n, l = _principled(name)
     _set(p, "Base Color", (0.0, 0.0, 0.0, 1))
-    _set(p, "Roughness", 0.3)
-    _set(p, "Coat", 1.0)
-    _set(p, "Coat Roughness", 0.02)
+    _set(p, "Roughness", 0.6 if matte else 0.3)
+    if matte:
+        _set(p, "Specular IOR Level", 0.05)
+    else:
+        _set(p, "Coat", 1.0)
+        _set(p, "Coat Roughness", 0.02)
     _set(p, "Emission Strength", strength)
     if image_path:
         tex = n.new("ShaderNodeTexImage")
@@ -398,44 +402,80 @@ def tower_facade(name="Tower facade", bay=(1.5, 1.5), floor=(3.6, 3.6), lit=(0.3
             return lo
         return math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", obj, salt)), hi - lo, lo)
 
+    def hashed(x, y, salt):
+        """One random number per (x, y) cell of this building."""
+        cell = n.new("ShaderNodeCombineXYZ")
+        l.new(x, cell.inputs["X"])
+        l.new(y, cell.inputs["Y"])
+        l.new(math_node("ADD", obj, salt), cell.inputs["Z"])
+        noise = n.new("ShaderNodeTexWhiteNoise")
+        noise.noise_dimensions = "3D"
+        l.new(cell.outputs[0], noise.inputs["Vector"])
+        return noise.outputs["Value"]
+
+    def ramp(value, lo, hi, to=(0.0, 1.0)):
+        node = n.new("ShaderNodeMapRange")
+        node.inputs["From Min"].default_value, node.inputs["From Max"].default_value = lo, hi
+        node.inputs["To Min"].default_value, node.inputs["To Max"].default_value = to
+        l.new(value, node.inputs["Value"])
+        return node.outputs["Result"]
+
     bay_v, floor_v, lit_v = per_object(bay, 1.0), per_object(floor, 13.7), per_object(lit, 7.31)
     geo, sep = n.new("ShaderNodeNewGeometry"), n.new("ShaderNodeSeparateXYZ")
     l.new(geo.outputs["Position"], sep.inputs[0])
     u = math_node("DIVIDE", math_node("ADD", sep.outputs["X"], sep.outputs["Y"]), bay_v)
     v = math_node("DIVIDE", sep.outputs["Z"], floor_v)
     fu, fv = math_node("FRACT", u), math_node("FRACT", v)
+    bay_i, floor_i = math_node("FLOOR", u), math_node("FLOOR", v)
     # Mullions and the floor joint: thin bands at the cell edges.
     mull = math_node("MAXIMUM", math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fu, 0.5)), 0.47),
                      math_node("GREATER_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", fv, 0.5)), 0.49))
-    # One random number per window (and per building), and two more derived from it (brightness, warmth).
-    cell = n.new("ShaderNodeCombineXYZ")
-    l.new(math_node("FLOOR", u), cell.inputs["X"])
-    l.new(math_node("FLOOR", v), cell.inputs["Y"])
-    l.new(obj, cell.inputs["Z"])
-    noise = n.new("ShaderNodeTexWhiteNoise")
-    noise.noise_dimensions = "3D"
-    l.new(cell.outputs[0], noise.inputs["Vector"])
-    r = noise.outputs["Value"]
-    on = math_node("GREATER_THAN", r, math_node("SUBTRACT", 1.0, lit_v))
-    bright = math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", r, 7.13)), 0.75, 0.25)
-    warm = math_node("FRACT", math_node("MULTIPLY", r, 3.71))
+    # Offices are lit a tenancy at a time, not window by window: a run of six bays on one floor shares its
+    # switch, its brightness and its light colour. Inside a lit run a few windows have their blinds down, and
+    # in a dark run the odd window still glows (someone working late). The street-level floor is shops.
+    zone = hashed(math_node("FLOOR", math_node("DIVIDE", u, 6.0)), floor_i, 0.5)
+    r = hashed(bay_i, floor_i, 0.0)
+    shops = math_node("LESS_THAN", sep.outputs["Z"], 5.5)
+    zone_on = math_node("MAXIMUM", math_node("GREATER_THAN", zone, math_node("SUBTRACT", 1.0, lit_v)),
+                        math_node("MULTIPLY", shops, math_node("GREATER_THAN", zone, 0.25)))
+    on = math_node("MAXIMUM", math_node("MULTIPLY", zone_on, math_node("GREATER_THAN", r, 0.1)),
+                   math_node("GREATER_THAN", r, 0.975))
+    blinds = math_node("MULTIPLY", math_node("LESS_THAN", r, 0.3), math_node("GREATER_THAN", r, 0.1))
+    slats = math_node("MULTIPLY_ADD", math_node("GREATER_THAN", math_node("SINE", math_node("MULTIPLY", fv, 140.0)), 0.0), 0.5, 0.15)
+    shade = math_node("MULTIPLY_ADD", blinds, math_node("SUBTRACT", slats, 1.0), 1.0)
+    bright = math_node("MULTIPLY_ADD", math_node("FRACT", math_node("MULTIPLY", zone, 7.13)), 0.5, 0.5)
     above_spandrel = math_node("GREATER_THAN", fv, 0.28)
-    # Ceiling lights: a lit window is brightest just under its ceiling and dimmer toward the sill.
-    ceiling = n.new("ShaderNodeMapRange")
-    ceiling.inputs["From Min"].default_value, ceiling.inputs["From Max"].default_value = 0.28, 1.0
-    ceiling.inputs["To Min"].default_value, ceiling.inputs["To Max"].default_value = 0.5, 1.25
-    l.new(fv, ceiling.inputs["Value"])
-    strength = math_node("MULTIPLY", math_node("MULTIPLY", on, above_spandrel),
-                         math_node("MULTIPLY", math_node("MULTIPLY", bright, ceiling.outputs["Result"]), glow))
+    # Inside: a soft fill that is brightest under the ceiling, and the ceiling fittings themselves, seen as a
+    # row of short bright strips just below the head of the glass.
+    fill = ramp(fv, 0.28, 1.0, (0.25, 0.6))
+    head = math_node("MULTIPLY", math_node("GREATER_THAN", fv, 0.86), math_node("LESS_THAN", fv, 0.91))
+    fitting = math_node("MULTIPLY", head, math_node("LESS_THAN", math_node("ABSOLUTE", math_node("SUBTRACT", math_node("FRACT", math_node("MULTIPLY", u, 2.0)), 0.5)), 0.3))
+    interior = math_node("MULTIPLY_ADD", fitting, 2.2, fill)
+    # Glass reflects more and shows less of the room the more obliquely it is seen.
+    fres = n.new("ShaderNodeFresnel")
+    fres.inputs["IOR"].default_value = 1.5
+    through = math_node("SUBTRACT", 1.0, math_node("MULTIPLY", fres.outputs["Fac"], 0.8))
+    strength = math_node("MULTIPLY", math_node("MULTIPLY", math_node("MULTIPLY", on, above_spandrel), shade),
+                         math_node("MULTIPLY", math_node("MULTIPLY", bright, interior), math_node("MULTIPLY", through, glow)))
+    shop_boost = math_node("MULTIPLY_ADD", shops, 0.8, 1.0)
+    strength = math_node("MULTIPLY", strength, shop_boost)
     tint = n.new("ShaderNodeMix")
     tint.data_type = "RGBA"
     # Socket names repeat per data type on this node, so the colour pair is addressed by index.
-    tint.inputs[6].default_value = (1.0, 0.7, 0.42, 1)  # warm office light
-    tint.inputs[7].default_value = (0.82, 0.88, 1.0, 1)  # cool panels
-    l.new(warm, tint.inputs[0])
+    tint.inputs[6].default_value = (1.0, 0.74, 0.5, 1)  # warm office light
+    tint.inputs[7].default_value = (0.86, 0.92, 1.0, 1)  # cool panels
+    l.new(math_node("GREATER_THAN", math_node("FRACT", math_node("MULTIPLY", zone, 3.71)), 0.55), tint.inputs[0])
+    # Every pane sits at its own slight angle (no curtain wall is flat), so reflections break at the joints.
+    tilt = math_node("ADD", math_node("MULTIPLY", math_node("SUBTRACT", hashed(bay_i, floor_i, 2.0), 0.5), fu),
+                     math_node("MULTIPLY", math_node("SUBTRACT", hashed(bay_i, floor_i, 3.0), 0.5), fv))
+    panes = n.new("ShaderNodeBump")
+    panes.inputs["Strength"].default_value = 1.0
+    panes.inputs["Distance"].default_value = 0.06
+    l.new(tilt, panes.inputs["Height"])
     glass = n.new("ShaderNodeBsdfPrincipled")
-    glass.inputs["Base Color"].default_value = (0.012, 0.015, 0.02, 1)
-    glass.inputs["Roughness"].default_value = 0.05
+    glass.inputs["Base Color"].default_value = (0.008, 0.011, 0.014, 1)
+    l.new(ramp(above_spandrel, 0.0, 1.0, (0.12, 0.02)), glass.inputs["Roughness"])  # spandrel: fritted, duller
+    l.new(panes.outputs["Normal"], glass.inputs["Normal"])
     l.new(tint.outputs[2], glass.inputs["Emission Color"])
     l.new(strength, glass.inputs["Emission Strength"])
     mullion = n.new("ShaderNodeBsdfPrincipled")

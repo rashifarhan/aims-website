@@ -52,7 +52,7 @@ def curtain_wall(name, axis, at, a0, a1, z0, z1, frame, glass, bay=1.5, transoms
 def tower():
     """The tower above the lobby: facade boxes for the floors nobody enters, and the office floor's three
     solid sides (its front is real glass, built in spaces.py)."""
-    facade = M.tower_facade("Our tower facade", lit=(0.32, 0.32), glow=1.6, haze=False)
+    facade = M.tower_facade("Our tower facade", lit=(0.5, 0.5), glow=1.6, haze=False)
     slab = M.concrete("Slab edge", (0.2, 0.2, 0.21))
     w, d = X1 - X0, Y1 - Y0
     cx, cy = (X0 + X1) / 2, (Y0 + Y1) / 2
@@ -68,6 +68,8 @@ def tower():
     ):
         box(label, size, loc, facade, 0)
     box("Crown", (w + 0.6, d + 0.6, 2.4), (cx, cy, top + 1.2), M.dark_metal("Crown"), 0.01)
+    # A thin line of light under the crown, as most towers on the Gulf have: it draws the roofline at dusk.
+    box("Crown light", (w + 0.64, d + 0.64, 0.06), (cx, cy, top + 0.25), M.led("Crown light", (1.0, 0.92, 0.82), 6.0), 0)
     # The ground floor behind and beside the rooms that are built: solid stone, so nothing shows through.
     stone = M.concrete("Podium stone", (0.42, 0.4, 0.37))
     # Starts behind the lift cars (y 16.1-18), which sit in the gap between it and the lobby's oak wall.
@@ -80,7 +82,7 @@ def neighbours(seed=3):
     """A dusk skyline: towers of the same facade at 300-1200 m, most of them ahead of the office windows
     (-Y), so the finale looks out over lit floors; far enough that none crowds the tower in the hero."""
     rng = random.Random(seed)
-    facade = M.tower_facade("Skyline facade", bay=(1.2, 2.4), floor=(3.4, 4.2), lit=(0.15, 0.45), glow=2.0)
+    facade = M.tower_facade("Skyline facade", bay=(1.2, 2.4), floor=(3.4, 4.2), lit=(0.3, 0.6), glow=2.0)
     for k in range(44):
         ahead = k < 32
         angle = math.radians(rng.uniform(-165, -15) if ahead else rng.uniform(15, 165))
@@ -105,14 +107,20 @@ def city_fabric(seed=7):
     """The city between the towers: mid-rises along the tower's own street (they frame the hero) and a few
     hundred low blocks out to 1.5 km (they fill the view from the office floor)."""
     rng = random.Random(seed)
-    near = M.tower_facade("Street block facade", bay=(1.5, 3.0), floor=(3.2, 4.0), lit=(0.15, 0.4), glow=1.4)
-    far = M.tower_facade("City facade", bay=(1.8, 3.2), floor=(3.2, 4.2), lit=(0.1, 0.35), glow=2.0)
+    near = M.tower_facade("Street block facade", bay=(1.5, 3.0), floor=(3.2, 4.0), lit=(0.35, 0.6), glow=1.4)
+    far = M.tower_facade("City facade", bay=(1.8, 3.2), floor=(3.2, 4.2), lit=(0.3, 0.55), glow=2.0)
+    roof_m = M.powder_coat("Roof plant", (0.18, 0.18, 0.19), 0.6)
     x = -130.0
     while x < 130:  # the tower's side of the street, either side of the plot
         w = rng.uniform(18, 34)
         if not (-40 < x + w / 2 and x - w / 2 < 40):
             h, d = rng.uniform(14, 48), rng.uniform(18, 30)
             box(f"Street block {round(x)}", (w, d, h), (x, 6 + d / 2, h / 2), near, 0)
+            # A parapet and the plant on the roof: a flat-topped box reads as a model, these as a building.
+            box(f"Parapet {round(x)}", (w + 0.3, d + 0.3, 1.1), (x, 6 + d / 2, h + 0.55), roof_m, 0.01)
+            for j in range(rng.randint(1, 3)):
+                pw, pd, ph = rng.uniform(2, 5), rng.uniform(2, 4), rng.uniform(1.5, 3)
+                box(f"Roof plant {round(x)} {j}", (pw, pd, ph), (x + rng.uniform(-w / 3, w / 3), 6 + d / 2 + rng.uniform(-d / 4, d / 4), h + ph / 2), roof_m, 0.02)
         x += w + rng.uniform(6, 14)
     for k in range(260):
         angle = math.radians(rng.uniform(0, 360))
@@ -130,6 +138,19 @@ def street_and_forecourt():
     box("Street", (400, 16, 0.1), (0, -26, -0.05), tarmac, 0)
     box("Median", (400, 1.2, 0.2), (0, -26, 0.05), M.concrete("Median", (0.3, 0.3, 0.29)), 0.01)
     box("Pavement", (400, 4, 0.16), (0, -16, 0.03), M.paving("Pavement", (0.3, 0.3, 0.29), 0.4), 0.004)
+    # The far side, where the visitor first stands: a pavement and a paved plaza, so the hero's foreground is
+    # a lit, textured ground rather than the dark far plane.
+    box("Far pavement", (400, 3, 0.16), (0, -35.5, 0.03), M.paving("Far pavement", (0.3, 0.3, 0.29), 0.4), 0.004)
+    plaza = M.scanned("Plaza", "large_grey_tiles", 3.0, tint=(0.8, 0.8, 0.8), rough=(0.35, 0.8)) or M.paving("Plaza", (0.33, 0.32, 0.3), 0.8)
+    box("Plaza", (160, 60, 0.1), (-20, -67, 0.0), plaza, 0.004)
+    box("Kerb far", (400, 0.2, 0.16), (0, -34.0, 0.03), M.concrete("Kerb far", (0.5, 0.49, 0.46)), 0.01)
+    # Lane lines: a dashed line between the two lanes each way, a solid one along each edge.
+    paint = M.plastic("Lane paint", (0.62, 0.62, 0.6), 0.55)
+    for y in (-22.1, -29.9):
+        for x in range(-200, 200, 9):
+            box(f"Lane dash {y} {x}", (3.0, 0.12, 0.004), (x, y, 0.002), paint, 0)
+    for y in (-18.4, -24.9, -27.1, -33.6):
+        box(f"Lane edge {y}", (400, 0.12, 0.004), (0, y, 0.002), paint, 0)
     # Ends at the driveway's kerb (x 8.9): it used to run over the driveway and hide its asphalt.
     box("Forecourt", (25.4, 14, 0.1), (-3.8, -7, 0.0), (M.scanned("Forecourt", "large_grey_tiles", 3.0, rough=(0.4, 0.85)) or M.paving("Forecourt", (0.36, 0.35, 0.32), 0.8)), 0.004)
     box("Driveway", (5.0, 14, 0.1), (11.5, -7, -0.01), tarmac, 0)

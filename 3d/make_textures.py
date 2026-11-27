@@ -91,9 +91,59 @@ def dashboard():
     im.save(os.path.join(OUT, "dashboard.png"))
 
 
+def attendance_app():
+    """The attendance screen at the software stop, close enough to read: real interface words (menu, headings,
+    column names, status labels) but no names, times or totals, which would read as somebody's records."""
+    w, h = 1920, 1080
+    ink, mute, line, green = (12, 18, 26), (78, 90, 104), (214, 219, 225), (36, 150, 80)
+    im = Image.new("RGB", (w, h), (238, 241, 244))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 264, h], fill=(17, 30, 43))
+    d.text((36, 34), "BioTime", font=font(34, 1), fill=(236, 240, 244))
+    for k, label in enumerate(("Dashboard", "Personnel", "Device", "Attendance", "Reports", "System")):
+        y = 140 + k * 62
+        if label == "Attendance":
+            d.rounded_rectangle([18, y - 14, 246, y + 38], 8, fill=(30, 52, 70))
+            d.rectangle([18, y - 14, 23, y + 38], fill=green)
+        d.rounded_rectangle([40, y + 2, 60, y + 22], 4, outline=(120, 140, 158), width=2)
+        d.text((78, y), label, font=font(24), fill=(236, 240, 244) if label == "Attendance" else (150, 166, 182))
+    d.rectangle([264, 0, w, 84], fill=(255, 255, 255))
+    d.line([(264, 84), (w, 84)], fill=line, width=2)
+    d.text((304, 24), "Attendance", font=font(32, 1), fill=ink)
+    d.text((500, 32), "Today", font=font(24), fill=mute)
+    d.rounded_rectangle([1560, 22, 1860, 62], 20, fill=(242, 244, 247))
+    d.text((1588, 30), "Search", font=font(22), fill=mute)
+    for k, label in enumerate(("Present", "Late", "Absent", "On leave")):
+        x = 304 + k * 396
+        d.rounded_rectangle([x, 120, x + 372, 270], 14, fill=(255, 255, 255))
+        d.text((x + 28, 146), label, font=font(24), fill=mute)
+        d.rounded_rectangle([x + 28, 196, x + 150, 236], 8, fill=(220, 226, 232))  # the figure, left blank
+        d.rounded_rectangle([x + 300, 146, x + 344, 190], 22, fill=((214, 240, 222), (252, 236, 205), (250, 222, 222), (222, 232, 248))[k])
+    d.rounded_rectangle([304, 300, 1876, 1040], 14, fill=(255, 255, 255))
+    d.text((336, 326), "Live check-ins", font=font(26, 1), fill=ink)
+    cols = (("Employee", 336), ("Department", 760), ("Device", 1080), ("Check-in", 1380), ("Status", 1640))
+    for label, x in cols:
+        d.text((x, 386), label, font=font(21), fill=mute)
+    d.line([(320, 424), (1860, 424)], fill=line, width=2)
+    for r in range(10):
+        y = 444 + r * 58
+        if r == 0:  # the entry that just arrived
+            d.rounded_rectangle([320, y - 8, 1860, y + 46], 8, fill=(232, 247, 237))
+        d.ellipse([336, y, 372, y + 36], fill=(206, 214, 222) if r else (150, 205, 170))
+        d.rounded_rectangle([392, y + 11, 392 + 150 + (r * 37) % 90, y + 25], 6, fill=(214, 220, 227))
+        d.rounded_rectangle([760, y + 11, 760 + 110 + (r * 53) % 70, y + 25], 6, fill=(226, 231, 236))
+        d.text((1080, y + 6), "SpeedFace V5L" if r % 3 != 2 else "ProFace X", font=font(21), fill=(30, 40, 52))
+        d.rounded_rectangle([1380, y + 11, 1470, y + 25], 6, fill=(226, 231, 236))
+        late = r in (4, 7)
+        d.rounded_rectangle([1640, y + 2, 1760, y + 34], 16, fill=(252, 236, 205) if late else (214, 240, 222))
+        d.text((1660, y + 6), "Late" if late else "On time", font=font(19), fill=(160, 100, 20) if late else (30, 120, 66))
+    im.save(os.path.join(OUT, "attendance_app.png"))
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     proface_idle()
     speedface_idle()
     dashboard()
+    attendance_app()
     print("textures written to", OUT)

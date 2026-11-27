@@ -88,7 +88,36 @@ def world(opts):
         sky.sun_disc = False
     sky.sun_elevation = math.radians(float(opts["sun-elevation"]))
     sky.sun_rotation = math.radians(float(opts["sun-azimuth"]))
-    links.new(sky.outputs[0], nodes["Background"].inputs["Color"])
+    # The city's own glow: a warm band low on every horizon (sodium and LED light scattered in the dusk haze),
+    # fading out a few degrees up. The physical sky alone is clean blue all the way down, which no city has.
+    coord, up = nodes.new("ShaderNodeTexCoord"), nodes.new("ShaderNodeSeparateXYZ")
+    links.new(coord.outputs["Generated"], up.inputs[0])
+    band = nodes.new("ShaderNodeMapRange")
+    band.inputs["From Min"].default_value, band.inputs["From Max"].default_value = 0.0, 0.2
+    band.inputs["To Min"].default_value, band.inputs["To Max"].default_value = 1.0, 0.0
+    links.new(up.outputs["Z"], band.inputs["Value"])
+    curve = nodes.new("ShaderNodeMath")
+    curve.operation = "POWER"
+    curve.inputs[1].default_value = 2.5  # hugs the horizon
+    links.new(band.outputs["Result"], curve.inputs[0])
+    # Added, scaled by the sky's own brightness: multiplying a deep blue can only give a brighter blue.
+    lum = nodes.new("ShaderNodeRGBToBW")
+    links.new(sky.outputs[0], lum.inputs[0])
+    amount = nodes.new("ShaderNodeMath")
+    amount.operation = "MULTIPLY"
+    links.new(curve.outputs[0], amount.inputs[0])
+    links.new(lum.outputs[0], amount.inputs[1])
+    warm = nodes.new("ShaderNodeMix")
+    warm.data_type, warm.blend_type = "RGBA", "MULTIPLY"
+    warm.inputs[0].default_value = 1.0
+    links.new(amount.outputs[0], warm.inputs[6])
+    warm.inputs[7].default_value = (float(opts.get("glow", "5")), float(opts.get("glow", "5")) * 0.52, float(opts.get("glow", "5")) * 0.25, 1)
+    glow = nodes.new("ShaderNodeMix")
+    glow.data_type, glow.blend_type = "RGBA", "ADD"
+    glow.inputs[0].default_value = 1.0
+    links.new(sky.outputs[0], glow.inputs[6])
+    links.new(warm.outputs[2], glow.inputs[7])
+    links.new(glow.outputs[2], nodes["Background"].inputs["Color"])
     nodes["Background"].inputs["Strength"].default_value = float(opts["sky"])
 
 
@@ -116,7 +145,8 @@ def main():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     world(opts)
     street_and_forecourt()
-    street_lights([(x, -18.5) for x in (-40, -20, 0, 20, 40)] + [(x, -33.5) for x in (-30, -10, 10, 30)])
+    # The last two stand beside and behind the hero camera: they light its foreground without being seen.
+    street_lights([(x, -18.5) for x in (-40, -20, 0, 20, 40)] + [(x, -33.5) for x in (-30, -10, 10, 30)] + [(-46, -74), (-24, -80)])
     tower()
     entrance_canopy()
     forecourt_dressing()
@@ -188,6 +218,8 @@ def render_journey(opts, flags):
         still_dir = opts.get("still-dir", os.path.join(out_dir, "stills"))
         os.makedirs(still_dir, exist_ok=True)
         sc.render.image_settings.file_format, sc.render.image_settings.quality = "JPEG", 90
+        if "range" in opts:  # e.g. --range 451:1300 to render one part of the film
+            sc.frame_start, sc.frame_end = (int(v) for v in opts["range"].split(":"))
         for frame in range(sc.frame_start, sc.frame_end + 1, step):
             path = os.path.join(still_dir, f"{frame:04d}.jpg")
             if os.path.exists(path):  # resumable: a stopped run picks up where it left off
