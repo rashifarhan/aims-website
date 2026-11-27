@@ -21,7 +21,7 @@ export function SearchResults({ id, results, query, active, labels, select }: Pr
       id={id}
       role="listbox"
       aria-label={labels.suggestions}
-      className="absolute inset-x-0 top-full z-40 mt-2 max-h-80 overflow-auto rounded-md border border-line bg-paper p-2 shadow-2"
+      className="header-panel absolute inset-x-0 top-full z-40 mt-2 max-h-80 overflow-auto rounded-md border border-line bg-paper p-2 shadow-2"
     >
       {results.map((entry, index) => (
         <li

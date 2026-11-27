@@ -76,6 +76,40 @@ serves.
 in the commit that adds its page. From then on the e2e suite requires it to return 200, have one `h1`, allow zoom,
 and pass axe with zero violations.
 
+### Direction 3: product family slider, home page (branch `claude/direction-3-families`, 27 Nov 2026)
+
+The design rules are in `CLAUDE.md` → Design rules (approved by the owner with the home mockups, 27 Nov 2026).
+
+- **Lenis** (`lenis` 1.3) is the one new runtime dependency: it smooths wheel and trackpad scrolling so the scrubbed
+  family changes feel continuous. It runs only on fine pointers and without reduced motion, on GSAP's ticker
+  (`motion/smoothScroll.ts`), and loads lazily with the stage. Touch screens keep native scroll with ScrollTrigger's
+  scrub smoothing and snap.
+- **Settling on a family** with Lenis is our own 20 lines (`settle()` in `stageMotion.ts`, `settleTarget()` in
+  `lib/familyStage.ts`), not `lenis/snap`. That plugin never fired in testing, and it decides from the current eased
+  position rather than where the flick is heading. Ours waits until the wheel stops (140 ms), then eases to the rest
+  nearest the flick's target. Keyboard and scrollbar scrolling settle once the page stands still.
+- **The pin's spacer is the stage's own wrapper** (`.fam-pin`, passed as `pinSpacer`). Left to itself, ScrollTrigger
+  moves the section into a new spacer when the lazy engine starts, and moving a node restarts its CSS entrance.
+- **The stage** (`families/FamilySlider.tsx`, engine in `families/stageMotion.ts`, maths in `lib/familyStage.ts` with
+  unit tests). The server renders the six families as six stacked floods; that is also the no-JS and reduced-motion
+  page, and what the e2e motion-rest event returns to. With motion, the section pins for about 85vh per family.
+  Hidden families are `inert`, so focus never lands on them.
+- **Giant-word widths** are stored in em per word (`familyShowcase.ts`), measured in the shipped Archivo at 125%
+  width with the giant tracking. A spec checks that no word is ever wider than its frame at 320 to 1440 px.
+- **Removed from the home page:** the old hero, journey pin, reach map, stand-in place photographs and the floating
+  WhatsApp button. Places are shown by the AIMS product that goes there (Design rules → Imagery). WhatsApp and the
+  phone lines stay one tap away in "Let's talk in person" and the header. The `/preview/families` and
+  `/preview/step-inside` prototypes were deleted, now that the home page is built from them.
+- **"Authorized ZKTeco Distributor · UAE"** is the lead under "One team, start to finish", behind
+  `ZKTECO_AUTHORIZATION_CONFIRMED` as before.
+- **Case-only file names.** `motion/headingReveal.ts`, `home/reachMotion.ts` and `solution/access-control/doorMotion.ts`
+  were renamed `splitHeadings.ts`, `reachTween.ts` and `doorTweens.ts`. They differed from their `.tsx` leaves only
+  in case, which breaks `tsc` on case-insensitive disks (macOS).
+- **e2e for the old home page** (`home.spec.ts`, the hero, journey and reach parts of `home-premium.spec.ts` and
+  `home-polish.spec.ts`, `home-visual.spec.ts`, `short-phone.spec.ts`) was rewritten for this design, not skipped:
+  section order and alternating grounds, family counts, the reduced-motion stack, the desktop pin moving through the
+  families in order, tabs, arrows and arrow keys, the phone pin, and the LCP product.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with
@@ -633,7 +667,7 @@ prototype are kept, now on one clock.
 
 ### Reach map with GSAP (client request, 25 Nov 2026)
 
-- **Sequence.** `home/reachMotion.ts` builds one timeline, played once (unscrubbed, unpinned) when a third of the map is
+- **Sequence.** `home/reachTween.ts` builds one timeline, played once (unscrubbed, unpinned) when a third of the map is
   on screen (`ReachTimeline`, loaded lazily by `ReachMotion` inside `ui/ReachBand`): the hub pops with one soft lime
   ring pulse (0.7 s), the routes draw 150 ms apart (1.1 s each, `power2.inOut`, stroke-dashoffset on the existing
   `pathLength="1"` paths), each city dot pops from 0.4 and its label fades in as its route lands, and the region
@@ -675,7 +709,7 @@ second system on elements GSAP does not otherwise touch.
   `HeadingReveal` is a client leaf rendered once from `app/[lang]/layout.tsx` (inside its own `Suspense`), because
   section titles are on almost every page and the brief asks for one page-level driver rather than a component per
   heading. It keeps the rule's intent: the leaf itself is tiny and imports no GSAP; after hydration (and after each
-  client navigation) it dynamic-imports `motion/headingReveal.ts`, and through it GSAP, only when the page has a
+  client navigation) it dynamic-imports `motion/splitHeadings.ts`, and through it GSAP, only when the page has a
   marked title and the visitor does not prefer reduced motion. GSAP therefore never reaches the layout's bundle or the
   first paint. `motion/gsap.ts` is reused unchanged (SplitText and ScrollTrigger were already registered there).
 - **Not tested here:** Firefox (no Firefox build in this environment). The reveal uses nothing browser-specific

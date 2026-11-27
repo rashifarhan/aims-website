@@ -104,7 +104,7 @@ export function DesktopNav({
                   /* Enters from its @starting-style (fade + 6px settle) when `hidden` lifts; closes at
                      once because display: none is not transitioned. Reduced motion: motion-fade keeps
                      only the fade. */
-                  className="motion-fade absolute inset-x-0 top-full border-b border-line bg-paper shadow-2 transition-[opacity,translate] duration-(--duration-dropdown) ease-(--ease-aims) data-instant:transition-none starting:-translate-y-1.5 starting:opacity-0"
+                  className="header-panel motion-fade absolute inset-x-0 top-full border-b border-line bg-paper shadow-2 transition-[opacity,translate] duration-(--duration-dropdown) ease-(--ease-aims) data-instant:transition-none starting:-translate-y-1.5 starting:opacity-0"
                 >
                   <div className="wrap grid grid-cols-[220px_1fr] gap-10 py-8">
                     <div>

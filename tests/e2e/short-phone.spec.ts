@@ -18,7 +18,7 @@ for (const prefix of ["", "/ar"]) {
     const context = await browser.newContext({ viewport: { width: 320, height: 568 }, reducedMotion: "reduce" });
     const page = await context.newPage();
     await page.goto(`${prefix}/`);
-    expect(await inView(page, "main .home-hero-actions .home-button")).toBe(true);
+    expect(await inView(page, "main .fam-range")).toBe(true);
     await page.goto(`${prefix}/software`);
     expect(await inView(page, "main .page-hero .home-button")).toBe(true);
     await page.goto(`${prefix}/product/f18`);

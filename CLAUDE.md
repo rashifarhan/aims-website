@@ -28,7 +28,7 @@ approval before building on them. From then on, follow the rules you wrote.
 ## Design rules
 
 Direction 3, **Product family slider** (branch `claude/direction-3-families`), built from the MotionSites "Smoothie
-Slider" design. Status: **draft, waiting for the owner's approval with the home mockups (27 Nov 2026)**.
+Slider" design. Status: **approved by the owner with the home mockups, 27 Nov 2026**.
 
 **The idea in one line:** every product family owns a colour, a word and a real product. Pages are built from
 full-bleed colour floods with one giant white word, AIMS's own cut-out product in front of it, and real accessories
@@ -44,8 +44,8 @@ floating around it. Scrolling moves you from one flood to the next.
   hairlines and white `#fff` cards on it. **Ink** `#0e1512` text, `--color-ink-600` secondary.
 - **Night** `#08130d` for the footer only.
 - **Lime** `--color-signal #a6d65a`: the one accent. Small doses only, and only on dark grounds (access, pos, night,
-  parts): the wordmark dot, step numbers, the active counter, the dot inside the primary button. Never on the time
-  green or on chalk.
+  parts): the wordmark dot, step numbers, the active counter, the dot inside the primary button. Never on chalk, and
+  on the time green only at display size (the 64px step numbers: 3.6:1, which passes for large text).
 - Pages alternate floods and chalk; never two identical grounds touching.
 - No gradients on grounds, no glows, no glass except the frosted tab bar and the "Shown" chip that sit over moving
   product.
@@ -111,7 +111,7 @@ floating around it. Scrolling moves you from one flood to the next.
 - **The family slider (home hero; the same engine for any other pinned family sequence):** the section pins; each of
   the six families owns one stretch of scroll (about 85vh), split into a rest (about 30%) and a change (about 70%).
   During a change, scrubbed by the scroll: the old family is covered from its right edge to the left (`clip-path:
-  inset()` on the MotionSites measured curve: slow start, quick middle, long soft settle) while its layers drift left
+inset()` on the MotionSites measured curve: slow start, quick middle, long soft settle) while its layers drift left
   by 14% of the frame; the new family's layers arrive from the right with parallax (word 0.40, shadow 0.30, product
   0.15, pieces 0.55, corner pieces 0.75 of the frame width), deeper pieces travelling further. Snap settles softly on
   each family's rest (0.5–0.9s, `power3.inOut`), only after the scroll stops. Order: access control, time attendance,
@@ -128,8 +128,10 @@ floating around it. Scrolling moves you from one flood to the next.
   static on the corner pieces).
 - **Reduced motion:** no pin, no Lenis, no float: the six families stack as six static full-screen floods, every
   family visible. Everything rests at its final state.
-- **Access:** the slider is a real tab list (`role="tablist"`) whose panels stay in the DOM; screen readers get every
-  family's name, line, model and range link; focus never lands on something hidden.
+- **Access:** the family switcher is a labelled `nav` of native buttons (`aria-current`, `aria-controls`), not an ARIA
+  tab list: the buttons move the scroll rather than swap panels. Every family stays in the DOM as its own region with
+  an h2; screen readers get every family's name, line, model and range link; hidden families are `inert`, so focus
+  never lands on something hidden.
 
 ## Sources of truth
 

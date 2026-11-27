@@ -326,28 +326,6 @@
     },
     "metaTitle": "ZKTeco Distributor in Dubai & UAE",
     "metaDescription": "ZKTeco distributor in Dubai and Abu Dhabi: time attendance machines, face recognition attendance, access control systems, turnstiles, gates and BioTime software.",
-    "hero": {
-      "line1": "ZKTeco access control",
-      "line2": "and attendance for the UAE",
-      "lead": "ZKTeco distributor in Dubai and Abu Dhabi: time attendance machines, face recognition attendance and access control systems, supplied, installed and supported across the UAE.",
-      "explore": "See all products",
-      "quote": "Request a quote",
-      "trust": "Showroom in Deira, Dubai · Office in Abu Dhabi",
-      "alt": "Illustration on a ZKTeco SpeedFace-V5L terminal: a face is verified and the door unlocks",
-      "modelType": "Face and QR code terminal",
-      "viewModel": "View model",
-      "entrance": "Entrance A",
-      "time": "08:17",
-      "day": "Thursday",
-      "idle": "Look at the camera",
-      "scanning": "Verifying…",
-      "welcome": "Welcome",
-      "checked": "Checked in · 08:17",
-      "unlocked": "Door unlocked",
-      "pause": "Pause animation",
-      "verified": "Verified",
-      "method": "Face"
-    },
     "families": {
       "heading": "{count} models in six product families",
       "lead": "ZKTeco biometric devices and Alpha hardware: time attendance machines, access control readers and controllers, locks, turnstiles and POS, each with its published specifications.",
@@ -426,7 +404,6 @@
     "reviews": {
       "rating": "Rated {count} out of 5"
     },
-    "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",
     "external": "on aimsuae.me",
     "reach": {
@@ -481,28 +458,48 @@
     },
     "gate": {
       "heading": "From the front gate to the last door",
-      "lead": "Security gates, turnstiles, parking barriers and metal detectors at the entrance, door access control systems on every floor, and attendance and hotel locks in between.",
-      "office": {
-        "title": "Office towers",
-        "text": "Speed gates at the lift lobby",
-        "alt": "Glass speed gates in an office lift lobby"
+      "lead": "Turnstiles, swing barriers and parking barriers at the entrance, door access control on every floor, and attendance and hotel locks in between.",
+      "carPark": {
+        "step": "The gate",
+        "title": "Car parks",
+        "text": "Parking barriers at the gate"
       },
-      "hotel": {
-        "title": "Hotels",
-        "text": "RFID hotel locks and smart locks",
-        "alt": "A hotel corridor lined with guest room doors"
+      "office": {
+        "step": "The lobby",
+        "title": "Office towers",
+        "text": "Swing barriers at the lift lobby"
       },
       "entrance": {
+        "step": "The door",
         "title": "Building entrances",
-        "text": "Readers, controllers and EM locks",
-        "alt": "Glass entrance doors of an office building"
+        "text": "Readers, controllers and EM locks"
       },
-      "lobby": {
-        "title": "Reception lobbies",
-        "text": "Optical turnstiles beside the front desk",
-        "alt": "Drop-arm optical turnstiles across a reception lobby"
+      "hotel": {
+        "step": "The room",
+        "title": "Hotels",
+        "text": "RFID hotel locks and smart locks"
       },
       "all": "See all solutions"
+    },
+    "stage": {
+      "label": "AIMS product families",
+      "titleLead": "ZKTeco access control",
+      "titleRest": "and attendance",
+      "titleAccent": "for the UAE",
+      "tabs": "Product families",
+      "shown": "Shown",
+      "range": "See the range",
+      "models": "{count} models",
+      "previous": "Previous: {name}",
+      "next": "Next: {name}",
+      "ranges": {
+        "access-control": "Face · palm · fingerprint · card",
+        "time-attendance": "Face · fingerprint · card",
+        "entrance-control": "Turnstiles · swing barriers · parking barriers",
+        "door-locks": "Smart locks · hotel locks",
+        "door-hardware": "EM locks · exit buttons · readers",
+        "pos": "All-in-one and Android POS terminals"
+      }
     }
   },
   "search": {
@@ -513,14 +510,6 @@
     "software": "Software",
     "solution": "Solution",
     "external": "on aimsuae.me"
-  },
-  "contactPreview": {
-    "trigger": "Chat on WhatsApp",
-    "title": "Preview contact",
-    "body": "Nothing has been sent to AIMS. Continue to open the real AIMS WhatsApp chat; your preview quote list will not be sent.",
-    "cancel": "Stay in preview",
-    "open": "Open WhatsApp",
-    "newTab": "Opens in a new tab or the WhatsApp app."
   },
   "solutionsHub": {
     "metaTitle": "Solutions for your business",

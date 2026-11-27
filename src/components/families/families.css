@@ -1,0 +1,566 @@
+/*
+ * Direction 3, the family floods (CLAUDE.md → Design rules). A flood is a family ground with its giant word, product
+ * and floating pieces, drawn on one 1440 × 900 frame scaled to fit (--u). The family slider stacks six floods; with
+ * motion the scroll engine (stageMotion.ts) pins them and sets data-mode="pinned".
+ */
+
+/* ---------- the giant word ---------- */
+.giant-word {
+  --fit: calc(1340 * var(--u));
+  --cap: calc(400 * var(--u));
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: min(var(--cap), calc(var(--fit) / var(--em)));
+  line-height: 1;
+  letter-spacing: var(--tracking-giant);
+  white-space: nowrap;
+  text-align: center;
+  color: var(--color-paper);
+  user-select: none;
+}
+
+/* ---------- the stage ---------- */
+/* The stage starts under the sticky header, which turns transparent over it (useHeaderTone). */
+.fam-wrap {
+  margin-block-start: calc(-1 * var(--home-header-block));
+}
+.fam {
+  --u: min(100vw / 1440, 100svh / 900);
+  --mx: 0;
+  --my: 0;
+  --pos: 0;
+  --sign: 1;
+  /* The stage UI's edge is the header's and every section's (the one wrap): equal edges, Design rules → Layout. The
+     percentage resolves against the full-width UI layer that each user of --edge is positioned in. */
+  --edge: max(var(--page-gutter), (100% - var(--container-page)) / 2 + var(--page-gutter));
+  --head-top: calc(var(--home-header-block) + 6.25rem);
+  position: relative;
+  isolation: isolate;
+  color: var(--color-paper);
+}
+.fam-slide {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+  overflow: clip;
+  background: var(--ground);
+}
+.fam[data-mode="pinned"] {
+  height: 100svh;
+  min-height: 34rem;
+  overflow: clip;
+}
+.fam[data-mode="pinned"] .fam-slides {
+  position: absolute;
+  inset: 0;
+}
+.fam[data-mode="pinned"] .fam-slide {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  visibility: hidden;
+}
+.fam[data-mode="pinned"] .fam-slide[data-shown="true"] {
+  visibility: visible;
+}
+.fam-frame {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 50%;
+  width: calc(1440 * var(--u));
+  height: calc(900 * var(--u));
+  translate: -50% -50%;
+}
+/* Arriving floods come from the reading direction's end. */
+:dir(rtl) .fam {
+  --sign: -1;
+}
+/* The frame is a drawing, not text: it keeps its left-to-right layout on Arabic pages. Its own direction is LTR, so its
+   inset-inline-start is the left edge there too, and the centring translate needs no mirror. */
+.fam-frame {
+  direction: ltr;
+}
+.fam-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.fam-word {
+  position: absolute;
+  inset-inline: calc(-200 * var(--u));
+  top: calc(470 * var(--u));
+  translate: 0 -50%;
+}
+.fam-shadow {
+  position: absolute;
+  left: calc(530 * var(--u));
+  top: calc(800 * var(--u));
+  width: calc(380 * var(--u));
+  height: calc(34 * var(--u));
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-stage-shadow), transparent);
+}
+.fam-hero,
+.fam-bit {
+  position: absolute;
+}
+.fam-hero img,
+.fam-bit img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.fam-hero img {
+  filter: drop-shadow(0 calc(30 * var(--u)) calc(30 * var(--u)) var(--color-stage-shadow));
+}
+.fam-bit {
+  rotate: var(--r);
+  translate: calc(var(--mx) * var(--d) * -26px) calc(var(--my) * var(--d) * -18px);
+  transition: translate 700ms var(--ease-flood);
+}
+.fam-bit img {
+  filter: drop-shadow(0 calc(18 * var(--u)) calc(18 * var(--u)) var(--color-stage-shadow));
+}
+.fam-bit-blur img {
+  filter: blur(calc(9 * var(--u)));
+}
+.fam-hero {
+  translate: calc(var(--mx) * -8px) calc(var(--my) * -6px);
+  transition: translate 800ms var(--ease-flood);
+}
+
+/* ---------- the stage UI ---------- */
+.fam-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.fam-ui :is(a, button),
+.fam-slide-ui :is(a, button) {
+  pointer-events: auto;
+}
+.fam :is(.fam-title, .fam-name, .fam-range, .fam-arrow, .fam-tab, .fam-current) {
+  text-shadow: 0 1px 10px rgb(0 0 0 / 0.18);
+}
+.fam-head {
+  position: absolute;
+  inset-inline-start: var(--edge);
+  top: var(--head-top);
+  width: min(28.75rem, calc(100% - 2 * var(--edge)));
+}
+.fam-title {
+  margin: 0;
+  padding-block-end: 1rem;
+  border-block-end: 1px solid rgb(255 255 255 / 0.22);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-display);
+}
+.fam-title em {
+  font-style: normal;
+  color: var(--color-signal);
+}
+:lang(ar) .fam-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+/* Six bars that fill with the scroll; only shown while pinned. */
+.fam-ticks {
+  display: none;
+  gap: 0.375rem;
+  margin-block-start: 1rem;
+}
+.fam[data-mode="pinned"] .fam-ticks {
+  display: flex;
+}
+.fam-ticks span {
+  width: 1.375rem;
+  height: 3px;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.28);
+  overflow: clip;
+}
+.fam-ticks span::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--color-paper);
+  transform-origin: left;
+  scale: clamp(0, calc(var(--pos) - var(--k) + 1), 1) 1;
+}
+:dir(rtl) .fam-ticks span::after {
+  transform-origin: right;
+}
+.fam-slide-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+/* Each family's name: in the stacked floods it opens each flood (under the headline on the first); while pinned, the
+   shared line under the ticks speaks for the shown family, so the per-flood name is kept for screen readers only. */
+.fam-name,
+.fam-current {
+  margin: 0;
+  font-size: var(--text-flood-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-flood-label);
+  text-transform: uppercase;
+}
+.fam-name {
+  position: absolute;
+  inset-inline-start: var(--edge);
+  top: var(--head-top);
+}
+.fam-slide:first-child .fam-name {
+  top: calc(var(--head-top) + 6.5rem);
+}
+:lang(ar) .fam-slide:first-child .fam-name {
+  top: calc(var(--head-top) + 8.5rem);
+}
+.fam[data-mode="pinned"] .fam-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.fam-current {
+  margin-block-start: 1rem;
+}
+:lang(ar) :is(.fam-name, .fam-current) {
+  letter-spacing: 0;
+}
+.fam-count {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-inline-end: 0.75rem;
+}
+.fam-count b {
+  font-weight: 500;
+}
+.fam-chip {
+  position: absolute;
+  inset-inline-start: var(--edge);
+  bottom: 7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 1rem 0.3rem 0.3rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-stage-frost);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  font-size: 0.875rem;
+  transition:
+    translate var(--duration-card) var(--ease-flood),
+    background-color var(--duration-hover) ease;
+}
+:dir(rtl) .fam-chip {
+  padding: 0.3rem 0.3rem 0.3rem 1rem;
+}
+.fam-chip:hover {
+  translate: 0 -2px;
+  background: rgb(8 19 13 / 0.6);
+}
+.fam-chip-thumb {
+  width: 2.375rem;
+  height: 2.375rem;
+  object-fit: contain;
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  padding: 0.25rem;
+}
+.fam-chip small {
+  display: block;
+  font-size: 0.6875rem;
+  opacity: 0.78;
+}
+.fam-chip b {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+.fam-range {
+  position: absolute;
+  inset-inline-start: 50%;
+  bottom: 2.25rem;
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - 15rem);
+  text-align: center;
+}
+:dir(rtl) .fam-range {
+  translate: 50% 0;
+}
+.fam-range-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.fam-range small {
+  display: block;
+  margin-block-start: 0.5rem;
+  font-size: 0.875rem;
+  opacity: 0.88;
+}
+.fam-range::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 1.5px;
+  margin: 0.5rem auto 0;
+  background: currentColor;
+  transition: scale var(--duration-sweep) var(--ease-flood);
+}
+.fam-range:hover::after {
+  scale: 2.4 1;
+}
+.fam-tabs {
+  position: absolute;
+  top: calc(var(--home-header-block) + 1.25rem);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: flex;
+  gap: 2px;
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+:dir(rtl) .fam-tabs {
+  translate: 50% 0;
+}
+.fam-tab {
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-pill);
+  color: rgb(255 255 255 / 0.84);
+  font-size: 0.84375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-hover) ease,
+    color var(--duration-hover) ease;
+}
+.fam-tab:hover {
+  color: var(--color-paper);
+}
+.fam-tab[aria-current="true"] {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  text-shadow: none;
+}
+.fam-arrow {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 3.25rem;
+  color: var(--color-paper);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+.fam-arrow em {
+  font-style: normal;
+}
+.fam-prev {
+  inset-inline-start: var(--edge);
+}
+.fam-next {
+  inset-inline-end: var(--edge);
+}
+.fam-arrow-ring {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1.5px solid rgb(255 255 255 / 0.7);
+  border-radius: var(--radius-pill);
+  transition:
+    background-color var(--duration-hover) ease,
+    color var(--duration-hover) ease,
+    scale var(--duration-fast) ease;
+}
+.fam-arrow:hover .fam-arrow-ring {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.fam-arrow:active .fam-arrow-ring {
+  scale: 0.94;
+}
+.fam :focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 3px;
+}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Pieces float on their own clocks (never the product). */
+  .fam-bit img {
+    animation: fam-float calc(3.2s + var(--i) * 0.36s) calc(var(--i) * -0.7s) ease-in-out infinite alternate;
+  }
+  /* The entrance: the first family's layers arrive with the stage's parallax, then the UI rises in order. It uses
+     `translate`, so it composes with the scroll engine's `transform`. */
+  .fam-slide:first-child .fam-layer {
+    animation: fam-arrive 900ms var(--ease-flood) both;
+  }
+  .fam-slide:first-child [data-layer="word"] {
+    --from: 40;
+  }
+  .fam-slide:first-child [data-layer="shadow"] {
+    --from: 30;
+  }
+  .fam-slide:first-child [data-layer="hero"] {
+    --from: 15;
+  }
+  .fam-slide:first-child [data-layer="bits"] {
+    --from: 55;
+  }
+  .fam-slide:first-child [data-layer="corner"] {
+    --from: 75;
+  }
+  .fam-head,
+  .fam-slide:first-child .fam-slide-ui > *,
+  .fam-tabs,
+  .fam-arrow {
+    animation: fam-rise 1000ms var(--ease-flood) both;
+  }
+  .fam-tabs {
+    animation-delay: 250ms;
+  }
+  .fam-head {
+    animation-delay: 330ms;
+  }
+  .fam-slide:first-child .fam-chip {
+    animation-delay: 490ms;
+  }
+  .fam-slide:first-child .fam-range {
+    animation-delay: 570ms;
+  }
+  .fam-prev {
+    animation-delay: 410ms;
+  }
+  .fam-next {
+    animation-delay: 650ms;
+  }
+}
+@keyframes fam-float {
+  from {
+    transform: translateY(-7px) rotate(-3deg);
+  }
+  to {
+    transform: translateY(7px) rotate(3deg);
+  }
+}
+@keyframes fam-arrive {
+  from {
+    translate: calc(var(--sign) * var(--from) / 100 * 1440 * var(--u)) 0;
+  }
+}
+@keyframes fam-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+/* ---------- phones: the frame fills the width, so the product and the middle of the word fill the screen ---------- */
+@media (max-width: 767px) {
+  .fam {
+    --u: calc(100vw / 600);
+    --head-top: calc(var(--home-header-block) + 1.25rem);
+  }
+  .fam-frame {
+    top: 55%;
+  }
+  .fam-word {
+    --fit: 92vw;
+  }
+  .fam-tabs,
+  .fam-arrow em {
+    display: none;
+  }
+  .fam-slide:first-child .fam-name {
+    top: calc(var(--head-top) + 7.75rem);
+  }
+  .fam-chip {
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    bottom: 7.75rem;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+  }
+  :dir(rtl) .fam-chip {
+    translate: 50% 0;
+  }
+  .fam-chip:hover {
+    translate: -50% -2px;
+  }
+  .fam-range {
+    bottom: 1.75rem;
+    max-width: calc(100% - 9rem);
+  }
+  .fam-arrow {
+    bottom: 1.75rem;
+  }
+  .fam-arrow-ring {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* ---------- the header over a flood (useHeaderTone) ---------- */
+/* Over a family ground the header loses its paper and hairline and its ink turns white; menus and the search popover
+   it opens keep the paper look (their tokens are restored to the theme values below). */
+/* The stage renders with data-tone="ground", so the first paint already has the clear header; the hook then follows
+   the scroll. Without scripting nothing would follow it, so the header keeps its paper look. */
+@media (scripting: enabled) {
+  html:has(.fam-wrap[data-tone="ground"]) .site-header {
+    --color-ink: #fff;
+    --color-ink-700: #fff;
+    --color-ink-600: rgb(255 255 255 / 0.8);
+    --color-ink-400: rgb(255 255 255 / 0.75);
+    --color-line-strong: rgb(255 255 255 / 0.4);
+    --color-paper-2: rgb(255 255 255 / 0.12);
+    background: transparent;
+    border-color: transparent;
+    backdrop-filter: none;
+    transition: background-color var(--duration-slow) ease;
+  }
+  html:has(.fam-wrap[data-tone="ground"]) .site-header .header-panel {
+    --color-ink: #0e1512;
+    --color-ink-700: #26302b;
+    --color-ink-600: #4a5550;
+    --color-ink-400: #666f6a;
+    --color-line-strong: #7c8781;
+    --color-paper-2: #f7faf8;
+  }
+  html:has(.fam-wrap[data-tone="ground"]) .site-header .home-button-outline {
+    border-color: var(--color-paper);
+    background: var(--color-paper);
+    color: #0e1512;
+  }
+  html:has(.fam-wrap[data-tone="ground"]) .site-header .home-button-icon {
+    background: transparent;
+    color: #fff;
+  }
+  html:has(.fam-wrap[data-tone="ground"]) .site-header .header-panel .home-button-icon {
+    color: #0e1512;
+  }
+  html:has(.fam-wrap[data-tone="ground"]) .site-header input:focus {
+    background: rgb(255 255 255 / 0.16);
+  }
+}

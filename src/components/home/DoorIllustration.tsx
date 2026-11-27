@@ -36,7 +36,7 @@ function Tag({ x, y, width, name, model }: { x: number; y: number; width: number
 
 /**
  * The approved door-kit prototype's final frame (docs/prototypes/door-kit, Design Doc 8.2): door open, access granted
- * and verified. The access control page's GSAP sequence (solution/access-control/doorMotion.ts) walks a credential
+ * and verified. The access control page's GSAP sequence (solution/access-control/doorTweens.ts) walks a credential
  * through these parts and lands here; the markup stays complete for reduced motion and no-JS visitors. The leaf is
  * open through its transform attribute, not CSS, so GSAP can tween it.
  */

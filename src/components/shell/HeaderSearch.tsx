@@ -109,7 +109,7 @@ export function HeaderSearch({
         <SearchResults id={listId} results={results} query={query} active={active} labels={labels} select={select} />
       )}
       {open && query.trim() && resolved === query && !results.length && (
-        <p className="absolute inset-x-0 top-full z-40 mt-2 rounded-md border border-line bg-paper p-3 text-small text-ink-600 shadow-2">
+        <p className="header-panel absolute inset-x-0 top-full z-40 mt-2 rounded-md border border-line bg-paper p-3 text-small text-ink-600 shadow-2">
           {labels.empty}
         </p>
       )}
@@ -122,7 +122,7 @@ export function HeaderSearch({
       </span>
       <button
         type="submit"
-        className="sr-only focus:not-sr-only focus:absolute focus:end-0 focus:top-full focus:z-40 focus:min-h-11 focus:rounded-sm focus:bg-paper focus:px-3 focus:text-green-700"
+        className="header-panel sr-only focus:not-sr-only focus:absolute focus:end-0 focus:top-full focus:z-40 focus:min-h-11 focus:rounded-sm focus:bg-paper focus:px-3 focus:text-green-700"
       >
         {submitLabel}
       </button>

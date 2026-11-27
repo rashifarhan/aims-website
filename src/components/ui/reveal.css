@@ -8,7 +8,7 @@
  * - A block fades over the first 12rem of its entry, so anything already on the first screen at load is whole, and
  *   no block sits half-transparent long enough to matter for reading.
  */
-/* Section titles rise out of masked lines through GSAP (motion/headingReveal.ts); only the masks' clip is set here.
+/* Section titles rise out of masked lines through GSAP (motion/splitHeadings.ts); only the masks' clip is set here.
    SplitText clips each line box with an inline overflow: clip, which would cut ascenders and descenders under the
    tight display leading. A clip-path reaching past the box clips the same rise without touching layout (padding and
    negative margins would collapse between lines and shift them), so it replaces the inline clip. The split reverts

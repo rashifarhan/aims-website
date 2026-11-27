@@ -1,0 +1,222 @@
+/*
+ * Direction 3 reading sections and tiles (CLAUDE.md → Design rules → Layout, Components): chalk or a family ground,
+ * one heading block (kicker, h2, lead, one link), the family tile and the circle "go" mark.
+ */
+.flood-section {
+  padding-block: 8rem;
+}
+.flood-chalk {
+  background: var(--color-chalk);
+  color: var(--color-ink);
+}
+.flood-ground {
+  background: var(--ground);
+  color: var(--color-paper);
+}
+.flood-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+.flood-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: var(--text-flood-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-flood-label);
+  text-transform: uppercase;
+}
+.flood-kicker::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+.flood-title {
+  max-width: 15em;
+  margin: 1.375rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-flood-h2);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.flood-lead {
+  max-width: 35rem;
+  margin: 1.25rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  opacity: 0.82;
+}
+:lang(ar) :is(.flood-title, .flood-kicker) {
+  letter-spacing: 0;
+}
+:lang(ar) .flood-title {
+  line-height: 1.3;
+}
+.flood-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 0.4rem) / 100% 1.5px;
+  transition: background-size var(--duration-sweep) var(--ease-flood);
+}
+:lang(ar) .flood-link {
+  letter-spacing: 0;
+}
+.flood-link:hover {
+  background-size: 0% 1.5px;
+  background-position-x: 100%;
+}
+.flood-link svg {
+  transition: translate var(--duration-base) var(--ease-flood);
+}
+.flood-link:hover svg {
+  translate: 3px 0;
+}
+:dir(rtl) .flood-link:hover svg {
+  translate: -3px 0;
+}
+.flood-go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.875rem;
+  height: 2.875rem;
+  border: 1.5px solid rgb(255 255 255 / 0.6);
+  border-radius: var(--radius-pill);
+  transition:
+    background-color var(--duration-hover) ease,
+    color var(--duration-hover) ease;
+}
+.flood :focus-visible,
+.fam-tile:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* ---------- the family tile ---------- */
+.fam-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 4.2;
+  overflow: clip;
+  border-radius: var(--radius-tile);
+  background: var(--ground);
+  color: var(--color-paper);
+  container-type: inline-size;
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+.fam-tile-word {
+  --u: 1cqw;
+  --fit: 88cqw;
+  --cap: 34cqw;
+  position: absolute;
+  inset-inline: 0;
+  top: 40%;
+  translate: 0 -50%;
+}
+.fam-tile-product {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 42%;
+  width: var(--w);
+  translate: -50% -50%;
+  filter: drop-shadow(0 18px 22px var(--color-stage-shadow));
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+:dir(rtl) .fam-tile-product {
+  translate: 50% -50%;
+}
+.fam-tile-product img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.fam-tile-shadow {
+  position: absolute;
+  inset-inline-start: 24%;
+  top: 70%;
+  width: 52%;
+  height: 5%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-stage-shadow), transparent);
+}
+.fam-tile-foot {
+  position: absolute;
+  inset: auto 1.5rem 1.375rem;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.fam-tile-name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: 1.3125rem;
+  letter-spacing: -0.02em;
+}
+.fam-tile-count {
+  display: block;
+  margin-block-start: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  opacity: 0.84;
+}
+@media (hover: hover) and (pointer: fine) {
+  .fam-tile:hover {
+    translate: 0 -2px;
+  }
+  .fam-tile:hover .fam-tile-product {
+    translate: -50% calc(-50% - 6px);
+  }
+  :dir(rtl) .fam-tile:hover .fam-tile-product {
+    translate: 50% calc(-50% - 6px);
+  }
+  .fam-tile:hover .flood-go,
+  .flood a:hover .flood-go {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+}
+
+@media (max-width: 767px) {
+  .flood-section {
+    padding-block: 5.5rem;
+  }
+  .flood-head {
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5rem;
+  }
+  .flood-lead {
+    font-size: 1rem;
+  }
+  .fam-tile {
+    aspect-ratio: 4 / 3.3;
+  }
+  .fam-tile-product {
+    width: calc(var(--w) * 0.72);
+    top: 38%;
+  }
+  .fam-tile-word {
+    top: 36%;
+  }
+  .fam-tile-shadow {
+    top: 62%;
+  }
+}

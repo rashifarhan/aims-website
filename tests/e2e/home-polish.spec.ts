@@ -42,59 +42,24 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-test("WhatsApp stays out of the first screen and previews before leaving", async ({ page }) => {
+test("the first family's product paints at once and is the one prioritised image", async ({ page }) => {
   await page.goto("/");
-  const contact = page.getByRole("button", { name: "Chat on WhatsApp" });
-  await expect(contact).toBeHidden();
-  await page.locator("#families").scrollIntoViewIfNeeded();
-  await expect(contact).toBeVisible();
-  await contact.click();
-  const notice = page.getByRole("dialog", { name: "Preview contact" });
-  await expect(notice).toBeVisible();
-  await expect(notice).toContainText("Nothing has been sent to AIMS");
-  await expect(notice.getByRole("link", { name: /Open WhatsApp/ })).toHaveAttribute("href", /wa.me\/971565240495/);
-  await restMotion(page);
-  const contactAxe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
-  expect(contactAxe.violations.map((violation) => violation.id)).toEqual([]);
-  await page.keyboard.press("Escape");
-  await expect(notice).toBeHidden();
-  await expect(contact).toBeFocused();
-});
-
-test("hero photo paints at once, the verification tick draws, and all rests under reduced motion", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/");
-  const hero = page.locator(".home-hero");
-  // The device photo is the LCP element: whole from the first paint, never faded or moved in (CLAUDE.md §5).
-  const device = page.locator(".home-device");
-  await expect(device).toHaveCSS("opacity", "1");
-  await expect(page.locator(".home-device-photo")).toHaveCSS("opacity", "1");
-  expect(await device.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
-  await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "animated");
-  // The prototype's tick: undrawn while the face is scanned, drawn whole once the screen says Welcome.
-  const tick = page.locator(".home-device-tick path");
-  const drawn = () =>
-    tick.evaluate((el) => parseFloat(getComputedStyle(el).strokeDasharray) / (el as SVGPathElement).getTotalLength());
-  await expect(page.locator('[data-screen="scan"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
-  expect(await drawn()).toBeLessThan(0.05);
-  await expect(page.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
-  await expect.poll(drawn).toBeGreaterThan(0.99);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator("[data-hero-animation]")).toHaveAttribute("data-state", "verified");
-  await expect(page.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1");
-  await expect(tick).toHaveCSS("stroke-dasharray", "none");
-  await expect(page.locator(".home-headline-rise").first()).toHaveCSS("transform", "none");
-  await expect
-    .poll(() =>
-      hero.evaluate(
-        (element) =>
-          element
-            .getAnimations({ subtree: true })
-            .filter((animation) => animation.playState === "running" && animation.timeline instanceof DocumentTimeline)
-            .length,
-      ),
-    )
-    .toBe(0);
+  // The access control product is the LCP element: whole from the first paint, never faded (CLAUDE.md §3); its
+  // entrance moves it with the `translate` property only.
+  const hero = page.locator("#family-access-control .fam-hero img");
+  await expect(hero).toHaveAttribute("fetchpriority", "high");
+  await expect(hero).toHaveCSS("opacity", "1");
+  await expect(page.locator(".fam-slide:not(#family-access-control) .fam-hero img[fetchpriority='high']")).toHaveCount(
+    0,
+  );
+  const faded = await page.evaluate(() =>
+    document
+      .getAnimations()
+      .filter((a) => (a.effect as KeyframeEffect).target?.closest?.(".fam-hero"))
+      .flatMap((a) => (a.effect as KeyframeEffect).getKeyframes())
+      .some((frame) => "opacity" in frame),
+  );
+  expect(faded).toBe(false);
 });
 
 test("menu exposes its state and moves keyboard focus", async ({ page, isMobile }) => {

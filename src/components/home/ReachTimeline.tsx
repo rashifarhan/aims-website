@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, REST_EVENT, restRequested, useGSAP } from "@/components/motion/gsap";
-import { reachTimeline } from "./reachMotion";
+import { reachTimeline } from "./reachTween";
 
 /**
  * The reach map's motion, loaded lazily after hydration by ReachMotion (CLAUDE.md §3 GSAP rule). The sequence plays

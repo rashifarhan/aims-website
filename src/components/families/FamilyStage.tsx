@@ -1,0 +1,84 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { CSSProperties } from "react";
+import type { FamilySlide } from "./familySlides";
+import { FloodPieces } from "./FloodPieces";
+import { GiantWord } from "./GiantWord";
+
+/**
+ * One family's flood: its ground, giant word, AIMS's photograph of a real model with its floor shadow, the floating
+ * accessories (CLAUDE.md → Design rules → Imagery), and the family's own caption, "Shown" chip and range link, which
+ * travel with the flood when it is wiped away. The frame's layers carry `data-layer` so the scroll leaf can move
+ * each one by its own travel (lib/familyStage.ts).
+ */
+export function FamilyStage({
+  slide,
+  index,
+  total,
+  priority,
+  labels,
+}: {
+  slide: FamilySlide;
+  index: number;
+  total: number;
+  priority: boolean;
+  labels: { shown: string; range: string };
+}) {
+  const u = (v: number) => `calc(${v} * var(--u))`;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return (
+    <article
+      className="fam-slide flood"
+      id={`family-${slide.slug}`}
+      aria-labelledby={`family-${slide.slug}-name`}
+      data-index={index}
+      style={{ "--ground": slide.ground } as CSSProperties}
+    >
+      <div className="fam-frame">
+        <div className="fam-layer" data-layer="word">
+          <GiantWord word={slide.word} em={slide.wordEm} className="fam-word" />
+        </div>
+        <div className="fam-layer" data-layer="shadow">
+          <span className="fam-shadow" />
+        </div>
+        <div className="fam-layer" data-layer="hero">
+          <div className="fam-hero" style={{ left: u(slide.hero.x), top: u(slide.hero.y), width: u(slide.hero.width) }}>
+            <Image
+              src={slide.hero.src}
+              alt={slide.heroAlt}
+              width={slide.hero.w}
+              height={slide.hero.h}
+              sizes="(min-width: 768px) 40vw, 60vw"
+              // The first family's product is the LCP image (CLAUDE.md §3); Next 16 replaced `priority` with these.
+              loading={priority ? "eager" : undefined}
+              fetchPriority={priority ? "high" : undefined}
+            />
+          </div>
+        </div>
+        <FloodPieces bits={slide.bits.filter((b) => !b.blur)} layer="bits" />
+        <FloodPieces bits={slide.bits.filter((b) => b.blur)} layer="corner" />
+      </div>
+
+      <div className="fam-slide-ui">
+        <h2 className="fam-name" id={`family-${slide.slug}-name`}>
+          <span className="fam-count" aria-hidden="true">
+            <b>{pad(index + 1)}</b> / {pad(total)}
+          </span>
+          {slide.name}
+        </h2>
+        <p className="sr-only">{slide.summary}</p>
+        <Link href={slide.productHref} className="fam-chip">
+          <Image src={slide.hero.src} alt="" width={40} height={40} className="fam-chip-thumb" />
+          <span>
+            <small>{labels.shown}</small>
+            <b dir="ltr">{slide.hero.model}</b>
+          </span>
+        </Link>
+        <Link href={slide.href} className="fam-range">
+          <span className="fam-range-label">{labels.range}</span>
+          <small>{slide.rangeLine}</small>
+        </Link>
+      </div>
+    </article>
+  );
+}
