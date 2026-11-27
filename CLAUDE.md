@@ -25,6 +25,104 @@ skill it names, then **write them into this file** under a new `## Design rules`
 layout, components, imagery, motion and scroll engine. Show them to the owner with your first mockups and get
 approval before building on them. From then on, follow the rules you wrote.
 
+## Design rules
+
+Direction 2, **Step inside the terminal** (branch `claude/direction-2-step-inside`), built from the MotionSites
+"Laptop Portfolio" design and the `/preview/step-inside` exploration. Written 27 Nov 2026; **draft until the owner
+approves them with the first mockups** (`docs/mockups/direction-2/`). Once approved, follow them on every page.
+
+### Idea
+
+Every main page is a **stage**: one real AIMS product, cut out, stands in front of one giant word. Scrolling flies the
+product at you until its screen fills the view, and the page's content opens out of that screen. Facts sit on cream
+**tickets** (mono rows, dashed dividers, punched notches). Everything else is calm: dark night-green stages,
+cream paper sections between them, one lime accent.
+
+### Palette and tokens (`src/app/globals.css` → `@theme`; components use tokens only, no raw hex)
+
+| Token                    | Value                                   | Use                                                           |
+| ------------------------ | --------------------------------------- | ------------------------------------------------------------- |
+| `--color-stage-950`      | `#08130d`                               | footer, model strip, deepest ground                           |
+| `--color-stage-900`      | `#0b1d14`                               | night sections, stage edge                                    |
+| `--color-stage-800`      | `#143826`                               | stage middle                                                  |
+| `--color-stage-600`      | `#24603f`                               | stage glow (centre of the radial)                             |
+| `--color-ticket`         | `#f5f1e8`                               | ticket cards **and** the paper section ground                 |
+| `--color-ticket-ink`     | `#0f1f17`                               | text on ticket and paper, dark pill                           |
+| `--color-ticket-line`    | `rgb(15 31 23 / 0.22)`                  | dashed dividers on ticket and paper (decorative)              |
+| `--color-word`           | `#f3f8f4`                               | the giant word                                                |
+| `--color-lime`           | `#78be20`                               | the one accent, **on dark grounds only** (≥ 7:1 on stage-900) |
+| `--color-green-700`      | `#26703a`                               | the accent on paper (lime fails contrast on cream)            |
+| `--color-night-muted`    | `#a9bdb0`                               | body text on night                                            |
+| `--color-family-*` (six) | the six family grounds from the handoff | glow behind a family's product inside the screen              |
+
+- **Stage** = `radial-gradient(70% 80% at 50% 38%, stage-600, stage-800 45%, stage-900)` under the **white header**.
+- **Rhythm:** night stage → paper → night → paper…, never two paper sections touching. The header stays white.
+- No violet, no gradients on text, no glass blur, no glows other than the stage radial and the soft product shadow.
+
+### Type (fonts only from `src/app/fonts.ts`)
+
+- **Giant word:** Archivo 900, `font-stretch: 125%`, tracking −0.045em, line-height 0.8, uppercase,
+  `min(30vw, 27rem)` on a stage. One per stage, `aria-hidden` (the real heading is the H1/H2).
+- **Headings:** Archivo 750, stretch 112%, tracking −0.025em. H1 2.25rem (1.75rem phone); H2 3.25rem (2.1rem phone).
+- **Figures:** Archivo 900, stretch 125%, `tabular-nums`; the `+` in green-700/lime at half size.
+- **Body:** Inter 16–18px, line-height 1.55. **Labels, ticket rows, counters, model codes:** IBM Plex Mono 13px,
+  uppercase, tracking 0.06em. Sentence case everywhere else.
+- **The claim pill:** Archivo 700 italic, lime on ticket-ink, rotated −3°. Only "Authorized ZKTeco Distributor · UAE"
+  (behind `ZKTECO_AUTHORIZATION_CONFIRMED`).
+
+### Layout
+
+- Each section is **one screen** at 1440×900 (stages fill the viewport under the header); content edges match the header and footer
+  (`.wrap`: the page gutter inside the 1344px container), equal on both sides; text columns ≤ 34rem.
+- Stage composition: word top, product centre (bottom-anchored), H1 + lead + two actions bottom-start, scroll cue
+  bottom-end. Phone: word top, product middle, copy bottom, no cue, no lanyard.
+- Inside a screen: ticket start column, product end column, line + pill under the ticket, round arrows top-end,
+  word chips bottom-end, a thin lime progress line along the bottom.
+- RTL mirrors every column with logical properties.
+
+### Components (one of each)
+
+- **Pill button** (primary): white on night / ticket-ink on paper, 48px tall, a 36px dark circle with a lime arrow.
+- **Text link** (secondary): lime on night, green-700 on paper, 1.5px underline.
+- **Round arrow** (48px circle, 1.5px border) for prev/next; **word chip** (44px tall, active = lime fill).
+- **Ticket card**: cream, radius 1rem, punched notches via mask, title in Archivo 800, mono rows with dashed tops.
+  Used for every spec, fact and step panel.
+- **Lanyard pass**: the hero's access card and the "Visitor" pass on Locations. **Screen frame**: radius 14px,
+  1px light outline, for the few photographs and for software lists.
+- **Counter** "01 / 06" (mono, lime) and **scroll cue** (circle + mono text).
+- Cards don't nest more than two deep; one radius scale (8, 14, 16px, pill).
+
+### Imagery
+
+- **AIMS's own product photographs, cut out** (`public/images/cutouts/`, made with `docs/handoff/cutout.py`, checked
+  on a dark ground for white fringes), big and whole, a different product on every stage. Shadow is a separate soft
+  layer, never a filter on a moving product.
+- Licensed **stand-in photographs** only for places (Solutions), only inside screen frames, credited in the footer
+  line and listed in README → Decisions; never shown as AIMS premises, staff or customers.
+- No icons drawn as fake logos, no emoji, no stock people.
+
+### Motion and scroll engine
+
+- **Engine:** GSAP ScrollTrigger (pin, scrub, snap; `src/components/motion/gsap.ts`) driven by **Lenis** for smooth
+  wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
+  runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
+  leaf, never in a layout; cleaned up on unmount (`useGSAP`).
+- **Every main page has one dive:** the stage pins, the product flies forward (zoom in log space, eased ends) until its
+  screen fills the height, then the content opens out of the screen with `clip-path: inset()`. At most **one more**
+  pinned, scrubbed sequence per page (home: the job ticket). Pins never trap the scroll; snapping is soft (to each
+  item in a scrubbed list, ≤ 0.6 s, `power2.inOut`).
+- **Everything else** reveals as it scrolls into view: blocks rise 24px and fade; photographs open from a small
+  rounded screen to full (`clip-path`), scrubbed.
+- **Entrance on load, once (~1.2 s):** the word rises out of its baseline, the product rises, the lanyard drops and
+  settles, the copy fades up. Then only two loops: the card's sway and the scan line on the device screen, both paused
+  off-screen.
+- **Hover/press:** pill steps up 1px and its arrow slides 3px; round arrows scale 1.06; screen frames zoom their
+  photo 1.03; links draw their underline.
+- Animate **transform, opacity and clip-path only**. Easings: `--ease-out` `cubic-bezier(.2,.8,.2,1)`,
+  `--ease-stage` `cubic-bezier(.65,0,.35,1)`.
+- **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, stages stacked (stage, then what opens
+  inside it). Content is in the DOM and readable without JavaScript.
+
 ## Sources of truth
 
 | Question                                                      | Source                                                                  |

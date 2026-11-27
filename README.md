@@ -76,6 +76,38 @@ serves.
 in the commit that adds its page. From then on the e2e suite requires it to return 200, have one `h1`, allow zoom,
 and pass axe with zero violations.
 
+### Direction 2 "Step inside the terminal": home page (branch `claude/direction-2-step-inside`, 27 Nov 2026)
+
+The redesign branches set aside `main`'s design rules (CLAUDE.md, client decision 27 Nov 2026). This direction's own
+rules are in CLAUDE.md → Design rules, approved by the owner with the home mockups (`docs/mockups/direction-2/home/`).
+
+- **Scroll engine: GSAP ScrollTrigger + Lenis.** Lenis (`lenis` 1.3, about 6 kB gzipped) is the one new runtime
+  dependency: it smooths wheel scrolling on fine pointers so the scrubbed dive feels continuous; touch keeps native
+  scroll and reduced motion turns it off. GSAP's ticker drives it (`src/components/inside/SmoothScroll.tsx`). Both load
+  lazily after hydration in client leaves of the page, never in a layout.
+- **Pins are CSS `position: sticky`,** not ScrollTrigger pin spacers: the dive's tall section is in the server HTML,
+  so hydration shifts nothing (CLS), and ScrollTrigger only reads progress. The job ticket's pin is switched on by its
+  motion leaf (`data-motion="pinned"`) below the fold. Without JavaScript or under reduced motion both stack as
+  ordinary sections (`@media (prefers-reduced-motion: reduce), (scripting: none)`).
+- **The dive** (`src/lib/dive.ts`, unit-tested; `src/components/home-inside/`): the SpeedFace-V5L zooms in log space
+  until its screen fills the stage, the six families open out of that screen with `clip-path`, and the scroll steps
+  through them, snapping softly to each. The arrows, chips and keyboard focus move the scroll, so the screen and the
+  scroll never disagree. Families not in front are `inert`.
+- **Replaced on the home page:** the old hero and its pause button, the families grid, the model-code strip, the
+  reach map and the floating WhatsApp button (WhatsApp now sits with the branches). The figures section is headed
+  "Supplied, installed and supported by AIMS" (no claim about a number of years in the heading).
+- **Stand-in photographs** are still only the four places (Solutions), inside screen frames, marked
+  `data-source="stand-in"` and credited in the footer, as before.
+- **`/preview/*` deleted** (`/preview/step-inside`, `/preview/families`) with `src/components/preview/` and the old
+  home-only components: the real home page replaces the exploration. Shared pieces other pages still use
+  (`HomeProof`, `ReachMap`, `ExternalLink`, `CountUpFigure`, `sections.css`) stay until their pages are redesigned.
+- **Three helper modules renamed** (`headingReveal.ts`, `doorMotion.ts`, `reachMotion.ts` → `…Core.ts`): each differed
+  from its component's file name only in case, which breaks `tsc` and `next build` on case-insensitive disks (macOS).
+- **Content edges** follow the header and footer (`.wrap`) rather than a separate 3.5rem edge, so every edge lines up.
+- **Tests rewritten for the new design:** `home.spec.ts`, two tests in `home-polish.spec.ts`, `home-visual.spec.ts`
+  and the home line of `short-phone.spec.ts`; `home-premium.spec.ts` (old hero, model strip and title-reveal tests)
+  and its `hero.ts` helper were removed, and its prefetch-storm regression moved into `home.spec.ts`.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

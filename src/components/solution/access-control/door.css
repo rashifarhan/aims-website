@@ -1,4 +1,4 @@
-/* Access control: UNLOCK, the door kit (Design Doc 8.2). The server render is the finished frame; doorMotion.ts (GSAP)
+/* Access control: UNLOCK, the door kit (Design Doc 8.2). The server render is the finished frame; doorMotionCore.ts (GSAP)
    walks a card through it. The section's one .wrap is the grid, and the element the desktop sequence pins. */
 .t3-door .wrap {
   display: grid;
@@ -42,7 +42,7 @@
     color var(--duration-base) ease,
     background-color var(--duration-base) ease;
 }
-/* The part the drawing is showing (doorMotion.ts): its rule and numeral turn green-700 (paper on it, 6.07:1). */
+/* The part the drawing is showing (doorMotionCore.ts): its rule and numeral turn green-700 (paper on it, 6.07:1). */
 .t3-door-parts [aria-current="step"] {
   border-block-start-color: var(--color-green-700);
 }

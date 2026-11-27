@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, REST_EVENT, restRequested, useGSAP } from "@/components/motion/gsap";
-import { flowDoor, pinnedDoor } from "./doorMotion";
+import { flowDoor, pinnedDoor } from "./doorMotionCore";
 import { doorScene, keepFrame } from "./doorScene";
 
 /**

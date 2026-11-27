@@ -49,6 +49,48 @@
   --color-night-text: #e9f2ec;
   --color-night-muted: #a9bdb0;
 
+  /* Direction 2, step inside the terminal (CLAUDE.md → Design rules). The stage is a radial from stage-600 through
+     stage-800 to stage-900 under the white header; the ticket cream is both the fact cards and the paper sections.
+     Lime stays on the dark grounds (7.4:1 on stage-900); on cream the accent is green-700 (5.7:1). */
+  --color-stage-950: #08130d;
+  --color-stage-900: #0b1d14;
+  --color-stage-800: #143826;
+  --color-stage-600: #24603f;
+  --color-stage-screen: #1f5c3a; /* the lit screen's glow, inside the terminal and on the software screen */
+  --color-ticket: #f5f1e8;
+  --color-ticket-ink: #0f1f17;
+  --color-ticket-line: rgb(15 31 23 / 0.22); /* dashed dividers · decorative */
+  --color-ticket-shade: #e9e3d3; /* the current row on a ticket · decorative */
+  --color-word: #f3f8f4;
+  --color-bezel: #0a0f0c; /* the terminal's black frame around a screen */
+  /* The six family grounds (handoff, shared with direction 3): the glow behind a family's product. */
+  --color-family-access-control: #0f1f17;
+  --color-family-time-attendance: #26703a;
+  --color-family-entrance-control: #2c5a4d;
+  --color-family-door-locks: #4b5a34;
+  --color-family-door-hardware: #32453c;
+  --color-family-pos: #1d3b31;
+  --shadow-ticket: 0 30px 60px rgb(0 0 0 / 0.35);
+  --shadow-ticket-paper: 0 30px 60px rgb(15 31 23 / 0.22);
+  --shadow-screen: 0 40px 80px rgb(15 31 23 / 0.25);
+  --drop-shadow-product: 0 40px 50px rgb(0 0 0 / 0.5);
+  --ease-stage: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* The giant word (Archivo 900 at 125%), and the type steps the stages add to the scale. */
+  --text-word: min(30vw, 27rem);
+  --text-word-phone: 31vw;
+  --text-stage-title: 2.25rem;
+  --text-stage-title-phone: 1.75rem;
+  --text-stage-h2: clamp(2.1rem, 1.3rem + 2.4vw, 3.25rem);
+  --text-ticket-title: 2rem;
+  --text-ticket-title-phone: 1.375rem;
+  --text-stage-figure: clamp(2.5rem, 1rem + 3.5vw, 4.5rem);
+  --text-stage-count: clamp(4rem, 2rem + 6vw, 8rem);
+  --text-claim: 1.25rem;
+  --text-claim-phone: 0.95rem;
+  /* The header's and footer's edge (.wrap): the page gutter, or the centred 1344px container's edge on wide screens. */
+  --spacing-stage-edge: max(var(--page-gutter), (100% - var(--container-page)) / 2 + var(--page-gutter));
+
   /* Type */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;

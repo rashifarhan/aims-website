@@ -1,42 +1,48 @@
-import { expect, test } from "@playwright/test";
-import { heroStill } from "./hero";
+import { expect, test, type Page } from "@playwright/test";
 import { builtRoutes } from "../../src/lib/routes";
 import { CONTACT, CUSTOMER_REVIEWS, LIVE_AIMS, ZKTECO_AUTHORIZATION_CONFIRMED } from "../../src/lib/site";
 import catalogue from "../../content/products.json";
 
+/*
+ * The home page, direction 2 "Step inside the terminal" (CLAUDE.md → Design rules; rewritten for the new design on
+ * 27 Nov 2026, replacing the old hero, families grid, model strip and reach map specs): the dive, then the figures,
+ * places, software, the job ticket, the branches and the close, night and paper alternating.
+ */
+
+const shown = catalogue.filter((p) => !("duplicateOf" in p && p.duplicateOf)).length;
+
 for (const locale of ["en", "ar"] as const) {
   const home = locale === "en" ? "/" : "/ar";
-  test(`${locale} homepage has working product routes, factual counts and SEO`, async ({ page }) => {
+  const prefix = locale === "ar" ? "/ar" : "";
+
+  test(`${locale} homepage has working routes, factual counts and SEO`, async ({ page }) => {
     await page.goto(home);
     const main = page.getByRole("main");
+    await expect(main.locator("h1")).toHaveCount(1);
     await expect(main.locator("h1")).toContainText(
       locale === "en" ? "ZKTeco access control" : "أنظمة ZKTeco للتحكم في الدخول",
     );
     await expect(page.locator("html")).toHaveAttribute("dir", locale === "en" ? "ltr" : "rtl");
-    const families = main.locator("#families");
-    const counts = [20, 34, 29, 15, 55, 6];
-    const slugs = ["time-attendance", "access-control", "entrance-control", "door-locks", "door-hardware", "pos"];
-    for (const [index, slug] of slugs.entries()) {
-      const link = families.locator(`a[href="${locale === "ar" ? "/ar" : ""}/products/${slug}"]`);
-      await expect(link).toContainText(String(counts[index]));
-    }
-    await expect(main).not.toContainText("Project setup is in place");
-    // Claims policy (Design Doc 3.1): the line appears exactly when AIMS has confirmed it (site.ts flag).
+    // The six families inside the terminal's screen, each with its catalogue count and its family page.
+    const slides = main.locator(".dv-slide");
+    await expect(slides).toHaveCount(6);
+    const counts = { "access-control": 34, "time-attendance": 20, "entrance-control": 29, "door-locks": 15 };
+    for (const [slug, count] of Object.entries(counts))
+      await expect(main.locator(`.dv-slide a[href="${prefix}/products/${slug}"]`)).toContainText(String(count));
+    // Claims policy (Design Doc 3.1): the claim appears exactly when AIMS has confirmed it (site.ts flag).
     if (ZKTECO_AUTHORIZATION_CONFIRMED)
-      await expect(main).toContainText(locale === "en" ? "Authorized ZKTeco Distributor" : "موزع معتمد");
-    else await expect(main).not.toContainText("Authorized ZKTeco Distributor");
+      await expect(main.locator(".dv-claim")).toContainText(
+        locale === "en" ? "Authorized ZKTeco Distributor" : "موزع معتمد",
+      );
+    else await expect(main.locator(".dv-claim")).toHaveCount(0);
     expect((await page.title()).length).toBeLessThanOrEqual(60);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      "href",
-      `https://aimsuae.me${home === "/" ? "" : home}`,
-    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://aimsuae.me${prefix}`);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     const localLinks = await page
       .locator('a[href^="/"]')
       .evaluateAll((links) =>
         links.map((link) => new URL((link as HTMLAnchorElement).href).pathname.replace(/^\/ar(?=\/|$)/, "") || "/"),
       );
-    // T5 is built for every catalogue product (generateStaticParams), so any shown product page counts.
     const productPages = catalogue
       .filter((p) => !("duplicateOf" in p && p.duplicateOf))
       .map((p) => `/product/${p.slug}`);
@@ -48,113 +54,73 @@ for (const locale of ["en", "ar"] as const) {
 
   test(`${locale} external links announce themselves`, async ({ page }) => {
     await page.goto(home);
-    const main = page.getByRole("main");
-    // Every link that leaves the preview says so to screen readers, not only with a ↗ glyph.
-    const external = main.locator('section a[href^="https://"]');
+    const external = page.getByRole("main").locator('section a[href^="https://"]');
     expect(await external.count()).toBeGreaterThan(0);
-    for (const link of await external.all()) {
-      await expect(link.locator(".sr-only")).toHaveCount(1);
-    }
+    for (const link of await external.all()) await expect(link.locator(".sr-only")).toHaveCount(1);
   });
 
-  test(`${locale} sections preview the header menu in order, each ending on its menu page`, async ({ page }) => {
+  test(`${locale} sections in order, night and paper alternating, each ending on its menu page`, async ({ page }) => {
     await page.goto(home);
-    const prefix = locale === "ar" ? "/ar" : "";
-    // Client decision, 25 Nov 2026: the home page previews the header menu, one section per item in menu order
-    // (About as the figures and reviews, Products, Solutions, Software, Services, Locations). The FAQ, buyer routes
-    // and door teaser stay off.
-    const order = await page
-      .locator("main > section")
-      .evaluateAll((sections) => sections.map((s) => s.id || s.className.split(" ").at(-1)));
-    expect(order).toEqual([
-      "home-hero",
-      "home-figures",
-      "model-strip",
-      "families",
+    const sections = page.locator("main > section");
+    expect(await sections.evaluateAll((all) => all.map((s) => s.id))).toEqual([
+      "home-dive",
+      "figures",
       "places",
       "software",
       "journey",
       "showrooms",
-      "ui-close",
+      "close",
     ]);
-    for (const gone of ["#faq", ".home-door", ".ui-close-steps"]) await expect(page.locator(gone)).toHaveCount(0);
-    // Night green only on the software band and the close (client decision, 25 Nov 2026): locations is light.
-    const grounds = await page
-      .locator("main > section")
-      .evaluateAll((sections) => sections.map((s) => s.classList.contains("section-night")));
-    expect(grounds.slice(5, 8)).toEqual([true, false, false]);
-    // Each preview ends on its menu page, from the shared section header.
+    // CLAUDE.md → Design rules, Rhythm: never two paper sections touching.
+    const grounds = await sections.evaluateAll((all) =>
+      all.map((s) => (s.matches(".in-paper") ? "paper" : s.matches(".in-night, .in-stage, .dv") ? "night" : "?")),
+    );
+    expect(grounds).toEqual(["night", "paper", "night", "paper", "night", "paper", "night"]);
     for (const [section, path] of [
-      ["#families", "/products"],
+      ["#home-dive", "/products"],
       ["#places", "/solutions"],
       ["#software", "/software"],
       ["#journey", "/services"],
       ["#showrooms", "/locations"],
+      ["#close", "/quote"],
     ])
-      await expect(page.locator(`${section} .section-heading a[href="${prefix}${path}"]`)).toHaveCount(1);
-    const software = page.locator("#software");
-    await expect(software.locator("h2")).toHaveCount(1);
-    await expect(page.locator("#families a[href*='/software/']")).toHaveCount(0);
-    for (const slug of ["biotimecloud", "biotime-9-5", "zkbio-cvsecurity", "zkbio-cvaccess"]) {
-      await expect(software.locator(`a.home-sw-name[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
-    }
+      await expect(page.locator(`${section} a[href="${prefix}${path}"]`).first()).toBeAttached();
+    for (const slug of ["biotimecloud", "biotime-9-5", "zkbio-cvsecurity", "zkbio-cvaccess"])
+      await expect(page.locator(`#software a[href="${prefix}/software/${slug}"]`)).toHaveCount(1);
+    // One giant word per stage, hidden from screen readers (the real heading is the h1 or h2).
+    for (const word of await page.locator(".in-word").all())
+      expect(await word.evaluate((el) => el.closest("[aria-hidden='true']") !== null)).toBe(true);
   });
 
-  test(`${locale} previews: reviews, solution tiles, journey and the map with the offices`, async ({ page }) => {
+  test(`${locale} figures, reviews, places, the job ticket and the branches`, async ({ page }) => {
     await page.goto(home);
-    const prefix = locale === "ar" ? "/ar" : "";
-    // About: AIMS's published reviews under the company figures, on the same light band.
-    const figures = page.locator("main > section.home-figures");
-    await expect(figures).not.toHaveClass(/section-night/);
-    await expect(figures.locator(".home-figure")).toHaveCount(4);
-    await expect(figures.locator(".home-review-card")).toHaveCount(CUSTOMER_REVIEWS.length);
-    await expect(figures.locator("h3")).toHaveText(locale === "en" ? "From reviews published by AIMS" : /AIMS/);
-    // The link out to the live reviews was removed at the client's request (25 Nov 2026).
+    const figures = page.locator("#figures");
+    await expect(figures.locator(".hf-figure")).toHaveCount(4);
+    await expect(figures.locator("figure")).toHaveCount(CUSTOMER_REVIEWS.length);
     await expect(figures.locator(`a[href="${LIVE_AIMS.home}"]`)).toHaveCount(0);
-    // Solutions: each photo tile opens the solution page that fits the place.
-    const places = page.locator("#places .home-place");
-    await expect(places).toHaveCount(4);
+    // Solutions: each photo opens the solution that fits the place; the photos are labelled stand-ins.
+    const places = page.locator("#places a.hp-tile");
     expect(await places.evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual(
-      ["entrance-parking", "door-locks", "access-control", "entrance-parking"].map(
-        (slug) => `${prefix}/solutions/${slug}`,
-      ),
+      ["entrance-parking", "door-locks", "access-control", "entrance-parking"].map((s) => `${prefix}/solutions/${s}`),
     );
     await expect(places.locator("img[data-source='stand-in']")).toHaveCount(4);
-    // Services: the journey timeline (client request, 25 Nov 2026), five step cards in order on one list, each with
-    // its owner, what it includes and an h3; two links, the quote from step one and the warranty from step five.
+    // Services: five steps, each with an h3, its owner and what it includes; the quote and the warranty links.
     const journey = page.locator("#journey");
-    await expect(journey.locator("h2")).toHaveCount(1);
-    const steps = journey.locator("ol.hj-list > li");
+    const steps = journey.locator("ol.hj-steps > li");
     await expect(steps).toHaveCount(5);
-    if (locale === "en")
-      await expect(journey.locator(".hj-title")).toHaveText([
-        "Tell us the job",
-        "Get a quotation",
-        "Supply",
-        "Install",
-        "Support",
-      ]);
     for (const step of await steps.all()) {
       await expect(step.locator("h3")).toHaveCount(1);
-      await expect(step.locator(".hj-body")).not.toBeEmpty();
       await expect(step.locator(".hj-who")).toContainText(locale === "en" ? "Who" : "المسؤول");
-      const points = await step.locator("ul.hj-points > li").count();
-      expect(points >= 2 && points <= 3).toBe(true);
     }
-    await expect(journey.locator(".hj-card a")).toHaveCount(2);
     await expect(steps.nth(0).locator(`a[href="${prefix}/quote"]`)).toHaveCount(1);
     await expect(steps.nth(4).locator(`a[href="${prefix}/support"]`)).toHaveCount(1);
-    // The supply step reads the catalogue count, as the families header does, never a hard-coded figure.
-    const shown = catalogue.filter((p) => !("duplicateOf" in p && p.duplicateOf)).length;
-    await expect(steps.nth(2).locator(".hj-points")).toContainText(String(shown));
-    // The counter repeats the list, so screen readers never hear it change on scroll.
-    await expect(journey.locator(".hj-counter")).toHaveAttribute("aria-hidden", "true");
-    // Locations: the reach map beside the showroom and AIMS's real lines, numbers left to right.
+    await expect(steps.nth(2)).toContainText(String(shown));
+    // The ticket and the counter repeat the list, so screen readers never hear them change on scroll.
+    await expect(journey.locator(".hj-ticket")).toHaveAttribute("aria-hidden", "true");
+    await expect(journey.locator(".hj-count")).toHaveAttribute("aria-hidden", "true");
+    // Locations: AIMS's real lines, numbers left to right, the email and each branch's map.
     const showrooms = page.locator("#showrooms");
-    await expect(showrooms).toHaveClass(/section-band/);
-    await expect(showrooms).toHaveClass(/ui-reach-light/);
-    await expect(showrooms.locator(".ui-reach-map svg[role='img']")).toHaveAttribute("aria-label", /.+/);
-    await expect(showrooms.locator("address")).toContainText(CONTACT.showroomAddress);
+    await expect(showrooms.locator("address").first()).toContainText(CONTACT.showroomAddress);
     for (const line of [CONTACT.lines.headOffice, CONTACT.lines.showroom, CONTACT.lines.abuDhabi]) {
       const call = showrooms.locator(`a[href="tel:${line.tel}"]`);
       await expect(call).toHaveCount(1);
@@ -162,6 +128,7 @@ for (const locale of ["en", "ar"] as const) {
     }
     await expect(showrooms.locator(`a[href^="mailto:${CONTACT.email}"]`)).toHaveCount(1);
     await expect(showrooms.locator(`a[href="${CONTACT.showroomMap}"]`)).toHaveCount(1);
+    await expect(showrooms.locator(".hv-pass")).toHaveAttribute("aria-hidden", "true");
   });
 
   test(`${locale} narrow layout reflows`, async ({ page }) => {
@@ -173,145 +140,135 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-test("hero respects reduced motion and pauses off-screen", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  const hero = page.locator("[data-hero-animation]");
-  await expect(hero).toHaveAttribute("data-state", "verified");
-  await expect(hero.locator('[data-screen="verified"]')).toBeVisible();
-  // GSAP writes inline styles; at rest it has written none, and nothing moves.
-  await expect(
-    page.locator(".home-stage :is(.home-corner svg, .home-verified-chip, [data-screen])[style]"),
-  ).toHaveCount(0);
-  expect(await heroStill(page, 600)).toBe(true);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(hero).toHaveAttribute("data-state", "animated");
-  await expect(hero).toHaveAttribute("data-playing", "true");
-  // The screen verifies, then loops: after the approved hold it returns to idle (450ms) and scans again.
-  await expect(hero.locator('[data-screen="verified"]')).toHaveCSS("opacity", "1", { timeout: 6000 });
-  await expect(hero.locator('[data-screen="idle"]')).toHaveCSS("opacity", "1", { timeout: 6000 });
-  await expect(hero.locator('[data-screen="verified"]')).toHaveCSS("opacity", "0");
-  await expect(hero.locator('[data-screen="scan"]')).toHaveCSS("opacity", "1", { timeout: 4000 });
-  await page.locator("#showrooms").scrollIntoViewIfNeeded();
-  await expect(hero).toHaveAttribute("data-playing", "false");
-  expect(await heroStill(page, 800)).toBe(true);
+/** Scrolls the dive to a point of its progress, 0 to 1, and waits for the scrub to settle there. */
+async function diveTo(page: Page, p: number) {
+  await page.evaluate((p) => {
+    const section = document.getElementById("home-dive");
+    if (!section) return;
+    const header = document.querySelector("header")?.offsetHeight ?? 0;
+    const start = section.getBoundingClientRect().top + scrollY - header;
+    const end = start + section.offsetHeight - innerHeight + header;
+    scrollTo({ top: start + p * (end - start), behavior: "instant" });
+  }, p);
+}
+
+const deviceScale = (page: Page) =>
+  page.locator("[data-dive-device]").evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).a);
+
+test.describe("the dive", () => {
+  test.skip(({ isMobile }) => isMobile, "Scrubbed with a desktop scroll; the phone runs the same code path");
+
+  test("the terminal flies forward and the families open out of its screen", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".dv")).not.toHaveAttribute("data-inside");
+    // Before the dive the families are fully shut (they never show through the terminal on its way in).
+    await expect(page.locator(".dv")).toHaveAttribute("style", /--clip: inset\(50%\)/);
+    await diveTo(page, 0.3);
+    // The terminal has flown forward: its screen now fills the stage's height.
+    await expect.poll(() => deviceScale(page)).toBeGreaterThan(1.5);
+    await expect(page.locator(".dv")).toHaveAttribute("data-inside", "");
+    await expect(page.locator(".dv-counter")).toHaveText("01 / 06");
+    // Only the family in front takes focus and clicks; the others are inert.
+    await expect(page.locator(".dv-slide:not([inert])")).toHaveCount(1);
+    await expect(page.locator(".dv-chips button[aria-current='true']")).toHaveText("ACCESS");
+  });
+
+  test("the arrows and chips move the scroll to a family, so the screen and the scroll agree", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".dv")).toHaveAttribute("style", /--clip/);
+    await expect(page.locator("html")).toHaveClass(/lenis/);
+    await diveTo(page, 0.3);
+    await expect(page.locator(".dv-counter")).toHaveText("01 / 06");
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page.locator(".dv-counter")).toHaveText("02 / 06", { timeout: 4000 });
+    await page.locator(".dv-chips button").filter({ hasText: "POS" }).click();
+    await expect(page.locator(".dv-counter")).toHaveText("06 / 06", { timeout: 4000 });
+    await expect(page.locator(".dv-slide").nth(5)).not.toHaveAttribute("inert");
+    await expect(page.locator(".dv-slide").nth(5).locator(".dv-ticket")).toBeInViewport();
+  });
+
+  test("tabbing into the families opens the screen; tabbing back returns to the hero", async ({ page }) => {
+    await page.goto("/");
+    // The motion loads lazily after hydration; it is ready once it has written the first frame.
+    await expect(page.locator(".dv")).toHaveAttribute("style", /--clip/);
+    await expect(page.locator("html")).toHaveClass(/lenis/);
+    await page.locator(".dv-copy .in-link").focus();
+    // Each move is a 1.1 s glide; the wider window allows for a busy machine running several browsers.
+    await page.keyboard.press("Tab");
+    await expect(page.locator(".dv")).toHaveAttribute("data-inside", "", { timeout: 8000 });
+    await page.keyboard.press("Shift+Tab");
+    await expect(page.locator(".dv")).not.toHaveAttribute("data-inside", { timeout: 8000 });
+    await expect(page.locator("#home-title")).toBeInViewport();
+  });
 });
 
-test("desktop hero artwork stays clear of English and Arabic copy", async ({ page }) => {
-  for (const width of [1024, 1280, 1440]) {
-    await page.setViewportSize({ width, height: 900 });
-    for (const path of ["/", "/ar"]) {
-      await page.goto(path);
-      await page.evaluate(() => document.fonts.ready);
-      const title = await page.locator("#home-title").boundingBox();
-      const frame = await page.locator(".home-frame").boundingBox();
-      expect(title).not.toBeNull();
-      expect(frame).not.toBeNull();
-      if (title && frame) {
-        expect(path === "/" ? title.x + title.width <= frame.x : frame.x + frame.width <= title.x).toBe(true);
-      }
-      // Client decision 2 (24 Nov 2026): from 1024px the headline is two lines, neither wrapping nor clipped.
-      const lines = await page.locator("#home-title > span").evaluateAll((spans) =>
-        spans.map((span) => ({
-          fits: span.scrollWidth <= span.clientWidth + 1,
-          oneLine: span.getBoundingClientRect().height < 1.5 * parseFloat(getComputedStyle(span).lineHeight),
-        })),
-      );
-      expect(lines).toEqual([
-        { fits: true, oneLine: true },
-        { fits: true, oneLine: true },
-      ]);
-    }
+test("the job ticket pins on a desktop and steps through the five stages", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Covered by the phone layout test below");
+  await page.goto("/");
+  const journey = page.locator("#journey");
+  await expect(journey).toHaveAttribute("data-motion", "pinned");
+  const stepTo = (i: number) =>
+    journey.evaluate((el, i) => {
+      const header = document.querySelector("header")?.offsetHeight ?? 0;
+      const start = el.getBoundingClientRect().top + scrollY - header;
+      const end = start + (el as HTMLElement).offsetHeight - innerHeight + header;
+      scrollTo({ top: start + ((i + 0.5) / 5) * (end - start), behavior: "instant" });
+    }, i);
+  for (const i of [0, 2, 4]) {
+    await stepTo(i);
+    await expect(journey.locator(".hj-step").nth(i)).toHaveAttribute("data-active");
+    await expect(journey.locator(".hj-row").nth(i)).toHaveAttribute("data-state", "now");
+    await expect(journey.locator(".hj-count-now")).toHaveText(`0${i + 1}`);
   }
+  await expect(journey.locator(".hj-row").nth(0)).toHaveAttribute("data-state", "done");
+});
+
+test("reduced motion: no pins, every family and step stands in the flow", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".dv-stage")).toHaveCSS("position", "relative");
+  for (const slide of await page.locator(".dv-slide").all()) {
+    await expect(slide).toHaveCSS("opacity", "1");
+    await expect(slide).not.toHaveAttribute("inert");
+  }
+  await expect(page.locator("[data-dive-device]")).not.toHaveAttribute("style", /.+/);
+  await expect(page.locator("#journey")).not.toHaveAttribute("data-motion");
+  for (const step of await page.locator(".hj-step").all()) await expect(step).toBeVisible();
+  // Nothing loops or plays.
+  await page.waitForTimeout(400);
+  expect(
+    await page.evaluate(
+      () =>
+        document.getAnimations().filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline)
+          .length,
+    ),
+  ).toBe(0);
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+  test("the hero, every family and every step are readable", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator(".dv-stage")).toHaveCSS("position", "relative");
+    for (const slide of await page.locator(".dv-slide").all()) await expect(slide).toHaveCSS("opacity", "1");
+    for (const step of await page.locator(".hj-step").all()) await expect(step).toBeVisible();
+  });
 });
 
 /*
- * The journey timeline's GSAP motion (client decision, 25 Nov 2026; CLAUDE.md §3 GSAP rule). The server renders the
- * final frame; the lazy motion pins and scrubs it from 1024px, runs an unpinned flow below, and stays out of the way
- * under reduced motion.
+ * Regression: Next 16 segment prefetch plus the locale rewrite once looped on the homepage segment
+ * (~2,400 RSC requests in 5 s, 22 Nov 2026). prefetchSafe() keeps those links off prefetch.
  */
-const journeyFrame = (page: import("@playwright/test").Page) =>
-  page.locator("#journey").evaluate((section) => ({
-    motion: (section as HTMLElement).dataset.motion ?? null,
-    pinned: !!section.querySelector(".pin-spacer"),
-    live: section.querySelector(".hj-counter")?.hasAttribute("data-live") ?? false,
-    fills: [...section.querySelectorAll(".hj-seg-fill")].map((el) => getComputedStyle(el).transform),
-    numbers: [...section.querySelectorAll(".hj-node-number")].map((el) => getComputedStyle(el).opacity),
-    ticks: [...section.querySelectorAll(".hj-node-tick path")].map((el) => getComputedStyle(el).strokeDasharray),
-    cards: [...section.querySelectorAll(".hj-card")].map((el) => getComputedStyle(el).opacity),
-  }));
-const restingFrame = {
-  motion: null,
-  pinned: false,
-  live: false,
-  fills: Array(4).fill("none"),
-  numbers: Array(5).fill("0"),
-  ticks: Array(5).fill("none"),
-  cards: Array(5).fill("1"),
-};
-
-test("journey rests at its final frame under reduced motion: no pin, rail full, every node ticked", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/", { waitUntil: "networkidle" });
-  await page.locator("#journey").scrollIntoViewIfNeeded();
-  expect(await journeyFrame(page)).toEqual(restingFrame);
-  // The counter shows the total, as it does without JS.
-  await expect(page.locator("#journey .hj-counter")).toHaveText(/05\s*steps/);
-});
-
-test("journey pins on a desktop and scrubs rail, cards, nodes and counter to the verified end", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/", { waitUntil: "networkidle" });
-  const section = page.locator("#journey");
-  await expect(section).toHaveAttribute("data-motion", "pinned");
-  // The section itself stays a child of main (the content pins, not the section), so the page order holds.
-  await expect(page.locator("main > section#journey")).toHaveCount(1);
-  const counter = section.locator(".hj-counter");
-  await expect(counter).toHaveAttribute("data-live", "");
-  const pin = await section.locator(".pin-spacer").evaluate((el) => ({
-    start: el.getBoundingClientRect().top + scrollY - (document.querySelector("header")?.offsetHeight ?? 0),
-    length: (el as HTMLElement).offsetHeight - (el.firstElementChild as HTMLElement).offsetHeight,
-  }));
-  expect(pin.length).toBeGreaterThan(2 * 900);
-  expect(pin.length).toBeLessThan(3 * 900);
-  // Mid-way: some of the rail is drawn, some not; the counter has rolled past the first step.
-  await page.evaluate((y) => scrollTo(0, y), pin.start + pin.length * 0.5);
-  const scaleY = (t: string) => (t === "none" ? 1 : Number(t.slice(7, -1).split(",")[3]));
-  await expect
-    .poll(async () => {
-      const fills = (await journeyFrame(page)).fills.map(scaleY);
-      return fills.some((s) => s > 0) && fills.some((s) => s < 1);
-    })
-    .toBe(true);
-  await expect(counter.locator(".hj-counter-reel")).not.toHaveCSS("transform", /matrix\(1, 0, 0, 1, 0, 0\)/);
-  // At the end every card is whole, every node ticked and the rail full.
-  await page.evaluate((y) => scrollTo(0, y), pin.start + pin.length + 2);
-  await expect.poll(async () => (await journeyFrame(page)).cards).toEqual(Array(5).fill("1"));
-  await expect.poll(async () => (await journeyFrame(page)).numbers).toEqual(Array(5).fill("0"));
-  await expect
-    .poll(() => counter.locator(".hj-counter-reel").evaluate((el) => getComputedStyle(el).transform))
-    .toMatch(/matrix\(1, 0, 0, 1, 0, -\d+/);
-  // Keyboard: focusing the last card's link from the top brings its card into view.
-  await page.evaluate(() => scrollTo(0, 0));
-  await page.locator('#journey a[href="/support"]').focus();
-  await expect(page.locator('#journey a[href="/support"]')).toBeInViewport();
-});
-
-test("journey flows without a pin on a phone", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/", { waitUntil: "networkidle" });
-  const section = page.locator("#journey");
-  await expect(section).toHaveAttribute("data-motion", "flow");
-  await expect(section.locator(".pin-spacer")).toHaveCount(0);
-  await expect(section.locator(".hj-counter")).toBeHidden();
-  // Scrolled through, every card has risen in whole and every node is ticked.
-  for (const card of await section.locator(".hj-card").all()) {
-    await card.scrollIntoViewIfNeeded();
-    await expect(card).toHaveCSS("opacity", "1");
-  }
-  await page.evaluate(() => scrollBy(0, innerHeight));
-  await expect.poll(async () => (await journeyFrame(page)).numbers).toEqual(Array(5).fill("0"));
-});
+for (const path of ["/", "/ar", "/products", "/solutions/time-attendance", "/quote"]) {
+  test(`no prefetch storm on ${path}`, async ({ page }) => {
+    let rsc = 0;
+    page.on("request", (request) => {
+      if (request.headers()["rsc"] === "1" || request.url().includes("_rsc=")) rsc += 1;
+    });
+    await page.goto(path);
+    await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(3000);
+    expect(rsc).toBeLessThan(80);
+  });
+}

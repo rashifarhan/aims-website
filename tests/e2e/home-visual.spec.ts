@@ -2,14 +2,17 @@ import { expect, test } from "@playwright/test";
 
 for (const locale of ["en", "ar"]) {
   test(`${locale} homepage renders at the design viewports`, async ({ page }, testInfo) => {
+    // Two viewports, each with a full-page screenshot of a long page.
+    test.setTimeout(60_000);
     await page.emulateMedia({ reducedMotion: "reduce" });
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(locale === "en" ? "/" : "/ar");
       await page.evaluate(() => document.fonts.ready);
-      await expect(page.locator(".home-device-photo")).toBeVisible();
+      await expect(page.locator("[data-dive-device] img")).toBeVisible();
+      // CLAUDE.md → Design rules, Layout: every section's content edge is the header's and the footer's.
       const edges = await page
-        .locator("header > div, .home-hero-inner, main .wrap, footer > div")
+        .locator("header > div, main > section.in-section, .hj-pin, .hc, footer > div")
         .evaluateAll((containers) =>
           containers.map((container) => {
             const rect = container.getBoundingClientRect();

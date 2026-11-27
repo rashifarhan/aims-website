@@ -15,7 +15,7 @@ for (const locale of ["en", "ar"] as const) {
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
     // Audit the finished frame (as smoke.spec.ts does): let the entrance end, then put the door at rest. The door is
-    // a GSAP sequence (solution/access-control/doorMotion.ts), which the motion's rest switch reverts to the
+    // a GSAP sequence (solution/access-control/doorMotionCore.ts), which the motion's rest switch reverts to the
     // server-rendered finished frame; wait until no finite CSS animation is still running.
     const door = page.locator(".t3-door");
     await expect(door).toHaveAttribute("data-motion", /pinned|flow/);

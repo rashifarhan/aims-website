@@ -1,7 +1,7 @@
 import { expect, type Locator } from "@playwright/test";
 
 /*
- * The reach map's GSAP sequence (home/reachMotion.ts) is not a CSS animation, so its state is read from what it
+ * The reach map's GSAP sequence (home/reachMotionCore.ts) is not a CSS animation, so its state is read from what it
  * writes: the routes' stroke-dashoffset, and the hub's opacity (hidden until the map is a third on screen).
  */
 

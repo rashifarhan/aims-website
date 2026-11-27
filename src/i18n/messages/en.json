@@ -503,6 +503,124 @@
         "alt": "Drop-arm optical turnstiles across a reception lobby"
       },
       "all": "See all solutions"
+    },
+    "inside": {
+      "deviceAlt": "A ZKTeco SpeedFace-V5L terminal verifying a face",
+      "claim": "Authorized ZKTeco Distributor · UAE",
+      "word": "AIMS",
+      "card": "Access · all areas",
+      "cue": "Scroll to step inside",
+      "familiesLabel": "Product families",
+      "counter": "{n} / {total}",
+      "shown": "Shown",
+      "inRange": "In range",
+      "models": "{count} models",
+      "see": "See {count} models",
+      "prev": "Previous family",
+      "next": "Next family",
+      "pick": "Choose a product family",
+      "families": {
+        "access-control": {
+          "word": "ACCESS",
+          "line": "Door readers, face terminals and controllers that decide who opens which door, and when.",
+          "facts": [
+            {
+              "k": "Verifies",
+              "v": "Face · palm · fingerprint · card"
+            },
+            {
+              "k": "Type",
+              "v": "Access control terminal"
+            }
+          ]
+        },
+        "time-attendance": {
+          "word": "TIME",
+          "line": "Face, palm, fingerprint and card terminals that clock staff in, synced to BioTime.",
+          "facts": [
+            {
+              "k": "Type",
+              "v": "Multi-biometric terminal"
+            },
+            {
+              "k": "Use",
+              "v": "Attendance and access"
+            }
+          ]
+        },
+        "entrance-control": {
+          "word": "ENTRY",
+          "line": "Speed gates, turnstiles and parking barriers that let the right people and cars through.",
+          "facts": [
+            {
+              "k": "Type",
+              "v": "Double swing barrier"
+            },
+            {
+              "k": "Range",
+              "v": "Gates · turnstiles · barriers"
+            }
+          ]
+        },
+        "door-locks": {
+          "word": "LOCKS",
+          "line": "Fingerprint and keypad smart locks for offices and homes, RFID locks for hotels.",
+          "facts": [
+            {
+              "k": "Opens with",
+              "v": "Fingerprint"
+            },
+            {
+              "k": "Also in range",
+              "v": "RFID hotel locks"
+            }
+          ]
+        },
+        "door-hardware": {
+          "word": "PARTS",
+          "line": "EM locks, exit buttons, readers, cards and power supplies for every controlled door.",
+          "facts": [
+            {
+              "k": "Type",
+              "v": "Electromagnetic lock"
+            },
+            {
+              "k": "Brands",
+              "v": "Alpha · ZKTeco"
+            }
+          ]
+        },
+        "pos": {
+          "word": "POS",
+          "line": "Windows and Android point-of-sale terminals and the peripherals around them.",
+          "facts": [
+            {
+              "k": "Runs",
+              "v": "Android"
+            },
+            {
+              "k": "Type",
+              "v": "All-in-one POS"
+            }
+          ]
+        }
+      },
+      "figuresHeading": "Supplied, installed and supported by AIMS",
+      "softwareBar": "AIMS · Software",
+      "softwareShown": "{shown} of {count} in the software centre",
+      "journeyEyebrow": "How AIMS works",
+      "ticket": "Job ticket",
+      "ticketPlace": "AIMS · UAE",
+      "done": "Done",
+      "now": "Now",
+      "visitor": "Visitor",
+      "passWord": "DEIRA",
+      "passShowroom": "Showroom",
+      "passArea": "Area",
+      "passCall": "Call",
+      "passAddress": "#14, Naif Bazar Bldg",
+      "passAreaValue": "Deira, Dubai",
+      "closeWord": "QUOTE"
     }
   },
   "search": {

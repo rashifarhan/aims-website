@@ -1,5 +1,5 @@
 /**
- * The door kit's scrubbed timeline (solution/access-control/doorMotion.ts) walks a controlled door in the parts list's
+ * The door kit's scrubbed timeline (solution/access-control/doorMotionCore.ts) walks a controlled door in the parts list's
  * order: credential, reader, controller, software, EM lock, exit button. Each part's beat starts at its time below
  * (timeline units); the last entry starts the verified finish, after which no part is singled out.
  */

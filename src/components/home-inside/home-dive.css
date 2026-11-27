@@ -1,0 +1,604 @@
+/* The home stage and dive (HomeDive.tsx). DiveMotion writes --dive (0 → 1: the terminal flies forward), --open (0 → 1:
+   the screen opens to the stage), --clip, --reel (the families' progress) and each family's --x and --o. Only
+   transform, opacity and clip-path move. Without JavaScript or under reduced motion the stage stands and the families
+   follow it as a list (the block at the end). */
+
+.dv {
+  --hdr: calc(3.75rem + 1px); /* the header: h-15 plus its hairline */
+  --stage-h: calc(100svh - var(--hdr));
+  --dive: 0;
+  --open: 0;
+  --clip: inset(50%);
+  --reel: 0;
+  --dir: 1;
+  position: relative;
+  block-size: 480svh;
+  background: var(--color-stage-900);
+}
+[dir="rtl"] .dv {
+  --dir: -1;
+}
+@media (min-width: 1024px) {
+  .dv {
+    --hdr: calc(4.5rem + 1px);
+  }
+}
+.dv-stage {
+  position: sticky;
+  inset-block-start: var(--hdr);
+  block-size: var(--stage-h);
+  overflow: clip;
+}
+.dv-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.dv[data-inside] .dv-hero {
+  pointer-events: none;
+}
+
+/* The word, the claim and the lanyard leave as the terminal comes forward. */
+.dv-word-in {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 9%;
+  text-align: center;
+}
+.dv-word {
+  opacity: calc(1 - var(--dive) * 2.4);
+  scale: calc(1 + var(--dive) * 0.6);
+}
+.dv-claim {
+  position: absolute;
+  z-index: 3;
+  inset-inline: 0;
+  inset-block-start: 6%;
+  inline-size: fit-content;
+  margin: 0 auto;
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ticket-ink);
+  color: var(--color-lime);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--text-claim);
+  white-space: nowrap;
+  rotate: -3deg;
+  translate: 0 calc(var(--dive) * -120px);
+  opacity: calc(1 - var(--dive) * 4);
+}
+.dv-badge {
+  position: absolute;
+  z-index: 3;
+  inset-inline-end: 7%;
+  inset-block-start: -1.5rem;
+  inline-size: 14rem;
+  translate: 0 calc(var(--dive) * -340px);
+  opacity: calc(1 - var(--dive) * 3);
+}
+.dv-lanyard {
+  display: block;
+  inline-size: 7.5rem;
+  block-size: 18rem;
+  margin-inline-start: 2.5rem;
+}
+.dv-lanyard path {
+  stroke: var(--color-night-text);
+  stroke-width: 9;
+}
+.dv-lanyard rect {
+  fill: var(--color-line-strong);
+}
+.dv-card {
+  position: relative;
+  margin-block-start: -1rem;
+  rotate: 7deg;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 22px 26px rgb(0 0 0 / 0.4));
+}
+.dv-card img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+/* Physical left/top on purpose: the text is printed on the card photograph, which does not mirror in RTL. */
+.dv-card p {
+  position: absolute;
+  left: 18%;
+  top: 30%;
+  margin: 0;
+  color: var(--color-ticket-ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.375rem;
+  line-height: 1;
+}
+.dv-card i {
+  font-style: normal;
+  color: var(--color-lime);
+}
+.dv-card small {
+  display: block;
+  margin-block-start: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-green-700);
+}
+.dv-copy {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: var(--spacing-stage-edge);
+  inset-block-end: 3.5rem;
+  max-inline-size: 32rem;
+  opacity: calc(1 - var(--dive) * 4);
+  translate: 0 calc(var(--dive) * 80px);
+}
+.dv-copy h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+}
+.dv-copy h1 span {
+  display: block;
+}
+.dv-copy p {
+  margin: 0 0 1.5rem;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.dv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.dv-cue {
+  position: absolute;
+  z-index: 4;
+  inset-inline-end: var(--spacing-stage-edge);
+  inset-block-end: 3.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  opacity: calc(1 - var(--dive) * 5);
+}
+
+/* The terminal. Its box is laid out without transforms (DiveMotion measures it); the dive transforms .dv-device. Its
+   shadow is a separate soft layer, never a filter on the moving photograph. */
+.dv-rise {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  inset-block-end: -4%;
+  block-size: 80%;
+  inline-size: calc(var(--stage-h) * 0.8 * 362 / 776);
+  margin-inline: auto;
+}
+.dv-rise::before {
+  content: "";
+  position: absolute;
+  inset: auto 6% -4% 6%;
+  block-size: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+  opacity: calc(1 - var(--dive) * 3);
+}
+.dv-device {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  transform: rotate(-4deg);
+  will-change: transform;
+}
+.dv-device img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.dv-screen {
+  position: absolute;
+  left: 15.2%;
+  top: 20%;
+  width: 68.8%;
+  height: 57.1%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(80% 60% at 50% 40%, var(--color-stage-800), var(--color-stage-950));
+}
+/* The screen brightens into the families' green as it comes close, so the hand-over is seamless. */
+.dv-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
+  opacity: var(--dive);
+}
+.dv-screen svg {
+  inline-size: 72%;
+  opacity: calc(1 - var(--dive) * 1.6);
+}
+.dv-brackets,
+.dv-tick {
+  stroke: var(--color-lime);
+  stroke-width: 2.4;
+}
+.dv-tick {
+  stroke-width: 4;
+}
+.dv-face {
+  stroke: var(--color-lime);
+  stroke-opacity: 0.7;
+  stroke-width: 2;
+  stroke-dasharray: 1 3.2;
+}
+.dv-scan {
+  stroke: var(--color-lime);
+  stroke-width: 1.4;
+}
+
+/* Inside the screen: the families, opened from the enlarged screen's box to the whole stage. */
+.dv-inside {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  clip-path: var(--clip);
+  pointer-events: none;
+}
+.dv[data-inside] .dv-inside {
+  pointer-events: auto;
+}
+.dv-glass {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
+  scale: calc(1.04 - var(--open) * 0.04);
+}
+.dv-head {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 2.75rem;
+  inset-inline-start: var(--spacing-stage-edge);
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+  font-weight: 400;
+  color: var(--color-lime);
+}
+.dv-head .dv-counter::after {
+  content: "·";
+  margin-inline-start: 0.75rem;
+}
+.dv-slides {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dv-slide {
+  --x: 0;
+  --o: 0;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(18rem, 30rem) 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 1.5rem 3rem;
+  padding: 6rem var(--spacing-stage-edge) 2.75rem;
+  opacity: var(--o);
+}
+.dv-slide:first-child {
+  --o: 1;
+}
+.dv-ticket {
+  align-self: center;
+  translate: 0 calc(var(--x) * -64px);
+}
+/* A 44px target inside a 28px ticket row: the negative margins keep the row's height. */
+.dv-model {
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
+  margin-block: -0.5rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.dv-product {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  min-block-size: 0;
+  translate: calc(var(--x) * var(--dir) * -24vw) 0;
+  will-change: translate;
+}
+.dv-product::before {
+  content: "";
+  position: absolute;
+  inline-size: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--ground) 50%, var(--color-lime) 50%),
+    transparent 70%
+  );
+  opacity: 0.32;
+}
+.dv-product img {
+  position: relative;
+  block-size: min(60vh, 38rem, var(--native, 38rem));
+  inline-size: auto;
+  max-inline-size: 90%;
+  object-fit: contain;
+  filter: drop-shadow(var(--drop-shadow-product));
+}
+.dv-desc {
+  grid-column: 1;
+  grid-row: 2;
+  translate: 0 calc(var(--x) * -40px);
+}
+.dv-desc p {
+  margin: 0 0 1.25rem;
+  max-inline-size: 28rem;
+  color: var(--color-night-text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.dv-arrows {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 2.25rem;
+  inset-inline-end: var(--spacing-stage-edge);
+  display: flex;
+  gap: 0.6rem;
+}
+.dv-chips {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: 2rem;
+  inset-inline-end: var(--spacing-stage-edge);
+  display: flex;
+  gap: 0.4rem;
+}
+.dv-progress {
+  position: absolute;
+  inset-inline: var(--spacing-stage-edge);
+  inset-block-end: 0;
+  block-size: 2px;
+  background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+}
+.dv-progress i {
+  display: block;
+  block-size: 100%;
+  background: var(--color-lime);
+  transform: scaleX(var(--reel));
+  transform-origin: left;
+}
+[dir="rtl"] .dv-progress i {
+  transform-origin: right;
+}
+
+/* Entrance, once on load (~1.2 s): the word rises out of its baseline, the terminal rises, the lanyard drops and
+   settles, the copy follows. Fill backwards only, so the dive's own values take over when each one ends. Two short
+   loops follow (the card's sway and the screen's scan), each done within five seconds. */
+@media (prefers-reduced-motion: no-preference) {
+  .dv-word-in {
+    animation: dv-word 1100ms 100ms var(--ease-out) backwards;
+  }
+  .dv-rise {
+    animation: dv-rise 1100ms var(--ease-out) backwards;
+  }
+  .dv-badge {
+    animation: dv-drop 1500ms 500ms var(--ease-out) backwards;
+  }
+  .dv-card {
+    animation: dv-sway 2400ms 2000ms ease-in-out 2 alternate;
+  }
+  .dv-claim {
+    animation: dv-pop 700ms 700ms cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+  }
+  .dv-copy,
+  .dv-cue {
+    animation: dv-up 800ms 350ms var(--ease-out) backwards;
+  }
+  .dv-scan {
+    animation: dv-scan 2400ms 600ms ease-in-out 2;
+  }
+}
+@keyframes dv-word {
+  from {
+    clip-path: inset(100% -10% -30% -10%);
+    transform: translateY(60px);
+  }
+  to {
+    clip-path: inset(-30% -10% -30% -10%);
+  }
+}
+@keyframes dv-rise {
+  from {
+    transform: translateY(14%);
+  }
+}
+@keyframes dv-drop {
+  0% {
+    transform: translateY(-120%) rotate(8deg);
+  }
+  60% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  80% {
+    transform: rotate(1.6deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes dv-sway {
+  to {
+    rotate: 10deg;
+  }
+}
+@keyframes dv-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+@keyframes dv-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes dv-scan {
+  50% {
+    transform: translateY(70px);
+  }
+}
+
+/* Phones: word on top, terminal in the middle, copy at the bottom; inside, one column. */
+@media (max-width: 767px) {
+  .dv-word-in {
+    inset-block-start: 13%;
+  }
+  .dv-word {
+    font-size: var(--text-word-phone);
+  }
+  .dv-claim {
+    inset-block-start: 8%;
+    font-size: var(--text-claim-phone);
+  }
+  .dv-badge,
+  .dv-cue {
+    display: none;
+  }
+  .dv-rise {
+    inset-block: 18% auto;
+    block-size: 42%;
+    inline-size: calc(var(--stage-h) * 0.42 * 362 / 776);
+  }
+  .dv-copy {
+    inset-inline: 1.25rem;
+    inset-block-end: 1.5rem;
+  }
+  .dv-copy h1 {
+    font-size: var(--text-stage-title-phone);
+  }
+  .dv-copy p {
+    font-size: 0.9375rem;
+    margin-block-end: 1rem;
+  }
+  .dv-head {
+    inset-block-start: 1.4rem;
+  }
+  .dv-arrows {
+    inset-block-start: 0.75rem;
+  }
+  .dv-arrows .in-round {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+  }
+  .dv-slide {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.75rem;
+    padding: 4.25rem 1.25rem 4.5rem;
+  }
+  .dv-product {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .dv-product img {
+    block-size: 26vh;
+  }
+  .dv-desc {
+    grid-row: 3;
+  }
+  .dv-desc p {
+    font-size: 0.9375rem;
+    margin-block-end: 0.75rem;
+  }
+  .dv-chips {
+    inset-inline: 1.25rem;
+    inset-block-end: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+
+/* Short laptop screens: keep the copy clear of the terminal. */
+@media (min-width: 768px) and (max-height: 760px) {
+  .dv-copy h1 {
+    font-size: 1.875rem;
+  }
+}
+
+/* No pin: without JavaScript or under reduced motion the hero stands, then the families follow it as a list. */
+@media (prefers-reduced-motion: reduce), (scripting: none) {
+  .dv {
+    block-size: auto;
+  }
+  .dv-stage {
+    position: relative;
+    inset-block-start: auto;
+    block-size: auto;
+    overflow: visible;
+  }
+  .dv-hero {
+    position: relative;
+    block-size: var(--stage-h);
+    overflow: clip;
+  }
+  .dv-rise {
+    inset-block: calc(var(--stage-h) * 0.24) auto;
+  }
+  .dv-inside {
+    position: relative;
+    clip-path: none;
+    pointer-events: auto;
+  }
+  .dv-glass {
+    position: relative;
+    scale: 1;
+    padding-block: 3rem;
+  }
+  .dv-head {
+    position: static;
+    padding-inline: var(--spacing-stage-edge);
+  }
+  .dv-slide {
+    position: relative;
+    opacity: 1;
+    padding-block: 2.5rem;
+  }
+  .dv-ticket,
+  .dv-product,
+  .dv-desc {
+    translate: none;
+  }
+  .dv-counter,
+  .dv-arrows,
+  .dv-chips,
+  .dv-progress {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+  .dv-rise {
+    inset-block-start: calc(var(--stage-h) * 0.18);
+  }
+}

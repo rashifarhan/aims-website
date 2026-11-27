@@ -1,24 +1,19 @@
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { COMPANY_NAME, CONTACT, SITE_URL, whatsappUrl } from "@/lib/site";
+import { COMPANY_NAME, CONTACT, SITE_URL } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
-import { FloatingContact } from "@/components/home/FloatingContact";
-import { Hero } from "@/components/home/Hero";
-import { HomeFigures } from "@/components/home/HomeFigures";
-import { ProductFamilies } from "@/components/home/ProductFamilies";
-import { HomeWhereItGoes } from "@/components/home/HomeWhereItGoes";
-import { HomeSoftware } from "@/components/home/HomeSoftware";
-import { HomeJourney } from "@/components/home/HomeJourney";
-import { HomeVisit } from "@/components/home/HomeVisit";
-import { ClosePanel } from "@/components/ui/ClosePanel";
-import { ModelStrip } from "@/components/ui/ModelStrip";
-import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import "@/components/home/home.css";
-import "@/components/home/sections.css";
-import "@/components/home/premium.css";
-import "@/components/signature/reach.css";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
+import { ScrollReveals } from "@/components/inside/ScrollReveals";
+import { HomeDive } from "@/components/home-inside/HomeDive";
+import { InsideFigures } from "@/components/home-inside/InsideFigures";
+import { InsidePlaces } from "@/components/home-inside/InsidePlaces";
+import { InsideSoftware } from "@/components/home-inside/InsideSoftware";
+import { InsideJourney } from "@/components/home-inside/InsideJourney";
+import { InsideVisit } from "@/components/home-inside/InsideVisit";
+import { InsideClose } from "@/components/home-inside/InsideClose";
+import "@/components/inside/inside.css";
+import "@/components/home-inside/home-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -30,19 +25,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * T1, the home page previews the header menu (client decision, 25 Nov 2026), one section per item in menu order:
- * hero · four company figures with AIMS's published reviews (About, band) · the model-code strip · six product
- * families (Products) · the photo places, each linked to its solution (Solutions) · software (Software, night) · how
- * AIMS works, the five-step journey (Services, paper) · showroom, offices and the reach map (Locations, night) · the
- * closing call (night). The FAQ, buyer routes and door teaser stay off. Grounds: two night bands mid-page, never side
- * by side; the light journey parts them. Factual Organization data: Plan AT-12.
+ * The home page, direction 2 "Step inside the terminal" (CLAUDE.md → Design rules): the dive (the SpeedFace flies
+ * forward and the six families open inside its screen) · the four company figures and the published reviews (paper) ·
+ * the places, each linked to its solution (night) · software on a screen (paper) · how AIMS works, the pinned job
+ * ticket (stage) · the branches and the visitor pass (paper) · the close (stage). Night and paper alternate; the
+ * header stays white. Factual Organization data: Plan AT-12.
  */
-export default async function Home() {
-  const t = await getDictionary();
-  const locale = await getLocale();
-  const close = t.home.closing;
+export default function Home() {
   return (
-    <main id="main" className="home-bands">
+    <main id="main" className="in-home">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -53,23 +44,15 @@ export default async function Home() {
           telephone: CONTACT.lines.headOffice.tel,
         }}
       />
-      <Hero />
-      <HomeFigures />
-      <ModelStrip />
-      <ProductFamilies />
-      <HomeWhereItGoes />
-      <HomeSoftware />
-      <HomeJourney />
-      <HomeVisit />
-      <ClosePanel
-        id="closing-title"
-        heading={close.heading}
-        body={close.body}
-        action={{ href: localePath(locale, "/quote"), label: close.action }}
-        secondary={{ href: localePath(locale, "/products"), label: close.secondary }}
-      />
-      <MomentTrigger />
-      <FloatingContact href={whatsappUrl()} labels={t.contactPreview} />
+      <HomeDive />
+      <InsideFigures />
+      <InsidePlaces />
+      <InsideSoftware />
+      <InsideJourney />
+      <InsideVisit />
+      <InsideClose />
+      <SmoothScroll />
+      <ScrollReveals />
     </main>
   );
 }

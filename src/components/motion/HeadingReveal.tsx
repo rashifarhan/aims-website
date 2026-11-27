@@ -8,7 +8,7 @@ import { HEADING_SELECTOR } from "./headingSelector";
  * The one client leaf behind every section title's reveal (client approval of GSAP, 25 Nov 2026; CLAUDE.md §3 GSAP
  * rule), mounted once in the root layout so a page never holds one component per heading. After hydration, and again
  * after each client navigation, it looks for marked titles (SectionHeader, ClosePanel) and only then lazy-loads the
- * GSAP chunk (headingReveal.ts), so a page without one, or a visitor who prefers reduced motion, never downloads it.
+ * GSAP chunk (headingRevealCore.ts), so a page without one, or a visitor who prefers reduced motion, never downloads it.
  * The server render is the final, readable heading; until the chunk arrives, and if it never does, it stands.
  * Rendering it from the layout is a deliberate deviation from §3's "never in a layout" (README Decisions "Section
  * title reveal"): this leaf imports no GSAP itself, so GSAP still never reaches the layout's bundle or the first paint.
@@ -20,7 +20,7 @@ export function HeadingReveal() {
     if (!document.querySelector(HEADING_SELECTOR)) return;
     let cleanup: (() => void) | undefined;
     let live = true;
-    import("./headingReveal")
+    import("./headingRevealCore")
       .then(({ revealHeadings }) => {
         if (live) cleanup = revealHeadings();
       })

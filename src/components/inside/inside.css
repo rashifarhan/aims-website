@@ -1,0 +1,283 @@
+/* Direction 2, step inside the terminal: the shared primitives (CLAUDE.md → Design rules). One pill, one text link,
+   one round arrow, one chip, one ticket, one screen frame; the stage and paper grounds; the giant word. */
+
+/* The grounds carry no specificity (:where), so a section's own position (the sticky stage, say) always wins. */
+:where(.in-stage) {
+  position: relative;
+  color: var(--color-word);
+  background: radial-gradient(
+    70% 80% at 50% 38%,
+    var(--color-stage-600) 0%,
+    var(--color-stage-800) 45%,
+    var(--color-stage-900) 100%
+  );
+}
+:where(.in-night) {
+  position: relative;
+  color: var(--color-word);
+  background: var(--color-stage-900);
+}
+:where(.in-paper) {
+  position: relative;
+  color: var(--color-ticket-ink);
+  background: var(--color-ticket);
+}
+/* A section is one screen tall at 1440×900 (one idea per screen), its content on the stage edges. */
+.in-section {
+  min-height: calc(100svh - 4.5rem);
+  padding: clamp(3rem, 7vh, 5rem) var(--spacing-stage-edge);
+  display: grid;
+  align-content: center;
+}
+@media (max-width: 1023px) {
+  .in-section {
+    min-height: auto;
+    padding-block: 3.5rem;
+  }
+}
+
+/* The giant word: decorative (aria-hidden); the heading carries the meaning. Always left to right. */
+.in-word {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: var(--text-word);
+  line-height: 0.8;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-word);
+  user-select: none;
+}
+
+.in-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-lime);
+}
+.in-eyebrow::before {
+  content: "";
+  inline-size: 1.75rem;
+  border-top: 1.5px dashed currentColor;
+  opacity: 0.6;
+}
+.in-paper .in-eyebrow {
+  color: var(--color-green-700);
+}
+.in-h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: var(--text-stage-h2);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.in-lead {
+  margin: 1.25rem 0 0;
+  max-width: 32rem;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--color-night-muted);
+}
+.in-paper .in-lead {
+  color: var(--color-ink-600);
+}
+.in-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Pill button: the one primary action. White on night, ink on paper; a dark circle carries the lime arrow. */
+.in-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding-block: 0.375rem;
+  padding-inline: 1.4rem 0.375rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-ticket-ink);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.in-pill-arrow {
+  display: grid;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ticket-ink);
+  color: var(--color-lime);
+  transition: translate var(--duration-base) var(--ease-out);
+}
+.in-paper .in-pill {
+  background: var(--color-ticket-ink);
+  color: var(--color-paper);
+}
+.in-paper .in-pill-arrow {
+  background: var(--color-lime);
+  color: var(--color-ticket-ink);
+}
+.in-pill:hover {
+  transform: translateY(-1px);
+}
+.in-pill:hover .in-pill-arrow {
+  translate: 3px 0;
+}
+.in-pill:active {
+  transform: translateY(1px);
+}
+[dir="rtl"] .in-pill:hover .in-pill-arrow {
+  translate: -3px 0;
+}
+
+/* Text link: the secondary action. The underline draws in on hover. */
+.in-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--color-lime);
+  font-weight: 600;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 0.55rem) / 100% 1.5px;
+  transition: background-size var(--duration-slow) var(--ease-out);
+}
+.in-link:hover {
+  background-size: 0% 1.5px;
+  background-position-x: 100%;
+}
+.in-paper .in-link {
+  color: var(--color-green-700);
+}
+
+/* Round arrow (prev / next) and word chip. */
+.in-round {
+  display: grid;
+  place-items: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid color-mix(in srgb, var(--color-paper) 45%, transparent);
+  background: color-mix(in srgb, var(--color-paper) 6%, transparent);
+  color: var(--color-paper);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-base) ease;
+}
+.in-round:hover {
+  transform: scale(1.06);
+  background: color-mix(in srgb, var(--color-paper) 16%, transparent);
+}
+.in-round:active {
+  transform: scale(0.96);
+}
+.in-chip {
+  min-block-size: 2.75rem;
+  padding-inline: 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--color-paper) 72%, transparent);
+  transition:
+    background-color var(--duration-base) ease,
+    color var(--duration-base) ease;
+}
+.in-chip:hover {
+  color: var(--color-paper);
+}
+.in-chip[aria-current="true"] {
+  background: var(--color-lime);
+  color: var(--color-stage-950);
+}
+
+/* The ticket: cream, mono rows, dashed dividers, two punched notches (a mask, so the ground shows through). */
+.in-ticket {
+  --notch: 72%;
+  padding: 1.6rem 1.75rem;
+  border-radius: 1rem;
+  background: var(--color-ticket);
+  color: var(--color-ticket-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  -webkit-mask:
+    radial-gradient(circle 0.8rem at 0 var(--notch), transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 0.8rem at 100% var(--notch), transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 0.8rem at 0 var(--notch), transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 0.8rem at 100% var(--notch), transparent 98%, #000) right / 51% 100% no-repeat;
+}
+.in-ticket-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-ticket-title);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+.in-ticket-rows {
+  margin: 0;
+}
+.in-ticket-rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.6rem;
+  border-top: 1px dashed var(--color-ticket-line);
+}
+.in-ticket-rows dt {
+  flex: none;
+}
+.in-ticket-rows dd {
+  margin: 0;
+  text-align: end;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 767px) {
+  .in-ticket {
+    padding: 1rem 1.1rem;
+    font-size: 0.6875rem;
+  }
+  .in-ticket-title {
+    font-size: var(--text-ticket-title-phone);
+    margin-bottom: 0.5rem;
+  }
+  .in-ticket-rows > div {
+    padding-block: 0.45rem;
+  }
+}
+
+/* Screen frame: a photograph or a list shown as a screen. */
+.in-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-bezel);
+  outline: 1px solid color-mix(in srgb, var(--color-paper) 10%, transparent);
+}
+
+/* Lenis (SmoothScroll.tsx) adds these classes to <html> while it drives the wheel. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}

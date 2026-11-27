@@ -37,7 +37,7 @@ const GCC_CITIES = [
 
 /**
  * Design Doc 8.3 "Locations / export": route lines draw from Dubai to the destinations, each city
- * appearing as its route lands (home/reachMotion.ts finds the parts by class and `data-to`, the destination's
+ * appearing as its route lands (home/reachMotionCore.ts finds the parts by class and `data-to`, the destination's
  * coordinates). Only places AIMS names are labelled: its two offices, the GCC, and the Oman and Kenya pages on
  * aimsuae.me.
  *

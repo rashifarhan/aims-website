@@ -5,7 +5,7 @@ import { DOOR_MODELS } from "@/components/home/DoorIllustration";
 import { productBySlug, softwareBySlug } from "@/content/catalogue";
 import { isBuiltSoftware } from "@/lib/software";
 
-/** The parts in the order a door works (doorMotion.ts): the card is tapped at the reader, the controller checks it
+/** The parts in the order a door works (doorMotionCore.ts): the card is tapped at the reader, the controller checks it
  * and the software records it, the lock releases, and the exit button lets people out. */
 const PARTS = ["card", "reader", "controller", "software", "lock", "exit"] as const;
 

@@ -1,6 +1,6 @@
 import { expect, test, type Locator } from "@playwright/test";
 
-/** Scrolls the pinned door (solution/access-control/doorMotion.ts pinnedDoor) to a point of its scrub, 0 to 1: the pin
+/** Scrolls the pinned door (solution/access-control/doorMotionCore.ts pinnedDoor) to a point of its scrub, 0 to 1: the pin
  * starts with the content centred below the header and lasts 2.4 viewports. */
 async function scrollDoor(door: Locator, progress: number) {
   await door.evaluate((el, p) => {
