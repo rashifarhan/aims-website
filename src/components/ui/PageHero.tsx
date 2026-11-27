@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
-import { HeroScene, type SceneName } from "./HeroScene";
+import { HeroProducts } from "./HeroProducts";
+import type { HeroSetName } from "./heroSets";
 import { Magnetic } from "./Magnetic";
-import { getDictionary } from "@/i18n/dictionaries";
+import { localePath } from "@/i18n/config";
+import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { FloodToneWrap } from "@/components/families/FloodToneWrap";
 import { GiantWord } from "@/components/families/GiantWord";
 import type { PageFlood } from "@/components/families/pageFloods";
@@ -31,8 +33,8 @@ type Props = {
   /** The first screen's one hard fact, under the actions (design-taste-frontend House rule 5). */
   fact?: ReactNode;
   photo?: Photo | null;
-  /** A drawn scene in place of a photograph, for a page whose subject is not one product (ui/HeroScene). */
-  scene?: SceneName;
+  /** A set of AIMS products in place of one photograph, for a page whose subject is not one product (ui/heroSets). */
+  set?: HeroSetName;
   /** A screen capture sits on a white panel; a cut-out product photograph stands on the page. */
   framed?: boolean;
   /** The h1's id, which names the hero's region; one hero per page. */
@@ -58,11 +60,12 @@ export async function PageHero(props: Props) {
     fact,
     photo,
     framed,
-    scene,
+    set,
     flood,
     id = "hero-title",
   } = props;
   const t = await getDictionary();
+  const locale = await getLocale();
   const copy = (
     <div className="page-hero-copy">
       {eyebrow && <p className="page-hero-eyebrow hero-enter">{eyebrow}</p>}
@@ -102,12 +105,14 @@ export async function PageHero(props: Props) {
           ) : (
             <div className="page-hero-grid">
               {copy}
-              {scene && (
-                <div className="page-hero-media page-hero-scene hero-enter-media">
-                  <HeroScene name={scene} />
+              {set && (
+                <div className="page-hero-media page-hero-set hero-enter-media">
+                  <div className="page-flood-plinth">
+                    <HeroProducts name={set} shown={t.home.stage.shown} href={(p) => localePath(locale, p)} />
+                  </div>
                 </div>
               )}
-              {!scene && photo && (
+              {!set && photo && (
                 // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
                 // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
                 <div

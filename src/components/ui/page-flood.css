@@ -2,7 +2,7 @@
  * Direction 3's inner-page opening (ui/PageHero.tsx; CLAUDE.md → Design rules): the page's family ground under the
  * clear header, the breadcrumb and copy in white, and the page's giant white word along the foot, sized to the
  * content width so it is never clipped. A product photograph stands on a light plinth (its white studio ground
- * multiplies away, as on the product cards); a drawn scene or a screen capture sits on a white card.
+ * multiplies away, as on the product cards); a set of products shares one plinth; a screen capture sits on a white card.
  */
 .page-hero.page-flood {
   --word-fit: min(100vw - 2 * var(--page-gutter), var(--container-page) - 2 * var(--page-gutter));
@@ -70,19 +70,6 @@
   );
   box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.5);
 }
-.page-hero.page-flood .page-hero-scene {
-  padding: 1.5rem;
-  border-radius: 28px;
-  background: var(--color-chalk);
-  color: var(--color-ink);
-  --color-ink: #0e1512;
-  --color-ink-700: #26302b;
-  --color-ink-600: #4a5550;
-  --color-ink-400: #666f6a;
-  --color-ink-300: #9aa29d;
-  --color-green-700: #26703a;
-  --color-green-100: #d9ecd2;
-}
 .page-hero.page-flood .page-hero-framed {
   border: 0;
   border-radius: 24px;
@@ -101,10 +88,6 @@
     padding: 1.25rem;
     border-radius: 22px;
   }
-  .page-hero.page-flood .page-hero-scene {
-    padding: 1rem;
-    border-radius: 22px;
-  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .page-flood-word {
@@ -119,4 +102,58 @@
 }
 :root[data-motion-rest="true"] .page-flood-word {
   animation: none;
+}
+
+/* ---------- A product set on the plinth (ui/HeroProducts.tsx, ui/heroSets.ts) ---------- */
+/* The plinth is its own blend group, so every photo's white studio ground multiplies into it and nothing else. */
+.page-flood-plinth:has(.hero-set) {
+  isolation: isolate;
+}
+.hero-set {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 5 / 4;
+}
+/* Two classes, to outrank the single photo's sizing (ui/sections.css .page-hero-media img). */
+.hero-set .hero-set-piece {
+  position: absolute;
+  max-width: none;
+  margin: 0;
+  inset-inline-start: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  height: auto;
+  mix-blend-mode: multiply;
+}
+.hero-set-shown {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #4a5550;
+}
+.hero-set-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-flood-label);
+  text-transform: uppercase;
+  color: #0e1512;
+}
+:lang(ar) .hero-set-label {
+  letter-spacing: 0;
+}
+.hero-set-model {
+  color: #0e1512;
+  text-decoration: underline;
+  text-decoration-color: rgb(14 21 18 / 0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--duration-fast) ease;
+}
+.hero-set-model:hover {
+  text-decoration-color: currentColor;
+}
+.page-hero.page-flood .hero-set-model:focus-visible {
+  outline-color: #0e1512;
 }

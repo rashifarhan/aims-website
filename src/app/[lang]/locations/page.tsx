@@ -51,7 +51,7 @@ export default async function LocationsHub() {
             {CONTACT.showroomAddress}
           </span>
         }
-        scene="offices"
+        set="offices"
       />
       <LocationOffices id="uae" />
       <ReachBand

@@ -45,7 +45,7 @@ export default async function About() {
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        scene="company"
+        set="company"
       />
       <AboutStory />
       {/* Premium pass: proof and reach share one night ground, so the page has one night band before the close. */}

@@ -136,9 +136,9 @@ for (const path of ["/product/f18", "/ar/product/f18"]) {
 }
 
 // Every hero built on the T3 layout shares the entrance, not two hand-picked solution slugs. A product-led page shows a
-// whole product photo; a page whose subject is not one product shows its drawn scene instead (ui/HeroScene; client
-// request, 25 Nov 2026).
-test("T3-based heroes share the AIMS entrance, the header edges and a whole product photo or scene", async ({
+// whole product photo; a page whose subject is not one product shows a set of AIMS's own products instead (ui/heroSets;
+// direction 3 Imagery rule: no drawings, a place is shown by the product that goes there), each named by a link.
+test("T3-based heroes share the AIMS entrance, the header edges and a whole product photo or product set", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -159,8 +159,9 @@ test("T3-based heroes share the AIMS entrance, the header edges and a whole prod
     expect(hero.x).toBeCloseTo(shell.x, 0);
     expect(hero.width).toBeCloseTo(shell.width, 0);
     if (path === "/about") {
-      await expect(page.locator(".page-hero-scene svg.hero-scene")).toBeVisible();
-      await expect(page.locator(".page-hero-media img")).toHaveCount(0);
+      await expect(page.locator(".page-hero-set .hero-set-piece")).toHaveCount(3);
+      await expect(page.locator(".page-hero-set .hero-set-model")).toHaveCount(3);
+      await expect(page.locator(".page-hero-media svg")).toHaveCount(0);
     } else {
       await expect(page.locator(".page-hero-media img")).toBeVisible();
     }

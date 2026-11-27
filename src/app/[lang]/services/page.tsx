@@ -42,7 +42,7 @@ export default async function Services() {
         lead={c.lead}
         primary={{ href: href("/quote?need=install"), label: c.primary }}
         secondary={{ href: `${href("/support")}#warranty`, label: c.secondary }}
-        scene="services"
+        set="services"
       />
       <ServicesList />
       <ServicesProcess />
