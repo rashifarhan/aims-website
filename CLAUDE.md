@@ -25,6 +25,112 @@ skill it names, then **write them into this file** under a new `## Design rules`
 layout, components, imagery, motion and scroll engine. Show them to the owner with your first mockups and get
 approval before building on them. From then on, follow the rules you wrote.
 
+## Design rules
+
+Direction 3, **Product family slider** (branch `claude/direction-3-families`), built from the MotionSites "Smoothie
+Slider" design. Status: **draft, waiting for the owner's approval with the home mockups (27 Nov 2026)**.
+
+**The idea in one line:** every product family owns a colour, a word and a real product. Pages are built from
+full-bleed colour floods with one giant white word, AIMS's own cut-out product in front of it, and real accessories
+floating around it. Scrolling moves you from one flood to the next.
+
+### Palette and tokens
+
+- **Six family grounds** (tokens in `globals.css` `@theme`, used for that family wherever it appears: hero, family
+  page, product page, tiles, solution page): `--color-ground-access #0f1f17` · `--color-ground-time #26703a` ·
+  `--color-ground-entry #2c5a4d` · `--color-ground-locks #4b5a34` · `--color-ground-parts #32453c` ·
+  `--color-ground-pos #1d3b31`. White text passes AA on all six (lowest: time, 6.1:1).
+- **Chalk** `--color-chalk #f1efe8` is the light reading ground (warm, not white), with `--color-chalk-line #d8d4c8`
+  hairlines and white `#fff` cards on it. **Ink** `#0e1512` text, `--color-ink-600` secondary.
+- **Night** `#08130d` for the footer only.
+- **Lime** `--color-signal #a6d65a`: the one accent. Small doses only, and only on dark grounds (access, pos, night,
+  parts): the wordmark dot, step numbers, the active counter, the dot inside the primary button. Never on the time
+  green or on chalk.
+- Pages alternate floods and chalk; never two identical grounds touching.
+- No gradients on grounds, no glows, no glass except the frosted tab bar and the "Shown" chip that sit over moving
+  product.
+
+### Type
+
+- **The giant word:** Archivo 900, `font-stretch: 125%`, uppercase, tracking −0.035em, line-height 1, pure white. One
+  per flood section at most, sized to fit (never clipped, never wider than the frame). The width of each word is
+  measured once and stored with the word, so CSS can size it without a script. Arabic pages keep the Latin word
+  (it is the product family's name as a mark) and set the real heading in Arabic beside it.
+- **Headings:** Archivo 800 at 112% width, tracking −0.035em, sentence case. h1 on stage 27–30px (the stage is the
+  product's moment, the headline stays quiet); h2 56px desktop / 36px phone; card titles Archivo 700 at 108%.
+- **Labels:** Inter 700, 12–13px, uppercase, tracking 0.22–0.3em (family name, "See the range", kickers).
+- **Body:** Inter 16–18px, line-height 1.55. Inputs never below 16px.
+- **Model codes, counts and phone numbers:** IBM Plex Mono, `tabular-nums`, LTR inside Arabic.
+
+### Layout
+
+- **The stage:** a 1440 × 900 design frame scaled to fit (`--u = min(100vw/1440, 100svh/900)`), centred, the ground
+  filling the rest. On phones the frame is scaled to the width (`100vw/600`) so the product and the middle of the word
+  fill the screen. Everything in the frame is positioned in `--u` units.
+- **Stage UI** sits on the viewport edges in rem, never in `--u`: header row on top (transparent over the stage),
+  frosted tab bar under it, headline and "01 / 06" counter top-left, "Shown" chip bottom-left, "See the range"
+  bottom-centre, circle arrows bottom corners naming the previous and next word. Nothing overlaps the giant word's
+  band except the product and the floating pieces.
+- **Reading sections:** chalk or a family ground, 128px vertical padding (88px on phones), content in the one `wrap`
+  (1344px max, 48px gutters, 20px on phones). Heading block = kicker, h2, optional lead on the left; one text link on
+  the right.
+- Equal left and right edges. Mobile first: on a phone remove, don't shrink (the tab bar, the family line and the
+  blurred corner pieces go).
+
+### Components
+
+- **Primary button:** a white pill (48px) with ink text and an ink circle holding a lime arrow; on chalk the same pill
+  inverted (ink pill, lime circle). **Secondary:** an uppercase tracked text link with a 1.5px underline. That is the
+  whole button set.
+- **Tab bar:** frosted pill (`rgb(0 0 0 / .2)` + blur), active tab white with ink text. Tabs are buttons that jump
+  the scroll to their family.
+- **Circle arrow:** 52px (48px on phones), 1.5px white ring, fills white on hover; its label names the next family.
+- **Family tile:** the family ground, rounded 26px, the word sized to the tile, the product cut-out in front with its
+  ellipse shadow, name + mono model count at the bottom, circle arrow. Every tile links to its family page.
+- **Product card (catalogue lists):** the same tile at a smaller size, model code in mono, a brand line, the facts the
+  catalogue states and nothing else.
+- **Glass panel** on a flood: `rgb(255 255 255 / .07)` fill, 1px `rgb(255 255 255 / .14)` hairline, 24px radius.
+- **White card** on chalk: 22px radius, no shadow.
+- Hover: cards lift 2px and their product lifts a further 6px; buttons step 1px; underlines draw; 150–250ms.
+
+### Imagery
+
+- **Only AIMS's own product photographs**, cut out of their white studio backgrounds into `public/images/cutouts/`
+  with `docs/handoff/cutout.py`, then cleaned (stray fragments, mirror floors) and checked on a dark ground. No stock
+  photographs of places or people on this branch: a place is shown by the product that goes there.
+- Each flood shows one hero product (big, whole) and four to six real accessories at different depths; two corner
+  pieces are large and blurred. Every product shown is one in `content/products.json`, and the "Shown" chip links to it.
+- Soft ellipse shadow under every hero product. The product never bobs; only the pieces float.
+- Software appears as AIMS's own software images on white cards (they are light marketing images).
+
+### Motion and scroll engine
+
+- **Engine:** GSAP ScrollTrigger (pin, scrub, snap) and **Lenis** for smooth wheel scrolling, driven from one GSAP
+  ticker so the two never fight. Lenis runs only on fine pointers (mouse, trackpad); touch screens keep native scroll
+  with ScrollTrigger's scrub smoothing. Loaded lazily in the smallest client leaf, never in a layout.
+- **The family slider (home hero; the same engine for any other pinned family sequence):** the section pins; each of
+  the six families owns one stretch of scroll (about 85vh), split into a rest (about 30%) and a change (about 70%).
+  During a change, scrubbed by the scroll: the old family is covered from its right edge to the left (`clip-path:
+  inset()` on the MotionSites measured curve: slow start, quick middle, long soft settle) while its layers drift left
+  by 14% of the frame; the new family's layers arrive from the right with parallax (word 0.40, shadow 0.30, product
+  0.15, pieces 0.55, corner pieces 0.75 of the frame width), deeper pieces travelling further. Snap settles softly on
+  each family's rest (0.5–0.9s, `power3.inOut`), only after the scroll stops. Order: access control, time attendance,
+  entrance & parking, locks, door hardware, POS; after POS the page carries on.
+- Tabs, arrows and ← → jump the scroll to a family (Lenis `scrollTo`, same easing), so the URL and the scroll position
+  always agree with what is shown.
+- **Between changes:** pieces float (±7px, ±3°, 3.2–5s, out of step) and drift with the pointer by depth on fine
+  pointers. Nothing runs on a timer; no autoplay.
+- **Entrance:** on load the first family's layers arrive with the same parallax (900ms), then the UI rises in order
+  (header, tabs, headline, chip, range link, arrows).
+- **Reading sections:** headings rise once as they enter (24px, 600ms); a flood section's word slides in with a light
+  scrubbed parallax. No other scroll effects; one pinned sequence per page.
+- **Properties:** transform, opacity and `clip-path` only. No blur or filter animation on moving pieces (blur is
+  static on the corner pieces).
+- **Reduced motion:** no pin, no Lenis, no float: the six families stack as six static full-screen floods, every
+  family visible. Everything rests at its final state.
+- **Access:** the slider is a real tab list (`role="tablist"`) whose panels stay in the DOM; screen readers get every
+  family's name, line, model and range link; focus never lands on something hidden.
+
 ## Sources of truth
 
 | Question                                                      | Source                                                                  |
