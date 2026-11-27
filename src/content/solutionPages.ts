@@ -15,7 +15,7 @@ import { TA_METHODS, TA_PRODUCTS, TA_SOFTWARE } from "./timeAttendance";
  * between the shared ones: that is the slot. Put them, and any CSS they need, in
  * src/components/solution/<slug>/ and import that CSS from the page only (moment code loads lazily).
  *
- *   SolutionIntro    {page, copy: IntroCopy}                         hero: breadcrumb, h1, two actions, photo
+ *   SolutionStage    {page, copy: IntroCopy}                         stage: word, product, h1, two actions, dive
  *   SolutionMethods  {idPrefix, page, copy: MethodsCopy}             verify-method guide → /products/<family>?verify=
  *   SolutionOptions  {idPrefix, copy: SectionCopy, items: Option[]}  any other option guide (types, sizes…)
  *   SolutionProducts {idPrefix, page, copy: ProductsCopy}            example products with Add to quote

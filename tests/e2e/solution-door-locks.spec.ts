@@ -34,8 +34,8 @@ for (const locale of ["en", "ar"] as const) {
 
   test(`${locale} door locks page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
-    // Hero photograph: the hub's door lock, preloaded as the LCP image.
-    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /tl800/);
+    // Direction 2: the stage stands its own product, the LH6500 hotel lock, before LOCKS.
+    await expect(page.locator(".ps-device img")).toHaveAttribute("src", /lh6500/);
     // The unlock moment's text equivalent: four steps.
     await expect(page.locator(".lk-steps li")).toHaveCount(4);
     // Door guide: smart and hotel filters, the glass door lock, door hardware; every link answers 200.

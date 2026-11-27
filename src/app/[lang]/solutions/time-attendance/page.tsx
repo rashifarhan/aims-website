@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { SOLUTION_PAGES } from "@/content/solutionPages";
-import { SolutionIntro } from "@/components/solution/SolutionIntro";
+import { SolutionStage } from "@/components/solution/SolutionStage";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
 import { AttendanceStory } from "@/components/solution/AttendanceStory";
 import { SolutionMethods } from "@/components/solution/SolutionMethods";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
@@ -12,6 +13,9 @@ import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import "@/components/solution/solution.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 const PAGE = SOLUTION_PAGES["time-attendance"];
 
@@ -34,8 +38,8 @@ export default async function TimeAttendanceSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main">
-      <SolutionIntro page={PAGE} copy={c} />
+    <main id="main" className="d2">
+      <SolutionStage page={PAGE} copy={c} />
       <AttendanceStory />
       <SolutionMethods idPrefix="ta" page={PAGE} copy={c.methods} />
       <SolutionProducts idPrefix="ta" page={PAGE} copy={c.products} />
@@ -49,6 +53,7 @@ export default async function TimeAttendanceSolution() {
         action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
         secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
+      <SmoothScroll />
     </main>
   );
 }

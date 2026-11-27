@@ -120,10 +120,13 @@ test.describe("reduced motion", () => {
 
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
   await page.goto("/software/zkbio-cvaccess");
-  await page.locator(".page-hero").getByRole("button", { name: "Add to quote" }).click();
-  await expect(page.locator(".page-hero").getByText("On your list")).toBeVisible();
+  // Direction 2: Add to quote opens out of the platform's screen; focusing it opens the screen (StageMotion).
+  const inside = page.locator(".ps-inside");
+  await inside.getByRole("button", { name: "Add to quote" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(inside.getByText("On your list")).toBeVisible();
   // Focus moves to the link that replaced the button (WCAG 2.4.3).
-  await expect(page.locator(".page-hero").getByRole("link", { name: "View quote list" })).toBeFocused();
+  await expect(inside.getByRole("link", { name: "View quote list" })).toBeFocused();
   await page.goto("/quote");
   await expect(page.getByText("ZKBio CVAccess software", { exact: false }).first()).toBeVisible();
 });
@@ -142,5 +145,5 @@ test("the retired ZKAccess 3.5 page forwards to ZKBio CVAccess, in both language
 test("an unknown software slug renders no software page", async ({ page }) => {
   // Partial prerendering streams not-found with a 200, as for /product/<unknown>; the page must be empty of software.
   await page.goto("/software/not-a-platform");
-  await expect(page.locator(".page-hero")).toHaveCount(0);
+  await expect(page.locator(".ps, .page-hero")).toHaveCount(0);
 });

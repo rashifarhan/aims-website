@@ -1,0 +1,202 @@
+/*
+ * A product page's stage, direction 2 (CLAUDE.md → Design rules; app/[lang]/product/[slug]/page.tsx). The photograph
+ * is still on its studio white, so it stands on a cream plate and multiplies onto it: no white rim, no cut-out
+ * needed for 160 models. The plate is the screen the dive flies into (stage.screen is the whole plate).
+ */
+.ps[data-plate] .ps-device {
+  isolation: isolate;
+  border-radius: 1rem;
+  background: var(--color-ticket);
+}
+.ps[data-plate] .ps-device img {
+  box-sizing: border-box;
+  padding: 8%;
+  mix-blend-mode: multiply;
+}
+.ps[data-plate] .ps-screen {
+  border-radius: 1rem;
+}
+.ps[data-plate] {
+  --rise-h: min(calc(var(--stage-h) * 0.3), var(--native));
+  --rise-top: calc(var(--stage-h) * 0.2);
+}
+@media (min-width: 1024px) {
+  .ps[data-plate] {
+    --rise-h: min(calc(var(--stage-h) * 0.64), var(--native), 40rem);
+    --rise-top: calc(var(--stage-h) * 0.24);
+  }
+  /* The plate stands in front of the word, like every stage's product; the copy is clear of it at the start. */
+  .ps[data-plate] .ps-rise {
+    z-index: 3;
+    inset-inline: auto var(--spacing-stage-edge);
+    margin-inline: 0;
+  }
+}
+
+/* The purchase ticket, bottom-start: cream without the notch mask, since a mask would clip the phone's purchase bar
+   and the focus rings inside it. */
+.pt {
+  max-inline-size: 34rem;
+  padding: 1.25rem 1.25rem 0.25rem;
+  -webkit-mask: none;
+  mask: none;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.pt-kicker {
+  margin: 0;
+  color: var(--color-green-700);
+}
+.ps-copy .pt-title {
+  margin: 0.4rem 0 0.35rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: 1.375rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.pt-model {
+  margin: 0;
+  color: var(--color-ink-600);
+}
+.pt [data-quote-add] {
+  margin-block-start: 0.85rem;
+}
+@media (min-width: 1024px) {
+  .pt {
+    padding: 1.5rem 1.75rem 0.5rem;
+  }
+  .ps-copy .pt-title {
+    font-size: var(--text-stage-title);
+  }
+}
+
+/* What opens out of the plate. */
+.ps-prod-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.ps-prod-copy .in-lead {
+  margin-block-start: 0;
+}
+.ps-prod-links {
+  margin: 1.5rem 0 0;
+}
+.ps-prod-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 2.75rem;
+}
+@media (min-width: 1024px) {
+  .ps-prod-grid {
+    grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+    gap: 4rem;
+  }
+}
+
+/* Phones and tablets: the stage flows instead of layering, word → plate → crumbs and ticket, since the purchase ticket
+   is too tall to share one fixed screen with the plate. */
+@media (max-width: 1023px) {
+  .ps[data-plate] .ps-stage {
+    display: flex;
+    flex-direction: column;
+  }
+  .ps[data-plate] .ps-hero {
+    display: contents;
+  }
+  .ps[data-plate] .ps-word-in,
+  .ps[data-plate] .ps-rise,
+  .ps[data-plate] .ps-copy {
+    position: relative;
+    inset: auto;
+  }
+  .ps[data-plate] .ps-word-in {
+    order: 0;
+    padding-block-start: 2.5rem;
+  }
+  .ps[data-plate] .ps-rise {
+    order: 1;
+    inline-size: min(78%, 22rem);
+    block-size: auto;
+    aspect-ratio: var(--ratio);
+    margin: 1.5rem auto 0;
+  }
+  .ps[data-plate] .ps-copy {
+    order: 2;
+    margin: 1.75rem var(--spacing-stage-edge) 2.5rem;
+  }
+  .ps[data-plate] .ps-inside {
+    order: 3;
+  }
+}
+
+/* A short phone (an iPhone SE, 568px) shows the purchase ticket first, so Add to quote is on the first screen (audit
+   B4); the plate follows it. */
+@media (max-width: 1023px) and (max-height: 760px) {
+  .ps[data-plate] .ps-copy {
+    order: 1;
+  }
+  .ps[data-plate] .ps-rise {
+    order: 2;
+    margin-block-end: 2.5rem;
+  }
+}
+
+/* Software: Add to quote on cream inside the screen, and the platforms' pictures on small plates in the hub's tiles. */
+.ps-buy {
+  display: inline-block;
+  margin-block-start: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: var(--color-ticket);
+  color: var(--color-ticket-ink);
+}
+.ps-tiles-plate .ps-tile-plate {
+  position: absolute;
+  inset-inline-end: 1rem;
+  inset-block-start: 1rem;
+  inline-size: 34%;
+  aspect-ratio: 1;
+  isolation: isolate;
+  border-radius: 0.75rem;
+  background: var(--color-ticket);
+}
+/* Over .ps-tile img: the picture fills its plate and multiplies its white away; no drop shadow on a flat plate. */
+.ps-tiles-plate .ps-tile-plate img {
+  position: static;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+  max-block-size: none;
+  padding: 8%;
+  box-sizing: border-box;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: none;
+}
+/* Four platforms: two by two, words up to ten letters, the purpose in plain sentence case. */
+.ps-tiles-plate .ps-tile-word {
+  font-size: clamp(1.1rem, 2.1vw, 2.1rem);
+}
+.ps-tiles-plate .ps-tile-count {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+@media (min-width: 640px) {
+  .ps-tiles-plate {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

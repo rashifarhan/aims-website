@@ -35,7 +35,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} entrance and parking page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's entrance and parking product, preloaded as the LCP image.
-    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /barrier-gates-bgm-1045/);
+    await expect(page.locator(".ps-device img")).toHaveAttribute("src", /bgm-1060/);
     // Lanes moment: a labelled drawing and its four steps as the text equivalent.
     await expect(page.locator(".ep-lanes svg[role=img]")).toHaveAttribute("aria-label", /.+/);
     await expect(page.locator(".ep-steps li")).toHaveCount(4);

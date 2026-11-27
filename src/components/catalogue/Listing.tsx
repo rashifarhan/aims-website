@@ -20,6 +20,7 @@ import { dispatchQuote } from "@/lib/quote/useQuote";
 import { CompareTray } from "./CompareTray";
 import { EmptyResults } from "./EmptyResults";
 import { FacetRail } from "./FacetRail";
+import { FamilyTabs, type FamilyTab } from "./FamilyTabs";
 import { FilterSheet } from "./FilterSheet";
 import { ListingSearch } from "./ListingSearch";
 import { AppliedFilters } from "./AppliedFilters";
@@ -37,6 +38,8 @@ export type ListingProps = {
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
   hrefs: { listing: string; product: string; compare: string; quote: string; solutions: string; showroom: string };
+  /** The families as tabs above the list: filtering in place (/products) or linking each family page. */
+  familyTabs?: { mode: "filter" | "link"; label: string; tabs: FamilyTab[] };
 };
 
 /** Reads the URL. Rendered inside <Suspense>; the fallback is the unfiltered list. */
@@ -61,6 +64,7 @@ export function ListingView({
   t,
   familyNames,
   hrefs,
+  familyTabs,
   urlState = EMPTY,
   preset,
 }: ListingProps & { urlState?: FilterState; preset?: Partial<QuoteContext> }) {
@@ -84,7 +88,7 @@ export function ListingView({
     clearFilters,
     compareItems,
     compareHref,
-  } = useListingModel({ cards, family, t, familyNames, hrefs, urlState, preset });
+  } = useListingModel({ cards, family, t, familyNames, hrefs, urlState, preset, hideFamilyFacet: !!familyTabs });
 
   /* ---------- zero state: "Ask us about this model" ---------- */
   const [asked, setAsked] = useState("");
@@ -97,6 +101,14 @@ export function ListingView({
 
   return (
     <div className={compareItems.length ? "pb-28" : ""}>
+      {familyTabs && (
+        <FamilyTabs
+          label={familyTabs.label}
+          tabs={familyTabs.tabs}
+          active={familyTabs.mode === "filter" ? (state.family ?? null) : (family ?? null)}
+          onPick={familyTabs.mode === "filter" ? (slug) => update({ family: slug ?? undefined, page: 1 }) : undefined}
+        />
+      )}
       <ListingSearch
         value={state.q}
         onChange={(q) => update({ q })}

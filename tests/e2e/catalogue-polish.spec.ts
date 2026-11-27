@@ -66,11 +66,18 @@ test.describe("listing polish", () => {
     await page.goto("/products", { waitUntil: "load" });
     const rail = page.getByRole("complementary", { name: "Filters" });
     await expect(rail).toHaveCSS("position", "sticky");
+    // Direction 2: the list sits under the products stage, so start at the list (the rail sticks only beside it).
+    await page.locator("#products").evaluate((el) => el.scrollIntoView());
     // A page is 12 cards (pagination), so scroll within the grid rather than past its end, where the rail rightly unsticks.
     await page.mouse.wheel(0, 1200);
     await expect.poll(async () => (await rail.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
-    const box = await rail.boundingBox();
-    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(900);
+    // Lenis glides the wheel scroll (direction 2), so the rail reaches its stuck place over a few frames.
+    await expect
+      .poll(async () => {
+        const box = await rail.boundingBox();
+        return (box?.y ?? 0) + (box?.height ?? 0);
+      })
+      .toBeLessThanOrEqual(900);
   });
 
   test("compare tray shows a thumbnail per pick", async ({ page, isMobile }) => {

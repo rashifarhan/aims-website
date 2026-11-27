@@ -20,7 +20,8 @@ for (const prefix of ["", "/ar"]) {
     await page.goto(`${prefix}/`);
     expect(await inView(page, "main .dv-copy .in-pill")).toBe(true);
     await page.goto(`${prefix}/software`);
-    expect(await inView(page, "main .page-hero .home-button")).toBe(true);
+    // Direction 2: the software stage's first action is its pill.
+    expect(await inView(page, "main .ps-actions .in-pill")).toBe(true);
     await page.goto(`${prefix}/product/f18`);
     expect(await inView(page, "main button.home-button")).toBe(true);
     // Nothing reflows sideways.
@@ -33,13 +34,13 @@ test("on a phone, keyboard order on the product page matches the reordered purch
   const context = await browser.newContext({ viewport: { width: 390, height: 664 }, reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto("/product/f18");
-  // The model chip sits right above the quantity stepper on a phone; the next Tab stops are the stepper's controls,
-  // then Add to quote, as they appear.
+  // Direction 2: the purchase ticket holds the stepper and Add to quote; the product's summary opens out of the plate
+  // after it, so the Tab stops come in the order they appear.
   const decrease = page.getByRole("button", { name: /decrease|fewer/i }).first();
   const add = page.locator("main button.home-button").first();
   const decreaseTop = (await decrease.boundingBox())?.y ?? 0;
   const addTop = (await add.boundingBox())?.y ?? 0;
-  const summaryTop = (await page.locator(".product-hero-lead").boundingBox())?.y ?? 0;
+  const summaryTop = (await page.locator(".ps-prod-copy .in-lead").boundingBox())?.y ?? 0;
   expect(decreaseTop).toBeLessThan(summaryTop);
   expect(addTop).toBeLessThan(summaryTop);
   await context.close();

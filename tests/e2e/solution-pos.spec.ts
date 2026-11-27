@@ -35,7 +35,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} POS page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's POS terminal, preloaded as the LCP image.
-    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /zkaio1000/);
+    await expect(page.locator(".ps-device img")).toHaveAttribute("src", /zkaio1000/);
     // The counter moment's text equivalent: four steps.
     await expect(page.locator(".pc-steps li")).toHaveCount(4);
     // Counter guide: Windows and Android filters, the handheld and the fingerprint terminal; all answer 200.
@@ -61,11 +61,13 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-test("desktop: the 350 px POS photograph is never shown larger than it is", async ({ page }) => {
+test("desktop: the small ZKAIO1000 cut-out stands at no more than 1.6× its own pixels", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(PATH);
-  const box = await page.locator(".page-hero-media img").boundingBox();
-  expect(box?.width ?? 0).toBeLessThanOrEqual(350);
+  // Direction 2 (PageStage --native): a small photograph stands smaller rather than blur; 268 px tall at source.
+  const box = await page.locator(".ps-device img").boundingBox();
+  expect(box?.height ?? 0).toBeLessThanOrEqual(268 * 1.6 + 1);
 });
 
 test("the counter verifies and prints once when it comes into view", async ({ page }) => {

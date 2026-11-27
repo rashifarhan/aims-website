@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { PageHero } from "@/components/ui/PageHero";
+import { WordStage } from "@/components/word-stage/WordStage";
+import "@/components/inside/skin.css";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
 import { ServicesProcess } from "@/components/company/ServicesProcess";
@@ -28,19 +29,18 @@ export default async function Services() {
   const c = t.services;
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="w-full flex-1">
-      <PageHero
-        variant="split"
+    <main id="main" className="d2 w-full flex-1">
+      <WordStage
+        id="hero-title"
+        word={t.wordStage.services}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/services"), label: c.crumb },
         ]}
-        eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
         primary={{ href: href("/quote?need=install"), label: c.primary }}
         secondary={{ href: `${href("/support")}#warranty`, label: c.secondary }}
-        scene="services"
       />
       <ServicesList />
       <ServicesProcess />

@@ -1,0 +1,111 @@
+/*
+ * The company pages' stage (WordStage.tsx; direction 2): one screen of night stage, the giant word across the top,
+ * the copy bottom-start and the facts ticket bottom-end. Static apart from the word and copy rising once on load.
+ */
+.ws {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.5rem;
+  min-block-size: calc(100svh - 3.75rem - 1px);
+  padding: 2rem var(--spacing-stage-edge) 2.5rem;
+  overflow: clip;
+}
+.ws[data-compact] {
+  min-block-size: 0;
+  padding-block-end: 3rem;
+}
+.ws-word {
+  text-align: center;
+  font-size: min(var(--text-word), calc((100vw - 2 * var(--page-gutter) - 2rem) / (var(--letters) * 0.86)));
+}
+.ws-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+}
+.ws-copy {
+  max-inline-size: 36rem;
+}
+.ws-copy h1 {
+  margin: 0.5rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title-phone);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+:lang(ar) .ws-copy h1 {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+.ws-lead {
+  margin: 0 0 1.5rem;
+  color: var(--color-night-muted);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.ws-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+}
+.ws-fact {
+  margin: 1.5rem 0 0;
+  color: var(--color-night-muted);
+}
+.ws-side {
+  inline-size: 100%;
+  max-inline-size: 30rem;
+  justify-self: end;
+}
+.ws-ticket {
+  --notch: 3.4rem;
+}
+.ws-note {
+  margin: 0.75rem 0 0;
+  color: var(--color-night-muted);
+  font-size: 0.875rem;
+}
+/* A phone number in a ticket row: a full-size target, underlined like every link. */
+.ws-tel {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  margin-block: -0.6rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ws-ticket .in-ticket-rows dd {
+  text-transform: none;
+}
+@media (min-width: 1024px) {
+  .ws {
+    min-block-size: calc(100svh - 4.5rem - 1px);
+    padding-block: 2.5rem 3.5rem;
+  }
+  .ws-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+    gap: 4rem;
+  }
+  .ws-copy h1 {
+    font-size: var(--text-stage-title);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ws-word {
+    animation: ws-rise 0.9s var(--ease-out) both;
+  }
+  .ws-copy,
+  .ws-ticket {
+    animation: ws-rise 0.8s 0.25s var(--ease-out) both;
+  }
+}
+@keyframes ws-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}

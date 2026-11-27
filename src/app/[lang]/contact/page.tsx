@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
-import { PageHero } from "@/components/ui/PageHero";
+import { WordStage } from "@/components/word-stage/WordStage";
+import "@/components/inside/skin.css";
 import { ContactRouter } from "@/components/contact/ContactRouter";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
@@ -8,7 +9,7 @@ import { LocationCards } from "@/components/contact/LocationCards";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
-import { CONTACT } from "@/lib/site";
+import { CONTACT, LOCATIONS } from "@/lib/site";
 import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,15 +30,28 @@ export default async function ContactPage() {
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="w-full flex-1">
-      <PageHero
-        variant="compact"
+    <main id="main" className="d2 w-full flex-1">
+      <WordStage
+        id="hero-title"
+        word={t.wordStage.contact}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/contact"), label: t.nav.contact },
         ]}
         title={t.contactPage.title}
         lead={t.contactPage.lead}
+        compact
+        ticket={{
+          title: t.wordStage.contactTicket,
+          rows: LOCATIONS.map((l) => ({
+            label: t.contactPage.locations[l.id],
+            value: (
+              <a href={`tel:${CONTACT.lines[l.line].tel}`} dir="ltr" className="ws-tel">
+                {CONTACT.lines[l.line].display}
+              </a>
+            ),
+          })),
+        }}
       />
       {/* Section: the shared rhythm and the same content edges as the header and footer (taste House rule 4). */}
       <Section className="co-contact">

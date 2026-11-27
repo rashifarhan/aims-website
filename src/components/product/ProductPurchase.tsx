@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { WhatsAppIcon } from "@/components/icons";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -24,6 +25,8 @@ type Labels = {
   askWhatsapp: string;
 };
 
+const noop = () => () => {};
+
 type Props = { slug: string; name: string; model: string; whatsappMessage: string; quoteHref: string; labels: Labels };
 
 /**
@@ -37,6 +40,13 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
   const line = useQuote().lines.find((l) => l.kind === "product" && l.slug === slug);
   const inline = useRef<HTMLDivElement>(null);
   const [showBar, setShowBar] = useState(false);
+  // The bar is fixed to the viewport, so it renders into <body>: an ancestor with a transform (the product stage's
+  // copy moves with the dive) would otherwise pin it to that ancestor instead.
+  const host = useSyncExternalStore(
+    noop,
+    () => document.body,
+    () => null,
+  );
 
   useEffect(() => {
     // Position check rather than IntersectionObserver: a fast fling or jump
@@ -126,17 +136,21 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
       </div>
 
       {/* Mobile sticky bar (Design Doc 6) */}
-      <div
-        data-purchase-bar
-        aria-hidden={!showBar}
-        inert={!showBar}
-        className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
-      >
-        <div className="wrap flex items-center gap-2">
-          {stepper}
-          {addButton("min-w-0 flex-1 px-4")}
-        </div>
-      </div>
+      {host &&
+        createPortal(
+          <div
+            data-purchase-bar
+            aria-hidden={!showBar}
+            inert={!showBar}
+            className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}
+          >
+            <div className="wrap flex items-center gap-2">
+              {stepper}
+              {addButton("min-w-0 flex-1 px-4")}
+            </div>
+          </div>,
+          host,
+        )}
     </>
   );
 }

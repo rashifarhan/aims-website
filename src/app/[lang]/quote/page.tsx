@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
+import { WordStage } from "@/components/word-stage/WordStage";
+import "@/components/inside/skin.css";
 import { QuoteView } from "@/components/quote/QuoteView";
 import type { CatalogEntry } from "@/components/quote/QuoteItems";
 import { products, softwareList } from "@/content/catalogue";
@@ -37,15 +38,17 @@ export default async function QuotePage() {
     catalog[`software-${s.slug}`] = { name: s.name, model: "", image: s.image?.src ?? null };
 
   return (
-    <main id="main" data-quote-page className="w-full flex-1">
-      <PageHero
-        variant="compact"
+    <main id="main" data-quote-page className="d2 w-full flex-1">
+      <WordStage
+        id="hero-title"
+        word={t.wordStage.quote}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/quote"), label: t.quote.metaTitle },
         ]}
         title={t.quote.title}
         lead={t.quote.lead}
+        compact
       />
       <div className="wrap pb-(--section-space)">
         <QuoteView

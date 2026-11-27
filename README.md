@@ -108,6 +108,66 @@ rules are in CLAUDE.md → Design rules, approved by the owner with the home moc
   and the home line of `short-phone.spec.ts`; `home-premium.spec.ts` (old hero, model strip and title-reveal tests)
   and its `hero.ts` helper were removed, and its prefetch-storm regression moved into `home.spec.ts`.
 
+### Direction 2: Products hub and the six family pages (27 Nov 2026)
+
+Built without mockups at the owner's request (demo on 28 Nov). Same rules as the home page (CLAUDE.md → Design rules).
+
+- **Pick a family, see its products** (client request): the list on `/products` has the six families as tabs on top
+  (All 159, Access control 34, …). A tab filters the list in place through the URL (`?family=`, so Back and shared
+  links keep it); the family facet in the sidebar is hidden while tabs show. Inside the hub's stage, six family tiles,
+  the search and the popular shortcuts do the same and glide down to the list (`ListingJump`). Without JavaScript
+  every one of them is an ordinary link or GET form to the same state.
+- **Each stage shows a real AIMS product** that hasn't appeared on another stage (Face Kiosk V43 on the hub; BioFace
+  B1, iFace 990 Plus, MARS-B1200, TL800, ALF B21, ZK1515 on the families). Products without a display dive into an
+  aperture on their body. Every count and fact inside (verifies, types, outdoor rated, brand) is counted from the
+  catalogue by `src/lib/familyFacts.ts` (unit-tested); nothing is typed in by hand.
+- **Cutouts redone** (client feedback: a white rim and a cropped look): every cutout is now lifted with Apple Vision's
+  foreground mask, then edge-cleaned (near-white pixels faded in a 4 px band, 2 × 2 erosion, colour decontaminated
+  against white). The tools and steps are in `docs/handoff/lift/`. The main site's trick (the photo multiplied onto a
+  light plinth) can't work on these dark stages, so the cutout itself has to be clean. Vision finds no subject in the
+  InBio Pro 260 photo, so it keeps its earlier cut. The SpeedFace stage now uses the SpeedFace-V5L-QR photograph
+  (slug `zkteco-speedface-v5l-qr`), which lifts without fringes.
+- **The six family glow colours were missing from the build:** Tailwind drops `@theme` variables it never sees used,
+  and the home page reads them through `var(--color-family-${slug})`. They now sit in `@theme static`.
+- **Dev note:** `next dev` reports "URL data … outside of `<Suspense>`" on `/[lang]/products/[family]` and
+  `/[lang]/software/[slug]`. It is the instant-navigation check on `await params` in those route files, unchanged by
+  this work, and doesn't affect the build.
+
+### Direction 2: product detail, Solutions, Software and the company pages (27 Nov 2026)
+
+Built without mockups at the owner's request, on the same stage system as the products pages.
+
+- **Product detail (`/product/[slug]`, every model):** the family's word and ground. AIMS's photograph is still on
+  its studio white, so it stands on a **cream plate** and multiplies onto it: no white rim and no cut-out needed for
+  160 models. The plate is the screen the dive flies into; the key specifications (verbatim spec rows, plus model and
+  brand) open out of it. The H1, model code, quantity, Add to quote and WhatsApp sit on a cream **purchase ticket**,
+  bottom-start, so their green states keep their contrast. On phones the stage flows (word, plate, ticket); on a short
+  phone (≤ 760 px tall) the ticket comes first, so Add to quote is on the first screen. The phone's sticky purchase
+  bar now renders into `<body>` (a portal), since the stage's moving copy would otherwise hold it. A model without a
+  photograph shows its family's stage product, labelled "Shown". The close is the products close.
+- **Solutions:** each solution page stands a product no other stage shows (Horus H1, KR600, BGM 1060, LH6500,
+  ZKAIO1000), before its family's word; the dive opens the family's counted facts (the family pages' inside, with the
+  page's own product). The hub stands the InBio Pro 260 controller before FIVE; the five needs open out of it as
+  tiles. The sections below keep their content on the direction's grounds (`.d2` + `inside/skin.css`).
+  `SolutionIntro` is replaced by `SolutionStage`.
+- **Software:** each built platform stands its own picture on a plate before its name's word (BIOTIME, CLOUD,
+  CVSECURITY, CVACCESS); the dive opens a ticket, the summary and Add to quote. The hub stands BioTime 9.5, with the
+  four platforms as tiles inside; the full filtered list follows.
+- **Services, About, Locations, Contact, Quote** open on a **word stage** (INSTALL, AIMS, UAE, TALK, QUOTE) with no
+  dive: these pages have no product to step into. Their facts sit on a cream ticket, only from `src/lib/site.ts`:
+  About shows the four company-stated figures with AIMS's "Figures stated by AIMS" note; Locations the three
+  addresses; Contact the three office lines. Contact and Quote keep the stage short, so the form starts on the first
+  screen. The drawn hero scenes are no longer used on these pages.
+- **Wide products** (wider than 1.3 : 1, the controller and the barrier) stand at the end of the stage, and every
+  stage product is sized by width as well as height, so its box keeps the photograph's ratio and the dive's screen
+  fractions stay true. The phone stage's floor is 30rem (was 34rem), so a 568 px phone keeps its first action.
+- **Tests rewritten for the new design** (old-design assertions, not weakened): the solution pages' hero photo checks
+  now check each stage's own product; the solutions hub test checks its five tiles; the T3 hero edge test now checks
+  the stage copy's edge; the POS photo-size test checks the 1.6× cap of the stage; the short-phone tests look for the
+  stage's first action; the product page's keyboard-order test looks for the summary inside the dive.
+- **Dev note:** `next dev` logs a hydration warning on pages with the old heading reveal (`data-heading-reveal`),
+  which splits headings before hydration. It predates this work.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

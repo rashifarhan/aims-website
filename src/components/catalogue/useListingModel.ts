@@ -30,7 +30,8 @@ export function useListingModel({
   hrefs,
   urlState,
   preset,
-}: ListingProps & { urlState: FilterState; preset?: Partial<QuoteContext> }) {
+  hideFamilyFacet = false,
+}: ListingProps & { urlState: FilterState; preset?: Partial<QuoteContext>; hideFamilyFacet?: boolean }) {
   const { state, update } = useListingState(urlState, family, preset);
 
   const effective = useMemo<FilterState>(() => (family ? { ...state, family } : state), [state, family]);
@@ -49,7 +50,15 @@ export function useListingModel({
   });
 
   /* ---------- facets ---------- */
-  const groups = facetGroupViews({ cards, state: effective, searchOrder: order, family, t, familyNames });
+  const groups = facetGroupViews({
+    cards,
+    state: effective,
+    searchOrder: order,
+    family,
+    hideFamily: hideFamilyFacet,
+    t,
+    familyNames,
+  });
 
   const onToggle = (groupId: string, value: string) => {
     if (groupId === "outdoor") return update({ outdoor: !state.outdoor });

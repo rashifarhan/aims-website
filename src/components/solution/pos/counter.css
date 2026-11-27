@@ -5,7 +5,6 @@
  * reduced motion, so the finished frame (verified, sale on screen, receipt out) always shows.
  */
 
-/* The hero photo is capped at its own pixel width by the template (SolutionIntro --photo-width). */
 @media (min-width: 1024px) {
   /* Four terminals in one row, not three and an orphan. */
   .pc-page .pick-row {

@@ -2138,5 +2138,62 @@
     "closeBody": "Send AIMS the models or describe the site, and AIMS replies with a quotation.",
     "closeAction": "Request a quote",
     "closeSecondary": "All ways to contact AIMS"
+  },
+  "productsStage": {
+    "cue": "Scroll to step inside",
+    "shown": "Shown: {model}",
+    "crumbs": "Breadcrumb",
+    "hubWordLabel": "{count} products",
+    "hubLead": "Search {count} products by model code, or pick a family and see its range.",
+    "hubPrimary": "Browse the range",
+    "quote": "Request a quote",
+    "rangeHead": "The range · {count} products",
+    "hubEyebrow": "All products",
+    "hubTitle": "The full range, in six families",
+    "searchLabel": "Search all products",
+    "searchSubmit": "Search",
+    "popular": "Quick picks",
+    "familyCount": "{count} products",
+    "familyLead": "{count} products. {summary}.",
+    "familyPrimary": "See the {count} products",
+    "insideHead": "Inside the {model}",
+    "rowShown": "Shown",
+    "rowVerifies": "Verifies",
+    "rowOutdoor": "Outdoor rated",
+    "rowBrand": "Brand",
+    "jumpTo": "Jump to",
+    "seeAll": "See all {count} products",
+    "listEyebrow": "Pick a family, then filter",
+    "listTitle": "Find your model",
+    "tabsLabel": "Product families",
+    "tabAll": "All",
+    "closeEyebrow": "Supply and install",
+    "otherFamilies": "Other families",
+    "allFamilies": "The six families",
+    "fullSpecs": "See the full specifications"
+  },
+  "solutionsStage": {
+    "word": "FIVE",
+    "head": "Five needs, one site",
+    "primary": "See the five needs",
+    "eyebrow": "Solutions",
+    "insideTitle": "Pick what your site needs"
+  },
+  "softwareStage": {
+    "word": "SOFTWARE",
+    "head": "Four platforms AIMS sets up",
+    "insideTitle": "Software set up on your terminals",
+    "primary": "See every platform",
+    "rowType": "Type"
+  },
+  "wordStage": {
+    "services": "INSTALL",
+    "about": "AIMS",
+    "locations": "UAE",
+    "contact": "TALK",
+    "quote": "QUOTE",
+    "aboutTicket": "AIMS in figures",
+    "locationsTicket": "Where AIMS is",
+    "contactTicket": "Call AIMS"
   }
 }

@@ -4,12 +4,13 @@ import { LocationOffices } from "@/components/locations/LocationOffices";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { PageHero } from "@/components/ui/PageHero";
+import { WordStage } from "@/components/word-stage/WordStage";
+import "@/components/inside/skin.css";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
-import { CONTACT } from "@/lib/site";
+import { LOCATIONS } from "@/lib/site";
 import "@/components/signature/reach.css";
 import "@/components/locations/locations.css";
 
@@ -33,9 +34,10 @@ export default async function LocationsHub() {
   const c = t.locations.hub;
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main">
-      <PageHero
-        variant="split"
+    <main id="main" className="d2">
+      <WordStage
+        id="hero-title"
+        word={t.wordStage.locations}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/locations"), label: t.nav.locations },
@@ -44,12 +46,17 @@ export default async function LocationsHub() {
         lead={c.lead}
         primary={{ href: "#delivery", label: c.primary }}
         secondary={{ href: "#uae", label: c.secondary }}
-        fact={
-          <span lang="en" dir="ltr">
-            {CONTACT.showroomAddress}
-          </span>
-        }
-        scene="offices"
+        ticket={{
+          title: t.wordStage.locationsTicket,
+          rows: LOCATIONS.map((l) => ({
+            label: t.locations.common.names[l.id],
+            value: (
+              <span lang="en" dir="ltr">
+                {l.address}
+              </span>
+            ),
+          })),
+        }}
       />
       <LocationOffices id="uae" />
       <ReachBand

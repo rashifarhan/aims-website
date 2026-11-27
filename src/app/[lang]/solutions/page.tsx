@@ -4,7 +4,10 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { PageHero } from "@/components/ui/PageHero";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
+import { PageStage } from "@/components/products-inside/PageStage";
+import { SOLUTIONS_HUB_STAGE } from "@/components/products-inside/stages";
+import { SolutionsHubInside } from "@/components/solution/SolutionsHubInside";
 import { Section } from "@/components/ui/Section";
 import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { SOLUTION_CARDS } from "@/content/solutions";
@@ -13,6 +16,9 @@ import { SolutionSite } from "@/components/solutions/SolutionSite";
 import { SolutionIndustries } from "@/components/solutions/SolutionIndustries";
 import { SolutionFaq } from "@/components/solutions/SolutionFaq";
 import "@/components/solutions/solutions.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionsHub } = await getDictionary();
@@ -35,18 +41,25 @@ export default async function SolutionsHub() {
   const locale = await getLocale();
   const cta = t.solutionsHub.cta;
   return (
-    <main id="main">
-      <PageHero
-        variant="compact"
+    <main id="main" className="d2">
+      <PageStage
+        id="solutions-stage"
+        stage={SOLUTIONS_HUB_STAGE}
+        word={t.solutionsStage.word}
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, "/solutions"), label: t.nav.solutions },
         ]}
         title={t.solutionsHub.title}
         lead={t.solutionsHub.lead}
-      />
+        primary={{ href: "#needs", label: t.solutionsStage.primary }}
+        secondary={{ href: localePath(locale, "/quote?need=install"), label: cta.action }}
+        productHref={localePath(locale, `/product/${SOLUTIONS_HUB_STAGE.productSlug}`)}
+      >
+        <SolutionsHubInside />
+      </PageStage>
       {/* Each card's h2 names its need; the grid itself needs no heading. */}
-      <Section ground="band" className="solution-grid-section">
+      <Section ground="band" id="needs" className="solution-grid-section">
         <SpotlightGroup className="solution-grid">
           {SOLUTION_CARDS.map((solution) => (
             <SolutionCard key={solution.slug} solution={solution} />
@@ -65,6 +78,7 @@ export default async function SolutionsHub() {
         secondary={{ href: localePath(locale, "/contact"), label: cta.secondary }}
       />
       <MomentTrigger />
+      <SmoothScroll />
     </main>
   );
 }

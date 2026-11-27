@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { SolutionIntro } from "@/components/solution/SolutionIntro";
+import { SolutionStage } from "@/components/solution/SolutionStage";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionSoftware } from "@/components/solution/SolutionSoftware";
@@ -14,6 +15,9 @@ import { EntranceLanes } from "@/components/solution/entrance-parking/EntranceLa
 import { EntranceOptions } from "@/components/solution/entrance-parking/EntranceOptions";
 import "@/components/solution/solution.css";
 import "@/components/solution/entrance-parking/entrance-parking.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionEntranceParking: t } = await getDictionary();
@@ -38,8 +42,8 @@ export default async function EntranceParkingSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main" className="t3-page">
-      <SolutionIntro page={PAGE} copy={c} />
+    <main id="main" className="d2 t3-page">
+      <SolutionStage page={PAGE} copy={c} />
       <EntranceLanes idPrefix="ep" />
       <EntranceOptions idPrefix="ep" />
       <SolutionProducts idPrefix="ep" page={PAGE} copy={c.products} />
@@ -54,6 +58,7 @@ export default async function EntranceParkingSolution() {
         secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
+      <SmoothScroll />
     </main>
   );
 }

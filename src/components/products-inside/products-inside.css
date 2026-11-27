@@ -1,0 +1,673 @@
+/*
+ * The products hub and family pages, direction 2 (CLAUDE.md → Design rules; ListingPage.tsx). PageStage + StageMotion
+ * write --dive (0 → 1: the product flies forward), --open (0 → 1: the screen opens) and --clip. Only transform,
+ * opacity and clip-path move.
+ *
+ * Stacked by default: the stage stands one screen tall and the inside follows it. That is the layout on phones and
+ * tablets (the inside is taller than their screen), under reduced motion and without JavaScript. The pinned dive is
+ * the block further down, on desktop screens only, matching StageMotion's media query.
+ */
+
+.ps {
+  --hdr: calc(3.75rem + 1px); /* the header: h-15 plus its hairline */
+  /* One screen, but never so tall that a 568px phone loses the stage's first action below the fold (audit B4). */
+  --stage-h: max(30rem, calc(100svh - var(--hdr)));
+  /* Height-led, but never wider than the room it has (--fit-w), so the box keeps the photograph's ratio and the dive's
+     screen fractions stay true. */
+  --fit-w: 86vw;
+  --rise-h: min(calc(var(--stage-h) * 0.42), var(--native), calc(var(--fit-w) / var(--ratio)));
+  --rise-top: calc(var(--stage-h) * 0.17);
+  --dive: 0;
+  --open: 0;
+  --clip: none;
+  position: relative;
+  background: var(--color-stage-900);
+}
+@media (min-width: 1024px) {
+  .ps {
+    --hdr: calc(4.5rem + 1px);
+    --fit-w: 60vw;
+    --rise-h: min(calc(var(--stage-h) * 0.76), var(--native), calc(var(--fit-w) / var(--ratio)));
+    --rise-top: calc(var(--stage-h) - var(--rise-h) + var(--stage-h) * 0.03);
+  }
+}
+.ps-stage {
+  position: relative;
+}
+/* A family's ground tints the stage's glow (the six family tokens; globals.css). */
+.ps[data-ground] .ps-stage {
+  background: radial-gradient(
+    70% 80% at 50% 38%,
+    color-mix(in srgb, var(--ground) 55%, var(--color-stage-600)) 0%,
+    var(--color-stage-800) 48%,
+    var(--color-stage-900) 100%
+  );
+}
+.ps-hero {
+  position: relative;
+  z-index: 2;
+  block-size: var(--stage-h);
+  overflow: clip;
+}
+
+/* The word: always left to right, sized to its length so ACCESS and POS both fill the stage's width. */
+.ps-word-in {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 6%;
+  text-align: center;
+}
+.ps-word {
+  font-size: min(var(--text-word), calc((100vw - 2 * var(--page-gutter) - 2rem) / (var(--letters) * 0.86)));
+  opacity: calc(1 - var(--dive) * 2.4);
+  scale: calc(1 + var(--dive) * 0.6);
+}
+.ps-shown {
+  position: absolute;
+  z-index: 4;
+  inset-inline-end: var(--spacing-stage-edge);
+  inset-block-start: 1rem;
+  margin: 0;
+  opacity: calc(1 - var(--dive) * 4);
+}
+.ps-shown a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--color-night-muted);
+}
+.ps-shown a:hover {
+  color: var(--color-word);
+  text-decoration: underline;
+}
+.ps-copy {
+  position: absolute;
+  z-index: 4;
+  inset-inline: var(--spacing-stage-edge);
+  inset-block-end: 1.75rem;
+  max-inline-size: 32rem;
+  opacity: calc(1 - var(--dive) * 4);
+  translate: 0 calc(var(--dive) * 80px);
+}
+.ps-copy h1 {
+  margin: 0.25rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title-phone);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.ps-copy > p {
+  margin: 0 0 1.25rem;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.ps-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+}
+.ps-cue {
+  display: none;
+}
+
+/* The product. Its box is laid out without transforms (StageMotion measures it); the dive transforms .ps-device. The
+   shadow is a separate soft layer, never a filter on the moving photograph. */
+.ps-rise {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--rise-top);
+  inset-inline: 0;
+  block-size: var(--rise-h);
+  inline-size: calc(var(--rise-h) * var(--ratio));
+  max-inline-size: 86%;
+  margin-inline: auto;
+}
+.ps-rise::before {
+  content: "";
+  position: absolute;
+  inset: auto 4% -3% 4%;
+  block-size: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), transparent);
+  opacity: calc(1 - var(--dive) * 3);
+}
+.ps-device {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.ps-device img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+/* The screen darkens into the inside's green as it comes close, so the hand-over is seamless and the enlarged
+   photograph never shows its pixels. Physical left/top: they are fractions of the photograph, which does not mirror. */
+.ps-screen {
+  position: absolute;
+  left: var(--sx);
+  top: var(--sy);
+  width: var(--sw);
+  height: var(--sh);
+  border-radius: 2px;
+  background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
+  opacity: clamp(0, calc(var(--dive) * 1.6 - 0.45), 1);
+}
+
+/* Inside the screen. */
+.ps-inside {
+  position: relative;
+  z-index: 3;
+}
+.ps-glass {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.5rem;
+  min-block-size: 100%;
+  padding: 2.5rem var(--spacing-stage-edge) 3rem;
+  color: var(--color-word);
+  background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
+}
+.ps[data-ground] .ps-glass {
+  background: radial-gradient(
+    80% 90% at 70% 45%,
+    color-mix(in srgb, var(--ground) 60%, var(--color-stage-800)),
+    var(--color-stage-900) 78%
+  );
+}
+.ps-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  color: var(--color-lime);
+}
+.ps-head span + span {
+  color: var(--color-night-muted);
+}
+
+/* The hub: search, popular, the six families. */
+.ps-hub-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.ps-hub-copy .in-h2 {
+  max-inline-size: 26rem;
+}
+.ps-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-inline-size: 28rem;
+  margin-block-start: 1.75rem;
+  padding-inline: 1.1rem 0.35rem;
+  min-block-size: 3.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ticket);
+  color: var(--color-ticket-ink);
+}
+.ps-search-icon {
+  flex: none;
+  color: var(--color-ink-600);
+}
+.ps-search input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 2.75rem;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-ticket-ink);
+}
+.ps-search input::placeholder {
+  color: var(--color-ink-600);
+}
+.ps-search input:focus {
+  outline: none;
+}
+.ps-search:focus-within {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+}
+.ps-search button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ticket-ink);
+  color: var(--color-lime);
+}
+.ps-picks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-start: 1.25rem;
+}
+.ps-picks > span {
+  margin-inline-end: 0.25rem;
+  color: var(--color-night-muted);
+}
+.ps-picks a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid color-mix(in srgb, var(--color-paper) 28%, transparent);
+  font-size: 0.875rem;
+  transition: background-color var(--duration-base) ease;
+}
+.ps-picks a:hover {
+  background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+}
+.ps-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-tile {
+  position: relative;
+  display: block;
+  block-size: clamp(10rem, 28vh, 17rem);
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(
+    90% 80% at 50% 70%,
+    color-mix(in srgb, var(--ground) 70%, var(--color-stage-600)),
+    var(--ground) 72%
+  );
+  outline: 1px solid color-mix(in srgb, var(--color-paper) 14%, transparent);
+  outline-offset: -1px;
+}
+.ps-tile-word {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(1.35rem, 6.4vw, 2.9rem);
+  letter-spacing: -0.045em;
+  line-height: 0.8;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-word) 92%, transparent);
+}
+.ps-tile img {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 3.4rem;
+  margin-inline: auto;
+  inline-size: auto;
+  block-size: auto;
+  max-block-size: 48%;
+  max-inline-size: 66%;
+  filter: drop-shadow(0 16px 20px rgb(0 0 0 / 0.45));
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+.ps-tile:hover img {
+  transform: translateY(-4px) scale(1.04);
+}
+.ps-tile-foot {
+  position: absolute;
+  inset-inline: 1rem;
+  inset-block-end: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  line-height: 1.3;
+}
+.ps-tile-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.ps-tile-count {
+  display: block;
+  color: var(--color-lime);
+}
+.ps-tile-arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-ticket-ink);
+  transition: translate var(--duration-base) var(--ease-out);
+}
+.ps-tile:hover .ps-tile-arrow {
+  translate: 3px 0;
+}
+[dir="rtl"] .ps-tile:hover .ps-tile-arrow {
+  translate: -3px 0;
+}
+
+/* A family: the ticket, the product, the shortcuts. */
+.ps-fam-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.ps-ticket {
+  --notch: 3.4rem;
+  max-inline-size: 30rem;
+}
+.ps-model {
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
+  margin-block: -0.5rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ps-line {
+  max-inline-size: 28rem;
+  margin: 1.25rem 0 0;
+  color: var(--color-night-muted);
+  line-height: 1.55;
+}
+.ps-show {
+  display: none;
+}
+.ps-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+.ps-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ps-jumps > span {
+  margin-inline-end: 0.25rem;
+  color: var(--color-night-muted);
+}
+.ps-jumps .in-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-paper) 22%, transparent);
+}
+.ps-jumps .in-chip b {
+  color: var(--color-lime);
+}
+
+@media (min-width: 640px) {
+  .ps-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ps-tile-word {
+    font-size: clamp(1.35rem, 2.9vw, 2.9rem);
+  }
+}
+@media (min-width: 1024px) {
+  .ps-word-in {
+    inset-block-start: 5%;
+  }
+  .ps-shown {
+    inset-block-start: 1.5rem;
+  }
+  .ps-copy {
+    inset-inline-end: auto;
+    inset-block-end: 3.25rem;
+  }
+  .ps-copy h1 {
+    font-size: var(--text-stage-title);
+  }
+  .ps-cue {
+    position: absolute;
+    z-index: 4;
+    inset-inline-end: var(--spacing-stage-edge);
+    inset-block-end: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    opacity: calc(1 - var(--dive) * 5);
+  }
+  /* Clear of the copy: the product stands a little past the centre, towards the end. */
+  .ps-rise {
+    inset-inline-start: 18%;
+    max-inline-size: 60%;
+  }
+  .ps[data-wide] {
+    --fit-w: 50vw;
+  }
+  .ps[data-wide] .ps-rise {
+    inset-inline: auto var(--spacing-stage-edge);
+    margin-inline: 0;
+  }
+  .ps-glass {
+    padding-block: 2.25rem 2.5rem;
+  }
+  .ps-hub-grid {
+    grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+  .ps-fam-grid {
+    grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+    gap: 3rem;
+  }
+  .ps-show {
+    position: relative;
+    display: grid;
+    place-items: center;
+    block-size: 100%;
+  }
+  .ps-show::before {
+    content: "";
+    position: absolute;
+    inset: 4% 14%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--ground, var(--color-stage-600)) 50%, var(--color-lime) 20%),
+      transparent
+    );
+    opacity: 0.5;
+  }
+  .ps-show img {
+    position: relative;
+    inline-size: auto;
+    block-size: auto;
+    max-block-size: min(50vh, 30rem);
+    max-inline-size: 100%;
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.5));
+  }
+  .ps-jumps {
+    justify-content: end;
+  }
+}
+
+/* The pinned dive: desktop screens, motion allowed, JavaScript on (StageMotion's media query). The stage sticks under
+   the header, the product flies and the inside opens out of its screen, clipped by --clip. */
+@media (min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .ps {
+    --stage-h: calc(100svh - var(--hdr));
+    --clip: inset(50%);
+    block-size: 260svh;
+  }
+  .ps-stage {
+    position: sticky;
+    inset-block-start: var(--hdr);
+    block-size: var(--stage-h);
+    overflow: clip;
+  }
+  .ps-hero {
+    position: absolute;
+    inset: 0;
+  }
+  .ps[data-inside] .ps-hero {
+    pointer-events: none;
+  }
+  .ps-device {
+    will-change: transform;
+  }
+  .ps-inside {
+    position: absolute;
+    inset: 0;
+    clip-path: var(--clip);
+    pointer-events: none;
+  }
+  .ps[data-inside] .ps-inside {
+    pointer-events: auto;
+  }
+  .ps-glass {
+    position: absolute;
+    inset: 0;
+    scale: calc(1.04 - var(--open) * 0.04);
+  }
+}
+
+/* The list on paper. */
+.pl {
+  padding-block: 4rem 5rem;
+}
+.pl .in-h2 {
+  margin-block-end: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .pl {
+    padding-block: 5.5rem 6.5rem;
+  }
+}
+
+/* The family tabs (FamilyTabs.tsx): one row, scrolling inside itself on a phone. */
+.family-tabs ul {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 -0.25rem;
+  padding: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  list-style: none;
+}
+.family-tabs li {
+  flex: none;
+}
+.family-tabs :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-block-size: 3rem;
+  padding-inline: 1.15rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-ticket-line);
+  background: var(--color-paper);
+  color: var(--color-ticket-ink);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-base) ease,
+    color var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+.family-tabs :is(a, button):hover {
+  border-color: var(--color-ticket-ink);
+}
+.family-tabs-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-ink-600);
+}
+.family-tabs :is([aria-pressed="true"], [aria-current="page"]) {
+  border-color: var(--color-ticket-ink);
+  background: var(--color-ticket-ink);
+  color: var(--color-paper);
+}
+.family-tabs :is([aria-pressed="true"], [aria-current="page"]) .family-tabs-count {
+  color: var(--color-lime);
+}
+.family-tabs :is(a, button):focus-visible {
+  outline: 2px solid var(--color-green-700);
+  outline-offset: 2px;
+}
+/* Product cards on paper: the photograph and the facts divided like a ticket stub. */
+@media (min-width: 640px) {
+  .pl .product-card .ui-card-photo {
+    border-block-end: 1.5px dashed var(--color-ticket-line);
+  }
+}
+
+/* The close on night. */
+.pc {
+  padding: 5rem var(--spacing-stage-edge) 0;
+  overflow: clip;
+}
+.pc-copy {
+  max-inline-size: 36rem;
+}
+.pc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-block-start: 1.75rem;
+}
+.pc-families {
+  margin-block-start: 4rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+}
+.pc-families p {
+  margin: 0 0 0.5rem;
+  color: var(--color-night-muted);
+}
+.pc-families ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pc-families a {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  /* Six words, 28 letters: at 3.3vw they share one row from 1024px to the 1344px container. */
+  font-size: clamp(2rem, 3.3vw, 3.6rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  /* Dimmed, yet at least 3:1 on stage-900 (large text, WCAG 1.4.3). */
+  color: color-mix(in srgb, var(--color-word) 46%, var(--color-stage-900));
+  transition: color var(--duration-base) ease;
+}
+.pc-families a:hover {
+  color: var(--color-word);
+}
+.pc-families a[aria-current="page"] {
+  color: var(--color-lime);
+}
+@media (min-width: 1024px) {
+  .pc {
+    padding-block-start: 7rem;
+  }
+}

@@ -105,19 +105,17 @@ test("phones scroll the terminals sideways without widening the page", async ({ 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-// T12: the hero leads with the F18 photograph, preloaded as the LCP image.
-test("the hero shows the F18 photograph beside the copy", async ({ page }) => {
+// Direction 2: the stage stands the Horus H1 before TIME, loaded first as the LCP image, and its dive opens the
+// family's facts.
+test("the stage shows the Horus H1 before its word, and the family's facts inside", async ({ page }) => {
   await page.goto(PATH);
-  const photo = page.locator(".page-hero-media img");
+  const photo = page.locator(".ps-device img");
   await expect(photo).toBeVisible();
-  await expect(photo).toHaveAttribute("src", /f18/);
-  // Next 16's `preload` loads the LCP photo early through a preload link (CLAUDE.md §5).
-  await expect(page.locator('link[rel="preload"][as="image"][imagesrcset*="f18"]')).toHaveCount(1);
-  // The entrance plays once and stands.
-  const iterations = await page
-    .locator(".page-hero-grid")
-    .evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect?.getTiming().iterations));
-  expect(iterations.every((n) => n === 1)).toBe(true);
+  await expect(photo).toHaveAttribute("src", /horus-h1/);
+  // Next 16's `preload` loads the LCP photo early through a preload link (CLAUDE.md §3).
+  await expect(page.locator('link[rel="preload"][as="image"][imagesrcset*="horus-h1"]')).toHaveCount(1);
+  await expect(page.locator(".ps-word")).toHaveText("TIME");
+  await expect(page.locator(".ps-inside").getByRole("heading", { level: 2, name: "Time attendance" })).toBeAttached();
 });
 
 test("reduced motion: the hero is still and the story steps keep their natural height", async ({ page }) => {

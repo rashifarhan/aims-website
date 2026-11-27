@@ -135,12 +135,9 @@ for (const path of ["/product/f18", "/ar/product/f18"]) {
   });
 }
 
-// Every hero built on the T3 layout shares the entrance, not two hand-picked solution slugs. A product-led page shows a
-// whole product photo; a page whose subject is not one product shows its drawn scene instead (ui/HeroScene; client
-// request, 25 Nov 2026).
-test("T3-based heroes share the AIMS entrance, the header edges and a whole product photo or scene", async ({
-  page,
-}) => {
+// Every redesigned first screen keeps the header's edges (direction 2): the solution stages show their product, the
+// company stage (About) its word and facts, and the pages not yet redesigned (a location page) the T3 hero.
+test("first screens share the header edges and show their product, word or scene", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const path of [
@@ -154,17 +151,26 @@ test("T3-based heroes share the AIMS entrance, the header edges and a whole prod
   ]) {
     await page.goto(path);
     const shell = await page.locator("header .wrap").first().boundingBox();
-    const hero = await page.locator(".page-hero > .wrap").boundingBox();
-    if (!shell || !hero) throw new Error("The shared header and solution hero must render");
-    expect(hero.x).toBeCloseTo(shell.x, 0);
-    expect(hero.width).toBeCloseTo(shell.width, 0);
-    if (path === "/about") {
-      await expect(page.locator(".page-hero-scene svg.hero-scene")).toBeVisible();
-      await expect(page.locator(".page-hero-media img")).toHaveCount(0);
-    } else {
+    if (!shell) throw new Error("The shared header must render");
+    const ar = path.startsWith("/ar");
+    // The copy starts on the header's content edge (the start side: left in English, right in Arabic).
+    const edge = async (selector: string) => {
+      const box = await page.locator(selector).first().boundingBox();
+      if (!box) throw new Error(`${selector} must render on ${path}`);
+      return ar ? box.x + box.width : box.x;
+    };
+    const shellEdge = ar ? shell.x + shell.width : shell.x;
+    if (path.startsWith("/zkteco")) {
+      expect(await edge(".page-hero > .wrap")).toBeCloseTo(shellEdge, 0);
       await expect(page.locator(".page-hero-media img")).toBeVisible();
+    } else if (path === "/about") {
+      expect(await edge(".ws-copy")).toBeCloseTo(shellEdge, 0);
+      await expect(page.locator(".ws-word")).toBeVisible();
+    } else {
+      expect(await edge(".ps-copy")).toBeCloseTo(shellEdge, 0);
+      await expect(page.locator(".ps-device img")).toBeVisible();
     }
-    await expect(page.locator(".page-hero.aims-hero h1 .aims-headline")).toHaveCount(1);
+    await expect(page.locator("main h1")).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });

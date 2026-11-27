@@ -59,7 +59,7 @@ for (const locale of ["en", "ar"] as const) {
   test(`${locale} access control page: sections link to built pages`, async ({ page, request }) => {
     await page.goto(path);
     // Hero photograph: the hub's access control product, preloaded as the LCP image.
-    await expect(page.locator(".page-hero-media img")).toHaveAttribute("src", /speedface-v5l-qr/);
+    await expect(page.locator(".ps-device img")).toHaveAttribute("src", /kr600/);
     // Door parts: six, each model code linked to its page; every link answers 200.
     const parts = page.locator(".t3-door-parts li");
     await expect(parts).toHaveCount(6);

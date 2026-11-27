@@ -7,7 +7,7 @@ import { DIVE, OPEN, activeIndex, ramp, slideOffset, slideOpacity, zoom } from "
  */
 
 /** The SpeedFace's screen inside its photograph, as fractions of the cut-out (public/images/cutouts/speedface-v5l). */
-const SCREEN = { x: 0.152, y: 0.2, w: 0.688, h: 0.571 };
+const SCREEN = { x: 0.136, y: 0.199, w: 0.708, h: 0.579 };
 
 export type DiveStage = {
   measure: () => void;

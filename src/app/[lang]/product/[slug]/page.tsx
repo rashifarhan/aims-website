@@ -1,18 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AddToQuote } from "@/components/catalogue/AddToQuote";
 import { JsonLd } from "@/components/JsonLd";
 import { ConnectsDiagram } from "@/components/product/ConnectsDiagram";
 import { FittedWith } from "@/components/product/FittedWith";
 import { ProductDetails } from "@/components/product/ProductDetails";
-import { ProductSummary } from "@/components/product/ProductSummary";
 import { SpecsSection } from "@/components/product/SpecsSection";
 import { connections, MIN_CONNECTS_NODES, nodeCount } from "@/components/product/connects";
 import { englishData } from "@/components/product/englishData";
 import { productGrounds } from "@/components/product/grounds";
 import "@/components/catalogue/catalogue.css";
 import "@/components/product/product.css";
-import { ClosePanel } from "@/components/ui/ClosePanel";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
+import "@/components/product-inside/product-inside.css";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
+import { ProductInside } from "@/components/product-inside/ProductInside";
+import { ProductTicket } from "@/components/product-inside/ProductTicket";
+import { PageStage } from "@/components/products-inside/PageStage";
+import { ProductsClose } from "@/components/products-inside/ProductsClose";
+import { FAMILY_STAGES, type ProductStage } from "@/components/products-inside/stages";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";
 import type { FamilySlug } from "@/content/taxonomy";
 import { localePath } from "@/i18n/config";
@@ -66,23 +73,49 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   const fitted = fittedWith(p);
   const grounds = productGrounds({ connects: hasConnects, fitted: fitted.length > 0 });
 
+  // AIMS's own photograph on its plate (the whole plate is the screen the dive flies into); a model without one
+  // shows its family's stage product, labelled "Shown", so no page stands empty and none passes off another photo.
+  const stage: ProductStage = image
+    ? {
+        model: p.model,
+        productSlug: p.slug,
+        image: { src: image.src, w: image.width, h: image.height },
+        screen: { x: 0, y: 0, w: 1, h: 1 },
+      }
+    : FAMILY_STAGES[family];
+  const crumbs = [
+    { href: href("/"), label: t.common.home },
+    { href: href(`/products/${family}`), label: familyName },
+    { href: href(`/product/${p.slug}`), label: p.model },
+  ];
+
   return (
-    // pb-20 below 1024px keeps the last section clear of the sticky purchase bar (audit T3).
-    <main id="main" className="flex-1 pb-20 lg:pb-0">
-      <ProductSummary
-        p={p}
-        name={uniqueName(p)}
-        familyName={familyName}
-        crumbs={[
-          { href: href("/"), label: t.common.home },
-          { href: href(`/products/${family}`), label: familyName },
-          { href: href(`/product/${p.slug}`), label: p.model },
-        ]}
-        href={href}
-        addLabels={addLabels}
-        t={t}
-        data={data}
-      />
+    // pb-20 below 1024px keeps the last section clear of the sticky purchase bar (audit T3). `d2` puts the shared
+    // sections below the stage on direction 2's grounds (inside/skin.css).
+    <main id="main" className="d2 flex-1 pb-20 lg:pb-0">
+      <PageStage
+        id="product-stage"
+        stage={stage}
+        plate={image ? { alt: image.alt } : undefined}
+        productHref={image ? undefined : href(`/product/${stage.productSlug}`)}
+        word={t.home.inside.families[family].word}
+        crumbs={crumbs}
+        ground={family}
+        copy={
+          <ProductTicket
+            p={p}
+            name={uniqueName(p)}
+            titleId="product-stage-title"
+            familyName={familyName}
+            quoteHref={href("/quote")}
+            addLabels={addLabels}
+            t={t}
+            data={data}
+          />
+        }
+      >
+        <ProductInside p={p} familyName={familyName} familyHref={href(`/products/${family}`)} t={t} data={data} />
+      </PageStage>
 
       <ConnectsDiagram
         model={p.model}
@@ -124,15 +157,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         ground={grounds.details}
       />
 
-      {/* The close (taste sections.md: a closing panel where the page sells): the install note, this
-          product's own Add, and the way on to the quote request (Design Doc 10, T5). */}
-      <ClosePanel
-        id="product-close"
-        heading={t.product.needInstall}
-        body={t.product.needInstallBody}
-        action={<AddToQuote slug={p.slug} name={p.name} labels={addLabels} size="md" />}
-        secondary={{ href: href("/quote"), label: t.catalogue.viewQuote }}
-      />
+      <ProductsClose current={family} />
 
       <JsonLd
         data={{
@@ -148,6 +173,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
           ...(image ? { image: absoluteUrl(image.src) } : {}),
         }}
       />
+      <SmoothScroll />
     </main>
   );
 }

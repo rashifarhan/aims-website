@@ -45,7 +45,14 @@ export function doorTimeline(s: DoorScene, scrollTrigger?: ScrollTrigger.Vars) {
   const tl = gsap.timeline({
     defaults: { ease: "none" },
     paused: !scrollTrigger,
-    scrollTrigger,
+    // A refresh (the page growing re-measures every trigger: headingRevealCore) renders the timeline without its
+    // callbacks, so a jump just before one would leave the highlighted part behind the drawing. Mark it there too.
+    scrollTrigger: scrollTrigger && {
+      ...scrollTrigger,
+      onRefresh: (self) => {
+        if (self.animation) mark(doorStep(self.animation.time()));
+      },
+    },
     onUpdate: () => mark(doorStep(tl.time())),
   });
   tl.fromTo(s.card, { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.05)

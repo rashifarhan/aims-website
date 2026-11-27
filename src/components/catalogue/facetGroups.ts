@@ -11,6 +11,8 @@ type Input = {
   searchOrder: string[] | null;
   /** Set on a family listing; the family facet is then hidden. */
   family?: string;
+  /** The families are tabs above the list (FamilyTabs), so the rail leaves them out. */
+  hideFamily?: boolean;
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
 };
@@ -22,10 +24,18 @@ const OPEN_BY_DEFAULT: string[] = ["family", "type", "verify"];
  * Facet groups with live counts (Design Doc 9 Facet panel). Options with no matches are hidden unless
  * already selected, and a group with a single option is dropped: it filters nothing.
  */
-export function facetGroupViews({ cards, state, searchOrder, family, t, familyNames }: Input): FacetGroupView[] {
+export function facetGroupViews({
+  cards,
+  state,
+  searchOrder,
+  family,
+  hideFamily,
+  t,
+  familyNames,
+}: Input): FacetGroupView[] {
   const named = (dict: Record<string, string>) => (v: string) => dict[v] ?? v;
   const defs: { id: FacetGroup; legend: string; label: (v: string) => string; order: string[] }[] = [
-    ...(family
+    ...(family || hideFamily
       ? []
       : [
           {

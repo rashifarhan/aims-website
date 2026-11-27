@@ -2138,5 +2138,62 @@
     "closeBody": "أرسل إلى AIMS الطرازات أو صف الموقع، وسترد AIMS بعرض سعر.",
     "closeAction": "اطلب عرض سعر",
     "closeSecondary": "كل طرق التواصل مع AIMS"
+  },
+  "productsStage": {
+    "cue": "مرّر للدخول",
+    "shown": "المعروض: {model}",
+    "crumbs": "مسار التنقل",
+    "hubWordLabel": "{count} منتجًا",
+    "hubLead": "ابحث في {count} منتجًا برمز الطراز، أو اختر فئة وشاهد منتجاتها.",
+    "hubPrimary": "تصفّح المنتجات",
+    "quote": "اطلب عرض سعر",
+    "rangeHead": "المنتجات · {count} منتجًا",
+    "hubEyebrow": "كل المنتجات",
+    "hubTitle": "المجموعة الكاملة في ست فئات",
+    "searchLabel": "ابحث في كل المنتجات",
+    "searchSubmit": "بحث",
+    "popular": "اختيارات سريعة",
+    "familyCount": "{count} منتجًا",
+    "familyLead": "{count} منتجًا. {summary}.",
+    "familyPrimary": "شاهد {count} منتجًا",
+    "insideHead": "داخل {model}",
+    "rowShown": "المعروض",
+    "rowVerifies": "طرق التحقق",
+    "rowOutdoor": "مناسب للخارج",
+    "rowBrand": "العلامة",
+    "jumpTo": "انتقل إلى",
+    "seeAll": "شاهد كل المنتجات ({count})",
+    "listEyebrow": "اختر فئة ثم صفِّ النتائج",
+    "listTitle": "اعثر على الطراز المناسب",
+    "tabsLabel": "فئات المنتجات",
+    "tabAll": "الكل",
+    "closeEyebrow": "التوريد والتركيب",
+    "otherFamilies": "فئات أخرى",
+    "allFamilies": "الفئات الست",
+    "fullSpecs": "عرض المواصفات الكاملة"
+  },
+  "solutionsStage": {
+    "word": "FIVE",
+    "head": "خمسة احتياجات، موقع واحد",
+    "primary": "اطّلع على الاحتياجات الخمسة",
+    "eyebrow": "الحلول",
+    "insideTitle": "اختر ما يحتاجه موقعك"
+  },
+  "softwareStage": {
+    "word": "SOFTWARE",
+    "head": "أربع منصات تُعدّها AIMS",
+    "insideTitle": "برامج تُعدّ على أجهزتك",
+    "primary": "اطّلع على كل المنصات",
+    "rowType": "النوع"
+  },
+  "wordStage": {
+    "services": "INSTALL",
+    "about": "AIMS",
+    "locations": "UAE",
+    "contact": "TALK",
+    "quote": "QUOTE",
+    "aboutTicket": "AIMS بالأرقام",
+    "locationsTicket": "أين تجد AIMS",
+    "contactTicket": "اتصل بـ AIMS"
   }
 }

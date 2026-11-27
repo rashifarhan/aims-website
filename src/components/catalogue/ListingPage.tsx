@@ -1,6 +1,11 @@
 import { Suspense } from "react";
-import { ClosePanel } from "@/components/ui/ClosePanel";
-import { PageHero } from "@/components/ui/PageHero";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
+import { FamilyInside } from "@/components/products-inside/FamilyInside";
+import { HubInside } from "@/components/products-inside/HubInside";
+import { ListingJump } from "@/components/products-inside/ListingJump";
+import { PageStage } from "@/components/products-inside/PageStage";
+import { ProductsClose } from "@/components/products-inside/ProductsClose";
+import { FAMILY_ORDER, FAMILY_STAGES, HUB_STAGE } from "@/components/products-inside/stages";
 import { products, productsInFamily } from "@/content/catalogue";
 import { toCard } from "@/content/cards";
 import { FAMILIES, type FamilySlug } from "@/content/taxonomy";
@@ -8,24 +13,37 @@ import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { Listing, ListingView, type ListingProps } from "./Listing";
+import "@/components/inside/inside.css";
+import "@/components/products-inside/products-inside.css";
 import "./catalogue.css";
 
 /**
- * Server part of the T4 listing: heading and data. The interactive list
- * reads the URL, so it sits in <Suspense>; the fallback is the same list
- * unfiltered, which is what crawlers and no-JS visitors get.
+ * The products hub and the six family pages, direction 2 (CLAUDE.md → Design rules): the stage and its dive (a real
+ * product flies forward; the range, or the family's facts, open out of its screen) · the list on paper, with the
+ * families as tabs on top (client decision, 27 Nov 2026) · the close on night. The interactive list reads the URL, so
+ * it sits in <Suspense>; the fallback is the same list unfiltered, which is what crawlers and no-JS visitors get.
  */
 export async function ListingPage({ family }: { family?: FamilySlug }) {
   const t = await getDictionary();
   const locale = await getLocale();
+  const s = t.productsStage;
   const href = (p: string) => localePath(locale, p);
 
-  const list = (family ? productsInFamily(family) : products()).map(toCard);
+  const all = products();
+  const list = (family ? productsInFamily(family) : all).map(toCard);
   const familyNames = Object.fromEntries(FAMILIES.map((f) => [f.slug, t.families[f.slug].name]));
   const title = family ? t.families[family].name : t.catalogue.allTitle;
-  const lead = family
-    ? fmt(t.catalogue.familyLead, { count: list.length })
-    : fmt(t.catalogue.allLead, { count: list.length });
+  const listingHref = href(family ? `/products/${family}` : "/products");
+
+  const tabs = [
+    { slug: null, label: s.tabAll, count: all.length, href: `${href("/products")}#products` },
+    ...FAMILY_ORDER.map((slug) => ({
+      slug,
+      label: t.families[slug].name,
+      count: productsInFamily(slug).length,
+      href: `${href(`/products/${slug}`)}#products`,
+    })),
+  ];
 
   const props: ListingProps = {
     cards: list,
@@ -33,40 +51,70 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
     t: t.catalogue,
     familyNames,
     hrefs: {
-      listing: href(family ? `/products/${family}` : "/products"),
+      listing: listingHref,
       product: href("/product"),
       compare: href("/products/compare"),
       quote: href("/quote"),
       solutions: href("/solutions"),
       showroom: `${href("/about")}#showrooms`,
     },
+    familyTabs: { mode: family ? "link" : "filter", label: s.tabsLabel, tabs },
   };
+
+  const crumbs = [
+    { href: href("/"), label: t.common.home },
+    ...(family ? [{ href: href("/products"), label: t.catalogue.allTitle }] : []),
+    { href: listingHref, label: title },
+  ];
 
   return (
     <main id="main" className="flex-1">
-      <PageHero
-        variant="compact"
-        crumbs={[
-          { href: href("/"), label: t.common.home },
-          ...(family ? [{ href: href("/products"), label: t.catalogue.allTitle }] : []),
-          { href: href(family ? `/products/${family}` : "/products"), label: title },
-        ]}
-        title={title}
-        lead={lead}
-      />
-      {/* The shared section rhythm under the results, so the can't-find panel never meets the night band. */}
-      <div className="wrap pb-(--section-space)">
-        <Suspense fallback={<ListingView {...props} />}>
-          <Listing {...props} />
-        </Suspense>
-      </div>
-      {/* The close where the page sells (taste sections.md): the install note and the way to the quote. */}
-      <ClosePanel
-        id="listing-close"
-        heading={t.product.needInstall}
-        body={t.product.needInstallBody}
-        action={{ href: href("/quote"), label: t.catalogue.viewQuote }}
-      />
+      {family ? (
+        <PageStage
+          id="products-stage"
+          stage={FAMILY_STAGES[family]}
+          word={t.home.inside.families[family].word}
+          crumbs={crumbs}
+          title={title}
+          lead={fmt(s.familyLead, { count: list.length, summary: t.families[family].summary })}
+          primary={{ href: `${listingHref}#products`, label: fmt(s.familyPrimary, { count: list.length }) }}
+          secondary={{ href: href("/quote"), label: s.quote }}
+          productHref={href(`/product/${FAMILY_STAGES[family].productSlug}`)}
+          ground={family}
+        >
+          <FamilyInside family={family} />
+        </PageStage>
+      ) : (
+        <PageStage
+          id="products-stage"
+          stage={HUB_STAGE}
+          word={String(list.length)}
+          crumbs={crumbs}
+          title={title}
+          lead={fmt(s.hubLead, { count: list.length })}
+          primary={{ href: `${listingHref}#products`, label: s.hubPrimary }}
+          secondary={{ href: href("/quote"), label: s.quote }}
+          productHref={href(`/product/${HUB_STAGE.productSlug}`)}
+        >
+          <HubInside total={list.length} />
+        </PageStage>
+      )}
+
+      <section id="products" className="pl in-paper" aria-labelledby="products-title">
+        <div className="wrap">
+          <p className="in-eyebrow">{s.listEyebrow}</p>
+          <h2 id="products-title" className="in-h2">
+            {s.listTitle}
+          </h2>
+          <Suspense fallback={<ListingView {...props} />}>
+            <Listing {...props} />
+          </Suspense>
+        </div>
+      </section>
+
+      <ProductsClose current={family} />
+      <ListingJump />
+      <SmoothScroll />
     </main>
   );
 }

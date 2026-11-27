@@ -294,8 +294,17 @@ for (const locale of ["en", "ar"]) {
   });
 }
 
-test("the solutions hub opens on its cards: no stray hero photo, first card on the first screen", async ({ page }) => {
+test("the solutions hub opens on its stage, and the five needs open out of it", async ({ page }) => {
   await page.goto("/solutions", { waitUntil: "load" });
-  await expect(page.locator(".page-hero img")).toHaveCount(0);
-  await expect(page.locator(".solution-card").first()).toBeInViewport();
+  // Direction 2: the InBio controller before FIVE; inside it, one tile per solution page.
+  await expect(page.locator(".ps-device img")).toHaveAttribute("src", /inbio-pro-260/);
+  const tiles = page.locator(".ps-inside .ps-tile");
+  await expect(tiles).toHaveCount(5);
+  expect(await tiles.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
+    "/solutions/time-attendance",
+    "/solutions/access-control",
+    "/solutions/entrance-parking",
+    "/solutions/door-locks",
+    "/solutions/pos",
+  ]);
 });

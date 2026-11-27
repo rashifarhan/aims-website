@@ -339,11 +339,14 @@ test.describe("quick picks", () => {
 });
 
 test.describe("facet groups", () => {
-  test("Family starts open and Brand closed; opening Brand shows its options", async ({ page, isMobile }) => {
+  test("the family tabs replace the Family group; Brand starts closed and opens", async ({ page, isMobile }) => {
     test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
     await page.goto("/products", { waitUntil: "load" });
     const rail = page.getByRole("complementary", { name: "Filters" });
-    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toBeVisible();
+    // Direction 2 (client request, 27 Nov 2026): the families are tabs above the list, so the rail drops its group.
+    const tabs = page.getByRole("group", { name: "Product families" });
+    await expect(tabs.getByRole("button", { name: /^Time attendance/ })).toBeVisible();
+    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toHaveCount(0);
     await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeHidden();
 
     await rail.locator("summary", { hasText: "Brand" }).click();

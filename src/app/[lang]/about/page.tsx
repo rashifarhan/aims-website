@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
-import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { COMPANY_FIGURES, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { PageHero } from "@/components/ui/PageHero";
+import { WordStage } from "@/components/word-stage/WordStage";
+import "@/components/inside/skin.css";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
@@ -31,19 +32,28 @@ export default async function About() {
   const c = t.about;
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="co-about w-full flex-1">
-      <PageHero
-        variant="split"
+    <main id="main" className="d2 co-about w-full flex-1">
+      <WordStage
+        id="hero-title"
+        word={t.wordStage.about}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/about"), label: c.crumb },
         ]}
-        eyebrow={ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
         title={c.title}
         lead={c.lead}
         primary={{ href: `${href("/about")}#showrooms`, label: c.primary }}
         secondary={{ href: href("/quote"), label: c.secondary }}
-        scene="company"
+        fact={ZKTECO_AUTHORIZATION_CONFIRMED ? t.common.partnerConfirmed : t.common.partner}
+        ticket={{
+          // Company-stated figures (CLAUDE.md, Truth): src/lib/site.ts, flagged as AIMS's own in the note.
+          title: t.wordStage.aboutTicket,
+          rows: COMPANY_FIGURES.map((f) => ({
+            label: t.home.proof[f.key],
+            value: <span dir="ltr">{`${f.value.toLocaleString("en")}${f.suffix}`}</span>,
+          })),
+          note: t.home.proof.body,
+        }}
       />
       <AboutStory />
       {/* Premium pass: proof and reach share one night ground, so the page has one night band before the close. */}

@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { SolutionIntro } from "@/components/solution/SolutionIntro";
+import { SolutionStage } from "@/components/solution/SolutionStage";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
@@ -14,6 +15,9 @@ import { CounterVerify } from "@/components/solution/pos/CounterVerify";
 import { PosOptions } from "@/components/solution/pos/PosOptions";
 import "@/components/solution/solution.css";
 import "@/components/solution/pos/counter.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionPos: t } = await getDictionary();
@@ -33,8 +37,8 @@ export default async function PosSolution() {
   const { solutionPos: c } = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main" className="t3-page pc-page">
-      <SolutionIntro page={PAGE} copy={c} />
+    <main id="main" className="d2 t3-page pc-page">
+      <SolutionStage page={PAGE} copy={c} />
       <CounterVerify idPrefix="ps" />
       <PosOptions />
       <SolutionProducts idPrefix="ps" page={PAGE} copy={c.products} />
@@ -59,6 +63,7 @@ export default async function PosSolution() {
         secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
+      <SmoothScroll />
     </main>
   );
 }

@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { SOLUTION_PAGES } from "@/content/solutionPages";
-import { SolutionIntro } from "@/components/solution/SolutionIntro";
+import { SolutionStage } from "@/components/solution/SolutionStage";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
 import { SolutionDoor } from "@/components/solution/access-control/SolutionDoor";
 import { SolutionMethods } from "@/components/solution/SolutionMethods";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
@@ -14,6 +15,9 @@ import { ClosePanel } from "@/components/ui/ClosePanel";
 import "@/components/home/sections.css";
 import "@/components/solution/solution.css";
 import "@/components/solution/access-control/door.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 const PAGE = SOLUTION_PAGES["access-control"];
 
@@ -39,8 +43,8 @@ export default async function AccessControlSolution() {
     purpose: c.software[purpose],
   }));
   return (
-    <main id="main" className="t3-page">
-      <SolutionIntro page={PAGE} copy={c} />
+    <main id="main" className="d2 t3-page">
+      <SolutionStage page={PAGE} copy={c} />
       <SolutionDoor idPrefix="ac" />
       <SolutionMethods idPrefix="ac" page={PAGE} copy={c.methods} />
       <SolutionProducts idPrefix="ac" page={PAGE} copy={c.products} />
@@ -54,6 +58,7 @@ export default async function AccessControlSolution() {
         action={{ href: localePath(locale, PAGE.quote), label: c.cta.action }}
         secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
+      <SmoothScroll />
     </main>
   );
 }

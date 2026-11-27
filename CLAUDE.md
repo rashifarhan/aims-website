@@ -90,12 +90,16 @@ cream paper sections between them, one lime accent.
 - **Lanyard pass**: the hero's access card and the "Visitor" pass on Locations. **Screen frame**: radius 14px,
   1px light outline, for the few photographs and for software lists.
 - **Counter** "01 / 06" (mono, lime) and **scroll cue** (circle + mono text).
+- **Family tabs** (one row of pills, count in mono): the six families plus All above every product list. On
+  `/products` they filter the list in place (`?family=`); on a family page they link to the other family pages.
+  Product cards on paper are white with a dashed divider under the photograph.
 - Cards don't nest more than two deep; one radius scale (8, 14, 16px, pill).
 
 ### Imagery
 
-- **AIMS's own product photographs, cut out** (`public/images/cutouts/`, made with `docs/handoff/cutout.py`, checked
-  on a dark ground for white fringes), big and whole, a different product on every stage. Shadow is a separate soft
+- **AIMS's own product photographs, cut out** (`public/images/cutouts/`, lifted with Apple Vision and cleaned with
+  `docs/handoff/lift/`; `docs/handoff/cutout.py` only as a fallback), checked on a dark ground for white fringes, big
+  and whole, a different product on every stage. Shadow is a separate soft
   layer, never a filter on a moving product.
 - Licensed **stand-in photographs** only for places (Solutions), only inside screen frames, credited in the footer
   line and listed in README → Decisions; never shown as AIMS premises, staff or customers.
@@ -107,7 +111,9 @@ cream paper sections between them, one lime accent.
   wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
   runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
   leaf, never in a layout; cleaned up on unmount (`useGSAP`).
-- **Every main page has one dive:** the stage pins, the product flies forward (zoom in log space, eased ends) until its
+- **Every product-led page has one dive** (products, product detail, solutions, software). Company and form pages
+  (services, about, locations, contact, quote) open on a **word stage** with no dive (`src/components/word-stage/`):
+  there is no product to step into, so their facts sit on a ticket. A dive: the stage pins, the product flies forward (zoom in log space, eased ends) until its
   screen fills the height, then the content opens out of the screen with `clip-path: inset()`. At most **one more**
   pinned, scrubbed sequence per page (home: the job ticket). Pins never trap the scroll; snapping is soft (to each
   item in a scrubbed list, ≤ 0.6 s, `power2.inOut`).
@@ -120,6 +126,12 @@ cream paper sections between them, one lime accent.
   photo 1.03; links draw their underline.
 - Animate **transform, opacity and clip-path only**. Easings: `--ease-out` `cubic-bezier(.2,.8,.2,1)`,
   `--ease-stage` `cubic-bezier(.65,0,.35,1)`.
+- **A photograph still on studio white** (product detail, software) stands on a cream **plate** and multiplies onto
+  it; the plate is the screen the dive flies into.
+- **A product without a display** (a turnstile, a lock, a button) dives into an **aperture**: a rectangle on its body,
+  given as fractions of the cut-out (`src/components/products-inside/stages.ts`), fitted by `apertureFit`
+  (`src/lib/stageDive.ts`). The pinned dive runs only at ≥ 1024 × 600 with motion allowed and scripting on; below
+  that the stage and what opens inside it stack.
 - **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, stages stacked (stage, then what opens
   inside it). Content is in the DOM and readable without JavaScript.
 

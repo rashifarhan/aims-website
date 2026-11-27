@@ -1,0 +1,27 @@
+/*
+ * Direction 2's grounds for the shared sections (ui/Section.tsx) a redesigned page still uses below its stage: paper
+ * sections take the ticket cream, bands stay white between them, night takes the stage's green, and section titles
+ * take the direction's heading face (CLAUDE.md → Design rules). Scoped by `.d2` on <main>, so pages not yet
+ * redesigned keep their look. On cream: ink 16.7:1, ink-600 6.9:1, ink-400 4.5:1, green-700 5.7:1.
+ */
+.d2 .section {
+  background: var(--color-ticket);
+}
+.d2 .section-band {
+  border-color: var(--color-ticket-line);
+  background: var(--color-paper);
+}
+.d2 .section-night {
+  background: var(--color-stage-900);
+}
+.d2 .section-title {
+  font-weight: 750;
+  font-stretch: 112%;
+  letter-spacing: -0.025em;
+  font-size: var(--text-stage-h2);
+  line-height: 1.04;
+}
+:lang(ar) .d2 .section-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}

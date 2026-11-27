@@ -3,7 +3,8 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
-import { SolutionIntro } from "@/components/solution/SolutionIntro";
+import { SolutionStage } from "@/components/solution/SolutionStage";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
 import { SolutionProducts } from "@/components/solution/SolutionProducts";
 import { SolutionProcess } from "@/components/solution/SolutionProcess";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
@@ -13,6 +14,9 @@ import { LockUnlock } from "@/components/solution/door-locks/LockUnlock";
 import { LockOptions } from "@/components/solution/door-locks/LockOptions";
 import "@/components/solution/solution.css";
 import "@/components/solution/door-locks/unlock.css";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionDoorLocks: t } = await getDictionary();
@@ -32,8 +36,8 @@ export default async function DoorLocksSolution() {
   const { solutionDoorLocks: c } = await getDictionary();
   const locale = await getLocale();
   return (
-    <main id="main" className="t3-page">
-      <SolutionIntro page={PAGE} copy={c} />
+    <main id="main" className="d2 t3-page">
+      <SolutionStage page={PAGE} copy={c} />
       <LockUnlock idPrefix="dl" />
       <LockOptions />
       <SolutionProducts idPrefix="dl" page={PAGE} copy={c.products} />
@@ -47,6 +51,7 @@ export default async function DoorLocksSolution() {
         secondary={{ href: localePath(locale, `/products/${PAGE.family}`), label: c.cta.secondary }}
       />
       <MomentTrigger />
+      <SmoothScroll />
     </main>
   );
 }
