@@ -63,4 +63,4 @@ performance-results
 __pycache__/
 3d/assets/
 3d/renders/journey/
-public/journey/frames/
+# public/journey/frames/ is committed on this branch: the Vercel preview needs the film (Cycles, 1600 px WebP).
