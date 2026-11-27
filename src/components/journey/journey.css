@@ -178,6 +178,12 @@ body:has(.journey-page) footer {
   backdrop-filter: blur(10px);
   text-shadow: none;
 }
+/* The header carries the claim from 48rem up (it hides it on phones), so the hero says it only where the header can't. */
+@media (min-width: 48rem) {
+  .hero-badge {
+    display: none;
+  }
+}
 .hero-title {
   margin-top: 1rem;
   font-family: var(--j-display);
