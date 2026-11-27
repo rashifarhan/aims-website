@@ -69,10 +69,20 @@ FamilyStage.tsx, family-slider.css, familyShowcase.ts). Watch both previews in a
   | Door hardware       | PARTS  | `#32453c` | AL 280D        |
   | POS                 | POS    | `#1d3b31` | ZKAIO1000      |
 
-- **Motion:** changing family wipes the new ground in from the side it comes from (clip-path), and the word, product
-  and pieces arrive with parallax by depth. The pieces float slowly and drift with the pointer (fine pointers only).
-  Tabs, arrows, the arrow keys and swipe change it. **Nothing runs on a timer** (no auto-rotation, CLAUDE.md §2). The
-  owner asked whether it could change on scroll or auto-play with a pause button; that is still undecided, so ask.
+- **Motion (client decision, 27 Nov 2026): the slider changes as you scroll, not by clicking.** It must feel
+  buttery smooth and high end. The section pins and each family takes its own stretch of scroll; the side wipe, the
+  parallax arrival of word, product and pieces, and the colour change are scrubbed by the scroll, and the scroll
+  settles (snaps) softly on each family. After the sixth family the page carries on. Tabs, arrows and the arrow keys
+  stay, and jump the scroll to that family. Between changes the pieces float slowly and drift with the pointer (fine
+  pointers only). Nothing runs on a timer.
+- **Libraries (client decision, 27 Nov 2026):** use whatever gives the smoothest result. GSAP ScrollTrigger (pin,
+  scrub, snap) is already approved and wired in `src/components/motion/gsap.ts`. The client has also allowed a
+  smooth-scroll library such as Lenis for the buttery feel. This **overrides** the "no smooth-scroll library" line in
+  `CLAUDE.md` §3 for these two branches; record it in `README.md` → Decisions. Keep these guards: native scroll on
+  touch devices if the library feels laggy there, everything static with no pin under `prefers-reduced-motion`,
+  keyboard and screen-reader access to every family, transform/opacity/clip-path only, and the page still meets
+  `CLAUDE.md` §5 (performance). Use the same scroll engine for direction 2's dive, so both branches feel equally
+  smooth.
 - **UI:** a frosted pill tab bar (active tab white), a mono counter "01 / 06", top-left caption (uppercase family
   name, one line, a "Shown: model" chip linking to the product), "SEE THE RANGE" with the real model count at the
   bottom, and circle arrows naming the next and previous words.
@@ -122,11 +132,16 @@ replaces the home hero, delete `/preview/*` from that branch or leave it. Say wh
 
 ## 5. Tools
 
-- **MotionSites skill** (`motionsites-web-builder`), where the two directions came from (Laptop Portfolio and Smoothie
-  Slider). It is not in git (its licence forbids redistributing the examples). To install it in the new session:
-  `git clone --depth 1 https://github.com/Motionsites-AI/claude-skill /tmp/ms` then copy
-  `/tmp/ms/plugins/motionsites-web-builder/skills/motionsites-web-builder` to `.claude/skills/`, and add that path
-  to `.git/info/exclude`.
+- **MotionSites skill (`motionsites-web-builder`): install it first.** Both directions were designed from it: its
+  "Laptop Portfolio" design became direction 2 and its "Smoothie Slider" design became direction 3. Use it to design
+  each page in the chosen direction: pick the matching example, keep its structure and signature motion, and make it
+  AIMS's own (real products, real copy, AIMS tokens and fonts). It is not in git (its licence lets you build sites
+  with it but not redistribute its examples), so install it in the new session with
+  `bash docs/handoff/install-motionsites.sh`. The script clones https://github.com/Motionsites-AI/claude-skill,
+  copies the skill into `.claude/skills/` and keeps it out of git. Start a new message after installing so Claude
+  Code loads it. Read its `SKILL.md`, then `examples/laptop-portfolio.md` (direction 2) and
+  `examples/smoothie-slider.md` (direction 3) in full. MotionSites also offers an MCP server with its full design
+  library (`find_designs`, `get_prompt`); that needs the owner's MotionSites account, so ask before connecting it.
 - The project's own design skills are in `.agents/skills/` and `.claude/skills/` (design-taste-frontend, impeccable,
   animate, choreograph and others). `CLAUDE.md` says how they rank.
 - Checks: `pnpm check` (lint, typecheck, unit tests), `pnpm build`, `pnpm e2e` (Playwright on port 3100).
