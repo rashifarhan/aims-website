@@ -93,13 +93,16 @@ cream paper sections between them, one lime accent.
 - **Family tabs** (one row of pills, count in mono): the six families plus All above every product list. On
   `/products` they filter the list in place (`?family=`); on a family page they link to the other family pages.
   Product cards on paper are white with a dashed divider under the photograph.
+- **Shared cards** (`.ui-card`, via `.d2` + `src/components/inside/skin.css`): no shadow, no green tint; white with the
+  ticket hairline on cream, cream on a white band, a screen frame on night. Icon tiles are outlined ink rounds;
+  counts and kinds in mono. The closing band stands on the stage's ground.
 - Cards don't nest more than two deep; one radius scale (8, 14, 16px, pill).
 
 ### Imagery
 
 - **AIMS's own product photographs, cut out** (`public/images/cutouts/`, lifted with Apple Vision and cleaned with
   `docs/handoff/lift/`; `docs/handoff/cutout.py` only as a fallback), checked on a dark ground for white fringes, big
-  and whole, a different product on every stage. Shadow is a separate soft
+  and whole (never cut by the stage's edge or zoomed into), a different product on every stage. Shadow is a separate soft
   layer, never a filter on a moving product.
 - Licensed **stand-in photographs** only for places (Solutions), only inside screen frames, credited in the footer
   line and listed in README → Decisions; never shown as AIMS premises, staff or customers.
@@ -111,7 +114,7 @@ cream paper sections between them, one lime accent.
   wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
   runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
   leaf, never in a layout; cleaned up on unmount (`useGSAP`).
-- **Every product-led page has one dive** (products, product detail, solutions, software). Company and form pages
+- **Every product-led page has one dive** (products, product detail, solutions, software, the ZKTeco location pages). Company and form pages
   (services, about, locations, contact, quote) open on a **word stage** with no dive (`src/components/word-stage/`):
   there is no product to step into, so their facts sit on a ticket. A dive: the stage pins, the product flies forward (zoom in log space, eased ends) until its
   screen fills the height, then the content opens out of the screen with `clip-path: inset()`. At most **one more**

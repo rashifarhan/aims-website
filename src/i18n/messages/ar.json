@@ -2195,5 +2195,25 @@
     "aboutTicket": "AIMS بالأرقام",
     "locationsTicket": "أين تجد AIMS",
     "contactTicket": "اتصل بـ AIMS"
+  },
+  "locationsStage": {
+    "words": {
+      "dubai": "DUBAI",
+      "oman": "OMAN",
+      "kenya": "KENYA"
+    },
+    "rowHours": "ساعات العمل",
+    "hoursValue": "لم تُنشر بعد: اتصل قبل زيارتك",
+    "rowInstall": "التركيب",
+    "installValue": "التوريد والتركيب في جميع أنحاء الإمارات",
+    "rowFrom": "التوريد من",
+    "rowTo": "التسليم إلى",
+    "countries": {
+      "oman": "عُمان",
+      "kenya": "كينيا"
+    },
+    "jumpModels": "المنتجات",
+    "jumpDelivery": "التسليم",
+    "jumpFaq": "الأسئلة"
   }
 }

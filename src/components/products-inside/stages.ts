@@ -2,6 +2,7 @@ import type { FamilySlug } from "@/content/taxonomy";
 import type { SolutionSlug } from "@/lib/nav";
 import { SHOWCASE, type Cutout } from "@/components/inside/showcase";
 import type { Aperture } from "@/lib/stageDive";
+import type { LocationMarket } from "@/lib/locationPages";
 
 /**
  * The product each products page stands on its stage (direction 2: a different real AIMS product on every stage).
@@ -112,3 +113,28 @@ export const SOLUTION_STAGES: Record<SolutionSlug, ProductStage> = {
 
 /** The families in the client's order (handoff: access control first, time attendance second), as on the home page. */
 export const FAMILY_ORDER: readonly FamilySlug[] = SHOWCASE.map((f) => f.slug);
+
+/**
+ * The location pages' stages (T7): the page's own hero model (lib/locationPages `hero`), lifted like the others.
+ * Dubai is the showroom's terminal; Oman and Kenya are supplied from Dubai, so their products are the ones exported.
+ */
+export const LOCATION_STAGES: Record<LocationMarket, ProductStage> = {
+  dubai: {
+    model: "ProFace X",
+    productSlug: "proface-x",
+    image: cut("proface-x", 446, 712),
+    screen: { x: 0.12, y: 0.17, w: 0.76, h: 0.74 },
+  },
+  oman: {
+    model: "SpeedFace V5L-P",
+    productSlug: "speedface-v5l-p",
+    image: cut("speedface-v5l-p", 318, 725),
+    screen: { x: 0.12, y: 0.19, w: 0.62, h: 0.55 },
+  },
+  kenya: {
+    model: "BioPro MH30",
+    productSlug: "biopro-mh30",
+    image: cut("biopro-mh30", 596, 617),
+    screen: { x: 0.18, y: 0.145, w: 0.22, h: 0.345 },
+  },
+};

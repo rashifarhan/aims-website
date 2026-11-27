@@ -25,3 +25,137 @@
   letter-spacing: 0;
   line-height: 1.2;
 }
+
+/*
+ * The shared cards (ui/actions.css .ui-card) in direction 2's components (CLAUDE.md → Design rules, Components; owner
+ * review, 28 Nov 2026: every UI element in the current design): no plinth shadow and no green tint. On cream a card
+ * is white with the ticket's hairline; on a white band it takes the ticket's cream; on night it is a cream ticket.
+ * Headings take the direction's face, counts and kinds its mono. Hover steps up 1px and darkens the hairline.
+ */
+.d2 .ui-card {
+  border: 1px solid var(--color-ticket-line);
+  border-radius: 1rem;
+  background: var(--color-paper);
+  box-shadow: none;
+}
+.d2 .section-band .ui-card {
+  background: var(--color-ticket);
+}
+/* On night a card is a screen frame (the stage's green, a light hairline); the cards drawn as paper on night, whose
+   text is ink (solution/solution.css software cards, software/software.css terminals), are cream tickets. */
+.d2 .section-night .ui-card {
+  border-color: rgb(255 255 255 / 0.14);
+  background: var(--color-stage-800);
+}
+.d2 .section-night .t3-software-spot .home-software-card.ui-card,
+.d2 .section-night .sw-terminal.ui-card {
+  border-color: transparent;
+  background: var(--color-ticket);
+  color: var(--color-ticket-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .d2 .ui-card-interactive:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-ticket-ink);
+    box-shadow: none;
+  }
+  .d2 .section-night .ui-card-interactive:hover {
+    border-color: var(--color-lime);
+  }
+}
+.d2 .ui-card-interactive:focus-visible,
+.d2 .ui-card-interactive:has(:focus-visible) {
+  box-shadow: none;
+}
+.d2 .ui-card :is(h3, .journey-title) {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
+}
+.d2 :is(.method-count, .home-software-kind, .ui-office-tag, .journey-owner) {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+:lang(ar) .d2 :is(.method-count, .home-software-kind, .ui-office-tag, .journey-owner) {
+  letter-spacing: 0;
+}
+.d2 .method-count {
+  color: var(--color-green-700);
+}
+
+/* Icon tiles become outlined rounds in ink: the accent stays for actions and the one lit state. */
+.d2 .method-icon {
+  border: 1px solid var(--color-ticket-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ticket-ink);
+}
+.d2 .journey-icon {
+  color: var(--color-ticket-ink);
+}
+
+/* The showroom card: no green plinth; it is the one card in ink, its tag in lime (the accent on a dark ground). */
+.d2 .ui-office-paper.ui-office-featured {
+  border-color: var(--color-ticket-ink);
+  background: var(--color-ticket-ink);
+  color: var(--color-word);
+}
+.d2 .ui-office-paper.ui-office-featured .ui-office-tag {
+  color: var(--color-lime);
+}
+.d2 .ui-office-paper.ui-office-featured .ui-office-address {
+  color: var(--color-night-muted);
+}
+.d2 .ui-office-paper.ui-office-featured .home-text-link,
+.d2 .ui-office-paper.ui-office-featured .home-text-link :is(bdi, span, svg) {
+  color: var(--color-lime);
+}
+
+/* Process steps (ui/JourneySteps): numbers in mono on an ink disc, the path a dashed green-700 line, the finish an
+   ink pill with a lime tick. */
+.d2 .journey-list {
+  --journey-path: var(--color-green-700);
+}
+.d2 .journey-node {
+  border-color: var(--color-ticket-ink);
+  background: var(--color-ticket-ink);
+  color: var(--color-lime);
+  font-family: var(--font-mono);
+}
+.d2 .journey-step:first-child .journey-node {
+  box-shadow: none;
+}
+.d2 .journey-done {
+  background: var(--color-ticket-ink);
+  color: var(--color-word);
+  box-shadow: none;
+}
+
+/* The closing band: the stage's ground, not the old ridge rings; the title in the direction's face. */
+.d2 .ui-close {
+  background: radial-gradient(
+    70% 80% at 50% 38%,
+    var(--color-stage-600),
+    var(--color-stage-800) 45%,
+    var(--color-stage-900)
+  );
+}
+.d2 .close-ridges {
+  display: none;
+}
+.d2 .ui-close-title {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  letter-spacing: -0.025em;
+  font-size: var(--text-stage-h2);
+  line-height: 1.04;
+}
+:lang(ar) .d2 .ui-close-title {
+  letter-spacing: 0;
+  line-height: 1.2;
+}

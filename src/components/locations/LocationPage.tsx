@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
+import { SmoothScroll } from "@/components/inside/SmoothScroll";
+import { PageStage } from "@/components/products-inside/PageStage";
+import { LOCATION_STAGES } from "@/components/products-inside/stages";
 import { ClosePanel } from "@/components/ui/ClosePanel";
-import { PageHero } from "@/components/ui/PageHero";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { ReachMap } from "@/components/home/ReachMap";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
-import { productBySlug } from "@/content/catalogue";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { LOCATION_PAGES, type LocationMarket } from "@/lib/locationPages";
 import { alternates } from "@/lib/seo";
-import { CONTACT, ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
+import { LocationInside } from "./LocationInside";
 import { LocationModels } from "./LocationModels";
 import { LocationOffices } from "./LocationOffices";
 import { LocationSteps } from "./LocationSteps";
+import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
+import "@/components/products-inside/products-inside.css";
 
 export async function locationMetadata(market: LocationMarket): Promise<Metadata> {
   const { locations } = await getDictionary();
@@ -25,9 +29,9 @@ export async function locationMetadata(market: LocationMarket): Promise<Metadata
 }
 
 /**
- * T7 location page (Master Plan 12 #32–35, 14; Design Doc 10.1 T7): place title with the fulfilment badge,
- * where to visit (Dubai), models with Add to quote, then what AIMS does here and the delivery steps beside the
- * SIGNAL map (the one dealt moment), FAQ (support and warranty) and the destination-preset quote.
+ * T7 location page (Master Plan 12 #32–35, 14) in direction 2 (CLAUDE.md → Design rules): the place's giant word and
+ * its hero model on a stage, the place's facts opening out of the model's screen; then where to visit (Dubai), the
+ * models with Add to quote, delivery beside the SIGNAL map, FAQ (support and warranty) and the destination-preset quote.
  */
 export async function LocationPage({ market }: { market: LocationMarket }) {
   const t = await getDictionary();
@@ -37,34 +41,26 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
   const c = t.locations[market];
   const common = t.locations.common;
   const id = { dubai: "ld", oman: "lo", kenya: "lk" }[market];
-  const photo = productBySlug(page.hero)?.images[0];
-  const fact =
-    market === "dubai" ? (
-      <span lang="en" dir="ltr">
-        {CONTACT.showroomAddress}
-      </span>
-    ) : ZKTECO_AUTHORIZATION_CONFIRMED ? (
-      t.common.partnerConfirmed
-    ) : (
-      t.common.partner
-    );
+  const stage = LOCATION_STAGES[market];
   return (
-    <main id="main">
-      <PageHero
-        variant="split"
+    <main id="main" className="d2 flex-1">
+      <PageStage
+        id="loc-stage"
+        stage={stage}
+        word={t.locationsStage.words[market]}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/locations"), label: t.nav.locations },
           { href: href(page.path), label: c.title },
         ]}
-        eyebrow={c.eyebrow}
         title={c.title}
         lead={c.lead}
         primary={{ href: href(page.quote), label: c.primary }}
         secondary={{ href: market === "dubai" ? "#visit" : "#models", label: c.secondary }}
-        fact={fact}
-        photo={photo}
-      />
+        productHref={href(`/product/${stage.productSlug}`)}
+      >
+        <LocationInside market={market} faqId={`${id}-faq-title`} />
+      </PageStage>
       {market === "dubai" && <LocationOffices id="visit" />}
       {/* Dubai's offices take the band above; Oman and Kenya open on the models, so those take it. */}
       <LocationModels id="models" preset={page.preset} ground={market === "dubai" ? "paper" : "band"} />
@@ -90,6 +86,7 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
         action={{ href: href(page.quote), label: c.cta.action }}
         secondary={{ href: href("/locations"), label: common.allLocations }}
       />
+      <SmoothScroll />
     </main>
   );
 }

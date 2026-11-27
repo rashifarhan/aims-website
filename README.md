@@ -168,6 +168,31 @@ Built without mockups at the owner's request, on the same stage system as the pr
 - **Dev note:** `next dev` logs a hydration warning on pages with the old heading reveal (`data-heading-reveal`),
   which splits headings before hydration. It predates this work.
 
+### Direction 2: the four ZKTeco landing pages, whole products and the shared cards (28 Nov 2026)
+
+- **The four location URLs** (`/zkteco-distributor-in-dubai`, `/zkteco-dubai`, `/zkteco-distributor-in-oman`,
+  `/zkteco-distributors-in-kenya`, all kept) now open on a product stage: the place's word (DUBAI, OMAN, KENYA) and the
+  page's own hero model from `lib/locationPages` (ProFace X, SpeedFace V5L-P, BioPro MH30), newly lifted with the
+  Vision tool. The dive opens the place on a ticket. Dubai shows the Deira showroom's address and line, "opening
+  hours not published yet" (open question), installation across the UAE, and the page's three steps. Oman and Kenya
+  show "Supplied from Deira, Dubai", the destination, the head office line and the steps; no office there is claimed.
+  The sections below (offices, models, delivery map, FAQ, close) are unchanged in content.
+- **Products are never cropped (owner review):** every stage product now stands whole, clear of the stage's foot
+  with its shadow under it (it used to sink 3% below the edge, 4% on home), and the product page's specifications
+  photograph shows the whole product on its plate instead of a zoomed crop. The solutions hub's card art no longer
+  clips the product's ends.
+- **Shared cards in the direction (owner review: "every UI element in the current design"):** on redesigned pages
+  (`.d2`, `inside/skin.css`) the old plinth cards lose their shadow and green tint. On cream they are white with
+  the ticket hairline, on a white band they take the ticket cream, and on night they are screen frames (paper-drawn
+  night cards become cream tickets). Icon tiles become outlined ink rounds. Counts, kinds and owners are in mono. The
+  showroom card is the one ink card with a lime tag. Process steps take ink discs with lime mono numerals and a
+  green-700 path. The closing band takes the stage's ground instead of the old ridge rings, with its title in the
+  direction's face.
+- **Tests rewritten for the new design:** the first-screen edge test now checks the location page's stage like the
+  solution pages (it checked the old T3 hero).
+- **Door step marker:** the access control door also marks its highlighted step when ScrollTrigger refreshes; the
+  refresh renders without callbacks, so a jump just before one left the list behind the drawing.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

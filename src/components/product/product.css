@@ -176,18 +176,10 @@
   background: var(--color-paper-3);
 }
 .product-closeup-photo {
-  object-fit: cover;
+  /* The whole product on its plate, never cropped into (owner review, 28 Nov 2026). */
+  object-fit: contain;
+  padding: 8%;
   mix-blend-mode: multiply;
-}
-/* A crop into the photograph's upper half, where a terminal's screen and keypad or a lock's face sit. `scale`
-   rather than `transform`, so the develop moment's own transform composes with it. */
-.product-closeup-zoom .product-closeup-photo {
-  scale: 1.6;
-  transform-origin: 50% 35%;
-}
-.product-closeup-zoom-soft .product-closeup-photo {
-  scale: 1.3;
-  transform-origin: 50% 35%;
 }
 @media (min-width: 1024px) {
   .product-closeup {

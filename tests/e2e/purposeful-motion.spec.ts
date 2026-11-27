@@ -135,8 +135,8 @@ for (const path of ["/product/f18", "/ar/product/f18"]) {
   });
 }
 
-// Every redesigned first screen keeps the header's edges (direction 2): the solution stages show their product, the
-// company stage (About) its word and facts, and the pages not yet redesigned (a location page) the T3 hero.
+// Every redesigned first screen keeps the header's edges (direction 2): the solution and location stages show their
+// product, the company stage (About) its word and facts.
 test("first screens share the header edges and show their product, word or scene", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -160,10 +160,7 @@ test("first screens share the header edges and show their product, word or scene
       return ar ? box.x + box.width : box.x;
     };
     const shellEdge = ar ? shell.x + shell.width : shell.x;
-    if (path.startsWith("/zkteco")) {
-      expect(await edge(".page-hero > .wrap")).toBeCloseTo(shellEdge, 0);
-      await expect(page.locator(".page-hero-media img")).toBeVisible();
-    } else if (path === "/about") {
+    if (path === "/about") {
       expect(await edge(".ws-copy")).toBeCloseTo(shellEdge, 0);
       await expect(page.locator(".ws-word")).toBeVisible();
     } else {

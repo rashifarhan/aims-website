@@ -2195,5 +2195,25 @@
     "aboutTicket": "AIMS in figures",
     "locationsTicket": "Where AIMS is",
     "contactTicket": "Call AIMS"
+  },
+  "locationsStage": {
+    "words": {
+      "dubai": "DUBAI",
+      "oman": "OMAN",
+      "kenya": "KENYA"
+    },
+    "rowHours": "Opening hours",
+    "hoursValue": "Not published yet: call before you visit",
+    "rowInstall": "Installation",
+    "installValue": "Supply and installation across the UAE",
+    "rowFrom": "Supplied from",
+    "rowTo": "Delivered to",
+    "countries": {
+      "oman": "Oman",
+      "kenya": "Kenya"
+    },
+    "jumpModels": "Products",
+    "jumpDelivery": "Delivery",
+    "jumpFaq": "Questions"
   }
 }

@@ -32,8 +32,11 @@
 .solution-card-art {
   flex: 0 0 7rem;
   height: 7rem;
-  display: grid;
-  place-items: center;
+  /* Flex, not grid: a grid row sized by its content let the photograph's max-height resolve against itself, and
+     the box clipped the product's ends. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: clip;
 }
 .solution-card img {

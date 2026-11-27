@@ -27,8 +27,10 @@
   .ps {
     --hdr: calc(4.5rem + 1px);
     --fit-w: 60vw;
-    --rise-h: min(calc(var(--stage-h) * 0.76), var(--native), calc(var(--fit-w) / var(--ratio)));
-    --rise-top: calc(var(--stage-h) - var(--rise-h) + var(--stage-h) * 0.03);
+    --rise-h: min(calc(var(--stage-h) * 0.72), var(--native), calc(var(--fit-w) / var(--ratio)));
+    /* Whole, standing clear of the stage's foot with its shadow under it: a product cut by the edge reads as a crop
+       (Design rules, Imagery: "big and whole"; owner review, 28 Nov 2026). */
+    --rise-top: calc(var(--stage-h) * 0.95 - var(--rise-h));
   }
 }
 .ps-stage {

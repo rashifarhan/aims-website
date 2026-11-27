@@ -21,16 +21,12 @@ type Props = {
   moment: boolean;
 };
 
-/** Below this width a deep zoom would show the photo's pixels; a small file takes a shallower crop. */
-const ZOOM_MIN_WIDTH = 800;
-
 /**
- * Specifications beside a close-up of AIMS's own photograph (taste sections.md, Product: "its parts close
- * up"): the same file, cropped and zoomed into the frame, never a new or invented picture.
+ * Specifications beside AIMS's own photograph, whole on its plate (direction 2: products are never cropped into),
+ * never a new or invented picture.
  */
 export function SpecsSection({ p, heading, hints, empty, data, ground, moment }: Props) {
   const image = p.images[0];
-  const zoom = image && image.width >= ZOOM_MIN_WIDTH ? "product-closeup-zoom" : "product-closeup-zoom-soft";
   return (
     <Section ground={ground} labelledBy="specs">
       <h2 id="specs" className="section-title mb-8 lg:mb-10">
@@ -38,7 +34,7 @@ export function SpecsSection({ p, heading, hints, empty, data, ground, moment }:
       </h2>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
         {image && (
-          <div className={`product-closeup ${zoom}`} data-moment={moment ? "" : undefined}>
+          <div className="product-closeup" data-moment={moment ? "" : undefined}>
             <Image
               src={image.src}
               alt=""

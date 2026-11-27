@@ -179,9 +179,10 @@
   position: absolute;
   z-index: 1;
   inset-inline: 0;
-  inset-block-end: -4%;
-  block-size: 80%;
-  inline-size: calc(var(--stage-h) * 0.8 * 362 / 776);
+  /* Whole, clear of the stage's foot: a terminal cut by the edge reads as a crop (Design rules, Imagery). */
+  inset-block-end: 4%;
+  block-size: 76%;
+  inline-size: calc(var(--stage-h) * 0.76 * 362 / 776);
   margin-inline: auto;
 }
 .dv-rise::before {
