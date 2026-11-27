@@ -1,6 +1,10 @@
-# CLAUDE.md — AIMS website
+# CLAUDE.md — AIMS website, redesign branches
 
 @AGENTS.md
+
+This file is for the redesign branches (`claude/direction-2-step-inside`, `claude/direction-3-families`,
+`claude/hero-options`). It is **not** the `main` branch's CLAUDE.md, and the old design rules from `main` do not apply
+here (client decision, 27 Nov 2026). Only the project's source of truth and technical rules below apply.
 
 ## What this project is
 
@@ -9,89 +13,29 @@ and Abu Dhabi (access control, time attendance, entrance control, locks, POS). I
 site that is clearly better than its competitor NUZON (nuzon.me). AIMS is the client. NUZON is only a benchmark;
 never copy its brand, copy or assets.
 
-## Sources of truth: read before you build
+The team chose two new directions for a completely different look from `main`. Read `docs/handoff/HANDOFF.md` first:
+it describes both directions and the work.
 
-Two documents in `docs/` define this project. Read the relevant pages **before** starting any page, component or
-flow, and cite the chapter in your plan or PR description. Claude Code can read a PDF by page range, so read only
-the pages you need.
+## Design rules: yours to write
 
-| Question                                                | Document                                                        |
-| ------------------------------------------------------- | --------------------------------------------------------------- |
-| **What** to build, for whom, why, scope, acceptance     | `docs/master-plan-v2.0.pdf` (Master Plan, 33 pp)                |
-| **How** it looks, moves, reads and behaves              | `docs/design-doc-v0.1.pdf` (Design Doc, 26 pp)                  |
-| Reference implementations of the approved animations    | `docs/prototypes/` (open the HTML in a browser)                 |
-| Product truth: users, positioning, evidence, open facts | `PRODUCT.md` (Impeccable `init`, 21 Nov 2026)                   |
-| The current visual system: tokens and components        | `DESIGN.md` + `.impeccable/design.json` (Impeccable `document`) |
-| **Design principles: layout, motion, imagery, copy**    | **`.agents/skills/design-taste-frontend/`** (tasteskill 2.5.1)  |
+There are **no inherited design rules** on these branches. The old Design Doc styling, the design-taste-frontend
+skill's house rules, the token and motion limits and the design gate from `main` are all set aside. Choose the design
+rules that serve your branch's direction, using `docs/handoff/HANDOFF.md`, the preview pages and the MotionSites
+skill it names, then **write them into this file** under a new `## Design rules` heading: palette and tokens, type,
+layout, components, imagery, motion and scroll engine. Show them to the owner with your first mockups and get
+approval before building on them. From then on, follow the rules you wrote.
 
-**The design skill.** Every page is designed and checked with the `design-taste-frontend` skill (invoke it as
-`/design-taste-frontend`; read its `SKILL.md` and the references it names before building). For AIMS:
+## Sources of truth
 
-- **Kind:** page type `product`, site-kind `tech`, kind `tech`. AIMS sells, installs and supports ZKTeco hardware
-  (terminals, readers, locks, turnstiles), so the hardware row of the skill's table applies: AIMS's own product
-  photographs lead, and tech grounds, loops, one count and one effect are allowed.
-- **The brief is this repository:** company facts in `src/lib/site.ts`, products and software in `content/*.json`,
-  open questions below. Under the skill's own copy rules ("Phone: none, unless the brief gives one"), AIMS's
-  published phone lines, WhatsApp, showroom address and map link are brief-given and stay real. Never replace AIMS's
-  own contacts with `.example` stand-ins.
+| Question                                                      | Source                                                                  |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Company facts: name, phones, addresses, figures, claims flags | `src/lib/site.ts`                                                       |
+| Products, software, families                                  | `content/*.json`, `src/content/` (taxonomy, catalogue)                  |
+| Product truth: users, positioning, open facts                 | `PRODUCT.md`                                                            |
+| Scope, routes, architecture, acceptance tests                 | `docs/master-plan-v2.0.pdf` (ch. 12 sitemap, 16 architecture, 18 tests) |
+| The two directions and the task                               | `docs/handoff/HANDOFF.md`                                               |
 
-### Master Plan v2.0: chapter → page
-
-| Ch. | Topic                                        | Page |
-| --- | -------------------------------------------- | ---- |
-| 01  | Use case (what we are building and why)      | 3    |
-| 06  | Customer profiles (6 personas)               | 9    |
-| 07  | Audit of aimsuae.me (defects A01–A21)        | 10   |
-| 09  | Customer journeys                            | 17   |
-| 11  | Improvement matrix                           | 20   |
-| 12  | **Sitemap & scope: 35 routes, 10 templates** | 21   |
-| 13  | Visual direction & design system (summary)   | 24   |
-| 14  | Template blueprints                          | 26   |
-| 15  | Differentiating features                     | 27   |
-| 16  | **Technical architecture**                   | 28   |
-| 17  | Roadmap                                      | 29   |
-| 18  | **QA & acceptance tests AT-01 … AT-14**      | 30   |
-| 19  | Risks & scope control                        | 31   |
-| 21  | Sources, assumptions, open questions         | 33   |
-
-### Design Doc v0.1: chapter → page
-
-| Ch. | Topic                                            | Page |
-| --- | ------------------------------------------------ | ---- |
-| 02  | **Six design principles**                        | 4    |
-| 03  | Brand, wordmark, signal lines, **claims policy** | 5    |
-| 04  | Colour (tokens, contrast, usage)                 | 6    |
-| 05  | Typography (scale, rules)                        | 7    |
-| 06  | Layout, grid, navigation, sticky rules           | 8    |
-| 07  | Imagery, icons, illustration                     | 9    |
-| 08  | **Motion system** + domain animations            | 10   |
-| 09  | **Components (28): anatomy, states, a11y**       | 13   |
-| 10  | Page designs (10 templates)                      | 15   |
-| 11  | Key flows & states                               | 20   |
-| 12  | Content design (microcopy)                       | 21   |
-| 13  | Arabic & RTL                                     | 22   |
-| 14  | **Accessibility specification**                  | 23   |
-| 15  | Data the design depends on                       | 24   |
-| 16  | Design handoff (token and component names)       | 25   |
-| 17  | Open questions                                   | 26   |
-
-### When sources disagree
-
-1. The user's explicit instruction in the current session wins.
-   **Redesign directions (client decision, 27 Nov 2026):** on the redesign branches (`claude/direction-2-step-inside`,
-   `claude/direction-3-families`, `claude/hero-options`) the chosen direction leads on layout, composition, motion
-   and imagery: `docs/handoff/HANDOFF.md` and the MotionSites designs it names. Where the design skill, the Design Doc
-   or older rules in this file would block that direction, the direction wins. Truth, accessibility, SEO/URLs and the
-   performance budget in item 2 still hold.
-2. **Truth (§1), accessibility (§4), performance (§5) and SEO/URLs (§6) below** are never traded away for a design
-   rule, whichever source it comes from.
-3. **The design skill** wins on layout, composition, motion, imagery, copy style and the finish checks (decided by
-   the client on 21 Nov 2026, for "more proven design principles").
-4. **Design Doc** wins on AIMS's brand specifics the skill leaves to the client: palette and tokens, wordmark,
-   claims policy (3.1), Arabic and RTL (13), component anatomy and states (9), and the approved prototypes.
-5. **Master Plan** wins on scope, routes, architecture and acceptance criteria (AT-01 … AT-14).
-6. If sources conflict in a way this order doesn't settle, or are silent on something that matters, **stop and ask**.
-   Don't pick silently. If you deviate deliberately, say so in the commit message and in `README.md` → Decisions.
+If these sources conflict, or are silent on something that matters, **stop and ask** the owner.
 
 ## Commands
 
@@ -103,17 +47,6 @@ pnpm e2e                  # Playwright smoke + axe, desktop and mobile
 pnpm format               # Prettier + Tailwind class order
 pnpm import:content       # re-import catalogue from aimsuae.me (rarely; review the diff)
 ```
-
-Design skill checks, run against the production server (`pnpm build && pnpm start`), one at a time:
-
-```bash
-node .agents/skills/design-taste-frontend/scripts/copy-lint.mjs <page.md or built html> --kind tech
-node .agents/skills/design-taste-frontend/scripts/gate.mjs --start http://localhost:3000/ --kind tech --category "ZKTeco access control and time attendance" --primary "Request a quote"
-node .agents/skills/design-taste-frontend/scripts/gate.mjs http://localhost:3000/
-```
-
-The gate writes to `.taste-skill/`. Commit `.taste-skill/waivers.json` (every waiver with its reason); the rest is
-local output.
 
 Node 22, pnpm 10. Don't use npm or yarn, and don't commit another lockfile.
 
@@ -137,9 +70,9 @@ tests/e2e/                Playwright specs
 
 ## Non-negotiables
 
-Treat each rule below as a requirement. Breaking one means the work isn't done.
+These are about truth, access and the site working, not about how it looks.
 
-### 1. Truth and content
+### 1. Truth and content (source of truth)
 
 - **Never invent** specifications, prices, stock levels, statistics, testimonials, clients, partnerships, certifications
   or opening hours. Product data comes only from `content/*.json`; company facts only from `src/lib/site.ts`.
@@ -150,54 +83,7 @@ Treat each rule below as a requirement. Breaking one means the work isn't done.
   that look real.
 - Anything that only simulates (quote submission, downloads) must be labelled as a demo in the preview (Plan ch. 16).
 
-### 2. Design system
-
-- Use **tokens only** (`src/app/globals.css` → `@theme`). Components contain no raw hex, rgb, px font sizes or
-  shadows. If a value is missing, add a token with a comment saying why, then use it.
-- **Green-700 is the action colour on light surfaces.** On night-green surfaces lime may carry text and actions where
-  it measures ≥ 4.5:1 (the ratios are listed beside the tokens). Ink-300 is decorative only. No violet anywhere.
-- **The skill's house rules apply** (`SKILL.md`, House rules): no caption or description under any image (licence
-  credits go in one footer line); every visual renders at 1440, 1024, 768 and 390; **one section per screen** (each
-  section one or two screens tall at 1440×900, the hero alone on the first; a pinned scroll sequence may run longer);
-  equal left and right content edges.
-- **One system:** one button pair, one card style, one radius scale, one link look; two boxes deep at most.
-- **First screen:** it says what AIMS sells, for whom or where, with one hard fact, and has at most two actions. One
-  main action per screen. No auto-rotating carousels or timed tabs, no stacked banners, nothing above the header. A
-  scroll-driven slider (direction 3's product families) is allowed: it changes with the visitor's scroll, never on a
-  timer.
-- Typography follows the Design Doc ch. 5 scale. Use sentence case. Model codes are in IBM Plex Mono. Numbers in
-  quantities, counts and specs use `tabular-nums`. Body text is 16 px minimum on inputs.
-- **Imagery (skill `photos.md`):** AIMS's own product photographs lead, big and whole, a different picture each
-  section. Context the client hasn't supplied (installations, offices, people at work) may use licensed stand-in
-  photographs from the skill's library or its Wikimedia Commons/Unsplash search. Each stand-in is listed in the PR and
-  README as a stand-in, credited in the one footer line, and never presented as AIMS's own premises, staff or
-  customers. Real third-party icons keep their own colours (`icons.mjs`). No drawn look-alike logos.
-- **Mobile first and uncluttered.** Design 390 px first. If a mobile view feels busy, remove things; don't shrink them.
-
-### 3. Motion: high end, scroll driven (client decision, 27 Nov 2026)
-
-The redesign directions need cinematic, buttery-smooth motion, and this section allows it. It replaces the earlier
-limits (one dealt moment per page, one pin per page, no parallax, no smooth-scroll library, the 24 and 25 Nov rules).
-
-- **Allowed and encouraged:** scroll-driven storytelling. Pin sections and scrub sequences with the scroll, snap
-  softly between steps, run several pinned sequences on a long page, scroll-driven sliders, product parallax and
-  depth layers, clip-path wipes and reveals, giant display type that moves, scroll-scrubbed video, canvas and WebGL
-  scenes, pointer-reactive pieces, and page and section transitions.
-- **Libraries:** GSAP with any of its plugins (ScrollTrigger, SplitText, Flip, DrawSVG, ScrollSmoother) and a
-  smooth-scroll library such as Lenis are approved; choose what feels smoothest. Load them lazily in the smallest
-  client leaf, never in a layout; register plugins once (`src/components/motion/gsap.ts`); clean up on unmount
-  (`@gsap/react` `useGSAP`); use one scroll engine per page so two systems never drive one element.
-- **Smoothness is the bar.** Animate compositor-friendly properties (transform, opacity, clip-path; filters only on
-  small elements); never width, height, top, left, margin or padding. No layout shift. Test at 60 fps on a mid-range
-  phone; if a smooth-scroll library feels laggy on touch devices, use native scroll there.
-- **Guards that stay (accessibility, §4):** under `prefers-reduced-motion` everything rests at its final state, with
-  no pin, no smooth scroll and nothing hidden. Every slide, step and family is reachable by keyboard and by screen
-  reader, and content stays in the DOM without JavaScript. Scrolling is never trapped: the visitor can always scroll
-  past a sequence. Anything that plays by itself for more than 5 s has a pause button. Nothing flashes more than
-  3 times per second. Body text stays still and readable while it is being read. At most four live WebGL contexts.
-- Loops pause off-screen, and motion code loads only on the pages that use it, so each page still meets §5.
-
-### 4. Accessibility: WCAG 2.2 AA, built in
+### 2. Accessibility: WCAG 2.2 AA, built in
 
 - **0 axe violations** on every built route at both viewports (enforced in `tests/e2e/smoke.spec.ts`).
 - Each page has one `<h1>` and headings in order. Use landmarks (`header`, `nav` with a label, `main#main`, `footer`).
@@ -213,7 +99,7 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - Every meaningful image has `alt`, and decorative images have `alt=""` / `aria-hidden`. Icon-only buttons have an
   accessible name.
 
-### 5. Performance (Plan AT-11)
+### 3. Performance (Plan AT-11)
 
 - Throttled mobile: **LCP ≤ 2.5 s, CLS ≤ 0.05, home transfer ≤ 1 MB.**
 - Use Server Components by default. Add `"use client"` only to the smallest interactive leaf, never to a page or a
@@ -224,7 +110,7 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - No new runtime dependency without a one-line justification in the PR. Prefer the platform and small utilities.
 - The site never calls aimsuae.me or any third party at runtime (no trackers in the preview).
 
-### 6. SEO and URLs (Plan ch. 12, AT-12, AT-13)
+### 4. SEO and URLs (Plan ch. 12, AT-12, AT-13)
 
 - Existing product, software and location URLs **never change**. New routes come from `src/lib/routes.ts`.
 - Every old URL that changes needs a 301 in `src/lib/redirects.ts`, with no chains, and tests must stay green.
@@ -233,7 +119,7 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - Previews stay **noindex**. Only production at launch sets `SITE_INDEXABLE=true`.
 - Navigation links only to built routes, valid filtered states (`/products?q=…`) or clearly external links.
 
-### 7. Internationalisation and RTL
+### 5. Internationalisation and RTL
 
 - **No hard-coded UI strings** in components. Add keys to `src/i18n/messages/en.json` **and** `ar.json` (a test
   enforces the same keys). Product data stays English unless AIMS supplies translations.
@@ -243,7 +129,7 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - Build links with `localePath(locale, path)`. Never hand-build `/ar/...` strings.
 - Arabic copy is a draft until AIMS's reviewer approves it (Design Doc ch. 17).
 
-### 8. Code quality
+### 6. Code quality
 
 - **TypeScript strict. Use no `any`, no `@ts-ignore`, and no non-null `!` without a comment saying why it is safe.**
 - Validate data at boundaries with Zod (imports, forms, URL params, localStorage). Inside the app, trust the types.
@@ -261,7 +147,7 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - Errors are handled where they can be handled. User-facing failures show a helpful message and a way forward.
 - Don't hand-edit generated files (`content/*.json`, `next-env.d.ts`, `.next/`).
 
-### 9. Next.js 16 specifics (see `AGENTS.md`: read `node_modules/next/dist/docs/` first)
+### 7. Next.js 16 specifics (see `AGENTS.md`: read `node_modules/next/dist/docs/` first)
 
 - Use `src/proxy.ts`, not `middleware.ts`.
 - `cacheComponents` is on. Don't use bare `new Date()` / `Math.random()` in server render; use `"use cache"` or a
@@ -270,27 +156,18 @@ limits (one dealt moment per page, one pin per page, no parallax, no smooth-scro
 - Because of the proxy rewrite, read the browser path on the client after hydration (see `LanguageSwitch.tsx`).
 - Redirects use `statusCode: 301` (not `permanent: true`, which sends 308).
 
-### 10. Testing and Definition of Done
+### 8. Done means
 
-A change is done only when all of the following hold:
-
-- [ ] `pnpm check` and `pnpm format:check` pass, and `pnpm build` succeeds.
-- [ ] `pnpm e2e` passes. A new page is flipped to `status: "built"` in `src/lib/routes.ts` in the same commit, so it
-      is covered by the 200 / one-H1 / zoom / axe smoke test.
-- [ ] Logic has unit tests. User flows from Plan ch. 18 (AT-01 … AT-14) get Playwright specs as they are built.
-- [ ] It was checked at **390 px and 1440 px**, in **English and Arabic**, and with **keyboard only**.
-- [ ] The design skill's gate reports `GATE: PASS` (or `GATE: OPEN` with every waiver and its reason in
-      `.taste-skill/waivers.json`), and copy-lint has no FAIL. Report stand-in photographs and open FAILs in the PR.
-- [ ] Docs were followed. Any deviation is recorded in `README.md` → Decisions.
-- [ ] No test was skipped, deleted or weakened to make the suite pass. If a test is wrong, fix it and say why.
+- `pnpm check` and `pnpm build` pass; `pnpm e2e` passes, or any failure is a test written for the old design, which
+  you update to the new design and say so (never skip or weaken a test to go green).
+- Checked at 390 px and 1440 px, in English and Arabic, and with keyboard only.
+- Deliberate decisions are recorded in `README.md` → Decisions.
 
 ## Git
 
-- Branch from `main` with a short descriptive name. Open a PR into `main`. CI must be green before merge.
-- Write commit messages in the imperative mood, with a short subject and a body explaining what and why. Mention the
-  doc chapter or AT-number.
-- Keep commits small and focused. Never commit secrets, `.env*` (except `.env.example`), `.cache/` or build output.
-- Never force-push a shared branch.
+- Work on your direction's branch and push there. Don't merge into `main` or open a PR unless the owner asks.
+- Imperative commit messages with a short subject and a body saying what and why.
+- Never commit secrets, `.env*` (except `.env.example`), `.cache/` or build output. Never force-push.
 
 ## Open questions waiting on AIMS (don't guess)
 

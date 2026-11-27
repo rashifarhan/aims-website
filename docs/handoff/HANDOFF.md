@@ -5,10 +5,11 @@ file, then `CLAUDE.md` and `AGENTS.md`, before changing anything.
 
 ## 1. Where things stand
 
-- **Project:** the AIMS website redesign (aimsuae.me), Next.js 16 + Tailwind 4 + pnpm. `CLAUDE.md` holds the rules
-  (truth, tokens, accessibility, i18n, tests). On these branches its motion rules (§3) were rewritten for the
-  directions, and the chosen direction leads on layout, composition, motion and imagery (see "When sources disagree").
-  The client wants a completely different look from `main`; don't pull the design back towards it.
+- **Project:** the AIMS website redesign (aimsuae.me), Next.js 16 + Tailwind 4 + pnpm. `CLAUDE.md` on these branches
+  keeps only the source-of-truth and technical rules (truth, accessibility, performance, SEO/URLs, Arabic/RTL, code
+  quality). **It has no design rules: you write your own for your direction** (see its "Design rules: yours to
+  write"), get the owner's approval with your first mockups, then follow them. The client wants a completely
+  different look from `main`; don't pull the design back towards it, and don't follow `main`'s CLAUDE.md.
 - **The team reviewed three hero directions and chose two of them, 2 and 3.** Both are built as preview pages on
   branch `claude/hero-options`:
   - Direction 2, **Step inside the terminal**: `/preview/step-inside`
@@ -52,8 +53,8 @@ FamilyStage.tsx, family-slider.css, familyShowcase.ts). Watch both previews in a
   notches via mask), a large product photo, one short line, a white pill button (dark circle with lime arrow), round
   prev/next arrows and word chips (TIME, ACCESS, ENTRY…) with the active chip in lime.
 - **Carrying it across pages:** each main page opens on a dark stage with its own device and giant word. Spec and
-  fact panels use the ticket card. At most one pinned "step inside" sequence per page (CLAUDE.md §3). The rest of
-  each page stays the site's light sections.
+  fact panels use the ticket card. You decide how many pinned sequences a page has and how the
+  rest of each page looks.
 
 ### Direction 3: Product family slider
 
@@ -79,11 +80,11 @@ FamilyStage.tsx, family-slider.css, familyShowcase.ts). Watch both previews in a
   pointers only). Nothing runs on a timer.
 - **Libraries (client decision, 27 Nov 2026):** use whatever gives the smoothest result. GSAP ScrollTrigger (pin,
   scrub, snap) is already approved and wired in `src/components/motion/gsap.ts`. The client has also allowed a
-  smooth-scroll library such as Lenis for the buttery feel. `CLAUDE.md` §3 on these branches was rewritten on
-  27 Nov 2026 to allow this; record what you use in `README.md` → Decisions. Keep these guards: native scroll on
+  smooth-scroll library such as Lenis for the buttery feel. Record what you use in `README.md` →
+  Decisions. Keep these guards: native scroll on
   touch devices if the library feels laggy there, everything static with no pin under `prefers-reduced-motion`,
   keyboard and screen-reader access to every family, transform/opacity/clip-path only, and the page still meets
-  `CLAUDE.md` §5 (performance). Use the same scroll engine for direction 2's dive, so both branches feel equally
+  the performance budget in `CLAUDE.md`. Use the same scroll engine for direction 2's dive, so both branches feel equally
   smooth.
 - **UI:** a frosted pill tab bar (active tab white), a mono counter "01 / 06", top-left caption (uppercase family
   name, one line, a "Shown: model" chip linking to the product), "SEE THE RANGE" with the real model count at the
@@ -99,10 +100,10 @@ FamilyStage.tsx, family-slider.css, familyShowcase.ts). Watch both previews in a
   and trim studio reflections (some photos have a mirror floor; the iFace and the exit button needed a cut along the
   base). Check every cut-out on a dark ground before using it. The owner noticed white bits on poor cut-outs.
 - **Facts:** every model count comes from the catalogue (`productsInFamily`). Card facts are only what
-  `content/products.json` states. Never invent specs (CLAUDE.md §1).
+  `content/products.json` states. Never invent specs (`CLAUDE.md`, Truth).
 - **Debt to fix when promoting preview code to real pages:** the preview components use raw hex colours and
-  hard-coded English strings. Real pages must use tokens in `src/app/globals.css` (add the six family grounds and
-  the ticket cream with a comment) and keys in `src/i18n/messages/en.json` and `ar.json`, with RTL handled.
+  hard-coded English strings. Real pages should take their colours from the tokens you define in your design
+  rules (the six family grounds and the ticket cream among them) and their text from keys in `src/i18n/messages/en.json` and `ar.json`, with RTL handled.
 
 ## 3. Scope: the main pages
 
@@ -115,7 +116,7 @@ Redesign at least these, in this order, each in both directions:
 5. Software `/software` and the software pages
 6. Services, About, Locations, Contact, Quote
 
-URLs never change (CLAUDE.md §6). Keep the header, footer, quote flow and search working. When a direction's hero
+URLs never change (`CLAUDE.md`, SEO and URLs). Keep the header, footer, quote flow and search working. When a direction's hero
 replaces the home hero, delete `/preview/*` from that branch or leave it. Say which in the commit.
 
 ## 4. How the owner works (please keep to this)
@@ -144,8 +145,8 @@ replaces the home hero, delete `/preview/*` from that branch or leave it. Say wh
   Code loads it. Read its `SKILL.md`, then `examples/laptop-portfolio.md` (direction 2) and
   `examples/smoothie-slider.md` (direction 3) in full. MotionSites also offers an MCP server with its full design
   library (`find_designs`, `get_prompt`); that needs the owner's MotionSites account, so ask before connecting it.
-- The project's own design skills are in `.agents/skills/` and `.claude/skills/` (design-taste-frontend, impeccable,
-  animate, choreograph and others). `CLAUDE.md` says how they rank.
+- The project's own design skills are in `.agents/skills/` and `.claude/skills/` (impeccable, animate, choreograph,
+  design-taste-frontend and others). Use any that help; none of them sets rules on these branches.
 - Checks: `pnpm check` (lint, typecheck, unit tests), `pnpm build`, `pnpm e2e` (Playwright on port 3100).
 
 ## 6. Shared review page
