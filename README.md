@@ -218,6 +218,17 @@ For local preview, bind Next to `localhost` (for example `pnpm dev --hostname lo
    everything and contact details are entered once, on the quote page. "Delivery abroad" also presets the quote's
    need. All WhatsApp, phone and email links stay behind the preview notice (risk R5).
 
+### 3D homepage: a real street on the first screen (`explore/3d-homepage`, 27 Nov 2026)
+
+1. **The hero is a photograph, not the rendered city.** After the overnight Cycles render the user judged the
+   opening city still "feels like a simulation". A side-by-side of the same hero over the film, a Dubai street and the
+   Abu Dhabi skyline was made, and the user picked the Dubai street. The photograph dissolves into the film over the
+   first 30–75 % of the hero chapter, so the walk to the car park still plays.
+2. **It is a stand-in**: "Dubai Marina and Sheikh Zayed Road from Saba 3 JLT at night", CC0, Wikimedia Commons
+   (`src/components/journey/hero-dubai.jpg`, 2560 px). Two Emaar signs and a lit advertising screen were retouched
+   out, so no other company's name shows. It is credited in one line at the end of the page. Replace it with AIMS's
+   own photograph or licensed footage of a site they fitted.
+
 ## Content import
 
 ```bash

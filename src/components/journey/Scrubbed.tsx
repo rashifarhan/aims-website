@@ -6,8 +6,9 @@ import { FilmContext, progress, smooth, useFilm } from "./film";
 type Fade = [start: number, end: number];
 
 /**
- * Words that live in a stretch of the film: they rise in over `fadeIn` and leave over `fadeOut` (fractions of
- * the frame range), widening their display type as they go (Mona Sans width axis), all scrubbed by scroll.
+ * Words (or a picture) that live in a stretch of the film: they rise in over `fadeIn` and leave over `fadeOut`
+ * (fractions of the frame range), widening their display type as they go (Mona Sans width axis), all scrubbed by
+ * scroll.
  */
 export function Scrubbed({
   from,
@@ -15,6 +16,7 @@ export function Scrubbed({
   fadeIn = [0, 0.15],
   fadeOut = [0.8, 1],
   stretch = [100, 125],
+  rise = 28,
   className,
   children,
 }: {
@@ -23,6 +25,8 @@ export function Scrubbed({
   fadeIn?: Fade;
   fadeOut?: Fade;
   stretch?: [number, number];
+  /** How far (px) the layer sinks as it fades; 0 for a full-bleed picture, whose edge must not show. */
+  rise?: number;
   className?: string;
   children: ReactNode;
 }) {
@@ -34,7 +38,7 @@ export function Scrubbed({
     const a = smooth(fadeIn[0], fadeIn[1], p) * (1 - smooth(fadeOut[0], fadeOut[1], p));
     node.style.visibility = a > 0.002 ? "visible" : "hidden";
     node.style.opacity = String(a);
-    node.style.transform = `translate3d(0, ${(1 - a) * 28}px, 0)`;
+    node.style.transform = `translate3d(0, ${(1 - a) * rise}px, 0)`;
     node.style.setProperty(
       "--stretch",
       `${stretch[0] + (stretch[1] - stretch[0]) * smooth(fadeIn[0], fadeOut[1], p)}%`,

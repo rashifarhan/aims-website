@@ -133,6 +133,17 @@ body:has(.journey-page) footer {
   display: block;
   background: var(--j-ink);
 }
+/* The real street over the film's first frames; above the canvas, under the hero's words and the grain. */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-photo-img {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
 /* One film stock over everything, UI included: the same grain ties the cards to the picture. */
 .journey-grain {
   position: absolute;
@@ -799,4 +810,20 @@ body:has(.journey-page) footer {
     transition-duration: 0s !important;
     transition-delay: 0s !important;
   }
+}
+
+/* The one credit line for the stand-in photograph (CLAUDE.md §2: credits in one line, no caption). */
+.photo-credit {
+  padding: 1rem clamp(1.25rem, 5vw, 5rem) 1.5rem;
+  background: #0b1014;
+  color: var(--j-muted);
+  font-size: 0.8rem;
+}
+.photo-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.photo-credit a:hover {
+  color: var(--j-warm);
 }
