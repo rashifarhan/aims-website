@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./d3-sections.css";
 
 /**
  * The one section box (design-taste-frontend one system; CLAUDE.md §2 "one section per screen"). The <section> is

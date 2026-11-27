@@ -12,6 +12,7 @@ import { AddSoftwareToQuote } from "@/components/software/AddSoftwareToQuote";
 import { loadSoftwarePage } from "@/components/software/softwareCopy";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { fmt } from "@/i18n/format";
 import "@/components/software/software.css";
 
@@ -48,6 +49,7 @@ export default async function SoftwarePage({ params }: PageProps<"/[lang]/softwa
       {/* The h1 names the platform and its category, so no label sits above it (impeccable craft floor);
           the lead says what it does and where AIMS sets it up (the hard fact). */}
       <PageHero
+        flood={PAGE_FLOOD.software}
         variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },

@@ -1,0 +1,122 @@
+/*
+ * Direction 3's inner-page opening (ui/PageHero.tsx; CLAUDE.md → Design rules): the page's family ground under the
+ * clear header, the breadcrumb and copy in white, and the page's giant white word along the foot, sized to the
+ * content width so it is never clipped. A product photograph stands on a light plinth (its white studio ground
+ * multiplies away, as on the product cards); a drawn scene or a screen capture sits on a white card.
+ */
+.page-hero.page-flood {
+  --word-fit: min(100vw - 2 * var(--page-gutter), var(--container-page) - 2 * var(--page-gutter));
+  --word-size: min(18rem, calc(var(--word-fit) / var(--em)));
+  padding-block: calc(var(--home-header-block) + 1.5rem) calc(var(--word-size) * 0.86 + 1rem);
+  background: var(--ground);
+  color: var(--color-paper);
+  /* The breadcrumb, eyebrow, lead and links take white from these tokens. */
+  --color-ink: #fff;
+  --color-ink-700: #fff;
+  --color-ink-600: rgb(255 255 255 / 0.84);
+  --color-ink-400: rgb(255 255 255 / 0.75);
+  --color-ink-300: rgb(255 255 255 / 0.5);
+  --color-green-700: #fff;
+  --color-green-100: rgb(255 255 255 / 0.4);
+}
+.giant-word.page-flood-word {
+  --u: 1px;
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  bottom: calc(var(--word-size) * -0.1);
+  font-size: var(--word-size);
+}
+.page-hero.page-flood .page-hero-eyebrow {
+  font-size: var(--text-flood-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-flood-label);
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+:lang(ar) .page-hero.page-flood .page-hero-eyebrow {
+  letter-spacing: 0;
+  font-size: 0.875rem;
+}
+.page-hero.page-flood h1 {
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: var(--tracking-display);
+}
+:lang(ar) .page-hero.page-flood h1 {
+  letter-spacing: 0;
+}
+.page-hero.page-flood .page-hero-lead,
+.page-hero.page-flood .page-hero-fact {
+  color: rgb(255 255 255 / 0.86);
+}
+/* Quote state on a dark flood (software pages): lime marks it, as the design rules allow on dark grounds. */
+.page-hero.page-flood .text-green-700 {
+  color: var(--color-signal);
+}
+.page-hero.page-flood :focus-visible {
+  outline-color: var(--color-paper);
+}
+
+/* The photograph's plinth: a light panel with a breath of the ground, the photo multiplied onto it. */
+.page-flood-plinth {
+  position: relative;
+  padding: 2rem;
+  border-radius: 28px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ground) 6%, #f7f6f1),
+    color-mix(in srgb, var(--ground) 14%, #e9e8e1)
+  );
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.5);
+}
+.page-hero.page-flood .page-hero-scene {
+  padding: 1.5rem;
+  border-radius: 28px;
+  background: var(--color-chalk);
+  color: var(--color-ink);
+  --color-ink: #0e1512;
+  --color-ink-700: #26302b;
+  --color-ink-600: #4a5550;
+  --color-ink-400: #666f6a;
+  --color-ink-300: #9aa29d;
+  --color-green-700: #26703a;
+  --color-green-100: #d9ecd2;
+}
+.page-hero.page-flood .page-hero-framed {
+  border: 0;
+  border-radius: 24px;
+  background: #fff;
+}
+@media (min-width: 1024px) {
+  .page-hero.page-flood.page-hero-split {
+    min-height: min(100svh, 60rem);
+  }
+  .page-flood-plinth {
+    padding: 3rem;
+  }
+}
+@media (max-width: 639px) {
+  .page-flood-plinth {
+    padding: 1.25rem;
+    border-radius: 22px;
+  }
+  .page-hero.page-flood .page-hero-scene {
+    padding: 1rem;
+    border-radius: 22px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-flood-word {
+    animation: page-flood-word-in 1000ms 120ms var(--ease-flood) both;
+  }
+}
+@keyframes page-flood-word-in {
+  from {
+    opacity: 0;
+    translate: calc(var(--word-size) * 0.6) 0;
+  }
+}
+:root[data-motion-rest="true"] .page-flood-word {
+  animation: none;
+}

@@ -12,7 +12,7 @@ test.describe("listing polish", () => {
     await expect(first.locator("img")).toHaveCount(1);
   });
 
-  test("card: model code in Plex Mono, outline Add, and the same height once added", async ({ page }) => {
+  test("card: model code in Plex Mono, the ink Add pill, and the same height once added", async ({ page }) => {
     await page.goto("/products/time-attendance", { waitUntil: "load" });
     const card = page.getByRole("article").first();
     const model = card.getByRole("heading", { level: 3 }).getByRole("link");
@@ -21,9 +21,9 @@ test.describe("listing polish", () => {
     await expect(model).toHaveCSS("font-family", /plex|mono/i);
 
     const add = card.getByRole("button", { name: "Add to quote" });
-    // Outline: a grid of cards never shows a wall of filled green.
+    // Direction 3's primary on chalk: the ink pill (CLAUDE.md → Design rules → Components).
     // Retrying for the same reason as the font: a one-shot read on a phone can land before the listing settles.
-    await expect(add).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(add).toHaveCSS("background-color", "rgb(15, 31, 23)");
 
     // Layout boxes (offsetHeight/offsetTop), not boundingBox: the click's press and hover transforms
     // (scale .99, 2px lift) are still settling and would skew a transformed box.

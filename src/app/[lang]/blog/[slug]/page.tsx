@@ -12,6 +12,7 @@ import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { ArticleNext } from "@/components/editorial/ArticleNext";
 import { EditorialBlocks } from "@/components/editorial/EditorialBlocks";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { Section } from "@/components/ui/Section";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
 import { articleBySlug, articles } from "@/content/pages";
@@ -50,6 +51,7 @@ export default async function BlogArticle({ params }: PageProps<"/[lang]/blog/[s
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.blog}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

@@ -326,7 +326,7 @@ test.describe("quick picks", () => {
 
   test("a family page has no quick picks", async ({ page }) => {
     await page.goto("/products/time-attendance", { waitUntil: "load" });
-    await expect(page.getByRole("heading", { name: "Results" })).toBeAttached();
+    await expect(page.locator("#results-heading")).toHaveText("Time attendance");
     await expect(page.getByRole("group", { name: "Popular" })).toHaveCount(0);
   });
 
@@ -338,12 +338,52 @@ test.describe("quick picks", () => {
   });
 });
 
+test.describe("categories", () => {
+  test("picking a category filters the list in place and offers its types", async ({ page }) => {
+    await page.goto("/products", { waitUntil: "load" });
+    const picker = page.getByRole("navigation", { name: "Product categories" });
+    const entry = picker.getByRole("button", { name: /Entrance & parking/ });
+    // A click before hydration does nothing; click again only while it is still unpressed (a second click unpicks).
+    await expect(async () => {
+      if ((await entry.getAttribute("aria-pressed")) !== "true") await entry.click({ timeout: 1000 });
+      await expect(entry).toHaveAttribute("aria-pressed", "true", { timeout: 1000 });
+    }).toPass();
+    await expect(page).toHaveURL(/family=entrance-control/);
+    await expect(page).toHaveURL(/\/products\?/);
+    await expect(page.locator("#results-heading")).toHaveText("Entrance & parking");
+    await expect(page.getByRole("article")).toHaveCount(12);
+
+    const types = page.getByRole("group", { name: "Type" });
+    await types.getByRole("button", { name: /Parking barriers/ }).click();
+    await expect(page).toHaveURL(/type=parking/);
+    await expect(page.getByRole("article")).toHaveCount(7);
+
+    await picker.getByRole("button", { name: /All products/ }).click();
+    await expect(page).not.toHaveURL(/family=/);
+    await expect(page.locator("#results-heading")).toHaveText("All products");
+  });
+
+  test("a family page opens on its own flood and ends on the next family", async ({ page }) => {
+    await page.goto("/products/door-locks", { waitUntil: "load" });
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Smart & hotel locks");
+    // The family links are a desktop row (removed on a phone, Design rules → Layout).
+    await expect(page.locator('.fam-tabs a[aria-current="page"]')).toHaveText("Smart & hotel locks");
+    await expect(page.getByRole("link", { name: /Next: Door hardware/ })).toHaveAttribute(
+      "href",
+      "/products/door-hardware",
+    );
+    await expect(page.getByRole("heading", { level: 2, name: "Door hardware" })).toBeAttached();
+  });
+});
+
 test.describe("facet groups", () => {
-  test("Family starts open and Brand closed; opening Brand shows its options", async ({ page, isMobile }) => {
+  test("Verification starts open and Brand closed; opening Brand shows its options", async ({ page, isMobile }) => {
     test.skip(isMobile, "the rail is desktop; the sheet uses the same panel");
     await page.goto("/products", { waitUntil: "load" });
     const rail = page.getByRole("complementary", { name: "Filters" });
-    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toBeVisible();
+    // The family is the category picker above the list (owner, 27 Nov 2026), so the rail has no Family group.
+    await expect(rail.getByRole("checkbox", { name: /^Time attendance/ })).toHaveCount(0);
+    await expect(rail.getByRole("checkbox", { name: /^Face/ })).toBeVisible();
     await expect(rail.getByRole("checkbox", { name: /^ZKTeco/ })).toBeHidden();
 
     await rail.locator("summary", { hasText: "Brand" }).click();

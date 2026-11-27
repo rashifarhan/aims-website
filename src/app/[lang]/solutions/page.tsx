@@ -5,6 +5,7 @@ import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { Section } from "@/components/ui/Section";
 import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { SOLUTION_CARDS } from "@/content/solutions";
@@ -37,6 +38,7 @@ export default async function SolutionsHub() {
   return (
     <main id="main">
       <PageHero
+        flood={PAGE_FLOOD.solutions}
         variant="compact"
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },

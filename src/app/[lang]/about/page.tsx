@@ -6,6 +6,7 @@ import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { LocationCards } from "@/components/contact/LocationCards";
@@ -33,6 +34,7 @@ export default async function About() {
   return (
     <main id="main" className="co-about w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.about}
         variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },

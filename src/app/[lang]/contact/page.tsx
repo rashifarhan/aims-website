@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ContactRouter } from "@/components/contact/ContactRouter";
 import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
@@ -31,6 +32,7 @@ export default async function ContactPage() {
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.contact}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

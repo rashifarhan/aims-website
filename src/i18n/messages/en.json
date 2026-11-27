@@ -257,7 +257,13 @@
     "increase": "Increase quantity",
     "remove": "Remove from quote",
     "removedAnnounce": "{name} removed from quote.",
-    "viewQuote": "Review quote request"
+    "viewQuote": "Review quote request",
+    "familyPage": "{name} page",
+    "allTypes": "All",
+    "categories": "Product categories",
+    "models": "{count} models",
+    "nextFamily": "Next family",
+    "seeFamily": "See {name}"
   },
   "product": {
     "keySpecs": "Key specifications",

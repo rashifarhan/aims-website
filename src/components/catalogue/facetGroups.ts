@@ -9,8 +9,8 @@ type Input = {
   /** Filter state including the route's family. */
   state: FilterState;
   searchOrder: string[] | null;
-  /** Set on a family listing; the family facet is then hidden. */
-  family?: string;
+  /** Groups another control already offers: the category picker (family) and the type chips (type). */
+  omit: FacetGroup[];
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
 };
@@ -22,24 +22,17 @@ const OPEN_BY_DEFAULT: string[] = ["family", "type", "verify"];
  * Facet groups with live counts (Design Doc 9 Facet panel). Options with no matches are hidden unless
  * already selected, and a group with a single option is dropped: it filters nothing.
  */
-export function facetGroupViews({ cards, state, searchOrder, family, t, familyNames }: Input): FacetGroupView[] {
+export function facetGroupViews({ cards, state, searchOrder, omit, t, familyNames }: Input): FacetGroupView[] {
   const named = (dict: Record<string, string>) => (v: string) => dict[v] ?? v;
-  const defs: { id: FacetGroup; legend: string; label: (v: string) => string; order: string[] }[] = [
-    ...(family
-      ? []
-      : [
-          {
-            id: "family" as const,
-            legend: t.facets.family,
-            label: named(familyNames),
-            order: FAMILIES.map((f) => f.slug),
-          },
-        ]),
+  type Def = { id: FacetGroup; legend: string; label: (v: string) => string; order: string[] };
+  const all: Def[] = [
+    { id: "family", legend: t.facets.family, label: named(familyNames), order: FAMILIES.map((f) => f.slug) },
     { id: "type", legend: t.facets.type, label: named(t.types), order: Object.keys(t.types) },
     { id: "brand", legend: t.facets.brand, label: named(t.brands), order: ["zkteco", "alpha"] },
     { id: "verify", legend: t.facets.verify, label: named(t.verify), order: Object.keys(t.verify) },
     { id: "conn", legend: t.facets.conn, label: named(t.conn), order: Object.keys(t.conn) },
   ];
+  const defs = all.filter((g) => !omit.includes(g.id));
 
   const groups = defs
     .map((g): FacetGroupView | null => {

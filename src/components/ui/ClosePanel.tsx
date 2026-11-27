@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
 import { Magnetic } from "./Magnetic";
 import { Section } from "./Section";
-import { Ridges } from "./Ridges";
+import { GiantWord } from "@/components/families/GiantWord";
+import { QUOTE_WORD } from "@/components/families/familyShowcase";
 
 type Action = { href: string; label: string };
 
@@ -57,7 +58,8 @@ export function ClosePanel({
   );
   return (
     <Section ground="night" labelledBy={id} className="ui-close">
-      <Ridges className="close-ridges" />
+      {/* Direction 3's closing flood: the giant QUOTE along the band's foot (ui/d3-sections.css). */}
+      <GiantWord word={QUOTE_WORD.word} em={QUOTE_WORD.wordEm} className="ui-close-word" />
       {panel}
     </Section>
   );

@@ -13,6 +13,7 @@ import { productGrounds } from "@/components/product/grounds";
 import "@/components/catalogue/catalogue.css";
 import "@/components/product/product.css";
 import { ClosePanel } from "@/components/ui/ClosePanel";
+import { FAMILY_SHOW } from "@/components/families/familyShowcase";
 import { fittedWith, productBySlug, products, uniqueName } from "@/content/catalogue";
 import type { FamilySlug } from "@/content/taxonomy";
 import { localePath } from "@/i18n/config";
@@ -48,6 +49,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   const family = p.family as FamilySlug;
   const familyName = t.families[family].name;
   const image = p.images[0];
+  const show = FAMILY_SHOW.find((f) => f.slug === family) ?? FAMILY_SHOW[0];
 
   const addLabels = {
     add: t.catalogue.add,
@@ -82,6 +84,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         addLabels={addLabels}
         t={t}
         data={data}
+        show={{ word: show.word, wordEm: show.wordEm, ground: show.ground }}
       />
 
       <ConnectsDiagram

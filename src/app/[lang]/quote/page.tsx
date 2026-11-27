@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { QuoteView } from "@/components/quote/QuoteView";
 import type { CatalogEntry } from "@/components/quote/QuoteItems";
 import { products, softwareList } from "@/content/catalogue";
@@ -39,6 +40,7 @@ export default async function QuotePage() {
   return (
     <main id="main" data-quote-page className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.quote}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

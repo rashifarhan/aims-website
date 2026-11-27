@@ -4,6 +4,7 @@ import { localePath } from "@/i18n/config";
 import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ServicesCover } from "@/components/company/ServicesCover";
 import { ServicesList } from "@/components/company/ServicesList";
 import { ServicesProcess } from "@/components/company/ServicesProcess";
@@ -30,6 +31,7 @@ export default async function Services() {
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.services}
         variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },

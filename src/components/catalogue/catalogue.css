@@ -1,25 +1,646 @@
 /*
- * T4 listing (site polish, 22 Nov 2026). Loaded by the listing pages only.
+ * The products hub and family pages, direction 3 (CLAUDE.md → Design rules). Loaded by the listing pages, and by any
+ * page that shows a product card or the photo plinth (product, compare, location pages).
  */
 
-/* Phones list products as rows divided by hairlines (CLAUDE.md 2: mobile first, uncluttered); the shared
-   card chrome (actions.css .ui-card) starts at 640px, where products sit in a grid. */
-@media (width < 40rem) {
-  .product-card.ui-card {
-    border-width: 0 0 1px;
-    border-radius: 0;
-    box-shadow: none;
+/* ---------- the listing section ---------- */
+.lst {
+  padding-block: 2.5rem 8rem;
+}
+.fam-wrap + .lst {
+  padding-block-start: 5rem;
+}
+.lst-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem 4rem;
+}
+.lst-head > :first-child {
+  flex: 1 1 28rem;
+  min-width: 0;
+}
+.lst-title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-flood-h2);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+}
+.lst-lead {
+  max-width: 35rem;
+  margin: 1rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--color-ink-600);
+}
+:lang(ar) .lst-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+/* The search: a white pill with an ink ring (Inputs never below 16px). */
+.lst-search {
+  position: relative;
+  flex: 0 1 35rem;
+  width: 100%;
+}
+.lst-search-icon {
+  position: absolute;
+  inset-inline-start: 1.375rem;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--color-ink);
+  pointer-events: none;
+}
+.lst-search-input {
+  width: 100%;
+  height: 4rem;
+  padding-inline: 3.5rem 1.5rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+}
+.lst-search-input::placeholder {
+  color: var(--color-ink-400);
+}
+.lst-search-input:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- the six major categories (CategoryPicker) ---------- */
+.cat-picker ul {
+  display: grid;
+  grid-template-columns: 1fr repeat(6, 1.12fr);
+  gap: 0.75rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cat-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 13.25rem;
+  overflow: clip;
+  border-radius: 22px;
+  background: var(--ground);
+  color: var(--color-paper);
+  text-align: start;
+  container-type: inline-size;
+  cursor: pointer;
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+.cat-all {
+  background: #fff;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-chalk-line);
+}
+.cat-swatches {
+  position: absolute;
+  inset: 1.25rem 1.25rem auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3rem;
+}
+.cat-swatches i {
+  aspect-ratio: 1.3;
+  border-radius: 0.5rem;
+}
+.cat-word {
+  --u: 1cqw;
+  --fit: 84cqw;
+  --cap: 30cqw;
+  position: absolute;
+  inset-inline: 0;
+  top: 34%;
+  translate: 0 -50%;
+}
+.cat-product {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: var(--w);
+  translate: -50% -50%;
+  filter: drop-shadow(0 10px 12px var(--color-stage-shadow));
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+.cat-product img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cat-foot {
+  position: absolute;
+  inset: auto 1rem 0.875rem;
+}
+.cat-name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: 1rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.cat-count {
+  display: block;
+  margin-block-start: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.78125rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+:lang(ar) .cat-name {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+.cat-tile[aria-pressed="true"] {
+  outline: 2.5px solid var(--color-ink);
+  outline-offset: 4px;
+}
+.cat-tile[aria-pressed="true"]::after {
+  content: "✓";
+  position: absolute;
+  top: 0.75rem;
+  inset-inline-end: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-signal);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.cat-all[aria-pressed="true"]::after {
+  background: var(--color-ink);
+  color: var(--color-signal);
+}
+.cat-tile:focus-visible {
+  outline: 2.5px solid var(--color-ink);
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cat-tile:hover {
+    translate: 0 -2px;
+  }
+  .cat-tile:hover .cat-product {
+    translate: -50% calc(-50% - 6px);
   }
 }
 
-/* The card presses only when its links are pressed. The stepper and Compare press themselves; a card
-   that sinks on every quantity tap is noise (Emil: no motion on frequent actions). */
-.product-card.ui-card-interactive:active:has(:is(button, input, label):active) {
-  transform: none;
+/* ---------- results ---------- */
+.lst-grid {
+  margin-block-start: 3.5rem;
+}
+@media (width >= 64rem) {
+  .lst-grid {
+    display: grid;
+    grid-template-columns: 14.5rem minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+.sel-head {
+  margin-block-end: 1.5rem;
+}
+.sel-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+}
+.sel-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-display);
+}
+:lang(ar) .sel-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.sel-picks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: 1rem;
+}
+.sel-picks-label {
+  flex: none;
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-600);
+}
+:lang(ar) .sel-picks-label {
+  letter-spacing: 0;
+  font-size: 0.8125rem;
+}
+.sel-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.sel-picks .sel-chips {
+  margin: 0;
+}
+.sel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding-inline: 1.125rem;
+  border: 1px solid var(--color-chalk-line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-hover) ease,
+    border-color var(--duration-hover) ease;
+}
+.sel-chip:hover {
+  border-color: var(--color-ink);
+}
+.sel-chip-count {
+  font-family: var(--font-mono);
+  font-size: 0.78125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-600);
+}
+.sel-chip[aria-pressed="true"] {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: #fff;
+}
+.sel-chip[aria-pressed="true"] .sel-chip-count {
+  color: var(--color-signal);
+}
+.sel-chip:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.lst-bar {
+  padding-block-end: 1rem;
+  border-block-end: 1px solid var(--color-chalk-line);
+}
+.lst-sort {
+  height: 2.75rem;
+  padding-inline: 1rem 0.75rem;
+  border: 1px solid var(--color-chalk-line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 1rem;
+}
+.lst-sort:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ---------- the product card ---------- */
+.pc-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pc-grid > li {
+  display: flex;
+}
+@media (width >= 40rem) {
+  .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+@media (width >= 80rem) {
+  .pc-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pc {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0 0.75rem;
+  width: 100%;
+  padding: 0.375rem;
+  border-radius: 20px;
+  background: #fff;
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+.pc-panel {
+  position: relative;
+  display: block;
+  align-self: start;
+  aspect-ratio: 1;
+  overflow: clip;
+  border-radius: 15px;
+  /* A light plinth with a breath of the family's ground; the white studio photo multiplies onto it, so it shows no
+     white square and no cut-out edge (the main site's method, owner 27 Nov 2026). */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--g) 6%, #f7f6f1),
+    color-mix(in srgb, var(--g) 12%, #ecebe4)
+  );
+}
+.pc-photo {
+  object-fit: contain;
+  padding: 0.5rem;
+  mix-blend-mode: multiply;
+  transition: translate var(--duration-card) var(--ease-flood);
+}
+.pc-family {
+  display: none;
+}
+.pc-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.375rem 0.5rem 0.25rem 0;
+}
+:dir(rtl) .pc-body {
+  padding: 0.375rem 0 0.25rem 0.5rem;
+}
+.pc-brand {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-600);
+}
+.pc-model {
+  margin: 0.125rem 0 0;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.pc-model-link {
+  display: inline-block;
+  min-width: 2.75rem;
+  margin-block: -0.75rem;
+  padding-block: 0.75rem;
+  overflow-wrap: anywhere;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 0.7rem) / 0 1.5px;
+  transition: background-size var(--duration-sweep) var(--ease-flood);
+}
+.pc-model-link:hover {
+  background-size: 100% 1.5px;
+}
+.pc-sub {
+  margin: 0.125rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-ink-600);
+}
+.pc-facts {
+  margin: 0.625rem 0 0;
+  font-size: 0.8125rem;
+}
+.pc-facts > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.625rem;
+  padding-block: 0.4375rem;
+  border-block-start: 1px solid #ebe8df;
+}
+:dir(rtl) .pc-facts > div {
+  justify-content: flex-end;
+}
+.pc-facts dt {
+  color: var(--color-ink-600);
+}
+.pc-facts dd {
+  min-width: 0;
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.pc-none {
+  padding-block-start: 0.4375rem;
+  border-block-start: 1px solid #ebe8df;
+  color: var(--color-ink-600);
+}
+.pc-actions {
+  display: grid;
+  justify-items: start;
+  gap: 0.125rem;
+  margin-block-start: auto;
+  padding-block-start: 0.75rem;
+}
+/* Adding swaps the button for the stepper and "On your list" on the same one row, so the card never grows. */
+.pc-actions [data-quote-add] {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.pc-compare {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-ink-600);
+  cursor: pointer;
+}
+.pc-compare input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-ink);
+}
+.pc-compare.is-disabled {
+  color: var(--color-ink-400);
+  cursor: not-allowed;
+}
+@media (width >= 40rem) {
+  .pc {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border-radius: 22px;
+  }
+  .pc-panel {
+    align-self: stretch;
+    aspect-ratio: 5 / 4;
+    border-radius: 16px;
+  }
+  .pc-photo {
+    padding: 10% 14%;
+  }
+  .pc-family {
+    position: absolute;
+    z-index: 1;
+    inset-inline-start: 0.875rem;
+    top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4375rem;
+    font-size: 0.65625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-ink-600);
+  }
+  .pc-family::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 3px;
+    background: var(--g);
+  }
+  :lang(ar) .pc-family {
+    letter-spacing: 0;
+    font-size: 0.75rem;
+  }
+  .pc-body,
+  :dir(rtl) .pc-body {
+    flex: 1;
+    padding: 1rem 0.75rem 0.5rem;
+  }
+  .pc-model {
+    font-size: 1.3125rem;
+  }
+  .pc-facts {
+    margin-block-start: 0.875rem;
+    font-size: 0.84375rem;
+  }
+  .pc-actions {
+    padding-block-start: 1rem;
+  }
 }
 @media (hover: hover) and (pointer: fine) {
-  .product-card.ui-card-interactive:hover:has(:is(button, input, label):active) {
-    transform: translateY(-2px);
+  .pc:hover {
+    translate: 0 -2px;
+  }
+  .pc:hover .pc-photo {
+    translate: 0 -6px;
+  }
+}
+
+/* ---------- can't find + install ---------- */
+.lst-helps {
+  display: grid;
+  gap: 1.25rem;
+  margin-block-start: 4rem;
+}
+@media (width >= 64rem) {
+  .lst-helps {
+    grid-template-columns: 1.5fr 1fr;
+  }
+}
+.lst-cantfind.ui-panel {
+  margin: 0;
+  border: 0;
+  border-radius: 22px;
+  background: #fff;
+  padding: 2rem;
+}
+.lst-install {
+  border-radius: 22px;
+  padding: 2rem;
+  background: var(--ground);
+  color: var(--color-paper);
+}
+.lst-install-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: 1.875rem;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+:lang(ar) .lst-install-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.lst-install p {
+  margin: 0.75rem 0 1.75rem;
+  line-height: 1.55;
+  opacity: 0.86;
+}
+@media (width < 40rem) {
+  .lst {
+    padding-block: 1.5rem 5.5rem;
+  }
+  .fam-wrap + .lst {
+    padding-block-start: 3.5rem;
+  }
+  .lst-search-input {
+    height: 3.5rem;
+    font-size: 1rem;
+  }
+  .cat-picker ul {
+    display: flex;
+    gap: 0.625rem;
+    margin: 1.75rem -0.3rem 0;
+    padding: 0.3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-picker li {
+    flex: none;
+    width: 9.25rem;
+  }
+  .cat-tile {
+    height: 11rem;
+  }
+  .cat-name {
+    font-size: 0.9375rem;
+  }
+  .lst-grid {
+    margin-block-start: 2.25rem;
+  }
+  .sel-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: -0.25rem;
+    padding: 0.25rem;
+  }
+  .sel-picks {
+    display: block;
+  }
+  .sel-picks-label {
+    display: none;
+  }
+  .lst-cantfind.ui-panel,
+  .lst-install {
+    padding: 1.5rem;
+  }
+  .lst-install-title {
+    font-size: 1.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-tile,
+  .cat-product,
+  .pc,
+  .pc-photo {
+    transition: none;
   }
 }
 
@@ -96,4 +717,26 @@
 }
 :lang(ar) .catalogue-tile-title {
   letter-spacing: 0;
+}
+
+/* The listing's chips (pagination, applied filters) take direction 3's pill: white on chalk, ink when current. */
+.lst .ui-chip {
+  border-color: var(--color-chalk-line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+.lst .ui-chip:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+.lst :is(.ui-chip-on, .ui-chip[aria-current]) {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: #fff;
+}
+.lst .ui-chip:has(:focus-visible),
+.lst .ui-chip:focus-visible {
+  outline-color: var(--color-ink);
 }

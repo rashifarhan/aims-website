@@ -31,7 +31,7 @@ export function CantFindPanel({ initial, preset, hrefs, t }: Props) {
   const message = wanted ? fmt(t.cantFindWhatsappText, { text: wanted }) : t.cantFindWhatsappGeneric;
 
   return (
-    <section aria-labelledby="cant-find-title" className="ui-panel mt-10">
+    <section aria-labelledby="cant-find-title" className="ui-panel lst-cantfind">
       <h2 id="cant-find-title" className="ui-display text-home-subtitle leading-tight text-ink">
         {t.cantFindTitle}
       </h2>

@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { ProductCard as Card } from "@/content/cards";
 import type { QuoteContext } from "@/lib/quote/context";
 import { splitModel } from "@/lib/modelCode";
+import { FAMILY_GROUND } from "@/components/families/grounds";
 import { AddToQuote, type AddToQuoteLabels } from "./AddToQuote";
 // The card's plinth and phone-row rules travel with it (a location page shows it outside the listing).
 import "./catalogue.css";
@@ -22,6 +24,8 @@ type Props = {
   preset?: Partial<QuoteContext>;
   /** Above-the-fold cards load eagerly. */
   eager?: boolean;
+  /** The family's name, shown on the photo panel where the list mixes families (the hub with no category). */
+  familyLabel?: string;
 };
 
 const BRAND_LINE: Record<Card["brand"], string> = { zkteco: "ZKTeco", alpha: "Alpha", other: "" };
@@ -39,90 +43,68 @@ function describe(c: Card): string {
 }
 
 /**
- * Product card (Design Doc 9): row on mobile, tile from 640px, in the one card style (actions.css
- * .ui-card). Not one big link: the model is the link, actions are separate controls. Facts are verbatim
- * spec values; missing specs say so.
+ * Product card: a row on a phone, a tile from 640px. Not one big link: the model is the link, actions are separate
+ * controls. Facts are verbatim spec values; missing specs say so.
  */
-export function ProductCard({ card, href, subtitle, labels, compare, preset, eager = false }: Props) {
+export function ProductCard({ card, href, subtitle, labels, compare, preset, eager = false, familyLabel }: Props) {
   const model = splitModel(card.model);
   const description = model.description || describe(card);
   return (
-    // From 640px the home tile: the photograph full-bleed on its plinth, the facts inset below (catalogue.css).
-    <article className="product-card ui-card ui-card-interactive spotlight-card grid w-full grid-cols-[88px_1fr] gap-4 py-4 sm:flex sm:flex-col sm:gap-0 sm:overflow-clip sm:p-0">
-      <Link
-        href={href}
-        tabIndex={-1}
-        aria-hidden="true"
-        className="ui-card-photo catalogue-plinth relative block aspect-square overflow-hidden rounded-md sm:aspect-5/4 sm:rounded-none"
-      >
+    // Direction 3's product card (CLAUDE.md → Design rules → Components): a white card on chalk; AIMS's own studio
+    // photograph multiplied onto a light panel tinted by the family's ground (the main site's method, owner 27 Nov
+    // 2026: clean edges, no cut-out halo), then the model in mono, the brand and only the catalogue's facts.
+    <article className="product-card pc" style={{ "--g": FAMILY_GROUND[card.family] } as CSSProperties}>
+      <Link href={href} tabIndex={-1} aria-hidden="true" className="pc-panel">
+        {familyLabel && <span className="pc-family">{familyLabel}</span>}
         {card.image && (
           <Image
             src={card.image.src}
             alt=""
             fill
-            sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 88px"
-            className="object-contain p-2 sm:px-[14%] sm:py-[10%]"
+            sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 96px"
+            className="pc-photo"
             loading={eager ? "eager" : "lazy"}
           />
         )}
       </Link>
 
-      <div className="flex min-w-0 flex-1 flex-col sm:p-(--card-pad)">
-        {BRAND_LINE[card.brand] && (
-          <p className="text-brand font-semibold tracking-brand text-ink-600 uppercase">{BRAND_LINE[card.brand]}</p>
-        )}
-        <h3 className="mt-0.5 text-base leading-snug font-medium text-ink sm:text-lg">
-          {/* The negative margin cancels the padding, so the link is a 44px target without moving the line box
-              (CLAUDE.md §4); the underline draws in rather than snapping on (taste House rule 5). */}
-          <Link
-            href={href}
-            dir="ltr"
-            className="-my-3 inline-block min-w-11 py-3 font-mono break-words underline decoration-transparent underline-offset-[0.2em] transition-[color,text-decoration-color] duration-(--duration-hover) hover:text-green-700 hover:decoration-current"
-          >
+      <div className="pc-body">
+        {BRAND_LINE[card.brand] && <p className="pc-brand">{BRAND_LINE[card.brand]}</p>}
+        <h3 className="pc-model">
+          {/* The negative margin cancels the padding, so the link is a 44px target without moving the line box. */}
+          <Link href={href} dir="ltr" className="pc-model-link">
             {model.code}
           </Link>
         </h3>
-        {/* Product data is English (CLAUDE.md 7); the type label comes from the dictionary. */}
-        <p className="mt-0.5 text-sm text-ink-600" lang={description ? "en" : undefined}>
+        {/* Product data is English (CLAUDE.md 5); the type label comes from the dictionary. */}
+        <p className="pc-sub" lang={description ? "en" : undefined}>
           {description || subtitle}
         </p>
 
         {card.facts.length > 0 ? (
-          <dl className="mt-3 grid gap-1.5 text-sm">
+          <dl className="pc-facts">
             {card.facts.map((f) => (
-              // Product data is English: keep "label value" order on Arabic pages too. A value too long for
-              // the row wraps under its label and, in Arabic, lines up with the card's end edge (Design Doc 13).
-              <div key={f.label} dir="ltr" lang="en" className="flex flex-wrap gap-x-1.5 rtl:justify-end">
-                <dt className="text-ink-600">{f.label}</dt>
-                <dd className="min-w-0 font-medium text-ink tabular-nums rtl:text-end">{f.value}</dd>
+              // Product data is English: keep "label value" order on Arabic pages too.
+              <div key={f.label} dir="ltr" lang="en">
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
               </div>
             ))}
           </dl>
         ) : (
-          <p className="mt-3 text-sm text-ink-600">{labels.specsOnRequest}</p>
+          <p className="pc-facts pc-none">{labels.specsOnRequest}</p>
         )}
 
-        {/* Two fixed rows, so adding to the quote (stepper + "In quote") never moves Compare or changes
-            the card's height. The outline button keeps a grid from becoming a wall of filled green. */}
-        <div className="mt-auto grid gap-1 pt-4">
-          <AddToQuote
-            slug={card.slug}
-            name={card.name}
-            labels={labels}
-            variant="outline"
-            className="min-h-11"
-            preset={preset}
-          />
+        {/* Two fixed controls: adding (stepper + "On your list") never moves Compare. */}
+        <div className="pc-actions">
+          <AddToQuote slug={card.slug} name={card.name} labels={labels} className="min-h-11" preset={preset} />
           {compare && (
-            <label
-              className={`inline-flex min-h-11 items-center gap-2 justify-self-start text-sm ${compare.disabled ? "text-ink-400" : "cursor-pointer text-ink-700"}`}
-            >
+            <label className={`pc-compare ${compare.disabled ? "is-disabled" : ""}`}>
               <input
                 type="checkbox"
                 checked={compare.checked}
                 disabled={compare.disabled}
                 onChange={compare.onToggle}
-                className="size-4.5 accent-green-700"
               />
               {labels.compare}
               <span className="sr-only">: {card.name}</span>

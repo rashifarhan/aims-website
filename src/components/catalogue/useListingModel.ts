@@ -4,6 +4,7 @@ import type { FamilySlug } from "@/content/taxonomy";
 import {
   activeFilterCount,
   applyFilters,
+  facetCounts,
   relaxations,
   serializeFilters,
   toggle,
@@ -49,7 +50,25 @@ export function useListingModel({
   });
 
   /* ---------- facets ---------- */
-  const groups = facetGroupViews({ cards, state: effective, searchOrder: order, family, t, familyNames });
+  // The category picker (hub) or the page itself (family page) chooses the family, and once a family is chosen its
+  // sub-types are chips over the results, so the rail and the sheet keep only the finer filters.
+  const omit: FacetGroup[] = effective.family ? ["family", "type"] : ["family"];
+  const groups = facetGroupViews({ cards, state: effective, searchOrder: order, omit, t, familyNames });
+  const typeCounts = facetCounts(cards, effective, order, "type");
+  const typeChips = effective.family
+    ? Object.keys(t.types)
+        .filter((k) => (typeCounts.get(k) ?? 0) > 0)
+        .map((k) => ({
+          value: k,
+          label: (t.types as Record<string, string>)[k] ?? k,
+          count: typeCounts.get(k) ?? 0,
+          pressed: state.type.includes(k as FilterState["type"][number]),
+        }))
+    : [];
+  const typeTotal = applyFilters(cards, { ...effective, type: [] }, order).length;
+  const onType = (value: string | undefined) =>
+    update({ type: value ? [value as FilterState["type"][number]] : [], page: 1 });
+  const onFamily = (value: FamilySlug | undefined) => update({ family: value, type: [], page: 1 });
 
   const onToggle = (groupId: string, value: string) => {
     if (groupId === "outdoor") return update({ outdoor: !state.outdoor });
@@ -58,8 +77,9 @@ export function useListingModel({
     update({ [key]: toggle(state[key] as string[], value) } as Partial<FilterState>);
   };
 
-  const filterCount = activeFilterCount(state);
-  const clearFilters = () => update({ family: undefined, type: [], brand: [], verify: [], conn: [], outdoor: false });
+  // The chosen category is not a filter to clear: "Clear filters" keeps it, and it is not counted.
+  const filterCount = activeFilterCount({ ...state, family: undefined, type: effective.family ? [] : state.type });
+  const clearFilters = () => update({ type: [], brand: [], verify: [], conn: [], outdoor: false });
   const onSort = (sort: FilterState["sort"]) => update({ sort });
   const onGoToPage = (n: number) => {
     update({ page: n }, { push: true });
@@ -143,6 +163,10 @@ export function useListingModel({
     hrefForPage,
     groups,
     onToggle,
+    typeChips,
+    typeTotal,
+    onType,
+    onFamily,
     filterCount,
     clearFilters,
     compareItems,

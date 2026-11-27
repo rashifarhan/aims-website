@@ -4,6 +4,7 @@ import { ContactLink } from "@/components/contact/ContactLink";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SUPPORT_SECTIONS, SupportSections } from "@/components/company/SupportSections";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { OnThisPage } from "@/components/editorial/OnThisPage";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
@@ -34,6 +35,7 @@ export default async function Support() {
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.support}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

@@ -5,6 +5,7 @@ import { ReachMap } from "@/components/home/ReachMap";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
@@ -35,6 +36,7 @@ export default async function LocationsHub() {
   return (
     <main id="main">
       <PageHero
+        flood={PAGE_FLOOD.locations}
         variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },

@@ -23,16 +23,12 @@ type Props = {
  */
 export function ResultsBar({ count, countText, cause, filtersLabel, onOpenFilters, sort }: Props) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="lst-bar flex flex-wrap items-center justify-between gap-3">
       <ResultCount count={count} text={countText} cause={cause} />
       <div className="flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-2 text-sm text-ink-700">
           {sort.label}
-          <select
-            value={sort.value}
-            onChange={(e) => sort.onChange(e.target.value)}
-            className="h-11 rounded-md border border-line-strong bg-paper ps-3 pe-2 text-base text-ink focus:border-green-700 focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-green-700"
-          >
+          <select value={sort.value} onChange={(e) => sort.onChange(e.target.value)} className="lst-sort">
             {sort.options.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -40,11 +36,7 @@ export function ResultsBar({ count, countText, cause, filtersLabel, onOpenFilter
             ))}
           </select>
         </label>
-        <button
-          type="button"
-          onClick={onOpenFilters}
-          className="home-button home-button-outline home-button-sm lg:hidden"
-        >
+        <button type="button" onClick={onOpenFilters} className="home-button home-button-sm lg:hidden">
           {filtersLabel}
         </button>
       </div>

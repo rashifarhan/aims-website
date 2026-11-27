@@ -257,7 +257,13 @@
     "increase": "زيادة الكمية",
     "remove": "إزالة من عرض السعر",
     "removedAnnounce": "أُزيل {name} من عرض السعر.",
-    "viewQuote": "مراجعة طلب عرض السعر"
+    "viewQuote": "مراجعة طلب عرض السعر",
+    "familyPage": "صفحة {name}",
+    "allTypes": "الكل",
+    "categories": "فئات المنتجات",
+    "models": "{count} طرازاً",
+    "nextFamily": "الفئة التالية",
+    "seeFamily": "تصفح {name}"
   },
   "product": {
     "keySpecs": "المواصفات الرئيسية",

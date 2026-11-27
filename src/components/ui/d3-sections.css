@@ -1,0 +1,41 @@
+/*
+ * Direction 3 on the shared sections (CLAUDE.md → Design rules): chalk is the light reading ground and white the
+ * second light ground, so neighbouring sections still alternate; headings take the display cut at 112% width; the
+ * closing band is a flood on the access ground with the giant QUOTE along its foot.
+ */
+.section.section-paper {
+  background: var(--color-chalk);
+}
+.section.section-band {
+  border-block-color: transparent;
+  background: #fff;
+}
+.section .section-title {
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: var(--tracking-display);
+}
+:lang(ar) .section-title {
+  letter-spacing: 0;
+}
+.section.section-night {
+  background: var(--color-ground-access);
+}
+.section.ui-close {
+  --word-fit: min(100vw - 2 * var(--page-gutter), var(--container-page) - 2 * var(--page-gutter));
+  --word-size: min(18rem, calc(var(--word-fit) / 4.537));
+  padding-block-end: calc(var(--word-size) * 0.86 + 2rem);
+}
+.ui-close .ui-close-title {
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: var(--tracking-display);
+}
+.giant-word.ui-close-word {
+  --u: 1px;
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  bottom: calc(var(--word-size) * -0.1);
+  font-size: var(--word-size);
+}

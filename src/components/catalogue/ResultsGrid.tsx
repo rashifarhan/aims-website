@@ -3,7 +3,6 @@
 import type { ProductCard as Card } from "@/content/cards";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { withDestination, type QuoteContext } from "@/lib/quote/context";
-import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { ProductCard, type CardLabels } from "./ProductCard";
 
 type Props = {
@@ -14,6 +13,8 @@ type Props = {
   subtitle: (c: Card) => string;
   labels: CardLabels;
   compare: (c: Card) => { checked: boolean; disabled: boolean; onToggle: () => void };
+  /** The family name on each photo panel, when the list mixes families. */
+  familyLabel?: (c: Card) => string | undefined;
 };
 
 /** The card's strings, picked from the catalogue dictionary. */
@@ -37,29 +38,24 @@ export const cardLabels = (t: Dictionary["catalogue"]): CardLabels => ({
  */
 const EAGER = 1;
 
-/**
- * The results on the one card (Design Doc 10, T4): rows divided by hairlines on a phone, a grid of equal-height
- * tiles from 640px (each list item stretches its card, catalogue.css). The light follows a fine pointer over the
- * tiles, as on the home family tiles (SpotlightGroup; premium pass, client decision 7).
- */
-export function ResultsGrid({ results, productHref, preset, subtitle, labels, compare }: Props) {
+/** The results: rows on a phone, a grid of equal-height tiles from 640px (catalogue.css .pc-grid). */
+export function ResultsGrid({ results, productHref, preset, subtitle, labels, compare, familyLabel }: Props) {
   return (
-    <SpotlightGroup>
-      <ul className="mt-4 grid border-t border-line sm:grid-cols-2 sm:gap-5 sm:border-0 lg:grid-cols-2 xl:grid-cols-3">
-        {results.map((c, i) => (
-          <li key={c.slug} className="flex">
-            <ProductCard
-              card={c}
-              href={withDestination(`${productHref}/${c.slug}`, preset)}
-              preset={preset}
-              subtitle={subtitle(c)}
-              labels={labels}
-              eager={i < EAGER}
-              compare={compare(c)}
-            />
-          </li>
-        ))}
-      </ul>
-    </SpotlightGroup>
+    <ul className="pc-grid">
+      {results.map((c, i) => (
+        <li key={c.slug}>
+          <ProductCard
+            card={c}
+            href={withDestination(`${productHref}/${c.slug}`, preset)}
+            preset={preset}
+            subtitle={subtitle(c)}
+            labels={labels}
+            eager={i < EAGER}
+            compare={compare(c)}
+            familyLabel={familyLabel?.(c)}
+          />
+        </li>
+      ))}
+    </ul>
   );
 }

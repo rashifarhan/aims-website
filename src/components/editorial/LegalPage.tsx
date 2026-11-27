@@ -4,6 +4,7 @@ import { legalPage, type LegalSlug } from "@/content/pages";
 import { outline } from "@/lib/editorial";
 import { EditorialBlocks } from "./EditorialBlocks";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { OnThisPage } from "./OnThisPage";
 import "./editorial.css";
 
@@ -21,6 +22,7 @@ export async function LegalPage({ slug }: { slug: LegalSlug }) {
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.legal}
         variant="compact"
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },

@@ -10,6 +10,7 @@ import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButt
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { Section } from "@/components/ui/Section";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/catalogue/catalogue.css";
@@ -74,6 +75,7 @@ export default async function SoftwareCentre() {
   return (
     <main id="main">
       <PageHero
+        flood={PAGE_FLOOD.software}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

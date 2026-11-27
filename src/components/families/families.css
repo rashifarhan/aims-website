@@ -356,7 +356,8 @@
 .fam-tab:hover {
   color: var(--color-paper);
 }
-.fam-tab[aria-current="true"] {
+.fam-tab[aria-current="true"],
+.fam-tab[aria-current="page"] {
   background: var(--color-paper);
   color: var(--color-ink);
   text-shadow: none;
@@ -406,6 +407,121 @@
   outline-offset: 3px;
 }
 
+/* ---------- a family page's opening (FamilyFlood) ---------- */
+.fam-tab {
+  display: inline-flex;
+  align-items: center;
+}
+.fam-page-head {
+  width: min(30rem, calc(100% - 2 * var(--edge)));
+}
+/* The breadcrumb takes the flood's white: its link and separator colours come from these tokens. */
+.fam-crumbs {
+  --color-ink: #fff;
+  --color-ink-700: #fff;
+  --color-ink-600: rgb(255 255 255 / 0.8);
+  --color-ink-300: rgb(255 255 255 / 0.5);
+  margin-block-start: -0.75rem;
+}
+.fam-page-title {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-display);
+}
+:lang(ar) .fam-page-title {
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.fam-page-lead {
+  max-width: 24rem;
+  margin: 0.75rem 0 0;
+  line-height: 1.55;
+  opacity: 0.88;
+}
+.fam-page .fam-range::after {
+  content: "↓";
+  width: auto;
+  height: auto;
+  margin-block-start: 0.25rem;
+  background: none;
+  transition: translate var(--duration-base) var(--ease-flood);
+}
+.fam-page .fam-range:hover::after {
+  scale: none;
+  translate: 0 3px;
+}
+
+/* ---------- the next family, at a family page's end (NextFamily) ---------- */
+.nf {
+  --u: min(100vw / 1440, 100svh / 900);
+  --mx: 0;
+  --my: 0;
+  --edge: max(var(--page-gutter), (100% - var(--container-page)) / 2 + var(--page-gutter));
+  position: relative;
+  isolation: isolate;
+  height: min(100svh, 50rem);
+  min-height: 36rem;
+  overflow: clip;
+  background: var(--ground);
+  color: var(--color-paper);
+}
+.nf .fam-frame {
+  top: 58%;
+}
+.nf-copy {
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: var(--edge);
+  top: 5rem;
+  max-width: min(32rem, calc(100% - 2 * var(--edge)));
+  text-shadow: 0 1px 10px rgb(0 0 0 / 0.18);
+}
+.nf-kicker {
+  margin: 0;
+  font-size: var(--text-flood-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-flood-label);
+  text-transform: uppercase;
+}
+.nf-title {
+  margin: 1rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: var(--text-flood-h2);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+}
+.nf-line {
+  margin: 0.875rem 0 1.75rem;
+  opacity: 0.88;
+}
+:lang(ar) :is(.nf-kicker, .nf-title) {
+  letter-spacing: 0;
+}
+:lang(ar) .nf-title {
+  line-height: 1.3;
+}
+@media (max-width: 767px) {
+  .fam-page .fam-chip {
+    bottom: 9.5rem;
+  }
+  .nf {
+    --u: calc(100vw / 600);
+    height: 42rem;
+  }
+  .nf .fam-frame {
+    top: 68%;
+  }
+  .nf-copy {
+    top: 3.5rem;
+  }
+}
+
 /* ---------- motion ---------- */
 @media (prefers-reduced-motion: no-preference) {
   /* Pieces float on their own clocks (never the product). */
@@ -453,6 +569,13 @@
   .fam-prev {
     animation-delay: 410ms;
   }
+  /* A family page's chip and range link fade in (the range link is centred with translate, so it only fades). */
+  .fam-page .fam-chip {
+    animation: fam-rise 1000ms 490ms var(--ease-flood) both;
+  }
+  .fam-page .fam-range {
+    animation: fam-fade 800ms 570ms ease both;
+  }
   .fam-next {
     animation-delay: 650ms;
   }
@@ -468,6 +591,11 @@
 @keyframes fam-arrive {
   from {
     translate: calc(var(--sign) * var(--from) / 100 * 1440 * var(--u)) 0;
+  }
+}
+@keyframes fam-fade {
+  from {
+    opacity: 0;
   }
 }
 @keyframes fam-rise {
@@ -563,4 +691,16 @@
   html:has(.fam-wrap[data-tone="ground"]) .site-header input:focus {
     background: rgb(255 255 255 / 0.16);
   }
+}
+/* Resting (motion/gsap.ts REST_EVENT, used by audits) puts the entrance at its final frame, so a reading never
+   catches a label halfway through its fade. */
+:root[data-motion-rest="true"]
+  :is(.fam-layer, .fam-head, .fam-slide-ui > *, .fam-tabs, .fam-arrow, .fam-chip, .fam-range) {
+  animation: none;
+}
+/* At rest the header takes its tone at once: a reading taken just after a scroll must not catch white text over a
+   header still fading out of its paper (seen on the location pages' audit, which scrolls to the map and back). */
+:root[data-motion-rest="true"]:has(.fam-wrap) :is(.site-header, .site-header *),
+:root[data-motion-rest="true"] :is(.site-header, .site-header *) {
+  transition: none;
 }

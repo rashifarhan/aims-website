@@ -110,6 +110,28 @@ The design rules are in `CLAUDE.md` → Design rules (approved by the owner with
   section order and alternating grounds, family counts, the reduced-motion stack, the desktop pin moving through the
   families in order, tabs, arrows and arrow keys, the phone pin, and the LCP product.
 
+### Direction 3: the products, product and inner pages (27 Nov 2026)
+
+- **Product photographs multiply onto a light plinth**, as on `main`, instead of auto cut-outs on dark grounds. The
+  owner found the cut-outs' white fringes visible; the original studio photo with `mix-blend-mode: multiply` on a
+  light panel has clean edges. Cards, the product page stage and inner-page photos use it; the home stage keeps its
+  cleaned cut-outs.
+- **The products hub picks a category in place** (owner, 27 Nov 2026: "users could pick up major categories and see
+  the products under it"). Six family tiles plus "All" are `aria-pressed` buttons that set the existing `?family=`
+  filter, so every state has a URL; once a family is chosen its types appear as one-click chips. The rail then drops
+  the family and type groups it would repeat. Each family page keeps its URL and opens on its own flood, with the
+  next family's flood at the foot.
+- **Inner pages open on a flood** (`ui/PageHero.tsx`, `families/pageFloods.ts`): the page's ground, the copy in white
+  and one giant word along the foot (SOLUTIONS, SOFTWARE, SERVICE, AIMS, VISIT, CONTACT, QUOTE, SUPPORT…), measured
+  so it never clips. Section skins move to chalk and white (`ui/d3-sections.css`); the closing panel's ridges became
+  the QUOTE word.
+- **The product page stage** is the family's flood with its giant word and the photo on a plinth in front; the name,
+  facts and actions stay on chalk, where the add-to-quote control's colours were checked.
+- **Audits rest the entrances.** `data-motion-rest` (the switch the e2e axe checks already use) now also stops the
+  CSS entrances on floods, so a reading never catches a label mid-fade.
+- **e2e updated for this design**: the listing card's ink pill, the family rail group (now the picker), the quick
+  picks heading, and new tests for the category picker and the family flood.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

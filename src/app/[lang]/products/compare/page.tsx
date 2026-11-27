@@ -6,6 +6,7 @@ import { CompareTable } from "@/components/catalogue/CompareTable";
 import "@/components/catalogue/catalogue.css";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ArrowIcon } from "@/components/icons";
 import { productBySlug } from "@/content/catalogue";
 import type { Product } from "@/content/schema";
@@ -32,6 +33,7 @@ export default async function ComparePage({ searchParams }: PageProps<"/[lang]/p
   return (
     <main id="main" className="flex-1">
       <PageHero
+        flood={PAGE_FLOOD.compare}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

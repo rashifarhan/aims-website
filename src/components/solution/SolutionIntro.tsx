@@ -2,6 +2,7 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { fmt } from "@/i18n/format";
 import { PageHero } from "@/components/ui/PageHero";
+import { FAMILY_SHOW } from "@/components/families/familyShowcase";
 import { productBySlug, productsInFamily } from "@/content/catalogue";
 import type { SolutionPageData } from "@/content/solutionPages";
 import type { IntroCopy } from "./types";
@@ -15,8 +16,14 @@ export async function SolutionIntro({ page, copy }: { page: SolutionPageData; co
   const t = await getDictionary();
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
+  const show = FAMILY_SHOW.find((f) => f.slug === page.family) ?? FAMILY_SHOW[0];
   return (
     <PageHero
+      flood={{
+        word: show?.word ?? "ACCESS",
+        em: show?.wordEm ?? 5.206,
+        ground: show?.ground ?? "var(--color-ground-access)",
+      }}
       variant="split"
       crumbs={[
         { href: href("/"), label: t.common.home },

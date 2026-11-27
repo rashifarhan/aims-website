@@ -12,9 +12,7 @@
   isolation: isolate;
   overflow: clip;
   padding-block: 1.5rem var(--section-space);
-  background:
-    var(--gradient-hero-glow) no-repeat,
-    var(--color-page);
+  background: var(--color-chalk);
 }
 .product-hero-grid {
   display: grid;
@@ -33,17 +31,6 @@
 .product-stage-photo {
   object-fit: contain;
   mix-blend-mode: multiply;
-}
-/* The rings centred on the photograph, the centre clear where the product stands (ui/ridges.css .hero-ridges-split). */
-.product-hero-ridges {
-  inline-size: 34rem;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
-  translate: -50% -50%;
-  mask-image: radial-gradient(closest-side, transparent 24%, var(--color-ink) 40%, transparent);
-}
-:dir(rtl) .product-hero-ridges {
-  translate: 50% -50%;
 }
 /* The photograph settles by itself while the light and the rings stay still: an animated stage would group the
    photo and show its white as a box over the rings while it moved (ui/sections.css, the same rule for PageHero). */
@@ -81,9 +68,6 @@
     aspect-ratio: 1;
     max-height: calc(100svh - var(--home-header-block) - 7rem);
     min-height: 28rem;
-  }
-  .product-hero-ridges {
-    inline-size: 56rem;
   }
 }
 
@@ -249,5 +233,58 @@
   }
   .product-stage {
     height: 24svh;
+  }
+}
+
+/* ---------- Direction 3: the stage is the family's flood (CLAUDE.md → Design rules) ---------- */
+/* The family ground with its giant white word along the foot, sized to the stage so it is never clipped, and a
+   light plinth in front holding the photograph. The plinth is its own blend group, so the photo's white studio
+   ground multiplies into the plinth only: clean edges, no halo, on any ground. */
+.product-stage.prod-flood {
+  container-type: inline-size;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--ground);
+}
+.giant-word.prod-word {
+  --u: 1px;
+  position: absolute;
+  inset-inline: 0;
+  bottom: -0.1em;
+  font-size: calc(92cqi / var(--em));
+}
+.prod-plinth {
+  position: absolute;
+  isolation: isolate;
+  inset: 9% 16% 22%;
+  border-radius: 24px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ground) 5%, #f7f6f1),
+    color-mix(in srgb, var(--ground) 13%, #e9e8e1)
+  );
+  box-shadow: 0 30px 60px -28px rgb(0 0 0 / 0.55);
+}
+.prod-plinth .product-stage-photo {
+  padding: 8%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .product-stage.prod-flood .prod-word {
+    animation: prod-word-in 1000ms 120ms var(--ease-flood) both;
+  }
+}
+:root[data-motion-rest="true"] .prod-word {
+  animation: none;
+}
+@keyframes prod-word-in {
+  from {
+    opacity: 0;
+    translate: 0.6em 0;
+  }
+}
+@media (max-width: 1023px) {
+  .prod-plinth {
+    inset: 7% 14% 24%;
+    border-radius: 18px;
   }
 }

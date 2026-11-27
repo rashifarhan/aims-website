@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import type { ProductCard as Card } from "@/content/cards";
 import type { FamilySlug } from "@/content/taxonomy";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -24,6 +24,8 @@ import { FilterSheet } from "./FilterSheet";
 import { ListingSearch } from "./ListingSearch";
 import { AppliedFilters } from "./AppliedFilters";
 import { CantFindPanel } from "./CantFindPanel";
+import { CategoryPicker, type PickerItem } from "./CategoryPicker";
+import { SelectionHead } from "./SelectionHead";
 import { cardLabels, ResultsGrid } from "./ResultsGrid";
 import { useListingModel } from "./useListingModel";
 import { Pagination } from "./Pagination";
@@ -37,6 +39,12 @@ export type ListingProps = {
   t: Dictionary["catalogue"];
   familyNames: Record<string, string>;
   hrefs: { listing: string; product: string; compare: string; quote: string; solutions: string; showroom: string };
+  /** The hub's heading block (breadcrumb, h1, lead), rendered by the server beside the search. */
+  intro?: ReactNode;
+  /** The hub's category picker. */
+  picker?: { label: string; all: { name: string; count: string }; items: PickerItem[] };
+  /** A panel beside "Can't find your model?" (the install note). */
+  aside?: ReactNode;
 };
 
 /** Reads the URL. Rendered inside <Suspense>; the fallback is the unfiltered list. */
@@ -63,6 +71,9 @@ export function ListingView({
   hrefs,
   urlState = EMPTY,
   preset,
+  intro,
+  picker,
+  aside,
 }: ListingProps & { urlState?: FilterState; preset?: Partial<QuoteContext> }) {
   const {
     state,
@@ -80,6 +91,10 @@ export function ListingView({
     hrefForPage,
     groups,
     onToggle,
+    typeChips,
+    typeTotal,
+    onType,
+    onFamily,
     filterCount,
     clearFilters,
     compareItems,
@@ -95,24 +110,54 @@ export function ListingView({
   const typeLabels = t.types as Record<string, string>;
   const subtitle = (c: Card) => (c.types[0] ? typeLabels[c.types[0]] : familyNames[c.family]) ?? "";
 
+  const pickerHas = !family && picker;
+  const chosen = effective.family;
+  const sel = (
+    <SelectionHead
+      title={chosen ? (familyNames[chosen] ?? t.allTitle) : t.allTitle}
+      link={
+        pickerHas && chosen
+          ? { href: `${hrefs.listing}/${chosen}`, label: fmt(t.familyPage, { name: familyNames[chosen] ?? "" }) }
+          : undefined
+      }
+      types={{
+        label: t.facets.type,
+        all: { label: t.allTypes, count: typeTotal, pressed: !state.type.length },
+        chips: typeChips,
+      }}
+      onType={onType}
+    >
+      {!chosen && <QuickPicks label={t.quickPicks} picks={picks} onPick={onPick} />}
+    </SelectionHead>
+  );
+
   return (
     <div className={compareItems.length ? "pb-28" : ""}>
-      <ListingSearch
-        value={state.q}
-        onChange={(q) => update({ q })}
-        label={t.searchLabel}
-        placeholder={t.searchPlaceholder}
-      />
+      <div className="lst-head">
+        {intro ?? sel}
+        <ListingSearch
+          value={state.q}
+          onChange={(q) => update({ q })}
+          label={t.searchLabel}
+          placeholder={t.searchPlaceholder}
+        />
+      </div>
 
-      <QuickPicks label={t.quickPicks} picks={picks} onPick={onPick} />
+      {pickerHas && (
+        <CategoryPicker
+          label={picker.label}
+          all={picker.all}
+          items={picker.items}
+          selected={state.family as FamilySlug | undefined}
+          onSelect={onFamily}
+        />
+      )}
 
-      <div className="mt-8 lg:grid lg:grid-cols-[232px_1fr] lg:gap-10">
+      <div className="lst-grid">
         <FacetRail groups={groups} onToggle={onToggle} label={t.filters} trayOpen={compareItems.length > 0} />
 
-        <section aria-labelledby="results-heading">
-          <h2 id="results-heading" tabIndex={-1} className="sr-only scroll-mt-24">
-            {t.resultsHeading}
-          </h2>
+        <section aria-labelledby="results-heading" className="lst-results">
+          {intro && sel}
 
           <ResultsBar
             count={results.length}
@@ -144,6 +189,7 @@ export function ListingView({
               preset={preset}
               subtitle={subtitle}
               labels={cardLabels(t)}
+              familyLabel={chosen ? undefined : (c) => familyNames[c.family]}
               compare={(c) => ({
                 checked: state.cmp.includes(c.slug),
                 disabled: !state.cmp.includes(c.slug) && state.cmp.length >= MAX_COMPARE,
@@ -178,9 +224,12 @@ export function ListingView({
             onGo={onGoToPage}
             labels={{ nav: t.pagination, showing: t.showing, prev: t.prevPage, next: t.nextPage, pageN: t.pageN }}
           />
-
-          <CantFindPanel initial={state.q} preset={preset} hrefs={hrefs} t={t} />
         </section>
+      </div>
+
+      <div className="lst-helps">
+        <CantFindPanel initial={state.q} preset={preset} hrefs={hrefs} t={t} />
+        {aside}
       </div>
 
       <FilterSheet

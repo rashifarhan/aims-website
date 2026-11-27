@@ -5,6 +5,7 @@ import { fmt } from "@/i18n/format";
 import { alternates } from "@/lib/seo";
 import { ArticleCard } from "@/components/editorial/ArticleCard";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { Section } from "@/components/ui/Section";
 import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { ClosePanel } from "@/components/ui/ClosePanel";
@@ -34,6 +35,7 @@ export default async function Blog() {
   return (
     <main id="main" className="w-full flex-1">
       <PageHero
+        flood={PAGE_FLOOD.blog}
         variant="compact"
         crumbs={[
           { href: href("/"), label: t.common.home },

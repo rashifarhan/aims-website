@@ -1,4 +1,5 @@
 import type { FamilySlug } from "@/content/taxonomy";
+import { FAMILY_GROUND } from "./grounds";
 
 /**
  * The six product families as direction 3 stages them (CLAUDE.md → Design rules; after MotionSites "Smoothie
@@ -42,7 +43,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "access-control",
     word: "ACCESS",
     wordEm: 5.206,
-    ground: "var(--color-ground-access)",
+    ground: FAMILY_GROUND["access-control"],
     hero: {
       ...c("speedface-v5l", 362, 776),
       model: "SpeedFace V5L-P",
@@ -65,7 +66,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "time-attendance",
     word: "TIME",
     wordEm: 3.17,
-    ground: "var(--color-ground-time)",
+    ground: FAMILY_GROUND["time-attendance"],
     hero: {
       ...c("zkteco-iface-990-plus", 675, 650),
       model: "iFace 990 Plus",
@@ -88,7 +89,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "entrance-control",
     word: "ENTRY",
     wordEm: 4.448,
-    ground: "var(--color-ground-entry)",
+    ground: FAMILY_GROUND["entrance-control"],
     hero: {
       ...c("zkteco-mars-b1200-double-swing-barrier-gate", 500, 588),
       model: "MARS-B1200",
@@ -111,7 +112,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "door-locks",
     word: "LOCKS",
     wordEm: 4.378,
-    ground: "var(--color-ground-locks)",
+    ground: FAMILY_GROUND["door-locks"],
     hero: {
       ...c("zkteco-tl700-fingerprint-smart-door-lock", 739, 698),
       model: "TL700",
@@ -134,7 +135,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "door-hardware",
     word: "PARTS",
     wordEm: 4.266,
-    ground: "var(--color-ground-parts)",
+    ground: FAMILY_GROUND["door-hardware"],
     hero: {
       ...c("al-280d-led-electric-magnetic-door-lock-model", 730, 442),
       model: "AL 280D(LED)",
@@ -157,7 +158,7 @@ export const FAMILY_SHOW: FamilyShow[] = [
     slug: "pos",
     word: "POS",
     wordEm: 2.65,
-    ground: "var(--color-ground-pos)",
+    ground: FAMILY_GROUND["pos"],
     hero: {
       ...c("zkaio1000", 215, 274),
       model: "ZKAIO1000",

@@ -10,7 +10,9 @@ import type { DataAttrs } from "./englishData";
 import { KeySpecs } from "./KeySpecs";
 import { ModelChip } from "./ModelChip";
 import { ProductPurchase } from "./ProductPurchase";
-import { Ridges } from "@/components/ui/Ridges";
+import { GiantWord } from "@/components/families/GiantWord";
+import type { CSSProperties } from "react";
+import "@/components/families/families.css";
 import "@/components/motion/entrance.css";
 
 type Props = {
@@ -22,6 +24,8 @@ type Props = {
   addLabels: AddToQuoteLabels;
   t: Dictionary;
   data: DataAttrs;
+  /** The product's family as the direction shows it: its ground and its giant word (CLAUDE.md → Design rules). */
+  show: { word: string; wordEm: number; ground: string };
 };
 
 /**
@@ -30,7 +34,7 @@ type Props = {
  * Add to quote, Ask on WhatsApp; CLAUDE.md §2 "at most two actions"). The datasheet, compare link and
  * install note sit lower on the page. It enters once on load and then stands (ui/sections.css .hero-enter).
  */
-export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t, data }: Props) {
+export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t, data, show }: Props) {
   const image = p.images[0];
   return (
     <section className="product-hero aims-hero" aria-labelledby="product-title" data-enter>
@@ -38,22 +42,26 @@ export function ProductSummary({ p, name, familyName, crumbs, href, addLabels, t
       <div className="wrap">
         <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
         <div className="product-hero-grid">
-          {/* On a short phone the stage is capped too, and the whole photo still shows inside it (audit B4). The
-            photograph stands in the still studio light over the ridge motif, like every inner hero (premium pass,
-            client decisions 5 and 7; product.css). */}
-          <div className="product-stage aims-studio hero-enter-media">
-            <Ridges className="product-hero-ridges" />
-            {image && (
-              // The LCP element: the only preloaded image on the page (CLAUDE.md §5).
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                preload
-                sizes="(min-width: 1024px) 40rem, 100vw"
-                className="product-stage-photo"
-              />
-            )}
+          {/* Direction 3: the family's flood with its giant word, and AIMS's own photograph standing on a light
+            plinth in front, where its white studio ground multiplies away (as on the product cards). */}
+          <div
+            className="product-stage prod-flood hero-enter-media"
+            style={{ "--ground": show.ground } as CSSProperties}
+          >
+            <GiantWord word={show.word} em={show.wordEm} className="prod-word" />
+            <div className="prod-plinth">
+              {image && (
+                // The LCP element: the only preloaded image on the page (CLAUDE.md §5).
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  preload
+                  sizes="(min-width: 1024px) 34rem, 80vw"
+                  className="product-stage-photo"
+                />
+              )}
+            </div>
           </div>
 
           {/* On phones the quantity and Add to quote follow the model chip, so the first action reaches the first

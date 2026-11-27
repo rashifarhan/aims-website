@@ -11,22 +11,16 @@ type Props = { label: string; picks: QuickPickView[]; onPick: (id: string) => vo
 export function QuickPicks({ label, picks, onPick }: Props) {
   if (!picks.length) return null;
   return (
-    <div role="group" aria-label={label} className="mt-6 flex items-center gap-3">
-      <p aria-hidden="true" className="shrink-0 text-sm font-medium text-ink-700">
+    <div role="group" aria-label={label} className="sel-picks">
+      <p aria-hidden="true" className="sel-picks-label">
         {label}
       </p>
-      <ul className="-m-1 flex min-w-0 gap-2 overflow-x-auto p-1">
+      <ul className="sel-chips">
         {picks.map((p) => (
           <li key={p.id} className="shrink-0">
-            <button
-              type="button"
-              aria-pressed={p.pressed}
-              onClick={() => onPick(p.id)}
-              // The one chip (actions.css .ui-chip), like the applied filters and the pagination below it.
-              className={`ui-chip gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 ${p.pressed ? "ui-chip-on font-semibold" : ""}`}
-            >
+            <button type="button" aria-pressed={p.pressed} onClick={() => onPick(p.id)} className="sel-chip">
               {p.label}
-              <span className="text-xs text-ink-600 tabular-nums">{p.count}</span>
+              <span className="sel-chip-count">{p.count}</span>
             </button>
           </li>
         ))}

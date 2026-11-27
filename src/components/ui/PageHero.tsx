@@ -4,10 +4,14 @@ import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 import { ArrowIcon } from "@/components/icons";
 import { HeroScene, type SceneName } from "./HeroScene";
-import { HeroSignature } from "./HeroSignature";
 import { Magnetic } from "./Magnetic";
 import { getDictionary } from "@/i18n/dictionaries";
+import { FloodToneWrap } from "@/components/families/FloodToneWrap";
+import { GiantWord } from "@/components/families/GiantWord";
+import type { PageFlood } from "@/components/families/pageFloods";
 import "@/components/motion/entrance.css";
+import "@/components/families/families.css";
+import "./page-flood.css";
 
 type Action = { href: string; label: string };
 type Photo = { src: string; alt: string; width: number; height: number };
@@ -33,6 +37,8 @@ type Props = {
   framed?: boolean;
   /** The h1's id, which names the hero's region; one hero per page. */
   id?: string;
+  /** The page's ground and giant word (families/pageFloods.ts). */
+  flood: PageFlood;
 };
 
 /**
@@ -42,7 +48,20 @@ type Props = {
  * the rest of the copy in turn while the photograph settles; reduced motion rests.
  */
 export async function PageHero(props: Props) {
-  const { variant, crumbs, eyebrow, title, titleLang, lead, fact, photo, framed, scene, id = "hero-title" } = props;
+  const {
+    variant,
+    crumbs,
+    eyebrow,
+    title,
+    titleLang,
+    lead,
+    fact,
+    photo,
+    framed,
+    scene,
+    flood,
+    id = "hero-title",
+  } = props;
   const t = await getDictionary();
   const copy = (
     <div className="page-hero-copy">
@@ -65,50 +84,59 @@ export async function PageHero(props: Props) {
     </div>
   );
   return (
-    <section className={`page-hero page-hero-${variant} aims-hero`} aria-labelledby={id} data-enter>
-      <HeroSignature variant={variant} />
-      {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
-      <div className="wrap">
-        <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
-        {variant === "compact" ? (
-          copy
-        ) : (
-          <div className="page-hero-grid">
-            {copy}
-            {scene && (
-              <div className="page-hero-media page-hero-scene hero-enter-media">
-                <HeroScene name={scene} />
-              </div>
-            )}
-            {!scene && photo && (
-              // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
-              // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
-              <div
-                // A cut-out product photograph stands in the still studio light (motion/entrance.css); a framed
-                // screen capture keeps its plain white panel.
-                className={
-                  framed
-                    ? "page-hero-media hero-enter-media page-hero-framed"
-                    : "page-hero-media hero-enter-media aims-studio"
-                }
-                style={{ "--photo-width": `${photo.width}px` } as CSSProperties}
-              >
-                {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  width={photo.width}
-                  height={photo.height}
-                  // The width it is shown at: its column, never past its own pixels (the cap above).
-                  sizes={`(min-width: 1024px) min(30rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
-                  preload
-                />
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </section>
+    // Direction 3 (CLAUDE.md → Design rules): every inner page opens on a family ground with its one giant white word
+    // under the copy; a product photograph stands on a light plinth, where its white studio ground multiplies away.
+    <FloodToneWrap>
+      <section
+        className={`page-hero page-hero-${variant} page-flood flood aims-hero`}
+        aria-labelledby={id}
+        data-enter
+        style={{ "--ground": flood.ground, "--em": flood.em } as CSSProperties}
+      >
+        <GiantWord word={flood.word} em={flood.em} className="page-flood-word" />
+        {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
+        <div className="wrap">
+          <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
+          {variant === "compact" ? (
+            copy
+          ) : (
+            <div className="page-hero-grid">
+              {copy}
+              {scene && (
+                <div className="page-hero-media page-hero-scene hero-enter-media">
+                  <HeroScene name={scene} />
+                </div>
+              )}
+              {!scene && photo && (
+                // The photo's own pixel width caps how large it is shown, so no AIMS photograph is upscaled
+                // (taste photo-upscale; POS photographs are 262–350px wide). Data, not a design value.
+                <div
+                  // A cut-out product photograph stands in the still studio light (motion/entrance.css); a framed
+                  // screen capture keeps its plain white panel.
+                  className={
+                    framed
+                      ? "page-hero-media hero-enter-media page-hero-framed"
+                      : "page-hero-media hero-enter-media page-flood-plinth"
+                  }
+                  style={{ "--photo-width": `${photo.width}px` } as CSSProperties}
+                >
+                  {/* The LCP element on desktop: preloaded, sized, never shifts (CLAUDE.md §5). */}
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={photo.width}
+                    height={photo.height}
+                    // The width it is shown at: its column, never past its own pixels (the cap above).
+                    sizes={`(min-width: 1024px) min(30rem, 42vw, ${photo.width}px), min(16rem, ${photo.width}px)`}
+                    preload
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    </FloodToneWrap>
   );
 }
 

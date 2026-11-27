@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
+import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ReachBand } from "@/components/ui/ReachBand";
 import { ReachMap } from "@/components/home/ReachMap";
 import { SolutionQuestions } from "@/components/solution/SolutionQuestions";
@@ -51,6 +52,7 @@ export async function LocationPage({ market }: { market: LocationMarket }) {
   return (
     <main id="main">
       <PageHero
+        flood={PAGE_FLOOD[market]}
         variant="split"
         crumbs={[
           { href: href("/"), label: t.common.home },

@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { FamilySlide } from "./familySlides";
-import { FloodPieces } from "./FloodPieces";
-import { GiantWord } from "./GiantWord";
+import { FloodFrame } from "./FloodFrame";
 
 /**
  * One family's flood: its ground, giant word, AIMS's photograph of a real model with its floor shadow, the floating
@@ -24,7 +23,6 @@ export function FamilyStage({
   priority: boolean;
   labels: { shown: string; range: string };
 }) {
-  const u = (v: number) => `calc(${v} * var(--u))`;
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
     <article
@@ -34,30 +32,7 @@ export function FamilyStage({
       data-index={index}
       style={{ "--ground": slide.ground } as CSSProperties}
     >
-      <div className="fam-frame">
-        <div className="fam-layer" data-layer="word">
-          <GiantWord word={slide.word} em={slide.wordEm} className="fam-word" />
-        </div>
-        <div className="fam-layer" data-layer="shadow">
-          <span className="fam-shadow" />
-        </div>
-        <div className="fam-layer" data-layer="hero">
-          <div className="fam-hero" style={{ left: u(slide.hero.x), top: u(slide.hero.y), width: u(slide.hero.width) }}>
-            <Image
-              src={slide.hero.src}
-              alt={slide.heroAlt}
-              width={slide.hero.w}
-              height={slide.hero.h}
-              sizes="(min-width: 768px) 40vw, 60vw"
-              // The first family's product is the LCP image (CLAUDE.md §3); Next 16 replaced `priority` with these.
-              loading={priority ? "eager" : undefined}
-              fetchPriority={priority ? "high" : undefined}
-            />
-          </div>
-        </div>
-        <FloodPieces bits={slide.bits.filter((b) => !b.blur)} layer="bits" />
-        <FloodPieces bits={slide.bits.filter((b) => b.blur)} layer="corner" />
-      </div>
+      <FloodFrame show={slide} alt={slide.heroAlt} priority={priority} />
 
       <div className="fam-slide-ui">
         <h2 className="fam-name" id={`family-${slide.slug}-name`}>
