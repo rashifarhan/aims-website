@@ -3,6 +3,7 @@ import {
   REST,
   arrival,
   cover,
+  gestureBounds,
   settleTarget,
   shownFamily,
   stagePosition,
@@ -75,5 +76,20 @@ describe("family stage maths", () => {
     expect(settleTarget(5030, 0, end, 6, 1)).toBeNull();
     expect(settleTarget(-10, 0, end, 6)).toBeNull();
     expect(settleTarget(end + 10, 0, end, 6)).toBeNull();
+  });
+
+  it("lets one gesture move one family at most", () => {
+    // Six families over units × 1000 px from 0: rests at 0, 1000, 2000 … 5000, pin end 5060.
+    const end = stageUnits(6) * 1000;
+    const bounds = (y: number) => gestureBounds(y, 0, end, 6).map(Math.round);
+    expect(bounds(0)).toEqual([-Infinity, 1000]);
+    expect(bounds(2000)).toEqual([1000, 3000]);
+    expect(bounds(1999.5)).toEqual([1000, 3000]);
+    // In the middle of a change, only that change's two families.
+    expect(bounds(2500)).toEqual([2000, 3000]);
+    // On the last family the page carries on below; coming back from the page, it stops on the last family.
+    expect(bounds(5000)).toEqual([4000, Infinity]);
+    expect(bounds(9000)).toEqual([4000, Infinity]);
+    expect(bounds(-50)).toEqual([-Infinity, 0]);
   });
 });

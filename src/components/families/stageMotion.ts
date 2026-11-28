@@ -1,5 +1,5 @@
 import { gsap, ScrollTrigger } from "@/components/motion/gsap";
-import { startSmoothScroll, stopSmoothScroll } from "@/components/motion/smoothScroll";
+import { setWheelGate, startSmoothScroll, stopSmoothScroll } from "@/components/motion/smoothScroll";
 import {
   LAYER_TRAVEL,
   LEAVE_DRIFT,
@@ -12,6 +12,7 @@ import {
   stageUnits,
   type StageLayer,
 } from "@/lib/familyStage";
+import { oneFamilyPerGesture } from "./wheelGesture";
 
 /** Each family's stretch of scroll, as a share of the viewport height (Design rules → Motion). */
 const STRETCH = 0.7;
@@ -104,11 +105,26 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
   // A tab, arrow or key jump is never settled halfway: a settle left over from the scroll before it would pull the
   // page back to the family it is leaving. The visitor's next wheel input ends the jump.
   let jumping = false;
+  // Where a settle or jump under way is taking the page. Lenis reports the page's position mid-way, so a gesture that
+  // starts during one counts from here (wheelGesture.ts), and a notch during a settle moves on from the family the
+  // page is heading for.
+  let heading: number | null = null;
+  const takeHeading = () => {
+    const h = heading;
+    heading = null;
+    return h;
+  };
+  const arrive = () => {
+    heading = null;
+    jumping = false;
+  };
   const settle = () => {
     if (!lenis || !pin.trigger || jumping) return;
     const target = settleTarget(lenis.targetScroll, pin.trigger.start, pin.trigger.end, count, direction);
-    if (target !== null && Math.abs(target - lenis.targetScroll) > 1)
-      lenis.scrollTo(target, { duration: settleSeconds(Math.abs(target - lenis.animatedScroll)), easing: inOutCubic });
+    if (target === null || Math.abs(target - lenis.targetScroll) <= 1) return;
+    heading = target;
+    const duration = settleSeconds(Math.abs(target - lenis.animatedScroll));
+    lenis.scrollTo(target, { duration, easing: inOutCubic, onComplete: arrive });
   };
   const settleLater = (delay: number) => {
     window.clearTimeout(wait);
@@ -119,10 +135,12 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     if (deltaY) direction = deltaY > 0 ? 1 : -1;
     settleLater(WHEEL_IDLE_MS);
   });
-  // "smooth" is Lenis's own easing (a flick's glide, or a settle under way); anything else is native scrolling.
+  // Only keyboard and scrollbar scrolling count as native. Lenis's own glide is "smooth", and the event it sends as a
+  // glide ends reads `false`: taking that for native dropped the wheel's direction, so a short flick went back.
   const offScroll = lenis?.on("scroll", () => {
-    if (lenis.isScrolling === "smooth") return;
+    if (lenis.isScrolling !== "native") return;
     direction = 0;
+    heading = null;
     settleLater(NATIVE_IDLE_MS);
   });
 
@@ -153,6 +171,7 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     },
   });
   pin.trigger = tween.scrollTrigger;
+  if (lenis) setWheelGate(oneFamilyPerGesture(lenis, () => pin.trigger, count, takeHeading));
 
   const jump = (index: number) => {
     if (!pin.trigger) return;
@@ -162,7 +181,8 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     window.clearTimeout(wait);
     if (lenis) {
       jumping = true;
-      lenis.scrollTo(top, { duration: 1.1, easing: inOutCubic, onComplete: () => (jumping = false) });
+      heading = top;
+      lenis.scrollTo(top, { duration: 1.1, easing: inOutCubic, onComplete: arrive });
     } else window.scrollTo({ top, behavior: "smooth" });
   };
 
@@ -182,6 +202,7 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     if (fine) root.removeEventListener("pointermove", drift);
     window.clearTimeout(wait);
     offWheel?.();
+    setWheelGate(null);
     offScroll?.();
     tween.scrollTrigger?.kill(true);
     tween.kill();

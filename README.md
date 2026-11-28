@@ -125,6 +125,15 @@ The owner found the hero scroll smooth but unresponsive. Measured in Chrome with
   (was 0.5–0.9 s), so the page stops 570–870 ms after the last input rather than about 1.2 s.
 - **A jump could be pulled back.** With tabs or arrows, a settle left over from an earlier scroll could pull the
   page back to POS (seen 1 in 6 under load). No settle runs while a jump is playing.
+- **One family per gesture** (owner, the same day: "a little bit more moves two pages together"). Each wheel or
+  trackpad gesture is now capped at the next family (`gestureBounds()` in `lib/familyStage.ts`, applied to each
+  Lenis delta in `families/wheelGesture.ts` through Lenis's `virtualScroll` hook). Measured: flicks of 150 to
+  1600 px, eight quick notches and a 40-notch spin each move exactly one family; slow notches move one each.
+  Leaving the stage takes one gesture per family, then one more past POS. Touch screens keep their native flick
+  with ScrollTrigger's snap, which can still pass more than one family on a hard flick.
+- **A short flick went back.** When a Lenis glide ends it sends one scroll event that reads as not smooth; the stage
+  took it for keyboard scrolling, dropped the wheel's direction and settled on the nearer family. Only Lenis's
+  `"native"` state now counts as native.
 - **Reduced motion:** the header now changes tone with no transition at all; the global 0.01 ms rule still created
   33 transitions that a reading could catch under load.
 

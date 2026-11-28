@@ -1,4 +1,4 @@
-import Lenis from "lenis";
+import Lenis, { type VirtualScrollData } from "lenis";
 import { gsap, ScrollTrigger } from "./gsap";
 
 /*
@@ -9,6 +9,12 @@ import { gsap, ScrollTrigger } from "./gsap";
  */
 let lenis: Lenis | null = null;
 let users = 0;
+/** A pinned sequence may look at each wheel delta first, to trim it or drop it (return false; see wheelGesture.ts). */
+type WheelGate = (data: VirtualScrollData) => boolean;
+let gate: WheelGate | null = null;
+export const setWheelGate = (next: WheelGate | null) => {
+  gate = next;
+};
 const raf = (time: number) => lenis?.raf(time * 1000);
 
 export function startSmoothScroll(): Lenis | null {
@@ -16,7 +22,7 @@ export function startSmoothScroll(): Lenis | null {
   users += 1;
   if (!lenis) {
     // A firmer follow than Lenis's default glide: the page trails the wheel less (owner review, 28 Nov 2026).
-    lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 0.9 });
+    lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 0.9, virtualScroll: (data) => gate?.(data) ?? true });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);

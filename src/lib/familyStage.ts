@@ -75,3 +75,24 @@ export function arrival(t: number): number {
   const k = clamp01((t - 0.1) / 0.9);
   return 1 - (1 - k) ** 3;
 }
+
+/**
+ * How far one wheel or trackpad gesture may carry the scroll, as [lowest, highest] scroll positions: one family
+ * either way from where it starts (owner, 28 Nov 2026: a slightly bigger scroll must not run through two families).
+ * Resting on a family, the gesture may reach the family before or after it; caught in the middle of a change, only
+ * the two families of that change. Before the first family's rest and from the last one on, the page scrolls freely
+ * on its outer side.
+ */
+export function gestureBounds(y: number, start: number, end: number, count: number): [number, number] {
+  if (end <= start || count < 1) return [-Infinity, Infinity];
+  const points = stageSnapPoints(count).map((p) => start + p * (end - start));
+  const rest = (k: number) => points[k] ?? end;
+  const last = count - 1;
+  if (y < start) return [-Infinity, start];
+  if (y >= rest(last) - 1) return [last > 0 ? rest(last - 1) : -Infinity, Infinity];
+  const k = points.findIndex((p, i) => i < last && y < rest(i + 1) - 1 && y >= p - 1);
+  const unit = rest(k + 1) - rest(k);
+  const resting = y <= rest(k) + REST * unit + 1;
+  if (!resting) return [rest(k), rest(k + 1)];
+  return [k > 0 ? rest(k - 1) : -Infinity, rest(k + 1)];
+}
