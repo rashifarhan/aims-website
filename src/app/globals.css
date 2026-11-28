@@ -172,8 +172,6 @@
   --text-home-lead: 1.1875rem;
   /* The premium review card (25 Nov 2026): the quote in the display face a step above a card title, and the large
      decorative quotation mark above it. */
-  --text-review-quote: 1.25rem;
-  --text-review-mark: 4.5rem;
   /* The proof statement (client mockup B, 24 Nov 2026): one sentence carrying the four company figures, a step above
      the h2 scale because it is the section's heading and its content. 28px at 390, 36px at 768, 42px from 1024. */
   --text-proof-statement: clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem);

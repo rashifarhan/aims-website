@@ -264,6 +264,78 @@
   }
 }
 
+/* Review ticket (inside/ReviewTicket): the stub and stars, the quote in the display face, the reviewer on mono rows.
+   The rows sit at the foot, so every ticket in a row punches its notches on the same line, just above them. */
+.rv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rv-grid > li {
+  display: flex;
+}
+.rv {
+  --notch: calc(100% - var(--rv-foot));
+  --rv-foot: 6.45rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 0;
+}
+.rv-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.rv-stars {
+  display: flex;
+  gap: 0.125rem;
+  margin: 0;
+  color: var(--color-green-700);
+}
+.rv-quote {
+  flex: 1;
+  margin: 1.25rem 0 1.5rem;
+  font-family: var(--font-display);
+  font-stretch: 105%;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.38;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  text-wrap: pretty;
+}
+.rv-quote p {
+  margin: 0;
+}
+.rv figcaption {
+  margin: 0;
+}
+.rv .in-ticket-rows dd {
+  text-transform: none;
+}
+:lang(ar) .rv-head {
+  letter-spacing: 0;
+}
+@media (max-width: 1023px) {
+  .rv-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+@media (max-width: 767px) {
+  .rv {
+    --rv-foot: 5.1rem;
+  }
+  .rv-quote {
+    font-size: 1.1rem;
+  }
+}
+
 /* Screen frame: a photograph or a list shown as a screen. */
 .in-screen {
   position: relative;

@@ -424,7 +424,10 @@
       "all": "See locations"
     },
     "reviews": {
-      "rating": "Rated {count} out of 5"
+      "rating": "Rated {count} out of 5",
+      "ticket": "Review {n} / {total}",
+      "from": "From",
+      "place": "Place"
     },
     "contactNotice": "Opens AIMS’s live website.",
     "quoteNotice": "Contact AIMS on the live site. Your preview quote list is not sent.",

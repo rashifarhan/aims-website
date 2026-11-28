@@ -48,42 +48,13 @@
 .count-up-digits::before {
   content: attr(data-shown);
 }
+/* The reviews are white tickets on the paper (inside/ReviewTicket; cream would vanish into the cream ground). */
+.hf .rv {
+  background: var(--color-paper);
+}
 .hf-reviews h3 {
   margin: 0 0 1.25rem;
   font-weight: 400;
-  color: var(--color-ink-600);
-}
-.hf-reviews ul {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.hf-reviews figure {
-  margin: 0;
-}
-.hf-stars {
-  display: flex;
-  gap: 0.15rem;
-  margin: 0 0 0.6rem;
-  color: var(--color-green-700);
-}
-.hf-reviews blockquote {
-  margin: 0;
-  font-family: var(--font-display);
-  font-stretch: 105%;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-}
-.hf-reviews blockquote p {
-  margin: 0;
-}
-.hf-reviews figcaption {
-  margin-block-start: 0.75rem;
   color: var(--color-ink-600);
 }
 @media (max-width: 767px) {
@@ -105,13 +76,6 @@
   }
   .hf-label {
     font-size: 0.6875rem;
-  }
-  .hf-reviews ul {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .hf-reviews blockquote {
-    font-size: 1.1rem;
   }
 }
 

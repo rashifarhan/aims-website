@@ -188,6 +188,13 @@ Built without mockups at the owner's request, on the same stage system as the pr
   showroom card is the one ink card with a lime tag. Process steps take ink discs with lime mono numerals and a
   green-700 path. The closing band takes the stage's ground instead of the old ridge rings, with its title in the
   direction's face.
+- **Reviews as tickets:** AIMS's three published reviews (site.ts, verbatim) are now review tickets
+  (`inside/ReviewTicket`) on home and About. Each ticket shows its number and stars, the quote in the display face,
+  and From and Place on mono rows below the punched line. They are white on the home paper and cream on About's
+  night. The old `ReviewCard` is removed. A testimonial globe (cobe, WebGL) was considered and declined for now: it
+  needs reviewer portraits (AIMS has supplied none, and stock faces beside real names would break the truth rule),
+  it loads images from a third-party CDN, and three reviews within a few hundred km would stack on one spot. It
+  becomes worth it if AIMS supplies more reviews from more countries, with consented photos or logos.
 - **Tests rewritten for the new design:** the first-screen edge test now checks the location page's stage like the
   solution pages (it checked the old T3 hero).
 - **Door step marker:** the access control door also marks its highlighted step when ScrollTrigger refreshes; the
