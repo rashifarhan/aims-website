@@ -89,6 +89,10 @@ floating around it. Scrolling moves you from one flood to the next.
   ellipse shadow, name + mono model count at the bottom, circle arrow. Every tile links to its family page.
 - **Product card (catalogue lists):** the same tile at a smaller size, model code in mono, a brand line, the facts the
   catalogue states and nothing else.
+- **Floating contact:** WhatsApp (lime icon) and call (white icon) as two 52px night circles with a light ring at the
+  bottom inline-end corner, on every page once the first screen has scrolled away; they step aside at the footer and
+  stand above the quote tray on phones. Both reach the "Mobile & WhatsApp" line through the preview notice (owner,
+  28 Nov 2026, after aimsuae.me).
 - **Glass panel** on a flood: `rgb(255 255 255 / .07)` fill, 1px `rgb(255 255 255 / .14)` hairline, 24px radius.
 - **White card** on chalk: 22px radius, no shadow.
 - Hover: cards lift 2px and their product lifts a further 6px; buttons step 1px; underlines draw; 150–250ms.

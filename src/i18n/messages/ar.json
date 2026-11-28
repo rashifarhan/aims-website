@@ -2022,5 +2022,11 @@
     "places": "الأماكن على الكرة الأرضية",
     "office": "مكتب AIMS",
     "export": "وجهة تصدير"
+  },
+  "floatingContact": {
+    "label": "تواصل مع AIMS",
+    "whatsapp": "تحدث مع AIMS عبر واتساب",
+    "call": "اتصل بـ AIMS",
+    "message": "مرحبًا AIMS، أحتاج إلى مزيد من التفاصيل عن منتجاتكم."
   }
 }

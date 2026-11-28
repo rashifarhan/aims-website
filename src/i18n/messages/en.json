@@ -2022,5 +2022,11 @@
     "places": "Places on the globe",
     "office": "AIMS office",
     "export": "Export destination"
+  },
+  "floatingContact": {
+    "label": "Contact AIMS",
+    "whatsapp": "Chat with AIMS on WhatsApp",
+    "call": "Call AIMS",
+    "message": "Hi AIMS, I need more details about your products."
   }
 }
