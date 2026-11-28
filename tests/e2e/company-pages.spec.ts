@@ -105,14 +105,16 @@ for (const [path, part] of [["/services", ".verify-line"]] as const) {
       .locator(`${part}`)
       .evaluateAll((els) => els.map((el) => getComputedStyle(el).strokeDashoffset));
     expect(offsets.every((o) => parseFloat(o) === 0)).toBe(true);
-    // Scrolling away and back does not replay it.
+    // Scrolling away and back does not replay it. Only the moment's own animations count: the contact dock
+    // (FloatingContact) rightly fades out at the top and back in.
     await page.evaluate(() => scrollTo(0, 0));
     await moment.evaluate((el) => el.scrollIntoView({ block: "center" }));
     expect(
-      await page.evaluate(
-        () =>
-          document.getAnimations().filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline)
-            .length,
+      await moment.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline).length,
       ),
     ).toBe(0);
   });
