@@ -7,7 +7,7 @@
 .page-hero.page-flood {
   --word-fit: min(100vw - 2 * var(--page-gutter), var(--container-page) - 2 * var(--page-gutter));
   --word-size: min(18rem, calc(var(--word-fit) / var(--em)));
-  padding-block: calc(var(--home-header-block) + 1.5rem) calc(var(--word-size) * 0.86 + 1rem);
+  padding-block: calc(var(--home-header-block) + 1.5rem) clamp(4rem, 8vw, 7rem);
   background: var(--ground);
   color: var(--color-paper);
   /* The breadcrumb, eyebrow, lead and links take white from these tokens. */

@@ -9,7 +9,6 @@ import { Magnetic } from "./Magnetic";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { FloodToneWrap } from "@/components/families/FloodToneWrap";
-import { GiantWord } from "@/components/families/GiantWord";
 import type { PageFlood } from "@/components/families/pageFloods";
 import "@/components/motion/entrance.css";
 import "@/components/families/families.css";
@@ -87,8 +86,7 @@ export async function PageHero(props: Props) {
     </div>
   );
   return (
-    // Direction 3 (CLAUDE.md → Design rules): every inner page opens on a family ground with its one giant white word
-    // under the copy; a product photograph stands on a light plinth, where its white studio ground multiplies away.
+    // Direction 3 (CLAUDE.md → Design rules): every inner page opens on a family ground (no giant word: owner, 28 Nov 2026); a product photograph stands on a light plinth, where its white studio ground multiplies away.
     <FloodToneWrap>
       <section
         className={`page-hero page-hero-${variant} page-flood flood aims-hero`}
@@ -96,7 +94,6 @@ export async function PageHero(props: Props) {
         data-enter
         style={{ "--ground": flood.ground, "--em": flood.em } as CSSProperties}
       >
-        <GiantWord word={flood.word} em={flood.em} className="page-flood-word" />
         {/* One in-flow .wrap, the content line every section shares (layout-v4.md 2, SR-6). */}
         <div className="wrap">
           <Breadcrumbs label={t.common.breadcrumb} items={crumbs} />
