@@ -34,8 +34,9 @@ approves them with the first mockups** (`docs/mockups/direction-2/`). Once appro
 ### Idea
 
 Every main page is a **stage**: one real AIMS product, cut out, stands in front of one giant word. On the home page
-only, scrolling flies the product at you until its screen fills the view and the content opens out of that screen;
-every other stage stands still and its content follows it (owner review, 28 Nov 2026). Facts sit on cream
+only, on a desktop screen, scrolling flies the product at you until its screen fills the view and the content opens
+out of that screen; on phones and tablets the home hero stands and its families are a swiped row; every other stage
+stands still and its content follows it (owner reviews, 28 Nov 2026). Facts sit on cream
 **tickets** (mono rows, dashed dividers, punched notches). Everything else is calm: dark night-green stages,
 cream paper sections between them, one lime accent.
 
@@ -119,8 +120,12 @@ cream paper sections between them, one lime accent.
 
 - **Engine:** GSAP ScrollTrigger (pin, scrub, snap; `src/components/motion/gsap.ts`) driven by **Lenis** for smooth
   wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
-  runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
-  leaf, never in a layout; cleaned up on unmount (`useGSAP`).
+  runs only on fine pointers; touch keeps native scroll (GSAP and Lenis both advise against smoothing touch). No other
+  scroll library. Loaded lazily in the smallest client leaf, never in a layout; cleaned up on unmount (`useGSAP`).
+  `ScrollTrigger.config({ ignoreMobileResize: true })`, so a phone's address bar never refreshes the triggers.
+- **Keyboard** (owner request, 28 Nov 2026): where Lenis runs, the arrows, Page Up/Down, Space and Home/End glide like
+  the wheel (`src/lib/keyScroll.ts`), unless the key belongs to what has focus (`pageOwnsKey`: fields, controls, open
+  dialogs, boxes that scroll themselves). In the home dive they step one place at a time: hero, each family, out.
 - **Only the home hero dives** (owner review, 28 Nov 2026): the stage pins, the product flies forward (zoom in log
   space, eased ends) until its screen fills the height, then the content opens out of the screen with
   `clip-path: inset()`. At most **one more** pinned, scrubbed sequence on home (the job ticket). Pins never trap the
@@ -144,8 +149,14 @@ cream paper sections between them, one lime accent.
   `--ease-stage` `cubic-bezier(.65,0,.35,1)`.
 - **A photograph still on studio white** (product detail, software) stands on a cream **plate** and multiplies onto
   it.
-- The home dive runs only at ≥ 1024 × 600 with motion allowed and scripting on; below that its stage and what opens
-  inside it stack.
+- The home dive runs only at ≥ 1024 × 600 with a fine pointer, motion allowed and scripting on (`DIVE_QUERY` in
+  `DiveMotion.tsx`; GSAP is not even loaded elsewhere). On phones, tablets and touch screens (owner review,
+  28 Nov 2026: smooth on a phone) the hero stands one screen tall with its copy in the flow under the product, and
+  the families are one row swiped sideways with CSS scroll snap (`diveCarousel.ts` only keeps the arrows, chips and
+  counter in step): nothing pins, scrubs or writes per frame, and the page scrolls natively. Elsewhere the hero and
+  the families stack.
+- **Scroll performance:** never write a style per frame that has not changed (`diveStage.ts`, the contact dock);
+  measure on a 4× throttled phone with touch gestures before and after any scroll work.
 - **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, the home stage stacked (stage, then what
   opens inside it). Content is in the DOM and readable without JavaScript.
 

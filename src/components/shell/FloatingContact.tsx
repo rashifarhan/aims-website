@@ -35,6 +35,7 @@ export function FloatingContact({ whatsappHref, line, labels }: FloatingContactP
   const dock = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let frame = 0;
+    let lifted = "";
     const update = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
@@ -51,7 +52,12 @@ export function FloatingContact({ whatsappHref, line, labels }: FloatingContactP
             lift = Math.max(lift, innerHeight - box.top);
           }
         }
-        dock.current?.style.setProperty("--fc-lift", `${Math.round(lift)}px`);
+        // Written only when it changes: a style write on every scroll frame restyles the dock for nothing.
+        const next = `${Math.round(lift)}px`;
+        if (next !== lifted) {
+          lifted = next;
+          dock.current?.style.setProperty("--fc-lift", next);
+        }
       });
     };
     update();

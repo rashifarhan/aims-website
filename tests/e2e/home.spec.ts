@@ -156,7 +156,7 @@ const deviceScale = (page: Page) =>
   page.locator("[data-dive-device]").evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).a);
 
 test.describe("the dive", () => {
-  test.skip(({ isMobile }) => isMobile, "Scrubbed with a desktop scroll; the phone runs the same code path");
+  test.skip(({ isMobile }) => isMobile, "Desktop only: phones and tablets swipe the families (below)");
 
   test("the terminal flies forward and the families open out of its screen", async ({ page }) => {
     await page.goto("/");
@@ -199,6 +199,90 @@ test.describe("the dive", () => {
     await page.keyboard.press("Shift+Tab");
     await expect(page.locator(".dv")).not.toHaveAttribute("data-inside", { timeout: 8000 });
     await expect(page.locator("#home-title")).toBeInViewport();
+  });
+});
+
+test.describe("keyboard", () => {
+  test.skip(({ isMobile }) => isMobile, "Scroll keys need a keyboard");
+
+  test("the scroll keys step through the dive one place at a time", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".dv")).toHaveAttribute("style", /--clip/);
+    await expect(page.locator("html")).toHaveClass(/lenis/);
+    await page.locator("body").click({ position: { x: 5, y: 300 } });
+    await page.keyboard.press("PageDown");
+    await expect(page.locator(".dv")).toHaveAttribute("data-inside", "", { timeout: 8000 });
+    await expect(page.locator(".dv-counter")).toHaveText("01 / 06");
+    await page.waitForTimeout(1400);
+    await page.keyboard.press("ArrowDown");
+    await expect(page.locator(".dv-counter")).toHaveText("02 / 06", { timeout: 8000 });
+    await page.waitForTimeout(1400);
+    await page.keyboard.press("ArrowUp");
+    await expect(page.locator(".dv-counter")).toHaveText("01 / 06", { timeout: 8000 });
+    await page.waitForTimeout(1400);
+    await page.keyboard.press("ArrowUp");
+    await expect(page.locator(".dv")).not.toHaveAttribute("data-inside", { timeout: 8000 });
+  });
+
+  test("the scroll keys glide the page and leave typing alone", async ({ page }) => {
+    await page.goto("/solutions/access-control");
+    await expect(page.locator("html")).toHaveClass(/lenis/);
+    await page.locator("body").click({ position: { x: 5, y: 300 } });
+    await page.keyboard.press("PageDown");
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500);
+    await page.keyboard.press("End");
+    await expect
+      .poll(() => page.evaluate(() => Math.abs(scrollY + innerHeight - document.documentElement.scrollHeight)))
+      .toBeLessThan(4);
+    await page.keyboard.press("Home");
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(4);
+    // A key typed in a field stays in the field.
+    await page.goto("/product/f18");
+    await expect(page.locator("html")).toHaveClass(/lenis/);
+    const field = page.locator("#header-search");
+    await field.fill("one");
+    const y = await page.evaluate(() => scrollY);
+    await field.press("Space");
+    await page.waitForTimeout(500);
+    await expect(field).toHaveValue("one ");
+    expect(await page.evaluate(() => scrollY)).toBe(y);
+  });
+});
+
+test.describe("phones and tablets", () => {
+  test.skip(({ isMobile }) => !isMobile, "Touch screens only");
+
+  test("the hero stands and the families are a swiped row, nothing pinned or scrubbed", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("#home-dive");
+    await expect(section).toHaveAttribute("data-motion", "swipe");
+    await expect(page.locator(".dv-stage")).toHaveCSS("position", "relative");
+    await expect(section).not.toHaveAttribute("style", /.+/);
+    await expect(page.locator("[data-dive-device]")).not.toHaveAttribute("style", /.+/);
+    await expect(page.locator(".dv-slides")).toHaveCSS("scroll-snap-type", "x mandatory");
+    // The copy stands clear of the terminal, and the first action is on the first screen.
+    const device = await page.locator("[data-dive-device]").boundingBox();
+    const title = await page.locator("#home-title").boundingBox();
+    expect(device && title && device.y + device.height <= title.y + 1).toBe(true);
+    await expect(page.locator(".dv-copy .in-pill")).toBeInViewport({ ratio: 1 });
+    await expect(page.locator(".dv-cue")).toBeHidden();
+    // The arrows and chips move the row, never the page.
+    // The whole families block on screen, so no click needs the page scrolled to reach its target.
+    const y = await page.locator(".dv-inside").evaluate((el) => {
+      scrollTo({
+        top: el.getBoundingClientRect().top + scrollY - (document.querySelector("header")?.offsetHeight ?? 0),
+        behavior: "instant",
+      });
+      return scrollY;
+    });
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page.locator(".dv-counter")).toHaveText("02 / 06");
+    await expect(page.locator(".dv-chips button[aria-current='true']")).toHaveText("TIME");
+    await expect(page.locator(".dv-slide").nth(1).locator(".dv-ticket")).toBeInViewport({ ratio: 0.9 });
+    await page.locator(".dv-chips button").filter({ hasText: "POS" }).click();
+    await expect(page.locator(".dv-counter")).toHaveText("06 / 06");
+    expect(await page.evaluate(() => scrollY)).toBe(y);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 });
 

@@ -256,6 +256,42 @@ across the site.
 - **Tests:** `floating-contact.spec.ts` covers when it shows, its two links, the preview notice, Contact and the home
   dive.
 
+### Direction 2: smooth scrolling on phones, and the keyboard (28 Nov 2026, owner review)
+
+- **What was slow:** on a 4× throttled phone with touch scrolling, the home page spent 687 ms recalculating styles
+  and had a 650 ms frame. The pinned dive was writing a dozen custom properties per frame, and its snap fought the
+  phone's own momentum. Other pages were 20–96 ms.
+- **What changed:**
+  - The dive now runs only on a desktop screen with a mouse or trackpad (`DIVE_QUERY`). GSAP isn't loaded at all on
+    phones.
+  - On phones and tablets the hero stands one screen tall, with its copy in the flow under a smaller, whole terminal
+    (before, the copy covered the terminal's foot). The six families are one row swiped sideways with CSS scroll snap,
+    which the browser scrolls on its own fast path, and the arrows, chips and counter stay in step.
+  - Very short phones (≤ 700 px tall) let the copy rise over the terminal's foot, so "See all products" stays on the
+    first screen (short-phone spec).
+  - The dive's frames and the contact dock skip style writes that change nothing.
+  - `ScrollTrigger.config({ ignoreMobileResize: true })`, so the address bar never refreshes the triggers.
+- **After:** the home page spends 213 ms on styles and its worst frame is 67 ms, on the same test. The other pages are
+  unchanged or lower. Desktop was already smooth (no slow frames) and still is.
+- **Keyboard:**
+  - Where Lenis smooths the wheel, the arrows, Page Up/Down, Space and Home/End glide the same way (`keyScroll.ts`).
+  - Keys that belong to a field, a control, an open dialog or a box that scrolls itself are left alone (`pageOwnsKey`).
+  - In the home dive each key moves one place (hero, each family, out), as the wheel's snap does.
+- **Not adopted, and why:**
+  - Lenis `syncTouch`: unstable on iOS before 16, and smoothing touch fights the phone's momentum.
+  - GSAP `normalizeScroll`: it takes over native touch scrolling, which the GSAP staff advise only for specific
+    pinning bugs.
+  - `dvh` units: they resize the stages as the address bar moves; `svh` is kept.
+- **Sources:**
+  - GSAP: `ScrollTrigger.normalizeScroll()` docs, and the forum threads on `ignoreMobileResize` and jerky mobile
+    ScrollTrigger.
+  - Lenis: the README, and discussion #431 on touch.
+  - WebKit bug 266835.
+  - web.dev "The large, small, and dynamic viewport units".
+- **Tests:** `home.spec.ts` adds the scroll keys through the dive, the key glide and typing, and the phone swipe row.
+  The old skip note ("the phone runs the same code path") was no longer true and now says why the dive tests are
+  desktop only.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

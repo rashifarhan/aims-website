@@ -28,6 +28,15 @@ export function createDiveStage(section: HTMLElement): DiveStage | null {
   const total = String(n).padStart(2, "0");
   let geo = { tx: 0, ty: 0, k: 1, inset: [0, 0, 0, 0] };
   let shown = -1;
+  // What was last written, so a frame that changes nothing writes nothing: every custom property set restyles the
+  // section, and the scrub runs for a while after the scroll has stopped.
+  const written = new Map<string, string>();
+  const write = (el: HTMLElement, key: string, name: string, value: string) => {
+    if (written.get(key) === value) return;
+    written.set(key, value);
+    if (name === "transform") el.style.transform = value;
+    else el.style.setProperty(name, value);
+  };
 
   // Layout boxes (offsets ignore transforms, so the entrance and the dive itself never skew the measurement): the
   // scale at which the screen fills the stage's height, and where that enlarged screen sits, which is where the
@@ -57,22 +66,27 @@ export function createDiveStage(section: HTMLElement): DiveStage | null {
   const render = (p: number) => {
     const d = ramp(p, DIVE);
     const m = 1 - (1 - d) ** 3;
-    device.style.transform = `translate3d(${(geo.tx * m).toFixed(2)}px, ${(geo.ty * m).toFixed(2)}px, 0) scale(${zoom(d, geo.k).toFixed(4)}) rotate(${(-4 * (1 - m)).toFixed(3)}deg)`;
+    write(
+      device,
+      "t",
+      "transform",
+      `translate3d(${(geo.tx * m).toFixed(2)}px, ${(geo.ty * m).toFixed(2)}px, 0) scale(${zoom(d, geo.k).toFixed(4)}) rotate(${(-4 * (1 - m)).toFixed(3)}deg)`,
+    );
     const o = ramp(p, OPEN);
     const g = 1 - (1 - o) ** 3;
     const [t, r, b, l] = geo.inset.map((v) => (v * (1 - g)).toFixed(1));
-    section.style.setProperty("--dive", d.toFixed(4));
-    section.style.setProperty("--open", o.toFixed(4));
+    write(section, "--dive", "--dive", d.toFixed(4));
+    write(section, "--open", "--open", o.toFixed(4));
     // Fully shut until the screen starts to open: the families never show through the terminal on its way in.
     const clip = o > 0 ? `inset(${t}px ${r}px ${b}px ${l}px round ${(14 * (1 - g)).toFixed(1)}px)` : "inset(50%)";
-    section.style.setProperty("--clip", clip);
-    section.style.setProperty("--reel", Math.min(1, Math.max(0, (p - OPEN[1]) / (1 - OPEN[1]))).toFixed(4));
+    write(section, "--clip", "--clip", clip);
+    write(section, "--reel", "--reel", Math.min(1, Math.max(0, (p - OPEN[1]) / (1 - OPEN[1]))).toFixed(4));
     section.toggleAttribute("data-opening", o > 0);
     section.toggleAttribute("data-inside", o > 0.5);
     slides.forEach((slide, index) => {
       const x = slideOffset(p, n, index);
-      slide.style.setProperty("--x", x.toFixed(4));
-      slide.style.setProperty("--o", slideOpacity(x).toFixed(3));
+      write(slide, `x${index}`, "--x", x.toFixed(4));
+      write(slide, `o${index}`, "--o", slideOpacity(x).toFixed(3));
     });
     setActive(activeIndex(p, n));
   };
@@ -89,6 +103,7 @@ export function createDiveStage(section: HTMLElement): DiveStage | null {
       slide.style.removeProperty("--o");
     });
     shown = -1;
+    written.clear();
   };
 
   return { measure, render, active: () => Math.max(0, shown), clear };

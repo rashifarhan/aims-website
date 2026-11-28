@@ -10,6 +10,9 @@ import { SplitText } from "gsap/SplitText";
  * GSAP never reaches the first paint. ScrollTrigger is exported for the pieces that create triggers directly.
  */
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger, SplitText);
+// A phone's address bar showing or hiding resizes the window: without this every trigger refreshes mid-scroll and the
+// page jumps (GSAP docs, ScrollTrigger.config; svh units already keep the stages still).
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export { gsap, useGSAP, ScrollTrigger, SplitText };
 

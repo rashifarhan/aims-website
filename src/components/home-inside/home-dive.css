@@ -1,7 +1,8 @@
 /* The home stage and dive (HomeDive.tsx). DiveMotion writes --dive (0 → 1: the terminal flies forward), --open (0 → 1:
    the screen opens to the stage), --clip, --reel (the families' progress) and each family's --x and --o. Only
-   transform, opacity and clip-path move. Without JavaScript or under reduced motion the stage stands and the families
-   follow it as a list (the block at the end). */
+   transform, opacity and clip-path move, and only on a desktop screen with a mouse or trackpad. Elsewhere (phones,
+   tablets, touch, reduced motion, no JavaScript) the stage stands and the families follow it: a swiped row on phones
+   and tablets, a list otherwise (the blocks at the end). */
 
 .dv {
   --hdr: calc(3.75rem + 1px); /* the header: h-15 plus its hairline */
@@ -280,6 +281,14 @@
   content: "·";
   margin-inline-start: 0.75rem;
 }
+/* The counter is LTR inside Arabic: its separator goes on the side that faces the label. */
+[dir="rtl"] .dv-head .dv-counter::after {
+  content: none;
+}
+[dir="rtl"] .dv-head .dv-counter::before {
+  content: "·";
+  margin-inline-end: 0.75rem;
+}
 .dv-slides {
   margin: 0;
   padding: 0;
@@ -548,8 +557,15 @@
   }
 }
 
-/* No pin: without JavaScript or under reduced motion the hero stands, then the families follow it as a list. */
-@media (prefers-reduced-motion: reduce), (scripting: none) {
+/* No pin (DiveMotion's DIVE_QUERY, inverted): phones and tablets, touch screens, short screens, reduced motion and no
+   JavaScript. The hero stands one screen tall, then the families follow it in the flow, so the page scrolls natively
+   and nothing is written per frame (owner review, 28 Nov 2026: scrolling must be smooth on a phone). */
+@media (prefers-reduced-motion: reduce),
+  (scripting: none),
+  (max-width: 1023px),
+  (max-height: 599px),
+  (pointer: coarse),
+  (pointer: none) {
   .dv {
     block-size: auto;
   }
@@ -564,8 +580,14 @@
     block-size: var(--stage-h);
     overflow: clip;
   }
+  /* Sized by the hero's screen, not the stage, which now also holds the families. */
   .dv-rise {
-    inset-block: calc(var(--stage-h) * 0.24) auto;
+    inset-block: calc(var(--stage-h) * 0.2) auto;
+    block-size: calc(var(--stage-h) * 0.76);
+  }
+  .dv-device,
+  .dv-product {
+    will-change: auto;
   }
   .dv-inside {
     position: relative;
@@ -591,6 +613,8 @@
   .dv-desc {
     translate: none;
   }
+  /* Nothing to scroll into: the cue promises the dive. */
+  .dv-cue,
   .dv-counter,
   .dv-arrows,
   .dv-chips,
@@ -598,8 +622,108 @@
     display: none;
   }
 }
-@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+/* Phones and tablets: the copy stands at the hero's foot in the flow, clear of the terminal above it, and the hero grows
+   if the copy needs more room. Only a very short screen lets the copy rise over the terminal's foot, so the first
+   action stays on the first screen (tests/e2e/short-phone.spec.ts). */
+@media (max-width: 1023px) {
+  .dv {
+    --rise-top: 0.15;
+    --rise-size: 0.5;
+  }
+  .dv-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    block-size: auto;
+    min-block-size: var(--stage-h);
+    padding-block: calc(var(--stage-h) * var(--rise-top) + 3rem) 2rem;
+    padding-inline: var(--spacing-stage-edge);
+  }
+  .dv-copy {
+    position: relative;
+    inset: auto;
+  }
+  .dv-word-in {
+    inset-block-start: calc(var(--stage-h) * 0.09);
+  }
+  .dv-claim {
+    inset-block-start: calc(var(--stage-h) * 0.06);
+  }
   .dv-rise {
-    inset-block-start: calc(var(--stage-h) * 0.18);
+    inset-block-start: calc(var(--stage-h) * var(--rise-top));
+    block-size: calc(var(--stage-h) * var(--rise-size));
+    inline-size: calc(var(--stage-h) * var(--rise-size) * 362 / 776);
+  }
+}
+@media (max-width: 767px) {
+  .dv {
+    --rise-size: 0.34;
+  }
+  .dv-hero {
+    padding-block-end: 1.5rem;
+  }
+  .dv-word-in {
+    inset-block-start: calc(var(--stage-h) * 0.13);
+  }
+  .dv-claim {
+    inset-block-start: calc(var(--stage-h) * 0.08);
+  }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .dv {
+    --rise-size: 0.28;
+  }
+}
+
+/* Phones and tablets swipe the families (diveCarousel): one row, snapped by the browser, a family a screen wide. The
+   arrows, chips and counter come back once the script keeps them in step; without it the row still swipes. */
+@media (max-width: 1023px), (pointer: coarse), (pointer: none) {
+  .dv-glass {
+    padding-block: 2.25rem 1.75rem;
+  }
+  .dv-head {
+    min-block-size: 2.75rem;
+    align-items: center;
+  }
+  .dv-slides {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .dv-slides::-webkit-scrollbar {
+    display: none;
+  }
+  .dv-slide {
+    flex: 0 0 100%;
+    padding-block: 1.5rem;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  .dv-product img {
+    block-size: min(40svh, 24rem, var(--native, 24rem));
+  }
+  .dv[data-motion="swipe"] .dv-counter {
+    display: inline;
+  }
+  .dv[data-motion="swipe"] .dv-arrows {
+    display: flex;
+    inset-block-start: 2.25rem;
+  }
+  .dv[data-motion="swipe"] .dv-chips {
+    position: static;
+    display: flex;
+    padding-inline: var(--spacing-stage-edge);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+@media (max-width: 767px) {
+  .dv-slide {
+    padding: 1rem var(--spacing-stage-edge) 1.5rem;
+  }
+  .dv-product img {
+    block-size: 26svh;
   }
 }

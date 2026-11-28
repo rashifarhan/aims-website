@@ -11,10 +11,11 @@ import "./home-dive.css";
 
 /**
  * The home stage and dive (direction 2, CLAUDE.md → Design rules; after MotionSites "Laptop Portfolio"). AIMS's
- * SpeedFace stands before the giant AIMS with an access card on a lanyard. The section pins with CSS sticky and native
- * scroll; DiveMotion, the one client leaf, flies the terminal forward until its screen fills the stage and opens the
- * six families out of it, one per stretch of scroll. The server renders every family in order, so without JavaScript
- * or under reduced motion the hero stands and the families follow it as a list (home-dive.css).
+ * SpeedFace stands before the giant AIMS with an access card on a lanyard. On a desktop screen the section pins with CSS
+ * sticky and native scroll; DiveMotion, the one client leaf, flies the terminal forward until its screen fills the
+ * stage and opens the six families out of it, one per stretch of scroll. On phones and tablets the hero stands and the
+ * families are a swiped row. The server renders every family in order, so without JavaScript or under reduced motion
+ * the hero stands and the families follow it (home-dive.css).
  */
 export async function HomeDive() {
   const t = await getDictionary();
