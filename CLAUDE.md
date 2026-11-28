@@ -121,7 +121,9 @@ floating around it. Scrolling moves you from one flood to the next.
   included) moves the slider one family at most, whatever its size; the rest of the gesture is dropped. Resting on a
   family it may reach the one before or after; on the last family it carries on into the page, and coming back from
   the page it stops on the last family. A gesture that starts during a settle counts from where the settle is going,
-  so slow notches each move one family. (Owner, 28 Nov 2026: a slightly bigger scroll ran through two families.)
+  so slow notches each move one family. Steady input with no pause (a new trackpad stroke, a wheel still turning, told
+  from a dying glide by its speed holding or rising) moves on one family every 0.65s. (Owner, 28 Nov 2026: a slightly
+  bigger scroll ran through two families; then steady scrolling with the cursor still stopped the slider.)
 - **Settle:** only once the wheel has been still for 280ms (250ms for native scroll), and in the direction the visitor
   was scrolling: 8% into a change carries on to the next family, anything less returns; scrolling back needs the same
   8% the other way; keyboard or scrollbar goes to the nearer side. The settle takes 0.25–0.6s, scaled by distance,
