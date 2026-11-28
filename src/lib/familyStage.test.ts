@@ -38,26 +38,42 @@ describe("family stage maths", () => {
     expect(shownFamily(9, 6)).toBe(5);
   });
 
-  it("covers slowly, then quickly, then settles", () => {
+  it("covers nearly evenly, so every bit of scroll shows change", () => {
     expect(cover(0)).toBe(0);
     expect(cover(1)).toBe(1);
-    expect(cover(0.278)).toBeCloseTo(0.047);
-    expect(cover(0.62)).toBeCloseTo(0.825);
-    for (let t = 0; t < 1; t += 0.05) expect(cover(t + 0.05)).toBeGreaterThanOrEqual(cover(t));
+    expect(cover(0.5)).toBeCloseTo(0.5);
+    expect(cover(0.1)).toBeGreaterThan(0.07);
+    for (let t = 0; t < 1; t += 0.05) {
+      const step = cover(t + 0.05) - cover(t);
+      expect(step).toBeGreaterThan(0.03);
+      expect(step).toBeLessThan(0.08);
+    }
   });
 
   it("lands the arriving family exactly as the change ends", () => {
-    expect(arrival(0.2)).toBe(0);
+    expect(arrival(0.1)).toBe(0);
     expect(arrival(1)).toBe(1);
     expect(arrival(0.7)).toBeGreaterThan(0.5);
   });
 
-  it("settles a stopped scroll on the nearest family's rest, and leaves the page outside the stage alone", () => {
-    // Six families: 5.3 units over 0..5300 px, so the rests sit every 1000 px and the pin ends at 5300.
-    expect(settleTarget(420, 0, 5300, 6)).toBe(0);
-    expect(settleTarget(620, 0, 5300, 6)).toBeCloseTo(1000);
-    expect(settleTarget(5200, 0, 5300, 6)).toBe(5300);
-    expect(settleTarget(-10, 0, 5300, 6)).toBeNull();
-    expect(settleTarget(5400, 0, 5300, 6)).toBeNull();
+  it("settles the way the visitor was scrolling once they commit, and leaves the page outside the stage alone", () => {
+    // Six families: the rests start every 1000 px (60 px each) and the pin ends after the last rest.
+    const end = stageUnits(6) * 1000;
+    expect(end).toBeCloseTo(5060);
+    // 20% into the first change (60 px rest + 188 px): forward goes on, backward returns, still takes the nearer.
+    expect(settleTarget(248, 0, end, 6, 1)).toBeCloseTo(1000);
+    expect(settleTarget(248, 0, end, 6, -1)).toBe(0);
+    expect(settleTarget(248, 0, end, 6, 0)).toBe(0);
+    // Only 5% in: not committed, it returns.
+    expect(settleTarget(107, 0, end, 6, 1)).toBe(0);
+    // Scrolling back: 5% short of the next family still returns to it, 20% short goes back.
+    expect(settleTarget(953, 0, end, 6, -1)).toBeCloseTo(1000);
+    expect(settleTarget(812, 0, end, 6, -1)).toBe(0);
+    // Inside a rest it returns to that family.
+    expect(settleTarget(1030, 0, end, 6, 1)).toBeCloseTo(1000);
+    // The last family's rest and outside the stage scroll freely.
+    expect(settleTarget(5030, 0, end, 6, 1)).toBeNull();
+    expect(settleTarget(-10, 0, end, 6)).toBeNull();
+    expect(settleTarget(end + 10, 0, end, 6)).toBeNull();
   });
 });

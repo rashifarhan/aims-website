@@ -86,13 +86,13 @@ The design rules are in `CLAUDE.md` → Design rules (approved by the owner with
   scrub smoothing and snap.
 - **Settling on a family** with Lenis is our own 20 lines (`settle()` in `stageMotion.ts`, `settleTarget()` in
   `lib/familyStage.ts`), not `lenis/snap`. That plugin never fired in testing, and it decides from the current eased
-  position rather than where the flick is heading. Ours waits until the wheel stops (140 ms), then eases to the rest
-  nearest the flick's target. Keyboard and scrollbar scrolling settle once the page stands still.
+  position rather than where the flick is heading. Ours waits until the wheel stops (280 ms since 28 Nov), then eases to
+  the family the visitor was heading for (see the next section). Keyboard and scrollbar scrolling settle once the page stands still.
 - **The pin's spacer is the stage's own wrapper** (`.fam-pin`, passed as `pinSpacer`). Left to itself, ScrollTrigger
   moves the section into a new spacer when the lazy engine starts, and moving a node restarts its CSS entrance.
 - **The stage** (`families/FamilySlider.tsx`, engine in `families/stageMotion.ts`, maths in `lib/familyStage.ts` with
   unit tests). The server renders the six families as six stacked floods; that is also the no-JS and reduced-motion
-  page, and what the e2e motion-rest event returns to. With motion, the section pins for about 85vh per family.
+  page, and what the e2e motion-rest event returns to. With motion, the section pins for about 70vh per family.
   Hidden families are `inert`, so focus never lands on them.
 - **Giant-word widths** are stored in em per word (`familyShowcase.ts`), measured in the shipped Archivo at 125%
   width with the giant tracking. A spec checks that no word is ever wider than its frame at 320 to 1440 px.
@@ -109,6 +109,24 @@ The design rules are in `CLAUDE.md` → Design rules (approved by the owner with
   `home-polish.spec.ts`, `home-visual.spec.ts`, `short-phone.spec.ts`) was rewritten for this design, not skipped:
   section order and alternating grounds, family counts, the reduced-motion stack, the desktop pin moving through the
   families in order, tabs, arrows and arrow keys, the phone pin, and the LCP product.
+
+### Direction 3: a more responsive family slider (owner review, 28 Nov 2026)
+
+The owner found the hero scroll smooth but unresponsive. Measured in Chrome with scripted wheel and trackpad input
+(`.cache/tools/feel*.mjs`, not committed), the causes and fixes were:
+
+- **One wheel notch showed nothing and sprang back.** A 30% rest plus the reference's slow-start wipe curve meant the
+  first 40% of a change was nearly still. Now the rest is 6% and the wipe is nearly even (`cover()`), so the stage
+  starts changing 80–130 ms after the wheel moves, and one notch moves one family.
+- **The page pulled back in the middle of a gesture.** The settle fired 140 ms after the last notch, which is shorter
+  than the gap between notches. It now waits 280 ms and follows the scroll direction: 8% into a change commits
+  forward, and scrolling back needs the same 8% the other way.
+- **Long tails.** Lenis `lerp` went from its default 0.1 to 0.12 and the settle is 0.25–0.6 s scaled by distance
+  (was 0.5–0.9 s), so the page stops 570–870 ms after the last input rather than about 1.2 s.
+- **A jump could be pulled back.** With tabs or arrows, a settle left over from an earlier scroll could pull the
+  page back to POS (seen 1 in 6 under load). No settle runs while a jump is playing.
+- **Reduced motion:** the header now changes tone with no transition at all; the global 0.01 ms rule still created
+  33 transitions that a reading could catch under load.
 
 ### Direction 3: the products, product and inner pages (27 Nov 2026)
 

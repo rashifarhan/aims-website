@@ -109,15 +109,20 @@ floating around it. Scrolling moves you from one flood to the next.
   ticker so the two never fight. Lenis runs only on fine pointers (mouse, trackpad); touch screens keep native scroll
   with ScrollTrigger's scrub smoothing. Loaded lazily in the smallest client leaf, never in a layout.
 - **The family slider (home hero; the same engine for any other pinned family sequence):** the section pins; each of
-  the six families owns one stretch of scroll (about 85vh), split into a rest (about 30%) and a change (about 70%).
-  During a change, scrubbed by the scroll: the old family is covered from its right edge to the left (`clip-path:
-inset()` on the MotionSites measured curve: slow start, quick middle, long soft settle) while its layers drift left
-  by 14% of the frame; the new family's layers arrive from the right with parallax (word 0.40, shadow 0.30, product
-  0.15, pieces 0.55, corner pieces 0.75 of the frame width), deeper pieces travelling further. Snap settles softly on
-  each family's rest (0.5–0.9s, `power3.inOut`), only after the scroll stops. Order: access control, time attendance,
-  entrance & parking, locks, door hardware, POS; after POS the page carries on.
-- Tabs, arrows and ← → jump the scroll to a family (Lenis `scrollTo`, same easing), so the URL and the scroll position
-  always agree with what is shown.
+  the six families owns one stretch of scroll (about 70vh), split into a short rest (about 6%) and a change (the
+  rest). During a change, scrubbed by the scroll: the old family is covered from its right edge to the left
+  (`clip-path: inset()` on a nearly even curve with a little ease at both ends, so every bit of scroll shows about the
+  same amount of change) while its layers drift left by 14% of the frame; the new family's layers arrive from the
+  right with parallax (word 0.40, shadow 0.30, product 0.15, pieces 0.55, corner pieces 0.75 of the frame width),
+  starting just after the wipe and easing out, deeper pieces travelling further. Order: access control, time
+  attendance, entrance & parking, locks, door hardware, POS; after POS the page carries on. (Retuned for response by
+  the owner's review, 28 Nov 2026: the reference's timed curve and long rest felt dead under the hand.)
+- **Settle:** only once the wheel has been still for 280ms (250ms for native scroll), and in the direction the visitor
+  was scrolling: 8% into a change carries on to the next family, anything less returns; scrolling back needs the same
+  8% the other way; keyboard or scrollbar goes to the nearer side. The settle takes 0.25–0.6s, scaled by distance,
+  `inOutCubic`. Lenis follows the wheel with `lerp 0.12` (firm, short tail). Touch snap: 0.3–0.6s after 0.2s.
+- Tabs, arrows and ← → jump the scroll to a family (Lenis `scrollTo`, 1.1s `inOutCubic`, and no settle runs during
+  a jump), so the URL and the scroll position always agree with what is shown.
 - **Between changes:** pieces float (±7px, ±3°, 3.2–5s, out of step) and drift with the pointer by depth on fine
   pointers. Nothing runs on a timer; no autoplay.
 - **Entrance:** on load the first family's layers arrive with the same parallax (900ms), then the UI rises in order

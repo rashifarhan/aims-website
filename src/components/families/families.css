@@ -704,3 +704,10 @@
 :root[data-motion-rest="true"] :is(.site-header, .site-header *) {
   transition: none;
 }
+/* Under reduced motion the header changes tone without any transition at all (the global 0.01ms rule still creates
+   one per colour, 33 at a time, which a reading can catch mid-flight under load). */
+@media (prefers-reduced-motion: reduce) {
+  :root:has(.fam-wrap) :is(.site-header, .site-header *) {
+    transition: none;
+  }
+}

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { stageUnits } from "../../src/lib/familyStage";
 import { builtRoutes } from "../../src/lib/routes";
 import { CONTACT, CUSTOMER_REVIEWS, ZKTECO_AUTHORIZATION_CONFIRMED } from "../../src/lib/site";
 import catalogue from "../../content/products.json";
@@ -228,7 +229,7 @@ test("desktop: the stage pins and the scroll moves through the families in order
     length: (el as HTMLElement).offsetHeight - innerHeight,
   }));
   for (let k = 1; k < 6; k += 1) {
-    await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), pin.start + (pin.length * k) / 5.3);
+    await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), pin.start + (pin.length * k) / stageUnits(6));
     await expect.poll(async () => (await stageState(page)).shown).toBe(k);
   }
   // Past the stage the page carries on to the figures.
@@ -266,6 +267,6 @@ test("phone: the stage pins on native scroll and shows one family at a time", as
     start: el.getBoundingClientRect().top + scrollY,
     length: (el as HTMLElement).offsetHeight - innerHeight,
   }));
-  await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), pin.start + (pin.length * 2) / 5.3);
+  await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), pin.start + (pin.length * 2) / stageUnits(6));
   await expect.poll(async () => (await stageState(page)).shown).toBe(2);
 });

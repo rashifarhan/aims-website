@@ -1,9 +1,13 @@
 /**
  * The family slider's scroll maths (CLAUDE.md → Design rules → Motion), kept pure so it can be tested and so the
- * client leaf only writes styles. Each family owns one unit of scroll: a rest (REST of the unit) and then the change
- * to the next family. The last family keeps a rest of its own before the page carries on.
+ * client leaf only writes styles. Each family owns one unit of scroll: a short rest (REST of the unit) and then the
+ * change to the next family. The last family keeps a rest of its own before the page carries on. Tuned for response
+ * (owner, 28 Nov 2026, after a measured review): the change starts almost at once and follows the scroll evenly.
  */
-export const REST = 0.3;
+export const REST = 0.06;
+
+/** How far into a change (0–1) a scroll must get before it settles forward rather than back (owner, 28 Nov 2026). */
+export const COMMIT = 0.08;
 
 /** How far each layer of the arriving family travels, as a share of the frame width (MotionSites "Smoothie
  * Slider"): the deeper the layer, the further it comes from, so the pieces overtake the word. */
@@ -34,41 +38,40 @@ export function stageSnapPoints(count: number): number[] {
 }
 
 /**
- * Where the scroll settles once it stops inside the pinned stage: the rest (or the pin's end) nearest to `y`, the
- * place a flick is heading for. Outside the stage, `null`: the page scrolls freely there.
+ * Where the scroll settles once it stops inside the pinned stage. Inside a change it goes the way the visitor was
+ * scrolling once they are COMMIT of the way in, and back otherwise (`direction` 0, for keyboard or scrollbar, takes
+ * the nearer side); during a rest it returns to that family. Outside the stage, and in the last family's rest before
+ * the page carries on, `null`: the page scrolls freely there.
  */
-export function settleTarget(y: number, start: number, end: number, count: number): number | null {
+export function settleTarget(y: number, start: number, end: number, count: number, direction: -1 | 0 | 1 = 0) {
   if (y < start || y > end || end <= start) return null;
   const points = stageSnapPoints(count).map((p) => start + p * (end - start));
-  return points.reduce((best, p) => (Math.abs(p - y) < Math.abs(best - y) ? p : best));
+  const k = points.findIndex((p, i) => i < count - 1 && y >= p && y < (points[i + 1] ?? end));
+  const from = points[k];
+  const to = points[k + 1];
+  if (from === undefined || to === undefined) return null;
+  const change = ((y - from) / (to - from) - REST) / (1 - REST);
+  if (change <= 0) return from;
+  const forward = direction > 0 ? change >= COMMIT : direction < 0 ? change > 1 - COMMIT : change >= 0.5;
+  return forward ? to : from;
 }
 
 /** The family nearest to a stage position, the one the tabs and the counter name. */
 export const shownFamily = (position: number, count: number) => Math.min(count - 1, Math.max(0, Math.round(position)));
 
-/* The measured cover curve of the reference (time → share covered): a slow start, a rush through the middle and a
-   long soft settle; smoothstepped between the points. */
-const CURVE_T = [0, 0.031, 0.134, 0.206, 0.278, 0.34, 0.412, 0.485, 0.546, 0.583, 0.62, 0.69, 0.79, 0.85, 0.93, 1];
-const CURVE_C = [0, 0.006, 0.012, 0.023, 0.047, 0.07, 0.105, 0.158, 0.246, 0.55, 0.825, 0.9, 0.94, 0.956, 0.975, 1];
-
+/**
+ * How much of the leaving family is covered (0–1) at a point in the change. Nearly even, with a little ease at both
+ * ends, so every bit of scroll shows about the same amount of change and the wipe follows the hand. (The reference's
+ * measured curve was a timed animation; tied to the scroll it made a dead start and a jump, owner review 28 Nov 2026.)
+ */
 export function cover(t: number): number {
   const x = clamp01(t);
-  for (let i = 1; i < CURVE_T.length; i++) {
-    const t1 = CURVE_T[i] ?? 1;
-    if (x <= t1) {
-      const t0 = CURVE_T[i - 1] ?? 0;
-      const c0 = CURVE_C[i - 1] ?? 0;
-      const c1 = CURVE_C[i] ?? 1;
-      const k = (x - t0) / (t1 - t0);
-      return c0 + (c1 - c0) * k * k * (3 - 2 * k);
-    }
-  }
-  return 1;
+  return 0.75 * x + 0.25 * x * x * (3 - 2 * x);
 }
 
-/** How far the arriving family has landed (0–1): it starts moving a third of the way into the change and eases
- * out, so it lands as the wipe settles. */
+/** How far the arriving family has landed (0–1): it starts moving just after the wipe does and eases out, so it
+ * lands as the change ends. */
 export function arrival(t: number): number {
-  const k = clamp01((t - 0.35) / 0.65);
+  const k = clamp01((t - 0.1) / 0.9);
   return 1 - (1 - k) ** 3;
 }

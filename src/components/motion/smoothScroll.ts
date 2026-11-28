@@ -15,7 +15,8 @@ export function startSmoothScroll(): Lenis | null {
   if (!matchMedia("(pointer: fine)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
   users += 1;
   if (!lenis) {
-    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9 });
+    // A firmer follow than Lenis's default glide: the page trails the wheel less (owner review, 28 Nov 2026).
+    lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 0.9 });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);

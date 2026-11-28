@@ -14,15 +14,23 @@ import {
 } from "@/lib/familyStage";
 
 /** Each family's stretch of scroll, as a share of the viewport height (Design rules → Motion). */
-const STRETCH = 0.85;
-const SETTLE = { duration: 0.8, easing: (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2) };
+const STRETCH = 0.7;
+const inOutCubic = (t: number) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+/** A settle takes longer the further it has to go: a short correction is quick, a whole family at most 0.6 s. */
+const settleSeconds = (distance: number) =>
+  Math.min(0.6, 0.25 + (0.35 * distance) / Math.max(1, STRETCH * window.innerHeight));
+/** A wheel or trackpad has stopped once no input has come for this long: longer than the gap between the notches of
+ * a mouse wheel turned at an even pace (120–200 ms), so a settle never starts in the middle of a gesture. */
+const WHEEL_IDLE_MS = 280;
+/** Keyboard and scrollbar scrolling settle once the page has stood still this long. */
+const NATIVE_IDLE_MS = 250;
 
 type Stage = { slide: HTMLElement; layers: [HTMLElement, number][] };
 
 /**
  * The family slider's scroll engine (lazy chunk; CLAUDE.md → Design rules → Motion and scroll engine). The section
- * pins and the scroll position drives every frame: the leaving family is covered from its trailing edge on the
- * measured curve while it drifts away, the arriving family's layers come in with parallax, and the scroll settles
+ * pins and the scroll position drives every frame: the leaving family is covered from its trailing edge, evenly with
+ * the scroll, while it drifts away, the arriving family's layers come in with parallax, and the scroll settles
  * softly on each family. Lenis smooths the wheel on fine pointers (settle() below settles it); touch screens keep
  * native scroll with ScrollTrigger's scrub smoothing and snap. Only transform and clip-path are written.
  */
@@ -89,23 +97,33 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
 
   const lenis = startSmoothScroll();
   const pin: { trigger?: ScrollTrigger } = {};
-  // With Lenis, the wheel settles on the family its flick is heading for once the wheel stops (Design rules → Motion:
-  // snap only after the scroll stops). Keyboard and scrollbar scrolling settle once the page stands still.
+  // With Lenis, once the wheel stops the scroll settles the way it was going if it got far enough into a change, and
+  // back otherwise (Design rules → Motion). Keyboard and scrollbar scrolling settle on the nearer family.
   let wait = 0;
+  let direction: -1 | 0 | 1 = 0;
+  // A tab, arrow or key jump is never settled halfway: a settle left over from the scroll before it would pull the
+  // page back to the family it is leaving. The visitor's next wheel input ends the jump.
+  let jumping = false;
   const settle = () => {
-    if (!lenis || !pin.trigger) return;
-    const target = settleTarget(lenis.targetScroll, pin.trigger.start, pin.trigger.end, count);
+    if (!lenis || !pin.trigger || jumping) return;
+    const target = settleTarget(lenis.targetScroll, pin.trigger.start, pin.trigger.end, count, direction);
     if (target !== null && Math.abs(target - lenis.targetScroll) > 1)
-      lenis.scrollTo(target, { duration: SETTLE.duration, easing: SETTLE.easing });
+      lenis.scrollTo(target, { duration: settleSeconds(Math.abs(target - lenis.animatedScroll)), easing: inOutCubic });
   };
   const settleLater = (delay: number) => {
     window.clearTimeout(wait);
     wait = window.setTimeout(settle, delay);
   };
-  const offWheel = lenis?.on("virtual-scroll", () => settleLater(140));
+  const offWheel = lenis?.on("virtual-scroll", ({ deltaY }) => {
+    jumping = false;
+    if (deltaY) direction = deltaY > 0 ? 1 : -1;
+    settleLater(WHEEL_IDLE_MS);
+  });
   // "smooth" is Lenis's own easing (a flick's glide, or a settle under way); anything else is native scrolling.
   const offScroll = lenis?.on("scroll", () => {
-    if (lenis.isScrolling !== "smooth") settleLater(220);
+    if (lenis.isScrolling === "smooth") return;
+    direction = 0;
+    settleLater(NATIVE_IDLE_MS);
   });
 
   const progress = { value: 0 };
@@ -128,7 +146,7 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
       scrub: lenis ? true : 0.5,
       snap: lenis
         ? undefined
-        : { snapTo: stageSnapPoints(count), duration: { min: 0.3, max: 0.8 }, delay: 0.12, ease: "power3.inOut" },
+        : { snapTo: stageSnapPoints(count), duration: { min: 0.3, max: 0.6 }, delay: 0.2, ease: "power3.inOut" },
       onRefresh: () => {
         width = root.querySelector<HTMLElement>(".fam-frame")?.offsetWidth ?? window.innerWidth;
       },
@@ -141,8 +159,11 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     const { start, end } = pin.trigger;
     const k = Math.min(count - 1, Math.max(0, index));
     const top = start + (stageSnapPoints(count)[k] ?? 0) * (end - start);
-    if (lenis) lenis.scrollTo(top, { duration: 1.1, easing: SETTLE.easing });
-    else window.scrollTo({ top, behavior: "smooth" });
+    window.clearTimeout(wait);
+    if (lenis) {
+      jumping = true;
+      lenis.scrollTo(top, { duration: 1.1, easing: inOutCubic, onComplete: () => (jumping = false) });
+    } else window.scrollTo({ top, behavior: "smooth" });
   };
 
   // The pieces drift with a fine pointer by their depth; touch screens leave them still.
