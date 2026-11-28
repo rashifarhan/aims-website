@@ -82,36 +82,26 @@
   .ui-link:hover {
     color: var(--color-green-800);
   }
-  /* The signature pair's secondary (client decision, 24 Nov 2026): a pale green-100 line at rest (it still reads as
-     a link without colour alone), and on hover a green line draws over it from the start edge. */
+  /* The secondary action is an outline pill, like the header's Quote button (owner review, 28 Nov 2026: a real
+     button, not an underlined line). The 44px target stays; the arrow, where there is one, nudges on hover. */
   .home-secondary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    border: 1px solid var(--color-green-700);
+    border-radius: var(--radius-pill);
+    background: var(--color-paper);
     text-decoration: none;
-    background:
-      linear-gradient(currentColor, currentColor) no-repeat,
-      linear-gradient(var(--color-green-100), var(--color-green-100)) no-repeat;
-    background-position:
-      left calc(100% - 0.5rem),
-      left calc(100% - 0.5rem);
-    background-size:
-      0 1.5px,
-      100% 1.5px;
     transition:
-      background-size var(--duration-sweep) var(--ease-aims),
-      color var(--duration-hover) ease;
-  }
-  :dir(rtl) .home-secondary {
-    background-position:
-      right calc(100% - 0.5rem),
-      right calc(100% - 0.5rem);
+      background-color var(--duration-hover) ease,
+      transform var(--duration-fast) var(--ease-aims);
   }
   .home-secondary:hover {
-    background-size:
-      100% 1.5px,
-      100% 1.5px;
+    background: var(--color-green-50);
+    transform: translateY(-1px);
   }
   .home-secondary:hover .home-action-arrow {
     translate: 3px 0;
@@ -119,14 +109,16 @@
   :dir(rtl) .home-secondary:hover .home-action-arrow {
     translate: -3px 0;
   }
-  /* Links on night green take lime (7.5:1 on night-900; green-700 would fail there), and their resting line turns
-     night-line. */
+  /* Links on night green take lime (7.5:1 on night-900; green-700 would fail there), and the outline turns lime. */
   .section-night :is(.home-secondary, .home-text-link) {
     color: var(--color-lime);
   }
   .section-night .home-secondary {
-    background-image:
-      linear-gradient(currentColor, currentColor), linear-gradient(var(--color-night-line), var(--color-night-line));
+    border-color: color-mix(in srgb, var(--color-lime) 70%, transparent);
+    background: transparent;
+  }
+  .section-night .home-secondary:hover {
+    background: color-mix(in srgb, var(--color-lime) 12%, transparent);
   }
   .home-button {
     position: relative;

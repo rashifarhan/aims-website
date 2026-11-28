@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { StagePill } from "@/components/inside/StagePill";
 import { Ticket } from "@/components/inside/Ticket";
@@ -12,9 +11,8 @@ import { familyFacts } from "@/lib/familyFacts";
 import { FAMILY_STAGES, type ProductStage } from "./stages";
 
 /**
- * Inside the product's screen on a family page: a ticket of the family's facts, every figure counted from the
- * catalogue (familyFacts; CLAUDE.md, Truth), the product, and shortcuts that show the list below already filtered.
- * A solution page opens the same inside out of its own product (`stage`); its shortcuts open the family's list.
+ * The panel after a solution page's stage: a ticket of the family's facts, every figure counted from the catalogue
+ * (familyFacts; CLAUDE.md, Truth), the model shown (`stage`), and shortcuts that open the family's list filtered.
  */
 export async function FamilyInside({
   family,
@@ -66,15 +64,11 @@ export async function FamilyInside({
     <div className="ps-glass ps-fam">
       <p className="ps-head in-mono">
         <span>{fmt(s.familyCount, { count: facts.total })}</span>
-        <span>{fmt(s.insideHead, { model: stage.model })}</span>
       </p>
       <div className="ps-fam-grid">
         <div className="ps-fam-copy">
           <Ticket title={name} titleAs="h2" rows={rows} className="ps-ticket" />
           <p className="ps-line">{t.families[family].summary}.</p>
-        </div>
-        <div className="ps-show" aria-hidden="true">
-          <Image src={stage.image.src} alt="" width={stage.image.w} height={stage.image.h} sizes="420px" />
         </div>
       </div>
       <div className="ps-bottom">

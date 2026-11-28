@@ -13,7 +13,7 @@ type Props = {
 };
 
 /**
- * What opens out of a software page's screen (direction 2): the platform on a ticket (its name and types, from
+ * The panel after a software page's stage (direction 2): the platform on a ticket (its name and types, from
  * content/software.json), its summary, Add to quote, and the way down to the terminals it works with.
  */
 export function SoftwareInside({ software, t, jump, addToQuote }: Props) {

@@ -11,7 +11,7 @@ import type { IntroCopy } from "./types";
 /**
  * A solution page's first screen, direction 2 (CLAUDE.md → Design rules): its own product before the need's word,
  * the page's H1, promise and two actions (the quote with the need preset, the family's products with their count).
- * The dive opens the family's facts out of the product, every figure counted from the catalogue.
+ * The family's facts follow the stage, every figure counted from the catalogue.
  */
 export async function SolutionStage({ page, copy }: { page: SolutionPageData; copy: IntroCopy }) {
   const t = await getDictionary();

@@ -224,6 +224,22 @@ across the site.
   heads. A new spec, "no step before the choice", checks that each of these pages shows its first choice on the
   first screen.
 
+### Direction 2: outline buttons, and the dive on the home hero only (28 Nov 2026, owner review)
+
+- **Secondary actions are buttons.** The underlined text link beside each primary pill ("Browse 20 terminals", "See
+  all solutions", the closing bands' second action, the quote list's "+ Add a product") read as a line, not something
+  to press. `.in-link` and `.home-secondary` are now outline pills in the header Quote button's shape: lime on night,
+  green-700 on light grounds, 48px (44px for the older pages' compact ones), a 1px step and a wash on hover.
+  Underlines stay only on links inside sentences (`.ui-link`, prose).
+- **The scroll dive is the home hero's alone.** Product, solution, software platform and ZKTeco location pages keep
+  their stage (the giant word and the whole product) but it stands still: no pin, no scrub, no "Scroll to step
+  inside". The ticket of facts follows the stage as a night panel. Without the dive, the panel's copy of the stage's
+  product and its "Inside the {model}" label were repeats, so they are gone. `StageMotion`, `stageWriter`,
+  `lib/stageDive` and the screen apertures in `stages.ts` are removed. Home keeps its dive and the job ticket. The
+  scroll reveals and the access control door's own sequence stay.
+- **Tests:** a new spec checks that only the home hero dives (no sticky stage, the panel in the flow under it) on a
+  product, a solution, a software platform and a location page. Comments that described the dive are updated.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

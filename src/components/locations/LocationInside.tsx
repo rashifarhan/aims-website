@@ -1,17 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ContactLink } from "@/components/contact/ContactLink";
 import { StagePill } from "@/components/inside/StagePill";
 import { Ticket, type TicketRow } from "@/components/inside/Ticket";
-import { LOCATION_STAGES } from "@/components/products-inside/stages";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { fmt } from "@/i18n/format";
 import { LOCATION_PAGES, type LocationMarket } from "@/lib/locationPages";
 import { CONTACT, LOCATIONS } from "@/lib/site";
 
 /**
- * Inside the hero model's screen on a location page (direction 2): the place on a ticket, every value from site.ts
+ * The panel after a location page's stage (direction 2): the place on a ticket, every value from site.ts
  * or the page's own copy (CLAUDE.md, Truth). Dubai is the showroom to visit; Oman and Kenya are supplied from the
  * Deira head office, and no office there is claimed (lib/locationPages). Then the quote and shortcuts down the page.
  */
@@ -21,7 +18,6 @@ export async function LocationInside({ market, faqId }: { market: LocationMarket
   const s = t.locationsStage;
   const c = t.locations[market];
   const common = t.locations.common;
-  const stage = LOCATION_STAGES[market];
   const page = LOCATION_PAGES[market];
   const dubai = market === "dubai";
   const line = CONTACT.lines[dubai ? "showroom" : "headOffice"];
@@ -78,14 +74,10 @@ export async function LocationInside({ market, faqId }: { market: LocationMarket
     <div className="ps-glass ps-fam">
       <p className="ps-head in-mono">
         <span>{c.title}</span>
-        <span>{fmt(t.productsStage.insideHead, { model: stage.model })}</span>
       </p>
       <div className="ps-fam-grid">
         <div className="ps-fam-copy">
           <Ticket title={c.eyebrow} titleAs="h2" rows={rows} className="ps-ticket" />
-        </div>
-        <div className="ps-show" aria-hidden="true">
-          <Image src={stage.image.src} alt="" width={stage.image.w} height={stage.image.h} sizes="420px" />
         </div>
       </div>
       <div className="ps-bottom">

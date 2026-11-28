@@ -19,7 +19,7 @@ type Props = {
 const FACTS = 6;
 
 /**
- * What opens out of the product's plate on its page (direction 2): the key specifications on a ticket, verbatim from
+ * The panel after the product's stage on its page (direction 2): the key specifications on a ticket, verbatim from
  * AIMS's spec table (CLAUDE.md, Truth), the product's own summary, and the ways on (the full table below, the family).
  * The model and brand always fill the ticket; the specifications section below says when AIMS publishes no rows.
  */
@@ -35,7 +35,6 @@ export function ProductInside({ p, familyName, familyHref, t, data }: Props) {
     <div className="ps-glass ps-prod">
       <p className="ps-head in-mono">
         <span>{familyName}</span>
-        <span>{fmt(s.insideHead, { model: p.model })}</span>
       </p>
       <div className="ps-prod-grid">
         {/* A named region, so the key facts can be found by landmark (as the T5 hero's key specs were). */}

@@ -2143,14 +2143,12 @@
     "closeSecondary": "كل طرق التواصل مع AIMS"
   },
   "productsStage": {
-    "cue": "مرّر للدخول",
     "shown": "المعروض: {model}",
     "crumbs": "مسار التنقل",
     "hubLead": "{count} منتجًا. ابحث برمز الطراز، أو اختر فئة أدناه.",
     "quote": "اطلب عرض سعر",
     "familyCount": "{count} منتجًا",
     "familyLead": "{count} منتجًا. {summary}.",
-    "insideHead": "داخل {model}",
     "rowShown": "المعروض",
     "rowVerifies": "طرق التحقق",
     "rowOutdoor": "مناسب للخارج",

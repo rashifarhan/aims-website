@@ -2143,14 +2143,12 @@
     "closeSecondary": "All ways to contact AIMS"
   },
   "productsStage": {
-    "cue": "Scroll to step inside",
     "shown": "Shown: {model}",
     "crumbs": "Breadcrumb",
     "hubLead": "{count} products. Search by model code, or pick a family below.",
     "quote": "Request a quote",
     "familyCount": "{count} products",
     "familyLead": "{count} products. {summary}.",
-    "insideHead": "Inside the {model}",
     "rowShown": "Shown",
     "rowVerifies": "Verifies",
     "rowOutdoor": "Outdoor rated",

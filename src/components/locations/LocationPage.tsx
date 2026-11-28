@@ -30,7 +30,7 @@ export async function locationMetadata(market: LocationMarket): Promise<Metadata
 
 /**
  * T7 location page (Master Plan 12 #32–35, 14) in direction 2 (CLAUDE.md → Design rules): the place's giant word and
- * its hero model on a stage, the place's facts opening out of the model's screen; then where to visit (Dubai), the
+ * its hero model on a stage, the place's facts right after it; then where to visit (Dubai), the
  * models with Add to quote, delivery beside the SIGNAL map, FAQ (support and warranty) and the destination-preset quote.
  */
 export async function LocationPage({ market }: { market: LocationMarket }) {

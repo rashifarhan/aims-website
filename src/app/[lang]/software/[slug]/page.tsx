@@ -54,7 +54,6 @@ export default async function SoftwarePage({ params }: PageProps<"/[lang]/softwa
         model: software.name,
         productSlug: slug,
         image: { src: software.image.src, w: software.image.width, h: software.image.height },
-        screen: { x: 0, y: 0, w: 1, h: 1 },
       }
     : SOLUTION_STAGES["time-attendance"];
   const addToQuote = (

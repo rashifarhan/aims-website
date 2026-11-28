@@ -144,22 +144,40 @@
   translate: -3px 0;
 }
 
-/* Text link: the secondary action. The underline draws in on hover. */
+/* Secondary action: an outline pill, the header's Quote button on this ground (owner review, 28 Nov 2026: a real
+   button, not an underlined line). Lime on night, green-700 on paper; the same height as the primary pill. */
 .in-link {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
+  justify-content: center;
+  gap: 0.5rem;
+  min-block-size: 3rem;
+  padding-inline: 1.5rem;
+  border: 1.5px solid color-mix(in srgb, var(--color-lime) 70%, transparent);
+  border-radius: var(--radius-pill);
   color: var(--color-lime);
   font-weight: 600;
-  background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - 0.55rem) / 100% 1.5px;
-  transition: background-size var(--duration-slow) var(--ease-out);
+  text-align: center;
+  transition:
+    background-color var(--duration-base) ease,
+    border-color var(--duration-base) ease,
+    transform var(--duration-base) var(--ease-out);
 }
 .in-link:hover {
-  background-size: 0% 1.5px;
-  background-position-x: 100%;
+  border-color: var(--color-lime);
+  background: color-mix(in srgb, var(--color-lime) 12%, transparent);
+  transform: translateY(-1px);
+}
+.in-link:active {
+  transform: translateY(1px);
 }
 .in-paper .in-link {
+  border-color: var(--color-green-700);
+  background: var(--color-paper);
   color: var(--color-green-700);
+}
+.in-paper .in-link:hover {
+  background: var(--color-green-50);
 }
 
 /* Round arrow (prev / next) and word chip. */

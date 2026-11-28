@@ -80,7 +80,6 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         model: p.model,
         productSlug: p.slug,
         image: { src: image.src, w: image.width, h: image.height },
-        screen: { x: 0, y: 0, w: 1, h: 1 },
       }
     : FAMILY_STAGES[family];
   const crumbs = [

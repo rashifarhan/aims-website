@@ -105,8 +105,8 @@ test("phones scroll the terminals sideways without widening the page", async ({ 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-// Direction 2: the stage stands the Horus H1 before TIME, loaded first as the LCP image, and its dive opens the
-// family's facts.
+// Direction 2: the stage stands the Horus H1 before TIME, loaded first as the LCP image, and the family's facts
+// follow it.
 test("the stage shows the Horus H1 before its word, and the family's facts inside", async ({ page }) => {
   await page.goto(PATH);
   const photo = page.locator(".ps-device img");

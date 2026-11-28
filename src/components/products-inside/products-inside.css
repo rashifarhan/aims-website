@@ -1,25 +1,17 @@
 /*
- * The products hub and family pages, direction 2 (CLAUDE.md → Design rules; ListingPage.tsx). PageStage + StageMotion
- * write --dive (0 → 1: the product flies forward), --open (0 → 1: the screen opens) and --clip. Only transform,
- * opacity and clip-path move.
- *
- * Stacked by default: the stage stands one screen tall and the inside follows it. That is the layout on phones and
- * tablets (the inside is taller than their screen), under reduced motion and without JavaScript. The pinned dive is
- * the block further down, on desktop screens only, matching StageMotion's media query.
+ * The page stage, direction 2 (CLAUDE.md → Design rules; PageStage.tsx): the stage stands one screen tall and the
+ * page's first panel follows it. It stands still everywhere: the scroll dive is the home hero's alone (owner review,
+ * 28 Nov 2026).
  */
 
 .ps {
   --hdr: calc(3.75rem + 1px); /* the header: h-15 plus its hairline */
   /* One screen, but never so tall that a 568px phone loses the stage's first action below the fold (audit B4). */
   --stage-h: max(30rem, calc(100svh - var(--hdr)));
-  /* Height-led, but never wider than the room it has (--fit-w), so the box keeps the photograph's ratio and the dive's
-     screen fractions stay true. */
+  /* Height-led, but never wider than the room it has (--fit-w), so the box keeps the photograph's ratio. */
   --fit-w: 86vw;
   --rise-h: min(calc(var(--stage-h) * 0.42), var(--native), calc(var(--fit-w) / var(--ratio)));
   --rise-top: calc(var(--stage-h) * 0.17);
-  --dive: 0;
-  --open: 0;
-  --clip: none;
   position: relative;
   background: var(--color-stage-900);
 }
@@ -61,8 +53,6 @@
 }
 .ps-word {
   font-size: min(var(--text-word), calc((100vw - 2 * var(--page-gutter) - 2rem) / (var(--letters) * 0.86)));
-  opacity: calc(1 - var(--dive) * 2.4);
-  scale: calc(1 + var(--dive) * 0.6);
 }
 .ps-shown {
   position: absolute;
@@ -70,7 +60,6 @@
   inset-inline-end: var(--spacing-stage-edge);
   inset-block-start: 1rem;
   margin: 0;
-  opacity: calc(1 - var(--dive) * 4);
 }
 .ps-shown a {
   display: inline-flex;
@@ -88,8 +77,6 @@
   inset-inline: var(--spacing-stage-edge);
   inset-block-end: 1.75rem;
   max-inline-size: 32rem;
-  opacity: calc(1 - var(--dive) * 4);
-  translate: 0 calc(var(--dive) * 80px);
 }
 .ps-copy h1 {
   margin: 0.25rem 0 0.75rem;
@@ -112,12 +99,8 @@
   align-items: center;
   gap: 0.75rem 1.5rem;
 }
-.ps-cue {
-  display: none;
-}
 
-/* The product. Its box is laid out without transforms (StageMotion measures it); the dive transforms .ps-device. The
-   shadow is a separate soft layer, never a filter on the moving photograph. */
+/* The product, whole, with its shadow as a separate soft layer under it. */
 .ps-rise {
   position: absolute;
   z-index: 1;
@@ -135,7 +118,6 @@
   block-size: 9%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), transparent);
-  opacity: calc(1 - var(--dive) * 3);
 }
 .ps-device {
   position: relative;
@@ -148,20 +130,7 @@
   block-size: 100%;
   object-fit: contain;
 }
-/* The screen darkens into the inside's green as it comes close, so the hand-over is seamless and the enlarged
-   photograph never shows its pixels. Physical left/top: they are fractions of the photograph, which does not mirror. */
-.ps-screen {
-  position: absolute;
-  left: var(--sx);
-  top: var(--sy);
-  width: var(--sw);
-  height: var(--sh);
-  border-radius: 2px;
-  background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
-  opacity: clamp(0, calc(var(--dive) * 1.6 - 0.45), 1);
-}
-
-/* Inside the screen. */
+/* The first panel after the stage. */
 .ps-inside {
   position: relative;
   z-index: 3;
@@ -195,7 +164,7 @@
   color: var(--color-night-muted);
 }
 
-/* A family: the ticket, the product, the shortcuts. */
+/* A family or a place: the ticket and its line, then the shortcuts. */
 .ps-fam-grid {
   display: grid;
   gap: 2rem;
@@ -221,9 +190,6 @@
   margin: 1.25rem 0 0;
   color: var(--color-night-muted);
   line-height: 1.55;
-}
-.ps-show {
-  display: none;
 }
 .ps-bottom {
   display: flex;
@@ -266,17 +232,6 @@
   .ps-copy h1 {
     font-size: var(--text-stage-title);
   }
-  .ps-cue {
-    position: absolute;
-    z-index: 4;
-    inset-inline-end: var(--spacing-stage-edge);
-    inset-block-end: 3.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 0;
-    opacity: calc(1 - var(--dive) * 5);
-  }
   /* Clear of the copy: the product stands a little past the centre, towards the end. */
   .ps-rise {
     inset-inline-start: 18%;
@@ -292,78 +247,18 @@
   .ps-glass {
     padding-block: 2.25rem 2.5rem;
   }
-  .ps-fam-grid {
-    grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
-    gap: 3rem;
-  }
-  .ps-show {
-    position: relative;
+  /* The ticket and its line side by side; the product itself stands on the stage just above. */
+  .ps-fam-copy {
     display: grid;
-    place-items: center;
-    block-size: 100%;
+    grid-template-columns: minmax(0, 30rem) minmax(0, 28rem);
+    gap: 3rem;
+    align-items: center;
   }
-  .ps-show::before {
-    content: "";
-    position: absolute;
-    inset: 4% 14%;
-    border-radius: 50%;
-    background: radial-gradient(
-      closest-side,
-      color-mix(in srgb, var(--ground, var(--color-stage-600)) 50%, var(--color-lime) 20%),
-      transparent
-    );
-    opacity: 0.5;
-  }
-  .ps-show img {
-    position: relative;
-    inline-size: auto;
-    block-size: auto;
-    max-block-size: min(50vh, 30rem);
-    max-inline-size: 100%;
-    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.5));
+  .ps-fam-copy .ps-line {
+    margin: 0;
   }
   .ps-jumps {
     justify-content: end;
-  }
-}
-
-/* The pinned dive: desktop screens, motion allowed, JavaScript on (StageMotion's media query). The stage sticks under
-   the header, the product flies and the inside opens out of its screen, clipped by --clip. */
-@media (min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
-  .ps {
-    --stage-h: calc(100svh - var(--hdr));
-    --clip: inset(50%);
-    block-size: 260svh;
-  }
-  .ps-stage {
-    position: sticky;
-    inset-block-start: var(--hdr);
-    block-size: var(--stage-h);
-    overflow: clip;
-  }
-  .ps-hero {
-    position: absolute;
-    inset: 0;
-  }
-  .ps[data-inside] .ps-hero {
-    pointer-events: none;
-  }
-  .ps-device {
-    will-change: transform;
-  }
-  .ps-inside {
-    position: absolute;
-    inset: 0;
-    clip-path: var(--clip);
-    pointer-events: none;
-  }
-  .ps[data-inside] .ps-inside {
-    pointer-events: auto;
-  }
-  .ps-glass {
-    position: absolute;
-    inset: 0;
-    scale: calc(1.04 - var(--open) * 0.04);
   }
 }
 

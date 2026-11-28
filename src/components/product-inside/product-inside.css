@@ -1,7 +1,7 @@
 /*
  * A product page's stage, direction 2 (CLAUDE.md → Design rules; app/[lang]/product/[slug]/page.tsx). The photograph
  * is still on its studio white, so it stands on a cream plate and multiplies onto it: no white rim, no cut-out
- * needed for 160 models. The plate is the screen the dive flies into (stage.screen is the whole plate).
+ * needed for 160 models.
  */
 .ps[data-plate] .ps-device {
   isolation: isolate;
@@ -12,9 +12,6 @@
   box-sizing: border-box;
   padding: 8%;
   mix-blend-mode: multiply;
-}
-.ps[data-plate] .ps-screen {
-  border-radius: 1rem;
 }
 .ps[data-plate] {
   --rise-h: min(calc(var(--stage-h) * 0.3), var(--native));
@@ -76,7 +73,7 @@
   }
 }
 
-/* What opens out of the plate. */
+/* The panel after the stage. */
 .ps-prod-grid {
   display: grid;
   gap: 2rem;

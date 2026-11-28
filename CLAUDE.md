@@ -33,8 +33,9 @@ approves them with the first mockups** (`docs/mockups/direction-2/`). Once appro
 
 ### Idea
 
-Every main page is a **stage**: one real AIMS product, cut out, stands in front of one giant word. Scrolling flies the
-product at you until its screen fills the view, and the page's content opens out of that screen. Facts sit on cream
+Every main page is a **stage**: one real AIMS product, cut out, stands in front of one giant word. On the home page
+only, scrolling flies the product at you until its screen fills the view and the content opens out of that screen;
+every other stage stands still and its content follows it (owner review, 28 Nov 2026). Facts sit on cream
 **tickets** (mono rows, dashed dividers, punched notches). Everything else is calm: dark night-green stages,
 cream paper sections between them, one lime accent.
 
@@ -74,8 +75,8 @@ cream paper sections between them, one lime accent.
 
 - Each section is **one screen** at 1440×900 (stages fill the viewport under the header); content edges match the header and footer
   (`.wrap`: the page gutter inside the 1344px container), equal on both sides; text columns ≤ 34rem.
-- Stage composition: word top, product centre (bottom-anchored), H1 + lead + two actions bottom-start, scroll cue
-  bottom-end. Phone: word top, product middle, copy bottom, no cue, no lanyard.
+- Stage composition: word top, product centre (bottom-anchored), H1 + lead + two actions bottom-start; the scroll cue
+  bottom-end on the home hero only. Phone: word top, product middle, copy bottom, no cue, no lanyard.
 - Inside a screen: ticket start column, product end column, line + pill under the ticket, round arrows top-end,
   word chips bottom-end, a thin lime progress line along the bottom.
 - RTL mirrors every column with logical properties.
@@ -83,7 +84,9 @@ cream paper sections between them, one lime accent.
 ### Components (one of each)
 
 - **Pill button** (primary): white on night / ticket-ink on paper, 48px tall, a 36px dark circle with a lime arrow.
-- **Text link** (secondary): lime on night, green-700 on paper, 1.5px underline.
+- **Outline button** (secondary, `.in-link`; `.home-secondary` on older pages): a pill like the header's Quote button,
+  48px tall, 1.5px lime outline and lime text on night, green-700 outline and text on paper. Never an underlined line
+  (owner review, 28 Nov 2026). Underlines are for links inside sentences only.
 - **Round arrow** (48px circle, 1.5px border) for prev/next; **word chip** (44px tall, active = lime fill).
 - **Ticket card**: cream, radius 1rem, punched notches via mask, title in Archivo 800, mono rows with dashed tops.
   Used for every spec, fact and step panel.
@@ -114,33 +117,33 @@ cream paper sections between them, one lime accent.
   wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
   runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
   leaf, never in a layout; cleaned up on unmount (`useGSAP`).
-- **Every product-led page has one dive** (product detail, each solution, each software platform, the ZKTeco location
-  pages). **Pages for choosing** (the products hub, the six families, the Solutions and Software hubs) have **no stage**:
+- **Only the home hero dives** (owner review, 28 Nov 2026): the stage pins, the product flies forward (zoom in log
+  space, eased ends) until its screen fills the height, then the content opens out of the screen with
+  `clip-path: inset()`. At most **one more** pinned, scrubbed sequence on home (the job ticket). Pins never trap the
+  scroll; snapping is soft (to each item in a scrubbed list, ≤ 0.6 s, `power2.inOut`).
+- **Product-led pages** (product detail, each solution, each software platform, the ZKTeco location pages) open on a
+  **still stage** (`PageStage`): no pin and no scrub; the page's first panel (the ticket of facts) follows it in the
+  flow. **Pages for choosing** (the products hub, the six families, the Solutions and Software hubs) have **no stage**:
   a short head (`src/components/inside/PageHead.tsx`: crumbs, H1, one line) and the choices on the first screen
   (client decision, 28 Nov 2026: no step between a click and what the visitor came for). Company pages (services,
-  about, locations) open on a **word stage** with no dive (`src/components/word-stage/`): there is no product to step
-  into, so their facts sit on a ticket. Form pages (contact, quote) use the compact word stage **without the word**,
-  so the form starts on the first screen. A dive: the stage pins, the product flies forward (zoom in log space, eased ends) until its
-  screen fills the height, then the content opens out of the screen with `clip-path: inset()`. At most **one more**
-  pinned, scrubbed sequence per page (home: the job ticket). Pins never trap the scroll; snapping is soft (to each
-  item in a scrubbed list, ≤ 0.6 s, `power2.inOut`).
+  about, locations) open on a **word stage** (`src/components/word-stage/`): there is no product, so their facts sit
+  on a ticket. Form pages (contact, quote) use the compact word stage **without the word**, so the form starts on
+  the first screen.
 - **Everything else** reveals as it scrolls into view: blocks rise 24px and fade; photographs open from a small
   rounded screen to full (`clip-path`), scrubbed.
 - **Entrance on load, once (~1.2 s):** the word rises out of its baseline, the product rises, the lanyard drops and
   settles, the copy fades up. Then only two loops: the card's sway and the scan line on the device screen, both paused
   off-screen.
 - **Hover/press:** pill steps up 1px and its arrow slides 3px; round arrows scale 1.06; screen frames zoom their
-  photo 1.03; links draw their underline.
+  photo 1.03; outline buttons step up 1px and take a lime (or green-50) wash.
 - Animate **transform, opacity and clip-path only**. Easings: `--ease-out` `cubic-bezier(.2,.8,.2,1)`,
   `--ease-stage` `cubic-bezier(.65,0,.35,1)`.
 - **A photograph still on studio white** (product detail, software) stands on a cream **plate** and multiplies onto
-  it; the plate is the screen the dive flies into.
-- **A product without a display** (a turnstile, a lock, a button) dives into an **aperture**: a rectangle on its body,
-  given as fractions of the cut-out (`src/components/products-inside/stages.ts`), fitted by `apertureFit`
-  (`src/lib/stageDive.ts`). The pinned dive runs only at ≥ 1024 × 600 with motion allowed and scripting on; below
-  that the stage and what opens inside it stack.
-- **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, stages stacked (stage, then what opens
-  inside it). Content is in the DOM and readable without JavaScript.
+  it.
+- The home dive runs only at ≥ 1024 × 600 with motion allowed and scripting on; below that its stage and what opens
+  inside it stack.
+- **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, the home stage stacked (stage, then what
+  opens inside it). Content is in the DOM and readable without JavaScript.
 
 ## Sources of truth
 

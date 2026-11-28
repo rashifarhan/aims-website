@@ -7,7 +7,6 @@ import type { FamilySlug } from "@/content/taxonomy";
 import { getDictionary } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import type { ProductStage } from "./stages";
-import { StageMotion } from "./StageMotion";
 
 type Action = { href: string; label: string };
 
@@ -30,20 +29,18 @@ type Props = {
   copy?: ReactNode;
   /** The "Shown: model" link; a product page shows its own product and leaves it out. */
   productHref?: string;
-  /** A photograph still on its studio white stands on a cream plate (the white multiplies away); the plate is the
-   * screen the dive flies into. */
+  /** A photograph still on its studio white stands on a cream plate (the white multiplies away). */
   plate?: { alt: string };
   /** A family page's ground tints the stage's glow. */
   ground?: FamilySlug;
-  /** What opens out of the screen. */
+  /** The page's first panel, right after the stage. */
   children: ReactNode;
 };
 
 /**
- * A page stage and its dive (direction 2, CLAUDE.md → Design rules): one real AIMS product before one giant word,
- * the H1 and two actions bottom-start. The section pins with CSS sticky; StageMotion, the one client leaf, flies the
- * product forward until its screen fills the stage and opens the page's inside out of it. Without JavaScript or under
- * reduced motion the stage stands and the inside follows it (products-inside.css).
+ * A page stage (direction 2, CLAUDE.md → Design rules): one real AIMS product before one giant word, the H1 and two
+ * actions bottom-start, and the page's first panel right after it. It stands still: the scroll dive is the home
+ * hero's alone (owner review, 28 Nov 2026), so nothing pins and nothing scrubs here.
  */
 export async function PageStage(props: Props) {
   const { id, stage, word, crumbs, title, lead, primary, secondary, copy, productHref, ground, plate, children } =
@@ -101,14 +98,6 @@ export async function PageStage(props: Props) {
               </>
             )}
           </div>
-          <p className="ps-cue in-mono" aria-hidden="true">
-            <span className="in-round">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 5v14M6 13l6 6 6-6" />
-              </svg>
-            </span>
-            {s.cue}
-          </p>
         </div>
         <div className="ps-rise">
           <div className="ps-device">
@@ -121,23 +110,10 @@ export async function PageStage(props: Props) {
               // The LCP element: the only preloaded image on the page (CLAUDE.md §3; Next 16 `preload`).
               preload
             />
-            <span
-              className="ps-screen"
-              aria-hidden="true"
-              style={
-                {
-                  "--sx": `${stage.screen.x * 100}%`,
-                  "--sy": `${stage.screen.y * 100}%`,
-                  "--sw": `${stage.screen.w * 100}%`,
-                  "--sh": `${stage.screen.h * 100}%`,
-                } as CSSProperties
-              }
-            />
           </div>
         </div>
         <div className="ps-inside">{children}</div>
       </div>
-      <StageMotion sectionId={id} screen={stage.screen} />
     </section>
   );
 }

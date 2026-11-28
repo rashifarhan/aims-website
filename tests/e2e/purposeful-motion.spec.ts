@@ -304,3 +304,17 @@ test("a phone door highlights each part in turn while it plays", async ({ page }
   expect(seen).toEqual(["2", "3", "4", "5", "6", "done"]);
   await expect(story.locator('[data-door-step][aria-current="step"]')).toHaveCount(0);
 });
+
+// Owner review, 28 Nov 2026: the scroll dive is the home hero's alone. Every other stage stands still: nothing pins,
+// and the page's first panel follows the stage in the flow, on a desktop screen with motion allowed.
+test("only the home hero dives; other stages stand still", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const path of ["/product/f18", "/solutions/time-attendance", "/software/biotime-9-5", "/zkteco-dubai"]) {
+    await page.goto(path, { waitUntil: "load" });
+    await expect(page.locator(".ps-stage")).not.toHaveCSS("position", "sticky");
+    await expect(page.locator(".ps-inside")).toHaveCSS("position", "relative");
+    const stage = await page.locator(".ps-hero").boundingBox();
+    const inside = await page.locator(".ps-inside").boundingBox();
+    expect(inside?.y ?? 0).toBeGreaterThanOrEqual((stage?.y ?? 0) + (stage?.height ?? 0) - 1);
+  }
+});

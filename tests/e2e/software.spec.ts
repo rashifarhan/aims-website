@@ -120,7 +120,7 @@ test.describe("reduced motion", () => {
 
 test("Add to quote puts a software line in the quote list", async ({ page }) => {
   await page.goto("/software/zkbio-cvaccess");
-  // Direction 2: Add to quote opens out of the platform's screen; focusing it opens the screen (StageMotion).
+  // Direction 2: Add to quote sits in the panel right after the platform's stage.
   const inside = page.locator(".ps-inside");
   await inside.getByRole("button", { name: "Add to quote" }).focus();
   await page.keyboard.press("Enter");

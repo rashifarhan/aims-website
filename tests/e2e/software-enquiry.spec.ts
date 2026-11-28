@@ -27,7 +27,7 @@ for (const [lang, labels] of [
       } else {
         expected = "BioTime 9.5";
         await page.locator(`a.sw-card-link[href="${prefix}/software/biotime-9-5"]`).click();
-        // Direction 2: Add to quote opens out of the platform's screen; focus opens it, and Enter acts on it.
+        // Direction 2: Add to quote sits in the panel after the platform's stage.
         const inside = page.locator("main .ps-inside");
         await inside.getByRole("button", { name: labels.softwarePage.add }).focus();
         await page.keyboard.press("Enter");
