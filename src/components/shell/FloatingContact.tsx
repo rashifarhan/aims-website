@@ -8,7 +8,7 @@ import { fmt } from "@/i18n/format";
 import "./floating-contact.css";
 
 type Line = { tel: string; display: string };
-type Props = { whatsappHref: string; line: Line; labels: Dictionary["floatingContact"] };
+export type FloatingContactProps = { whatsappHref: string; line: Line; labels: Dictionary["floatingContact"] };
 
 /** Bars pinned to the foot of the screen (quote tray, compare tray, the purchase and review bars) mark themselves. */
 const BARS = "[data-bottom-bar]";
@@ -30,7 +30,7 @@ const onScreen = (el: Element) => {
  * every line, and while a form field has focus (a phone's keyboard needs the room). It rises above any bar pinned to
  * the foot, so the two never overlap. Both links go through ContactLink: in the preview they open the notice first.
  */
-export function FloatingContact({ whatsappHref, line, labels }: Props) {
+export function FloatingContact({ whatsappHref, line, labels }: FloatingContactProps) {
   const [on, setOn] = useState(false);
   const dock = useRef<HTMLDivElement>(null);
   useEffect(() => {
