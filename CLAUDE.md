@@ -110,8 +110,16 @@ floating around it. Scrolling moves you from one flood to the next.
 ### Motion and scroll engine
 
 - **Engine:** GSAP ScrollTrigger (pin, scrub, snap) and **Lenis** for smooth wheel scrolling, driven from one GSAP
-  ticker so the two never fight. Lenis runs only on fine pointers (mouse, trackpad); touch screens keep native scroll
-  with ScrollTrigger's scrub smoothing. Loaded lazily in the smallest client leaf, never in a layout.
+  ticker so the two never fight. Lenis and the pin run only with a mouse or trackpad. Loaded lazily in the smallest
+  client leaf, never in a layout. `ScrollTrigger.config({ ignoreMobileResize: true })`: the address bar never
+  re-measures triggers mid-scroll.
+- **Touch screens (`hover: none` and `pointer: coarse`): nothing pins and the page's scroll is never taken over**
+  (owner, 28 Nov 2026: the pinned scroll did not perform on phones; GSAP's and Lenis's own advice for touch). The hero
+  is one screen; the six floods sit side by side in a native CSS scroll-snap carousel (`scroll-snap-stop: always`, one
+  family per swipe). `swipeStage.ts` reads the carousel once a frame and drifts each flood's layers by depth (word
+  0.22, shadow 0.16, product 0.07, pieces 0.30, corner 0.42 of the screen width; transform only). No GSAP or Lenis
+  loads for it. On phones the product is drawn in the band between the measured headline block and the bottom
+  controls (chip, then range link between the arrows), so nothing overlaps; the range line and corner pieces go.
 - **The family slider (home hero; the same engine for any other pinned family sequence):** the section pins; each of
   the six families owns one stretch of scroll (about 70vh), split into a short rest (about 6%) and a change (the
   rest). During a change, scrubbed by the scroll: the old family is covered from its right edge to the left
@@ -133,7 +141,9 @@ floating around it. Scrolling moves you from one flood to the next.
   8% the other way; keyboard or scrollbar goes to the nearer side. The settle takes 0.25–0.6s, scaled by distance,
   `inOutCubic`. Lenis follows the wheel with `lerp 0.12` (firm, short tail). Touch snap: 0.3–0.6s after 0.2s.
 - Tabs, arrows and ← → jump the scroll to a family (Lenis `scrollTo`, 1.1s `inOutCubic`, and no settle runs during
-  a jump), so the URL and the scroll position always agree with what is shown.
+  a jump), so the URL and the scroll position always agree with what is shown. On the pinned stage ↑ ↓, Page Up/Down
+  and Space step one family, and hand back to the page's own keyboard scrolling past the first and last family;
+  typing, a focused control's Space and open dialogs are left alone. On touch the same controls move the carousel.
 - **Between changes:** pieces float (±7px, ±3°, 3.2–5s, out of step) and drift with the pointer by depth on fine
   pointers. Nothing runs on a timer; no autoplay.
 - **Entrance:** on load the first family's layers arrive with the same parallax (900ms), then the UI rises in order

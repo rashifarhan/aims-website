@@ -110,6 +110,28 @@ The design rules are in `CLAUDE.md` → Design rules (approved by the owner with
   section order and alternating grounds, family counts, the reduced-motion stack, the desktop pin moving through the
   families in order, tabs, arrows and arrow keys, the phone pin, and the LCP product.
 
+### Direction 3: the family slider on phones, and by keyboard (owner, 28 Nov 2026)
+
+The owner found the hero did not perform on phones. Research: GSAP's forum advises against smooth scrolling on touch
+and calls its address-bar fixes unreliable on iOS; studios that pinned sections with Lenis on phones report pins
+drifting out of sync and stopped pinning there; native CSS scroll snap runs on the browser's own thread.
+
+- **Touch screens no longer pin.** The hero is one screen and the families are a native scroll-snap carousel, one
+  family per swipe (`families/swipeStage.ts`). Vertical scrolling is the browser's own; GSAP and Lenis do not load
+  for the hero on touch. Measured in Chrome's touch emulation (iPhone 13, iPhone SE, Pixel 7, English and Arabic):
+  a swipe moves one family, a hard swipe still one, a vertical swipe scrolls the page about 500px.
+- **The parallax is driven from the carousel's position in script, not a CSS scroll timeline.** The CSS version
+  sometimes left the shown family's layers parked at their leaving offset after a resize (caught by the giant-word
+  test), and iOS before 26 has no scroll timelines at all.
+- **Phone layout.** The product is drawn in the band between the measured headline block (`useHeadBottom`) and the
+  bottom controls, so the counter, "Shown" chip and range link no longer overlap it; the range line and corner pieces
+  are removed on phones.
+- **Keyboard.** ↑ ↓, Page Up/Down and Space step one family on the pinned stage and hand back to normal scrolling past
+  either end.
+- **Tests.** The phone pin test was written for the old phone engine; it now checks the carousel (one family per
+  hard swipe, the arrow, native vertical scroll). The giant-word check measures every word's width, and its place only
+  for the family on screen (off-screen families are parked along their parallax on purpose).
+
 ### Direction 3: a more responsive family slider (owner review, 28 Nov 2026)
 
 The owner found the hero scroll smooth but unresponsive. Measured in Chrome with scripted wheel and trackpad input

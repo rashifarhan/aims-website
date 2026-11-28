@@ -32,8 +32,9 @@ type Stage = { slide: HTMLElement; layers: [HTMLElement, number][] };
  * The family slider's scroll engine (lazy chunk; CLAUDE.md → Design rules → Motion and scroll engine). The section
  * pins and the scroll position drives every frame: the leaving family is covered from its trailing edge, evenly with
  * the scroll, while it drifts away, the arriving family's layers come in with parallax, and the scroll settles
- * softly on each family. Lenis smooths the wheel on fine pointers (settle() below settles it); touch screens keep
- * native scroll with ScrollTrigger's scrub smoothing and snap. Only transform and clip-path are written.
+ * softly on each family. Lenis smooths the wheel on fine pointers (settle() below settles it); touch screens swipe
+ * a carousel instead (swipeStage.ts), and a coarse pointer that still hovers keeps native scroll with ScrollTrigger's
+ * scrub smoothing and snap. Only transform and clip-path are written.
  */
 export function startStage(root: HTMLElement, onShown: (index: number) => void) {
   const stages: Stage[] = [...root.querySelectorAll<HTMLElement>(".fam-slide")].map((slide) => ({
@@ -186,6 +187,28 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
     } else window.scrollTo({ top, behavior: "smooth" });
   };
 
+  // ↑ ↓, Page Up/Down and Space step one family while the stage is on screen, and hand back to the page's own
+  // keyboard scrolling past the first and last family (owner, 28 Nov 2026). Typing, a focused control's own Space and
+  // open dialogs are left alone.
+  const onKey = (e: KeyboardEvent) => {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || !pin.trigger) return;
+    const target = e.target instanceof Element ? e.target : null;
+    if (target?.closest("input, textarea, select, [contenteditable], dialog")) return;
+    if (e.key === " " && target?.closest("a, button, summary")) return;
+    const forward = e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey);
+    const back = e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey);
+    if (!forward && !back) return;
+    const { start, end } = pin.trigger;
+    const y = heading ?? lenis?.targetScroll ?? window.scrollY;
+    if (y < start - 2 || y > end + 2) return;
+    const from = Math.round(stagePosition((y - start) / Math.max(1, end - start), count));
+    const to = from + (forward ? 1 : -1);
+    if (to < 0 || to > count - 1) return;
+    e.preventDefault();
+    jump(to);
+  };
+  window.addEventListener("keydown", onKey);
+
   // The pieces drift with a fine pointer by their depth; touch screens leave them still.
   const drift = (e: PointerEvent) => {
     const r = root.getBoundingClientRect();
@@ -200,6 +223,7 @@ export function startStage(root: HTMLElement, onShown: (index: number) => void) 
 
   const stop = () => {
     if (fine) root.removeEventListener("pointermove", drift);
+    window.removeEventListener("keydown", onKey);
     window.clearTimeout(wait);
     offWheel?.();
     setWheelGate(null);

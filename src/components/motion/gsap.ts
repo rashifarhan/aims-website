@@ -10,6 +10,9 @@ import { SplitText } from "gsap/SplitText";
  * GSAP never reaches the first paint. ScrollTrigger is exported for the pieces that create triggers directly.
  */
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger, SplitText);
+// A phone's address bar showing or hiding changes the viewport height; re-measuring every trigger then makes pinned
+// and scrubbed pieces jump in the middle of a scroll (GSAP's own advice for touch screens).
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export { gsap, useGSAP, ScrollTrigger, SplitText };
 

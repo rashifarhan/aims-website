@@ -5,6 +5,7 @@ import { REST_EVENT, restRequested } from "@/components/motion/gsap";
 import type { FamilySlide } from "./familySlides";
 import { FamilyControls } from "./FamilyControls";
 import { FamilyStage } from "./FamilyStage";
+import { useHeadBottom } from "./useHeadBottom";
 import { useHeaderTone } from "./useHeaderTone";
 import "./families.css";
 
@@ -23,8 +24,10 @@ export type SliderLabels = {
 /**
  * The home hero, direction 3's family slider (CLAUDE.md → Design rules; MotionSites "Smoothie Slider"). Server
  * render and reduced motion: the six families stand as six full-screen floods, one after another, every one readable.
- * With motion, the scroll engine (stageMotion.ts, loaded lazily) pins the section and the scroll moves from family to
- * family; the tabs, the arrows and ← → jump the scroll to a family. Nothing runs on a timer.
+ * With motion and a mouse or trackpad, the scroll engine (stageMotion.ts, loaded lazily) pins the section and the
+ * scroll moves from family to family; on touch screens the floods become a swipe carousel (swipeStage.ts). The tabs,
+ * the arrows and ← → move to a family; on the pinned stage ↑ ↓, Page Up/Down and Space step too. Nothing runs on a
+ * timer.
  */
 export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels: SliderLabels }) {
   const root = useRef<HTMLElement>(null);
@@ -34,8 +37,9 @@ export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels
   // The family a tab, arrow or key is taking the scroll to: the next step counts from there, not from the family
   // passing by on the way. Cleared on arrival, or when the visitor takes the scroll back.
   const [aim, setAim] = useState<number | null>(null);
-  const [pinned, setPinned] = useState(false);
+  const [engaged, setEngaged] = useState(false);
   useHeaderTone(wrap);
+  useHeadBottom(root, engaged);
 
   useEffect(() => {
     if (aim === null) return;
@@ -56,19 +60,34 @@ export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels
     const rest = () => {
       stop?.();
       stop = undefined;
-      setPinned(false);
+      setEngaged(false);
     };
     document.addEventListener(REST_EVENT, rest);
-    import("./stageMotion")
-      .then(({ startStage }) => {
+    const onShown = (index: number) => {
+      setShown(index);
+      setAim((current) => (current === index ? null : current));
+    };
+    // Touch screens swipe a native carousel; a mouse or trackpad scrolls the pinned stage (Design rules → Motion).
+    const touch = matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const engine = touch
+      ? import("./swipeStage").then(
+          ({ startSwipe }) =>
+            () =>
+              startSwipe(el, onShown),
+        )
+      : import("./stageMotion").then(
+          ({ startStage }) =>
+            () =>
+              startStage(el, onShown),
+        );
+    engine
+      .then((start) => {
         if (!live || restRequested()) return;
-        const stage = startStage(el, (index) => {
-          setShown(index);
-          setAim((current) => (current === index ? null : current));
-        });
+        const stage = start();
+        if (!stage) return;
         jumpTo.current = stage.jump;
         stop = stage.stop;
-        setPinned(true);
+        setEngaged(true);
       })
       // Without the chunk the floods stay stacked, which is the readable fallback.
       .catch(() => undefined);
@@ -88,7 +107,7 @@ export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels
   };
 
   const onKey = (e: KeyboardEvent) => {
-    if (!pinned || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
+    if (!engaged || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
     const rtl = getComputedStyle(e.currentTarget).direction === "rtl";
     const forward = (e.key === "ArrowRight") !== rtl;
     e.preventDefault();
@@ -126,7 +145,7 @@ export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels
                   <span key={s.slug} style={{ "--k": k } as CSSProperties} />
                 ))}
               </div>
-              {pinned && current && (
+              {engaged && current && (
                 <p className="fam-current" aria-hidden="true">
                   <span className="fam-count">
                     <b>{String(shown + 1).padStart(2, "0")}</b> / {String(count).padStart(2, "0")}
@@ -135,7 +154,7 @@ export function FamilySlider({ slides, labels }: { slides: FamilySlide[]; labels
                 </p>
               )}
             </div>
-            {pinned && <FamilyControls slides={slides} shown={shown} base={base} labels={labels} onGo={go} />}
+            {engaged && <FamilyControls slides={slides} shown={shown} base={base} labels={labels} onGo={go} />}
           </div>
         </section>
       </div>

@@ -1,7 +1,8 @@
 /*
  * Direction 3, the family floods (CLAUDE.md → Design rules). A flood is a family ground with its giant word, product
  * and floating pieces, drawn on one 1440 × 900 frame scaled to fit (--u). The family slider stacks six floods; with
- * motion the scroll engine (stageMotion.ts) pins them and sets data-mode="pinned".
+ * motion the scroll engine (stageMotion.ts) pins them and sets data-mode="pinned"; on touch screens swipeStage.ts
+ * sets data-mode="swipe" and lays them side by side.
  */
 
 /* ---------- the giant word ---------- */
@@ -171,13 +172,13 @@
   letter-spacing: 0;
   line-height: 1.3;
 }
-/* Six bars that fill with the scroll; only shown while pinned. */
+/* Six bars that fill as the families pass; only shown while a stage engine runs (pinned or swipe). */
 .fam-ticks {
   display: none;
   gap: 0.375rem;
   margin-block-start: 1rem;
 }
-.fam[data-mode="pinned"] .fam-ticks {
+.fam[data-mode] .fam-ticks {
   display: flex;
 }
 .fam-ticks span {
@@ -204,7 +205,7 @@
   z-index: 2;
   pointer-events: none;
 }
-/* Each family's name: in the stacked floods it opens each flood (under the headline on the first); while pinned, the
+/* Each family's name: in the stacked floods it opens each flood (under the headline on the first); once an engine runs, the
    shared line under the ticks speaks for the shown family, so the per-flood name is kept for screen readers only. */
 .fam-name,
 .fam-current {
@@ -225,7 +226,7 @@
 :lang(ar) .fam-slide:first-child .fam-name {
   top: calc(var(--head-top) + 8.5rem);
 }
-.fam[data-mode="pinned"] .fam-name {
+.fam[data-mode] .fam-name {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -647,6 +648,60 @@
   .fam-arrow-ring {
     width: 3rem;
     height: 3rem;
+  }
+}
+
+/* ---------- touch screens: a native swipe carousel (swipeStage.ts) ---------- */
+/* Owner, 28 Nov 2026: the pinned scroll did not perform on phones. On touch the hero is one screen and the floods sit
+   side by side in a scroll-snap carousel, one family per swipe; the page's own scroll is never taken over. */
+.fam[data-mode="swipe"] {
+  height: 100svh;
+  min-height: 34rem;
+  overflow: clip;
+}
+.fam[data-mode="swipe"] .fam-slides {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.fam[data-mode="swipe"] .fam-slides::-webkit-scrollbar {
+  display: none;
+}
+.fam[data-mode="swipe"] .fam-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  min-height: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+/* ---------- phones, once a stage engine runs: headline, product, chip and controls never overlap ---------- */
+/* The product is drawn in the band between the headline block (measured: --head-bottom, FamilySlider) and the bottom
+   controls, scaled to fit that band rather than the width. Remove, don't shrink: the corner pieces and the range
+   line go. */
+@media (max-width: 767px) {
+  .fam[data-mode] {
+    --stage-top: var(--head-bottom, calc(var(--head-top) + 10.5rem));
+    --stage-bottom: 8.5rem;
+    --band: calc(max(100svh, 34rem) - var(--stage-top) - var(--stage-bottom));
+    --u: min(100vw / 600, var(--band) / 700);
+  }
+  .fam[data-mode] .fam-frame {
+    top: calc(var(--stage-top) + var(--band) / 2 - 30 * var(--u));
+  }
+  .fam[data-mode] [data-layer="corner"],
+  .fam[data-mode] .fam-range small {
+    display: none;
+  }
+  .fam[data-mode] .fam-chip {
+    bottom: 5.25rem;
+  }
+  .fam[data-mode] .fam-range {
+    bottom: 2.5rem;
   }
 }
 

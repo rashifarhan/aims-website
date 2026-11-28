@@ -170,15 +170,20 @@ for (const locale of ["en", "ar"] as const) {
   });
 }
 
-/** Giant words wider than the frame they sit in (Design rules → Type: never clipped, never wider than the frame). */
+/** Giant words wider than the frame they sit in (Design rules → Type: never clipped, never wider than the frame).
+ * Every word is checked for width; its place only where it rests: a family waiting off screen in the swipe carousel
+ * (inert) has its layers parked part-way along their parallax on purpose. */
 const wordsOverflowing = (page: Page) =>
   page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>(".giant-word")].flatMap((word) => {
       const range = document.createRange();
       range.selectNodeContents(word);
       const text = range.getBoundingClientRect();
-      const frame = word.closest(".fam-slide, .hc, .fam-tile")?.getBoundingClientRect();
-      if (!frame) return [];
+      const host = word.closest<HTMLElement>(".fam-slide, .hc, .fam-tile");
+      const frame = host?.getBoundingClientRect();
+      if (!host || !frame) return [];
+      if (text.width > frame.width + 2) return [word.textContent];
+      if (host.inert) return [];
       return text.left >= frame.left - 1 && text.right <= frame.right + 1 ? [] : [word.textContent];
     }),
   );
@@ -251,6 +256,11 @@ test("desktop: tabs, arrows and the arrow keys jump the scroll to a family", asy
   await expect.poll(async () => (await stageState(page)).shown, { timeout: 4000 }).toBe(4);
   await page.keyboard.press("ArrowLeft");
   await expect.poll(async () => (await stageState(page)).shown, { timeout: 4000 }).toBe(3);
+  // ↑ ↓, Page Up/Down and Space step one family too (owner, 28 Nov 2026).
+  await page.keyboard.press("ArrowUp");
+  await expect.poll(async () => (await stageState(page)).shown, { timeout: 4000 }).toBe(2);
+  await page.keyboard.press("PageDown");
+  await expect.poll(async () => (await stageState(page)).shown, { timeout: 4000 }).toBe(3);
   // Focus never lands on a hidden family: only the shown slide's links are reachable.
   const reachable = await page
     .locator(".fam-slide:not([inert]) a")
@@ -258,15 +268,38 @@ test("desktop: tabs, arrows and the arrow keys jump the scroll to a family", asy
   expect(new Set(reachable)).toEqual(new Set(["family-door-locks"]));
 });
 
-test("phone: the stage pins on native scroll and shows one family at a time", async ({ page, isMobile }) => {
+// Owner, 28 Nov 2026: on touch screens nothing pins. The hero is one screen and the families are a native swipe
+// carousel, one family per swipe; the page's own scroll is never taken over.
+test("phone: the families swipe one at a time and the page scrolls natively", async ({ page, isMobile, context }) => {
   test.skip(!isMobile, "the touch engine");
   await page.goto("/", { waitUntil: "networkidle" });
-  await expect.poll(async () => (await stageState(page)).mode).toBe("pinned");
-  await expect(page.locator(".fam-tabs")).toBeHidden();
-  const pin = await page.locator(".pin-spacer").evaluate((el) => ({
-    start: el.getBoundingClientRect().top + scrollY,
-    length: (el as HTMLElement).offsetHeight - innerHeight,
-  }));
-  await page.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), pin.start + (pin.length * 2) / stageUnits(6));
+  await expect.poll(async () => (await stageState(page)).mode).toBe("swipe");
+  expect(await stageState(page)).toEqual({ mode: "swipe", shown: 0, inert: 5 });
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  const cdp = await context.newCDPSession(page);
+  const { width, height } = page.viewportSize() ?? { width: 390, height: 800 };
+  // A hard swipe still moves one family (scroll-snap-stop: always).
+  await cdp.send("Input.synthesizeScrollGesture", {
+    x: width / 2,
+    y: height * 0.55,
+    xDistance: -width * 0.9,
+    yDistance: 0,
+    gestureSourceType: "touch",
+    speed: 2500,
+  });
+  await expect.poll(async () => (await stageState(page)).shown).toBe(1);
+  // The arrow names the family it goes to and moves the carousel.
+  await page.locator(".fam-next").click();
   await expect.poll(async () => (await stageState(page)).shown).toBe(2);
+  // A vertical swipe scrolls the page itself.
+  await cdp.send("Input.synthesizeScrollGesture", {
+    x: width / 2,
+    y: height * 0.7,
+    xDistance: 0,
+    yDistance: -400,
+    gestureSourceType: "touch",
+    speed: 1500,
+  });
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(200);
+  expect((await stageState(page)).shown).toBe(2);
 });
