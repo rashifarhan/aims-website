@@ -1,7 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { restMotion } from "./rest";
-import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: Page) =>
@@ -104,14 +103,19 @@ for (const [path, part] of [["/services", ".verify-line"]] as const) {
       .locator(`${part}`)
       .evaluateAll((els) => els.map((el) => getComputedStyle(el).strokeDashoffset));
     expect(offsets.every((o) => parseFloat(o) === 0)).toBe(true);
-    // Scrolling away and back does not replay it.
+    // Scrolling away and back does not replay it. CSS transitions are left out: the header changes tone as the
+    // page scrolls on and off its opening flood (direction 3), which is not the moment playing again.
     await page.evaluate(() => scrollTo(0, 0));
     await moment.evaluate((el) => el.scrollIntoView({ block: "center" }));
     expect(
       await page.evaluate(
         () =>
-          document.getAnimations().filter((a) => a.playState === "running" && a.timeline instanceof DocumentTimeline)
-            .length,
+          document
+            .getAnimations()
+            .filter(
+              (a) =>
+                a.playState === "running" && a.timeline instanceof DocumentTimeline && !(a instanceof CSSTransition),
+            ).length,
       ),
     ).toBe(0);
   });
@@ -174,18 +178,36 @@ test.describe("support route moment", () => {
   });
 });
 
-test("/about: the reach map waits for its band, draws once, and ends drawn", async ({ page }) => {
+// Reach and the published reviews on one globe (owner, 28 Nov 2026): the globe loads as it nears the screen and is
+// decorative; the places are text, and each review has its own button that turns the globe to its place.
+test("/about: the reach globe shows AIMS's places and switches between the published reviews", async ({ page }) => {
   await page.goto("/about");
-  const map = page.locator(".ui-reach-map");
-  await expectReachWaiting(map);
-  await map.evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await expectReachFinished(map);
+  const section = page.getByRole("region", { name: "Where AIMS delivers, and what customers say" });
+  const globe = section.locator(".rg-box");
+  await expect(globe).toHaveAttribute("data-gl", "pending");
+  await section.scrollIntoViewIfNeeded();
+  await expect(globe).not.toHaveAttribute("data-gl", "pending");
+  await expect(globe).toHaveAttribute("aria-hidden", "true");
+  await expect(section.getByRole("list", { name: "Places on the globe" }).getByRole("listitem")).toHaveCount(4);
+
+  const reviews = section.getByRole("group", { name: "Choose a review by place" }).getByRole("button");
+  await expect(reviews).toHaveCount(3);
+  await expect(reviews.first()).toHaveAttribute("aria-pressed", "true");
+  await expect(section.locator("figure")).toContainText("Sneha Paul");
+  await section.getByRole("button", { name: /Oman/ }).click();
+  await expect(section.getByRole("button", { name: /Oman/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(section.locator("figure")).toContainText("Arjun");
 });
 
-test("/about: under reduced motion the reach map rests drawn", async ({ browser }) => {
+test("/about: under reduced motion the reviews switch without moving anything", async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto("/about");
-  await expectReachResting(page.locator(".ui-reach-map"));
+  const section = page.locator(".rg-section");
+  await section.scrollIntoViewIfNeeded();
+  await section.getByRole("button", { name: /Abu Dhabi/ }).click();
+  const card = section.locator(".rg-card");
+  await expect(card).toContainText("Traffic Burger Head Office");
+  await expect(card).toHaveCSS("animation-name", "none");
   await context.close();
 });

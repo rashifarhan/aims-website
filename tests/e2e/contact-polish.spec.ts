@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { restMotion } from "./rest";
-import { expectReachFinished, expectReachResting, expectReachWaiting } from "./reach";
 
 /** Let finite CSS animations (the hero entrance) end, so axe audits the settled frame (smoke.spec.ts). */
 const settle = (page: import("@playwright/test").Page) =>
@@ -66,19 +65,21 @@ test("channel buttons share the one button: WhatsApp in its own colour, Call as 
   }
 });
 
-test("SIGNAL: the reach band draws its routes once when it comes into view", async ({ page }) => {
+// The reach band became the reach globe with AIMS's published reviews (owner, 28 Nov 2026).
+test("reach globe: loads as it comes into view, switches reviews, and stays axe-clean", async ({ page }) => {
   await page.goto("/contact");
-  const band = page.getByRole("region", { name: "Where AIMS delivers" });
-  const map = band.locator(".ui-reach-map");
-  await expect(band.getByRole("img", { name: /^Map: AIMS offices in Dubai and Abu Dhabi/ })).toBeAttached();
-  await expectReachWaiting(map);
+  const band = page.getByRole("region", { name: "Where AIMS delivers, and what customers say" });
+  const globe = band.locator(".rg-box");
+  await expect(globe).toHaveAttribute("data-gl", "pending");
   await band.scrollIntoViewIfNeeded();
-  await expectReachFinished(map);
+  await expect(globe).not.toHaveAttribute("data-gl", "pending");
+  await band.getByRole("button", { name: /Abu Dhabi/ }).click();
+  await expect(band.locator("figure")).toContainText("Traffic Burger Head Office");
   await axeClean(page);
 });
 
-test("SIGNAL under reduced motion: the map rests finished, nothing hidden", async ({ page }) => {
+test("reach globe under reduced motion: the review card does not animate", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/contact");
-  await expectReachResting(page.locator(".ui-reach-map"));
+  await expect(page.locator(".rg-card")).toHaveCSS("animation-name", "none");
 });

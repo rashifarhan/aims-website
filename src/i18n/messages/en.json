@@ -973,8 +973,6 @@
       "abuDhabi": "Abu Dhabi office",
       "mobile": "mobile and WhatsApp"
     },
-    "reachTitle": "Where AIMS delivers",
-    "reachLead": "Supply and installation across the UAE from Dubai and Abu Dhabi. Project and export orders to GCC countries and East Africa.",
     "emailLabel": "Email",
     "locations": {
       "headOffice": "Head office, Dubai",
@@ -2015,5 +2013,14 @@
     "closeBody": "Send AIMS the models or describe the site, and AIMS replies with a quotation.",
     "closeAction": "Request a quote",
     "closeSecondary": "All ways to contact AIMS"
+  },
+  "globe": {
+    "kicker": "Customers and reach",
+    "title": "Where AIMS delivers, and what customers say",
+    "lead": "Offices and a showroom in Dubai and Abu Dhabi. Supply and installation across the UAE; project and export orders to the GCC and East Africa. Reviews as AIMS published them.",
+    "choose": "Choose a review by place",
+    "places": "Places on the globe",
+    "office": "AIMS office",
+    "export": "Export destination"
   }
 }

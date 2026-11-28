@@ -3,14 +3,12 @@ import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/PageHero";
 import { PAGE_FLOOD } from "@/components/families/pageFloods";
 import { ContactRouter } from "@/components/contact/ContactRouter";
-import { ReachMap } from "@/components/home/ReachMap";
-import { ReachBand } from "@/components/ui/ReachBand";
+import { ReachGlobe } from "@/components/reach/ReachGlobe";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { localePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { alternates } from "@/lib/seo";
 import { CONTACT } from "@/lib/site";
-import "@/components/signature/reach.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -50,12 +48,7 @@ export default async function ContactPage() {
         />
       </Section>
       <LocationCards t={t.contactPage} />
-      <ReachBand
-        titleId="contact-reach-title"
-        heading={t.contactPage.reachTitle}
-        lead={t.contactPage.reachLead}
-        map={<ReachMap labels={t.home.reach} />}
-      />
+      <ReachGlobe titleId="contact-reach-title" />
     </main>
   );
 }

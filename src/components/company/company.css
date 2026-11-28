@@ -182,25 +182,6 @@
   font-weight: var(--font-weight-card);
 }
 
-/*
- * About: proof and reach are one night ground (the page's one night band before the close), not two bands parted by a
- * hairline. The wrapper carries the gradient and the top glow; the two sections inside go transparent and keep
- * their own spacing. The proof's sentence and the reasons take the display face like the home figures.
- */
-.co-night-pair {
-  --band-edges: var(--gradient-band-glow) no-repeat;
-}
-.co-night-pair > .section-night {
-  background: none;
-  overflow: visible;
-}
-.co-night-pair > .section-night + .section-night {
-  border-block-start: 0;
-  padding-block-start: 0;
-}
-.co-night-pair > .home-proof-band {
-  padding-block-end: var(--section-space);
-}
 .co-about .home-proof-statement {
   font-family: var(--font-display);
   font-stretch: var(--font-stretch-hero);

@@ -129,6 +129,12 @@ The design rules are in `CLAUDE.md` → Design rules (approved by the owner with
   facts and actions stay on chalk, where the add-to-quote control's colours were checked.
 - **Audits rest the entrances.** `data-motion-rest` (the switch the e2e axe checks already use) now also stops the
   CSS entrances on floods, so a reading never catches a label mid-fade.
+- **Reach globe with the published reviews** (owner, 28 Nov 2026), on /about and /contact in place of the drawn reach
+  map. **`cobe`** (2.0, about 6 KB gzipped, its land map embedded, no network calls) is the second new runtime
+  dependency: it draws the WebGL globe. It loads only as the section nears the screen and its frame loop runs only
+  while the globe turns. Only AIMS's three published reviews are shown (aimsuae.me has no others, checked 28 Nov
+  2026), with monograms rather than faces. Places: the offices in Dubai and Abu Dhabi, Muscat and Nairobi, as on the
+  reach map; "Oman" is pinned at Muscat. The /locations pages keep the drawn reach map with their routes.
 - **e2e updated for this design**: the listing card's ink pill, the family rail group (now the picker), the quick
   picks heading, and new tests for the category picker and the family flood.
 

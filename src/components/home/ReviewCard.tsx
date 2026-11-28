@@ -2,16 +2,7 @@ import Image from "next/image";
 import type { CustomerReview } from "@/lib/site";
 import { StarIcon } from "@/components/icons";
 import { fmt } from "@/i18n/format";
-
-/** Up to two initials for the monogram: "Traffic Burger Head Office" → "TB", "Arjun" → "A". */
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
-}
+import { initials } from "@/lib/initials";
 
 /**
  * One published review (DESIGN.md card; testimonial anatomy: quote, then reviewer and rating on one footer). The quote and the

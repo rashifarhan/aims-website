@@ -7,12 +7,10 @@ import { AboutStory } from "@/components/company/AboutStory";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { PageHero } from "@/components/ui/PageHero";
 import { PAGE_FLOOD } from "@/components/families/pageFloods";
-import { ReachMap } from "@/components/home/ReachMap";
-import { ReachBand } from "@/components/ui/ReachBand";
+import { ReachGlobe } from "@/components/reach/ReachGlobe";
 import { LocationCards } from "@/components/contact/LocationCards";
 import { HomeProof } from "@/components/home/HomeProof";
 import "@/components/home/sections.css";
-import "@/components/signature/reach.css";
 import "@/components/company/company.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -48,16 +46,9 @@ export default async function About() {
         set="company"
       />
       <AboutStory />
-      {/* Premium pass: proof and reach share one night ground, so the page has one night band before the close. */}
-      <div className="co-night-pair section-night">
-        <HomeProof />
-        <ReachBand
-          titleId="contact-reach-title"
-          heading={t.contactPage.reachTitle}
-          lead={t.contactPage.reachLead}
-          map={<ReachMap labels={t.home.reach} />}
-        />
-      </div>
+      <HomeProof reviews={false} />
+      {/* Reach and the published reviews on one globe (owner, 28 Nov 2026). */}
+      <ReachGlobe titleId="about-reach-title" />
       <LocationCards t={t.contactPage} id="showrooms" />
       <ClosePanel
         id="about-close-title"
