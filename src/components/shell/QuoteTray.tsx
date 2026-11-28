@@ -64,7 +64,7 @@ export function QuoteTray({ href, labels }: Props) {
     document.documentElement.style.scrollPaddingBlockEnd = on ? "6rem" : "";
   }, [on]);
   return (
-    <aside className="quote-tray" data-on={on || undefined} hidden={!on} aria-label={labels.label}>
+    <aside className="quote-tray" data-bottom-bar data-on={on || undefined} hidden={!on} aria-label={labels.label}>
       <span className="quote-tray-icon" aria-hidden="true">
         <ListIcon width={18} height={18} />
       </span>

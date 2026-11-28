@@ -2192,5 +2192,10 @@
     "jumpModels": "المنتجات",
     "jumpDelivery": "التسليم",
     "jumpFaq": "الأسئلة"
+  },
+  "floatingContact": {
+    "label": "تواصل مع AIMS",
+    "whatsapp": "تحدث مع AIMS على واتساب",
+    "call": "اتصل بـ AIMS على {number}"
   }
 }

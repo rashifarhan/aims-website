@@ -30,7 +30,7 @@ export default async function ContactPage() {
   const locale = await getLocale();
   const href = (p: string) => localePath(locale, p);
   return (
-    <main id="main" className="d2 w-full flex-1">
+    <main id="main" className="d2 w-full flex-1" data-dock-off>
       <WordStage
         id="hero-title"
         crumbs={[

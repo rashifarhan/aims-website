@@ -22,7 +22,7 @@ export async function HomeDive() {
   const h = t.home.hero;
   const i = t.home.inside;
   return (
-    <section id="home-dive" className="dv" aria-labelledby="home-title">
+    <section id="home-dive" className="dv" aria-labelledby="home-title" data-dock-clear>
       <div className="dv-stage in-stage">
         <div className="dv-hero">
           <div className="dv-word-in" aria-hidden="true">

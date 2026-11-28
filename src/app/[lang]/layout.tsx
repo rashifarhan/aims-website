@@ -4,10 +4,11 @@ import { lang } from "next/root-params";
 import { archivo, inter, plexArabic, plexMono } from "../fonts";
 import { LOCALES, dir, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { INDEXABLE, SITE_URL } from "@/lib/site";
+import { INDEXABLE, SITE_URL, NEED_CHANNELS, whatsappUrl } from "@/lib/site";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
 import { QuoteTray } from "@/components/shell/QuoteTray";
+import { FloatingContact } from "@/components/shell/FloatingContact";
 import { localePath } from "@/i18n/config";
 import { ContactGuardProvider } from "@/components/contact/ContactGuard";
 import { RidgeSymbol } from "@/components/ui/RidgeSymbol";
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           {children}
           <Footer />
           <QuoteTray href={localePath(locale, "/quote")} labels={t.quoteTray} />
+          <FloatingContact whatsappHref={whatsappUrl()} line={NEED_CHANNELS.sales} labels={t.floatingContact} />
         </ContactGuardProvider>
         {/* One leaf for every section title's reveal; it reads the path, so it waits behind its own boundary. */}
         <Suspense fallback={null}>

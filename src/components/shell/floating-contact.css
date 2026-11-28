@@ -1,0 +1,79 @@
+/* WhatsApp and Call in the corner (FloatingContact.tsx). Two 52px rounds stacked at the end edge, clear of any bar
+   pinned to the foot (--fc-lift). WhatsApp in its own green, Call as the direction's ink round with a lime glyph (the
+   primary pill's arrow circle). A thin light ring keeps both readable on night and on paper. They come in with a
+   short rise and fade (transform and opacity only) and leave the tab order while hidden (inert, visibility). */
+.fc {
+  --fc-lift: 0px;
+  position: fixed;
+  z-index: 25;
+  inset-inline-end: var(--page-gutter);
+  inset-block-end: calc(1.25rem + var(--fc-lift));
+  display: grid;
+  gap: 0.75rem;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 0.75rem;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    translate var(--duration-base) var(--ease-out),
+    inset-block-end var(--duration-base) var(--ease-out),
+    visibility 0s linear var(--duration-base);
+}
+.fc[data-on] {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    translate var(--duration-base) var(--ease-out),
+    inset-block-end var(--duration-base) var(--ease-out),
+    visibility 0s;
+}
+.fc-button {
+  display: grid;
+  place-items: center;
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  border-radius: var(--radius-pill);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.18),
+    0 8px 24px rgb(8 19 13 / 0.28);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.fc-whatsapp {
+  background: var(--color-whatsapp);
+  color: #fff;
+}
+.fc-call {
+  background: var(--color-ticket-ink);
+  color: var(--color-lime);
+}
+.fc-button:hover {
+  transform: translateY(-2px) scale(1.04);
+}
+.fc-button:active {
+  transform: scale(0.96);
+}
+.fc-button:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+}
+@media (max-width: 639px) {
+  .fc {
+    inset-block-end: calc(1rem + var(--fc-lift));
+    gap: 0.625rem;
+  }
+  .fc-button {
+    inline-size: 3rem;
+    block-size: 3rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fc,
+  .fc[data-on] {
+    translate: none;
+  }
+  .fc-button:hover {
+    transform: none;
+  }
+}

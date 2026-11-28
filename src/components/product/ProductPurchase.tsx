@@ -140,6 +140,7 @@ export function ProductPurchase({ slug, name, model, whatsappMessage, quoteHref,
         createPortal(
           <div
             data-purchase-bar
+            data-bottom-bar
             aria-hidden={!showBar}
             inert={!showBar}
             className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 py-3 shadow-3 backdrop-blur-md lg:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}

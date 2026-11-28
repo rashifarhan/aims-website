@@ -36,6 +36,7 @@ export function CompareTray({ items, compareHref, max, labels, onRemove, onClear
   return (
     <section
       aria-label={labels.compareTray}
+      data-bottom-bar
       className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper/96 shadow-3 backdrop-blur-md"
     >
       <div className="wrap flex flex-wrap items-center gap-3 py-3">

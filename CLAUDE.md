@@ -93,6 +93,10 @@ cream paper sections between them, one lime accent.
 - **Lanyard pass**: the hero's access card and the "Visitor" pass on Locations. **Screen frame**: radius 14px,
   1px light outline, for the few photographs and for software lists.
 - **Counter** "01 / 06" (mono, lime) and **scroll cue** (circle + mono text).
+- **Contact dock** (`shell/FloatingContact.tsx`, every page): WhatsApp (its green) and Call (ink round, lime glyph),
+  52px rounds at the end corner, to the site-wide chat line (`NEED_CHANNELS.sales`). Never in the first screen (on home,
+  not until the dive has played); hidden at the footer, while a form field has focus and on Contact
+  (`data-dock-off`); it rises above any bar marked `data-bottom-bar`. Both links go through `ContactLink`.
 - **Family tabs** (one row of pills, count in mono): the six families plus All above every product list. On
   `/products` they filter the list in place (`?family=`); on a family page they link to the other family pages.
   Product cards on paper are white with a dashed divider under the photograph.

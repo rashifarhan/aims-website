@@ -240,6 +240,22 @@ across the site.
 - **Tests:** a new spec checks that only the home hero dives (no sticky stage, the panel in the flow under it) on a
   product, a solution, a software platform and a location page. Comments that described the dive are updated.
 
+### Direction 2: WhatsApp and Call in the corner (28 Nov 2026, owner request)
+
+- As on AIMS's own site, every page now has a WhatsApp button and a Call button in the end corner
+  (`shell/FloatingContact`). Both go to the mobile line that AIMS's site-wide chat uses (`site.ts` `NEED_CHANNELS.sales`,
+  +971 56 524 0495). No new number is introduced. `main` had a WhatsApp-only button on the home page; this one adds
+  Call and covers every page.
+- **When it shows:** never in the first screen (Design Doc 6), and on home not until the hero dive has played
+  (`data-dock-clear`), since the dive's arrows and chips use that corner. It steps aside at the footer (which lists every
+  line), while a form field has focus (a phone keyboard needs the room) and on Contact (`data-dock-off`), which is all
+  contact channels already. It rises above any bar pinned to the foot (quote tray, compare tray, the product
+  purchase bar, the quote review bar; each is marked `data-bottom-bar`), so nothing overlaps.
+- **Preview honesty:** both links go through `ContactLink`, so on the preview they open the "this would contact AIMS"
+  notice first (Plan risk R5). It mirrors to the start corner in Arabic. It leaves the tab order while hidden.
+- **Tests:** `floating-contact.spec.ts` covers when it shows, its two links, the preview notice, Contact and the home
+  dive.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with
