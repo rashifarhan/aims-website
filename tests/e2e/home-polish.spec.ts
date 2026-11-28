@@ -67,9 +67,12 @@ test("the terminal photo paints whole at once, and the stage rests under reduced
   // The SpeedFace photo is the LCP element: never faded in (it rises with transform only).
   const photo = page.locator("[data-dive-device] img");
   await expect(photo).toHaveCSS("opacity", "1");
+  // The photo and the boxes that carry it; the shadow beneath and the light on its screen are separate layers that may
+  // fade as the terminal flies forward.
   const fades = await page.locator(".dv-rise").evaluate((el) =>
-    el
-      .getAnimations({ subtree: true })
+    [el, el.querySelector("[data-dive-device]"), el.querySelector("[data-dive-device] img")]
+      .flatMap((node) => node?.getAnimations() ?? [])
+      .filter((a) => (a.effect as KeyframeEffect).pseudoElement === null)
       .flatMap((a) => (a.effect as KeyframeEffect).getKeyframes())
       .some((frame) => "opacity" in frame),
   );

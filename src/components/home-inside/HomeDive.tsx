@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/config";
 import { ZKTECO_AUTHORIZATION_CONFIRMED } from "@/lib/site";
 import { StagePill } from "@/components/inside/StagePill";
-import { CUTOUTS } from "@/components/inside/showcase";
+import { CUTOUTS, SHOWCASE } from "@/components/inside/showcase";
+import { familyProgress } from "@/lib/dive";
 import { DiveShowcase } from "./DiveShowcase";
 import { DiveMotion } from "./DiveMotion";
 import "./home-dive.css";
@@ -13,8 +15,8 @@ import "./home-dive.css";
  * The home stage and dive (direction 2, CLAUDE.md → Design rules; after MotionSites "Laptop Portfolio"). AIMS's
  * SpeedFace stands before the giant AIMS with an access card on a lanyard. On a desktop screen the section pins with CSS
  * sticky and native scroll; DiveMotion, the one client leaf, flies the terminal forward until its screen fills the
- * stage and opens the six families out of it, one per stretch of scroll. On phones and tablets the hero stands and the
- * families are a swiped row. The server renders every family in order, so without JavaScript or under reduced motion
+ * stage and opens the six families out of it, one per stretch of scroll. On phones and tablets the same dive runs in CSS,
+ * on a scroll timeline (home-dive.css). The server renders every family in order, so without JavaScript or under reduced motion
  * the hero stands and the families follow it (home-dive.css).
  */
 export async function HomeDive() {
@@ -22,6 +24,8 @@ export async function HomeDive() {
   const locale = await getLocale();
   const h = t.home.hero;
   const i = t.home.inside;
+  // Where the scroll rests on a touch screen: the hero, then each family (home-dive.css, .dv-stops).
+  const stops = [0, ...SHOWCASE.map((_, index) => familyProgress(index, SHOWCASE.length))];
   return (
     <section id="home-dive" className="dv" aria-labelledby="home-title" data-dock-clear>
       <div className="dv-stage in-stage">
@@ -89,6 +93,11 @@ export async function HomeDive() {
         </div>
 
         <DiveShowcase />
+      </div>
+      <div className="dv-stops" aria-hidden="true">
+        {stops.map((p) => (
+          <i key={p} style={{ "--p": p.toFixed(4) } as CSSProperties} />
+        ))}
       </div>
       <DiveMotion sectionId="home-dive" />
     </section>

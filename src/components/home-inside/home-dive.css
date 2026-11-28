@@ -12,6 +12,9 @@
   --clip: inset(50%);
   --reel: 0;
   --dir: 1;
+  /* Where the terminal stands in the hero, as fractions of the stage's height (narrower screens below). */
+  --rise-top: 0.2;
+  --rise-size: 0.76;
   position: relative;
   block-size: 480svh;
   background: var(--color-stage-900);
@@ -588,8 +591,8 @@
   }
   /* Sized by the hero's screen, not the stage, which now also holds the families. */
   .dv-rise {
-    inset-block: calc(var(--stage-h) * 0.2) auto;
-    block-size: calc(var(--stage-h) * 0.76);
+    inset-block: calc(var(--stage-h) * var(--rise-top)) auto;
+    block-size: calc(var(--stage-h) * var(--rise-size));
   }
   .dv-device,
   .dv-product {
@@ -680,9 +683,22 @@
     inset-block-start: calc(var(--stage-h) * 0.08);
   }
 }
+/* A short phone (an iPhone in Safari with its bars showing is about 660px): the copy tightens so the terminal stays in
+   sight above it, and "Request a quote" gives way to the header's own Quote button, which is always on screen. */
 @media (max-width: 767px) and (max-height: 700px) {
   .dv {
     --rise-size: 0.28;
+  }
+  .dv-copy h1 {
+    margin-block-end: 0.75rem;
+    font-size: 1.5rem;
+  }
+  .dv-copy p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .dv-actions .in-link {
+    display: none;
   }
 }
 
@@ -742,5 +758,346 @@
   }
   .dv-product img {
     block-size: 26svh;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------
+   Phones and tablets dive too, run by the browser (owner review, 28 Nov 2026: one screen, as on desktop, and smooth).
+   The stage sticks under the header while the page scrolls natively; a view timeline on the section drives keyframes
+   of transform and opacity only, which the browser can run off the main thread, so nothing is written per frame.
+   The terminal flies forward until its screen fills the stage, the families open out of it, then slide past one by
+   one, each holding while the scroll rests on it (native scroll snap on touch, the .dv-stops). DiveMotion's
+   SCROLL_QUERY is the same condition; without scroll-driven animations, on a short screen, under reduced motion or
+   without JavaScript, the stacked layout above stands. Spans as in src/lib/dive.ts: DIVE 2–14 %, OPEN 14–21 %,
+   SHOW 23–97 %.
+   --------------------------------------------------------------------------------------------------------------- */
+.dv-stops {
+  display: none;
+}
+@supports (animation-timeline: view()) and (scale: pow(2, 1)) {
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (min-height: 600px) and ((max-width: 1023px) or (pointer: coarse) or (pointer: none)) {
+    .dv {
+      /* The terminal's screen fills 94 % of the stage's height at the end of the flight; its centre comes to the
+         stage's centre (the screen's box in the photograph as in diveStage.ts SCREEN). */
+      --k: calc(0.94 / (0.579 * var(--rise-size)));
+      --ty: calc(var(--stage-h) * (0.5 - var(--rise-top) - var(--rise-size) * 0.4885));
+      block-size: 480svh;
+      view-timeline: --dv block;
+      view-timeline-inset: var(--hdr) 0px;
+    }
+    .dv-stage {
+      position: sticky;
+      inset-block-start: var(--hdr);
+      block-size: var(--stage-h);
+      overflow: clip;
+      background: radial-gradient(
+        70% 80% at 50% 38%,
+        var(--color-stage-600) 0%,
+        var(--color-stage-800) 45%,
+        var(--color-stage-900) 100%
+      );
+    }
+    .dv-hero {
+      position: absolute;
+      inset: 0;
+      block-size: auto;
+      min-block-size: 0;
+    }
+    .dv-device {
+      transform-origin: 49% 48.85%;
+      will-change: transform;
+      animation: dvm-device linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-rise::before {
+      animation: dvm-out-fast linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-screen::after {
+      animation: dvm-light linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-screen svg {
+      animation: dvm-out-slow linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-word {
+      animation: dvm-word linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    /* The copy's own entrance stays on the block; the flight fades its children, so the two never fight. */
+    .dv-copy > * {
+      animation: dvm-out linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-claim {
+      animation:
+        dvm-out linear both,
+        dv-pop 700ms 700ms cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+      animation-timeline: --dv, auto;
+      animation-range:
+        contain 0% contain 100%,
+        normal;
+    }
+    .dv-badge {
+      animation:
+        dvm-out linear both,
+        dv-drop 1500ms 500ms var(--ease-out) backwards;
+      animation-timeline: --dv, auto;
+      animation-range:
+        contain 0% contain 100%,
+        normal;
+    }
+    .dv-cue {
+      display: flex;
+      animation:
+        dvm-out-fast linear both,
+        dv-up 800ms 350ms var(--ease-out) backwards;
+      animation-timeline: --dv, auto;
+      animation-range:
+        contain 0% contain 100%,
+        normal;
+    }
+    .dv-inside {
+      position: absolute;
+      inset: 0;
+      clip-path: none;
+      pointer-events: auto;
+      animation: dvm-open linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-glass {
+      position: absolute;
+      inset: 0;
+      padding: 0;
+      background: radial-gradient(80% 90% at 70% 40%, var(--color-stage-screen), var(--color-stage-900));
+      animation: dvm-glass linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-head {
+      position: absolute;
+      padding-inline: 0;
+    }
+    .dv-counter {
+      display: inline;
+    }
+    .dv-arrows {
+      display: flex;
+    }
+    .dv-chips {
+      position: absolute;
+      display: flex;
+      padding-inline: 0;
+    }
+    .dv-progress {
+      display: block;
+    }
+    .dv-progress i {
+      animation: dvm-reel linear both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    /* The families stand side by side in one track that slides a family's width at a time. */
+    .dv-slides {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      overflow: visible;
+      scroll-snap-type: none;
+      will-change: transform;
+      animation: dvm-track var(--ease-stage) both;
+      animation-timeline: --dv;
+      animation-range: contain 0% contain 100%;
+    }
+    .dv-slide {
+      position: relative;
+      flex: 0 0 100%;
+      block-size: 100%;
+      opacity: 1;
+      padding: 6rem var(--spacing-stage-edge) 5.5rem;
+      scroll-snap-align: none;
+    }
+    .dv-product {
+      min-block-size: 0;
+    }
+    .dv-product img {
+      block-size: min(34svh, var(--native, 24rem));
+      max-block-size: 100%;
+    }
+    /* Where the scroll rests on touch: the hero and each family (HomeDive, positions from familyProgress). */
+    @media (pointer: coarse) {
+      html:has(.dv-stops) {
+        scroll-snap-type: y proximity;
+      }
+      .dv-stops {
+        display: block;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .dv-stops i {
+        position: absolute;
+        inset-inline: 0;
+        inset-block-start: calc(var(--p) * (100% - 100dvh + var(--hdr)));
+        block-size: 1px;
+        scroll-snap-align: start;
+        scroll-margin-block-start: var(--hdr);
+      }
+    }
+  }
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (min-height: 600px) and (max-width: 767px) {
+    /* A phone's families: ticket, photograph, line and link in one column; the chips give way to the arrows. */
+    .dv-slide {
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      padding: 4.25rem var(--spacing-stage-edge) 1.5rem;
+    }
+    .dv-product img {
+      block-size: min(26svh, var(--native, 24rem));
+    }
+    .dv-chips,
+    .dv-cue {
+      display: none;
+    }
+  }
+}
+@keyframes dvm-device {
+  0%,
+  2% {
+    transform: translateY(0) scale(1) rotate(-4deg);
+  }
+  5% {
+    transform: translateY(calc(var(--ty) * 0.578)) scale(pow(var(--k), 0.15625)) rotate(-1.688deg);
+  }
+  8% {
+    transform: translateY(calc(var(--ty) * 0.875)) scale(pow(var(--k), 0.5)) rotate(-0.5deg);
+  }
+  11% {
+    transform: translateY(calc(var(--ty) * 0.984)) scale(pow(var(--k), 0.84375)) rotate(-0.063deg);
+  }
+  14%,
+  100% {
+    transform: translateY(var(--ty)) scale(var(--k)) rotate(0deg);
+  }
+}
+@keyframes dvm-out {
+  0%,
+  2% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  5%,
+  100% {
+    opacity: 0;
+    translate: 0 1.25rem;
+    visibility: hidden;
+  }
+}
+@keyframes dvm-out-fast {
+  0%,
+  2% {
+    opacity: 1;
+  }
+  4.5%,
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes dvm-out-slow {
+  0%,
+  2% {
+    opacity: 1;
+  }
+  9.5%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes dvm-word {
+  0%,
+  2% {
+    opacity: 1;
+    scale: 1;
+  }
+  7%,
+  100% {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+@keyframes dvm-light {
+  0%,
+  2% {
+    opacity: 0;
+  }
+  14%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dvm-open {
+  0%,
+  14% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  21%,
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes dvm-glass {
+  0%,
+  14% {
+    scale: 1.04;
+  }
+  21%,
+  100% {
+    scale: 1;
+  }
+}
+@keyframes dvm-reel {
+  0%,
+  21% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+/* Each family holds while it is in front and slides on at the edge of its stretch (src/lib/dive.ts SHOW, n = 6). */
+@keyframes dvm-track {
+  0%,
+  31.83% {
+    translate: 0 0;
+  }
+  38.83%,
+  44.17% {
+    translate: calc(var(--dir) * -100%) 0;
+  }
+  51.17%,
+  56.5% {
+    translate: calc(var(--dir) * -200%) 0;
+  }
+  63.5%,
+  68.83% {
+    translate: calc(var(--dir) * -300%) 0;
+  }
+  75.83%,
+  81.17% {
+    translate: calc(var(--dir) * -400%) 0;
+  }
+  88.17%,
+  100% {
+    translate: calc(var(--dir) * -500%) 0;
   }
 }

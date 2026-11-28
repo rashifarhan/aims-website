@@ -156,7 +156,7 @@ const deviceScale = (page: Page) =>
   page.locator("[data-dive-device]").evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).a);
 
 test.describe("the dive", () => {
-  test.skip(({ isMobile }) => isMobile, "Desktop only: phones and tablets swipe the families (below)");
+  test.skip(({ isMobile }) => isMobile, "Desktop only: phones and tablets run the CSS dive (below)");
 
   test("the terminal flies forward and the families open out of its screen", async ({ page }) => {
     await page.goto("/");
@@ -252,35 +252,57 @@ test.describe("keyboard", () => {
 test.describe("phones and tablets", () => {
   test.skip(({ isMobile }) => !isMobile, "Touch screens only");
 
-  test("the hero stands and the families are a swiped row, nothing pinned or scrubbed", async ({ page }) => {
+  test("the dive runs in CSS on a scroll timeline: nothing written per frame", async ({ page }) => {
     await page.goto("/");
     const section = page.locator("#home-dive");
-    await expect(section).toHaveAttribute("data-motion", "swipe");
-    await expect(page.locator(".dv-stage")).toHaveCSS("position", "relative");
-    await expect(section).not.toHaveAttribute("style", /.+/);
-    await expect(page.locator("[data-dive-device]")).not.toHaveAttribute("style", /.+/);
-    await expect(page.locator(".dv-slides")).toHaveCSS("scroll-snap-type", "x mandatory");
+    await expect(section).toHaveAttribute("data-motion", "scroll");
+    await expect(page.locator(".dv-stage")).toHaveCSS("position", "sticky");
+    // The browser runs the flight: a view-timeline animation, and no inline style written by a script.
+    expect(
+      await page
+        .locator("[data-dive-device]")
+        .evaluate((el) => el.getAnimations().some((a) => a.timeline?.constructor.name === "ViewTimeline")),
+    ).toBe(true);
     // The copy stands clear of the terminal, and the first action is on the first screen.
     const device = await page.locator("[data-dive-device]").boundingBox();
     const title = await page.locator("#home-title").boundingBox();
     expect(device && title && device.y + device.height <= title.y + 1).toBe(true);
     await expect(page.locator(".dv-copy .in-pill")).toBeInViewport({ ratio: 1 });
-    await expect(page.locator(".dv-cue")).toBeHidden();
-    // The arrows and chips move the row, never the page.
-    // The whole families block on screen, so no click needs the page scrolled to reach its target.
-    const y = await page.locator(".dv-inside").evaluate((el) => {
+    await expect(page.locator(".dv-inside")).toBeHidden();
+    // Scrolled into the second family's stretch: it is in front, and the counter and chips agree.
+    await diveTo(page, 0.42);
+    await expect(page.locator(".dv-counter")).toHaveText("02 / 06");
+    await expect(page.locator(".dv-chips button[aria-current='true']")).toHaveText("TIME");
+    await expect(page.locator(".dv-slide").nth(1)).not.toHaveAttribute("inert");
+    await expect(page.locator(".dv-slide").nth(1).locator(".dv-ticket")).toBeInViewport({ ratio: 0.9 });
+    await expect(page.locator("#home-title")).toBeHidden();
+    // The arrows move the scroll to the next family.
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page.locator(".dv-counter")).toHaveText("03 / 06", { timeout: 6000 });
+    await expect(page.locator(".dv-slide").nth(2).locator(".dv-ticket")).toBeInViewport({ ratio: 0.9 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await expect(section).not.toHaveAttribute("style", /.+/);
+    await expect(page.locator("[data-dive-device]")).not.toHaveAttribute("style", /.+/);
+  });
+
+  test("a screen too short for the dive swipes the families instead, moving the row and never the page", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 412, height: 560 });
+    await page.goto("/");
+    await expect(page.locator("#home-dive")).toHaveAttribute("data-motion", "swipe");
+    await expect(page.locator(".dv-stage")).toHaveCSS("position", "relative");
+    await expect(page.locator(".dv-slides")).toHaveCSS("scroll-snap-type", "x mandatory");
+    await page.locator(".dv-inside").evaluate((el) => {
       scrollTo({
         top: el.getBoundingClientRect().top + scrollY - (document.querySelector("header")?.offsetHeight ?? 0),
         behavior: "instant",
       });
-      return scrollY;
     });
+    const y = await page.evaluate(() => scrollY);
     await page.getByRole("button", { name: "Next" }).click();
     await expect(page.locator(".dv-counter")).toHaveText("02 / 06");
     await expect(page.locator(".dv-chips button[aria-current='true']")).toHaveText("TIME");
-    await expect(page.locator(".dv-slide").nth(1).locator(".dv-ticket")).toBeInViewport({ ratio: 0.9 });
-    await page.locator(".dv-chips button").filter({ hasText: "POS" }).click();
-    await expect(page.locator(".dv-counter")).toHaveText("06 / 06");
     expect(await page.evaluate(() => scrollY)).toBe(y);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });

@@ -8,32 +8,53 @@ import { pageOwnsKey, scrollToY } from "@/components/inside/scrollTo";
 /** Where the dive pins and scrubs: a desktop screen, a mouse or trackpad, motion allowed (home-dive.css, same query). */
 export const DIVE_QUERY =
   "(min-width: 1024px) and (min-height: 600px) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
-/** Phones and tablets swipe the families instead (diveCarousel; owner review, 28 Nov 2026). */
+/** Phones and tablets dive in CSS on a scroll timeline (home-dive.css, same condition; owner review, 28 Nov 2026). */
+const SCROLL_QUERY =
+  "(prefers-reduced-motion: no-preference) and (min-height: 600px) and ((max-width: 1023px) or (pointer: coarse) or (pointer: none))";
+const scrollDives = () => CSS.supports("animation-timeline: view()") && CSS.supports("scale: pow(2, 1)");
+/** Where neither dive runs on a phone or tablet (an older browser, a short screen), the families are a swiped row. */
 const SWIPE_QUERY = "(max-width: 1023px), (pointer: coarse), (pointer: none)";
 
 /**
  * The home dive's motion (CLAUDE.md → Design rules, Motion and scroll engine). On a desktop screen the stage pins with
  * CSS sticky; GSAP ScrollTrigger scrubs one progress value through it (smoothed by Lenis) and, when the scroll rests,
  * settles it softly on the hero or the nearest family. The arrows, chips, keyboard focus and the scroll keys move the
- * scroll to a family, so the scroll and the screen never disagree. On phones and tablets nothing pins or scrubs: the
- * hero stands and the families are a swiped row (diveCarousel), so a thumb scrolls the page natively. Under reduced
- * motion on a desktop, or on the motion rest switch, nothing is written and the stacked layout stands.
+ * scroll to a family, so the scroll and the screen never disagree. On phones and tablets the same dive is CSS on a
+ * scroll timeline, run by the browser with nothing written per frame (diveScroll keeps the counter in step); where
+ * that is not supported the families are a swiped row (diveCarousel). Under reduced motion nothing moves and the
+ * stacked layout stands.
  */
 export function DiveMotion({ sectionId }: { sectionId: string }) {
   useEffect(() => {
     const section = document.getElementById(sectionId);
     if (!section) return;
     const dive = matchMedia(DIVE_QUERY);
+    const scroll = matchMedia(SCROLL_QUERY);
     const swipe = matchMedia(SWIPE_QUERY);
     let stopDive: (() => void) | null = null;
+    let stopScroll: (() => void) | null = null;
     let stopSwipe: (() => void) | null = null;
     let cancelled = false;
+    const scrolling = () => scroll.matches && scrollDives();
+
+    const startScroll = () => {
+      if (stopScroll) return;
+      stopScroll = () => {};
+      void import("./diveScroll").then(({ createDiveScroll }) => {
+        if (cancelled || !scrolling() || !stopScroll) return;
+        stopScroll = createDiveScroll(section);
+      });
+    };
+    const endScroll = () => {
+      stopScroll?.();
+      stopScroll = null;
+    };
 
     const startSwipe = () => {
-      if (!swipe.matches || stopSwipe) return;
+      if (stopSwipe) return;
       stopSwipe = () => {};
       void import("./diveCarousel").then(({ createDiveCarousel }) => {
-        if (cancelled || !swipe.matches || !stopSwipe) return;
+        if (cancelled || !swipe.matches || scrolling() || !stopSwipe) return;
         stopSwipe = createDiveCarousel(section);
       });
     };
@@ -143,17 +164,18 @@ export function DiveMotion({ sectionId }: { sectionId: string }) {
 
     const sync = () => {
       startDive();
-      if (swipe.matches) startSwipe();
+      if (scrolling()) startScroll();
+      else endScroll();
+      if (swipe.matches && !scrolling()) startSwipe();
       else endSwipe();
     };
     sync();
-    dive.addEventListener("change", sync);
-    swipe.addEventListener("change", sync);
+    for (const query of [dive, scroll, swipe]) query.addEventListener("change", sync);
     return () => {
       cancelled = true;
-      dive.removeEventListener("change", sync);
-      swipe.removeEventListener("change", sync);
+      for (const query of [dive, scroll, swipe]) query.removeEventListener("change", sync);
       stopDive?.();
+      endScroll();
       endSwipe();
     };
   }, [sectionId]);

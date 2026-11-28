@@ -292,6 +292,36 @@ across the site.
   The old skip note ("the phone runs the same code path") was no longer true and now says why the dive tests are
   desktop only.
 
+### Direction 2: the home dive on phones, in CSS (28 Nov 2026, owner review)
+
+- **Why:** the owner didn't want the stacked phone home page (the hero, then the families as a second screen). The
+  dive is the idea of the page, so phones get it back, built so it stays smooth.
+- **How:**
+  - The stage sticks under the header and the page scrolls natively.
+  - A CSS view timeline on the section drives keyframes of transform and opacity only: the terminal's flight, the
+    fades, the families opening, and one track sliding a family's width at a time with a hold on each. The browser
+    runs these itself; no script restyles anything per frame.
+  - Native proximity scroll snap rests the scroll on the hero and on each family (touch only, so it never meets
+    Lenis).
+  - `diveScroll.ts` reads the scroll once a frame and writes only when the family changes: the counter, chips and
+    `inert`. The arrows and chips scroll to a family.
+- **Measured** (4× throttled phone, touch scrolling; this run's machine drew 60 fps, so per frame):
+  - Style work: 0.55 ms a frame (480 ms over 875 frames). The stacked layout was 0.47 ms and the old script-driven
+    dive 1.56 ms.
+  - Worst frame: 50 ms, against 650 ms for the old dive.
+- **Fallbacks:**
+  - Browsers without scroll-driven animations, and screens under 600 px tall: the swiped row from the previous
+    decision.
+  - Reduced motion and no JavaScript: the stacked list.
+- **Short phones** (≤ 700 px tall, about what an iPhone shows in Safari with its bars): the headline and lead tighten
+  so the whole terminal stays in sight, and the hero's "Request a quote" gives way to the header's Quote button.
+- **Tests:**
+  - `home.spec.ts` now checks the phone dive (view timeline, counter, arrows, no inline styles) and the short-screen
+    swipe fallback.
+  - `home-polish.spec.ts`'s "photo never fades" check now inspects the photo and the boxes that carry it. Before, it
+    also looked at the shadow layer and the screen's light, which the dive now fades; the photo itself still never
+    fades.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

@@ -34,9 +34,9 @@ approves them with the first mockups** (`docs/mockups/direction-2/`). Once appro
 ### Idea
 
 Every main page is a **stage**: one real AIMS product, cut out, stands in front of one giant word. On the home page
-only, on a desktop screen, scrolling flies the product at you until its screen fills the view and the content opens
-out of that screen; on phones and tablets the home hero stands and its families are a swiped row; every other stage
-stands still and its content follows it (owner reviews, 28 Nov 2026). Facts sit on cream
+only, scrolling flies the product at you until its screen fills the view and the content opens out of that screen
+(on phones and tablets too, run by the browser in CSS); every other stage stands still and its content follows it
+(owner reviews, 28 Nov 2026). Facts sit on cream
 **tickets** (mono rows, dashed dividers, punched notches). Everything else is calm: dark night-green stages,
 cream paper sections between them, one lime accent.
 
@@ -149,12 +149,20 @@ cream paper sections between them, one lime accent.
   `--ease-stage` `cubic-bezier(.65,0,.35,1)`.
 - **A photograph still on studio white** (product detail, software) stands on a cream **plate** and multiplies onto
   it.
-- The home dive runs only at ≥ 1024 × 600 with a fine pointer, motion allowed and scripting on (`DIVE_QUERY` in
-  `DiveMotion.tsx`; GSAP is not even loaded elsewhere). On phones, tablets and touch screens (owner review,
-  28 Nov 2026: smooth on a phone) the hero stands one screen tall with its copy in the flow under the product, and
-  the families are one row swiped sideways with CSS scroll snap (`diveCarousel.ts` only keeps the arrows, chips and
-  counter in step): nothing pins, scrubs or writes per frame, and the page scrolls natively. Elsewhere the hero and
-  the families stack.
+- **The home dive, two engines, one look** (owner reviews, 28 Nov 2026: one screen, and smooth on a phone):
+  - Desktop (≥ 1024 × 600, fine pointer, motion allowed: `DIVE_QUERY` in `DiveMotion.tsx`): GSAP ScrollTrigger and
+    Lenis, as above.
+  - Phones and tablets (≥ 600 tall, motion allowed, scroll-driven animations supported: `SCROLL_QUERY`, the same
+    condition in `home-dive.css`): the same dive in **CSS on a view timeline** (`view-timeline: --dv` on the section,
+    keyframes of transform and opacity only, spans as in `src/lib/dive.ts`). The browser runs it with native scroll
+    and nothing written per frame; `diveScroll.ts` only keeps the counter, chips and focus in step when the family
+    changes. On touch, native `scroll-snap-type: y proximity` rests the scroll on the hero and each family
+    (`.dv-stops`). GSAP is not loaded there.
+  - Anywhere else (an older browser, a screen under 600 px tall): the hero stands and the families are one row swiped
+    sideways with CSS scroll snap (`diveCarousel.ts`). Under reduced motion or without JavaScript, the hero and the
+    families stack.
+  - The phone hero keeps its copy in the flow under the whole terminal; on a short phone (≤ 700 px tall) the copy
+    tightens and "Request a quote" gives way to the header's Quote button.
 - **Scroll performance:** never write a style per frame that has not changed (`diveStage.ts`, the contact dock);
   measure on a 4× throttled phone with touch gestures before and after any scroll work.
 - **Reduced motion:** no Lenis, no pins, no scrub; every final state shown, the home stage stacked (stage, then what
