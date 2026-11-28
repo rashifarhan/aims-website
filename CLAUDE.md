@@ -114,9 +114,13 @@ cream paper sections between them, one lime accent.
   wheel scrolling (`lenis.on("scroll", ScrollTrigger.update)`, GSAP's ticker drives `lenis.raf`, lerp ≈ 0.1). Lenis
   runs only on fine pointers; touch keeps native scroll. No other scroll library. Loaded lazily in the smallest client
   leaf, never in a layout; cleaned up on unmount (`useGSAP`).
-- **Every product-led page has one dive** (products, product detail, solutions, software, the ZKTeco location pages). Company and form pages
-  (services, about, locations, contact, quote) open on a **word stage** with no dive (`src/components/word-stage/`):
-  there is no product to step into, so their facts sit on a ticket. A dive: the stage pins, the product flies forward (zoom in log space, eased ends) until its
+- **Every product-led page has one dive** (product detail, each solution, each software platform, the ZKTeco location
+  pages). **Pages for choosing** (the products hub, the six families, the Solutions and Software hubs) have **no stage**:
+  a short head (`src/components/inside/PageHead.tsx`: crumbs, H1, one line) and the choices on the first screen
+  (client decision, 28 Nov 2026: no step between a click and what the visitor came for). Company pages (services,
+  about, locations) open on a **word stage** with no dive (`src/components/word-stage/`): there is no product to step
+  into, so their facts sit on a ticket. Form pages (contact, quote) use the compact word stage **without the word**,
+  so the form starts on the first screen. A dive: the stage pins, the product flies forward (zoom in log space, eased ends) until its
   screen fills the height, then the content opens out of the screen with `clip-path: inset()`. At most **one more**
   pinned, scrubbed sequence per page (home: the job ticket). Pins never trap the scroll; snapping is soft (to each
   item in a scrubbed list, ≤ 0.6 s, `power2.inOut`).

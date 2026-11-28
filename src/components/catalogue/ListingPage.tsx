@@ -1,11 +1,8 @@
 import { Suspense } from "react";
+import { PageHead } from "@/components/inside/PageHead";
 import { SmoothScroll } from "@/components/inside/SmoothScroll";
-import { FamilyInside } from "@/components/products-inside/FamilyInside";
-import { HubInside } from "@/components/products-inside/HubInside";
-import { ListingJump } from "@/components/products-inside/ListingJump";
-import { PageStage } from "@/components/products-inside/PageStage";
 import { ProductsClose } from "@/components/products-inside/ProductsClose";
-import { FAMILY_ORDER, FAMILY_STAGES, HUB_STAGE } from "@/components/products-inside/stages";
+import { FAMILY_ORDER } from "@/components/products-inside/stages";
 import { products, productsInFamily } from "@/content/catalogue";
 import { toCard } from "@/content/cards";
 import { FAMILIES, type FamilySlug } from "@/content/taxonomy";
@@ -14,14 +11,16 @@ import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { fmt } from "@/i18n/format";
 import { Listing, ListingView, type ListingProps } from "./Listing";
 import "@/components/inside/inside.css";
+import "@/components/inside/skin.css";
 import "@/components/products-inside/products-inside.css";
 import "./catalogue.css";
 
 /**
- * The products hub and the six family pages, direction 2 (CLAUDE.md → Design rules): the stage and its dive (a real
- * product flies forward; the range, or the family's facts, open out of its screen) · the list on paper, with the
- * families as tabs on top (client decision, 27 Nov 2026) · the close on night. The interactive list reads the URL, so
- * it sits in <Suspense>; the fallback is the same list unfiltered, which is what crawlers and no-JS visitors get.
+ * The products hub and the six family pages, direction 2 (CLAUDE.md → Design rules): a short night head (crumbs, the
+ * H1, the count) and at once the list on paper, the families as tabs on top · the close on night. No stage and no
+ * dive here (client decision, 28 Nov 2026): a visitor who picked a category came for its products, so the first
+ * screen shows them. The interactive list reads the URL, so it sits in <Suspense>; the fallback is the same list
+ * unfiltered, which is what crawlers and no-JS visitors get.
  */
 export async function ListingPage({ family }: { family?: FamilySlug }) {
   const t = await getDictionary();
@@ -36,12 +35,12 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
   const listingHref = href(family ? `/products/${family}` : "/products");
 
   const tabs = [
-    { slug: null, label: s.tabAll, count: all.length, href: `${href("/products")}#products` },
+    { slug: null, label: s.tabAll, count: all.length, href: href("/products") },
     ...FAMILY_ORDER.map((slug) => ({
       slug,
       label: t.families[slug].name,
       count: productsInFamily(slug).length,
-      href: `${href(`/products/${slug}`)}#products`,
+      href: href(`/products/${slug}`),
     })),
   ];
 
@@ -68,44 +67,20 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
   ];
 
   return (
-    <main id="main" className="flex-1">
-      {family ? (
-        <PageStage
-          id="products-stage"
-          stage={FAMILY_STAGES[family]}
-          word={t.home.inside.families[family].word}
-          crumbs={crumbs}
-          title={title}
-          lead={fmt(s.familyLead, { count: list.length, summary: t.families[family].summary })}
-          primary={{ href: `${listingHref}#products`, label: fmt(s.familyPrimary, { count: list.length }) }}
-          secondary={{ href: href("/quote"), label: s.quote }}
-          productHref={href(`/product/${FAMILY_STAGES[family].productSlug}`)}
-          ground={family}
-        >
-          <FamilyInside family={family} />
-        </PageStage>
-      ) : (
-        <PageStage
-          id="products-stage"
-          stage={HUB_STAGE}
-          word={String(list.length)}
-          crumbs={crumbs}
-          title={title}
-          lead={fmt(s.hubLead, { count: list.length })}
-          primary={{ href: `${listingHref}#products`, label: s.hubPrimary }}
-          secondary={{ href: href("/quote"), label: s.quote }}
-          productHref={href(`/product/${HUB_STAGE.productSlug}`)}
-        >
-          <HubInside total={list.length} />
-        </PageStage>
-      )}
+    <main id="main" className="d2 flex-1">
+      <PageHead
+        crumbs={crumbs}
+        title={title}
+        lead={
+          family
+            ? fmt(s.familyLead, { count: list.length, summary: t.families[family].summary })
+            : fmt(s.hubLead, { count: list.length })
+        }
+        action={{ href: href("/quote"), label: s.quote }}
+      />
 
-      <section id="products" className="pl in-paper" aria-labelledby="products-title">
+      <section id="products" className="pl in-paper" aria-label={title}>
         <div className="wrap">
-          <p className="in-eyebrow">{s.listEyebrow}</p>
-          <h2 id="products-title" className="in-h2">
-            {s.listTitle}
-          </h2>
           <Suspense fallback={<ListingView {...props} />}>
             <Listing {...props} />
           </Suspense>
@@ -113,7 +88,6 @@ export async function ListingPage({ family }: { family?: FamilySlug }) {
       </section>
 
       <ProductsClose current={family} />
-      <ListingJump />
       <SmoothScroll />
     </main>
   );

@@ -149,7 +149,7 @@
   }
 }
 
-/* Software: Add to quote on cream inside the screen, and the platforms' pictures on small plates in the hub's tiles. */
+/* Software: Add to quote on cream inside the screen. */
 .ps-buy {
   display: inline-block;
   margin-block-start: 1.5rem;
@@ -157,46 +157,4 @@
   border-radius: 1rem;
   background: var(--color-ticket);
   color: var(--color-ticket-ink);
-}
-.ps-tiles-plate .ps-tile-plate {
-  position: absolute;
-  inset-inline-end: 1rem;
-  inset-block-start: 1rem;
-  inline-size: 34%;
-  aspect-ratio: 1;
-  isolation: isolate;
-  border-radius: 0.75rem;
-  background: var(--color-ticket);
-}
-/* Over .ps-tile img: the picture fills its plate and multiplies its white away; no drop shadow on a flat plate. */
-.ps-tiles-plate .ps-tile-plate img {
-  position: static;
-  inline-size: 100%;
-  block-size: 100%;
-  max-inline-size: none;
-  max-block-size: none;
-  padding: 8%;
-  box-sizing: border-box;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-  filter: none;
-}
-/* Four platforms: two by two, words up to ten letters, the purpose in plain sentence case. */
-.ps-tiles-plate .ps-tile-word {
-  font-size: clamp(1.1rem, 2.1vw, 2.1rem);
-}
-.ps-tiles-plate .ps-tile-count {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  letter-spacing: 0;
-  text-transform: none;
-}
-@media (min-width: 640px) {
-  .ps-tiles-plate {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }

@@ -10,16 +10,13 @@ import { SoftwareEnquiryButton } from "@/components/software/SoftwareEnquiryButt
 import { SoftwareCard } from "@/components/software/SoftwareCard";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { SmoothScroll } from "@/components/inside/SmoothScroll";
-import { PageStage } from "@/components/products-inside/PageStage";
-import { SoftwareHubInside } from "@/components/software-inside/SoftwareHubInside";
+import { PageHead } from "@/components/inside/PageHead";
 import { Section } from "@/components/ui/Section";
 import { SoftwareFilter, SoftwareFilterView, type SoftwareFilterItem } from "@/components/software/SoftwareFilter";
 import "@/components/catalogue/catalogue.css";
 import "@/components/software/software.css";
 import "@/components/inside/inside.css";
 import "@/components/inside/skin.css";
-import "@/components/products-inside/products-inside.css";
-import "@/components/product-inside/product-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { softwareCentre: c } = await getDictionary();
@@ -77,34 +74,19 @@ export default async function SoftwareCentre() {
     basePath: href("/software"),
     labels: { label: c.filterLabel, all: c.all, types: c.types, count: c.count, countOne: c.countOne },
   };
-  // The stage stands on BioTime 9.5's own picture, the platform the navigation lists first.
-  const hubImage = softwareList().find((s) => s.slug === "biotime-9-5")?.image;
   return (
     <main id="main" className="d2">
-      {hubImage && (
-        <PageStage
-          id="software-stage"
-          stage={{
-            model: "BioTime 9.5",
-            productSlug: "biotime-9-5",
-            image: { src: hubImage.src, w: hubImage.width, h: hubImage.height },
-            screen: { x: 0, y: 0, w: 1, h: 1 },
-          }}
-          plate={{ alt: hubImage.alt }}
-          word={t.softwareStage.word}
-          crumbs={[
-            { href: href("/"), label: t.common.home },
-            { href: href("/software"), label: t.softwarePage.software },
-          ]}
-          title={c.title}
-          lead={c.lead}
-          primary={{ href: "#sw-centre-list", label: t.softwareStage.primary }}
-          // The hub's own ask (Help me choose software), the same quote link as SoftwareEnquiryButton.
-          secondary={{ href: `${href("/quote")}?software=guidance`, label: c.primary }}
-        >
-          <SoftwareHubInside />
-        </PageStage>
-      )}
+      <PageHead
+        crumbs={[
+          { href: href("/"), label: t.common.home },
+          { href: href("/software"), label: t.softwarePage.software },
+        ]}
+        title={c.title}
+        // The count is the list's own (the retired ZKAccess 3.5 is left out), never a number in the copy.
+        lead={fmt(c.lead, { count: items.length })}
+        // The hub's own ask (Help me choose software), the same quote link as SoftwareEnquiryButton.
+        action={{ href: `${href("/quote")}?software=guidance`, label: c.primary }}
+      />
       <Section ground="band" labelledBy="sw-centre-list" className="sw-centre">
         {/* Names the region and keeps headings in order (h1, h2, card h3s), without a second visible title. */}
         <h2 id="sw-centre-list" className="sr-only">

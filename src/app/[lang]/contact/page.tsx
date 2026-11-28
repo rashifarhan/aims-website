@@ -33,7 +33,6 @@ export default async function ContactPage() {
     <main id="main" className="d2 w-full flex-1">
       <WordStage
         id="hero-title"
-        word={t.wordStage.contact}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/contact"), label: t.nav.contact },

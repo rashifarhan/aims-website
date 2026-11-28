@@ -78,22 +78,14 @@ export async function FamilyInside({
         </div>
       </div>
       <div className="ps-bottom">
-        <StagePill href={`${listing}#products`} data-jump="">
-          {fmt(s.seeAll, { count: facts.total })}
-        </StagePill>
+        <StagePill href={listing}>{fmt(s.seeAll, { count: facts.total })}</StagePill>
         {jumps.length > 0 && (
           <div className="ps-jumps" role="group" aria-label={s.jumpTo}>
             <span className="in-mono" aria-hidden="true">
               {s.jumpTo}
             </span>
             {jumps.map((j) => (
-              <Link
-                key={j.key}
-                href={`${listing}?${j.query}#products`}
-                className="in-chip"
-                data-jump=""
-                prefetch={false}
-              >
+              <Link key={j.key} href={`${listing}?${j.query}`} className="in-chip" prefetch={false}>
                 {j.label} <b>{j.count}</b>
               </Link>
             ))}

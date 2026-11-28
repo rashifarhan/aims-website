@@ -200,6 +200,30 @@ Built without mockups at the owner's request, on the same stage system as the pr
 - **Door step marker:** the access control door also marks its highlighted step when ScrollTrigger refreshes; the
   refresh renders without callbacks, so a jump just before one left the list behind the drawing.
 
+### Direction 2: no step before the choice (28 Nov 2026, owner review)
+
+The owner, as a product decision: a visitor who clicks a category (Access control in the hero or the menu) came for
+its products. The family page used to open on a full stage (the giant word, the product and "See the 34 products"),
+so the products were one more click or a long dive away. That is friction, so it is gone, and the same check was run
+across the site.
+
+- **Products hub and the six family pages** open on a short head (`inside/PageHead`: crumbs, the H1 and the count on
+  the stage ground). Right under it come the family tabs, the search and the first products, all on the first screen
+  at 1440 × 900 and at 390 px. Filtered links (`?verify=`, `?type=`, the header search) land on their results the
+  same way. There is no `#products` jump any more, so the hub's inside (search, picks and tiles that repeated the
+  list's own) and `ListingJump` are removed.
+- **Solutions hub and Software hub** had the same problem: the five needs and the platforms opened out of a stage.
+  They now use the same short head, with the cards on the first screen. The software lead takes its count from the
+  list (7 platforms; it said "Eight", which counted the retired ZKAccess 3.5).
+- **Quote and contact** keep their compact word stage but lose the giant word, so the quote list and the contact
+  chooser start on the first screen. The Call AIMS ticket stays.
+- **Kept:** the product detail, solution, software platform and location pages keep their dive. Their first screen
+  already holds the action (Add to quote, the quote pill, the phone line), and those pages explain rather than list.
+  Services and About keep their word stage, since they are read rather than used.
+- **Tests:** the solutions hub, software enquiry, short phone and filter rail specs are rewritten for the new
+  heads. A new spec, "no step before the choice", checks that each of these pages shows its first choice on the
+  first screen.
+
 ### Catalogue decisions (after the design review)
 
 1. **All 159 live products get a page** from the T5 template. The plan had 6 pages plus links back to aimsuae.me; with

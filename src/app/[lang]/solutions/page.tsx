@@ -5,9 +5,7 @@ import { alternates } from "@/lib/seo";
 import { ClosePanel } from "@/components/ui/ClosePanel";
 import { MomentTrigger } from "@/components/ui/MomentTrigger";
 import { SmoothScroll } from "@/components/inside/SmoothScroll";
-import { PageStage } from "@/components/products-inside/PageStage";
-import { SOLUTIONS_HUB_STAGE } from "@/components/products-inside/stages";
-import { SolutionsHubInside } from "@/components/solution/SolutionsHubInside";
+import { PageHead } from "@/components/inside/PageHead";
 import { Section } from "@/components/ui/Section";
 import { SpotlightGroup } from "@/components/ui/SpotlightGroup";
 import { SOLUTION_CARDS } from "@/content/solutions";
@@ -18,7 +16,6 @@ import { SolutionFaq } from "@/components/solutions/SolutionFaq";
 import "@/components/solutions/solutions.css";
 import "@/components/inside/inside.css";
 import "@/components/inside/skin.css";
-import "@/components/products-inside/products-inside.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { solutionsHub } = await getDictionary();
@@ -33,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * Design Doc 10.1 T2; Master Plan 12: five needs, industries and FAQs, on white and band grounds, then the closing band.
  * The one dealt moment is the site plan, "One site, five systems" (SolutionSite; Design Doc 8 SIGNAL), after the
  * cards: they answer "what", the plan "where on my site".
- * The hero is the compact one, with no photograph: the old split hero held a controller photo no card shows and a
- * full screen of blank space; now the five cards, which are the page, begin on the first screen.
+ * The head is the short one (PageHead), with no stage: the five cards are the page, so they begin on the first
+ * screen (client decision, 28 Nov 2026).
  */
 export default async function SolutionsHub() {
   const t = await getDictionary();
@@ -42,22 +39,15 @@ export default async function SolutionsHub() {
   const cta = t.solutionsHub.cta;
   return (
     <main id="main" className="d2">
-      <PageStage
-        id="solutions-stage"
-        stage={SOLUTIONS_HUB_STAGE}
-        word={t.solutionsStage.word}
+      <PageHead
         crumbs={[
           { href: localePath(locale, "/"), label: t.common.home },
           { href: localePath(locale, "/solutions"), label: t.nav.solutions },
         ]}
         title={t.solutionsHub.title}
         lead={t.solutionsHub.lead}
-        primary={{ href: "#needs", label: t.solutionsStage.primary }}
-        secondary={{ href: localePath(locale, "/quote?need=install"), label: cta.action }}
-        productHref={localePath(locale, `/product/${SOLUTIONS_HUB_STAGE.productSlug}`)}
-      >
-        <SolutionsHubInside />
-      </PageStage>
+        action={{ href: localePath(locale, "/quote?need=install"), label: cta.action }}
+      />
       {/* Each card's h2 names its need; the grid itself needs no heading. */}
       <Section ground="band" id="needs" className="solution-grid-section">
         <SpotlightGroup className="solution-grid">

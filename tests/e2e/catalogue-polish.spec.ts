@@ -66,8 +66,6 @@ test.describe("listing polish", () => {
     await page.goto("/products", { waitUntil: "load" });
     const rail = page.getByRole("complementary", { name: "Filters" });
     await expect(rail).toHaveCSS("position", "sticky");
-    // Direction 2: the list sits under the products stage, so start at the list (the rail sticks only beside it).
-    await page.locator("#products").evaluate((el) => el.scrollIntoView());
     // A page is 12 cards (pagination), so scroll within the grid rather than past its end, where the rail rightly unsticks.
     await page.mouse.wheel(0, 1200);
     await expect.poll(async () => (await rail.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
@@ -127,6 +125,28 @@ test.describe("compare polish", () => {
         return x(svg) * (svg.parentElement ? x(svg.parentElement) : 1);
       });
       expect(flip).toBe(locale === "en" ? -1 : 1);
+    });
+  }
+});
+
+// Client decision, 28 Nov 2026: a category, a hub or a form opens on what the visitor came for. No stage, no
+// "See the products" step between the click and the products (or the form): the first one is on the first screen.
+test.describe("no step before the choice", () => {
+  for (const [path, first] of [
+    ["/products/access-control", "main .product-card"],
+    ["/ar/products/time-attendance", "main .product-card"],
+    ["/products", "main .product-card"],
+    ["/software", "main .sw-card"],
+    ["/quote", "main a[href$='/products']"],
+    ["/contact", "main .ws-tel"],
+  ] as const) {
+    test(`${path} shows its first choice on the first screen`, async ({ page }) => {
+      await page.goto(path, { waitUntil: "load" });
+      await expect(page.locator("main h1")).toHaveCount(1);
+      await expect(page.locator("main .ps-device, main .ws-word")).toHaveCount(0);
+      const box = await page.locator(first).first().boundingBox();
+      const height = page.viewportSize()?.height ?? 0;
+      expect(box?.y ?? height).toBeLessThan(height - 48);
     });
   }
 });

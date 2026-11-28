@@ -11,7 +11,8 @@ type Action = { href: string; label: string };
 
 type Props = {
   id: string;
-  word: string;
+  /** The giant word; left out on a form page (`compact`), where the form is what the visitor came for. */
+  word?: string;
   crumbs: Crumb[];
   title: string;
   lead: string;
@@ -20,7 +21,8 @@ type Props = {
   fact?: ReactNode;
   /** Facts on a cream ticket at the end side: only what src/lib/site.ts states (CLAUDE.md, Truth). */
   ticket?: { title: string; rows: TicketRow[]; note?: string };
-  /** A form page (contact, quote) keeps its stage short, so the form starts on the first screen. */
+  /** A form page (contact, quote) keeps its stage short and wordless, so the form starts on the first screen
+   * (client decision, 28 Nov 2026: nothing stands between a visitor and what they came to do). */
   compact?: boolean;
 };
 
@@ -36,11 +38,13 @@ export async function WordStage({ id, word, crumbs, title, lead, primary, second
       className="ws in-stage"
       data-compact={compact ? "" : undefined}
       aria-labelledby={id}
-      style={{ "--letters": String(word.length) } as CSSProperties}
+      style={word ? ({ "--letters": String(word.length) } as CSSProperties) : undefined}
     >
-      <p className="in-word ws-word" aria-hidden="true" dir="ltr">
-        {word}
-      </p>
+      {word && (
+        <p className="in-word ws-word" aria-hidden="true" dir="ltr">
+          {word}
+        </p>
+      )}
       <div className="ws-grid">
         <div className="ws-copy">
           <Breadcrumbs items={crumbs} label={t.common.breadcrumb} tone="night" />

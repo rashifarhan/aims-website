@@ -88,7 +88,7 @@ export async function PageStage(props: Props) {
                 <p>{lead}</p>
                 <div className="ps-actions">
                   {primary && (
-                    <StagePill href={primary.href} data-jump="" prefetch={noPrefetch(primary.href)}>
+                    <StagePill href={primary.href} prefetch={noPrefetch(primary.href)}>
                       {primary.label}
                     </StagePill>
                   )}

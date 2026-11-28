@@ -20,8 +20,8 @@ for (const prefix of ["", "/ar"]) {
     await page.goto(`${prefix}/`);
     expect(await inView(page, "main .dv-copy .in-pill")).toBe(true);
     await page.goto(`${prefix}/software`);
-    // Direction 2: the software stage's first action is its pill.
-    expect(await inView(page, "main .ps-actions .in-pill")).toBe(true);
+    // Direction 2: the software hub opens on its short head, its one action a link (no stage: 28 Nov 2026).
+    expect(await inView(page, "main .page-head .in-link")).toBe(true);
     await page.goto(`${prefix}/product/f18`);
     expect(await inView(page, "main button.home-button")).toBe(true);
     // Nothing reflows sideways.

@@ -19,13 +19,6 @@ export type ProductStage = {
 
 const cut = (file: string, w: number, h: number): Cutout => ({ src: `/images/cutouts/${file}.png`, w, h });
 
-export const HUB_STAGE: ProductStage = {
-  model: "Face Kiosk V43",
-  productSlug: "face-kiosk-v43",
-  image: cut("face-kiosk-v43", 288, 829),
-  screen: { x: 0.24, y: 0.06, w: 0.56, h: 0.36 },
-};
-
 export const FAMILY_STAGES: Record<FamilySlug, ProductStage> = {
   "access-control": {
     model: "BioFace B1",
@@ -66,13 +59,6 @@ export const FAMILY_STAGES: Record<FamilySlug, ProductStage> = {
 };
 
 /** /solutions: the InBio Pro 260 controller, the box every install wires back to; the dive flies into its face. */
-export const SOLUTIONS_HUB_STAGE: ProductStage = {
-  model: "InBio Pro 260",
-  productSlug: "inbio-pro-260",
-  image: cut("inbio-pro-260", 822, 529),
-  screen: { x: 0.04, y: 0.12, w: 0.92, h: 0.76 },
-};
-
 /**
  * The solution pages' stages: again a product no other stage shows (direction 2), each one a part of that need's
  * install: the Horus H1 clocking in, a KR600 reader at the door, the BGM 1060 barrier (it dives into its cabinet's

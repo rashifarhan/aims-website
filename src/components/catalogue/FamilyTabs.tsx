@@ -38,7 +38,7 @@ export function FamilyTabs({ label, tabs, active, onPick }: Props) {
                   {body}
                 </button>
               ) : (
-                <Link href={tab.href} aria-current={on ? "page" : undefined} data-jump="">
+                <Link href={tab.href} aria-current={on ? "page" : undefined}>
                   {body}
                 </Link>
               )}

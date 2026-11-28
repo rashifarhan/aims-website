@@ -41,7 +41,6 @@ export default async function QuotePage() {
     <main id="main" data-quote-page className="d2 w-full flex-1">
       <WordStage
         id="hero-title"
-        word={t.wordStage.quote}
         crumbs={[
           { href: href("/"), label: t.common.home },
           { href: href("/quote"), label: t.quote.metaTitle },

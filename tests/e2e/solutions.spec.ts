@@ -294,13 +294,17 @@ for (const locale of ["en", "ar"]) {
   });
 }
 
-test("the solutions hub opens on its stage, and the five needs open out of it", async ({ page }) => {
+test("the solutions hub opens on the five needs, with no stage before them", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/solutions", { waitUntil: "load" });
-  // Direction 2: the InBio controller before FIVE; inside it, one tile per solution page.
-  await expect(page.locator(".ps-device img")).toHaveAttribute("src", /inbio-pro-260/);
-  const tiles = page.locator(".ps-inside .ps-tile");
-  await expect(tiles).toHaveCount(5);
-  expect(await tiles.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
+  // Client decision, 28 Nov 2026: a short head, then the five cards on the first screen.
+  await expect(page.locator(".ps-device")).toHaveCount(0);
+  const cards = page.locator("#needs .solution-card");
+  await expect(cards).toHaveCount(5);
+  expect((await cards.first().boundingBox())?.y ?? 900).toBeLessThan(900 - 200);
+  expect(
+    await cards.locator("a.solution-card-link").evaluateAll((links) => links.map((a) => a.getAttribute("href"))),
+  ).toEqual([
     "/solutions/time-attendance",
     "/solutions/access-control",
     "/solutions/entrance-parking",

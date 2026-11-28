@@ -353,3 +353,47 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: clip;
 }
+
+/* The short head of a page for choosing (PageHead): crumbs, the H1 and one line on the stage ground, short enough
+   that the choices share the first screen with it (client decision, 28 Nov 2026). */
+.page-head-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 1.25rem 1.75rem;
+}
+.page-head-copy {
+  max-inline-size: 40rem;
+}
+.page-head h1 {
+  margin: 0.25rem 0 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-stretch: 112%;
+  font-size: var(--text-stage-title-phone);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.page-head p {
+  margin: 0;
+  color: var(--color-night-muted);
+  line-height: 1.5;
+}
+@media (min-width: 1024px) {
+  .page-head-inner {
+    padding-block: 1.5rem 2.25rem;
+  }
+  .page-head h1 {
+    font-size: var(--text-stage-title);
+  }
+  .page-head p {
+    font-size: 1.0625rem;
+  }
+}
+/* The choices start right under the head, not a full section rhythm below it. */
+.page-head + .section {
+  padding-block-start: clamp(1.75rem, 4vh, 2.5rem);
+}
