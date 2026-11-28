@@ -569,11 +569,17 @@
   .dv {
     block-size: auto;
   }
+  /* One ground from the hero through the families, so the two read as one stage with no seam between them: the
+     hero's glow fades out to the night ground at its foot, and the families' glow fades in from it. */
   .dv-stage {
     position: relative;
     inset-block-start: auto;
     block-size: auto;
     overflow: visible;
+    background:
+      radial-gradient(70% 62% at 50% 38%, var(--color-stage-600) 0%, var(--color-stage-800) 45%, transparent 100%) 0 0 /
+        100% var(--stage-h) no-repeat,
+      var(--color-stage-900);
   }
   .dv-hero {
     position: relative;
@@ -598,6 +604,11 @@
     position: relative;
     scale: 1;
     padding-block: 3rem;
+    background: radial-gradient(
+      80% 55% at 65% 50%,
+      color-mix(in srgb, var(--color-stage-screen) 80%, transparent),
+      transparent 75%
+    );
   }
   .dv-head {
     position: static;
